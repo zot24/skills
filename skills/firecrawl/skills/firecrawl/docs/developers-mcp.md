@@ -82,3 +82,6 @@ No servers to manage, no crawlers to maintain. Just configure once and your AI a
 * [AI Platforms](/use-cases/ai-platforms) - Build AI-powered dev tools
 * [Deep Research](/use-cases/deep-research) - Complex technical research
 * [Content Generation](/use-cases/content-generation) - Generate documentation
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

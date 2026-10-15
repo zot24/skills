@@ -3,6 +3,8 @@
 ---
 title: Vercel Connect
 description: Authenticate Slack, Microsoft Teams, GitHub, Linear, Discord, Notion, and Telegram adapters with Vercel Connect, using short-lived runtime tokens for outbound calls and OIDC-verified inbound webhooks where supported.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: overview
 related:
   - /docs/usage
@@ -15,8 +17,7 @@ related:
   - /adapters/official/telegram
 ---
 
-# Vercel Connect
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 [Vercel Connect](https://vercel.com/docs/connect) lets your bot use a registered connector for adapter authentication instead of storing long-lived provider secrets. You register a connector once, link it to your project and environments, and your code requests scoped, short-lived tokens at runtime.
 
@@ -36,8 +37,8 @@ The `@vercel/connect/chat` subpath ships a helper per platform that you spread i
 
 Every helper wires outbound credentials. Helpers for trigger-capable providers also wire inbound traffic:
 
-* Outbound, when your bot calls the provider API: the helper sets a function-form token field that resolves a fresh, short-lived token per call via `getToken`.
-* Inbound, when the provider calls your bot: trigger-capable helpers include a `webhookVerifier` that validates the Vercel OIDC token Connect attaches to [trigger-forwarded](https://vercel.com/docs/connect/concepts/triggers) webhooks. It replaces the provider's native signature check.
+- Outbound, when your bot calls the provider API: the helper sets a function-form token field that resolves a fresh, short-lived token per call via `getToken`.
+- Inbound, when the provider calls your bot: trigger-capable helpers include a `webhookVerifier` that validates the Vercel OIDC token Connect attaches to [trigger-forwarded](https://vercel.com/docs/connect/concepts/triggers) webhooks. It replaces the provider's native signature check.
 
 Each helper accepts `(connector, params?, options?)`, where `params` is the [`getToken`](https://vercel.com/docs/connect/ts-sdk-reference) parameters minus `subject`, which is pinned to `{ type: "app" }`. Use `params` to pass supported token parameters such as `installationId` or `validityBufferMs`.
 
@@ -49,30 +50,62 @@ pnpm add @vercel/connect
 
 `@vercel/connect` reads the deployment's OIDC token automatically. For local development, run `vercel link` followed by `vercel env pull` to download a short-lived token into `.env.local`.
 
+## Scaffold a new bot
+
+To start a new project with Connect already wired, pass `--connect` to [`create-chat-sdk`](/docs/create-chat-sdk#vercel-connect). The generated bot reads each connector UID from an environment variable such as `SLACK_CONNECTOR`:
+
 ## Set up a connector
 
-The trigger-forwarding steps below apply to Slack, Microsoft Teams, GitHub, Linear, and Discord.
-For Notion and Telegram, create and attach the connector without triggers, then
-use native webhook verification or polling.
+Create a connector in the [Vercel dashboard](https://vercel.com/d?to=%2F%5Bteam%5D%2F~%2Fconnect) or with the [Vercel CLI](https://vercel.com/docs/cli/connect), then attach it to your project.
 
-1. Create a connector for the provider in the [Vercel dashboard](https://vercel.com/d?to=%2F%5Bteam%5D%2F~%2Fconnect) or with the CLI, enabling trigger forwarding so inbound webhooks reach your project:
+1. Link your local directory to the Vercel project:
+
+```bash
+vercel link
+```
+
+2. Create the connector and attach it to the linked project. For Slack, Microsoft Teams, GitHub, Linear, and Discord, enable trigger forwarding and register your Chat SDK webhook route (`/api/webhooks/{platform}`) as the trigger destination. Notion and Telegram webhooks go directly to your app, so create and attach those connectors without triggers and use native webhook verification or polling.
 
 ```bash
 vercel connect create slack --name acme-slack --triggers
+vercel connect attach slack/acme-slack --triggers --trigger-path /api/webhooks/slack
 ```
-
-2. Attach your project and register your Chat SDK webhook route (`/api/webhooks/{platform}`) as the trigger destination:
 
 ```bash
-vercel connect attach slack/acme-slack \
-  --project my-bot --environment production \
-  --triggers --trigger-path /api/webhooks/slack
+vercel connect create microsoft-teams --name acme-teams --triggers
+vercel connect attach microsoft-teams/acme-teams --triggers --trigger-path /api/webhooks/teams
 ```
+
+```bash
+vercel connect create github --name acme-github --triggers
+vercel connect attach github/acme-github --triggers --trigger-path /api/webhooks/github
+```
+
+```bash
+vercel connect create linear --name acme-linear --triggers
+vercel connect attach linear/acme-linear --triggers --trigger-path /api/webhooks/linear
+```
+
+```bash
+vercel connect create discord --name acme-discord --triggers
+vercel connect attach discord/acme-discord --triggers --trigger-path /api/webhooks/discord
+```
+
+```bash
+vercel connect create notion --name acme-notion
+vercel connect attach notion/acme-notion
+```
+
+```bash
+vercel connect create telegram --name acme-telegram
+vercel connect attach telegram/acme-telegram
+```
+
+`vercel connect attach` uses the linked project and enables production, preview, and development by default. Pass `--project` or `--environment` to change that. Without `--trigger-branch`, Connect forwards webhooks to your production deployment.
 
 3. Pull a development token locally (deployments get `VERCEL_OIDC_TOKEN` automatically):
 
 ```bash
-vercel link
 vercel env pull
 ```
 
@@ -227,25 +260,22 @@ createSlackAdapter({
 });
 ```
 
-
-  Avoid hardcoding `environment: "production"` unless you only forward to production. That verifier rejects preview and development deployments.
-
+> Avoid hardcoding `environment: "production"` unless you only forward to production. That verifier rejects preview and development deployments.
 
 ## Notes and limitations
 
-* The helpers use app-scoped tokens and act as the application itself (`subject: { type: "app" }`). End-user OAuth is a separate concern.
-* OIDC verification replaces each provider's native signature and timestamp check. Request freshness relies on the short-lived OIDC token's expiry rather than a signed timestamp, and there is no built-in delivery de-duplication, so keep your webhook handlers idempotent.
-* Connect trigger forwarding is HTTP-only, so it doesn't work with the Slack adapter's Socket Mode.
-* Connect forwards to deployed URLs, not `localhost`. Test against a preview or development deployment.
+- The helpers use app-scoped tokens and act as the application itself (`subject: { type: "app" }`). End-user OAuth is a separate concern.
+- OIDC verification replaces each provider's native signature and timestamp check. Request freshness relies on the short-lived OIDC token's expiry rather than a signed timestamp, and there is no built-in delivery de-duplication, so keep your webhook handlers idempotent.
+- Connect trigger forwarding is HTTP-only, so it doesn't work with the Slack adapter's Socket Mode.
+- Connect forwards to deployed URLs, not `localhost`. Test against a preview or development deployment.
 
 ## Related resources
 
-* [Vercel Connect Chat SDK documentation](https://vercel.com/docs/connect/frameworks/chat-sdk)
-* [The Complete Guide to Vercel Connect](https://vercel.com/kb/guide/vercel-connect)
-* [Vercel Connect overview](https://vercel.com/docs/connect)
-* [Vercel Connect triggers](https://vercel.com/docs/connect/concepts/triggers)
-* [`@vercel/connect` SDK reference](https://vercel.com/docs/connect/ts-sdk-reference)
-
+- [Vercel Connect Chat SDK documentation](https://vercel.com/docs/connect/frameworks/chat-sdk)
+- [The Complete Guide to Vercel Connect](https://vercel.com/kb/guide/vercel-connect)
+- [Vercel Connect overview](https://vercel.com/docs/connect)
+- [Vercel Connect triggers](https://vercel.com/docs/connect/concepts/triggers)
+- [`@vercel/connect` SDK reference](https://vercel.com/docs/connect/ts-sdk-reference)
 
 ---
 

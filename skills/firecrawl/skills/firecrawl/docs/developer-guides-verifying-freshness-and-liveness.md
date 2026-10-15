@@ -183,3 +183,6 @@ The important boundary is after collection: Firecrawl supplies page evidence; yo
 * [Scrape](/features/scrape)
 * [Faster Scraping](/features/fast-scraping)
 * [Choosing the Data Extractor](/developer-guides/usage-guides/choosing-the-data-extractor)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

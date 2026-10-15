@@ -2,7 +2,9 @@
 
 ---
 title: TanStack AI
-description: Feed thread history into TanStack AI's chat() and give it Chat SDK tools, with no runtime dependency on @tanstack/ai.
+description: "Feed thread history into TanStack AI's chat() and give it Chat SDK tools, with no runtime dependency on @tanstack/ai."
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/usage
@@ -14,8 +16,7 @@ related:
   - /docs/history
 ---
 
-# TanStack AI
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 The `chat/ai/tanstack` subpath is the [TanStack AI](https://tanstack.com/ai) counterpart to the [AI SDK helpers](/docs/ai) in `chat/ai`. It converts Chat SDK [`Message[]`](/docs/api/message) into the `ModelMessage[]` shape that `chat()` from `@tanstack/ai` expects, and it exposes the same Chat SDK tools, presets, approval flags, and scope guard as `createChatTools`, shaped for `chat({ tools })`. The subpath declares its own message and tool types, so it has no runtime dependency on `@tanstack/ai`.
 
@@ -27,6 +28,9 @@ import { createTanStackTools, toTanStackMessages } from "chat/ai/tanstack";
 
 Add `@tanstack/ai` and a model adapter. The examples below use `@tanstack/ai-vercel-gateway`, which routes requests through [Vercel AI Gateway](https://vercel.com/docs/ai-gateway) so you can switch models by changing the model id. See [TanStack AI with AI Gateway](https://vercel.com/docs/ai-gateway/ecosystem/framework-integrations/tanstack-ai) for the full setup.
 
+```bash
+pnpm add @tanstack/ai @tanstack/ai-vercel-gateway zod
+```
 
 Create an [AI Gateway API key](https://vercel.com/docs/ai-gateway/authentication-and-byok/api-keys) and expose it as `AI_GATEWAY_API_KEY`. The adapter reads it automatically, and falls back to `VERCEL_OIDC_TOKEN` when deployed on Vercel.
 
@@ -58,14 +62,14 @@ bot.onNewMention(async (thread) => {
 
 ### What gets converted
 
-* Roles: messages authored by the bot (`author.isMe === true`) become `assistant`, everything else becomes `user`. Messages are sorted oldest first by `metadata.dateSent`.
-* Text: `message.text` becomes string `content`. With `includeNames: true`, user messages are prefixed with `[username]: `.
-* Images: image attachments with a working `fetchData()` become `{ type: "image", source: { type: "data", value, mimeType } }` parts, where `value` is base64 with no `data:` prefix. A user message with images gets array `content`, with a leading `{ type: "text", content }` part when there is text.
-* Text files: TanStack AI has no file content part, so text-like attachments (`text/*`, JSON, XML, YAML, TOML, JavaScript, TypeScript) are inlined into the message text as `[File: <name> (<mime>)]` followed by the file contents.
-* Links: link metadata is appended to the text inside the same untrusted-content fence that `toAiMessages` uses, with third-party titles and descriptions normalized and length-limited.
-* Video and audio: skipped, with `onUnsupportedAttachment` called for each. Other file types (PDF, for example) are skipped silently.
-* Empty messages: a message with no text and nothing the converter can include is dropped.
-* System prompt: `ModelMessage` has no system role. Pass system text through `chat({ systemPrompts: [...] })` instead.
+- Roles: messages authored by the bot (`author.isMe === true`) become `assistant`, everything else becomes `user`. Messages are sorted oldest first by `metadata.dateSent`.
+- Text: `message.text` becomes string `content`. With `includeNames: true`, user messages are prefixed with `[username]: `.
+- Images: image attachments with a working `fetchData()` become `{ type: "image", source: { type: "data", value, mimeType } }` parts, where `value` is base64 with no `data:` prefix. A user message with images gets array `content`, with a leading `{ type: "text", content }` part when there is text.
+- Text files: TanStack AI has no file content part, so text-like attachments (`text/*`, JSON, XML, YAML, TOML, JavaScript, TypeScript) are inlined into the message text as `[File: <name> (<mime>)]` followed by the file contents.
+- Links: link metadata is appended to the text inside the same untrusted-content fence that `toAiMessages` uses, with third-party titles and descriptions normalized and length-limited.
+- Video and audio: skipped, with `onUnsupportedAttachment` called for each. Other file types (PDF, for example) are skipped silently.
+- Empty messages: a message with no text and nothing the converter can include is dropped.
+- System prompt: `ModelMessage` has no system role. Pass system text through `chat({ systemPrompts: [...] })` instead.
 
 ### Options
 
@@ -121,14 +125,14 @@ type TanStackChatToolsOptions = {
 };
 ```
 
-| Option            | Description                                                                                                                                                                                                                  |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `chat`            | The `Chat` instance the tools dispatch operations against. Required.                                                                                                                                                         |
-| `preset`          | Preset (or array of presets) restricting which tools are returned. Omit to get every tool.                                                                                                                                   |
-| `requireApproval` | `true` (default), `false`, or per-tool overrides. Applies to every write tool and `getUser`. See [Approval](#approval) before leaving this on.                                                                               |
-| `scope`           | Conversation the tools are confined to. Defaults to the conversation being handled. Pass a `Thread`, `Channel`, raw id, or `false` for workspace-wide access.                                                                |
-| `strictScope`     | `false` (default). Set `true` to tighten a thread `scope` to that thread alone.                                                                                                                                              |
-| `overrides`       | Per-tool customization keyed by tool name. Only `description`, `needsApproval` (boolean), `metadata`, and `lazy` can be set; `name`, `inputSchema`, `outputSchema`, and `execute` are ignored so tool semantics stay stable. |
+| Option            | Description                                                                                                                                                                                                                                                   |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `chat`            | The `Chat` instance the tools dispatch operations against. Required.                                                                                                                                                                                          |
+| `preset`          | Preset (or array of presets) restricting which tools are returned. Omit to get every tool.                                                                                                                                                                    |
+| `requireApproval` | `true` (default), `false`, or per-tool overrides. Applies to every write tool and `getUser`. See [Approval](#approval) before leaving this on.                                                                                                                |
+| `scope`           | Conversation the tools are confined to. Defaults to the conversation being handled. When no scope resolves, calls are rejected inside a handler and run with a warning outside one. Pass a `Thread`, `Channel`, raw id, or `false` for workspace-wide access. |
+| `strictScope`     | `false` (default). Set `true` to tighten a thread `scope` to that thread alone.                                                                                                                                                                               |
+| `overrides`       | Per-tool customization keyed by tool name. Only `description`, `needsApproval` (boolean), `metadata`, and `lazy` can be set; `name`, `inputSchema`, `outputSchema`, and `execute` are ignored so tool semantics stay stable.                                  |
 
 ### Presets
 
@@ -138,18 +142,16 @@ The `reader`, `messenger`, and `moderator` presets select the same tools as they
 
 Write tools and `getUser` default to `needsApproval: true`, matching `createChatTools`. In TanStack AI that flag means something specific: when the model calls an approval-gated tool, `chat()` stops the run with a `tool-approval` interrupt instead of executing it. Resuming is your job. You call `chat()` again with the message history plus a `resume` array carrying the decision and the `parentRunId` of the paused run, as described in [TanStack's tool approval docs](https://tanstack.com/ai/latest/docs/interrupts/tool-approval).
 
-
-  A bot that posts the stream straight to a thread has no UI to collect that
-  decision, so an approval-gated tool call ends the run without the tool
-  running. Unless you implement the resume flow, pass
-  `requireApproval: false` and gate risky tools yourself, for example with a
-  smaller preset, a tighter `scope`, or an approval step before `chat()` is
-  called.
-
+> A bot that posts the stream straight to a thread has no UI to collect that
+> decision, so an approval-gated tool call ends the run without the tool
+> running. Unless you implement the resume flow, pass
+> `requireApproval: false` and gate risky tools yourself, for example with a
+> smaller preset, a tighter `scope`, or an approval step before `chat()` is
+> called.
 
 ### Scope
 
-`scope` and `strictScope` behave the same as they do for `createChatTools`: tools built inside a handler are confined to that conversation, calls that resolve outside it are rejected before the platform is called, and `getUser` and `sendDirectMessage` are exempt because they target user ids rather than conversations. Read [Limiting what the agent can reach](/docs/ai/ai-sdk-tools#limiting-what-the-agent-can-reach) for the full model, including what `scope` does not check.
+`scope` and `strictScope` behave the same as they do for `createChatTools`: tools called inside a handler with a conversation are confined to it, and calls that resolve outside it are rejected before the platform is called. Calls with no scope are rejected inside a handler that has no conversation, and run workspace-wide with a warning outside any handler. Pass an explicit `scope` for background jobs and handlers without a conversation, or `scope: false` when workspace-wide access is intended. `getUser` and `sendDirectMessage` are exempt because they target user ids rather than conversations. Read [Limiting what the agent can reach](/docs/ai/ai-sdk-tools#limiting-what-the-agent-can-reach) for the full model, including what `scope` does not check.
 
 ## Differences from the AI SDK helpers
 
@@ -208,7 +210,6 @@ type TanStackToolOverrides = Partial<
 ```
 
 `TanStackMessage[]` is structurally assignable to TanStack AI's `ModelMessage[]`, and `TanStackTool[]` to the `tools` option of `chat()`, without importing anything from `@tanstack/ai`.
-
 
 ---
 

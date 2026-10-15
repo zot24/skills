@@ -20,7 +20,10 @@ Tracking
 Copy page
 
 
-The Umami tracker exposes a function that you can call on your website if you want more control over your tracking. By default everything is automatically collected, but you can disable automatic pageviews using `data-auto-pageview="false"` and send them yourself with `umami.track()`. Use `data-auto-track="false"` only if you want to disable tracker initialization entirely. See [Tracker configuration](/docs/tracker-configuration).
+Use the umami.track() and umami.identify() tracker functions to send pageviews, events, event data, and session data from your own code.
+
+
+The Umami tracker exposes functions that you can call on your website if you want more control over your tracking. By default everything is automatically collected, but you can disable automatic pageviews using `data-auto-pageview="false"` and send them yourself with `umami.track()`. Use `data-auto-track="false"` only if you want to disable tracker initialization entirely. See [Tracker configuration](/docs/tracker-configuration).
 
 ## Functions<a href="#functions" class="heading-anchor" aria-label="Permalink to “Functions”">#</a>
 
@@ -32,19 +35,22 @@ umami.track();
 // Custom payload
 umami.track(payload: object);
 
+// Custom payload built from the default properties
+umami.track(callback: (props: object) => object);
+
 // Custom event
 umami.track(event_name: string);
 
 // Custom event with data
 umami.track(event_name: string, data: object);
 
-// Assign ID to current session
+// Assign a Distinct ID to the current session
 umami.identify(unique_id: string);
 
-// Session data
+// Assign a Distinct ID and save session data
 umami.identify(unique_id: string, data: object);
 
-// Session data without ID
+// Save session data (an `id` property, if present, is used as the Distinct ID)
 umami.identify(data: object);
 ```
 
@@ -52,7 +58,7 @@ umami.identify(data: object);
 ## Pageviews<a href="#pageviews" class="heading-anchor" aria-label="Permalink to “Pageviews”">#</a>
 
 
-Track a page view.
+Track a pageview.
 
 
 ``` code-block
@@ -127,7 +133,7 @@ umami.track(props => ({
 
 ## Event Data Limits<a href="#event-data-limits" class="heading-anchor" aria-label="Permalink to “Event Data Limits”">#</a>
 
-Event Data can work with any JSON data. There are a few rules in place to maintain performance.
+Event data can work with any JSON data. There are a few rules in place to maintain performance.
 
 | Data Type | Limit                                                   |
 |-----------|---------------------------------------------------------|
@@ -138,14 +144,14 @@ Event Data can work with any JSON data. There are a few rules in place to mainta
 
 ## Overriding Event Timestamps<a href="#overriding-event-timestamps" class="heading-anchor" aria-label="Permalink to “Overriding Event Timestamps”">#</a>
 
-You can override the event timestamp by adding a UNIX timestamp in seconds to the payload:
+You can override the event timestamp by adding a Unix timestamp in seconds to the payload:
 
 
 ``` code-block
 umami.track(props => ({
   ...props,
   name: 'signup-button',
-  timestamp: 1771523787, // new Date().getTime() / 1000
+  timestamp: 1771523787, // Math.floor(Date.now() / 1000)
 }));
 ```
 
@@ -160,6 +166,8 @@ Pass in your own ID to identify a user.
 umami.identify('unique_id');
 ```
 
+
+If the user is already known when the page loads, set the ID with the [`data-distinct-id`](/docs/tracker-configuration#data-distinct-id) attribute instead, so the first pageview is identified too. See [Distinct IDs](/docs/distinct-ids).
 
 ## Session Data<a href="#session-data" class="heading-anchor" aria-label="Permalink to “Session Data”">#</a>
 
@@ -177,6 +185,14 @@ To save data without a unique ID, pass in only a JSON object.
 
 ``` code-block
 umami.identify({ name: 'Bob', email: '[email protected]' });
+```
+
+
+If the object includes an `id` property, its value is also used as the Distinct ID.
+
+
+``` code-block
+umami.identify({ id: 'unique_id', name: 'Bob' });
 ```
 
 

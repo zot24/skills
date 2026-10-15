@@ -41,3 +41,6 @@ Discovery steps live in [`auth.md`](https://www.firecrawl.dev/auth.md) Step 1. I
 ## What happens next
 
 Follow [`auth.md`](https://www.firecrawl.dev/auth.md) Steps 1–4 to discover the registration flow, register at `POST /agent/auth`, and use the returned API key with the Firecrawl API.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -1,3 +1,5 @@
+> Source: https://raw.githubusercontent.com/Sonarr/Sonarr/develop/README.md
+
 # <img width="24px" src="./Logo/256.png" alt="Sonarr"></img> Sonarr
 
 [![Translated](https://translate.servarr.com/widget/servarr/sonarr/svg-badge.svg)](https://translate.servarr.com/engage/servarr/)
@@ -12,7 +14,7 @@ Sonarr is a PVR for Usenet and BitTorrent users. It can monitor multiple RSS fee
 - [Download/Installation](https://sonarr.tv/#downloads-v3)
 - [FAQ](https://wiki.servarr.com/sonarr/faq)
 - [Wiki](https://wiki.servarr.com/Sonarr)
-- [v4 Beta API Documentation](https://sonarr.tv/docs/api)
+- [API Documentation](https://sonarr.tv/docs/api)
 - [Donate](https://sonarr.tv/donate)
 
 ## Support
@@ -82,4 +84,4 @@ Thank you to [<img src="https://resources.jetbrains.com/storage/products/company
 ### Licenses
 
 - [GNU GPL v3](http://www.gnu.org/licenses/gpl.html)
-- Copyright 2010-2024
+- Copyright 2010-2025

@@ -13,6 +13,14 @@ package: @chat-adapter/messenger
   Building for Instagram Direct Messages? Use the [Instagram adapter](/adapters/official/instagram) instead. It connects through Instagram API with Instagram Login and does not require a Facebook Page.
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the Messenger adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="messenger memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -59,32 +67,42 @@ export async function POST(request: Request) {
 
 ## Platform setup
 
-### 1. Create a Meta app
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Create a Meta app
 
-1. Go to [developers.facebook.com/apps](https://developers.facebook.com/apps).
-2. Create an app and select **"Engage with customers on Messenger from Meta"**.
-3. Under **App Settings** then **Basic**, copy the **App Secret** to `FACEBOOK_APP_SECRET`.
+    1. Go to [developers.facebook.com/apps](https://developers.facebook.com/apps).
+    2. Create an app and select **"Engage with customers on Messenger from Meta"**.
+    3. Under **App Settings** then **Basic**, copy the **App Secret** to `FACEBOOK_APP_SECRET`.
+  </div>
 
-### 2. Create a Facebook Page
+  <div className="fd-step">
+    ### Create a Facebook Page
 
-Users interact with your bot by messaging a Facebook Page, so the bot needs one to send and receive messages. If you don't already have a Page, create one under a Facebook Business profile.
+    Users interact with your bot by messaging a Facebook Page, so the bot needs one to send and receive messages. If you don't already have a Page, create one under a Facebook Business profile.
+  </div>
 
-### 3. Get credentials
+  <div className="fd-step">
+    ### Get credentials
 
-1. In your Meta app dashboard, open **Use Cases** then **Messenger API Settings**.
-2. Under **Generate access tokens**, click **Add or remove Pages** and select your Page.
-3. Generate the token and copy it to `FACEBOOK_PAGE_ACCESS_TOKEN`.
+    1. In your Meta app dashboard, open **Use Cases** then **Messenger API Settings**.
+    2. Under **Generate access tokens**, click **Add or remove Pages** and select your Page.
+    3. Generate the token and copy it to `FACEBOOK_PAGE_ACCESS_TOKEN`.
 
-Choose your own random string for `FACEBOOK_VERIFY_TOKEN`. You enter the same value in the next step.
+    Choose your own random string for `FACEBOOK_VERIFY_TOKEN`. You enter the same value in the next step.
+  </div>
 
-### 4. Configure webhooks
+  <div className="fd-step">
+    ### Configure webhooks
 
-Deploy the GET and POST route shown above to a public HTTPS URL first, then, in **Messenger API Settings**:
+    Deploy the GET and POST route shown above to a public HTTPS URL first, then, in **Messenger API Settings**:
 
-1. Click **Add Callback URL** and enter `https://your-domain.com/api/webhooks/messenger`.
-2. Set **Verify Token** to the same value as `FACEBOOK_VERIFY_TOKEN`.
-3. Click **Verify and Save**.
-4. Add subscriptions: `messages`, `messaging_postbacks`, `messaging_reactions`, `message_deliveries`, `message_reads`.
+    1. Click **Add Callback URL** and enter `https://your-domain.com/api/webhooks/messenger`.
+    2. Set **Verify Token** to the same value as `FACEBOOK_VERIFY_TOKEN`.
+    3. Click **Verify and Save**.
+    4. Add subscriptions: `messages`, `messaging_postbacks`, `messaging_reactions`, `message_deliveries`, `message_reads`.
+  </div>
+</div>
 
 ## Configuration
 

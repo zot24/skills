@@ -90,7 +90,7 @@ Configure Wealthfolio — base currency and timezone, language and region format
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 Open **Settings** from the bottom of the sidebar. Options are grouped into **Preferences**, **Finance**, **Data**, **Connections**, and **Extensions**, plus **About**.

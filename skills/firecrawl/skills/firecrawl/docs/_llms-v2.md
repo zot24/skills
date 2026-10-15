@@ -4,7 +4,7 @@
 
 ## v2
 
-- [English / v2 / Documentation (128 pages)](https://docs.firecrawl.dev/_llms/en/v2/documentation.md): Documentation for English / v2 / Documentation.
+- [English / v2 / Documentation (133 pages)](https://docs.firecrawl.dev/_llms/en/v2/documentation.txt): Documentation for English / v2 / Documentation.
 
 ### SDKs
 
@@ -64,6 +64,10 @@
 
 - [Search the Developer Index](https://docs.firecrawl.dev/api-reference/endpoint/developer-search.md)
 
+#### Government Index Endpoints
+
+- [Search the Government Index](https://docs.firecrawl.dev/api-reference/endpoint/gov-search.md)
+
 #### Map Endpoints
 
 - [Map](https://docs.firecrawl.dev/api-reference/endpoint/map.md)
@@ -71,6 +75,7 @@
 #### Parse Endpoints
 
 - [Parse](https://docs.firecrawl.dev/api-reference/endpoint/parse.md)
+- [Parse Formats](https://docs.firecrawl.dev/api-reference/endpoint/parse-formats.md)
 
 #### Crawl Endpoints
 
@@ -91,6 +96,15 @@
 - [Run Monitor](https://docs.firecrawl.dev/api-reference/endpoint/monitor-run.md)
 - [List Monitor Checks](https://docs.firecrawl.dev/api-reference/endpoint/monitor-checks-list.md)
 - [Get Monitor Check](https://docs.firecrawl.dev/api-reference/endpoint/monitor-check-get.md)
+
+#### Agent Endpoints
+
+- [Agent](https://docs.firecrawl.dev/api-reference/endpoint/agent.md)
+- [List Agent Runs](https://docs.firecrawl.dev/api-reference/endpoint/agent-list.md)
+- [Get Agent Status](https://docs.firecrawl.dev/api-reference/endpoint/agent-get.md)
+- [Get Agent Trace](https://docs.firecrawl.dev/api-reference/endpoint/agent-trace.md)
+- [Get Agent Snapshot](https://docs.firecrawl.dev/api-reference/endpoint/agent-snapshot.md)
+- [Cancel Agent](https://docs.firecrawl.dev/api-reference/endpoint/agent-delete.md)
 
 #### Feedback Endpoints
 
@@ -129,6 +143,14 @@
 - [Monitor Page](https://docs.firecrawl.dev/api-reference/endpoint/webhook-monitor-page.md)
 - [Monitor Check Completed](https://docs.firecrawl.dev/api-reference/endpoint/webhook-monitor-check-completed.md)
 
+##### Agent
+
+- [Agent Started](https://docs.firecrawl.dev/api-reference/endpoint/webhook-agent-started.md)
+- [Agent Action](https://docs.firecrawl.dev/api-reference/endpoint/webhook-agent-action.md)
+- [Agent Completed](https://docs.firecrawl.dev/api-reference/endpoint/webhook-agent-completed.md)
+- [Agent Failed](https://docs.firecrawl.dev/api-reference/endpoint/webhook-agent-failed.md)
+- [Agent Cancelled](https://docs.firecrawl.dev/api-reference/endpoint/webhook-agent-cancelled.md)
+
 #### Firecrawl for Platforms
 
 - [Firecrawl for Platforms](https://docs.firecrawl.dev/firecrawl-for-platforms.md): API reference for platforms that create and manage Firecrawl API keys for their users
@@ -145,7 +167,6 @@
 #### AI Tools
 
 - [CLI](https://docs.firecrawl.dev/sdks/cli.md): Firecrawl skills are an easy way for AI agents such as Codex, Claude Code, Cursor, and OpenCode to use Firecrawl through the CLI.
-- [OpenClaw](https://docs.firecrawl.dev/quickstarts/openclaw.md): Use Firecrawl with OpenClaw to give your agents web scraping, search, and browser automation capabilities.
 
 ##### MCP
 
@@ -157,7 +178,7 @@
 #### Agent Harnesses
 
 - [OpenClaw](https://docs.firecrawl.dev/quickstarts/openclaw.md): Use Firecrawl with OpenClaw to give your agents web scraping, search, and browser automation capabilities.
-- [MCP Web Search & Scrape in Claude Code](https://docs.firecrawl.dev/quickstarts/claude-code.md): Add web scraping and search to Claude Code in 2 minutes
+- [Firecrawl in Claude & Claude Code](https://docs.firecrawl.dev/quickstarts/claude-code.md): Search the web and read pages from Claude or your Claude Code session.
 - [MCP Web Search & Scrape in Cursor](https://docs.firecrawl.dev/quickstarts/cursor.md): Add web scraping and search to Cursor in 2 minutes
 - [MCP Web Search & Scrape in OpenCode](https://docs.firecrawl.dev/quickstarts/opencode.md): Add Firecrawl web scraping and search to OpenCode
 - [MCP Web Search & Scrape in Codex CLI](https://docs.firecrawl.dev/quickstarts/codex-cli.md): Add Firecrawl web scraping and search to OpenAI Codex CLI

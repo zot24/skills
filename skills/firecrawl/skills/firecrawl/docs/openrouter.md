@@ -132,3 +132,6 @@ print(completion.choices[0].message.content)
 * Firecrawl is fully model-agnostic — pick any OpenRouter model without changing the scrape code.
 * Many top OpenRouter apps (Cline, Roo Code, Kilo, Cursor, Continue) are agent harnesses that can use Firecrawl MCP. Start with the [MCP setup chooser](/mcp-server) to connect one.
 * For large jobs, use [batch scrape](/features/batch-scrape) to stay within LLM context budgets.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

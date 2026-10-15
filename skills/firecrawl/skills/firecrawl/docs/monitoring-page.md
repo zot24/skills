@@ -145,3 +145,6 @@ By default a page monitor diffs the page's markdown. To alert only when a **spec
 * [Notifications](/features/monitoring#notifications): webhook and email delivery.
 * [Check results](/features/monitoring#check-results): inspect each check and its per-page diffs.
 * [Pricing](/features/monitoring#pricing): 1 credit per URL per check, plus optional judging.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

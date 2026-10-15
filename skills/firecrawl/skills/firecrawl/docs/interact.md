@@ -944,6 +944,28 @@ curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
 ## 
 
 
+<a href="#zero-data-retention-zdr" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/scrape/YOUR_SCRAPE_ID/interact \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -d '{
+    "prompt": "Click the pricing tab and summarize the plans",
+    "zeroDataRetention": true
+  }'
+```
+
+
+- Session recordings and persistent profiles are not available in ZDR mode. Requests that combine `zeroDataRetention: true` with `recordSession` or `profile` return a `400`.
+- An existing session that was started without ZDR cannot be switched to ZDR. Requesting ZDR on it returns a `409`: stop the session and start a new one with `zeroDataRetention: true`.
+- ZDR scrapes do not retain the scraped URL, so Firecrawl may not be able to rebuild the browser from the original scrape. If interact returns a `409` saying the replay context is unavailable, pass `url` in the request to open that page in a new ZDR session. The original scrape’s actions are not replayed.
+
+
+## 
+
+
 <a href="#when-to-use-what" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
@@ -965,6 +987,7 @@ curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
 - **Code-only** (no `prompt`): 2 credits per session minute
 - **With AI prompts**: 7 credits per session minute
 - **Scrape**: billed separately (1 credit per scrape, plus any format-specific costs)
+- **Zero Data Retention**: ZDR sessions add 2 credits per session minute, so code-only sessions bill at 4 credits per minute and sessions with AI prompts at 9, with the same one-minute minimum. A ZDR scrape still carries its own <a href="/features/scrape#zero-data-retention-zdr" class="link">ZDR cost</a> of 1 additional credit per page.
 
 ## 
 
@@ -981,13 +1004,15 @@ curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
 <a href="#request-body-post" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-| Field      | Type     | Default  | Description                                                                                          |
-|------------|----------|----------|------------------------------------------------------------------------------------------------------|
-| `prompt`   | `string` | None     | Natural language task for the AI agent. Required if `code` is not set. Max 10,000 characters.        |
-| `code`     | `string` | None     | Code to execute (Node.js, Python, or Bash). Required if `prompt` is not set. Max 100,000 characters. |
-| `language` | `string` | `"node"` | `"node"`, `"python"`, or `"bash"`. Only used with `code`.                                            |
-| `timeout`  | `number` | `30`     | Timeout in seconds (1–300).                                                                          |
-| `origin`   | `string` | None     | Caller identifier for activity tracking.                                                             |
+| Field               | Type      | Default  | Description                                                                                                                             |
+|---------------------|-----------|----------|-----------------------------------------------------------------------------------------------------------------------------------------|
+| `prompt`            | `string`  | None     | Natural language task for the AI agent. Required if `code` is not set. Max 10,000 characters.                                           |
+| `code`              | `string`  | None     | Code to execute (Node.js, Python, or Bash). Required if `prompt` is not set. Max 100,000 characters.                                    |
+| `language`          | `string`  | `"node"` | `"node"`, `"python"`, or `"bash"`. Only used with `code`.                                                                               |
+| `timeout`           | `number`  | `30`     | Timeout in seconds (1–300).                                                                                                             |
+| `origin`            | `string`  | None     | Caller identifier for activity tracking.                                                                                                |
+| `zeroDataRetention` | `boolean` | `false`  | Run the session with <a href="#zero-data-retention-zdr" class="link">Zero Data Retention</a>. Requires ZDR to be enabled for your team. |
+| `url`               | `string`  | None     | Page to open in a new session when the original scrape’s context is unavailable, such as after a ZDR scrape.                            |
 
 
 ### 

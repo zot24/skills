@@ -94,3 +94,6 @@ The magic is automatic synchronization via Dolt's version-controlled database wi
 * [How Beads Works](/core-concepts/index) - The concept model on one page
 * [CLI Reference](/cli-reference/index) - All available commands
 * [Workflows](/workflows/index) - Formulas, molecules, and gates
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

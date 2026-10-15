@@ -504,3 +504,4 @@ Claude will then query for insights before responding and write your messages to
     Learn about peers, sessions, and dialectic reasoning.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

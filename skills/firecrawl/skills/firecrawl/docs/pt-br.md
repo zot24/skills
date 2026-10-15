@@ -4,7 +4,7 @@
 
 ## Brazilian Portuguese
 
-- [Brazilian Portuguese / v2 (204 pages)](https://docs.firecrawl.dev/_llms/pt-br/v2.md): Documentation for Brazilian Portuguese / v2.
+- [Brazilian Portuguese / v2 (221 pages)](https://docs.firecrawl.dev/_llms/pt-br/v2.txt): Documentation for Brazilian Portuguese / v2.
 
 ### v1
 
@@ -13,7 +13,7 @@
 ##### Primeiros passos
 
 - [Introdução](https://docs.firecrawl.dev/pt-BR/introduction.md): A API de dados da web para agentes de IA. Faça uma busca na web, faça scraping de qualquer página e interaja com ela por meio de uma única API.
-- [Primeiros passos](https://docs.firecrawl.dev/pt-BR/mcp-server.md): Configure o Firecrawl MCP com acesso sem chave, login na conta ou uma chave de API.
+- [Primeiros passos](https://docs.firecrawl.dev/pt-BR/mcp-server.md): Configure o Firecrawl MCP com acesso sem chave, login na conta ou uma API key.
 - [Guia Avançado de Scraping](https://docs.firecrawl.dev/pt-BR/advanced-scraping-guide.md): Configure opções de scraping, ações do navegador, rastreamento, map e o endpoint do agente em toda a API do Firecrawl.
 
 ###### Planos e cobrança
@@ -25,6 +25,7 @@
 ###### Empresarial
 
 - [Enterprise](https://docs.firecrawl.dev/pt-BR/enterprise.md): Planos Enterprise, segurança e recursos do Firecrawl em escala
+- [SSO e SCIM](https://docs.firecrawl.dev/pt-BR/features/sso.md): Configure o login único (SSO) e a sincronização de diretório via SCIM para que sua equipe faça login pelo seu provider de identidade e o acesso dos usuários permaneça sincronizado com o seu diretório.
 - [Restrições de IP](https://docs.firecrawl.dev/pt-BR/features/ip-restrictions.md): Restrinja as chaves de API da sua equipe a uma lista de permissões de endereços IP ou intervalos CIDR, para que funcionem apenas em redes aprovadas. Aplicado no servidor.
 - [Restrições de chave](https://docs.firecrawl.dev/pt-BR/features/key-restrictions.md): Restrinja uma chave de API individual a endpoints e formatos de resultado específicos. Aplicado no servidor, sem possibilidade de uma requisição sobrescrever isso.
 - [Proteção contra ameaças](https://docs.firecrawl.dev/pt-BR/features/threat-protection.md): Bloqueie requests para URLs arriscadas em todos os endpoints usando uma política controlada pela sua organização. Aplicado no servidor.

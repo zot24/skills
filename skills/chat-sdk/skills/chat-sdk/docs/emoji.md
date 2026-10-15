@@ -2,7 +2,9 @@
 
 ---
 title: Emoji
-description: Type-safe, cross-platform emoji that convert to each platform's format.
+description: "Type-safe, cross-platform emoji that convert to each platform's format."
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 related:
   - /docs/posting-messages
@@ -10,8 +12,7 @@ related:
   - /docs/handling-events
 ---
 
-# Emoji
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 The `emoji` helper gives you named emoji that convert to each platform's format when posted. On Slack, they render as `:shortcode:` text. On other platforms, they render as Unicode characters.
 
@@ -84,7 +85,6 @@ declare module "chat" {
   }
 }
 ```
-
 
 ---
 

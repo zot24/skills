@@ -21,3 +21,6 @@ Your changes will undergo a period of testing and discussion before finally
 being entered into the `main` branch and being staged for release. For more
 details, check out our [contributing](https://github.com/plastic-labs/honcho/blob/main/CONTRIBUTING.md)
 document.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

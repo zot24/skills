@@ -3,6 +3,8 @@
 ---
 title: Testing adapters
 description: Write unit tests, integration tests, and replay tests for community Chat SDK adapters.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/contributing/building
@@ -11,18 +13,13 @@ related:
   - /docs/testing
 ---
 
-# Testing adapters
-
-
-## Testing philosophy
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Chat SDK adapters are the trust boundary between your application and a platform. High test coverage is expected: unit tests for every public method, and integration tests that wire up the full `Chat` → `Adapter` → handler pipeline.
 
 All adapters in this repo use [vitest](https://vitest.dev) with `@vitest/coverage-v8`. Community adapters should follow the same convention.
 
-
-  This page covers the hand-rolled patterns used inside this repo's `packages/`. If you're testing a bot or a custom adapter as a consumer of Chat SDK, use [`@chat-adapter/tests`](/docs/testing). It ships factories and Vitest matchers that cover most of these patterns in a few lines.
-
+> This page covers the hand-rolled patterns used inside this repo's `packages/`. If you're testing a bot or a custom adapter as a consumer of Chat SDK, use [`@chat-adapter/tests`](/docs/testing). It ships factories and Vitest matchers that cover most of these patterns in a few lines.
 
 ## Unit tests
 
@@ -502,7 +499,6 @@ describe("replay: mention flow", () => {
   });
 });
 ```
-
 
 ---
 

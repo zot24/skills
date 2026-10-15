@@ -113,3 +113,4 @@ Net::HTTP.start(delete_uri.hostname, delete_uri.port, use_ssl: true) { |http| ht
     Click, fill forms, and extract dynamic content
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -3,6 +3,8 @@
 ---
 title: Posting Messages
 description: Different ways to render and send messages with thread.post().
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/usage
@@ -14,8 +16,7 @@ related:
   - /docs/threads-messages-channels
 ---
 
-# Posting Messages
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 `thread.post()` accepts several message formats: plain strings, markdown, an mdast AST, interactive cards, and streams. [Choosing a format](#choosing-a-format) compares them.
 
@@ -152,9 +153,7 @@ await thread.post(
 );
 ```
 
-
-  The JSX syntax requires `jsxImportSource: "chat"` in your `tsconfig.json` (or a per-file `/** @jsxImportSource chat */` pragma). Without this, TypeScript won't recognize the card JSX types. If you run into type issues with JSX, use the function-call syntax instead. It produces the same output with better type inference.
-
+> The JSX syntax requires `jsxImportSource: "chat"` in your `tsconfig.json` (or a per-file `/** @jsxImportSource chat */` pragma). Without this, TypeScript won't recognize the card JSX types. If you run into type issues with JSX, use the function-call syntax instead. It produces the same output with better type inference.
 
 See the [Cards](/docs/cards) page for the full list of card components.
 
@@ -207,7 +206,6 @@ See the [Files](/docs/files) page for more on attachments.
 | [`StreamingPlan`](/docs/streaming#streaming-with-options) | Streaming with platform-specific options          | Slack streaming with grouped tasks or stop blocks |
 
 For most messages, AST builders give the best balance of control and simplicity. Use cards when you need interactive elements like buttons or dropdowns.
-
 
 ---
 

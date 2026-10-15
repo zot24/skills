@@ -256,3 +256,6 @@ The new Honcho peer/session API makes Discord bot integration much simpler and m
 * **Helper Functions**: Clean code organization with focused helper functions
 
 This approach provides a clean, maintainable structure for building Discord bots with conversational memory and context management.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

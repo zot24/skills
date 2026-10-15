@@ -187,6 +187,7 @@ components:
             allowing the page sufficient time to load. This waiting time is in
             addition to Firecrawl's smart wait feature.
           default: 0
+          maximum: 60000
         mobile:
           type: boolean
           description: >-
@@ -208,14 +209,30 @@ components:
         parsers:
           type: array
           description: >-
-            Controls how files are processed during scraping. When "pdf" is
-            included (default), the PDF content is extracted and converted to
-            markdown format, with billing based on the number of pages (1 credit
-            per page). When an empty array is passed, the PDF file is returned
-            in base64 encoding with a flat rate of 1 credit for the entire PDF.
+            Controls how files are processed during scraping. Each item is a
+            parser name (`"pdf"` or `"image"`) or a parser object. Both parsers
+            are on by default.
+
+             - **pdf**: PDF content is extracted and converted to markdown format, with billing based on the number of pages (1 credit per page).
+             - **image**: Raster images (PNG, JPEG, JPEG 2000, TIFF, GIF, BMP, WebP, AVIF) are OCR'd as one-page documents and converted to markdown. SVG and HEIC are not supported.
+
+            If you pass a list, parsers that are not in the list are off. For
+            example, `["pdf"]` turns off image OCR, so image URLs fail as
+            unsupported files. When an empty array is passed, the PDF file is
+            returned in base64 encoding with a flat rate of 1 credit for the
+            entire PDF.
           items:
             oneOf:
-              - type: object
+              - title: Parser name
+                type: string
+                enum:
+                  - pdf
+                  - image
+                description: >-
+                  Shorthand for a parser object with default options. `"pdf"` is
+                  the same as `{ "type": "pdf" }`.
+              - title: PDF
+                type: object
                 properties:
                   type:
                     type: string
@@ -272,8 +289,23 @@ components:
                 required:
                   - type
                 additionalProperties: false
+              - title: Image
+                type: object
+                description: >-
+                  Image OCR parser. It has no options. The PDF options (`mode`,
+                  `maxPages`, `pages`, `blocks`, `pageMarkers`) do not apply to
+                  images.
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - image
+                required:
+                  - type
+                additionalProperties: false
           default:
             - pdf
+            - image
         actions:
           type: array
           description: Actions to perform on the page before grabbing the content
@@ -562,6 +594,17 @@ components:
             pages remain eligible. Billed at 5 credits on hit, 1 credit on cache
             miss.
           default: false
+        checkPromptInjection:
+          type: boolean
+          description: >-
+            When enabled, scans the page content for prompt injection attempts
+            before any LLM-backed format (such as json, summary or question)
+            runs. Works with any format except rawBase64. If an injection is
+            detected, the request fails with a 403 and error code
+            SCRAPE_PROMPT_INJECTION_DETECTED. Adds 4 credits when the check
+            runs. If the check cannot scan all of the content, the scrape
+            continues with a warning and the check is not billed.
+          default: false
         redactPII:
           oneOf:
             - type: boolean
@@ -667,6 +710,37 @@ components:
             required:
               - type
           - type: object
+            title: Attributes
+            description: >-
+              Extract attribute values from the elements that match CSS
+              selectors. Returns the values in the response `attributes` field.
+            properties:
+              type:
+                type: string
+                enum:
+                  - attributes
+              selectors:
+                type: array
+                description: The elements and attributes to extract.
+                items:
+                  type: object
+                  properties:
+                    selector:
+                      type: string
+                      description: CSS selector to find elements.
+                    attribute:
+                      type: string
+                      description: >-
+                        Attribute name to extract (for example
+                        `data-vehicle-name` or `id`).
+                  required:
+                    - selector
+                    - attribute
+                  additionalProperties: false
+            required:
+              - type
+              - selectors
+          - type: object
             title: Screenshot
             properties:
               type:
@@ -715,12 +789,10 @@ components:
                 description: The prompt to use for the JSON output
               checkPromptInjection:
                 type: boolean
+                deprecated: true
                 description: >-
-                  When enabled, scans the scraped page content for prompt
-                  injection attempts before running the extraction. If an
-                  injection is detected, the request fails with a 403 and error
-                  code SCRAPE_PROMPT_INJECTION_DETECTED. Adds 4 credits when the
-                  check runs. Defaults to false.
+                  Deprecated: use the top-level `checkPromptInjection` scrape
+                  option, which this value is merged into. Defaults to false.
                 default: false
             required:
               - type
@@ -985,3 +1057,5 @@ components:
       scheme: bearer
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

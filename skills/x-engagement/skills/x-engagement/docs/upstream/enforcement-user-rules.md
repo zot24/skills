@@ -18,14 +18,14 @@ rules:
       reason: user_not_found
 
   - id: very_high_follower_count
-    # Prod uses a different follower count floor; this is a mock value to reduce gaming.
-    when: cred.follower_count >= 12.34
+    # Prod uses a different follower count threshold; this is a mock value to reduce gaming.
+    when: cred.follower_count >= 12345.67
     then:
       kind: skip
       reason: very_high_follower_count
 
   - id: high_follower_count
-    # Prod uses a different follower count floor; this is a mock value to reduce gaming.
+    # Prod uses a different follower count threshold; this is a mock value to reduce gaming.
     when: cred.follower_count >= 12.34
     then:
       kind: skip
@@ -68,7 +68,7 @@ rules:
     then:
       kind: act_add_labels_v2
       labels: ["SpamHighRecall"]
-      ttl_msec: 2592000000   
+      ttl_msec: 2592000000
 
   - id: already_spam_high_recall_labeled_majority_poster
     when: '"SpamEmbeddingMajorityPoster" in score.labels && "SpamHighRecall" in user.labels'
@@ -81,7 +81,7 @@ rules:
     then:
       kind: act_add_labels_v2
       labels: ["SpamHighRecall"]
-      ttl_msec: 2592000000   
+      ttl_msec: 2592000000
 
 
   - id: act_spam_liveness_check
@@ -139,7 +139,7 @@ rules:
       actions:
         - kind: act_add_labels_v2
           labels: ["SpamHighRecall"]
-          ttl_msec: 2592000000   
+          ttl_msec: 2592000000
         - kind: act_captcha
 
   - id: act_inauthentic_detection_v45_label_and_arkose
@@ -152,7 +152,7 @@ rules:
       actions:
         - kind: act_add_labels_v2
           labels: ["SpamHighRecall"]
-          ttl_msec: 2592000000   
+          ttl_msec: 2592000000
         - kind: act_arkose
 
   - id: act_inauthentic_detection_v45_label
@@ -160,7 +160,7 @@ rules:
     then:
       kind: act_add_labels_v2
       labels: ["SpamHighRecall"]
-      ttl_msec: 2592000000   
+      ttl_msec: 2592000000
 
   - id: act_inauthentic_detection_v45_bounce_captcha
     when: 'score.model_version.startsWith("inauthentic_detection_v45") && "inauthentic_detection_v45_bounce_captcha" in score.labels'
@@ -189,7 +189,7 @@ rules:
     then:
       kind: act_add_labels_v2
       labels: ["SpamHighRecall"]
-      ttl_msec: 2592000000   
+      ttl_msec: 2592000000
 
   - id: hold_cluster_spam
     when: 'score.model_version.startsWith("cluster_spam")'
@@ -214,7 +214,7 @@ rules:
     then:
       kind: act_add_labels_v2
       labels: ["SpamHighRecall"]
-      ttl_msec: 2592000000   
+      ttl_msec: 2592000000
 
   - id: platform_row_without_requested_actions
     when: '"abuse_platform_requested_actions" in score.labels && size(score.requested_actions) == 0'

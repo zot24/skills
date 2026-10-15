@@ -531,3 +531,6 @@ Peer chat for one peer's perspective, workspace chat for questions that span pee
 Use `context()` for conversation context and `peer.chat()` for specific insights. They complement each other.
 
 For more ideas on using the chat endpoint, see our [guides](/docs/v3/guides/overview).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

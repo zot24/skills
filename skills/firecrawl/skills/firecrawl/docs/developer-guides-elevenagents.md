@@ -168,7 +168,7 @@ The agent will call `search_web`, receive results from Firecrawl, and respond wi
 
 ## Tips
 
-* **Model selection** — For reliable tool calling, use a high-intelligence model such as GPT-4o, Claude Sonnet 4.5 or later, or Gemini 2.5 Flash. Smaller models may struggle to extract the correct parameters.
+* **Model selection** — For reliable tool calling, use a high-intelligence model such as GPT-4o, Claude Sonnet 5.5, or Gemini 2.5 Flash. Smaller models may struggle to extract the correct parameters.
 * **Keep prompts specific** — Tell the agent exactly when to use each tool. Vague instructions lead to missed or incorrect tool calls.
 * **Limit response size** — For voice agents, long scraped pages can overwhelm the LLM context. Use `onlyMainContent: true` in scrape options (or instruct the agent to summarize aggressively) to keep responses concise.
 * **Tool call sounds** — In the webhook or MCP tool settings, you can configure a **Tool call sound** to play ambient audio while a tool runs. This signals to the user that the agent is working.
@@ -180,3 +180,6 @@ The agent will call `search_web`, receive results from Firecrawl, and respond wi
 * [ElevenAgents MCP integration](https://elevenlabs.io/docs/eleven-agents/customization/tools/mcp)
 * [Firecrawl API reference](https://docs.firecrawl.dev/api-reference/v2-introduction)
 * [Firecrawl MCP server](https://docs.firecrawl.dev/mcp-server)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

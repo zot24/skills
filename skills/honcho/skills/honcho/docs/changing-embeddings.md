@@ -68,3 +68,6 @@ Switching the *storage backend* at constant dim/model — for example moving fro
 Note for external backends that lock dimensionality lazily: Turbopuffer namespaces and ChromaDB collections fix their vector dimension on first write, not at creation. The startup validator samples existing namespaces best-effort; a fresh deployment with no namespaces yet passes validation and locks the dim on the first ingested message.
 
 Deleting every record from a ChromaDB collection does not reset its dimension. Honcho reads a fresh collection schema during validation so an empty collection with the old dimension still blocks startup after a dimension change. Recreate the collection as part of a dimension rebuild.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

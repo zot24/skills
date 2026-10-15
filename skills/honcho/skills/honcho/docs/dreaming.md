@@ -143,3 +143,4 @@ Dreaming is automatically disabled if reasoning itself is disabled, since there 
     API reference for manually triggering dreams
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

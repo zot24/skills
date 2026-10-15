@@ -18,10 +18,6 @@ Whether you need one data point or entire datasets at scale, Firecrawl `/agent` 
 
 **Think of `/agent` as deep research for data, wherever it is!**
 
-
-  **Research Preview**: Agent is in early access. Expect rough edges. It will get significantly better over time.
-
-
 Agent builds on everything great about `/extract` and takes it further:
 
 * **No URLs Required**: Just describe what you need via `prompt` parameter. URLs are optional
@@ -253,7 +249,7 @@ Job results are available via the API for 24 hours after completion. After this 
 | - | - |
 | `processing` | The agent is still working on your request |
 | `completed` | Extraction finished successfully |
-| `failed` | An error occurred during extraction, or the job was cancelled (cancelled jobs report `failed` with a cancellation error message) |
+| `failed` | An error occurred during extraction, the run reached its `maxCredits` limit (see [Handling credit-limit stops](#handling-credit-limit-stops)), or the job was cancelled (cancelled jobs report `failed` with a cancellation error message) |
 
 
   **Cancellation is cooperative.** When you call the cancel endpoint, the request is registered immediately, but any step already in flight (an LLM reasoning step, a tool call, or a browser action) runs to a clean stopping point before the job stops. Credits can continue to accrue during that short window, so the final `creditsUsed` may be higher than the value reported at the moment you clicked cancel. A cancelled job reports status `failed` when polled and emits an `agent.cancelled` webhook event.
@@ -295,6 +291,154 @@ Job results are available via the API for 24 hours after completion. After this 
   "creditsUsed": 15
 }
 ```
+
+## Handling credit-limit stops
+
+A run that reaches its `maxCredits` limit stops and reports `status: "failed"`. To tell a credit stop apart from other failures, check `stopReason` instead of the `error` text. `stopReason` is `credit_limit_reached` when the run ran out of budget.
+
+`data` is only set on completed runs, never on a failed one. A failed credit-stop run may include what the agent had gathered before it stopped:
+
+| Field | Type | Description |
+| - | - | - |
+| `stopReason` | string | Why the run stopped early. Currently only `credit_limit_reached`. |
+| `partial` | any | Best-effort JSON recovered from the incomplete run. It can be missing rows or fields. |
+| `partialSchemaValid` | boolean | Only present when the request included a `schema`. Whether `partial` validates against it. |
+| `message` | string | A short note on what is incomplete, when available. |
+
+These fields only appear once a run has failed. While a run is `processing`, the status response never includes a partial.
+
+
+  Use `partial` with care. It is incomplete, so don't store it as a finished result, and check `partialSchemaValid` before you parse it with your schema. Not every credit stop returns a `partial`, so handle runs that have only `stopReason`.
+
+
+To finish the work, continue the run's thread with a follow-up prompt. The previous `partial` is restored for the agent and labelled incomplete, so the follow-up continues from it instead of starting over. A follow-up inherits the previous turn's `schema` and `urls` but not `maxCredits`, so set a budget for it.
+
+<CodeGroup>
+  ```python Python
+  from firecrawl import Firecrawl
+  from pydantic import BaseModel
+  from typing import List
+
+  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+  class Company(BaseModel):
+      name: str
+      website: str
+
+  class CompaniesSchema(BaseModel):
+      companies: List[Company]
+
+  result = app.agent(
+      prompt="Find every company in the YC W24 batch that builds developer tools",
+      schema=CompaniesSchema,
+      max_credits=100
+  )
+
+  if result.status == "completed":
+      print(result.data)
+  elif result.status == "failed" and result.stop_reason == "credit_limit_reached":
+      # `data` is never set on a failed run. `partial` is best-effort and may be missing.
+      if result.partial is not None:
+          if result.partial_schema_valid is not True:
+              print("The partial result does not match the schema yet.")
+          print(result.message, result.partial)
+
+      # Continue the same thread. The agent picks up from the incomplete result.
+      # The follow-up inherits the schema but not max_credits, so set a budget.
+      follow_up = app.agent(
+          thread_id=result.thread_id,
+          prompt="Continue and finish the list.",
+          max_credits=200
+      )
+      print(follow_up.status, follow_up.data)
+  else:
+      print(result.error)
+  ```
+
+  ```js Node
+  import { Firecrawl } from 'firecrawl';
+  import { z } from 'zod';
+
+  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+  const result = await firecrawl.agent({
+    prompt: "Find every company in the YC W24 batch that builds developer tools",
+    schema: z.object({
+      companies: z.array(z.object({
+        name: z.string(),
+        website: z.string()
+      }))
+    }),
+    maxCredits: 100
+  });
+
+  if (result.status === "completed") {
+    console.log(result.data);
+  } else if (result.status === "failed" && result.stopReason === "credit_limit_reached") {
+    // `data` is never set on a failed run. `partial` is best-effort and may be missing.
+    if (result.partial !== undefined) {
+      if (result.partialSchemaValid !== true) {
+        console.warn("The partial result does not match the schema yet.");
+      }
+      console.log(result.message, result.partial);
+    }
+
+    // Continue the same thread. The agent picks up from the incomplete result.
+    // The follow-up inherits the schema but not maxCredits, so set a budget.
+    const followUp = await firecrawl.agent({
+      threadId: result.threadId,
+      prompt: "Continue and finish the list.",
+      maxCredits: 200
+    });
+    console.log(followUp.status, followUp.data);
+  } else {
+    console.error(result.error);
+  }
+  ```
+
+  ```bash cURL
+  # 1. Poll the run. A credit stop reports "status": "failed" with "stopReason": "credit_limit_reached".
+  curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
+    -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+
+  # 2. Continue the same thread to finish the work.
+  curl -X POST "https://api.firecrawl.dev/v2/agent" \
+    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "threadId": "<threadId from the failed run>",
+      "prompt": "Continue and finish the list.",
+      "maxCredits": 200
+    }'
+  ```
+</CodeGroup>
+
+#### Credit-limit Example
+
+```json JSON theme={null}
+{
+  "success": true,
+  "status": "failed",
+  "error": "Agent reached max credits",
+  "stopReason": "credit_limit_reached",
+  "partial": {
+    "companies": [
+      { "name": "Acme", "website": "https://acme.dev" },
+      { "name": "Globex" }
+    ]
+  },
+  "partialSchemaValid": false,
+  "message": "Credit limit reached; this result is incomplete.",
+  "threadId": "0199bbbb-0000-7000-8000-000000000000",
+  "threadTurn": 1,
+  "expiresAt": "2024-12-15T00:00:00.000Z",
+  "creditsUsed": 0
+}
+```
+
+When you read a thread with `GET /v2/agent/threads/{threadId}?includeData=true` (`getAgentThread` in Node, `get_agent_thread` in Python), a run that ended with a partial has `status: "credit_limit_reached"` and reports `partial`, `partialSchemaValid` and `stopReason` instead of `data`.
+
+If you started the run with a `webhook`, the [`agent.failed`](/webhooks/events#agentfailed) event carries the same `stopReason`, and `partial`, `partialSchemaValid` and `message` when they are available.
 
 ## Listing agent runs
 
@@ -721,9 +865,188 @@ The `model` parameter is optional — every request runs `spark-2`:
   ```
 </CodeGroup>
 
+## Use your connected Alexandria tools
+
+Agent can call your team's [Alexandria](/features/alexandria) data providers during a run, alongside the web. The [playground](https://www.firecrawl.dev/app/agent) turns them on for you. From the API and the SDKs, a run uses the web only until you send an `exchange` object, so a request without one never uses your providers.
+
+Send `exchange` with `enabled: true` to let the agent use every provider your team can use, or pin up to five with `toolkits`:
+
+<CodeGroup>
+  ```python Python
+  from firecrawl import Firecrawl
+
+  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+  result = app.agent(
+      prompt="Find recent podcast episodes about AI agents and who appeared on them",
+      exchange={
+          "enabled": True,
+          # Up to 5 provider slugs. Leave out to let the agent use every provider.
+          "toolkits": ["particle"],
+      },
+  )
+
+  print(result.data)
+  if result.exchange:
+      print(result.exchange.paid_calls, result.exchange.credits_used)
+  ```
+
+  ```js Node
+  import { Firecrawl } from 'firecrawl';
+
+  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+  const result = await firecrawl.agent({
+    prompt: "Find recent podcast episodes about AI agents and who appeared on them",
+    exchange: {
+      enabled: true,
+      // Up to 5 provider slugs. Leave out to let the agent use every provider.
+      toolkits: ["particle"]
+    }
+  });
+
+  console.log(result.data);
+  console.log(result.exchange?.paidCalls, result.exchange?.creditsUsed);
+  ```
+
+  ```bash cURL
+  curl -X POST "https://api.firecrawl.dev/v2/agent" \
+    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "prompt": "Find recent podcast episodes about AI agents and who appeared on them",
+      "exchange": {
+        "enabled": true,
+        "toolkits": ["particle"]
+      }
+    }'
+  ```
+</CodeGroup>
+
+| Field | What it does |
+| - | - |
+| `enabled` | Lets the agent call providers. Defaults to `true` once you send `exchange`, so an empty object also turns them on. Send `false` to turn them off for one turn of a thread. |
+| `toolkits` | Up to 5 provider slugs, such as `["apollo"]`. The agent uses only those. Empty or left out means every provider your team can use. |
+| `maxCalls` | The most provider calls the agent may make in one turn, from 1 to 30. Defaults to 16. |
+| `requireApproval` | Stops the turn before any paid provider call and ends it with a `pendingApproval` for you to answer. Needs `mode: "chat"` on the same request. Defaults to `false`. |
+| `approve`, `decline` | Answer the previous turn's `pendingApproval` on the next turn of the thread. See [Approve paid calls before they run](#approve-paid-calls-before-they-run). |
+| `onTermsRequired` | What to do when a provider needs data terms your team hasn't accepted. See [Data providers that need terms](#data-providers-that-need-terms). |
+
+The status response's `exchange` object reports what the run did: `enabled`, the `toolkits` and `requireApproval` it ran with, `paidCalls` (paid provider calls it made) and `creditsUsed` (what those calls cost, `null` when none were recorded).
+
+### Follow-up turns
+
+A follow-up turn of a thread (a request with `threadId`) that leaves out `exchange` keeps the previous turn's settings. If it sends an `exchange` object, `toolkits` and `onTermsRequired` still carry over when left out, but `enabled`, `maxCalls` and `requireApproval` go back to their defaults unless you send them again.
+
+### Approve paid calls before they run
+
+With `requireApproval: true`, the agent stops before its first paid provider call and the turn ends with a `pendingApproval` of `kind: "calls"`. It carries an `id`, the agent's `reason`, and the `calls` it wants to make, each with an `id`, `provider`, `capability`, `input` and `creditsEstimate`. Show them to your user, then answer on the next turn of the same thread:
+
+* `exchange.approve: { "approvalId": "<pendingApproval.id>" }` runs the calls. Add `callIds` to run only some of them, or `always: true` to stop asking for the rest of the thread.
+* `exchange.decline: { "approvalId": "<pendingApproval.id>" }` skips them, and the agent answers without them.
+
+Send `requireApproval: true` again on the answering turn to keep later paid calls waiting for approval. Both turns need `mode: "chat"`.
+
+<CodeGroup>
+  ```python Python
+  from firecrawl import Firecrawl
+
+  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+  # requireApproval needs chat mode on every request that sends it.
+  first = app.agent(
+      prompt="Find the head of engineering at Firecrawl and a verified work email",
+      mode="chat",
+      exchange={"enabled": True, "toolkits": ["apollo"], "requireApproval": True},
+  )
+
+  approval = first.pending_approval
+  if approval is None or approval.is_terms:
+      print(first.data or first.message)
+  else:
+      for call in approval.calls or []:
+          print(call.provider, call.capability, call.credits_estimate)
+
+      # Answer on the next turn of the same thread. Sending requireApproval again
+      # keeps later paid calls waiting for approval too.
+      result = app.agent(
+          thread_id=first.thread_id,
+          prompt="Approved, go ahead.",
+          mode="chat",
+          exchange={"requireApproval": True, "approve": {"approvalId": approval.id}},
+          # To refuse instead: exchange={"decline": {"approvalId": approval.id}}
+      )
+      print(result.data or result.message)
+  ```
+
+  ```js Node
+  import { Firecrawl } from 'firecrawl';
+
+  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+  // requireApproval needs chat mode on every request that sends it.
+  const first = await firecrawl.agent({
+    prompt: "Find the head of engineering at Firecrawl and a verified work email",
+    mode: "chat",
+    exchange: { enabled: true, toolkits: ["apollo"], requireApproval: true }
+  });
+
+  const approval = first.pendingApproval;
+  if (!approval || approval.kind === "terms") {
+    console.log(first.data ?? first.message);
+  } else {
+    for (const call of approval.calls) {
+      console.log(call.provider, call.capability, call.creditsEstimate);
+    }
+
+    // Answer on the next turn of the same thread. Sending requireApproval again
+    // keeps later paid calls waiting for approval too.
+    const result = await firecrawl.agent({
+      threadId: first.threadId,
+      prompt: "Approved, go ahead.",
+      mode: "chat",
+      exchange: { requireApproval: true, approve: { approvalId: approval.id } }
+      // To refuse instead: exchange: { decline: { approvalId: approval.id } }
+    });
+    console.log(result.data ?? result.message);
+  }
+  ```
+
+  ```bash cURL
+  # 1. Start a run that asks before any paid provider call.
+  curl -X POST "https://api.firecrawl.dev/v2/agent" \
+    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "prompt": "Find the head of engineering at Firecrawl and a verified work email",
+      "mode": "chat",
+      "exchange": { "enabled": true, "toolkits": ["apollo"], "requireApproval": true }
+    }'
+
+  # 2. Poll the run. When it ends with a pendingApproval, read its id and calls.
+  curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
+    -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+
+  # 3. Approve on the next turn of the same thread, or send
+  #    "decline": { "approvalId": "<pendingApproval.id>" } instead.
+  curl -X POST "https://api.firecrawl.dev/v2/agent" \
+    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "threadId": "<threadId from the first run>",
+      "prompt": "Approved, go ahead.",
+      "mode": "chat",
+      "exchange": {
+        "requireApproval": true,
+        "approve": { "approvalId": "<pendingApproval.id>" }
+      }
+    }'
+  ```
+</CodeGroup>
+
 ## Data providers that need terms
 
-Agent can call [Alexandria](/features/alexandria) data providers during a run, but only the ones whose data terms your team has accepted. A provider whose terms you haven't accepted is never called, whatever `exchange.onTermsRequired` is set to. The run carries on with the providers it can use, and the status response reports what it skipped.
+When a run uses [Alexandria](/features/alexandria) data providers, it only calls the ones whose data terms your team has accepted. A provider whose terms you haven't accepted is never called, whatever `exchange.onTermsRequired` is set to. The run carries on with the providers it can use, and the status response reports what it skipped.
 
 There is no auto-accept mode. Accepting a provider's terms always needs a person to agree to them, either in the [dashboard](https://www.firecrawl.dev/app/settings?tab=data-sources) or through a `terms/accept` call your application makes after its user has explicitly agreed. If you build an agent on top of Firecrawl, it must ask its user before calling `terms/accept`. A request for data isn't consent to a provider's terms.
 
@@ -842,7 +1165,16 @@ In `skip` mode there's no pending approval to answer. After the terms are accept
 | `schema` | object | No | Optional JSON schema for structured output |
 | `strictConstrainToURLs` | boolean | No | If `true`, the agent only visits the URLs provided in the `urls` array |
 | `webhook` | object | No | Webhook to receive agent lifecycle events (`agent.started`, `agent.action`, `agent.completed`, `agent.failed`, `agent.cancelled`). See the [webhook payloads](/api-reference/endpoint/webhook-agent-started) |
-| `maxCredits` | number | No | Maximum number of credits to spend on this agent task. Defaults to **2,500** if not set. The dashboard supports values up to **2,500**; for higher limits, set `maxCredits` via the API (values above 2,500 are always treated as paid requests). If the limit is reached, the job fails and **no data is returned**. Failed runs are not billed: credits used for AI reasoning are never charged on failure, any credits used for tool calls during the run (scraping, search, mapping, etc.) are refunded, and the response reports `creditsUsed: 0`. |
+| `maxCredits` | number | No | Maximum number of credits to spend on this agent task. Defaults to **2,500** if not set. The dashboard supports values up to **2,500**; for higher limits, set `maxCredits` via the API (values above 2,500 are always treated as paid requests). If the limit is reached, the job fails with `stopReason: "credit_limit_reached"` and **no `data` is returned**. The response may include a best-effort `partial`; see [Handling credit-limit stops](#handling-credit-limit-stops). Failed runs are not billed: credits used for AI reasoning are never charged on failure, any credits used for tool calls during the run (scraping, search, mapping, etc.) are refunded, and the response reports `creditsUsed: 0`. |
+| `threadId` | string | No | Continue an existing thread: the `threadId` an earlier run returned. Left-out `urls`, `schema`, `effort`, `mode` and `exchange` settings carry over from the previous turn |
+| `mode` | string | No | `extract` (default) returns the full structured result in `data` every turn. `chat` lets a follow-up that asks for no new data get a short reply in `message`. Required for `exchange.requireApproval` |
+| `exchange` | object | No | Lets the agent call your team's Alexandria data providers. Without it the run uses the web only. See [Use your connected Alexandria tools](#use-your-connected-alexandria-tools) |
+| `exchange.enabled` | boolean | No | Lets the agent call providers. Defaults to `true` once `exchange` is sent |
+| `exchange.toolkits` | array | No | Up to 5 provider slugs to pin. Empty or left out means every provider your team can use |
+| `exchange.maxCalls` | integer | No | The most provider calls per turn, from 1 to 30. Defaults to 16 |
+| `exchange.requireApproval` | boolean | No | Ends the turn with a `pendingApproval` before any paid provider call. Needs `mode: "chat"`. Defaults to `false` |
+| `exchange.approve` | object | No | `{ approvalId, callIds?, always? }`: approves the previous turn's `pendingApproval`. Needs `threadId`. See [Approve paid calls before they run](#approve-paid-calls-before-they-run) |
+| `exchange.decline` | object | No | `{ approvalId }`: declines the previous turn's `pendingApproval`. Needs `threadId` |
 | `exchange.onTermsRequired` | string | No | What to do when an Alexandria data provider the agent would use needs terms your team has not accepted: `skip` (default) or `ask`. See [Data providers that need terms](#data-providers-that-need-terms) |
 
 ## Agent vs Extract: What's Improved
@@ -895,7 +1227,7 @@ Firecrawl Agent uses **dynamic billing** that scales with the complexity of your
 
 ### How Agent pricing works
 
-Agent pricing is **dynamic and credit-based** during Research Preview:
+Agent pricing is **dynamic and credit-based**:
 
 * **Simple extractions** (like contact info from a single page) typically use fewer credits and cost less
 * **Complex research tasks** (like competitive analysis across multiple domains) use more credits but reflect the total effort involved
@@ -908,7 +1240,7 @@ Agent pricing is **dynamic and credit-based** during Research Preview:
 
 ### Parallel Agents Pricing
 
-If you are running multiple agents in parallel with Spark-1 Fast, pricing is a lot more predictable at 10 credits per cell.
+If you are running multiple agents in parallel with Spark-2 Fast, pricing is a lot more predictable at 10 credits per cell.
 
 ### Getting started
 
@@ -929,8 +1261,7 @@ Agent can be expensive, but there are some ways to decrease the cost:
 
 Try Agent now at [firecrawl.dev/app/agent](https://www.firecrawl.dev/app/agent) to see how credit usage scales with your specific use cases.
 
-
-  Pricing is subject to change as we move from Research Preview to general availability. Current users will receive advance notice of any pricing updates.
-
-
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

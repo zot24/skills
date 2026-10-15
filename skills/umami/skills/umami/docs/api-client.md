@@ -20,9 +20,12 @@ Clients
 Copy page
 
 
+Call the Umami API from TypeScript or JavaScript with the @umami/api-client package, on a self-hosted instance or Umami Cloud.
+
+
 ## Overview<a href="#overview" class="heading-anchor" aria-label="Permalink to “Overview”">#</a>
 
-Umami API Client is built in TypeScript and contains functions to call every API endpoint available in Umami.
+The Umami API client is built in TypeScript and contains functions to call every API endpoint available in Umami.
 
 ## Requirements<a href="#requirements" class="heading-anchor" aria-label="Permalink to “Requirements”">#</a>
 
@@ -86,7 +89,7 @@ The result will come back in the following format.
 ```
 
 
-## API Client function mapping<a href="#api-client-function-mapping" class="heading-anchor" aria-label="Permalink to “API Client function mapping”">#</a>
+## API client function mapping<a href="#api-client-function-mapping" class="heading-anchor" aria-label="Permalink to “API client function mapping”">#</a>
 
 ### Me<a href="#me" class="heading-anchor" aria-label="Permalink to “Me”">#</a>
 
@@ -94,7 +97,7 @@ The result will come back in the following format.
 ``` code-block
 getMe() ⇒ GET /me
 updateMyPassword(data) ⇒ POST /me/password
-getMyWebsites() ⇒ GET /me/websites
+getMyWebsites(params) ⇒ GET /me/websites
 ```
 
 
@@ -102,13 +105,11 @@ getMyWebsites() ⇒ GET /me/websites
 
 
 ``` code-block
-getUsers() ⇒ GET /users
 createUser(data) ⇒ POST /users
-getUser(id) ⇒ GET /users/{id}
-updateUser(id, data) ⇒ POST /users/{id}
-deleteUser(id) ⇒ DEL /users/{id}
-getUserWebsites(id) ⇒ GET /users/{id}/websites
-getUserUsage(id, data) ⇒ GET /users/{id}/usage
+getUser(userId) ⇒ GET /users/{userId}
+updateUser(userId, data) ⇒ POST /users/{userId}
+deleteUser(userId) ⇒ DELETE /users/{userId}
+getUserWebsites(userId, params) ⇒ GET /users/{userId}/websites
 ```
 
 
@@ -116,17 +117,15 @@ getUserUsage(id, data) ⇒ GET /users/{id}/usage
 
 
 ``` code-block
-getTeams() ⇒ GET /teams
+getTeams(params) ⇒ GET /teams
 createTeam(data) ⇒ POST /teams
 joinTeam(data) ⇒ POST /teams/join
-getTeam(id) ⇒ GET /teams/{id}
-updateTeam(id, data) ⇒ POST /teams/{id}
-deleteTeam(id) ⇒ DEL /teams/{id}
-getTeamUsers(id) ⇒ GET /teams/{id}/users
-deleteTeamUser(teamId, userId) ⇒ DEL /teams/{teamId}/users/{userId}
-getTeamWebsites(id) ⇒ GET /teams/{id}/websites
-createTeamWebsites(id, data) ⇒ POST /teams/{id}/websites
-deleteTeamWebsite(teamId, websiteId) ⇒ DEL /teams/{teamId}/websites/{websiteId}
+getTeam(teamId) ⇒ GET /teams/{teamId}
+updateTeam(teamId, data) ⇒ POST /teams/{teamId}
+deleteTeam(teamId) ⇒ DELETE /teams/{teamId}
+getTeamUsers(teamId, params) ⇒ GET /teams/{teamId}/users
+deleteTeamUser(teamId, userId) ⇒ DELETE /teams/{teamId}/users/{userId}
+getTeamWebsites(teamId, params) ⇒ GET /teams/{teamId}/websites
 ```
 
 
@@ -134,27 +133,27 @@ deleteTeamWebsite(teamId, websiteId) ⇒ DEL /teams/{teamId}/websites/{websiteId
 
 
 ``` code-block
-getWebsites() ⇒ GET /websites
+getWebsites(params) ⇒ GET /websites
 createWebsite(data) ⇒ POST /websites
-getWebsite(id) ⇒ GET /websites/{id}
-updateWebsite(id, data) ⇒ POST /websites/{id}
-deleteWebsite(id) ⇒ DEL /websites/{id}
-getWebsiteActive(id) ⇒ GET /websites/{id}/active
-getWebsiteEvents(id, data) ⇒ GET /websites/{id}/events
-getWebsiteMetrics(id, data) ⇒ GET /websites/{id}/metrics
-getWebsitePageviews(id, data) ⇒ GET /websites/{id}/pageviews
-resetWebsite(id) ⇒ POST /websites/{id}/reset
-getWebsiteStats(id, data) ⇒ GET /websites/{id}/stats
+getWebsite(websiteId) ⇒ GET /websites/{websiteId}
+updateWebsite(websiteId, data) ⇒ POST /websites/{websiteId}
+deleteWebsite(websiteId) ⇒ DELETE /websites/{websiteId}
+getWebsiteActive(websiteId) ⇒ GET /websites/{websiteId}/active
+getWebsiteEvents(websiteId, params) ⇒ GET /websites/{websiteId}/events
+getWebsiteMetrics(websiteId, params) ⇒ GET /websites/{websiteId}/metrics
+getWebsitePageviews(websiteId, params) ⇒ GET /websites/{websiteId}/pageviews
+resetWebsite(websiteId) ⇒ POST /websites/{websiteId}/reset
+getWebsiteStats(websiteId, params) ⇒ GET /websites/{websiteId}/stats
 ```
 
 
-### Event Data<a href="#event-data" class="heading-anchor" aria-label="Permalink to “Event Data”">#</a>
+### Event data<a href="#event-data" class="heading-anchor" aria-label="Permalink to “Event data”">#</a>
 
 
 ``` code-block
-getEventDataEvents(id, data) ⇒ GET /event-data/events
-getEventDataFields(id, data) ⇒ GET /event-data/fields
-getEventDataStats(id, data) ⇒ GET /event-data/stats
+getEventDataEvents(websiteId, params) ⇒ GET /websites/{websiteId}/event-data/events
+getEventDataFields(websiteId, params) ⇒ GET /websites/{websiteId}/event-data/fields
+getEventDataStats(websiteId, params) ⇒ GET /websites/{websiteId}/event-data/stats
 ```
 
 

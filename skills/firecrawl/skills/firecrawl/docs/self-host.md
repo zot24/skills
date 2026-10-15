@@ -255,3 +255,6 @@ docker compose logs --tail=200 api playwright-service
 ### Scrape request times out
 
 If the scrape times out, confirm the deployment can reach `https://example.com` and that the API and Playwright services are running. Keep curl's `--max-time` longer than the request body's `timeout` so the API can return its own timeout response.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

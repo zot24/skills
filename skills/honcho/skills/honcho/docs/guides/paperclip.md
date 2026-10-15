@@ -134,3 +134,4 @@ The plugin registers the following Honcho tools for Paperclip agents:
     Review how `observe_me` and `observe_others` change what peers can model.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

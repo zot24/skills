@@ -3,6 +3,8 @@
 ---
 title: AI SDK Tools
 description: Let an AI agent post messages, send DMs, react, edit, and delete inside your workspace, with approval required for writes by default.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/usage
@@ -14,15 +16,13 @@ related:
   - /docs/approvals
 ---
 
-# AI SDK Tools
-
-
-  Building on TanStack AI instead of the AI SDK? `createTanStackTools` in
-  `chat/ai/tanstack` returns the same tools for `chat({ tools })`. See
-  [TanStack AI](/docs/ai/tanstack-ai).
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 `createChatTools` exposes Chat SDK operations as [AI SDK](https://ai-sdk.dev) tools so an agent can act inside the same workspaces your bot is connected to: read messages, post replies, send DMs, react, edit, delete, and manage thread subscriptions across every adapter you've registered.
+
+> Building on TanStack AI instead of the AI SDK? `createTanStackTools` in
+> `chat/ai/tanstack` returns the same tools for `chat({ tools })`. See
+> [TanStack AI](/docs/ai/tanstack-ai).
 
 Write operations and arbitrary `getUser` profile lookups require user approval by default. Turn approval off globally or per tool when you want unattended execution.
 
@@ -36,12 +36,14 @@ import { createChatTools } from "chat/ai";
 
 `ai` and `zod` are optional peer dependencies. Install them if you haven't already:
 
+```bash
+pnpm add ai zod
+```
 
-  Pair `createChatTools` with [`toAiMessages`](/docs/ai/to-ai-messages)
-  to feed prior thread history into the agent before it picks a tool.
-  Both ship from the same `chat/ai` subpath, which keeps the optional
-  `ai` / `zod` peer deps out of bundles that don't import them.
-
+> Pair `createChatTools` with [`toAiMessages`](/docs/ai/to-ai-messages)
+> to feed prior thread history into the agent before it picks a tool.
+> Both ship from the same `chat/ai` subpath, which keeps the optional
+> `ai` / `zod` peer deps out of bundles that don't import them.
 
 ## Quick start
 
@@ -65,6 +67,7 @@ const result = await generateText({
   tools: createChatTools({
     chat,
     preset: "messenger",
+    scope: "slack:C0123ABC",
     requireApproval: false, // unattended script, no human-in-the-loop needed
   }),
   prompt:
@@ -127,7 +130,7 @@ bot.onNewMention(async (thread, message) => {
 
 `scope` accepts a `Thread`, a `Channel`, or a raw id. By default, scoping is channel-level: a call is allowed when it resolves to the same channel as the scoped conversation. That blocks the cross-channel read described above but, matching a channel-membership model, still lets the agent operate on sibling threads within the channel.
 
-Tools built inside a handler use the handler's conversation as their scope, so the common case needs no extra argument:
+Tools called inside a handler with a conversation use that conversation as their scope, so the common case needs no extra argument:
 
 ```typescript title="lib/bot.ts" lineNumbers
 bot.onNewMention(async (thread, message) => {
@@ -144,9 +147,7 @@ bot.onNewMention(async (thread, message) => {
 
 Pass `scope` explicitly when the agent runs outside a handler, such as a queued job that still answers on a user's behalf. Pass a channel id there if the agent legitimately needs to operate across the threads in a channel.
 
-
-  Agents created outside a handler have no conversation to inherit, so their tools are unrestricted and a warning is logged. Pass `scope` there, or `scope: false` to say workspace-wide access is intended.
-
+> Inside a handler that has no conversation, such as an action in App Home or inside a modal, an options-load handler, or a modal opened outside a thread or channel, calls without a `scope` are rejected before accessing the platform. Outside any handler, such as a cron job or script, they run workspace-wide and log a warning. Pass `scope` explicitly in both cases. A modal keeps its context while it stays open, so resubmitting after validation errors still has a scope. The context is removed when the modal closes and expires after 24 hours, so a duplicate delivery after that has no scope. On Slack, a pushed view shares its context with the view beneath it, so closing or submitting the pushed view removes the context for both. Use `scope: false` only when workspace-wide access is intended.
 
 ### What `scope` does not do
 
@@ -156,8 +157,8 @@ It also does not cover `getUser` or `sendDirectMessage`, which target user ids r
 
 So within the scope you grant, tools follow the bot's access, not the user's:
 
-* A thread scope still allows reading the parent channel and its sibling threads, matching Slack's channel-membership model, where a user who can see a thread can see the channel around it.
-* A channel scope allows any thread in that channel, including independently permissioned threads on Discord or GitHub that the end user may not have access to.
+- A thread scope still allows reading the parent channel and its sibling threads, matching Slack's channel-membership model, where a user who can see a thread can see the channel around it.
+- A channel scope allows any thread in that channel, including independently permissioned threads on Discord or GitHub that the end user may not have access to.
 
 This channel-level default is coarser than the per-thread ACLs on platforms like Discord and GitHub, where one channel or repo holds independently permissioned threads. `scope` alone will not enforce per-user permissions there.
 
@@ -213,30 +214,50 @@ createChatTools({
 
 Conversation-scoped read tools (`fetchMessages`, `fetchThread`, `getChannelInfo`, …) and the `startTyping` indicator do not require approval. `getUser` is the exception because it accepts arbitrary user ids and can return profile details outside the active conversation.
 
-
-  `createChatTools` only marks a tool as needing approval. The AI SDK captures
-  the decision and can optionally sign it so a resumed approval can't be
-  forged. If you round-trip approvals through an
-  untrusted client and enable the AI SDK's `experimental_toolApprovalSecret`,
-  use a version of `ai` that includes the injective-payload signing fix
-  ([vercel/ai#17493](https://github.com/vercel/ai/pull/17493)).
-
+> `createChatTools` only marks a tool as needing approval. The AI SDK captures
+> the decision and can optionally sign it so a resumed approval can't be
+> forged. If you round-trip approvals through an
+> untrusted client and enable the AI SDK's `experimental_toolApprovalSecret`,
+> use a version of `ai` that includes the injective-payload signing fix
+> ([vercel/ai#17493](https://github.com/vercel/ai/pull/17493)).
 
 ## Cherry-picking tools
 
 Each tool is also exported as a standalone factory you can hand to `tools` directly:
 
-```typescript title="lib/agent.ts" lineNumbers
-import { fetchMessages, postMessage, addReaction } from "chat/ai";
+```typescript title="lib/bot.ts" lineNumbers
+import { addReaction, fetchMessages, postMessage } from "chat/ai";
 
-const tools = {
-  fetchMessages: fetchMessages(chat),
-  postMessage: postMessage(chat, { needsApproval: false }),
-  addReaction: addReaction(chat, { needsApproval: false }),
-};
+bot.onNewMention(async (thread, message) => {
+  const result = await generateText({
+    model: "openai/gpt-5",
+    tools: {
+      fetchMessages: fetchMessages(chat),
+      postMessage: postMessage(chat, { needsApproval: false }),
+      addReaction: addReaction(chat, { needsApproval: false }),
+    },
+    prompt: message.text,
+  });
+});
 ```
 
 Use these when you want a small toolset without going through `createChatTools`.
+
+Factories for tools that target a thread or channel accept the same `scope` and `strictScope` options as `createChatTools` and follow the same rules described in [Limiting what the agent can reach](#limiting-what-the-agent-can-reach). Called inside a handler, they use the conversation being handled. In background jobs, pass a scope:
+
+```typescript title="lib/jobs/digest.ts" lineNumbers
+import { fetchChannelMessages, postChannelMessage } from "chat/ai";
+
+const tools = {
+  fetchChannelMessages: fetchChannelMessages(chat, { scope: "slack:C123" }),
+  postChannelMessage: postChannelMessage(chat, {
+    scope: "slack:C123",
+    needsApproval: false,
+  }),
+};
+```
+
+Pass `scope: false` only when workspace-wide access is intended. `getUser` and `sendDirectMessage` target user ids, so they take no scope and stay gated by approval. Passing a guard function as the second argument of a read factory, or as `guard` on a write factory, still works but is deprecated in favor of `scope`.
 
 ## Tool overrides
 
@@ -306,6 +327,8 @@ Thread and channel ids use the full Chat SDK form: `slack:C123ABC:1234567890.123
 | `unsubscribeThread`  | Stop receiving non-mention messages in a thread      | required         |
 | `startTyping`        | Show a typing indicator in a scoped thread           | no approval      |
 
+`postMessage`, `postChannelMessage`, `sendDirectMessage`, and `editMessage` mark `markdown` and `raw` bodies with `aiGenerated: true`, so adapters with a native AI label, such as Teams, show it. Plain-string bodies are sent unchanged and unlabeled, so an `editMessage` call with a string body removes an existing label.
+
 ## API
 
 ### `createChatTools(options)`
@@ -326,15 +349,14 @@ type ChatToolPreset = "reader" | "messenger" | "moderator";
 type ReadScope = string | { id: string };
 ```
 
-| Option            | Description                                                                                                                                                                                                                                                                                                                 |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `chat`            | The `Chat` instance the tools dispatch operations against. Required.                                                                                                                                                                                                                                                        |
-| `preset`          | Preset (or array of presets) restricting which tools are returned. Omit to get every tool.                                                                                                                                                                                                                                  |
-| `requireApproval` | `true` (default), `false`, or per-tool overrides. Applies to every write tool and `getUser`; other read tools and `startTyping` do not require approval. `startTyping` still enforces conversation scope.                                                                                                                   |
-| `overrides`       | Per-tool customization of AI SDK `tool()` properties. Core properties such as `execute`, `inputSchema`, and `outputSchema` can't be overridden; see the full list above.                                                                                                                                                    |
-| `scope`           | Conversation the tools are confined to (reads and writes targeting a thread or channel; `getUser` and `sendDirectMessage` are exempt and approval-gated instead). Defaults to the conversation being handled. Pass a `Thread`, `Channel`, or `false` to reach every conversation the bot can see. Channel-level by default. |
-| `strictScope`     | `false` (default). Set `true` to tighten a thread `scope` to that thread alone, rejecting both sibling threads and the parent channel. A channel scope is unaffected.                                                                                                                                                       |
-
+| Option            | Description                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `chat`            | The `Chat` instance the tools dispatch operations against. Required.                                                                                                                                                                                                                                                                                                                                                                |
+| `preset`          | Preset (or array of presets) restricting which tools are returned. Omit to get every tool.                                                                                                                                                                                                                                                                                                                                          |
+| `requireApproval` | `true` (default), `false`, or per-tool overrides. Applies to every write tool and `getUser`; other read tools and `startTyping` do not require approval. `startTyping` still enforces conversation scope.                                                                                                                                                                                                                           |
+| `overrides`       | Per-tool customization of AI SDK `tool()` properties. Core properties such as `execute`, `inputSchema`, and `outputSchema` can't be overridden; see the full list above.                                                                                                                                                                                                                                                            |
+| `scope`           | Conversation the tools are confined to (reads and writes targeting a thread or channel; `getUser` and `sendDirectMessage` are exempt and approval-gated instead). Defaults to the conversation being handled. When no scope resolves, calls are rejected inside a handler and run with a warning outside one. Pass a `Thread`, `Channel`, raw id, or `false` to reach every conversation the bot can see. Channel-level by default. |
+| `strictScope`     | `false` (default). Set `true` to tighten a thread `scope` to that thread alone, rejecting both sibling threads and the parent channel. A channel scope is unaffected.                                                                                                                                                                                                                                                               |
 
 ---
 

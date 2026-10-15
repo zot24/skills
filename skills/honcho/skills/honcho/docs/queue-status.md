@@ -157,3 +157,6 @@ Below are the function signatures for the session level queue status method:
     }>
   ```
 </CodeGroup>
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

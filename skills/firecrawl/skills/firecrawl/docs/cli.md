@@ -229,6 +229,10 @@ firecrawl https://example.com --timing
 | `--json` | | Force JSON output even with single format |
 | `--pretty` | | Pretty print JSON output |
 | `--timing` | | Show request timing and other useful information |
+| `--alexandria <tool>` | | Run an [Alexandria](/features/alexandria) tool, given as `provider/capability`, instead of scraping a URL. Repeat to run more than one tool |
+| `--options <json>` | | JSON input for each Alexandria tool, in the same order |
+| `--request-id <id>` | | Request ID for an Alexandria run. Use the same ID to recover the same run |
+| `--domain-tools` | | Also return Alexandria tools that match the scraped URL. The tools do not run |
 
 ***
 
@@ -279,8 +283,11 @@ firecrawl search "firecrawl" --pretty -o results.json
 | Option | Description |
 | - | - |
 | `--limit <number>` | Maximum results (default: 5, max: 100) |
-| `--sources <sources>` | Sources to search: `web`, `images`, `news` (comma-separated) |
-| `--categories <categories>` | Filter by category: `research`, `pdf`, `developer` (comma-separated) |
+| `--sources <sources>` | Sources to search: `web`, `images`, `news`, `alexandria` (comma-separated, default: `web,alexandria`). Use `web` to omit Alexandria tools |
+| `--domain-tools` | Include Alexandria tools for the domains in web results (on by default with `alexandria`) |
+| `--no-domain-tools` | Turn off domain matching for Alexandria tools |
+| `--tool-detail <detail>` | Alexandria tool detail: `compact` (default), `summary`, or `full` (includes contracts) |
+| `--categories <categories>` | Filter by category: `research`, `pdf`, `developer`, `gov` (comma-separated) |
 | `--tbs <value>` | Time filter: `qdr:h` (hour), `qdr:d` (day), `qdr:w` (week), `qdr:m` (month), `qdr:y` (year) |
 | `--location <location>` | Geo-targeting (e.g., "Berlin,Germany") |
 | `--country <code>` | ISO country code (default: US) |
@@ -292,6 +299,48 @@ firecrawl search "firecrawl" --pretty -o results.json
 | `--json` | Output as JSON |
 | `--output <path>` | Save output to file |
 | `--pretty` | Pretty print JSON output |
+
+***
+
+### Alexandria
+
+Find and run data tools from [Alexandria](/features/alexandria), the Firecrawl catalogue of third-party data providers. Discovery is free. A tool run costs the price listed on the tool.
+
+```bash CLI theme={null}
+# Find tools for a task (tools only, no web results)
+firecrawl search alexandria "podcast conversations about AI agents"
+
+# Browse categories, then providers and their tools
+firecrawl alexandria list
+firecrawl list particle
+
+# Read the inputs and response of one tool
+firecrawl find-tools --options '{"providers":["particle"],"capabilities":["podcasts/episodes/search"],"level":"tools","expand":["options","response"]}' --json
+
+# Run the tool
+firecrawl scrape particle/podcasts/episodes/search --options '{"semantic_search":"AI agents","limit":2}'
+```
+
+`firecrawl scrape provider/capability` is a short form of `firecrawl scrape --alexandria provider/capability`. Tool addresses go directly to Alexandria. They never fall back to a URL scrape.
+
+#### Provider terms
+
+When a provider returns `THIRD_PARTY_DATA_TERMS_REQUIRED`, read its terms first:
+
+```bash CLI theme={null}
+firecrawl alexandria terms show particle --pretty
+```
+
+To accept, give the exact version and digest that you reviewed. Acceptance applies to the organization of your API key:
+
+```bash CLI theme={null}
+firecrawl alexandria terms accept particle \
+  --terms-version '<reviewed-version>' --digest '<reviewed-sha256>' --confirm
+```
+
+An agent must not accept terms on its own. It must show the terms to the user, get explicit approval, and wait. An org admin can also accept terms at [Data sources settings](https://www.firecrawl.dev/app/settings?tab=data-sources). After acceptance, run the original command again.
+
+Use `firecrawl alexandria feedback` to report issues or request capabilities, within 20 minutes of your last Alexandria search, discovery, or execution. Each submission refunds 1 credit, up to 10 credits per website and 100 credits per team each UTC day. Run `firecrawl alexandria feedback --help` for options.
 
 ***
 
@@ -312,6 +361,25 @@ firecrawl developer "how do I configure retries" --limit 10
 | `--json` | Output as compact JSON |
 | `--output <path>` | Save output to file |
 | `--pretty` | Pretty print JSON output |
+
+***
+
+### Government
+
+Search the [Firecrawl Government Index](/features/gov) — statutes, regulations, codes, court opinions, and other government publications from US federal, state, and local government sources.
+
+```bash CLI theme={null}
+firecrawl gov "food labeling requirements for allergens" --limit 10
+```
+
+**Available Options:**
+
+| Option | Description |
+| - | - |
+| `--limit <number>` | Number of results to return (default: 10, max: 100) |
+| `--json` | Output as compact JSON |
+| `--pretty` | Pretty print JSON output |
+| `--output <path>` | Save output to file |
 
 ***
 
@@ -752,3 +820,6 @@ The Firecrawl CLI and all three skill segments are open source on GitHub:
 * [`firecrawl/firecrawl-workflows`](https://github.com/firecrawl/firecrawl-workflows) — workflow skills (repeatable deliverables such as research briefs, SEO audits, lead lists, and design clones)
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

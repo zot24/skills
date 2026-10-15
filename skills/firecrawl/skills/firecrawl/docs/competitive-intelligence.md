@@ -70,3 +70,6 @@ Set up a pipeline that scrapes competitor sites on a schedule, extracts the data
 * [Product & E-commerce](/use-cases/product-ecommerce) - Track competitor products
 * [Investment & Finance](/use-cases/investment-finance) - Market intelligence
 * [SEO Platforms](/use-cases/seo-platforms) - search competitor tracking
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

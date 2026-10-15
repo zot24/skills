@@ -43,3 +43,4 @@ Use an SDK to search, scrape, and interact with the web without managing raw HTT
     Run Firecrawl from the command line.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

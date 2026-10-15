@@ -3,16 +3,16 @@
 ---
 title: Transcripts (deprecated)
 description: Configuration, methods, and entry shape for the deprecated cross-platform per-user transcript API.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 related:
   - /docs/history
 ---
 
-# Transcripts (deprecated)
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
-
-  `bot.transcripts` and the `transcripts` config key are deprecated. Use [`bot.history.user`](/docs/api/history#bothistoryuser) and the `history.user` config key instead. The API surface is identical. `bot.transcripts` will continue to work in the current major version.
-
+> `bot.transcripts` and the `transcripts` config key are deprecated. Use [`bot.history.user`](/docs/api/history#bothistoryuser) and the `history.user` config key instead. The API surface is identical. `bot.transcripts` will continue to work in the current major version.
 
 `bot.transcripts` provides per-user message persistence keyed by a stable cross-platform identifier. See the [History guide](/docs/history) for setup, usage patterns, and migration steps.
 
@@ -26,6 +26,11 @@ import { Chat } from "chat";
 
 ### ChatConfig.transcripts (deprecated → history.user)
 
+| Property         | Type                                    | Description                                                                                                                    |
+| ---------------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `retention`      | `number \| DurationString \| undefined` | List TTL, refreshed on every append. Accepts milliseconds or a duration string ("45s", "30m", "6h", "7d"). Omit for no expiry. |
+| `maxPerUser`     | `number \| false`                       | Hard cap per user. Older entries are evicted on append. Set \`false\` for no cap.                                              |
+| `storeFormatted` | `boolean`                               | Persist the mdast \`formatted\` field alongside \`text\`. Off by default to keep storage small.                                |
 
 ### ChatConfig.identity
 
@@ -37,6 +42,11 @@ Called once per inbound message during dispatch. The result is attached to the `
 
 #### IdentityContext
 
+| Property  | Type      | Description                             |
+| --------- | --------- | --------------------------------------- |
+| `adapter` | `string`  | Adapter name (e.g. "slack", "discord"). |
+| `author`  | `Author`  | Message author info.                    |
+| `message` | `Message` | The inbound message.                    |
 
 ## Methods
 
@@ -58,9 +68,18 @@ When `message` is a `Message`, `userKey` is read from the instance. If it's `und
 
 #### AppendInput
 
+| Property            | Type                                | Description                                                                  |
+| ------------------- | ----------------------------------- | ---------------------------------------------------------------------------- |
+| `role`              | `"user" \| "assistant" \| "system"` | Role tag for the entry.                                                      |
+| `text`              | `string`                            | Plain-text body.                                                             |
+| `formatted`         | `FormattedContent \| undefined`     | Optional mdast AST. Only stored when \`transcripts.storeFormatted\` is true. |
+| `platformMessageId` | `string \| undefined`               | Platform-native message ID, when known.                                      |
 
 #### AppendOptions
 
+| Property  | Type                  | Description                                                                                                  |
+| --------- | --------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `userKey` | `string \| undefined` | Required when appending an \`AppendInput\` (assistant or system role); ignored when appending a \`Message\`. |
 
 ### list
 
@@ -72,6 +91,13 @@ list(query: ListQuery): Promise<TranscriptEntry[]>;
 
 #### ListQuery
 
+| Property    | Type                                                 | Description                                                                                                            |
+| ----------- | ---------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
+| `userKey`   | `string`                                             | Cross-platform user key.                                                                                               |
+| `limit`     | `number`                                             | Maximum entries returned. Cannot exceed the stored entry count. \`maxPerUser\` limits storage unless set to \`false\`. |
+| `platforms` | `string[] \| undefined`                              | Filter to a subset of adapter names.                                                                                   |
+| `threadId`  | `string \| undefined`                                | Filter to a single thread.                                                                                             |
+| `roles`     | `("user" \| "assistant" \| "system")[] \| undefined` | Filter to specific roles.                                                                                              |
 
 ### count
 
@@ -93,6 +119,17 @@ Wipes every entry stored under the user key. Returns the count that was removed.
 
 Returned by `append` and `list`.
 
+| Property            | Type                                | Description                                                          |
+| ------------------- | ----------------------------------- | -------------------------------------------------------------------- |
+| `id`                | `string`                            | UUID assigned by the SDK at append time.                             |
+| `userKey`           | `string`                            | Cross-platform user key from the IdentityResolver.                   |
+| `role`              | `"user" \| "assistant" \| "system"` | Role tag.                                                            |
+| `text`              | `string`                            | Plain-text body. Use this field when building prompts.               |
+| `formatted`         | `FormattedContent \| undefined`     | mdast AST. Only present when \`transcripts.storeFormatted\` is true. |
+| `platform`          | `string`                            | Originating adapter name.                                            |
+| `threadId`          | `string`                            | Originating thread ID.                                               |
+| `platformMessageId` | `string \| undefined`               | Platform-native message ID, when known.                              |
+| `timestamp`         | `number`                            | Milliseconds since epoch, set at append time on the SDK side.        |
 
 ## Storage
 
@@ -104,9 +141,8 @@ The `retention` value is applied as the list TTL and refreshed on every append. 
 
 ## See also
 
-* [History API reference](/docs/api/history): the current API (`bot.history.user`, `bot.history.thread`, `bot.history.channel`)
-* [History guide](/docs/history): setup, patterns, and migration
-
+- [History API reference](/docs/api/history): the current API (`bot.history.user`, `bot.history.thread`, `bot.history.channel`)
+- [History guide](/docs/history): setup, patterns, and migration
 
 ---
 

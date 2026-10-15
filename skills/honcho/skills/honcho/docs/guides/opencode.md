@@ -194,3 +194,4 @@ Both write to `team-acme`; Honcho's dialectic reasoning draws on context from bo
     Learn about peers, sessions, and dialectic reasoning.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

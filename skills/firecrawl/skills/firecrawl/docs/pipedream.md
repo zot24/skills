@@ -38,3 +38,6 @@ Use the Firecrawl Pipedream app to scrape pages, crawl sites, search the web, ma
 
 * [Pipedream Firecrawl app](https://pipedream.com/apps/firecrawl/)
 * [Firecrawl API introduction](/api-reference/v2-introduction)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -3,6 +3,8 @@
 ---
 title: Introduction
 description: A unified SDK for building chat bots across Slack, Microsoft Teams, Google Chat, Discord, Telegram, and more.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: overview
 related:
   - /docs/getting-started
@@ -11,8 +13,7 @@ related:
   - /docs/ai
 ---
 
-# Introduction
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Chat SDK is a TypeScript library for building chat bots that run on multiple platforms from one codebase. You write the bot logic once and deploy it to any platform that has an [adapter](/adapters).
 
@@ -20,11 +21,11 @@ Chat SDK is a TypeScript library for building chat bots that run on multiple pla
 
 Each chat platform has its own API, webhook format, and quirks, so supporting several of them usually means maintaining separate code for each. Chat SDK puts those differences behind adapters and gives you one interface for:
 
-* Typed event handlers for mentions, messages, reactions, button clicks, slash commands, and modals
-* Thread subscriptions for multi-turn conversations
-* Cards, buttons, and modals written in JSX that render natively on each platform
-* Streaming LLM responses into a message
-* Serverless deployments, with distributed state in Redis and message deduplication
+- Typed event handlers for mentions, messages, reactions, button clicks, slash commands, and modals
+- Thread subscriptions for multi-turn conversations
+- Cards, buttons, and modals written in JSX that render natively on each platform
+- Streaming LLM responses into a message
+- Serverless deployments, with distributed state in Redis and message deduplication
 
 ## How it works
 
@@ -59,6 +60,17 @@ Adapter and state factories read their credentials from environment variables su
 
 Install only the adapters you need. Browse the full catalog on the [Adapters](/adapters) page, and compare official platform features on [Platform Adapters](/docs/platform-adapters#feature-matrix).
 
+#### [Adapter Catalog](/docs/adapter-catalog)
+
+List every adapter with its capabilities and setup requirements from one dependency-free package.
+
+#### [Platform Adapters](/docs/platform-adapters)
+
+Connect your bot to messaging platforms with webhook verification, parsing, and native formatting.
+
+#### [State Adapters](/docs/state-adapters)
+
+Persist thread subscriptions, distributed locks, and caches across restarts.
 
 ## AI coding agents
 
@@ -82,6 +94,13 @@ For agent-readable documentation, see [llms.txt](/llms.txt) (page index) or [llm
 
 Ship an adapter for a new platform, or list a vendor-maintained one in the catalog.
 
+#### [Build an adapter](/docs/contributing/building)
+
+Implement the Adapter interface for any messaging platform or state backend.
+
+#### [List a vendor-official adapter](/docs/contributing/vendor-official)
+
+How platform vendors qualify and list a maintained adapter in the Vendor Official tier.
 
 ---
 

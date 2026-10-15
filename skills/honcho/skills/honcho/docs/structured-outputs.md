@@ -297,3 +297,6 @@ The chat endpoint returns `None`/`null` when it has no relevant information. Wit
 ### Keep schemas focused
 
 A schema with three well-described fields outperforms one with twenty. If you need many distinct insights, consider making separate chat calls.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

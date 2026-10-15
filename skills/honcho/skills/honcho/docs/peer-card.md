@@ -237,3 +237,4 @@ Configuration can be set at the workspace, session, or message level. See [Reaso
     API reference for retrieving peer cards
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

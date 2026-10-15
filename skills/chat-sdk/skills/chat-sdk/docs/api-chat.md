@@ -3,14 +3,15 @@
 ---
 title: Chat
 description: The class that coordinates adapters, state, and event handlers for a multi-platform chat bot.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 related:
   - /docs/usage
   - /docs/handling-events
 ---
 
-# Chat
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 The `Chat` class coordinates adapters, state, and event handlers. Create one instance and register handlers for different event types.
 
@@ -24,6 +25,18 @@ import { Chat } from "chat";
 const bot = new Chat(config);
 ```
 
+| Property                           | Type                                                                                        | Description                                                                                                                                                                                                                                       |
+| ---------------------------------- | ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `userName`                         | `string`                                                                                    | Default bot username across all adapters.                                                                                                                                                                                                         |
+| `adapters`                         | `Record<string, Adapter>`                                                                   | Map of adapter name to adapter instance.                                                                                                                                                                                                          |
+| `dedupeTtlMs`                      | `number`                                                                                    | TTL for message deduplication entries in milliseconds. The default outlives the last Slack event retry, which arrives about 5 minutes after the original delivery. Increase it if your platform redelivers later than that.                       |
+| `state`                            | `StateAdapter`                                                                              | State adapter for subscriptions, locking, and caching.                                                                                                                                                                                            |
+| `logger`                           | `Logger \| "debug" \| "info" \| "warn" \| "error" \| "silent"`                              | Logger instance or log level.                                                                                                                                                                                                                     |
+| `streamingUpdateIntervalMs`        | `number`                                                                                    | Throttle interval for fallback streaming (post + edit) in milliseconds.                                                                                                                                                                           |
+| `fallbackStreamingPlaceholderText` | `string \| null`                                                                            | Placeholder text posted when fallback streaming (post + edit) starts. Set to \`null\` to wait for the first streamed text before posting.                                                                                                         |
+| `concurrency`                      | `"drop" \| "queue" \| "debounce" \| "burst" \| "concurrent" \| ConcurrencyConfig`           | What happens when a message arrives on a thread while a handler is still running. See \[Concurrency]\(/docs/concurrency).                                                                                                                         |
+| `lockScope`                        | `"thread" \| "channel" \| ((context: LockScopeContext) => LockScope \| Promise<LockScope>)` | Which messages share a lock: one per thread or one per channel. A function can choose per message. When unset, the adapter's default is used, which is \`"channel"\` for WhatsApp and Telegram. See \[Lock scope]\(/docs/concurrency#lock-scope). |
+| `history`                          | `HistoryConfig \| undefined`                                                                | Configuration for the History API's user, thread, and channel scopes. \`history.user\` includes the identity resolver. See \`bot.history\` below.                                                                                                 |
 
 These options are deprecated but still read, so existing bots keep working:
 
@@ -48,6 +61,10 @@ bot.onNewMention(async (thread, message) => {
 });
 ```
 
+| Property  | Type      | Description                              |
+| --------- | --------- | ---------------------------------------- |
+| `thread`  | `Thread`  | The thread where the mention occurred.   |
+| `message` | `Message` | The message that contains the @-mention. |
 
 ### onDirectMessage
 
@@ -59,6 +76,11 @@ bot.onDirectMessage(async (thread, message, channel) => {
 });
 ```
 
+| Property  | Type      | Description                               |
+| --------- | --------- | ----------------------------------------- |
+| `thread`  | `Thread`  | The DM thread where the message occurred. |
+| `message` | `Message` | The direct message.                       |
+| `channel` | `Channel` | The DM channel.                           |
 
 ### onSubscribedMessage
 
@@ -75,7 +97,7 @@ bot.onSubscribedMessage(async (thread, message) => {
 
 ### onNewMessage
 
-Fires for messages matching a regex pattern in unsubscribed threads.
+Fires for messages in unsubscribed threads that aren't DMs and don't mention the bot. Pass a regex to filter by message text, or pass only a handler to receive every such message, including attachment-only messages with empty text. All `onNewMessage` handlers run one after another in registration order.
 
 ```typescript
 bot.onNewMessage(/^!help/i, async (thread, message) => {
@@ -83,6 +105,18 @@ bot.onNewMessage(/^!help/i, async (thread, message) => {
 });
 ```
 
+```typescript
+bot.onNewMessage(async (thread, message) => {
+  await thread.post(`Received: ${message.text || "an attachment"}`);
+});
+```
+
+| Property  | Type                                                                            | Description                                                                                                                                                                   |
+| --------- | ------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pattern` | `RegExp`                                                                        | Optional regular expression tested against the message text. Omit it to receive every message that reaches pattern routing.                                                   |
+| `handler` | `(thread: Thread, message: Message, context?: MessageContext) => Promise<void>` | Handler called for each matching message. \`context\` is set by the \`queue\` and \`burst\` concurrency strategies. See \[MessageContext]\(/docs/concurrency#messagecontext). |
+
+The handler-only form doesn't receive DMs or mentions, even when no `onDirectMessage` or `onNewMention` handler is registered. Passing arguments in the wrong order, a `pattern` that isn't a `RegExp`, or no handler throws a `ChatError` when the handler is registered.
 
 ### onReaction
 
@@ -102,6 +136,15 @@ bot.onReaction([emoji.thumbs_up, emoji.heart], async (event) => {
 bot.onReaction(async (event) => { /* ... */ });
 ```
 
+| Property          | Type                   | Description                                          |
+| ----------------- | ---------------------- | ---------------------------------------------------- |
+| `event.emoji`     | `EmojiValue`           | Normalized emoji value. Supports \`===\` comparison. |
+| `event.rawEmoji`  | `string`               | Platform-specific emoji string.                      |
+| `event.added`     | `boolean`              | \`true\` if added, \`false\` if removed.             |
+| `event.user`      | `Author`               | The user who reacted.                                |
+| `event.thread`    | `Thread`               | The thread where the reaction occurred.              |
+| `event.message`   | `Message \| undefined` | The message that was reacted to, when available.     |
+| `event.messageId` | `string`               | The message ID that was reacted to.                  |
 
 ### onAction
 
@@ -122,6 +165,15 @@ bot.onAction(["approve", "reject"], async (event) => { /* ... */ });
 bot.onAction(async (event) => { /* ... */ });
 ```
 
+| Property          | Type                                                                               | Description                                                                                   |
+| ----------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| `event.actionId`  | `string`                                                                           | Action ID from the button or select.                                                          |
+| `event.value`     | `string \| undefined`                                                              | Optional payload value from the button.                                                       |
+| `event.values`    | `Record<string, string> \| undefined`                                              | The card's own input values, keyed by input ID. Absent where the platform has no card inputs. |
+| `event.user`      | `Author`                                                                           | User who triggered the action.                                                                |
+| `event.thread`    | `Thread \| null`                                                                   | The thread containing the card, or null for view-based actions.                               |
+| `event.triggerId` | `string \| undefined`                                                              | Trigger ID for opening modals. Platform-specific and may expire quickly.                      |
+| `event.openModal` | `(modal: ModalElement \| ChatElement) => Promise<{ viewId: string } \| undefined>` | Open a modal form in response to this action.                                                 |
 
 ### onModalSubmit
 
@@ -136,6 +188,15 @@ bot.onModalSubmit("feedback", async (event) => {
 });
 ```
 
+| Property                | Type                       | Description                                                                                      |
+| ----------------------- | -------------------------- | ------------------------------------------------------------------------------------------------ |
+| `event.callbackId`      | `string`                   | The callback ID specified when the modal was created.                                            |
+| `event.values`          | `Record<string, string>`   | Form field values keyed by input ID.                                                             |
+| `event.user`            | `Author`                   | User who submitted the modal.                                                                    |
+| `event.relatedThread`   | `Thread \| undefined`      | The thread the modal was opened from, when available.                                            |
+| `event.relatedMessage`  | `SentMessage \| undefined` | The message containing the action that opened the modal.                                         |
+| `event.relatedChannel`  | `Channel \| undefined`     | The channel the modal was opened from. Available when the modal was opened from a slash command. |
+| `event.privateMetadata` | `string \| undefined`      | Arbitrary string passed through the modal lifecycle.                                             |
 
 Returns `ModalResponse | undefined` to control the modal after submission:
 
@@ -160,6 +221,13 @@ bot.onOptionsLoad("assignee", async (event) => {
 
 Return an array of `OptionsLoadGroup` (`{ label, options }[]`) instead of a flat array to render grouped headers, such as "Recent" and "All". Slack allows at most 100 groups and 100 options per group.
 
+| Property         | Type      | Description                                                                                  |
+| ---------------- | --------- | -------------------------------------------------------------------------------------------- |
+| `event.actionId` | `string`  | The \`id\` of the select requesting options. Matches the id passed to \`bot.onOptionsLoad\`. |
+| `event.query`    | `string`  | The text the user has typed so far.                                                          |
+| `event.user`     | `Author`  | The user requesting options.                                                                 |
+| `event.adapter`  | `Adapter` | The adapter that received this event.                                                        |
+| `event.raw`      | `unknown` | Raw platform-specific payload.                                                               |
 
 ### onSlashCommand
 
@@ -182,6 +250,16 @@ bot.onSlashCommand(async (event) => {
 });
 ```
 
+| Property          | Type                                                                               | Description                                                |
+| ----------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| `event.command`   | `string`                                                                           | The command name, such as "/status".                       |
+| `event.text`      | `string`                                                                           | Arguments after the command.                               |
+| `event.user`      | `Author`                                                                           | The user who invoked the command.                          |
+| `event.channel`   | `Channel`                                                                          | The channel where the command was invoked.                 |
+| `event.triggerId` | `string \| undefined`                                                              | Trigger ID for opening modals. Expires after a short time. |
+| `event.openModal` | `(modal: ModalElement \| ChatElement) => Promise<{ viewId: string } \| undefined>` | Open a modal form in response to this command.             |
+| `event.adapter`   | `Adapter`                                                                          | The platform adapter.                                      |
+| `event.raw`       | `unknown`                                                                          | Platform-specific raw payload.                             |
 
 ### onModalClose
 
@@ -204,6 +282,14 @@ bot.onAssistantThreadStarted(async (event) => {
 });
 ```
 
+| Property          | Type                     | Description                                                              |
+| ----------------- | ------------------------ | ------------------------------------------------------------------------ |
+| `event.threadId`  | `string`                 | Encoded thread ID.                                                       |
+| `event.userId`    | `string`                 | The user who opened the thread.                                          |
+| `event.channelId` | `string`                 | The DM channel ID.                                                       |
+| `event.threadTs`  | `string`                 | Thread timestamp.                                                        |
+| `event.context`   | `AssistantThreadContext` | Where the thread was opened: channel, team, enterprise, and entry point. |
+| `event.adapter`   | `Adapter`                | The platform adapter.                                                    |
 
 ### onAssistantContextChanged
 
@@ -262,6 +348,11 @@ bot.onAppHomeOpened(async (event) => {
 });
 ```
 
+| Property          | Type      | Description                                  |
+| ----------------- | --------- | -------------------------------------------- |
+| `event.userId`    | `string`  | The user who opened the Home tab.            |
+| `event.channelId` | `string`  | The channel ID associated with the Home tab. |
+| `event.adapter`   | `Adapter` | The platform adapter.                        |
 
 ### onInstalled
 
@@ -274,6 +365,15 @@ bot.onInstalled(async (event) => {
 });
 ```
 
+| Property               | Type                     | Description                                                                             |
+| ---------------------- | ------------------------ | --------------------------------------------------------------------------------------- |
+| `event.action`         | `"add" \| "add-upgrade"` | Install action: "add" or "add-upgrade".                                                 |
+| `event.channelId`      | `string \| undefined`    | Normalized destination for the installation, safe to persist for later proactive posts. |
+| `event.conversationId` | `string`                 | Platform conversation ID of the installation location.                                  |
+| `event.id`             | `string`                 | Platform activity ID, useful for idempotency.                                           |
+| `event.userId`         | `string \| undefined`    | The user who installed the bot.                                                         |
+| `event.tenantId`       | `string \| undefined`    | Tenant the installation belongs to.                                                     |
+| `event.adapter`        | `Adapter`                | The platform adapter.                                                                   |
 
 ### onUninstalled
 
@@ -346,16 +446,13 @@ const { data: pulls } = await github.rest.pulls.list({
 
 The client uses the credentials from your adapter config. For multi-tenant or multi-workspace adapters (Slack, Linear, GitHub), it returns the client bound to the credentials for the current webhook request context.
 
+> The previous `.client` getter still works on all three adapters as a deprecated alias for `.webClient`, `.linearClient`, and `.octokit`.
 
-  The previous `.client` getter still works on all three adapters as a deprecated alias for `.webClient`, `.linearClient`, and `.octokit`.
-
-
-  Multi-tenant adapters (GitHub App without a fixed installation ID, Linear with per-org OAuth, Slack in multi-workspace mode) require a webhook handler context to resolve credentials when the native client getter is accessed. Calling it outside a handler throws.
-
-  For Slack, you can also bind a token explicitly outside a webhook with `adapter.withBotToken(token, () => adapter.webClient.…)`, for example in cron jobs or workflows. The same pattern is required when `botToken` is configured as an async resolver function, since `.webClient` resolves the token synchronously.
-
-  Single-tenant adapters (PAT, API key, static `botToken` string, or a synchronous `botToken` resolver) work anywhere.
-
+> Multi-tenant adapters (GitHub App without a fixed installation ID, Linear with per-org OAuth, Slack in multi-workspace mode) require a webhook handler context to resolve credentials when the native client getter is accessed. Calling it outside a handler throws.
+>
+> For Slack, you can also bind a token explicitly outside a webhook with `adapter.withBotToken(token, () => adapter.webClient.…)`, for example in cron jobs or workflows. The same pattern is required when `botToken` is configured as an async resolver function, since `.webClient` resolves the token synchronously.
+>
+> Single-tenant adapters (PAT, API key, static `botToken` string, or a synchronous `botToken` resolver) work anywhere.
 
 | Adapter | Getter          | Type                              |
 | ------- | --------------- | --------------------------------- |
@@ -379,7 +476,7 @@ const dm = await bot.openDM(message.author);
 
 Look up user information by user ID. Returns a `UserInfo` object with name, email, avatar, and bot status, or `null` if the user was not found.
 
-`bot.getUser` picks the adapter from the format of the user ID, so it only works for platforms whose IDs it can recognize: Slack (`U...` or `W...`), Microsoft Teams (`29:...`), Google Chat (`users/...`), Linear (UUID), and Discord, Telegram, and GitHub (numeric). For other adapters that implement `getUser`, such as X and Twilio, call the adapter directly with `bot.getAdapter("x").getUser(userId)`.
+`bot.getUser` picks the adapter from the format of the user ID, so it only works for platforms whose IDs it can recognize: Slack (`U...` or `W...`), Microsoft Teams (`29:...`), Google Chat (`users/...`), Linear (UUID), and Discord, Telegram, and GitHub (numeric). For other adapters that implement `getUser`, such as X, Twilio, and Twitch, call the adapter directly with `bot.getAdapter("x").getUser(userId)`.
 
 ```typescript
 const user = await bot.getUser("U123456");
@@ -393,6 +490,14 @@ console.log(user?.fullName); // "Alice Smith"
 const user = await bot.getUser(message.author);
 ```
 
+| Property    | Type                  | Description                                             |
+| ----------- | --------------------- | ------------------------------------------------------- |
+| `userId`    | `string`              | Platform-specific user ID.                              |
+| `userName`  | `string`              | Username or handle.                                     |
+| `fullName`  | `string`              | Display name or full name.                              |
+| `isBot`     | `boolean`             | Whether the user is a bot.                              |
+| `email`     | `string \| undefined` | Email address. Requires extra scopes on some platforms. |
+| `avatarUrl` | `string \| undefined` | Profile image URL.                                      |
 
 | Platform        | Constraints                                                                                                                                                                                       |
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -404,6 +509,7 @@ const user = await bot.getUser(message.author);
 | GitHub          | `email` is only returned if the user made it public or you authenticated with the `user:email` scope.                                                                                             |
 | Linear          | Returns the full profile, including email and avatar, for any active workspace member.                                                                                                            |
 | X               | Returns the name, username, and avatar. `email` is not returned. Call through the adapter, because X's numeric IDs aren't inferred.                                                               |
+| Twitch          | Returns the display name, login, and avatar from Get Users. `email` is not returned. Call through the adapter, because Twitch's numeric IDs aren't inferred.                                      |
 | Twilio          | Doesn't call Twilio. Returns a profile built from the phone number, with the number as `userId`, `userName`, and `fullName`.                                                                      |
 
 Fields that aren't available return `undefined`.
@@ -525,9 +631,7 @@ const { threads } = await bot.history.channel.listThreads(channel.id, {
 
 See [History API reference](/docs/api/history) for full details and the [History guide](/docs/history) for setup and patterns.
 
-
-  `bot.transcripts` is a deprecated alias for `bot.history.user`. Accessing either when user history is not configured throws.
-
+> `bot.transcripts` is a deprecated alias for `bot.history.user`. Accessing either when user history is not configured throws.
 
 ---
 

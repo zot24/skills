@@ -29,3 +29,6 @@ Firecrawl can be used inside of [Flowise the Chatflow builder](https://flowiseai
 3. Select the scrape mode to pick up a single page.
 4. Input target URL to be scraped.
 5. Use the resulting documents in your workflows.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

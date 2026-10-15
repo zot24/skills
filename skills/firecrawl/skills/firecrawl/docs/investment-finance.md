@@ -60,3 +60,6 @@ Turn public web data into structured financial signals. Firecrawl scrapes compan
 * [Competitive Intelligence](/use-cases/competitive-intelligence) - Track market competitors
 * [Deep Research](/use-cases/deep-research) - Comprehensive market analysis
 * [Lead Enrichment](/use-cases/lead-enrichment) - B2B investment opportunities
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -3,13 +3,14 @@
 ---
 title: Error Handling
 description: Handle rate limits, unsupported features, and other errors from adapters.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/usage
 ---
 
-# Error Handling
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Chat SDK throws typed errors for common failures such as rate limits, unsupported features, and lock conflicts. Import the core error classes from the `chat` package.
 
@@ -35,6 +36,11 @@ The base class for SDK errors. `RateLimitError`, `NotImplementedError`, and `Loc
 | `NOT_IMPLEMENTED`        | Any platform call              | The adapter doesn't implement this feature; see `NotImplementedError` below            |
 | `LOCK_FAILED`            | Inbound message routing        | Distributed lock was busy; see `LockError` below                                       |
 
+| Property  | Type                   | Description                                    |
+| --------- | ---------------------- | ---------------------------------------------- |
+| `message` | `string`               | Human-readable error message.                  |
+| `code`    | `string`               | Machine-readable error code (see table above). |
+| `cause`   | `unknown \| undefined` | Original error that caused this one.           |
 
 ### RateLimitError
 
@@ -52,6 +58,10 @@ try {
 }
 ```
 
+| Property       | Type                  | Description                           |
+| -------------- | --------------------- | ------------------------------------- |
+| `code`         | `string`              | Always "RATE\_LIMITED".               |
+| `retryAfterMs` | `number \| undefined` | Milliseconds to wait before retrying. |
 
 ### NotImplementedError
 
@@ -69,6 +79,10 @@ try {
 }
 ```
 
+| Property  | Type                  | Description                      |
+| --------- | --------------------- | -------------------------------- |
+| `code`    | `string`              | Always "NOT\_IMPLEMENTED".       |
+| `feature` | `string \| undefined` | Name of the unsupported feature. |
 
 See the [feature matrix](/docs/platform-adapters) for which features are supported on each platform.
 
@@ -76,6 +90,9 @@ See the [feature matrix](/docs/platform-adapters) for which features are support
 
 Thrown when the SDK can't acquire the distributed lock it uses to stop two messages in the same thread from being processed at once. This happens under the default `drop` [concurrency strategy](/docs/concurrency). To queue, debounce, or run messages in parallel instead, set the `concurrency` option. To release the held lock instead of throwing, set the deprecated [`onLockConflict`](/docs/usage#configuration-options) option to `'force'`.
 
+| Property | Type     | Description            |
+| -------- | -------- | ---------------------- |
+| `code`   | `string` | Always "LOCK\_FAILED". |
 
 ## Adapter errors
 
@@ -137,7 +154,6 @@ This option only exposes handler failures through the supplied promise. It does 
 Keep handlers short when awaiting them before responding. [Slack requires acknowledgement within three seconds](https://docs.slack.dev/apis/events-api/#responding-to-events), so move long-running work outside the webhook response path.
 
 Error propagation does not guarantee retries or durable delivery. SDK deduplication can skip redelivered events after a handler fails, so returning `500` alone does not ensure the handler runs again.
-
 
 ---
 

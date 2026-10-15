@@ -62,3 +62,6 @@ In this case you can simply
 
 Then you can make a `Session` for each thread of conversation and save
 `Messages` from the user and assistant in each turn of conversation
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

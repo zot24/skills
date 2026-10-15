@@ -51,3 +51,6 @@ The above scenarios indicate where summarization is not possible -- therefore, t
 Sometimes, gaps in context aren't an issue. In these cases, it's best to pass a reasonable token limit depending on your needs. Other cases demand exhaustive context -- don't pass a token limit and just let Honcho retrieve the ideal combination of summary and recent messages. Finally, if you don't care about the conversation at large and just want the last few messages, set `summary` to false and `tokens` to some multiple of your desired message count. Note that context messages are not paginated, so there's a hard limit on the number of messages that can be retrieved (currently 100,000 tokens).
 
 As a final note, remember that summaries are generated asynchronously and therefore may not be available immediately. If you batch-save a large number of messages, assume that summaries will not be available until those messages are processed, which can take seconds to minutes depending on the number of messages and the configured LLM provider. Exhaustive `get_context` calls performed during this time will likely just return the messages in the session.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

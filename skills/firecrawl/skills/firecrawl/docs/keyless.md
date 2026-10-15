@@ -63,3 +63,6 @@ If no Firecrawl tools appear, restart or reload the client after saving its MCP 
 
 
 For the current keyless allowance and plan limits, see [Rate limits](/rate-limits#keyless-no-api-key).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

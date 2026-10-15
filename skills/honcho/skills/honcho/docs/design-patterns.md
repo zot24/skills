@@ -127,3 +127,4 @@ Two things scopes are **not**:
     Fine-tune what gets reasoned about and how
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

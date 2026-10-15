@@ -3,6 +3,8 @@
 ---
 title: Documenting your adapter
 description: Write a README, configuration reference, and usage examples for your adapter.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/contributing/building
@@ -13,14 +15,11 @@ related:
   - /docs/adapters
 ---
 
-# Documenting your adapter
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Your README is what developers see on npm and GitHub before they install your adapter. Vercel-maintained adapters all use the structure below, so following it lets developers find install steps, credentials, and limitations where they expect them. Community adapters should meet the same bar.
 
-
-  The examples below describe a fictional Matrix adapter. `YOUR_PUBLISHED_ADAPTER_PACKAGE` is a placeholder, not a package to install. Replace it everywhere, including badges and imports, with the exact npm name of the adapter you own and have published. Verify the installation command and npm links before publishing your README.
-
+> The examples below describe a fictional Matrix adapter. `YOUR_PUBLISHED_ADAPTER_PACKAGE` is a placeholder, not a package to install. Replace it everywhere, including badges and imports, with the exact npm name of the adapter you own and have published. Verify the installation command and npm links before publishing your README.
 
 ## README structure
 
@@ -160,15 +159,13 @@ export interface MatrixAdapterConfig {
 }
 ```
 
-
-  TSDoc comments on exported interfaces and functions appear in IDE tooltips and generated `.d.ts` files. Keep them concise and factual.
-
+> TSDoc comments on exported interfaces and functions appear in IDE tooltips and generated `.d.ts` files. Keep them concise and factual.
 
 ### What not to document
 
-* Internal or private methods. They're implementation details.
-* Types re-exported from `chat` or `@chat-adapter/shared`. Link to the upstream docs instead.
-* Obvious behavior. `postMessage` posts a message and needs no further explanation.
+- Internal or private methods. They're implementation details.
+- Types re-exported from `chat` or `@chat-adapter/shared`. Link to the upstream docs instead.
+- Obvious behavior. `postMessage` posts a message and needs no further explanation.
 
 ## Sample messages file
 
@@ -218,11 +215,10 @@ Vercel-maintained adapters include a `sample-messages.md` file in their package 
 
 Before publishing, verify your documentation covers:
 
-* [ ] README with badges, install, quick start, env vars, config reference, platform setup
-* [ ] TSDoc comments on all exported interfaces and factory functions
-* [ ] `sample-messages.md` with real platform webhook payloads
-* [ ] Links to Chat SDK docs (`chat-sdk.dev`) where relevant
-
+- [ ] README with badges, install, quick start, env vars, config reference, platform setup
+- [ ] TSDoc comments on all exported interfaces and factory functions
+- [ ] `sample-messages.md` with real platform webhook payloads
+- [ ] Links to Chat SDK docs (`chat-sdk.dev`) where relevant
 
 ---
 

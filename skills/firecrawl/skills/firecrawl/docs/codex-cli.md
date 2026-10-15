@@ -10,6 +10,10 @@
 
 Connect [OpenAI Codex CLI](https://github.com/openai/codex) to Firecrawl through the hosted OAuth MCP server.
 
+
+  Using the Codex app? [Install the Firecrawl plugin](/integrations/chatgpt-codex) directly from the plugin directory. The steps below are for manual CLI setup.
+
+
 ## Quick setup
 
 ### 1. Add Firecrawl
@@ -58,3 +62,6 @@ npx skills add firecrawl/skills@firecrawl-research-index
 * **Codex does not see the tools:** run `codex mcp list`, confirm that only one `firecrawl` entry exists, and restart Codex.
 * **OAuth returns `401`:** run `codex mcp login firecrawl` and complete sign-in. A bare request to the OAuth server is expected to return `401` before authentication.
 * **An API-key connection returns `401`:** replace the key in the environment that starts Codex, then start a new session.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

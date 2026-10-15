@@ -3,14 +3,15 @@
 ---
 title: Platform Adapters
 description: Platform adapters connect your bot to messaging platforms such as Slack, Teams, and Google Chat.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: overview
 prerequisites:
   - /docs/getting-started
   - /docs/adapters
 ---
 
-# Platform Adapters
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Platform adapters handle webhook verification, message parsing, and API calls for each messaging platform. Install only the adapters you need. Browse every available adapter, including community-built ones, on the [Adapters](/adapters) page.
 
@@ -20,11 +21,7 @@ Need a browser chat UI? See the [Web adapter](/adapters/official/web). It speaks
 
 This matrix covers Vercel-maintained [official adapters](/adapters) only. For vendor-official and community adapters, see each adapter's page.
 
-<GlobalFeatureMatrix type="platform" />
-
-
-  Partial support means the feature works with limitations. See individual adapter pages for details.
-
+> Partial support means the feature works with limitations. See individual adapter pages for details.
 
 ## How adapters work
 
@@ -66,9 +63,7 @@ bot.onNewMention(async (thread) => {
 
 Each adapter reads its credentials from environment variables, so you only pass config to override them.
 
-
-  This example uses Redis for state. See [State Adapters](/docs/state-adapters) for all available options.
-
+> This example uses Redis for state. See [State Adapters](/docs/state-adapters) for all available options.
 
 Each adapter gets a webhook handler at `bot.webhooks.<name>`, keyed by the name you registered it under.
 
@@ -97,9 +92,15 @@ export class CustomTelegramAdapter extends TelegramAdapter {
 
 Construct your subclass anywhere you'd construct the base adapter, for example `adapters: { telegram: new CustomTelegramAdapter({ ... }) }`. Members marked `private` stay inaccessible. If you need a hook that isn't `protected`, open an issue.
 
+> `protected` members are broader than the public API and are not yet stable. Their signatures may change in minor releases. Pin the adapter version you build against, watch that adapter's changelog, and override the smallest hook that solves your problem so upgrades stay manageable. If you rely on a particular hook, open an issue so we can consider making it a stable, documented extension point.
 
-  `protected` members are broader than the public API and are not yet stable. Their signatures may change in minor releases. Pin the adapter version you build against, watch that adapter's changelog, and override the smallest hook that solves your problem so upgrades stay manageable. If you rely on a particular hook, open an issue so we can consider making it a stable, documented extension point.
+#### [Build an adapter](/docs/contributing/building)
 
+Implement the Adapter interface for any messaging platform.
+
+#### [List a vendor-official adapter](/docs/contributing/vendor-official)
+
+How platform vendors qualify and list a maintained adapter in the Vendor Official tier.
 
 ---
 

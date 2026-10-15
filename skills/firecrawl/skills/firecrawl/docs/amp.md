@@ -42,3 +42,6 @@ Scrape https://docs.firecrawl.dev and list the core endpoints.
 
 * **Server does not connect:** confirm the URL is exactly `https://mcp.firecrawl.dev/v2/mcp` and inspect Amp's MCP logs.
 * **Crawl or another tool is missing:** keyless exposes exactly Search, Scrape, and Parse. Connect with OAuth or an API key for the broader tool surface.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

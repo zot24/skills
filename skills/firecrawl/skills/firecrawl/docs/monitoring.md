@@ -955,3 +955,6 @@ Monitors don't introduce a separate per-monitor fee. Each check pays for the und
 * [Get monitor check](/api-reference/endpoint/monitor-check-get)
 * [Monitor page webhook payload](/api-reference/endpoint/webhook-monitor-page)
 * [Monitor check completed webhook payload](/api-reference/endpoint/webhook-monitor-check-completed)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

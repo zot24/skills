@@ -26,12 +26,10 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.2.2
+  version: 3.3.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
-  - url: http://localhost:8000
-    description: Local Development Server
 security: []
 paths:
   /v3/workspaces/{workspace_id}/scopes/list:
@@ -63,10 +61,10 @@ paths:
           schema:
             type: integer
             minimum: 1
-            description: Page number
+            description: Page number (offset mode)
             default: 1
             title: Page
-          description: Page number
+          description: Page number (offset mode)
         - name: size
           in: query
           required: false
@@ -78,13 +76,35 @@ paths:
             default: 50
             title: Size
           description: Page size
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            description: >-
+              Opt in to cursor pagination. Send an empty value for the first
+              page, then the `next_page` value from each response. When set,
+              `page` is ignored and the response is a cursor page with no
+              `total`.
+            title: Cursor
+          description: >-
+            Opt in to cursor pagination. Send an empty value for the first page,
+            then the `next_page` value from each response. When set, `page` is
+            ignored and the response is a cursor page with no `total`.
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page_Scope_'
+                anyOf:
+                  - $ref: '#/components/schemas/Page_Scope_'
+                  - $ref: '#/components/schemas/CursorPage_Scope_'
+                title: >-
+                  Response Get Scopes V3 Workspaces  Workspace Id  Scopes List
+                  Post
         '422':
           description: Validation Error
           content:
@@ -126,6 +146,46 @@ components:
         - size
         - pages
       title: Page[Scope]
+    CursorPage_Scope_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Scope'
+          type: array
+          title: Items
+        total:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Total
+        current_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Current Page
+          description: Cursor to refetch the current page
+        current_page_backwards:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Current Page Backwards
+          description: Cursor to refetch the current page starting from the last item
+        previous_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Previous Page
+          description: Cursor for the previous page
+        next_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Next Page
+          description: Cursor for the next page
+      type: object
+      required:
+        - items
+      title: CursorPage[Scope]
     HTTPValidationError:
       properties:
         detail:
@@ -193,3 +253,5 @@ components:
       scheme: bearer
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

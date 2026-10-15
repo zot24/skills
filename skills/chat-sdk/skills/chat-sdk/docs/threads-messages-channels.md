@@ -3,6 +3,8 @@
 ---
 title: Threads, Messages, and Channels
 description: Work with threads, messages, and channels across platforms.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/usage
@@ -15,8 +17,9 @@ related:
   - /docs/history
 ---
 
-# Threads, Messages, and Channels
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
+A channel holds threads, and each thread holds the messages in one conversation. Your event handlers receive the `Thread` and `Message` for each event, and `thread.channel` returns the `Channel` that contains the thread.
 
 ## Threads
 
@@ -81,9 +84,7 @@ bot.onSubscribedMessage(async (thread) => {
 });
 ```
 
-
-  Each call fetches the full message history to find all participants. On threads with long history this makes multiple API calls to the platform. Consider checking `message.author` against a known set before calling `getParticipants()` on every incoming message.
-
+> Each call fetches the full message history to find all participants. On threads with long history this makes multiple API calls to the platform. Consider checking `message.author` against a known set before calling `getParticipants()` on every incoming message.
 
 ### Typing indicator
 
@@ -91,9 +92,7 @@ bot.onSubscribedMessage(async (thread) => {
 await thread.startTyping();
 ```
 
-
-  Not all platforms support typing indicators. The call is a no-op on unsupported platforms. See the [adapter feature matrix](/docs/platform-adapters) for details.
-
+> Not all platforms support typing indicators. The call is a no-op on unsupported platforms. See the [adapter feature matrix](/docs/platform-adapters) for details.
 
 ### Mark as read
 
@@ -114,9 +113,7 @@ await thread.markAsRead(message.id);
 
 Platforms may advance the conversation's read state through the target message, which also marks earlier messages as read.
 
-
-  WhatsApp, Messenger, and XChat support marking messages as read. Other adapters throw `NotImplementedError`. See the [adapter feature matrix](/docs/platform-adapters) for details.
-
+> WhatsApp, Messenger, and XChat support marking messages as read. Other adapters throw `NotImplementedError`. See the [adapter feature matrix](/docs/platform-adapters) for details.
 
 ### Message history
 
@@ -189,9 +186,7 @@ const scheduled = await thread.schedule("Reminder: standup in 5 minutes!", {
 await scheduled.cancel();
 ```
 
-
-  Scheduled messages are currently only supported by the Slack adapter. Other adapters throw `NotImplementedError`. See the [feature matrix](/docs/platform-adapters) for details.
-
+> Scheduled messages are currently only supported by the Slack adapter. Other adapters throw `NotImplementedError`. See the [feature matrix](/docs/platform-adapters) for details.
 
 ## Messages
 
@@ -344,18 +339,16 @@ const { messages } = await bot.history.channel.listMessages(channelId, {
 
 For a one-shot helper that lists threads and prefetches messages for each, see [`bot.history.channel.listThreadsWithMessages`](/docs/api/history#listthreadswithmessages) in the API reference.
 
-
-  `listThreads` requires adapter support (Slack, Discord, Teams, Google Chat, GitHub). On threadless platforms (WhatsApp, Telegram), `listThreads` throws and `channel.threads()` yields nothing. See the [adapter feature matrix](/docs/adapters) and the [History guide](/docs/history#channel-history) for platform details.
-
+> `listThreads` requires adapter support (Slack, Discord, Teams, Google Chat, GitHub). On threadless platforms (WhatsApp, Telegram), `listThreads` throws and `channel.threads()` yields nothing. See the [adapter feature matrix](/docs/adapters) and the [History guide](/docs/history#channel-history) for platform details.
 
 ## Thread ID format
 
 All thread IDs follow the pattern `{adapter}:{channel}:{thread}`:
 
-* Slack: `slack:C123ABC:1234567890.123456`
-* Teams: `teams:{base64(conversationId)}:{base64(serviceUrl)}[:{conversationType}]`
-* Google Chat: `gchat:spaces/ABC123:{base64(threadName)}`
-* Discord: `discord:{guildId}:{channelId}[:{threadId}]`
+- Slack: `slack:C123ABC:1234567890.123456`
+- Teams: `teams:{base64(conversationId)}:{base64(serviceUrl)}[:{conversationType}]`
+- Google Chat: `gchat:spaces/ABC123:{base64(threadName)}`
+- Discord: `discord:{guildId}:{channelId}[:{threadId}]`
 
 You rarely need to build these yourself, because the threads your event handlers receive already carry them.
 
@@ -392,7 +385,6 @@ createSlackAdapter({
   logger: logger.child("slack"), // optional; auto-created if omitted
 });
 ```
-
 
 ---
 

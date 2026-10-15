@@ -10,6 +10,14 @@ package: @chat-adapter/gchat
 # Google Chat
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the Google Chat adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="gchat memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -41,34 +49,44 @@ The memory state adapter keeps subscriptions and locks in process memory, which 
 
 ## Platform setup
 
-### 1. Create a GCP project
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Create a GCP project
 
-1. Go to [console.cloud.google.com](https://console.cloud.google.com) and create a project.
-2. Enable **Google Chat API**, **Google Workspace Events API** (for receiving all messages), and **Cloud Pub/Sub API**.
+    1. Go to [console.cloud.google.com](https://console.cloud.google.com) and create a project.
+    2. Enable **Google Chat API**, **Google Workspace Events API** (for receiving all messages), and **Cloud Pub/Sub API**.
+  </div>
 
-### 2. Create a service account
+  <div className="fd-step">
+    ### Create a service account
 
-1. Open **IAM & Admin** then **Service Accounts** and click **Create Service Account**.
-2. After creation, open the account and go to the **Keys** tab.
-3. Click **Add Key** then **Create new key** then **JSON**.
-4. Copy the JSON to `GOOGLE_CHAT_CREDENTIALS`.
-
-
-  If your organization has the `iam.disableServiceAccountKeyCreation` constraint enabled, you need to relax it or add a project exception under **IAM & Admin** then **Organization Policies**.
+    1. Open **IAM & Admin** then **Service Accounts** and click **Create Service Account**.
+    2. After creation, open the account and go to the **Keys** tab.
+    3. Click **Add Key** then **Create new key** then **JSON**.
+    4. Copy the JSON to `GOOGLE_CHAT_CREDENTIALS`.
 
 
-### 3. Configure the Chat app
+      If your organization has the `iam.disableServiceAccountKeyCreation` constraint enabled, you need to relax it or add a project exception under **IAM & Admin** then **Organization Policies**.
 
-1. Open the [Chat API configuration](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat).
-2. Fill in the app name, avatar, and description.
-3. Enable **Receive 1:1 messages** and **Join spaces and group conversations**.
-4. Set connection settings to **App URL** with `https://your-domain.com/api/webhooks/gchat`.
-5. Set visibility, then save.
+  </div>
 
-### 4. Add the bot to a space
+  <div className="fd-step">
+    ### Configure the Chat app
 
-1. Open Google Chat.
-2. In a Space, open **Manage apps & integrations** then **Add apps** and find your app.
+    1. Open the [Chat API configuration](https://console.cloud.google.com/apis/api/chat.googleapis.com/hangouts-chat).
+    2. Fill in the app name, avatar, and description.
+    3. Enable **Receive 1:1 messages** and **Join spaces and group conversations**.
+    4. Set connection settings to **App URL** with `https://your-domain.com/api/webhooks/gchat`.
+    5. Set visibility, then save.
+  </div>
+
+  <div className="fd-step">
+    ### Add the bot to a space
+
+    1. Open Google Chat.
+    2. In a Space, open **Manage apps & integrations** then **Add apps** and find your app.
+  </div>
+</div>
 
 ## Configuration
 

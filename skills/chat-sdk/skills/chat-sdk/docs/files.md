@@ -3,13 +3,16 @@
 ---
 title: File Uploads
 description: Send and receive files across chat platforms.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/usage
 ---
 
-# File Uploads
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
+Your bot can attach files to the messages it posts and read the attachments on incoming messages.
 
 ## Send files
 
@@ -103,7 +106,6 @@ bot.onSubscribedMessage(async (thread, message) => {
 | `height`        | `number` (optional)                               | Image height                                                             |
 | `fetchData`     | `() => Promise<Buffer \| ArrayBuffer>` (optional) | Download the file data                                                   |
 | `fetchMetadata` | `Record<string, string>` (optional)               | Platform-specific IDs for reconstructing `fetchData` after serialization |
-
 
 ---
 

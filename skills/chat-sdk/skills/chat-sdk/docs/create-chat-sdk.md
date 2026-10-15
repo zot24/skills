@@ -3,65 +3,36 @@
 ---
 title: CLI
 description: Scaffold a Chat SDK bot app with a single command.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 related:
   - /docs
   - /docs/getting-started
 ---
 
-# CLI
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 `create-chat-sdk` creates a minimal Next.js app for a Chat SDK bot. Based on the adapters you pick from the adapter catalog, it generates your `Chat` configuration, a webhook route, a `.env.example` file, and the dependency list, plus a Web adapter route if you select that adapter.
 
 ## Quick start
 
-<CodeBlockTabs defaultValue="npm">
-  <CodeBlockTabsList>
-    <CodeBlockTabsTrigger value="npm">
-      npm
-    </CodeBlockTabsTrigger>
+```bash
+npm create chat-sdk@latest my-bot
+```
 
-    <CodeBlockTabsTrigger value="pnpm">
-      pnpm
-    </CodeBlockTabsTrigger>
+```bash
+pnpm create chat-sdk@latest my-bot
+```
 
-    <CodeBlockTabsTrigger value="yarn">
-      yarn
-    </CodeBlockTabsTrigger>
+```bash
+yarn create chat-sdk my-bot
+```
 
-    <CodeBlockTabsTrigger value="bun">
-      bun
-    </CodeBlockTabsTrigger>
-  </CodeBlockTabsList>
+```bash
+bunx create-chat-sdk@latest my-bot
+```
 
-  <CodeBlockTab value="npm">
-    ```bash
-    npm create chat-sdk@latest my-bot
-    ```
-  </CodeBlockTab>
-
-  <CodeBlockTab value="pnpm">
-    ```bash
-    pnpm create chat-sdk@latest my-bot
-    ```
-  </CodeBlockTab>
-
-  <CodeBlockTab value="yarn">
-    ```bash
-    yarn create chat-sdk my-bot
-    ```
-  </CodeBlockTab>
-
-  <CodeBlockTab value="bun">
-    ```bash
-    bunx create-chat-sdk@latest my-bot
-    ```
-  </CodeBlockTab>
-</CodeBlockTabs>
-
-
-  `create-chat-sdk` detects when Cursor, Claude Code, or another coding agent runs it. In that case the CLI runs non-interactively: pass at least one platform adapter with `--adapter`, and it uses `memory` as the state adapter and `my-bot` as the project name unless you provide others. Pass `--interactive` to force prompts.
-
+> `create-chat-sdk` detects when Cursor, Claude Code, or another coding agent runs it. In that case the CLI runs non-interactively: pass at least one platform adapter with `--adapter`, and it uses `memory` as the state adapter and `my-bot` as the project name unless you provide others. Pass `--interactive` to force prompts.
 
 ## Non-interactive usage
 
@@ -71,15 +42,11 @@ Pass platform and state adapters with `--adapter`:
 npm create chat-sdk@latest -- my-bot --adapter slack redis -y
 ```
 
-
-  With npm, the `--` separator is required because npm consumes flags before it (`-y` is npm's own `--yes`) instead of forwarding them to the CLI. `pnpm create` and `yarn create` forward flags without it.
-
+> With npm, the `--` separator is required because npm consumes flags before it (`-y` is npm's own `--yes`) instead of forwarding them to the CLI. `pnpm create` and `yarn create` forward flags without it.
 
 The interactive prompt lists official adapters by default. Pass `--vendor` to list only vendor-official adapters instead. Scripts and coding agents can skip the prompt and pass any official or vendor-official adapter the CLI supports to `--adapter`.
 
 Adapters that require a long-running process, including Matrix and Lark, cannot run on the webhook-only serverless runtime and are not available through the CLI. Add them to an existing project manually instead.
-
-<AdapterSlugList />
 
 Examples:
 
@@ -139,9 +106,7 @@ the bot's resource-specific permissions to be granted when it is installed in a
 team. This setup requires releases of both `@vercel/connect` and
 `@chat-adapter/teams` that support the Teams Connect helper.
 
-
-  Vercel Connect provides `VERCEL_OIDC_TOKEN` at runtime. For local development, run `vercel link` then `vercel env pull` to populate it. Connect forwards inbound webhooks only to deployed URLs, so test webhook delivery against a Vercel deployment (such as a preview) rather than localhost.
-
+> Vercel Connect provides `VERCEL_OIDC_TOKEN` at runtime. For local development, run `vercel link` then `vercel env pull` to populate it. Connect forwards inbound webhooks only to deployed URLs, so test webhook delivery against a Vercel deployment (such as a preview) rather than localhost.
 
 ## Reference
 
@@ -166,9 +131,9 @@ Color output follows the [NO\_COLOR standard](https://no-color.org/). Set `NO_CO
 
 Most bot behavior lives in `src/lib/bot.ts`. Start there when you want to:
 
-* Add or change handlers like `onNewMention`, `onSubscribedMessage`, `onNewMessage`, reactions, actions, or slash commands.
-* Adjust adapter configuration, for example passing explicit credentials or platform-specific options instead of relying only on environment variables.
-* Replace the memory state adapter, if you selected it, with Redis, ioredis, or PostgreSQL before deploying to production.
+- Add or change handlers like `onNewMention`, `onSubscribedMessage`, `onNewMessage`, reactions, actions, or slash commands.
+- Adjust adapter configuration, for example passing explicit credentials or platform-specific options instead of relying only on environment variables.
+- Replace the memory state adapter, if you selected it, with Redis, ioredis, or PostgreSQL before deploying to production.
 
 The generated file includes starter handlers for mentions and subscribed thread replies.
 
@@ -187,7 +152,6 @@ Fill in the generated environment variables, expose your local server, and confi
 ## Resources
 
 See guides, templates, and examples on the [resources](/resources) page.
-
 
 ---
 

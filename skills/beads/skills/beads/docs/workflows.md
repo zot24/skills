@@ -43,3 +43,6 @@ The three phases, in the chemistry metaphor the CLI uses:
   work that shouldn't clutter history.
 * [TODO Command](/workflows/todo) — `bd todo`, the lightweight interface for
   managing TODO items as task beads.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

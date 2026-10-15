@@ -268,3 +268,6 @@ Honcho's search functionality provides powerful discovery capabilities across yo
 * Combine search with context building
 
 You can build applications that provide intelligent insights and context-aware responses based on historical conversations and interactions.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

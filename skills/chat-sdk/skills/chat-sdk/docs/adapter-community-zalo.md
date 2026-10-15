@@ -39,25 +39,33 @@ When called with no arguments, `createZaloAdapter()` reads its credentials from 
 
 ## Platform setup
 
-### 1. Create a Zalo Bot
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Create a Zalo Bot
 
-1. Go to [bot.zapps.me](https://bot.zapps.me) and sign in with your Zalo account.
-2. Create a new bot and copy your **Bot Token** (format: `12345689:abc-xyz`).
-3. In the **Webhooks** section, set your webhook URL.
+    1. Go to [bot.zapps.me](https://bot.zapps.me) and sign in with your Zalo account.
+    2. Create a new bot and copy your **Bot Token** (format: `12345689:abc-xyz`).
+    3. In the **Webhooks** section, set your webhook URL.
+  </div>
 
-### 2. Configure webhooks
+  <div className="fd-step">
+    ### Configure webhooks
 
-1. In the Zalo Bot dashboard, navigate to **Webhooks**.
-2. Set **Webhook URL** to `https://your-domain.com/api/webhooks/zalo`.
-3. Set a **Secret Token** of your choice (8–256 characters). You'll use it as `ZALO_WEBHOOK_SECRET`.
-4. Subscribe to the message events you need (`message.text.received`, `message.image.received`, etc.).
+    1. In the Zalo Bot dashboard, navigate to **Webhooks**.
+    2. Set **Webhook URL** to `https://your-domain.com/api/webhooks/zalo`.
+    3. Set a **Secret Token** of your choice (8–256 characters). You'll use it as `ZALO_WEBHOOK_SECRET`.
+    4. Subscribe to the message events you need (`message.text.received`, `message.image.received`, etc.).
+  </div>
 
-### 3. Get credentials
+  <div className="fd-step">
+    ### Get credentials
 
-Copy these values from the dashboard:
+    Copy these values from the dashboard:
 
-* **Bot Token** → `ZALO_BOT_TOKEN`
-* The **Secret Token** you set in the webhook config → `ZALO_WEBHOOK_SECRET`
+    * **Bot Token** → `ZALO_BOT_TOKEN`
+    * The **Secret Token** you set in the webhook config → `ZALO_WEBHOOK_SECRET`
+  </div>
+</div>
 
 ## Configuration
 

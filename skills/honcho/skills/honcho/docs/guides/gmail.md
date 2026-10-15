@@ -632,3 +632,4 @@ Use an AI assistant in your inbox? Want to parse out its messages differently? F
     Source code and example script.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

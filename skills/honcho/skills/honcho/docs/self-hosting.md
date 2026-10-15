@@ -12,6 +12,10 @@ This guide helps you set up a local environment to run Honcho for development, t
 
 **Just want a running instance?** `uv tool install honcho-cli` only installs the `honcho` command. Then run [`honcho start --setup`](/docs/v3/documentation/reference/cli#local-stack) (Docker + an LLM provider key) — that pulls a published image and starts API, deriver, Postgres, and Redis. The rest of this page is for building from source, contributing, or deploying without the CLI.
 
+
+  **Don't want to run Postgres, Redis, and a background worker?** Honcho Cloud runs the same open-source server for you, with a generous free tier. [Get an API key](https://app.honcho.dev/api-keys?utm_source=docs\&utm_medium=callout\&utm_content=selfhost_callout) and point the SDK at it — no infrastructure required.
+
+
 ## Overview
 
 By the end of this guide, you'll have:
@@ -193,21 +197,22 @@ docker run --name honcho-db \
 
 ### 3. Enable Extensions
 
-Connect to PostgreSQL and enable pgvector:
+Connect to PostgreSQL and enable pgvector and pg\_trgm:
 
 ```bash theme={null}
 # Connect to PostgreSQL
 psql -U postgres
 
-# Enable the pgvector extension on the default database
+# Enable the extensions on the default database
 CREATE EXTENSION IF NOT EXISTS vector;
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
 \q
 ```
 
 
   **Least-privilege database roles.** Honcho runs `CREATE EXTENSION IF NOT EXISTS vector` before migrations and again at startup, so if the role in `DB_CONNECTION_URI` can't create extensions, both fail with a privilege error — `IF NOT EXISTS` doesn't help, because Postgres checks the privilege first.
 
-  Run the statement above once as a superuser (or `rds_superuser`) and the application role needs no extension privileges. See [Troubleshooting](/docs/v3/contributing/troubleshooting) if you hit this.
+  Run the statements above once as a superuser (or `rds_superuser`) and the application role needs no extension privileges. `pg_trgm` is optional: if it can't be created, migrations skip the trigram index that speeds up message search and log the statement to create it later. See [Troubleshooting](/docs/v3/contributing/troubleshooting) if you hit this.
 
 
 ### 4. Configure Environment
@@ -429,6 +434,7 @@ When `DB_POOL_CLASS=null`, SQLAlchemy uses `NullPool`; `DB_POOL_SIZE` and `DB_MA
 
 * Always run `uv run alembic upgrade head` after updating Honcho before starting the server
 * Check current migration status with `uv run alembic current`
+* Migrations hold a session-level advisory lock, so they need a session-mode connection (direct Postgres or a session pooler), not a transaction-mode pooler. A Supabase-style `:6543` port is rewritten to `:5432` automatically.
 
 ### LLM Providers
 
@@ -469,3 +475,6 @@ flyctl deploy                       # deploy
 ```
 
 * Back up your `.env` or `config.toml` configuration files
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

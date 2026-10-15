@@ -99,3 +99,6 @@ tool = FirecrawlSearchTool(query='what is firecrawl?')
   * `fetchPageContent`: Optional. Fetch the full content of the page.
 * `search_options`: Optional. Options for controlling the crawling behavior.
   * `limit`: Optional. Maximum number of pages to crawl.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

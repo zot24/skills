@@ -3,6 +3,8 @@
 ---
 title: Streaming
 description: Stream real-time text responses from AI models and other async sources to chat platforms.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/usage
@@ -12,8 +14,7 @@ related:
   - /docs/ai
 ---
 
-# Streaming
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Chat SDK accepts any `AsyncIterable<string>` as a message, so you can stream AI responses and other incremental content to chat platforms as it's generated. Streams from the AI SDK and TanStack AI are detected automatically. On platforms with native or structured streaming support, you can also stream `StreamChunk` objects for rich content such as task progress cards and plan updates.
 
@@ -127,6 +128,7 @@ await thread.post(stream);
 | Notion      | Post + Edit                           | Posts a comment then edits it as chunks arrive (throttled for \~3 req/s)                                                                                                                                |
 | WhatsApp    | Buffered                              | Accumulates chunks and sends one final message                                                                                                                                                          |
 | Messenger   | Buffered                              | Accumulates chunks and sends one final message                                                                                                                                                          |
+| Twitch      | Buffered                              | Accumulates chunks and sends one final chat message or whisper                                                                                                                                          |
 
 The post+edit fallback throttles edits to avoid rate limits. Configure the update interval when creating your `Chat` instance:
 
@@ -223,6 +225,7 @@ const planned = new StreamingPlan(stream, {
   groupTasks: "plan",         // Slack: render task cards as a single grouped block
   endWith: [feedbackBlock],   // Slack: Block Kit elements appended after stream stops
   updateIntervalMs: 750,      // Post+edit cadence on supported adapters
+  aiGenerated: true,          // Teams: show the "AI generated" label
 });
 
 await thread.post(planned);
@@ -233,6 +236,7 @@ await thread.post(planned);
 | `groupTasks`       | Slack              | `"timeline"` (default) renders task cards inline; `"plan"` groups them into one plan block |
 | `endWith`          | Slack              | Block Kit elements attached when the stream stops (e.g. retry / feedback buttons)          |
 | `updateIntervalMs` | Post+edit adapters | Minimum interval between post+edit cycles in ms (default `500`)                            |
+| `aiGenerated`      | Teams              | Show the "AI generated" label on the streamed message                                      |
 
 Adapters without structured chunk support extract text from `markdown_text` chunks and ignore other types. Slack-only options are silently ignored on other platforms.
 
@@ -320,7 +324,6 @@ bot.onSubscribedMessage(async (thread, message) => {
 ```
 
 See the [`toAiMessages` reference](/docs/ai/to-ai-messages) for all options including `includeNames`, `transformMessage`, and attachment handling.
-
 
 ---
 

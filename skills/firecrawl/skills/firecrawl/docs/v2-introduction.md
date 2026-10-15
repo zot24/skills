@@ -95,3 +95,6 @@ See [Errors](/api-reference/errors) for the full reference, including the `error
 ## 429 responses
 
 When you exceed your plan's rate or concurrency limits, the API returns a `429` status code. See [Rate Limits](/rate-limits) for per-plan limits and [Errors](/api-reference/errors) for retry guidance.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

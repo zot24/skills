@@ -94,3 +94,6 @@ Use a company URL when you already know the account and want deeper context for 
 * [AI Platforms](/use-cases/ai-platforms) - Build AI sales assistants
 * [Competitive Intelligence](/use-cases/competitive-intelligence) - Track competitors
 * [Investment & Finance](/use-cases/investment-finance) - Investment opportunities
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

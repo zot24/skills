@@ -2,23 +2,34 @@
 
 
 
-[](https://vercel.com "Made with love by Vercel")<span class="text-neutral-300 dark:text-neutral-700"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+<a href="/" class="flex @min-[1024px]:hidden items-center text-gray-1000"><span class="font-medium tracking-tight" style="font-family:var(--font-geist-pixel-square)">agent-browser</span></a>
 
 
-Selectors
+<a href="https://github.com/vercel-labs/agent-browser" class="size-8 items-center justify-center @min-[768px]:inline-flex hidden shrink-0" data-geist-button="" data-prefix="false" data-suffix="false" data-version="v1" aria-label="GitHub repository" rel="noopener" target="_blank"><span class="truncate px-1.5 inline-flex shrink-0 items-center justify-center"></span></a>
 
 
-Copy Page
+        &quot;sidebar toc-popover toc&quot;
+        &quot;sidebar main toc&quot; 1fr / minmax(var(--fd-sidebar-col), 1fr) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-width) - var(--fd-toc-width))) minmax(min-content, 1fr);--fd-docs-row-1:4rem;--fd-docs-row-2:calc(var(--fd-docs-row-1) + var(--fd-header-height));--fd-docs-row-3:calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height));--fd-sidebar-col:var(--fd-sidebar-width)">
 
 
-# Selectors<a href="#selectors" aria-label="Link to this section">#</a>
+Menu
 
-## Refs (recommended)<a href="#refs-recommended" aria-label="Link to this section">#</a>
+
+# Selectors
+
+
+Copy for LLM
+
+
+View Markdown
+
+
+## <a href="#refs-recommended" class="peer" data-card="">Refs (recommended)</a>
 
 Refs provide deterministic element selection from snapshots. Best for AI agents.
 
 
-``` shiki
+``` m-0
 # 1. Get snapshot with refs
 agent-browser snapshot
 # Output:
@@ -35,16 +46,16 @@ agent-browser hover @e4                   # Hover the link
 ```
 
 
-### Why refs?<a href="#why-refs" aria-label="Link to this section">#</a>
+### <a href="#why-refs" class="peer" data-card="">Why refs?</a>
 
 - **Deterministic** - Ref points to exact element from snapshot
 - **Fast** - No DOM re-query needed
 - **AI-friendly** - LLMs can reliably parse and use refs
 
-## CSS selectors<a href="#css-selectors" aria-label="Link to this section">#</a>
+## <a href="#css-selectors" class="peer" data-card="">CSS selectors</a>
 
 
-``` shiki
+``` m-0
 agent-browser click "#id"
 agent-browser click ".class"
 agent-browser click "div > button"
@@ -52,21 +63,21 @@ agent-browser click "[data-testid='submit']"
 ```
 
 
-## Text & XPath<a href="#text-xpath" aria-label="Link to this section">#</a>
+## <a href="#text-xpath" class="peer" data-card="">Text &amp; XPath</a>
 
 
-``` shiki
+``` m-0
 agent-browser click "text=Submit"
 agent-browser click "xpath=//button[@type='submit']"
 ```
 
 
-## Semantic locators<a href="#semantic-locators" aria-label="Link to this section">#</a>
+## <a href="#semantic-locators" class="peer" data-card="">Semantic locators</a>
 
 Find elements by role, label, or other semantic properties:
 
 
-``` shiki
+``` m-0
 agent-browser find role button click --name "Submit"
 agent-browser find role heading text --name "Skills"     # implicit roles work: <h2>=heading, <ul>=list, top-level <header>=banner
 agent-browser find label "Email" fill "test@test.com"
@@ -75,4 +86,6 @@ agent-browser find testid "submit-btn" click
 ```
 
 
-Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>
+<a href="/plugins" class="group grid w-fit grid-cols-[auto_1fr] items-center gap-x-1.5 gap-y-1 text-gray-1000"><span class="text-gray-900 text-sm col-start-2">Previous</span><span class="row-start-2 font-medium col-start-2">Plugins</span></a><a href="/snapshots" class="group grid w-fit grid-cols-[1fr_auto] items-center gap-x-1.5 gap-y-1 justify-self-end text-right text-gray-1000"><span class="text-gray-900 text-sm col-start-1">Next</span><span class="row-start-2 font-medium col-start-1">Snapshots</span></a>
+
+

@@ -3,13 +3,14 @@
 ---
 title: Direct Messages
 description: Initiate DM conversations with users programmatically.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/usage
 ---
 
-# Direct Messages
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Use `bot.openDM()` to open a direct message conversation with a user. When the user ID format is unique to one platform, Chat SDK infers the adapter from the ID.
 
@@ -17,9 +18,9 @@ Use `bot.openDM()` to open a direct message conversation with a user. When the u
 
 DMs behave slightly differently from channel messages:
 
-* If you register `onDirectMessage`, every incoming DM routes there before `onSubscribedMessage`, `onNewMention`, and pattern handlers. DM-centric flows such as WhatsApp conversations, Telegram DMs, and web chat then run through one handler.
-* If no `onDirectMessage` handlers are registered, DMs continue through normal routing. Unsubscribed DMs are treated as mentions, so existing `onNewMention` bots keep working without the user having to @-mention the bot.
-* Each top-level DM starts a new conversation. Thread replies within a DM continue the same conversation, giving you the same per-thread isolation as channels.
+- If you register `onDirectMessage`, every incoming DM routes there before `onSubscribedMessage`, `onNewMention`, and pattern handlers. DM-centric flows such as WhatsApp conversations, Telegram DMs, and web chat then run through one handler.
+- If no `onDirectMessage` handlers are registered, DMs continue through normal routing. Unsubscribed DMs are treated as mentions, so existing `onNewMention` bots keep working without the user having to @-mention the bot.
+- Each top-level DM starts a new conversation. Thread replies within a DM continue the same conversation, giving you the same per-thread isolation as channels.
 
 ## Handle incoming DMs
 
@@ -59,9 +60,7 @@ const dmThread = await bot.openDM("U1234567890"); // Slack
 | `users/...`     | Google Chat         |
 | Numeric ID      | Discord or Telegram |
 
-
-  Numeric IDs can be ambiguous when multiple numeric-ID adapters are registered. For platforms whose user IDs are not globally distinguishable, call the adapter directly and wrap the returned thread ID with `bot.thread()`.
-
+> Numeric IDs can be ambiguous when multiple numeric-ID adapters are registered. For platforms whose user IDs are not globally distinguishable, call the adapter directly and wrap the returned thread ID with `bot.thread()`.
 
 ```typescript title="lib/bot.ts"
 const threadId = await bot.getAdapter("whatsapp").openDM("15551234567");
@@ -77,7 +76,6 @@ bot.onSubscribedMessage(async (thread, message) => {
   }
 });
 ```
-
 
 ---
 

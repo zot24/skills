@@ -3,14 +3,15 @@
 ---
 title: Cards
 description: Rich card components for cross-platform interactive messages.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 related:
   - /docs/cards
   - /docs/actions
 ---
 
-# Cards
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Each adapter renders card components in its platform's native format: Block Kit on Slack, Adaptive Cards on Teams, embeds or Components on Discord, and Cards on Google Chat.
 
@@ -32,6 +33,13 @@ Card({
 })
 ```
 
+| Property   | Type                  | Description                                                                                               |
+| ---------- | --------------------- | --------------------------------------------------------------------------------------------------------- |
+| `title`    | `string`              | Card title.                                                                                               |
+| `subtitle` | `string`              | Card subtitle.                                                                                            |
+| `imageUrl` | `string`              | Header image URL.                                                                                         |
+| `children` | `CardChild[]`         | Card content elements.                                                                                    |
+| `width`    | `"default" \| "full"` | Width hint for platforms that can render a card wider than the default (Teams). Other adapters ignore it. |
 
 ## Text
 
@@ -43,6 +51,10 @@ Text("Important", { style: "bold" })
 Text("Subtle note", { style: "muted" })
 ```
 
+| Property        | Type                           | Description                    |
+| --------------- | ------------------------------ | ------------------------------ |
+| `content`       | `string`                       | Text content (first argument). |
+| `options.style` | `"plain" \| "bold" \| "muted"` | Text style.                    |
 
 ## Button
 
@@ -53,6 +65,15 @@ Button({ id: "approve", label: "Approve", style: "primary" })
 Button({ id: "delete", label: "Delete", style: "danger", value: "item-123" })
 ```
 
+| Property      | Type                                 | Description                                                                            |
+| ------------- | ------------------------------------ | -------------------------------------------------------------------------------------- |
+| `id`          | `string`                             | Unique action ID for callback routing.                                                 |
+| `label`       | `string`                             | Button label text.                                                                     |
+| `style`       | `"primary" \| "danger" \| "default"` | Visual style.                                                                          |
+| `value`       | `string`                             | Optional payload sent with the action callback.                                        |
+| `actionType`  | `"action" \| "modal"`                | Hints to adapters like Teams that this button will open a modal via event.openModal(). |
+| `callbackUrl` | `string`                             | URL to POST action data to when this button is clicked.                                |
+| `tooltip`     | `string`                             | Hover text for the button. Rendered by Teams only; other adapters ignore it.           |
 
 ## CardLink
 
@@ -62,6 +83,10 @@ Inline hyperlink rendered as text. Can be placed directly in a card alongside ot
 CardLink({ url: "https://example.com", label: "Visit Site" })
 ```
 
+| Property | Type     | Description      |
+| -------- | -------- | ---------------- |
+| `url`    | `string` | URL to link to.  |
+| `label`  | `string` | Link label text. |
 
 ## LinkButton
 
@@ -74,6 +99,13 @@ LinkButton({ url: "https://example.com", label: "View Docs" })
 LinkButton({ id: "view_docs", url: "https://example.com", label: "View Docs" })
 ```
 
+| Property  | Type                                 | Description                                                                  |
+| --------- | ------------------------------------ | ---------------------------------------------------------------------------- |
+| `id`      | `string`                             | Optional action identifier emitted by platforms that report link clicks.     |
+| `url`     | `string`                             | URL to open when clicked.                                                    |
+| `label`   | `string`                             | Button label text.                                                           |
+| `style`   | `"primary" \| "danger" \| "default"` | Visual style.                                                                |
+| `tooltip` | `string`                             | Hover text for the button. Rendered by Teams only; other adapters ignore it. |
 
 ## Actions
 
@@ -113,6 +145,10 @@ Fields([
 
 A single key-value pair. Must be used inside `Fields`.
 
+| Property | Type     | Description  |
+| -------- | -------- | ------------ |
+| `label`  | `string` | Field label. |
+| `value`  | `string` | Field value. |
 
 ## Image
 
@@ -122,6 +158,10 @@ Embeds an image in the card.
 Image({ url: "https://example.com/screenshot.png", alt: "Screenshot" })
 ```
 
+| Property | Type     | Description                 |
+| -------- | -------- | --------------------------- |
+| `url`    | `string` | Image URL.                  |
+| `alt`    | `string` | Alt text for accessibility. |
 
 ## Table
 
@@ -137,6 +177,17 @@ Table({
 })
 ```
 
+| Property        | Type                                                                        | Description                                                                                                                        |
+| --------------- | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `headers`       | `string[]`                                                                  | Column header labels.                                                                                                              |
+| `rows`          | `string[][]`                                                                | Data rows (each row is an array of cell strings).                                                                                  |
+| `align`         | `"left" \| "center" \| "right"[]`                                           | Column alignment.                                                                                                                  |
+| `caption`       | `string`                                                                    | Accessible table caption (used by platforms with native table support).                                                            |
+| `pageSize`      | `number`                                                                    | Rows per page on platforms that paginate tables (Slack: 1-100, default 5).                                                         |
+| `widths`        | `number[]`                                                                  | Relative column widths, one positive integer weight per column (default 1 each). Rendered by Teams only; other adapters ignore it. |
+| `verticalAlign` | `"top" \| "center" \| "bottom"`                                             | Vertical alignment of cell content. Rendered by Teams only; other adapters ignore it.                                              |
+| `gridLines`     | `boolean`                                                                   | Draw grid lines between cells. Rendered by Teams only; other adapters ignore it.                                                   |
+| `gridStyle`     | `"default" \| "emphasis" \| "accent" \| "good" \| "attention" \| "warning"` | Style of the grid lines between cells. Rendered by Teams only; other adapters ignore it.                                           |
 
 On platforms with native table support (Slack, Teams, GitHub, Linear), tables render as formatted tables. On Slack, tables render as paginated, sortable data table blocks. On Teams, tables render as the Adaptive Card `Table` element with grid lines and weighted column widths. Discord card payloads preserve GFM markdown tables. On other platforms (Google Chat, Telegram), tables render as padded ASCII text.
 
@@ -157,6 +208,10 @@ Chart({
 })
 ```
 
+| Property | Type              | Description                                                                         |
+| -------- | ----------------- | ----------------------------------------------------------------------------------- |
+| `title`  | `string`          | Chart title (Slack: max 50 characters).                                             |
+| `chart`  | `ChartDefinition` | Chart definition, discriminated by chart type ("pie" \| "bar" \| "area" \| "line"). |
 
 Pie charts take `segments` (label + value, rendered as percentages of the total). Bar, area, and line charts take `series` (named lists of data points) plotted against shared `categories`, with optional `xLabel`/`yLabel` axis titles.
 
@@ -174,18 +229,20 @@ Divider()
 
 The `children` array in `Card` and `Section` accepts these element types:
 
-| Type             | Created by   |
-| ---------------- | ------------ |
-| `TextElement`    | `Text()`     |
-| `LinkElement`    | `CardLink()` |
-| `ImageElement`   | `Image()`    |
-| `DividerElement` | `Divider()`  |
-| `ActionsElement` | `Actions()`  |
-| `SectionElement` | `Section()`  |
-| `FieldsElement`  | `Fields()`   |
-| `TableElement`   | `Table()`    |
-| `ChartElement`   | `Chart()`    |
+| Type               | Created by    |
+| ------------------ | ------------- |
+| `TextElement`      | `Text()`      |
+| `LinkElement`      | `CardLink()`  |
+| `ImageElement`     | `Image()`     |
+| `DividerElement`   | `Divider()`   |
+| `ActionsElement`   | `Actions()`   |
+| `SectionElement`   | `Section()`   |
+| `FieldsElement`    | `Fields()`    |
+| `TableElement`     | `Table()`     |
+| `ChartElement`     | `Chart()`     |
+| `TextInputElement` | `TextInput()` |
 
+`TextInput` is the same element [modals](/docs/api/modals) use. On a card, only Teams renders it. Slack, Google Chat, Discord, GitHub, and Linear show its label as text. WhatsApp, Messenger, Twilio, and X omit it.
 
 ---
 

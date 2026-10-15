@@ -2,7 +2,7 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_VpXs">Skip to main content</a>
+<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_THu0">Skip to main content</a>
 
 
 On this page
@@ -46,7 +46,7 @@ To validate that Immich can reach your external library, start a shell inside th
 
 ### Exclusion Patterns<a href="#exclusion-patterns" class="hash-link" aria-label="Direct link to Exclusion Patterns" translate="no" title="Direct link to Exclusion Patterns">​</a>
 
-By default, all files in the import paths will be added to the library. If there are files that should not be added, exclusion patterns can be used to exclude them. Exclusion patterns are glob patterns are matched against the full file path. If a file matches an exclusion pattern, it will not be added to the library. Exclusion patterns can be added in the Scan Settings page for each library.
+By default, all files in the import paths will be added to the library. If there are files that should not be added, exclusion patterns can be used to exclude them. Exclusion patterns are glob patterns matched against the full file path. If a file matches an exclusion pattern, it will not be added to the library. If it has already been imported, it will be offlined on the next library scan. Exclusion patterns can be added in the Scan Settings page for each library.
 
 Some basic examples:
 
@@ -54,15 +54,18 @@ Some basic examples:
 - `**/hidden.jpg` will exclude all files named `hidden.jpg`
 - `**/Raw/**` will exclude all files in any directory named `Raw`
 - `**/*.{tif,jpg}` will exclude all files with the extension `.tif` or `.jpg`
+- `**/*.{arw,dng}` will exclude all files with the extension `.arw` or `.dng`
 
-Note that `*` is a wildcard matching zero or more characters (i.e., withinin a filename or single directory name). `**` matches zero or more subdirectories, recursively. It also includes any/all files within a subdirectory, i.e., when used at the end of a pattern. For example, `**/exclude_me/**` will exclude all files in any directory named `exclude_me`, as well as all files in any subdirectories of `exclude_me`, recursively.
+Exclusion patterns are case-insensitive for both new files and already imported assets. For example, `**/*.{arw,dng}` also excludes files with uppercase or mixed-case extensions such as `.ARW` and `.DnG`.
+
+Note that `*` is a wildcard matching zero or more characters (i.e., within a filename or single directory name). `**` matches zero or more subdirectories, recursively. It also includes any/all files within a subdirectory, i.e., when used at the end of a pattern. For example, `**/exclude_me/**` will exclude all files in any directory named `exclude_me`, as well as all files in any subdirectories of `exclude_me`, recursively.
 
 Special characters such as @ should be escaped, for instance:
 
 - `**/\@eaDir/**` will exclude all files in any directory named `@eaDir`
 
 
-Internally, Immich uses the <a href="https://www.npmjs.com/package/glob" target="_blank" rel="noopener noreferrer">glob</a> package to process exclusion patterns, and sometimes those patterns are translated into <a href="https://www.postgresql.org/docs/current/functions-matching.html" target="_blank" rel="noopener noreferrer">Postgres LIKE patterns</a>. The intention is to support basic folder exclusions but we recommend against advanced usage since those can't reliably be translated to the Postgres syntax. Please refer to the <a href="https://github.com/isaacs/node-glob#glob-primer" target="_blank" rel="noopener noreferrer">glob documentation</a> for a basic overview on glob patterns.
+For more information on the glob syntax supported by exclusion patterns, refer to the <a href="https://github.com/micromatch/picomatch#globbing-features" target="_blank" rel="noopener noreferrer">Picomatch documentation</a>.
 
 
 ### Automatic watching (EXPERIMENTAL)<a href="#automatic-watching-experimental" class="hash-link" aria-label="Direct link to Automatic watching (EXPERIMENTAL)" translate="no" title="Direct link to Automatic watching (EXPERIMENTAL)">​</a>
@@ -104,6 +107,10 @@ Let's show a concrete example where we add an existing gallery to Immich. Here, 
 First, we need to plan how we want to organize the libraries. The christmas trip photos should belong to its own library since we want to exclude the raw files. The videos and old photos can be in the same library since we want to import all files. We could also add all three folders to the same library if there are no files matching the Raw exclusion pattern in the other folders.
 
 ### Mount Docker Volumes<a href="#mount-docker-volumes" class="hash-link" aria-label="Direct link to Mount Docker Volumes" translate="no" title="Direct link to Mount Docker Volumes">​</a>
+
+
+You can also use the [Docker Compose Builder](https://immich.app/docker-compose-builder?storage.externalLibraries.0.path=&storage.externalLibraries.0.readOnly=true) instead.
+
 
 The `immich-server` container will need access to the gallery. Modify your docker compose file as follows
 

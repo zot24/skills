@@ -481,7 +481,7 @@ Upgrade checklist:
    `bd version`
 5. If crossing a schema migration on a remote-backed database, only the
    designated migrator runs:
-   `bd migrate`
+   `bd migrate schema`
    `bd dolt push`
 
 Other clones should install the new binary and run `bd bootstrap`, not
@@ -556,3 +556,6 @@ After installation:
 2. **Learn the basics**: See [Quick Start](/getting-started/quickstart)
 3. **Configure your agent**: See [IDE Setup](/getting-started/ide-setup), or run `bd setup --list`
 4. **Explore examples**: Check out the [examples/](https://github.com/gastownhall/beads/tree/main/examples) directory
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

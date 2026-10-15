@@ -59,3 +59,6 @@ app.post('/webhook', (req, res) => {
     .digest('hex');
 });
 ```
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

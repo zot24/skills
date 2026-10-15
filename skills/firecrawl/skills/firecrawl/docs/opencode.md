@@ -45,3 +45,6 @@ Scrape https://docs.firecrawl.dev/introduction and list the code examples.
 
 * **Server does not attach:** run `opencode doctor` and confirm the remote URL.
 * **Crawl or another tool is missing:** keyless exposes exactly Search, Scrape, and Parse. Connect with OAuth or an API key for the broader tool surface.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

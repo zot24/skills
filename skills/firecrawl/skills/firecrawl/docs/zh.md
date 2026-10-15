@@ -4,7 +4,7 @@
 
 ## Chinese
 
-- [Chinese / v2 (204 pages)](https://docs.firecrawl.dev/_llms/zh/v2.md): Documentation for Chinese / v2.
+- [Chinese / v2 (221 pages)](https://docs.firecrawl.dev/_llms/zh/v2.txt): Documentation for Chinese / v2.
 
 ### v1
 
@@ -25,6 +25,7 @@
 ###### 企业版
 
 - [Enterprise](https://docs.firecrawl.dev/zh/enterprise.md): 适用于 Firecrawl 大规模使用场景的 Enterprise 计划、安全性和功能
+- [SSO 与 SCIM](https://docs.firecrawl.dev/zh/features/sso.md): 设置单点登录（SSO）和 SCIM 名录同步，让团队成员通过您的身份提供商登录，并使用户访问权限与名录保持同步。
 - [IP 限制](https://docs.firecrawl.dev/zh/features/ip-restrictions.md): 将你团队的 API 密钥限制为仅可从已批准的 IP 地址或 CIDR 范围允许列表所在网络使用。由服务器端强制执行。
 - [密钥限制](https://docs.firecrawl.dev/zh/features/key-restrictions.md): 将单个 API 密钥限制为只能使用特定的输出格式和端点。限制在服务器端强制执行，请求无法覆盖。
 - [威胁防护](https://docs.firecrawl.dev/zh/features/threat-protection.md): 通过由您的组织控制的策略，在所有端点上封禁对高风险 URL 的请求，并在服务端强制执行。

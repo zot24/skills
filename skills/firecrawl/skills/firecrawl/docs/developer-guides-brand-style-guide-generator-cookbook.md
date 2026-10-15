@@ -332,3 +332,4 @@ const textColor = isDarkMode ? "#fff" : "#333";
     Process multiple URLs efficiently with batch scraping.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

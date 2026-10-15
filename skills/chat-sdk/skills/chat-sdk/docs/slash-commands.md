@@ -3,6 +3,8 @@
 ---
 title: Slash Commands
 description: Handle slash command invocations and respond with messages or modals.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/getting-started
@@ -14,8 +16,7 @@ related:
   - /docs/ephemeral-messages
 ---
 
-# Slash Commands
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Slash commands let users invoke your bot with `/command` syntax. Register handlers with `onSlashCommand` to respond to them.
 
@@ -106,9 +107,7 @@ bot.onSlashCommand("/feedback", async (event) => {
 });
 ```
 
-
-  When a modal is opened from a slash command, the submit handler receives `relatedChannel` instead of `relatedThread`. Use this to post back to the channel where the command was invoked.
-
+> When a modal is opened from a slash command, the submit handler receives `relatedChannel` instead of `relatedThread`. Use this to post back to the channel where the command was invoked.
 
 ```typescript title="lib/bot.ts" lineNumbers
 bot.onModalSubmit("feedback_form", async (event) => {
@@ -146,7 +145,6 @@ For full option details such as names and types, read the original Discord inter
 ### Registering commands with Discord
 
 You need to register slash commands with the [Discord API](https://discord.com/developers/docs/interactions/application-commands) before they appear in the client. The Chat SDK handles incoming commands but does not register them for you.
-
 
 ---
 

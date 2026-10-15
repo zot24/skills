@@ -3,14 +3,15 @@
 ---
 title: Markdown
 description: AST builder functions and utilities for programmatic message formatting.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 related:
   - /docs/posting-messages
   - /docs/emoji
 ---
 
-# Markdown
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 The SDK uses [mdast](https://github.com/syntax-tree/mdast) (Markdown AST) as the canonical format for message formatting. Each adapter converts the AST to the platform's native format.
 
@@ -54,6 +55,9 @@ root([
 ])
 ```
 
+| Property   | Type        | Description                                                            |
+| ---------- | ----------- | ---------------------------------------------------------------------- |
+| `children` | `Content[]` | Top-level content nodes (paragraphs, code blocks, blockquotes, lists). |
 
 ### paragraph
 
@@ -111,6 +115,10 @@ Fenced code block with optional language.
 codeBlock("const x = 1;", "typescript")
 ```
 
+| Property | Type                  | Description                                  |
+| -------- | --------------------- | -------------------------------------------- |
+| `value`  | `string`              | Code content.                                |
+| `lang`   | `string \| undefined` | Language identifier for syntax highlighting. |
 
 ### link
 
@@ -121,6 +129,11 @@ link("https://example.com", [text("click here")])
 link("https://example.com", [text("click here")], "tooltip title")
 ```
 
+| Property   | Type                  | Description            |
+| ---------- | --------------------- | ---------------------- |
+| `url`      | `string`              | Link URL.              |
+| `children` | `Content[]`           | Link text content.     |
+| `title`    | `string \| undefined` | Optional tooltip text. |
 
 ### blockquote
 
@@ -267,12 +280,9 @@ You write standard markdown, and each adapter converts it to the platform's nati
 | Tables        | Native (markdown\_text) | Native GFM      | ASCII fallback            |
 | Mentions      | `<@USER>`               | `<at>name</at>` | `<users/{id}>`            |
 
+> Slack accepts standard markdown via the `markdown_text` field on `chat.postMessage` and related methods, so the SDK passes markdown through directly. Incoming Slack messages still arrive as legacy mrkdwn (`*bold*`, `<url|text>`) and are parsed transparently. If you need to send mrkdwn yourself, use `{ raw: "..." }`.
 
-  Slack accepts standard markdown via the `markdown_text` field on `chat.postMessage` and related methods, so the SDK passes markdown through directly. Incoming Slack messages still arrive as legacy mrkdwn (`*bold*`, `<url|text>`) and are parsed transparently. If you need to send mrkdwn yourself, use `{ raw: "..." }`.
-
-
-  The AST builders and `parseMarkdown` handle these conversions for you. The table is mainly useful when you work with `raw` platform payloads or debug formatting issues.
-
+> The AST builders and `parseMarkdown` handle these conversions for you. The table is mainly useful when you work with `raw` platform payloads or debug formatting issues.
 
 ---
 

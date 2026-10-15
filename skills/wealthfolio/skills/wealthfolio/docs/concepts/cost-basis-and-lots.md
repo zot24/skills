@@ -90,7 +90,7 @@ How Wealthfolio tracks the cost basis of long and short lots, through splits, tr
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 Every share you buy creates a **long lot**; every explicit Sell Short creates a signed **short lot**. A lot is a unit of cost basis that follows that position until it’s closed. Lot accounting is what makes the difference between “you sold some Apple, here’s your gain” and “you sold these specific shares bought on this date at this price, here’s your gain and your remaining basis.”
 

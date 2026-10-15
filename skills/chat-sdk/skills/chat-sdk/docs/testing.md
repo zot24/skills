@@ -2,7 +2,9 @@
 
 ---
 title: Testing
-description: Test your bot handlers and custom adapters with @chat-adapter/tests, which provides Vitest factories, custom matchers, and a setup file.
+description: "Test your bot handlers and custom adapters with @chat-adapter/tests, which provides Vitest factories, custom matchers, and a setup file."
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/getting-started
@@ -12,8 +14,7 @@ related:
   - /docs/contributing/testing
 ---
 
-# Testing
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 The [`@chat-adapter/tests`](https://www.npmjs.com/package/@chat-adapter/tests) package gives you Vitest factories, custom matchers, and a setup file for testing bots and custom adapters built on Chat SDK.
 
@@ -145,7 +146,6 @@ describe("MyAdapter.handleWebhook", () => {
 Helpers that depend on one platform's wire format, such as signed Slack webhooks or Teams claim builders, live in each adapter's own `/testing` subpath rather than in this package. That way, adopting `@chat-adapter/tests` doesn't pull in adapter dependencies you don't use.
 
 If you're contributing adapters or core to this repo, see the [Testing adapters contributing guide](/docs/contributing/testing) for the hand-rolled patterns used inside `packages/`.
-
 
 ---
 

@@ -395,3 +395,4 @@ When the model takes more than one turn (call a tool, see the result, then answe
     wrapLanguageModel, middleware, and tool use reference.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

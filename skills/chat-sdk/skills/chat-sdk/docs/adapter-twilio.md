@@ -10,6 +10,14 @@ package: @chat-adapter/twilio
 # Twilio
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the Twilio adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="twilio memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -52,31 +60,39 @@ export async function POST(request: Request): Promise<Response> {
 
 ## Platform setup
 
-### 1. Get credentials
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Get credentials
 
-1. Create or open a Twilio account.
-2. Copy the **Account SID** to `TWILIO_ACCOUNT_SID`.
-3. Copy the **Auth Token** to `TWILIO_AUTH_TOKEN`.
-4. Copy a sender phone number to `TWILIO_PHONE_NUMBER`, or copy a Messaging Service SID to `TWILIO_MESSAGING_SERVICE_SID`.
+    1. Create or open a Twilio account.
+    2. Copy the **Account SID** to `TWILIO_ACCOUNT_SID`.
+    3. Copy the **Auth Token** to `TWILIO_AUTH_TOKEN`.
+    4. Copy a sender phone number to `TWILIO_PHONE_NUMBER`, or copy a Messaging Service SID to `TWILIO_MESSAGING_SERVICE_SID`.
+  </div>
 
-### 2. Configure the Messaging webhook
+  <div className="fd-step">
+    ### Configure the Messaging webhook
 
-Set your Twilio Messaging webhook URL to:
+    Set your Twilio Messaging webhook URL to:
 
-```text
-https://your-domain.com/api/webhooks/twilio
-```
+    ```text
+    https://your-domain.com/api/webhooks/twilio
+    ```
+  </div>
 
-### 3. Set up RCS (optional)
+  <div className="fd-step">
+    ### Set up RCS (optional)
 
-RCS uses the same webhook URL and adapter as SMS and MMS, so it needs no separate endpoint. To enable RCS rich messaging:
+    RCS uses the same webhook URL and adapter as SMS and MMS, so it needs no separate endpoint. To enable RCS rich messaging:
 
-1. Register an RCS Sender in the Twilio Console under **Messaging** then **RCS Senders**. Carrier approval typically takes 4 to 6 weeks.
-2. Add the RCS Sender and an SMS phone number to a Messaging Service so Twilio can fall back to SMS when RCS is unavailable.
-3. Set `TWILIO_MESSAGING_SERVICE_SID` to the Messaging Service SID, which starts with `MG`.
-4. Point the Messaging Service webhook to the same URL as your SMS webhook. The adapter handles both channels.
+    1. Register an RCS Sender in the Twilio Console under **Messaging** then **RCS Senders**. Carrier approval typically takes 4 to 6 weeks.
+    2. Add the RCS Sender and an SMS phone number to a Messaging Service so Twilio can fall back to SMS when RCS is unavailable.
+    3. Set `TWILIO_MESSAGING_SERVICE_SID` to the Messaging Service SID, which starts with `MG`.
+    4. Point the Messaging Service webhook to the same URL as your SMS webhook. The adapter handles both channels.
 
-See [RCS](#rcs) for how the adapter behaves once RCS is enabled.
+    See [RCS](#rcs) for how the adapter behaves once RCS is enabled.
+  </div>
+</div>
 
 ## Configuration
 
@@ -113,9 +129,9 @@ When the sender is RCS-capable (an `MG…` Messaging Service or an `rcs:` addres
 
 Inbound RCS messages are keyed to the Messaging Service (or configured RCS sender), so replies go back out over RCS. Plain SMS threads keep their phone-number thread IDs even when the number belongs to a Messaging Service, and `openDM` prefers `phoneNumber` over `messagingServiceSid` and `rcsSenderId`, so enabling RCS does not change the thread IDs of existing conversations.
 
-Button taps from templates that Chat SDK did not send (for example Studio flows or pre-created WhatsApp templates) are not turned into actions. When they carry a message body, they arrive as regular messages, matching the adapter's behavior before RCS support.
+Button taps from templates that Chat SDK did not send (for example Studio flows or pre-created WhatsApp templates) are not decoded as Chat SDK actions. When they carry a message body, they arrive as regular messages, matching the adapter's behavior before RCS support. Taps without a body reach `onAction` with the raw ButtonPayload as `actionId`.
 
-Content templates are created on demand and reused by a stable name derived from the card's content, so identical cards share one template across restarts. Cards that embed changing values (timestamps, order IDs, user names) produce a new template per unique body, and Twilio keeps Content resources until you delete them. For high-volume use, keep card bodies stable or pre-create templates.
+Content templates are created on demand and reused by a stable name derived from the card's content, so identical cards share one template across restarts. Cards that embed changing values (timestamps, order IDs, user names) produce a new template per unique body, and Twilio keeps Content resources until you delete them. For high-volume use, keep card bodies stable, or pre-create templates and send them with [`sendTemplate`](#template-messages).
 
 ### Sending rich cards
 
@@ -148,6 +164,30 @@ bot.onAction(async (action) => {
 });
 ```
 
+## Template messages
+
+Cards create Content API templates on demand for RCS senders only. To send a template on any channel, such as an approved WhatsApp template or an RCS template you manage yourself, pass its ContentSid to `sendTemplate`:
+
+```typescript title="send-template.ts" lineNumbers
+const twilio = bot.getAdapter("twilio");
+
+const threadId = twilio.encodeThreadId({
+  sender: "whatsapp:+15550000001",
+  recipient: "whatsapp:+15551234567",
+});
+
+await twilio.sendTemplate(threadId, {
+  contentSid: "HXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+  contentVariables: { "1": "Tomorrow at 2pm" },
+});
+```
+
+`contentVariables` takes an object keyed by placeholder, or a pre-serialized JSON object string. The send is routed like `postMessage`: `MG…` senders use `MessagingServiceSid`, everything else uses `From`. Twilio rejects a WhatsApp recipient paired with an SMS sender, so WhatsApp templates need a `whatsapp:` sender or a Messaging Service that includes a WhatsApp sender. `openDM` uses `phoneNumber` first, which is usually an SMS number, so build the thread ID with `encodeThreadId` as shown above.
+
+Create templates in the Twilio Console under Messaging → Content Template Builder or with the [Content API](https://www.twilio.com/docs/content/create-templates-with-the-content-api). WhatsApp templates must be [approved by Meta](https://www.twilio.com/docs/content/whatsapp-approval) first and are the only message WhatsApp accepts outside the 24-hour customer service window.
+
+Chat SDK did not render the quick-reply buttons in templates sent with `sendTemplate`, so it does not decode their taps as actions. A tap that carries a message body, which WhatsApp quick replies do, arrives as a regular message, so handle it in your message handlers. A tap without a body reaches `onAction` with the raw ButtonPayload as `actionId`.
+
 ## Media
 
 Inbound MMS media is exposed as message attachments. Twilio media URLs are not treated as public files, so each attachment includes `fetchData()` and `fetchMetadata` for authenticated downloads and queue rehydration.
@@ -171,12 +211,14 @@ await thread.post({
 When a thread sender starts with `MG`, outbound messages use `MessagingServiceSid` instead of `From`:
 
 ```typescript title="send-with-service.ts" lineNumbers
+const twilio = bot.getAdapter("twilio");
+
 const threadId = twilio.encodeThreadId({
   sender: "MGXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
   recipient: "+15555550100",
 });
 
-await bot.adapters.twilio.postMessage(threadId, "hello");
+await twilio.postMessage(threadId, "hello");
 ```
 
 ## Low-level helpers

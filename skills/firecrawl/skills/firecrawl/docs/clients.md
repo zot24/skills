@@ -20,6 +20,15 @@ Choose how the connection will authenticate. Signing in and adding an API key ar
     Configure an API key in your client, no browser needed.
 
 
+Use ChatGPT, Codex or Claude? Install the native Firecrawl connector in one click:
+
+
+    Install the native Firecrawl connector in ChatGPT and Codex.
+
+
+    Install the native Firecrawl connector in Claude.
+
+
 ## Sign in
 
 Point your client at the OAuth server URL. Your client opens a browser window where you sign in to Firecrawl and approve a team:
@@ -51,3 +60,6 @@ No API key or headers are needed. Review and revoke connections from [MCP settin
 
 
 Next: [choose a tool](/mcp-server/tools) or [run the server locally](/mcp-server/local).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

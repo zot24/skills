@@ -3,6 +3,8 @@
 ---
 title: PostableMessage
 description: The union type accepted by thread.post() for sending messages.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 related:
   - /docs/posting-messages
@@ -10,8 +12,7 @@ related:
   - /docs/cards
 ---
 
-# PostableMessage
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 `PostableMessage` is the union of all message formats accepted by `thread.post()` and `sent.edit()`.
 
@@ -40,6 +41,12 @@ Explicit raw text. Behaves the same as a plain string.
 await thread.post({ raw: "Hello world" });
 ```
 
+| Property      | Type                   | Description                                                                                                    |
+| ------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `raw`         | `string`               | Text passed through as-is to the platform.                                                                     |
+| `attachments` | `Attachment[]`         | Typed media attachments for adapters that support outgoing attachments.                                        |
+| `files`       | `FileUpload[]`         | Files to upload.                                                                                               |
+| `aiGenerated` | `boolean \| undefined` | Mark the message as AI-generated. Adapters with a native AI label (currently Teams) show it; others ignore it. |
 
 ## PostableMarkdown
 
@@ -49,6 +56,12 @@ Markdown converted to each platform's native format.
 await thread.post({ markdown: "**Bold** and _italic_" });
 ```
 
+| Property      | Type                   | Description                                                                                                    |
+| ------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `markdown`    | `string`               | Markdown text, converted to platform format via mdast.                                                         |
+| `attachments` | `Attachment[]`         | Typed media attachments for adapters that support outgoing attachments.                                        |
+| `files`       | `FileUpload[]`         | Files to upload.                                                                                               |
+| `aiGenerated` | `boolean \| undefined` | Mark the message as AI-generated. Adapters with a native AI label (currently Teams) show it; others ignore it. |
 
 ## PostableAst
 
@@ -62,6 +75,12 @@ await thread.post({
 });
 ```
 
+| Property      | Type                   | Description                                                                                                    |
+| ------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `ast`         | `Root`                 | mdast AST root node.                                                                                           |
+| `attachments` | `Attachment[]`         | Typed media attachments for adapters that support outgoing attachments.                                        |
+| `files`       | `FileUpload[]`         | Files to upload.                                                                                               |
+| `aiGenerated` | `boolean \| undefined` | Mark the message as AI-generated. Adapters with a native AI label (currently Teams) show it; others ignore it. |
 
 ## PostableCard
 
@@ -82,6 +101,12 @@ await thread.post({
 });
 ```
 
+| Property       | Type                   | Description                                                                                                    |
+| -------------- | ---------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `card`         | `CardElement`          | Rich card element.                                                                                             |
+| `fallbackText` | `string \| undefined`  | Plain text fallback for clients that cannot render cards.                                                      |
+| `files`        | `FileUpload[]`         | Files to upload.                                                                                               |
+| `aiGenerated`  | `boolean \| undefined` | Mark the message as AI-generated. Adapters with a native AI label (currently Teams) show it; others ignore it. |
 
 ## Plan
 
@@ -114,6 +139,11 @@ const planned = new StreamingPlan(stream, {
 await thread.post(planned);
 ```
 
+| Property           | Type                                | Description                                                                                                       |
+| ------------------ | ----------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| `groupTasks`       | `"plan" \| "timeline" \| undefined` | Slack: render task\_update chunks as \`"plan"\` (single grouped block) or \`"timeline"\` (inline cards, default). |
+| `endWith`          | `unknown[] \| undefined`            | Slack: Block Kit elements appended when the stream stops (e.g. retry / feedback buttons).                         |
+| `updateIntervalMs` | `number \| undefined`               | Post+edit adapters: minimum interval between update cycles in ms.                                                 |
 
 ## AsyncIterable (streaming)
 
@@ -141,6 +171,11 @@ When using `fullStream`, the SDK auto-detects `text-delta` and `finish-step` eve
 
 Used in the `files` field of any structured message format.
 
+| Property   | Type                            | Description                                         |
+| ---------- | ------------------------------- | --------------------------------------------------- |
+| `data`     | `Buffer \| Blob \| ArrayBuffer` | Binary file data.                                   |
+| `filename` | `string`                        | Filename.                                           |
+| `mimeType` | `string \| undefined`           | MIME type (inferred from filename if not provided). |
 
 ---
 

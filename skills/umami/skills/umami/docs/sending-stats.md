@@ -20,28 +20,31 @@ API
 Copy page
 
 
+Send pageviews, custom events, and visitor data to Umami directly over HTTP with the /api/send and /api/batch endpoints.
+
+
 ## POST /api/send<a href="#post-apisend" class="heading-anchor" aria-label="Permalink to “POST /api/send”">#</a>
+
+For **Umami Cloud** send a POST to `https://gateway.umami.is/api/send`.
 
 To register an `event`, you need to send a `POST` to `/api/send` with the following data:
 
-For **Umami Cloud** send a POST to `https://cloud.umami.is/api/send`.
-
 **Parameters**
 
-| Parameter          | Type   | Description                                   |
-|--------------------|--------|-----------------------------------------------|
-| `payload.hostname` | string | Name of host.                                 |
-| `payload.screen`   | string | Screen resolution (ex. "1920x1080").          |
-| `payload.language` | string | Language of visitor (ex. "en-US").            |
-| `payload.url`      | string | Page URL.                                     |
-| `payload.referrer` | string | Referrer URL.                                 |
-| `payload.title`    | string | Page title.                                   |
-| `payload.tag`      | string | Additional tag description.                   |
-| `payload.id`       | string | Session identifier.                           |
-| `payload.website`  | string | Website ID.                                   |
-| `payload.name`     | string | Name of the event.                            |
-| `payload.data`     | object | (optional) Additional data for the event.     |
-| `type`             | string | One of `event`, `identify`, or `performance`. |
+| Parameter          | Type   | Description                                                                       |
+|--------------------|--------|-----------------------------------------------------------------------------------|
+| `payload.hostname` | string | Name of host.                                                                     |
+| `payload.screen`   | string | Screen resolution (ex. "1920x1080").                                              |
+| `payload.language` | string | Language of visitor (ex. "en-US").                                                |
+| `payload.url`      | string | Page URL.                                                                         |
+| `payload.referrer` | string | Referrer URL.                                                                     |
+| `payload.title`    | string | Page title.                                                                       |
+| `payload.tag`      | string | Additional tag description.                                                       |
+| `payload.id`       | string | Distinct ID used to identify the visitor. See [Distinct IDs](/docs/distinct-ids). |
+| `payload.website`  | string | Website ID.                                                                       |
+| `payload.name`     | string | Name of the event.                                                                |
+| `payload.data`     | object | (optional) Additional data for the event.                                         |
+| `type`             | string | One of `event`, `identify`, or `performance`.                                     |
 
 **Sample payload**
 

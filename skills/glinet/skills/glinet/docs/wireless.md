@@ -33,7 +33,7 @@ gl-inet/docs4.x
 
 # Wireless<a href="#wireless" class="headerlink" title="Permanent link">¶</a>
 
-The content on this page is based on firmware version v4.9.x. If your device is running a different firmware version, use the selector below to switch to the corresponding guide.
+The content on this page is based on firmware version v4.9 and above. If your device is running a different firmware version, use the selector below to switch to the corresponding guide.
 
 
 - [Firmware v4.8 and earlier](../wireless_v4.8/)
@@ -166,7 +166,7 @@ Was this page helpful?
 Thanks for your feedback!
 
 
-Thanks for your feedback! We will use it to improve this page.
+Thanks for your feedback! Help us improve this page by <a href="https://glinet.feishu.cn/share/base/form/shrcnbojSI6bg5XpcptdEzhQjpc" data-prefill="Which page needs improvement?" target="_blank" rel="noopener">telling us what you're missing</a>.
 
 
 Back to top

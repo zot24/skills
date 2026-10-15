@@ -180,3 +180,4 @@ print(response)
     Explore the official Google Agent Development Kit documentation for comprehensive guides and API references.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

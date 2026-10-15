@@ -175,3 +175,6 @@ console.log('Extracted company info:', companyInfo);
 ```
 
 For more examples, check the [LangChain documentation](https://js.langchain.com/docs).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

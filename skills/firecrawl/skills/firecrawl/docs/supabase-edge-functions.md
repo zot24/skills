@@ -134,3 +134,4 @@ curl -X POST https://<project-ref>.supabase.co/functions/v1/firecrawl-search \
     Full SDK reference with crawl, map, batch scrape, and more
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

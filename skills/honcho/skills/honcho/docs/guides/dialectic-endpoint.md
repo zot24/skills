@@ -95,3 +95,6 @@ This chat interface is exposed via the `chat` endpoint. It accepts a string or a
 </CodeGroup>
 
 We've designed the Dialectic endpoint to be infinitely flexible. We wrote an incomplete list of ideas on how to use it on our blog [here](https://blog.plasticlabs.ai/blog/Introducing-Honcho's-Dialectic-API#how-it-works).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -170,3 +170,4 @@ curl -X POST http://localhost:8080/api/interact \
     Full SDK reference with crawl, map, batch scrape, and more
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

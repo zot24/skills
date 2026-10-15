@@ -85,14 +85,14 @@ Mobile App (iOS & Android)
 
 # Mobile App (iOS & Android)
 
-Wealthfolio on iOS, the road for Android, and the PWA workaround for self-hosted instances on any phone.
+Install Wealthfolio on iOS and Android, or use a self-hosted instance as a Progressive Web App on your phone.
 
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
-Wealthfolio’s mobile story has three parts: a native iOS app, a Progressive Web App (PWA) for self-hosted users on any phone, and an Android version that’s planned but not yet built. This guide covers what’s available today.
+Wealthfolio is available as a native app for iOS and Android. Self-hosted users can also access their instance as a Progressive Web App (PWA) on either platform. This guide covers installation, local data storage, and optional device sync.
 
 <figure class="my-6">
 <img src="https://assets.wealthfolio.app/images/screenshots/app/mobile-store.png" class="block w-full rounded-lg" alt="Wealthfolio on iOS — dashboard, net worth, AI assistant, holdings, and allocation" />
@@ -123,11 +123,19 @@ Sign into Connect on the iOS app under **Settings → Connect**. Changes flow to
 
 ------------------------------------------------------------------------
 
-## 2 · Android
+## 2 · Android app
 
-There’s no native Android app yet. It’s planned: the engine is Rust + cross-platform so the work is mostly the platform-specific shell, not a rewrite. No date promised.
+Wealthfolio for Android is available on Google Play. Install the native app to track investments, net worth, and spending on your Android device.
 
-If you’re on Android today, the PWA below is the path.
+Install from Google Play: <a href="https://play.google.com/store/apps/details?id=com.teymz.wealthfolio" class="font-medium underline underline-offset-4">Get Wealthfolio for Android</a>.
+
+### Where your Android data lives
+
+Each Android device keeps its own SQLite database in the app’s private storage. No Wealthfolio account is required, and your data stays on your device. It isn’t synced to other devices unless you use Connect.
+
+### Multi-device with Connect
+
+Sign into Connect in the Android app under **Settings → Connect** to sync with your other devices using end-to-end encryption. See the <a href="/docs/guide/connect-broker-sync/" class="font-medium underline underline-offset-4">Connect &amp; Broker Sync guide</a> for the full setup.
 
 ------------------------------------------------------------------------
 
@@ -141,9 +149,9 @@ A self-hosted Wealthfolio instance works as a Progressive Web App. On iOS Safari
 
 The icon on your home screen launches the app full-screen with no browser chrome. It behaves like a native app for the things that matter: bookmarks, sessions, offline chrome (the data itself still needs your server reachable).
 
-### What you give up vs. the native iOS app
+### What you give up vs. the native mobile apps
 
-- **No iCloud backup** of an embedded database. The data lives on your self-hosted server, so back it up there.
+- **No iCloud backup** of an embedded database as on iOS. The data lives on your self-hosted server, so back it up there.
 - **No Face ID lock** (PWAs don’t get biometric auth APIs the same way native apps do).
 - **No background sync.** Pull-to-refresh works while the app is open; nothing happens while it’s backgrounded.
 
@@ -160,7 +168,7 @@ For most self-hosters this is a perfectly fine setup.
 
 ------------------------------------------------------------------------
 
-**Next step:** if you’re using self-hosting + PWA, the <a href="/docs/guide/self-hosting/#troubleshooting" class="font-medium underline underline-offset-4">Self-Hosting troubleshooting section</a> covers the most-common server-side hiccups. If you’re using the native iOS app + Connect, the <a href="/docs/guide/connect-broker-sync/" class="font-medium underline underline-offset-4">Connect &amp; Broker Sync guide</a> is where to go next.
+**Next step:** if you’re using self-hosting + PWA, the <a href="/docs/guide/self-hosting/#troubleshooting" class="font-medium underline underline-offset-4">Self-Hosting troubleshooting section</a> covers the most-common server-side hiccups. If you’re using the native iOS or Android app + Connect, the <a href="/docs/guide/connect-broker-sync/" class="font-medium underline underline-offset-4">Connect &amp; Broker Sync guide</a> is where to go next.
 
 ------------------------------------------------------------------------
 
@@ -173,9 +181,11 @@ On This Page
 - <a href="#1--ios-app" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · iOS app</a>
   - <a href="#where-your-ios-data-lives" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Where your iOS data lives</a>
   - <a href="#multi-device-with-connect" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Multi-device with Connect</a>
-- <a href="#2--android" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · Android</a>
+- <a href="#2--android-app" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · Android app</a>
+  - <a href="#where-your-android-data-lives" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Where your Android data lives</a>
+  - <a href="#multi-device-with-connect-1" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Multi-device with Connect</a>
 - <a href="#3--self-hosted-on-mobile-pwa" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Self-hosted on mobile (PWA)</a>
-  - <a href="#what-you-give-up-vs-the-native-ios-app" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">What you give up vs. the native iOS app</a>
+  - <a href="#what-you-give-up-vs-the-native-mobile-apps" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">What you give up vs. the native mobile apps</a>
 - <a href="#4--tips--limitations" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · Tips &amp; limitations</a>
 
 

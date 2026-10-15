@@ -20,6 +20,17 @@
   `workspace_id`.
 
 
+For a directly accessed Honcho instance with authentication enabled, pass
+`workspace_id` and `scope_id` to mint a JWT bound to a single named scope. It
+supports scoped recall and message ingestion; do not combine `scope_id` with
+`peer_id` or `session_id`. The scope must exist before the key is used. Existing
+keys and minting inputs keep their behavior.
+
+This new core JWT option does not add named-scope grants to Honcho Cloud's
+managed key service. See [named-scope keys](/docs/v3/documentation/features/advanced/scopes#named-scope-api-keys)
+for allowed operations, SDK usage, and rollout requirements.
+
+
 ## OpenAPI
 
 ````yaml post /v3/keys
@@ -37,12 +48,10 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.2.2
+  version: 3.3.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
-  - url: http://localhost:8000
-    description: Local Development Server
 security: []
 paths:
   /v3/keys:
@@ -92,6 +101,16 @@ paths:
                 format: date-time
               - type: 'null'
             title: Expires At
+        - name: scope_id
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            description: Named scope for recall and ingestion; requires workspace_id
+            title: Scope Id
+          description: Named scope for recall and ingestion; requires workspace_id
       responses:
         '200':
           description: Successful Response
@@ -149,3 +168,5 @@ components:
       scheme: bearer
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

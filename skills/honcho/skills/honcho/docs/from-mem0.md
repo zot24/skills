@@ -33,7 +33,7 @@ For the best results, we recommend importing your raw messages directly into Hon
 However, if you'd like to get started quickly, you can migrate your existing Mem0 memories directly as **observations**.
 
 
-  Get your API key at [app.honcho.dev/api-keys](https://app.honcho.dev/api-keys). New accounts start with \$100 credits.
+  Get your API key at [app.honcho.dev/api-keys](https://app.honcho.dev/api-keys).
 
 
 <CodeGroup>
@@ -143,7 +143,7 @@ Alternatively, if you want to import the Mem0 memories, follow the example above
 ### 3. Initialize the Honcho Client
 
 
-  Get your API key at [app.honcho.dev/api-keys](https://app.honcho.dev/api-keys). New accounts start with \$100 credits.
+  Get your API key at [app.honcho.dev/api-keys](https://app.honcho.dev/api-keys).
 
 
 <CodeGroup>
@@ -295,3 +295,6 @@ Additional features with **no Mem0 equivalent**:
 
 
 Questions? Join our [Discord](https://discord.gg/honcho) or open an issue on [GitHub](https://github.com/plastic-labs/honcho/issues).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

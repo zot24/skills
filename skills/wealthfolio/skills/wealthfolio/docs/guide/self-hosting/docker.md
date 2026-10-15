@@ -90,7 +90,7 @@ Run Wealthfolio with the official Docker image using docker run. Works on any Li
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 The fastest way to self-host Wealthfolio: pull the official multi-arch image and run it with `docker run`. For a Compose-based setup with restart policies and an env file, see <a href="/docs/guide/self-hosting/docker-compose/" class="font-medium underline underline-offset-4"><strong>Docker Compose</strong></a>.

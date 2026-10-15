@@ -58,3 +58,4 @@ If no Firecrawl tools appear, restart or reload the client after saving its MCP 
     Start the open-source server over stdio or Streamable HTTP.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

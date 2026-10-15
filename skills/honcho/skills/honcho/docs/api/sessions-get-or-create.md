@@ -29,12 +29,10 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.2.2
+  version: 3.3.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
-  - url: http://localhost:8000
-    description: Local Development Server
 security: []
 paths:
   /v3/workspaces/{workspace_id}/sessions:
@@ -185,6 +183,16 @@ components:
       title: SessionPeerConfig
     SessionConfiguration:
       properties:
+        custom_instructions:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Custom Instructions
+          description: >-
+            Custom instructions shared by the deriver, summarizer, dialectic,
+            and dreamer. A module's own custom_instructions at the same level
+            takes precedence, and session-level values beat workspace-level
+            ones. Messages can only override reasoning.custom_instructions.
         reasoning:
           anyOf:
             - $ref: '#/components/schemas/ReasoningConfiguration'
@@ -209,6 +217,11 @@ components:
           description: >-
             Configuration for dream functionality. If reasoning is disabled,
             dreams will also be disabled and these settings will be ignored.
+        dialectic:
+          anyOf:
+            - $ref: '#/components/schemas/DialecticConfiguration'
+            - type: 'null'
+          description: Configuration for the dialectic chat endpoints.
       additionalProperties: true
       type: object
       title: SessionConfiguration
@@ -259,9 +272,9 @@ components:
             - type: 'null'
           title: Custom Instructions
           description: >-
-            Optional custom instructions for the reasoning system on this
-            workspace/session/message. Rejected if they exceed the deriver
-            custom-instruction token cap.
+            Custom instructions for the deriver. Overrides the top-level
+            custom_instructions at the same level. Set to an empty string to
+            explicitly use none.
       type: object
       title: ReasoningConfiguration
     PeerCardConfiguration:
@@ -280,6 +293,15 @@ components:
             - type: 'null'
           title: Create
           description: Whether to generate peer card based on content.
+        custom_instructions:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Custom Instructions
+          description: >-
+            Custom instructions for peer card updates. Added on top of the dream
+            instructions and applied within the peer card's allowed entry kinds.
+            Does not fall back to the top-level custom_instructions.
       type: object
       title: PeerCardConfiguration
     SummaryConfiguration:
@@ -308,6 +330,15 @@ components:
           description: >-
             Number of messages per long summary. Must be positive, greater than
             or equal to 20, and greater than messages_per_short_summary.
+        custom_instructions:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Custom Instructions
+          description: >-
+            Custom instructions for session summaries. Overrides the top-level
+            custom_instructions at the same level. Set to an empty string to
+            explicitly use none.
       type: object
       title: SummaryConfiguration
     DreamConfiguration:
@@ -320,11 +351,35 @@ components:
           description: >-
             Whether to enable dream functionality. If reasoning is disabled,
             dreams will also be disabled and this setting will be ignored.
+        custom_instructions:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Custom Instructions
+          description: >-
+            Custom instructions for dreams. Overrides the top-level
+            custom_instructions at the same level. Set to an empty string to
+            explicitly use none.
       type: object
       title: DreamConfiguration
+    DialecticConfiguration:
+      properties:
+        custom_instructions:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Custom Instructions
+          description: >-
+            Custom instructions for the dialectic chat endpoints. Overrides the
+            top-level custom_instructions at the same level. Set to an empty
+            string to explicitly use none.
+      type: object
+      title: DialecticConfiguration
   securitySchemes:
     HTTPBearer:
       type: http
       scheme: bearer
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

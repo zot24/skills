@@ -90,7 +90,7 @@ Three install paths on Proxmox (community-scripts LXC, Docker inside an LXC, or 
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 There are three sensible ways to run Wealthfolio on Proxmox. Pick based on how you already run other services.

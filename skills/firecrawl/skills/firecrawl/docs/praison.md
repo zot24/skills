@@ -53,3 +53,6 @@ print(agent.chat("Scrape the content from https://praison.ai/docs"))
 
 * [Praison `FirecrawlTool` guide](https://praison.ai/docs/tools/external/firecrawl)
 * [Firecrawl scrape docs](/features/scrape)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

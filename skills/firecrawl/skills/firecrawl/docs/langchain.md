@@ -94,3 +94,6 @@ const docs = await loader.load();
 * [`langchain-firecrawl` on PyPI](https://pypi.org/project/langchain-firecrawl/)
 * [Firecrawl scrape](/features/scrape) and [crawl](/features/crawl) docs
 * [Firecrawl Python SDK](/sdks/python) and [Node SDK](/sdks/node)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

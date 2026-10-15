@@ -211,3 +211,6 @@ result = peer.chat(
 result.content      # a FoodPreferences instance
 result.evidence     # what the answer was built from
 ```
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

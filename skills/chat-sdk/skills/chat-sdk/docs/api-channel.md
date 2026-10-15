@@ -3,13 +3,14 @@
 ---
 title: Channel
 description: Channel container that holds threads, with methods for listing, posting, and iteration.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 related:
   - /docs/threads-messages-channels
 ---
 
-# Channel
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 A `Channel` represents a channel or conversation container that holds threads. `Thread` and `Channel` both extend the `Postable` interface, so they share members such as `post()`, `state`, and `messages`.
 
@@ -25,6 +26,12 @@ const channel = chat.channel("slack:C123ABC");
 
 ## Properties
 
+| Property  | Type             | Description                                                                     |
+| --------- | ---------------- | ------------------------------------------------------------------------------- |
+| `id`      | `string`         | Channel ID, such as "slack:C123ABC" or "gchat:spaces/ABC123".                   |
+| `name`    | `string \| null` | Channel name, such as "#general". \`null\` until \`fetchMetadata()\` is called. |
+| `adapter` | `Adapter`        | The platform adapter this channel belongs to.                                   |
+| `isDM`    | `boolean`        | Whether this is a direct message conversation.                                  |
 
 ## Channel ID format
 
@@ -59,6 +66,12 @@ for await (const thread of channel.threads()) {
 
 ### ThreadSummary
 
+| Property      | Type                  | Description                        |
+| ------------- | --------------------- | ---------------------------------- |
+| `id`          | `string`              | Full thread ID.                    |
+| `rootMessage` | `Message`             | The first message of the thread.   |
+| `replyCount`  | `number \| undefined` | Number of replies, when available. |
+| `lastReplyAt` | `Date \| undefined`   | Timestamp of most recent reply.    |
 
 ## post
 
@@ -97,6 +110,13 @@ console.log(info.name, info.memberCount);
 
 ### ChannelInfo
 
+| Property      | Type                      | Description                       |
+| ------------- | ------------------------- | --------------------------------- |
+| `id`          | `string`                  | Channel ID.                       |
+| `name`        | `string \| undefined`     | Channel name.                     |
+| `isDM`        | `boolean \| undefined`    | Whether this is a direct message. |
+| `memberCount` | `number \| undefined`     | Number of members in the channel. |
+| `metadata`    | `Record<string, unknown>` | Platform-specific metadata.       |
 
 ## state
 
@@ -135,7 +155,6 @@ Get a platform-specific @-mention string.
 ```typescript
 await channel.post(`Hey ${channel.mentionUser(userId)}, check this out!`);
 ```
-
 
 ---
 

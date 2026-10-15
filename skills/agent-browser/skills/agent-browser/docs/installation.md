@@ -2,23 +2,34 @@
 
 
 
-[](https://vercel.com "Made with love by Vercel")<span class="text-neutral-300 dark:text-neutral-700"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+<a href="/" class="flex @min-[1024px]:hidden items-center text-gray-1000"><span class="font-medium tracking-tight" style="font-family:var(--font-geist-pixel-square)">agent-browser</span></a>
 
 
-Installation
+<a href="https://github.com/vercel-labs/agent-browser" class="size-8 items-center justify-center @min-[768px]:inline-flex hidden shrink-0" data-geist-button="" data-prefix="false" data-suffix="false" data-version="v1" aria-label="GitHub repository" rel="noopener" target="_blank"><span class="truncate px-1.5 inline-flex shrink-0 items-center justify-center"></span></a>
 
 
-Copy Page
+        &quot;sidebar toc-popover toc&quot;
+        &quot;sidebar main toc&quot; 1fr / minmax(var(--fd-sidebar-col), 1fr) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-width) - var(--fd-toc-width))) minmax(min-content, 1fr);--fd-docs-row-1:4rem;--fd-docs-row-2:calc(var(--fd-docs-row-1) + var(--fd-header-height));--fd-docs-row-3:calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height));--fd-sidebar-col:var(--fd-sidebar-width)">
 
 
-# Installation<a href="#installation" aria-label="Link to this section">#</a>
+Menu
 
-## Global installation (recommended)<a href="#global-installation-recommended" aria-label="Link to this section">#</a>
+
+# Installation
+
+
+Copy for LLM
+
+
+View Markdown
+
+
+## <a href="#global-installation-recommended" class="peer" data-card="">Global installation (recommended)</a>
 
 Installs the native Rust binary for maximum performance:
 
 
-``` shiki
+``` m-0
 npm install -g agent-browser
 agent-browser install  # Download Chrome from Chrome for Testing (first time)
 ```
@@ -26,21 +37,21 @@ agent-browser install  # Download Chrome from Chrome for Testing (first time)
 
 This is the fastest option -- commands run through the native Rust CLI directly with sub-millisecond parsing overhead.
 
-## Quick start (no install)<a href="#quick-start-no-install" aria-label="Link to this section">#</a>
+## <a href="#quick-start-no-install" class="peer" data-card="">Quick start (no install)</a>
 
 
-``` shiki
+``` m-0
 npx agent-browser install   # Download Chrome (first time only)
 npx agent-browser open example.com
 ```
 
 
-## Project installation (local dependency)<a href="#project-installation-local-dependency" aria-label="Link to this section">#</a>
+## <a href="#project-installation-local-dependency" class="peer" data-card="">Project installation (local dependency)</a>
 
 For projects that want to pin the version in `package.json`:
 
 
-``` shiki
+``` m-0
 npm install agent-browser
 npx agent-browser install  # Download Chrome (first time)
 ```
@@ -48,30 +59,30 @@ npx agent-browser install  # Download Chrome (first time)
 
 Then use via `npx` or `package.json` scripts.
 
-## Homebrew (macOS)<a href="#homebrew-macos" aria-label="Link to this section">#</a>
+## <a href="#homebrew-macos" class="peer" data-card="">Homebrew (macOS)</a>
 
 
-``` shiki
+``` m-0
 brew install agent-browser
 agent-browser install  # Download Chrome (first time)
 ```
 
 
-## Cargo (Rust)<a href="#cargo-rust" aria-label="Link to this section">#</a>
+## <a href="#cargo-rust" class="peer" data-card="">Cargo (Rust)</a>
 
 
-``` shiki
+``` m-0
 cargo install agent-browser
 agent-browser install  # Download Chrome (first time)
 ```
 
 
-Compiles from source (~2-3 min). Requires Node.js 24+, pnpm 11+, and the Rust toolchain (<a href="https://rustup.rs" target="_blank" rel="noopener noreferrer">rustup.rs</a>).
+Compiles from source (~2-3 min). Requires Node.js 24+, pnpm 11+, and the Rust toolchain (<a href="https://rustup.rs" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!" rel="noreferrer noopener" target="_blank">rustup.rs</a>).
 
-## From source<a href="#from-source" aria-label="Link to this section">#</a>
+## <a href="#from-source" class="peer" data-card="">From source</a>
 
 
-``` shiki
+``` m-0
 git clone https://github.com/vercel-labs/agent-browser
 cd agent-browser
 pnpm install
@@ -82,42 +93,42 @@ pnpm link --global
 ```
 
 
-## Windows browser sessions<a href="#windows-browser-sessions" aria-label="Link to this section">#</a>
+## <a href="#windows-browser-sessions" class="peer" data-card="">Windows browser sessions</a>
 
 Headless Chrome runs on a private Windows desktop. This prevents hidden browser windows from leaving visible rectangles on your desktop, including with affected Chrome 150 builds. It applies to bundled and custom Chrome executables and to windows created later in the session. Automation, screenshots, and GPU rendering continue through CDP.
 
 Use `--headed` to show Chrome on the interactive desktop. Sessions with extensions also use the interactive desktop. Agent-browser owns the Chrome processes it launches: Windows terminates the entire Chrome tree when its daemon exits or is forcibly killed. Browsers attached with `--cdp` or `--auto-connect` remain externally owned.
 
-## Linux dependencies<a href="#linux-dependencies" aria-label="Link to this section">#</a>
+## <a href="#linux-dependencies" class="peer" data-card="">Linux dependencies</a>
 
 On Linux, install system dependencies:
 
 
-``` shiki
+``` m-0
 agent-browser install --with-deps
 ```
 
 
 This exits nonzero if the package manager cannot install every required browser library.
 
-## Updating<a href="#updating" aria-label="Link to this section">#</a>
+## <a href="#updating" class="peer" data-card="">Updating</a>
 
 Upgrade to the latest version:
 
 
-``` shiki
+``` m-0
 agent-browser upgrade
 ```
 
 
 Detects your installation method (npm, Homebrew, or Cargo) and runs the appropriate update command automatically. Displays the version change on success, or informs you if you are already on the latest version.
 
-## Doctor<a href="#doctor" aria-label="Link to this section">#</a>
+## <a href="#doctor" class="peer" data-card="">Doctor</a>
 
 `doctor` diagnoses your install and auto-cleans stale daemon files. Run it whenever something stops working unexpectedly, or after upgrades:
 
 
-``` shiki
+``` m-0
 agent-browser doctor                     # Full diagnosis
 agent-browser doctor --offline --quick   # Local-only, fastest (~<1s)
 agent-browser doctor --fix               # Also run destructive repairs
@@ -151,7 +162,7 @@ Stale sidecar files are always cleaned. Destructive actions are opt-in via `--fi
 
 Exit code is `0` if all checks pass (warnings are fine), `1` if any fail.
 
-## Custom browser<a href="#custom-browser" aria-label="Link to this section">#</a>
+## <a href="#custom-browser" class="peer" data-card="">Custom browser</a>
 
 Use a custom browser executable instead of bundled Chromium:
 
@@ -160,7 +171,7 @@ Use a custom browser executable instead of bundled Chromium:
 - **Custom builds** - Use modified browser builds
 
 
-``` shiki
+``` m-0
 # Via flag
 agent-browser --executable-path /path/to/chromium open example.com
 
@@ -169,20 +180,20 @@ AGENT_BROWSER_EXECUTABLE_PATH=/path/to/chromium agent-browser open example.com
 ```
 
 
-### Serverless example<a href="#serverless-example" aria-label="Link to this section">#</a>
+### <a href="#serverless-example" class="peer" data-card="">Serverless example</a>
 
 Use `@sparticuz/chromium` or similar to obtain a Chromium executable path, then pass it via `--executable-path` or `AGENT_BROWSER_EXECUTABLE_PATH`.
 
-## AI agent setup<a href="#ai-agent-setup" aria-label="Link to this section">#</a>
+## <a href="#ai-agent-setup" class="peer" data-card="">AI agent setup</a>
 
 agent-browser works with any AI agent out of the box. For richer context:
 
-### AI coding assistants (recommended)<a href="#ai-coding-assistants-recommended" aria-label="Link to this section">#</a>
+### <a href="#ai-coding-assistants-recommended" class="peer" data-card="">AI coding assistants (recommended)</a>
 
 Install the skill for your AI coding assistant:
 
 
-``` shiki
+``` m-0
 npx skills add vercel-labs/agent-browser
 ```
 
@@ -191,12 +202,12 @@ This works with Claude Code, Codex, Cursor, Gemini CLI, GitHub Copilot, Goose, O
 
 > **Do not** copy `SKILL.md` from `node_modules` -- it will become stale as new features are added. Always use `npx skills add` or reference the repository version.
 
-### AGENTS.md / CLAUDE.md<a href="#agentsmd-claudemd" aria-label="Link to this section">#</a>
+### <a href="#agentsmd-claudemd" class="peer" data-card="">AGENTS.md / CLAUDE.md</a>
 
 Add to your instructions file:
 
 
-``` shiki
+``` m-0
 ## Browser Automation
 
 Use `agent-browser` for web automation. Run `agent-browser --help` for all commands.
@@ -209,4 +220,6 @@ Core workflow:
 ```
 
 
-Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>
+<a href="/" class="group grid w-fit grid-cols-[auto_1fr] items-center gap-x-1.5 gap-y-1 text-gray-1000"><span class="text-gray-900 text-sm col-start-2">Previous</span><span class="row-start-2 font-medium col-start-2">Introduction</span></a><a href="/quick-start" class="group grid w-fit grid-cols-[1fr_auto] items-center gap-x-1.5 gap-y-1 justify-self-end text-right text-gray-1000"><span class="text-gray-900 text-sm col-start-1">Next</span><span class="row-start-2 font-medium col-start-1">Quick Start</span></a>
+
+

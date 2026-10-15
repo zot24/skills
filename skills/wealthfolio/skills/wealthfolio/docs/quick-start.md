@@ -90,7 +90,7 @@ Learn how to get started with Wealthfolio, the open-source desktop portfolio tra
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 Install Wealthfolio, add your accounts, and see your first dashboard — a few minutes, start to finish. For what each concept means, see <a href="/docs/concepts/" class="font-medium underline underline-offset-4">Core Concepts</a>.

@@ -229,3 +229,5 @@ Make (formerly Integromat) provides a verified, officially supported Firecrawl i
 
   **Pro Tip:** Make excels at visual workflow design and complex automations. Perfect for teams that need more control than Zapier but prefer visual building over n8n's code-first approach.
 
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

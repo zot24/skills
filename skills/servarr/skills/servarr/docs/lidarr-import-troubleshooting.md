@@ -2,9 +2,7 @@
 
 
 
-# <a href="#import-troubleshooting" class="toc-anchor">¶</a> Import Troubleshooting
-
-> The download finished, but Lidarr won't import it. This page covers the match-quality rules Lidarr applies to imports, why Lidarr can still reject an otherwise-valid file, when you need to intervene manually, and how to use manual import to force an outcome when the matcher can't.
+The download finished, but Lidarr won't import it. This page covers the match-quality rules Lidarr applies to imports, why Lidarr can still reject an otherwise-valid file, when you need to intervene manually, and how to use manual import to force an outcome when the matcher can't.
 
 If you haven't imported anything yet and are setting up a fresh library, start with <a href="/lidarr/importing-existing-library" class="is-internal-link is-valid-page">Importing an Existing Library</a> instead. This page is for diagnosing imports that don't autocomplete, not for first-time setup.
 
@@ -99,7 +97,7 @@ Without tags, Lidarr matches on the filename and duration only. This works for w
 
 ### <a href="#plugin-added-content-types" class="toc-anchor">¶</a> Plugin-added content types
 
-The nightly branch supports third-party plugins for indexers and download clients — streaming services, peer-to-peer networks, and other sources. See <a href="/lidarr/plugins" class="is-internal-link is-valid-page">Plugins</a> for the install path and current compatibility notes.
+The `develop` and `nightly` branches support third-party plugins for indexers and download clients, such as streaming services and peer-to-peer networks. See <a href="/lidarr/plugins-install" class="is-internal-link is-valid-page">Install and Manage Lidarr Plugins</a> for the install steps and <a href="/lidarr/plugins" class="is-internal-link is-valid-page">Plugins</a> for the list of available plugins.
 
 Content pulled through plugins sometimes doesn't fit Lidarr's core import model cleanly. Single tracks, partial releases, streaming-service rips, and per-track purchases are common plugin outputs that the core matcher wasn't designed to handle. The tag data may be correct for the source but incomplete against a MusicBrainz release group, and the automatic matcher won't resolve it. Manual import is the expected path for these cases until the plugin-specific import flows mature — it isn't a workaround, it's the intended workflow.
 
@@ -145,6 +143,42 @@ The only checks still enforced at manual-import time are at the filesystem and d
 - The artist and album must exist in the DB or be addable from MusicBrainz. If Lidarr can't resolve or add the MBID the dialog selected, the import fails with *Failed to add missing album* / *Failed to add missing artist*.
 
 If manual import fails, the reason will be one of the above — a filesystem or DB failure, not a match-quality rejection.
+
+## <a href="#unmapped-files" class="toc-anchor">¶</a> Unmapped files
+
+**Library \> Unmapped Files** lists audio files that Lidarr knows about but that no track in your library points to. The files sit inside a root folder, so Lidarr records them, but they don't count toward any album.
+
+Files end up here for one of two reasons: a library scan couldn't match them, or a metadata change removed the track they belonged to.
+
+### <a href="#files-a-library-scan-couldnt-match" class="toc-anchor">¶</a> Files a library scan couldn't match
+
+When Lidarr scans your root folders, it runs every file it doesn't already track through the import pipeline. A file that fails gets added to the database without a track, which puts it on the Unmapped Files list. Common reasons:
+
+- **The album match is too weak.** Library scans use the 80% album threshold described in [The match-quality thresholds](#the-match-quality-thresholds). Untagged files, generic filenames, and releases that aren't in MusicBrainz are the usual culprits.
+- **Bonus or extra tracks.** Lidarr accepts an existing album even when it has extra files, but only files that map to a track on the album's active release get linked. If you have a deluxe edition on disk and the album's active release is the standard edition, the bonus tracks stay unmapped. Switch the active release on the album page, or tag the files with the correct Release MBID.
+- **More than one copy of the same album.** Lidarr tracks one release per album. If a scan finds two versions of the same album, it keeps the one with the most tracks and rejects the other with *Multiple versions of an album not supported*.
+- **The artist or album isn't in your library.** Files for an artist you haven't added, or for an album your metadata profile filters out, have nothing to match against.
+
+### <a href="#files-that-lost-their-track-after-a-metadata-change" class="toc-anchor">¶</a> Files that lost their track after a metadata change
+
+Lidarr links files to tracks, and tracks belong to a specific release. When the release or tracks change, links can break:
+
+- **You changed an album's release.** Picking a different release on the album page unlinks every file on that album and triggers a rescan. Files that don't fit the new release, such as tracks that only exist on the old edition, become unmapped.
+- **You deleted an album but kept the files.** Lidarr removes the album and its tracks but leaves the files on disk, so they show up here.
+- **MusicBrainz removed or restructured the tracks.** When a refresh shows that a track no longer exists on the release, Lidarr deletes the track, and any file attached to it becomes unmapped. Albums themselves aren't removed while they still have files. See <a href="/lidarr/metadata-troubleshooting" class="is-internal-link is-valid-page">Metadata Troubleshooting</a> for how changes reach Lidarr.
+- **MusicBrainz editors merged a duplicate you also downloaded.** This one takes a few steps to play out:
+  1.  Someone adds an album to MusicBrainz under a new release group instead of the existing one.
+  2.  Lidarr treats it as a new album. If the artist monitors new items, Lidarr downloads it, even though you already have the original.
+  3.  Editors notice the duplicate and merge it into the correct release group.
+  4.  Lidarr follows the merge on the next refresh and moves your files to the surviving album. Each track can hold only one file, so where both copies covered the same track, Lidarr keeps the file already attached to the surviving track. The other copy loses its link and becomes unmapped.
+
+### <a href="#clearing-unmapped-files" class="toc-anchor">¶</a> Clearing unmapped files
+
+From the Unmapped Files page you have three options:
+
+- **Manual import** a file from its row to choose the artist, album, and release yourself. See [Using manual import](#using-manual-import).
+- **Add Missing** rescans your root folders and retries matching for files Lidarr hasn't linked yet. Use it after you fix tags, add an artist, or wait for a MusicBrainz edit to reach Lidarr.
+- **Delete** a file from its row, or select files and use **Delete Selected**. This deletes the files from disk, or moves them to the recycle bin if you set one under Settings \> Media Management. Use it for duplicates you don't want, such as the extra copy left behind by a MusicBrainz merge.
 
 ## <a href="#controlling-which-pressing-gets-matched" class="toc-anchor">¶</a> Controlling which pressing gets matched
 

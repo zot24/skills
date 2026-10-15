@@ -42,3 +42,6 @@ Scrape https://firecrawl.dev and explain what it does.
 
 * **Server does not connect:** confirm the hosted URL and inspect Windsurf's MCP status.
 * **Crawl or another tool is missing:** keyless exposes exactly Search, Scrape, and Parse. Connect with OAuth or an API key for the broader tool surface.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

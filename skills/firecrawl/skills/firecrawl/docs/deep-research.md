@@ -124,3 +124,6 @@ Reduce the risk of missing critical information. Build systems that follow citat
 * [AI Platforms](/use-cases/ai-platforms) - Build AI research assistants
 * [Content Generation](/use-cases/content-generation) - Research-based content
 * [Competitive Intelligence](/use-cases/competitive-intelligence) - Market research
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -326,7 +326,7 @@ In server mode, data is managed by the external `dolt sql-server`.
 
 ## Migrating databases
 
-After upgrading bd, use `bd migrate` to check for and migrate old database files:
+After upgrading bd, check for pending database migrations and apply them:
 
 ```bash theme={null}
 # Inspect migration plan (AI agents)
@@ -338,8 +338,8 @@ bd info --schema --json
 # Preview migration changes
 bd migrate --dry-run
 
-# Migrate old databases to beads.db
-bd migrate
+# Apply pending schema migrations
+bd migrate schema
 
 # Migrate and clean up old files
 bd migrate --yes
@@ -386,3 +386,6 @@ bd admin cleanup --force
 * Full command list: [CLI Reference](/cli-reference/index)
 
 See the [repository README](https://github.com/gastownhall/beads/blob/main/README.md) for an overview and links to deeper docs.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

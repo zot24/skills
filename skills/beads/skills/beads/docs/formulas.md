@@ -254,3 +254,6 @@ title = "Publish release"
 needs = ["tag"]
 type = "human"
 ```
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

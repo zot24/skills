@@ -10,6 +10,14 @@ package: @chat-adapter/gmail
 # Gmail
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the Gmail adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="gmail memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -59,89 +67,99 @@ Eligible incoming emails with the configured label are delivered as mentions. If
 
 ## Platform setup
 
-### 1. Authorize a mailbox
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Authorize a mailbox
 
-Enable the **Gmail API** and **Cloud Pub/Sub API** in your Google Cloud project. Configure an OAuth consent screen and OAuth client, then authorize the mailbox user with [Google's web-server OAuth flow](https://developers.google.com/identity/protocols/oauth2/web-server). Request offline access (`access_type=offline`) to obtain a refresh token.
+    Enable the **Gmail API** and **Cloud Pub/Sub API** in your Google Cloud project. Configure an OAuth consent screen and OAuth client, then authorize the mailbox user with [Google's web-server OAuth flow](https://developers.google.com/identity/protocols/oauth2/web-server). Request offline access (`access_type=offline`) to obtain a refresh token.
 
-Use these [Gmail scopes](https://developers.google.com/workspace/gmail/api/auth/scopes):
+    Use these [Gmail scopes](https://developers.google.com/workspace/gmail/api/auth/scopes):
 
-| Scope                                            | Purpose                                                  |
-| ------------------------------------------------ | -------------------------------------------------------- |
-| `https://www.googleapis.com/auth/gmail.readonly` | Read messages, labels and history, and watch the mailbox |
-| `https://www.googleapis.com/auth/gmail.send`     | Send replies                                             |
-| `https://www.googleapis.com/auth/gmail.compose`  | Optional, for drafts through the standalone API          |
+    | Scope                                            | Purpose                                                  |
+    | ------------------------------------------------ | -------------------------------------------------------- |
+    | `https://www.googleapis.com/auth/gmail.readonly` | Read messages, labels and history, and watch the mailbox |
+    | `https://www.googleapis.com/auth/gmail.send`     | Send replies                                             |
+    | `https://www.googleapis.com/auth/gmail.compose`  | Optional, for drafts through the standalone API          |
 
-The adapter refreshes access tokens but does not implement the consent flow. A revoked or expired refresh token requires renewed authorization. Before a public launch, review Google's verification requirements for sensitive and restricted scopes.
+    The adapter refreshes access tokens but does not implement the consent flow. A revoked or expired refresh token requires renewed authorization. Before a public launch, review Google's verification requirements for sensitive and restricted scopes.
+  </div>
 
-### 2. Configure Pub/Sub
+  <div className="fd-step">
+    ### Configure Pub/Sub
 
-Follow [Gmail's push setup](https://developers.google.com/workspace/gmail/api/guides/push) and [authenticated push subscription guide](https://docs.cloud.google.com/pubsub/docs/authenticate-push-subscriptions):
+    Follow [Gmail's push setup](https://developers.google.com/workspace/gmail/api/guides/push) and [authenticated push subscription guide](https://docs.cloud.google.com/pubsub/docs/authenticate-push-subscriptions):
 
-1. Create a topic in the Google Cloud project making the Gmail watch request.
-2. Grant `gmail-api-push@system.gserviceaccount.com` the **Pub/Sub Publisher** role on that topic.
-3. Create a separate service account for push authentication, such as `gmail-push@PROJECT.iam.gserviceaccount.com`.
-4. Ensure the Pub/Sub service agent can create OIDC tokens for that account. Grant **Service Account Token Creator** on the push account if needed. The operator configuring the subscription also needs permission to act as that account.
-5. Create an authenticated **push** subscription targeting `https://your-domain.com/api/webhooks/gmail`. Select the push service account and set the audience to that same URL. Keep payload wrapping enabled.
+    1. Create a topic in the Google Cloud project making the Gmail watch request.
+    2. Grant `gmail-api-push@system.gserviceaccount.com` the **Pub/Sub Publisher** role on that topic.
+    3. Create a separate service account for push authentication, such as `gmail-push@PROJECT.iam.gserviceaccount.com`.
+    4. Ensure the Pub/Sub service agent can create OIDC tokens for that account. Grant **Service Account Token Creator** on the push account if needed. The operator configuring the subscription also needs permission to act as that account.
+    5. Create an authenticated **push** subscription targeting `https://your-domain.com/api/webhooks/gmail`. Select the push service account and set the audience to that same URL. Keep payload wrapping enabled.
 
-The publisher identity sends events to the topic; the push service account authenticates delivery to your webhook. They are not interchangeable. If your host requires separate platform authentication, configure that as well.
+    The publisher identity sends events to the topic; the push service account authenticates delivery to your webhook. They are not interchangeable. If your host requires separate platform authentication, configure that as well.
+  </div>
 
-### 3. Select the intake label
+  <div className="fd-step">
+    ### Select the intake label
 
-Create a Gmail label, such as `Agent`, then use `listGmailLabels()` from `@chat-adapter/gmail/api` to find its ID:
+    Create a Gmail label, such as `Agent`, then use `listGmailLabels()` from `@chat-adapter/gmail/api` to find its ID:
 
-```typescript title="scripts/labels.ts" lineNumbers
-import {
-  createGmailTokenProvider,
-  listGmailLabels,
-} from "@chat-adapter/gmail/api";
+    ```typescript title="scripts/labels.ts" lineNumbers
+    import {
+      createGmailTokenProvider,
+      listGmailLabels,
+    } from "@chat-adapter/gmail/api";
 
-const token = createGmailTokenProvider({
-  clientId: process.env.GMAIL_CLIENT_ID!,
-  clientSecret: process.env.GMAIL_CLIENT_SECRET!,
-  refreshToken: process.env.GMAIL_REFRESH_TOKEN!,
-});
+    const token = createGmailTokenProvider({
+      clientId: process.env.GMAIL_CLIENT_ID!,
+      clientSecret: process.env.GMAIL_CLIENT_SECRET!,
+      refreshToken: process.env.GMAIL_REFRESH_TOKEN!,
+    });
 
-const result = await listGmailLabels({
-  mailbox: process.env.GMAIL_MAILBOX!,
-  token,
-});
+    const result = await listGmailLabels({
+      mailbox: process.env.GMAIL_MAILBOX!,
+      token,
+    });
 
-console.log(result.labels);
-```
+    console.log(result.labels);
+    ```
 
-Set the environment variables with your own project and mailbox values. [Environment variables](#environment-variables) describes each one.
+    Set the environment variables with your own project and mailbox values. [Environment variables](#environment-variables) describes each one.
 
-```bash title=".env.local"
-GMAIL_MAILBOX=agent@example.com
-GMAIL_LABEL_ID=Label_123
-GMAIL_CLIENT_ID=your-client-id
-GMAIL_CLIENT_SECRET=your-client-secret
-GMAIL_REFRESH_TOKEN=your-refresh-token
-GMAIL_TOPIC_NAME=projects/your-project/topics/gmail-events
-GMAIL_SUBSCRIPTION=projects/your-project/subscriptions/gmail-webhook
-GMAIL_PUBSUB_AUDIENCE=https://your-domain.com/api/webhooks/gmail
-GMAIL_PUBSUB_SERVICE_ACCOUNT_EMAIL=gmail-push@your-project.iam.gserviceaccount.com
-REDIS_URL=redis://localhost:6379
-```
+    ```bash title=".env.local"
+    GMAIL_MAILBOX=agent@example.com
+    GMAIL_LABEL_ID=Label_123
+    GMAIL_CLIENT_ID=your-client-id
+    GMAIL_CLIENT_SECRET=your-client-secret
+    GMAIL_REFRESH_TOKEN=your-refresh-token
+    GMAIL_TOPIC_NAME=projects/your-project/topics/gmail-events
+    GMAIL_SUBSCRIPTION=projects/your-project/subscriptions/gmail-webhook
+    GMAIL_PUBSUB_AUDIENCE=https://your-domain.com/api/webhooks/gmail
+    GMAIL_PUBSUB_SERVICE_ACCOUNT_EMAIL=gmail-push@your-project.iam.gserviceaccount.com
+    REDIS_URL=redis://localhost:6379
+    ```
 
-[Labels apply to individual messages](https://developers.google.com/workspace/gmail/api/guides/labels). Labelling a conversation affects its existing messages, not future replies. Use a Gmail filter if follow-ups should enter automatically. `thread.subscribe()` does not apply Gmail labels.
+    [Labels apply to individual messages](https://developers.google.com/workspace/gmail/api/guides/labels). Labelling a conversation affects its existing messages, not future replies. Use a Gmail filter if follow-ups should enter automatically. `thread.subscribe()` does not apply Gmail labels.
+  </div>
 
-### 4. Start and renew the watch
+  <div className="fd-step">
+    ### Start and renew the watch
 
-After the webhook is reachable, run this from a server-side setup job with the same environment and state store:
+    After the webhook is reachable, run this from a server-side setup job with the same environment and state store:
 
-```typescript title="scripts/watch.ts" lineNumbers
-import { bot, gmail } from "@/lib/bot";
+    ```typescript title="scripts/watch.ts" lineNumbers
+    import { bot, gmail } from "@/lib/bot";
 
-await bot.initialize();
-const watch = await gmail.watch();
-console.log(watch.expiration);
-await gmail.sync();
-```
+    await bot.initialize();
+    const watch = await gmail.watch();
+    console.log(watch.expiration);
+    await gmail.sync();
+    ```
 
-Schedule `watch()` daily and a separate periodic `sync()` to recover missed notifications. Google requires watch renewal at least every seven days and recommends daily renewal. The adapter does not start a scheduler.
+    Schedule `watch()` daily and a separate periodic `sync()` to recover missed notifications. Google requires watch renewal at least every seven days and recommends daily renewal. The adapter does not start a scheduler.
 
-The first watch saves a starting cursor; it does not import previously labelled mail. Send or label a new incoming email after setup to test delivery. Renewing a watch preserves the existing cursor, so it does not skip pending changes.
+    The first watch saves a starting cursor; it does not import previously labelled mail. Send or label a new incoming email after setup to test delivery. Renewing a watch preserves the existing cursor, so it does not skip pending changes.
+  </div>
+</div>
 
 ## Configuration
 

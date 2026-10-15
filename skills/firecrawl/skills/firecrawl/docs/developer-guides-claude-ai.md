@@ -43,3 +43,6 @@ Scrape firecrawl.dev and tell me what it does
 ## More
 
 See [For Humans](/mcp-server/oauth) for sign-in setup in other clients, or [For Agents](/mcp-server/keyless) to start keyless.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

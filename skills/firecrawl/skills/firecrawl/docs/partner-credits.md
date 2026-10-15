@@ -53,3 +53,4 @@ Upgrading your plan is separate from the partner offer. Your partner credits wil
     If you'd like to offer Firecrawl to your users, set up Firecrawl for Platforms yourself in the [Firecrawl dashboard](https://www.firecrawl.dev/app/partner-api). The [Firecrawl for Platforms page](https://www.firecrawl.dev/firecrawl-for-platforms) explains the two integration types and the [reference](/firecrawl-for-platforms) covers the endpoints. Promotional credits for your users are a separate offer: email [partnerships@firecrawl.dev](mailto:partnerships@firecrawl.dev) to discuss one.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

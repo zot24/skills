@@ -59,3 +59,6 @@ Turn any e-commerce website into structured product data. Firecrawl extracts pri
 * [Lead Enrichment](/use-cases/lead-enrichment) - Enrich B2B e-commerce leads
 * [Competitive Intelligence](/use-cases/competitive-intelligence) - Track competitor strategies
 * [Data Migration](/use-cases/data-migration) - Migrate between platforms
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

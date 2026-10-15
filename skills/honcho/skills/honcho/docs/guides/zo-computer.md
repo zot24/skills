@@ -134,3 +134,4 @@ To submit the skill to the [Zo Skills Registry](https://github.com/zocomputer/sk
     Details on retrieving and formatting conversation context
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

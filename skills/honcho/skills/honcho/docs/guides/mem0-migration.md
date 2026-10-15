@@ -4,19 +4,19 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Migrating from Mem0
+# Migrating from Mem0 to Honcho
 
-> A guide to migrate from Mem0 to Honcho
+> Move your agent's AI memory from Mem0 to Honcho: export memories, import them as conclusions or raw messages, and map each Mem0 API call to Honcho.
 
 Interested in transferring your data from Mem0 to Honcho? This guide covers why to switch, how to migrate your data, and differences between the two products.
 
 ## Why Honcho?
 
-Mem0 & Honcho both store your data. Only Honcho reasons about it. [Read more about our approach](https://blog.plasticlabs.ai/blog/Memory-as-Reasoning).
+Mem0 & Honcho both store your data. Only Honcho reasons about it. [Read more about our approach](https://honcho.dev/blog/blog/memory-as-reasoning).
 
 **Compounding Insights** - Honcho extracts insights that build on each other over time. The more your users interact, the richer and more accurate their profiles become.
 
-**Superior Performance** - Higher accuracy on memory retrieval benchmarks with faster inference times (more details soon!).
+**Superior Performance** - State of the art on long-term memory benchmarks: 90.4% on LongMem S, 89.9% on LoCoMo, and Pareto-dominant on accuracy, cost and tokens across BEAM from 100K to 10M tokens. [See the benchmarks](https://honcho.dev/evals/).
 
 **Competitive Pricing** - Mem0 charges for retrieval, not ingestion. Meaning you pay to access your own data. Honcho offers straightforward pricing with a generous free tier.
 
@@ -33,7 +33,7 @@ For the best results, we recommend importing your raw messages directly into Hon
 However, if you'd like to get started quickly, you can migrate your existing Mem0 memories directly as **conclusions**.
 
 
-  Get your API key at [app.honcho.dev/api-keys](https://app.honcho.dev/api-keys). New accounts start with \$100 credits.
+  Get your API key at [app.honcho.dev/api-keys](https://app.honcho.dev/api-keys).
 
 
 <CodeGroup>
@@ -143,7 +143,7 @@ Alternatively, if you want to import the Mem0 memories, follow the example above
 ### 3. Initialize the Honcho Client
 
 
-  Get your API key at [app.honcho.dev/api-keys](https://app.honcho.dev/api-keys). New accounts start with \$100 credits.
+  Get your API key at [app.honcho.dev/api-keys](https://app.honcho.dev/api-keys).
 
 
 <CodeGroup>
@@ -295,3 +295,6 @@ Additional features with **no Mem0 equivalent**:
 
 
 Questions? Join our [Discord](https://discord.gg/honcho) or open an issue on [GitHub](https://github.com/plastic-labs/honcho/issues).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

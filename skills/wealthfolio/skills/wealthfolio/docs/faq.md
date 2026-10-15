@@ -90,7 +90,7 @@ Answers to the questions we see most often about imports, transfers, FX, perform
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 This FAQ is the front door. For deeper explanations, follow the links inside each answer to the <a href="/docs/concepts/" class="font-medium underline underline-offset-4">concept docs</a> and <a href="/docs/guide/dashboards/" class="font-medium underline underline-offset-4">user guide</a>.
 
@@ -100,19 +100,19 @@ This FAQ is the front door. For deeper explanations, follow the links inside eac
 ### What is Wealthfolio?
 
 
-A local-first, open-source investment tracker. The core app is free, your data stays on your device, and <a href="/connect/" class="underline underline-offset-4 hover:text-foreground">Wealthfolio Connect</a> is an optional paid service if you want automatic broker sync or end-to-end encrypted multi-device sync.
+A local-first, open-source investment tracker. The core app is free, your data stays on your device, and <a href="/connect/" class="underline underline-offset-4 hover:text-foreground">Wealthfolio Connect</a> is an optional paid service for automatic broker sync, encrypted device sync, and automatic encrypted cloud backups.
 
 
 ### Which platforms is Wealthfolio on?
 
 
-Desktop (macOS, Windows, Linux), iOS, and self-hosted web. Each platform runs its own local database. See the <a href="/docs/guide/self-hosting/" class="underline underline-offset-4 hover:text-foreground">Self-Hosting guide</a> for the server build.
+Desktop (macOS, Windows, Linux), iOS, Android, and self-hosted web. Each platform runs its own local database. Get the native apps from the <a href="/download/" class="underline underline-offset-4 hover:text-foreground">download page</a> or see the <a href="/docs/guide/self-hosting/" class="underline underline-offset-4 hover:text-foreground">Self-Hosting guide</a> for the server build.
 
 
 ### Is the core app free?
 
 
-Yes. The desktop and self-hosted core are free forever. Connect is a subscription for broker sync and device sync — everything else works without it.
+Yes. The desktop and self-hosted core are free forever, including manual backups and exports. Connect is an optional subscription for broker sync, encrypted device sync, and automatic encrypted cloud backups.
 
 
 ### What's the fastest way to get started?
@@ -132,7 +132,8 @@ Locally, in an SQLite database.
 - **Windows:** `%APPDATA%\Wealthfolio`
 - **macOS:** `~/Library/Application Support/com.teymz.wealthfolio/`
 - **Linux:** `~/.local/share/com.teymz.wealthfolio/`
-- **Mobile (iOS):** App sandbox storage, backed up to iCloud if enabled.
+- **iOS:** App sandbox storage, backed up to iCloud if enabled.
+- **Android:** App private storage on your device.
 - **Self-hosted:** Data volume mounted at `/app/data` inside the container.
 
 With Connect, data is encrypted on-device before syncing — we never see your portfolio data.
@@ -462,7 +463,7 @@ There's no first-class "virtual account" yet. Two workarounds:
 ### Can I self-host? Do I still need Connect?
 
 
-You can self-host for free. Connect is **optional** and only needed if you want automatic broker sync via SnapTrade, or end-to-end encrypted device sync. Self-hosting + manual imports needs nothing else. See <a href="/docs/guide/self-hosting/" class="underline underline-offset-4 hover:text-foreground">Self-Hosting</a>.
+You can self-host for free. Connect is **optional** and only needed if you want automatic broker sync via SnapTrade, encrypted device sync, or automatic encrypted cloud backups. Self-hosting + manual imports needs nothing else. See <a href="/docs/guide/self-hosting/" class="underline underline-offset-4 hover:text-foreground">Self-Hosting</a>.
 
 
 ### "Permission denied" or "attempt to write a readonly database" after upgrading
@@ -542,9 +543,9 @@ You pick. Configure **Ollama** for fully-local inference (free, no data leaves y
 ### Windows SmartScreen or antivirus blocks the installer
 
 
-Wealthfolio is signed, but some AV vendors flag new releases until they re-scan. Common fixes:
+The Windows installers are signed by Teymz Inc., Wealthfolio's publisher. SmartScreen can still warn about a new release until enough people have installed it, and some AV vendors flag new releases until they re-scan. Common fixes:
 
-- **SmartScreen:** click **More info** → **Run anyway**.
+- **SmartScreen:** click **More info**, check that the publisher is **Teymz Inc.**, then click **Run anyway**. If it shows another publisher or “Unknown publisher”, don't run it; download the installer again from this site.
 - **Kaspersky / similar:** add an exception for the installer.
 - **Verify the download:** compare the SHA-256 hash from <a href="https://github.com/wealthfolio/wealthfolio/releases" class="underline underline-offset-4 hover:text-foreground" target="_blank" rel="noopener noreferrer">releases on GitHub</a>.
 

@@ -161,3 +161,6 @@ if (textBlock && textBlock.type === 'text') {
 ```
 
 For more examples, check the [Claude documentation](https://docs.anthropic.com/claude/docs).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

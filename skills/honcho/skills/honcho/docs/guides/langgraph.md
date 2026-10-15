@@ -363,3 +363,4 @@ Now that you have a working LangGraph integration with Honcho, you can:
     Use Honcho in Claude Desktop with MCP
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

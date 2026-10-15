@@ -69,3 +69,6 @@ The client secret is write-only: it is encrypted at rest, never shown again, and
 * SIEM Audit Logging adds no credit charges.
 * Events describe request metadata and outcomes — scraped page *content* is never sent to your SIEM.
 * Teams with [Zero Data Retention](/features/scrape#zero-data-retention-zdr) can use SIEM Audit Logging; events are flagged with `zero_data_retention: true`.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

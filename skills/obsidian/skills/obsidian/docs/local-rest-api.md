@@ -18,12 +18,15 @@ Give your scripts, browser extensions, and AI agents a direct line into your Obs
     + [Cursor](#cursor)
     + [Other clients](#other-clients)
 - [API overview](#api-overview)
+  * [The configuration directory is off-limits](#the-configuration-directory-is-off-limits)
+  * [Failed authentication is throttled](#failed-authentication-is-throttled)
   * [Browser clients and response headers](#browser-clients-and-response-headers)
 - [Patching notes](#patching-notes)
   * [Raw-content mode](#raw-content-mode)
 - [Targeting specific sections](#targeting-specific-sections)
 - [Searching](#searching)
 - [Event streams](#event-streams)
+- [Server state](#server-state)
 - [MCP (Model Context Protocol)](#mcp-model-context-protocol)
   * [Protocol revisions](#protocol-revisions)
   * [Connecting a client](#connecting-a-client)
@@ -33,10 +36,12 @@ Give your scripts, browser extensions, and AI agents a direct line into your Obs
   * [Available resources](#available-resources)
 - [API Extensions](#api-extensions)
   * [Typed extension API](#typed-extension-api)
+  * [Registering again after the host reloads](#registering-again-after-the-host-reloads)
   * [MCP tools, resources, and prompts](#mcp-tools-resources-and-prompts)
   * [Documenting your routes](#documenting-your-routes)
   * [Sub-resources under a note](#sub-resources-under-a-note)
   * [Extension events](#extension-events)
+  * [Extension state](#extension-state)
   * [Known extensions](#known-extensions)
 - [Contributing](#contributing)
 - [Credits](#credits)
@@ -183,6 +188,22 @@ Any MCP client that supports the Streamable HTTP transport can connect to `https
 
 For full request/response details, see the [interactive docs](https://coddingtonbear.github.io/obsidian-local-rest-api/).
 
+### The configuration directory is off-limits
+
+The API refuses to read or write any file inside Obsidian's configuration directory (`app.vault.configDir`, normally `.obsidian`) — for both REST and MCP, reads as well as writes. A request for such a path is rejected with `403` (error code `40321`) at the REST layer or a path error from an MCP tool.
+
+That directory holds plugin code and each plugin's `data.json` — including this plugin's own, where your API key is stored. Writing into it is effectively remote code execution, since Obsidian runs an enabled plugin's `main.js`; reading from it leaks those secrets. Blocking it keeps a credential documented as "vault file access" from silently granting more (see [GHSA-66m9-r757-qvq7](https://github.com/coddingtonbear/obsidian-local-rest-api/security/advisories/GHSA-66m9-r757-qvq7)).
+
+The check is against where a path lands on disk, not just how it is spelled: a Windows 8.3 short name such as `OBSIDI~1`, a differently cased spelling on a case-insensitive filesystem, or a symlink that points into the configuration directory is refused the same way. Search and the tag listing skip any indexed note that lives there too, so a symlinked folder cannot hand the contents out by another route.
+
+If you deliberately manage your Obsidian configuration through the API, turn on **Settings → Local REST API → Advanced settings → Allow access to the configuration directory**. It is off by default, and turning it on grants every holder of your API key that access.
+
+### Failed authentication is throttled
+
+A source that presents a wrong credential -- an incorrect API key, or an invalid, expired or spent signed URL -- ten times within a minute has its further wrong credentials refused with `429` (error code `42901`) and a `Retry-After` header until the minute is up. This applies to every route the plugin authenticates, including `/mcp/` and `GET /` (routes an extension plugin publishes without authentication are not behind it): the root route answers `200` with `authenticated: false` to a wrong key, so it would otherwise be the cheapest place to guess from, and a wrong key sent there counts like a wrong key anywhere else.
+
+Nothing else is slowed down. A request carrying the correct key or a valid signed URL is never counted or delayed, so MCP clients and scripts that make many requests in quick bursts are unaffected, and so is a client with the right key while another process on the same machine is being refused. A request that presents no credential at all is not counted either -- it has made no guess -- and is answered `401`, or served on the routes that need no authentication, however many of them arrive. The counter is kept in memory per source address and is cleared by a plugin reload.
+
 ### Browser clients and response headers
 
 Several endpoints answer in a response header rather than in the body: `Content-Location` tells you which file a targeted or `/active/` request actually resolved to, `Markdown-Patch-Warnings` reports what a `PATCH` had to work around, `Deprecation` warns that a format is sunsetting, and `Mcp-Session-Id` carries the session for a sessionful MCP connection.
@@ -326,6 +347,30 @@ Each event is serialized by code written for it. That code decides exactly what 
 
 Each message's `id` is `<epoch>-<counter>`. A new epoch, or a gap in the counter, means events were missed. Nothing is replayed. A stream URL expires after the signed-URL lifetime (or `?ttl=<seconds>`), but a stream opened before then stays open. At most 16 streams can be open at once. Anyone holding a signed stream URL sees the paths and metadata of every event its filter matches, so treat it like the notes themselves. See the [API docs](https://coddingtonbear.github.io/obsidian-local-rest-api/) for the full message format.
 
+## Server state
+
+`GET /` answers without an API key, but an authenticated request gets more: `certificateInfo`, the list of installed [API extensions](#api-extensions), and a `state` section.
+
+`state` holds observations, by namespace, that a client reads to decide whether to proceed. The server attaches no verdict. The plugin's own namespace is `metadataCache`:
+
+```json
+{
+  "status": "OK",
+  "authenticated": true,
+  "state": {
+    "metadataCache": {
+      "listeningSince": "2026-10-03T14:02:11.408Z",
+      "lastResolvedAt": null,
+      "lastActivityAt": "2026-10-03T14:02:13.951Z"
+    }
+  }
+}
+```
+
+It exists because a note's `links`, `backlinks`, and `unresolvedLinks` come from Obsidian's vault-wide link graph, and while Obsidian is still indexing after startup they can be incomplete with no sign in the note itself. Obsidian gives no documented signal for the end of that indexing, so the plugin reports what it can observe: when it started listening (`listeningSince`, which is when it loaded), when it last heard the cache's `resolved` event (`lastResolvedAt`, fired each time Obsidian's resolver queue drains, or `null` if never since loading), and when it last heard any indexing activity at all (`lastActivityAt`: `changed`, `resolve`, or `resolved`). Indexing in progress looks like recent activity; done looks like silence. A plugin enabled into an already-indexed vault hears nothing, which is why `listeningSince` is there: "never resolved, but listening for a while now" is as good as done. A workable rule is to wait while `lastResolvedAt` is `null` and `listeningSince` is recent, or while `lastActivityAt` is recent, with "recent" set to whatever your vault's indexing takes. A client that would rather not poll can watch the `metadataCache` [event stream](#event-streams) instead, where `resolve` fires per file and `resolved` on each drain.
+
+Every other key of `state` is an extension plugin's id, holding whatever that extension publishes (see [Extension state](#extension-state)), or `null` when it could not be read in time. The budget is **Settings → Local REST API → Advanced settings → Extension state read budget**, 100 ms by default; extensions are read concurrently, so it bounds the whole wait. MCP clients get the same document from the `obsidian://local-rest-api/status` resource.
+
 ## MCP (Model Context Protocol)
 
 > [!NOTE]
@@ -424,10 +469,11 @@ Two practical notes: whether a chat client renders a linked image inline is up t
 | URI | Description |
 |---|---|
 | `obsidian://local-rest-api/openapi.yaml` | Full OpenAPI specification for this REST API, including routes that extensions describe |
+| `obsidian://local-rest-api/status` | The authenticated `GET /` document: versions, installed extensions, and the [`state` section](#server-state); never cached, so it can be polled |
 
 ## API Extensions
 
-Other plugins can register their own authenticated routes, public routes, MCP tools, and [streamable events](#extension-events) against this plugin's server. See [Adding your own API Routes via an Extension](https://github.com/coddingtonbear/obsidian-local-rest-api/wiki/Adding-your-own-API-Routes-via-an-Extension) for a walkthrough.
+Other plugins can register their own authenticated routes, public routes, MCP tools, [streamable events](#extension-events), and [state](#extension-state) against this plugin's server. See [Adding your own API Routes via an Extension](https://github.com/coddingtonbear/obsidian-local-rest-api/wiki/Adding-your-own-API-Routes-via-an-Extension) for a walkthrough.
 
 Public routes (`addPublicRoute`) are answered before the API key is checked, so they can't sit under a prefix the plugin serves its own routes from: `/vault/`, `/active/`, `/search/`, `/commands/`, `/events/`, `/mcp/`, `/open/`, and `/tags/`, in any letter case, along with `/`, the OpenAPI documents, and the certificate. A path whose first segment is a pattern (`/:name/`, `/*`) is refused for the same reason. `addPublicRoute` throws when you register one of these, so start public routes with a literal segment of your own, such as your plugin's id. Authenticated routes (`addRoute`) and vault sub-resources are unaffected.
 
@@ -450,6 +496,33 @@ const api: LocalRestApiPublicApi | undefined = getAPI(this.app, this.manifest, 2
 The package entry point is a small standalone module — it resolves the *running* host plugin out of Obsidian's plugin registry rather than pulling the plugin bundle into your build. Passing an extension API version (`2` above) makes `getAPI` throw `ApiVersionUnsupportedError` when the installed host is older than the surface you need; omit it to accept whatever is installed and feature-detect yourself. `getAPI` returns `undefined` when the plugin isn't installed or hasn't loaded yet.
 
 `publicApi.d.ts` is generated from [`src/publicApi.ts`](src/publicApi.ts), which the implementation is compile-time-checked against, so the published types cannot drift from what the plugin actually offers.
+
+### Registering again after the host reloads
+
+Everything an extension registers belongs to the running instance of this plugin. When this plugin is disabled and re-enabled, updated, or reloaded during development, it starts with a new server that knows nothing about your routes, tools, or events, and the handle `getAPI` gave you earlier now points at the instance that was unloaded. Your routes answer `404` from then on, with no error to explain why.
+
+Each time this plugin finishes loading, it triggers `obsidian-local-rest-api:loaded` on the workspace. Register in a method of your own, call it from `onload`, and call it again whenever that event fires:
+
+```ts
+async onload() {
+  this.registerWithLocalRestApi();
+  this.registerEvent(
+    // Not in obsidian's typings; declare it on Workspace, or cast as here.
+    (this.app.workspace as Events).on("obsidian-local-rest-api:loaded", () =>
+      this.registerWithLocalRestApi()
+    )
+  );
+}
+
+registerWithLocalRestApi() {
+  // A fresh handle every time: one kept from before a reload is stale.
+  this.api = getAPI(this.app, this.manifest, 3);
+  if (!this.api) return; // Not installed or not loaded yet; the event will call again.
+  this.api.addRoute("/my-plugin/status").get((req, res) => { /* ... */ });
+}
+```
+
+Calling it from `onload` covers the case where this plugin loaded before yours, and the event covers every load after that, including this plugin loading after yours at startup. Avoid guarding the method with `if (this.api) return`: that keeps the stale handle and skips registering on exactly the occasions it's needed. The [sample extension](https://github.com/coddingtonbear/obsidian-local-rest-api-sample-api-extension/blob/master/src/main.ts) shows the complete pattern, including handling a host that is too old and cleaning up in `onunload`.
 
 ### MCP tools, resources, and prompts
 
@@ -549,6 +622,31 @@ api.addStreamableEvent("task-completed", {
 ```
 
 Your serializer decides _everything_ a stream sends. The host adds `emitter` and `event` and sends nothing else, so return only what someone holding a stream URL should see. Return `null` to skip an occurrence. `unregister()` closes any open streams for your events.
+
+### Extension state
+
+From extension API version 4, an extension can publish its own namespace in the [`state` section](#server-state) of `GET /`, under its plugin id, for anything a client would read to decide whether to proceed: whether an index is built, when a sync last ran, how much work is queued.
+
+```ts
+const api = getAPI(this.app, this.manifest, 4);
+
+api.addState({
+  description: "Whether the semantic index is ready to query, and how far along a rebuild is.",
+  schema: {
+    type: "object",
+    required: ["ready", "pending"],
+    properties: {
+      ready: { type: "boolean" },
+      pending: { type: "integer", description: "Notes not yet indexed." },
+      lastRunAt: { type: ["string", "null"], format: "date-time" },
+    },
+  },
+  read: async () => ({ ready: this.index.ready, pending: this.queue.length, lastRunAt: this.lastRunAt }),
+});
+// Now served as state["<your plugin id>"] on every authenticated GET /
+```
+
+`read` is called on every authenticated `GET /`, concurrently with every other extension's, and raced against the read budget from the plugin's advanced settings. A read that overruns, rejects, or resolves to anything but a JSON object is served as `null` for your extension and logged to the console, once, until a read succeeds again; nothing else in the response is affected. Keep it cheap: compute in the background and hand back the latest result. The `schema`, if you give one, is merged into the `GET /` response schema at `/openapi.yaml`, so clients can rely on the shape; without it the namespace is documented as a free-form object. Either way the published entry also admits `null`, since that is what a failed read is served as. `unregister()` removes both.
 
 ### Known extensions
 

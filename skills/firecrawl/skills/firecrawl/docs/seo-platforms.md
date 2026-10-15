@@ -63,3 +63,6 @@ Audit entire websites instead of sampling a handful of pages. Extract meta tags,
 * [AI Platforms](/use-cases/ai-platforms) - Build AI-powered SEO tools
 * [Competitive Intelligence](/use-cases/competitive-intelligence) - Track competitor SEO
 * [Content Generation](/use-cases/content-generation) - Create SEO content
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

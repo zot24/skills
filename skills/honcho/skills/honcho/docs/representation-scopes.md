@@ -290,3 +290,5 @@ This means:
 
   Conclusions are cached for fast retrieval. Use `representation()` to retrieve stored conclusions for dashboards and analytics. Use `peer.chat()` when you need query-specific reasoning with natural language.
 
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -10,6 +10,14 @@ package: @chat-adapter/state-ioredis
 # ioredis
 
 
+## Create a new bot
+
+Scaffold a Next.js bot that stores state in Redis through ioredis with [`create-chat-sdk`](/docs/create-chat-sdk). Replace `slack` with your platform adapter:
+
+<CreateChatSdk adapters="slack ioredis" />
+
+The CLI adds `@chat-adapter/state-ioredis`, wires `createIoRedisState({ url: process.env.REDIS_URL })` into `src/lib/bot.ts`, and lists `REDIS_URL` in `.env.example`. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -25,6 +33,8 @@ const bot = new Chat({
   state: createIoRedisState({ url: process.env.REDIS_URL! }),
 });
 ```
+
+To provision Upstash Redis or Redis Cloud for a Vercel project with the Vercel CLI, see [Vercel Marketplace](/adapters/official/redis#vercel-marketplace) on the Redis adapter page. The same connection URL works with this adapter.
 
 ## When to choose ioredis vs redis
 

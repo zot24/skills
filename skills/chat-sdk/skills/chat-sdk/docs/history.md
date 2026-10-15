@@ -3,6 +3,8 @@
 ---
 title: History
 description: Store and retrieve message history across user, thread, and channel scopes.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/state-adapters
@@ -11,8 +13,7 @@ related:
   - /docs/api/history
 ---
 
-# History
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 The History API reads and persists message history in three scopes, keyed by user, thread, or channel. The user scope is stored in your state adapter. Thread history comes from platform APIs, with an optional cache in the state adapter. Channel history reads from the platform through adapter methods.
 
@@ -22,9 +23,7 @@ The History API reads and persists message history in three scopes, keyed by use
 | Thread  | `bot.history.thread`  | Thread ID               | Backfill for adapters without server-side history |
 | Channel | `bot.history.channel` | Channel ID              | Channel-level summaries, moderation               |
 
-
-  `bot.history` is the unified successor to `bot.transcripts`. The user scope is a drop-in replacement. See [Migrating from `bot.transcripts`](#migrating-from-bottranscripts) below.
-
+> `bot.history` is the unified successor to `bot.transcripts`. The user scope is a drop-in replacement. See [Migrating from `bot.transcripts`](#migrating-from-bottranscripts) below.
 
 ## Setup
 
@@ -106,9 +105,9 @@ bot.onSubscribedMessage(async (thread, msg) => {
 
 A few details about this pattern:
 
-* The SDK sets `msg.userKey` from your `identity` resolver before your handler runs. If the resolver returned `null`, `msg.userKey` stays `undefined` and `append` does nothing.
-* Bot replies are stored only when you append them. The SDK does not capture `thread.post()` output, so you decide what gets persisted. That matters for retries and intermediate streaming chunks.
-* `list` returns entries oldest first, the order a model expects. Use `limit` to keep prompts bounded.
+- The SDK sets `msg.userKey` from your `identity` resolver before your handler runs. If the resolver returned `null`, `msg.userKey` stays `undefined` and `append` does nothing.
+- Bot replies are stored only when you append them. The SDK does not capture `thread.post()` output, so you decide what gets persisted. That matters for retries and intermediate streaming chunks.
+- `list` returns entries oldest first, the order a model expects. Use `limit` to keep prompts bounded.
 
 ### Filtering entries
 
@@ -160,9 +159,7 @@ bot.onSubscribedMessage(async (thread, message) => {
 });
 ```
 
-
-  Thread history is populated automatically when `adapter.persistThreadHistory` is `true`. You don't need to append manually. For adapters with server-side history (Slack, Teams, Discord), prefer `thread.messages` or `adapter.fetchMessages`.
-
+> Thread history is populated automatically when `adapter.persistThreadHistory` is `true`. You don't need to append manually. For adapters with server-side history (Slack, Teams, Discord), prefer `thread.messages` or `adapter.fetchMessages`.
 
 ## Channel history
 
@@ -260,7 +257,6 @@ Appends to user and thread cache keys are atomic, so concurrent inbound messages
 ## Reference
 
 See [History API reference](/docs/api/history) for full type signatures, configuration options, and entry shapes.
-
 
 ---
 

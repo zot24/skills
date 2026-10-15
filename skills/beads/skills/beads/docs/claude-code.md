@@ -214,3 +214,6 @@ bd init --quiet
 * [Beads Claude Code Plugin](/integrations/claude-code-plugin) - Packaged plugin with slash commands
 * [MCP Server](/integrations/mcp-server) - For MCP-only environments
 * [IDE Setup](/getting-started/ide-setup) - Other editors
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

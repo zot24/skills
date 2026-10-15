@@ -65,3 +65,6 @@ print(response["markdown"])
 * [CAMEL loaders documentation](https://docs.camel-ai.org/key_modules/loaders)
 * [CAMEL and Firecrawl walkthrough](https://www.camel-ai.org/blogs/firecrawl)
 * [Firecrawl scrape](/features/scrape) and [crawl](/features/crawl) docs
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

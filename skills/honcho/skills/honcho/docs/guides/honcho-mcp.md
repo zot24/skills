@@ -63,3 +63,6 @@ Finally, Claude needs instructions on how to use Honcho. The Desktop app doesn't
 Be sure to update the \<app\_name> and \<user\_name> variables in the instructions.txt file.
 
 Claude should then query for insights before responding and write your messages to storage! If you come up with more creative ways to get Claude to manage its own memory with Honcho, feel free to [let us know](https://discord.gg/honcho) or make a PR on this [repo](https://github.com/plastic-labs/honcho-mcp/tree/main)!
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

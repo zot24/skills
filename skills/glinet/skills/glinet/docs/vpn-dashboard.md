@@ -40,7 +40,7 @@ The content on this page is based on firmware version v4.8.x. If your device is 
 
 
 - [Firmware v4.7 and earlier](../vpn_dashboard_v4.7/)
-- [Firmware v4.9](../vpn_dashboard/)
+- [Firmware v4.9 and above](../vpn_dashboard/)
 
 
 On the left side of the web Admin Panel, go to **VPN** -\> **VPN Dashboard**.
@@ -347,7 +347,7 @@ Was this page helpful?
 Thanks for your feedback!
 
 
-Thanks for your feedback! We will use it to improve this page.
+Thanks for your feedback! Help us improve this page by <a href="https://glinet.feishu.cn/share/base/form/shrcnbojSI6bg5XpcptdEzhQjpc" data-prefill="Which page needs improvement?" target="_blank" rel="noopener">telling us what you're missing</a>.
 
 
 Back to top

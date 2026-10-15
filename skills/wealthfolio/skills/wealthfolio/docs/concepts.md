@@ -90,7 +90,7 @@ Objects Wealthfolio uses under the hood.
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 ## Account

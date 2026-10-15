@@ -159,3 +159,6 @@ An empty `PLAYWRIGHT_MICROSERVICE_URL` leaves the separate Playwright service di
 * **Deploying instead of developing?** Follow [Self-hosting Firecrawl](/contributing/self-host).
 * **Still choosing a path?** Compare [Open source or Firecrawl Cloud](/contributing/open-source-or-cloud).
 * **Ready to contribute?** Use the source-owned [contribution guide](https://github.com/firecrawl/firecrawl/blob/main/CONTRIBUTING.md).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

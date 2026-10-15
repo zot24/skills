@@ -3,13 +3,14 @@
 ---
 title: Modals
 description: Modal form components for collecting user input.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 related:
   - /docs/modals
 ---
 
-# Modals
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Modals display form dialogs that collect structured user input. Modals are currently supported on Slack and Teams.
 
@@ -45,6 +46,16 @@ bot.onAction("open-form", async (event) => {
 });
 ```
 
+| Property          | Type           | Description                                                               |
+| ----------------- | -------------- | ------------------------------------------------------------------------- |
+| `callbackId`      | `string`       | Unique ID for routing to onModalSubmit/onModalClose handlers.             |
+| `title`           | `string`       | Modal title displayed in the header.                                      |
+| `submitLabel`     | `string`       | Label for the submit button.                                              |
+| `closeLabel`      | `string`       | Label for the close/cancel button.                                        |
+| `notifyOnClose`   | `boolean`      | Whether to fire onModalClose when the user dismisses the modal.           |
+| `callbackUrl`     | `string`       | URL to POST form values to when the modal is submitted.                   |
+| `privateMetadata` | `string`       | Arbitrary string passed through the modal lifecycle (e.g., JSON context). |
+| `children`        | `ModalChild[]` | Form input elements.                                                      |
 
 ## TextInput
 
@@ -66,6 +77,15 @@ TextInput({
 })
 ```
 
+| Property       | Type      | Description                                |
+| -------------- | --------- | ------------------------------------------ |
+| `id`           | `string`  | Input ID, used as the key in event.values. |
+| `label`        | `string`  | Label displayed above the input.           |
+| `placeholder`  | `string`  | Placeholder text.                          |
+| `initialValue` | `string`  | Pre-filled value.                          |
+| `multiline`    | `boolean` | Render as a textarea.                      |
+| `optional`     | `boolean` | Whether the field can be left empty.       |
+| `maxLength`    | `number`  | Maximum character length.                  |
 
 ## DateInput
 
@@ -80,6 +100,13 @@ DateInput({
 })
 ```
 
+| Property       | Type      | Description                                |
+| -------------- | --------- | ------------------------------------------ |
+| `id`           | `string`  | Input ID, used as the key in event.values. |
+| `label`        | `string`  | Label displayed above the input.           |
+| `placeholder`  | `string`  | Placeholder text.                          |
+| `initialValue` | `string`  | Pre-filled date as YYYY-MM-DD.             |
+| `optional`     | `boolean` | Whether the field can be left empty.       |
 
 The submitted value arrives in `event.values` as an ISO `YYYY-MM-DD` string. An `initialValue` that is not a valid `YYYY-MM-DD` date is dropped with a warning rather than forwarded, because Slack rejects a malformed `initial_date` by failing the whole modal.
 
@@ -96,6 +123,16 @@ NumberInput({
 })
 ```
 
+| Property       | Type      | Description                                                                                                          |
+| -------------- | --------- | -------------------------------------------------------------------------------------------------------------------- |
+| `id`           | `string`  | Input ID, used as the key in event.values.                                                                           |
+| `label`        | `string`  | Label displayed above the input.                                                                                     |
+| `placeholder`  | `string`  | Placeholder text.                                                                                                    |
+| `initialValue` | `number`  | Pre-filled value.                                                                                                    |
+| `min`          | `number`  | Minimum accepted value.                                                                                              |
+| `max`          | `number`  | Maximum accepted value.                                                                                              |
+| `decimal`      | `boolean` | Allow decimal values. Enforced by Slack; Adaptive Cards has no decimal switch, so Teams accepts decimals either way. |
+| `optional`     | `boolean` | Whether the field can be left empty.                                                                                 |
 
 Values in `event.values` are always strings. Parse with `Number(...)` when you need a number.
 
@@ -116,6 +153,15 @@ Select({
 })
 ```
 
+| Property         | Type                    | Description                                                                                      |
+| ---------------- | ----------------------- | ------------------------------------------------------------------------------------------------ |
+| `id`             | `string`                | Input ID, used as the key in event.values.                                                       |
+| `label`          | `string`                | Label displayed above the select.                                                                |
+| `placeholder`    | `string`                | Placeholder text.                                                                                |
+| `initialOption`  | `string`                | Pre-selected option value.                                                                       |
+| `optional`       | `boolean`               | Whether the field can be left empty.                                                             |
+| `options`        | `SelectOptionElement[]` | Select options.                                                                                  |
+| `dispatchAction` | `boolean`               | Dispatch onAction events when the selection changes in a Slack modal. Ignored by other adapters. |
 
 ## ExternalSelect
 
@@ -131,6 +177,14 @@ ExternalSelect({
 })
 ```
 
+| Property         | Type                               | Description                                                                                                                                                                                |
+| ---------------- | ---------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `id`             | `string`                           | Input ID, used as the key in event.values.                                                                                                                                                 |
+| `label`          | `string`                           | Label displayed above the select.                                                                                                                                                          |
+| `placeholder`    | `string`                           | Placeholder text.                                                                                                                                                                          |
+| `minQueryLength` | `number`                           | Minimum characters before the loader fires (Slack default: 3).                                                                                                                             |
+| `initialOption`  | `{ label: string, value: string }` | Pre-selected option when the modal opens. Unlike static Select where initialOption is a value string, ExternalSelect needs the full label/value object because the loader has not run yet. |
+| `optional`       | `boolean`                          | Whether the field can be left empty.                                                                                                                                                       |
 
 The loader registered via `bot.onOptionsLoad("assignee", handler)` returns either a flat `SelectOptionElement[]` or `OptionsLoadGroup[]` (`{ label, options }[]`) for grouped options.
 
@@ -159,6 +213,11 @@ An option used inside `Select` and `RadioSelect`.
 SelectOption({ label: "High", value: "high", description: "Urgent tasks" })
 ```
 
+| Property      | Type     | Description                                 |
+| ------------- | -------- | ------------------------------------------- |
+| `label`       | `string` | Display text.                               |
+| `value`       | `string` | Value sent in event.values when selected.   |
+| `description` | `string` | Optional description shown below the label. |
 
 ## ModalChild types
 
@@ -173,7 +232,6 @@ The `children` array in `Modal` accepts these element types:
 | `RadioSelectElement` | `RadioSelect()`                   |
 | `TextElement`        | `Text()`, for static text content |
 | `FieldsElement`      | `Fields()`, for key-value display |
-
 
 ---
 

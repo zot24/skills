@@ -177,3 +177,4 @@ decisions, Hermes task runs, and imported emails. They blend because:
     Production multi-platform companion with parent/subagent tracking.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

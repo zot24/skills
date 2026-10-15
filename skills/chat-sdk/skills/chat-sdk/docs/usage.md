@@ -3,6 +3,8 @@
 ---
 title: Creating a Chat Instance
 description: Initialize the Chat class with adapters, state, and configuration options.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/getting-started
@@ -14,8 +16,7 @@ related:
   - /docs/error-handling
 ---
 
-# Creating a Chat Instance
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 The `Chat` class is the main entry point for your bot. It coordinates adapters, routes events to your handlers, and manages thread state.
 
@@ -40,11 +41,9 @@ bot.onNewMention(async (thread) => {
 });
 ```
 
+> This example uses Redis. Chat SDK also supports [PostgreSQL](/adapters/official/postgres) and [ioredis](/adapters/official/ioredis) as production state adapters. See [State Adapters](/docs/state-adapters) for all options.
 
-  This example uses Redis. Chat SDK also supports [PostgreSQL](/adapters/official/postgres) and [ioredis](/adapters/official/ioredis) as production state adapters. See [State Adapters](/docs/state-adapters) for all options.
-
-
-Adapter and state factories read their credentials from environment variables such as `SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`, and `REDIS_URL`, so the example above passes no options. Pass explicit values to override them. For setup UIs and build scripts, the [`chat/adapters` catalog](/docs/adapters#adapter-catalog-chatadapters) lists official and vendor-official adapter env specs without importing adapter packages.
+Adapter and state factories read their credentials from environment variables such as `SLACK_BOT_TOKEN`, `SLACK_SIGNING_SECRET`, and `REDIS_URL`, so the example above passes no options. Pass explicit values to override them. For setup UIs and build scripts, [`@chat-adapter/catalog`](/docs/adapter-catalog) lists official and vendor-official adapter env specs without importing adapter packages.
 
 ## Multiple adapters
 
@@ -185,7 +184,6 @@ Get a channel directly by its ID:
 const channel = bot.channel("slack:C123ABC");
 await channel.post("Announcement: deploy complete!");
 ```
-
 
 ---
 

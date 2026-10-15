@@ -3,6 +3,8 @@
 ---
 title: Building an adapter
 description: Learn how to build your own Chat SDK adapter for any messaging platform.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/getting-started
@@ -15,8 +17,9 @@ related:
   - /docs/actions
 ---
 
-# Building an adapter
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
+Build your adapter as its own npm package. It implements the `Adapter` interface for your platform, converts messages between Chat SDK's Markdown AST and the platform's format, and exports a factory function such as `createMatrixAdapter`.
 
 ## What adapters are
 
@@ -34,9 +37,7 @@ Chat SDK ships with Vercel-maintained [official adapters](/adapters). Anyone can
 
 This guide covers the implementation. After you publish, [list a community adapter on chat-sdk.dev](/docs/contributing/publishing#listing-on-chat-sdkdev), or follow the [vendor-official guide](/docs/contributing/vendor-official) if you represent the platform vendor.
 
-
-  The `@chat-adapter/` npm scope is reserved for official adapters. Publish your adapter under your own scope or as an unscoped package.
-
+> The `@chat-adapter/` npm scope is reserved for official adapters. Publish your adapter under your own scope or as an unscoped package.
 
 ## Project setup
 
@@ -91,9 +92,9 @@ This guide uses a hypothetical Matrix adapter as a running example. Replace "mat
 
 Key points:
 
-* The package is ESM-only (`"type": "module"`).
-* `chat` is a peer dependency because your adapter runs inside the consumer's `Chat` instance.
-* `@chat-adapter/shared` provides error classes and utility functions.
+- The package is ESM-only (`"type": "module"`).
+- `chat` is a peer dependency because your adapter runs inside the consumer's `Chat` instance.
+- `@chat-adapter/shared` provides error classes and utility functions.
 
 ### tsup.config.ts
 
@@ -175,8 +176,8 @@ export interface MatrixAdapterConfig {
 
 Every adapter needs two interfaces:
 
-* A thread ID interface that describes the decoded components of your `{adapter}:{segment1}:{segment2}` thread ID.
-* A config interface for the credentials and options needed to connect to the platform.
+- A thread ID interface that describes the decoded components of your `{adapter}:{segment1}:{segment2}` thread ID.
+- A config interface for the credentials and options needed to connect to the platform.
 
 ## Implement the Adapter interface
 
@@ -472,15 +473,13 @@ export function decodeDiscordCustomId(customId: string): {
 }
 ```
 
-
-  Platform button-data limits are the main constraint to plan for. Discord's
-  `custom_id` is 100 chars; Telegram's `callback_data` is 64 bytes. The SDK's
-  callback token is fixed at 21 chars (`__cb:` + 16 hex), so the worst-case
-  payload your encoding must fit is `actionId + delimiter + 21`. If the
-  encoded string exceeds the platform limit, throw a `ValidationError` from
-  `@chat-adapter/shared` so the host app fails fast at post time rather than
-  silently truncating.
-
+> Platform button-data limits are the main constraint to plan for. Discord's
+> `custom_id` is 100 chars; Telegram's `callback_data` is 64 bytes. The SDK's
+> callback token is fixed at 21 chars (`__cb:` + 16 hex), so the worst-case
+> payload your encoding must fit is `actionId + delimiter + 21`. If the
+> encoded string exceeds the platform limit, throw a `ValidationError` from
+> `@chat-adapter/shared` so the host app fails fast at post time rather than
+> silently truncating.
 
 The SDK handles modals with `callbackUrl` entirely through stored modal context, so your adapter needs no special handling. Call `chat.processModalSubmit(event, contextId, { waitUntil })` from your webhook handler, and the SDK POSTs to the modal's `callbackUrl`. If you provide `waitUntil`, the SDK uses it so the POST doesn't block the response.
 
@@ -611,23 +610,28 @@ For platforms with non-standard formatting, implement custom parsing in `toAst()
 
 These methods are optional. Implement them to support more Chat SDK features:
 
-| Method                                        | Purpose                                                                             |
-| --------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `disconnect()`                                | Clean up connections and resources during shutdown                                  |
-| `openDM(userId)`                              | Open a direct message conversation                                                  |
-| `isDM(threadId)`                              | Check if a thread is a DM                                                           |
-| `stream(threadId, textStream)`                | Stream AI responses in real-time                                                    |
-| `openModal(triggerId, modal)`                 | Open a modal/dialog form                                                            |
-| `postEphemeral(threadId, userId, message)`    | Post a message visible to one user                                                  |
-| `postChannelMessage(channelId, message)`      | Post a top-level message (not in a thread)                                          |
-| `onThreadSubscribe(threadId)`                 | Hook for platform-specific subscription setup                                       |
-| `fetchChannelInfo(channelId)`                 | Fetch channel metadata                                                              |
-| `listThreads(channelId)`                      | List threads in a channel                                                           |
-| `fetchMessage(threadId, messageId)`           | Fetch a single message by ID                                                        |
-| `fetchChannelMessages(channelId)`             | Fetch top-level channel messages                                                    |
-| `scheduleMessage(threadId, message, options)` | Schedule a message for future delivery; return a `ScheduledMessage` with `cancel()` |
+| Method                                        | Purpose                                                                                                      |
+| --------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `disconnect()`                                | Clean up connections and resources during shutdown                                                           |
+| `getConcurrencyScope()`                       | Scope message deduplication, locks, queues, concurrency limits, and cancellation to the authenticated tenant |
+| `openDM(userId)`                              | Open a direct message conversation                                                                           |
+| `isDM(threadId)`                              | Check if a thread is a DM                                                                                    |
+| `stream(threadId, textStream)`                | Stream AI responses in real-time                                                                             |
+| `openModal(triggerId, modal)`                 | Open a modal/dialog form                                                                                     |
+| `postEphemeral(threadId, userId, message)`    | Post a message visible to one user                                                                           |
+| `postChannelMessage(channelId, message)`      | Post a top-level message (not in a thread)                                                                   |
+| `onThreadSubscribe(threadId)`                 | Hook for platform-specific subscription setup                                                                |
+| `fetchChannelInfo(channelId)`                 | Fetch channel metadata                                                                                       |
+| `listThreads(channelId)`                      | List threads in a channel                                                                                    |
+| `fetchMessage(threadId, messageId)`           | Fetch a single message by ID                                                                                 |
+| `fetchChannelMessages(channelId)`             | Fetch top-level channel messages                                                                             |
+| `scheduleMessage(threadId, message, options)` | Schedule a message for future delivery; return a `ScheduledMessage` with `cancel()`                          |
 
 Implement only the methods your platform supports. The SDK handles adapters that leave optional methods out.
+
+For multi-tenant adapters whose conversation IDs can overlap, implement `getConcurrencyScope(): string | undefined`. Return a stable, non-secret scope from the authenticated installation context. Base it on the credential boundary: if one installation serves several workspaces with the same credentials, use one scope for all of them, since each entry point may report a different workspace for the same conversation. The same scope must be available during message handling and `abortTurn()` calls, including across processes. Never derive it from the message author's workspace or store credentials in it.
+
+Returning `undefined` preserves unscoped keys for single-tenant adapters. If tenant context is required but unavailable, throw rather than silently using unscoped keys. This hook does not change public conversation IDs or scope subscriptions, thread state, or history.
 
 ## Factory function
 
@@ -724,7 +728,6 @@ import {
 ```
 
 Accept the key as an optional `encryptionKey` config field (auto-detected from a `*_ENCRYPTION_KEY` env var), encrypt on `setInstallation()`, decrypt on `getInstallation()`, and use `isEncryptedTokenData` to keep accepting plaintext records so operators can roll the key in without flushing existing installs. See `@chat-adapter/slack` and `@chat-adapter/linear` for reference implementations.
-
 
 ---
 

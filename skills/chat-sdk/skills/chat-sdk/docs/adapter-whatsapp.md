@@ -10,6 +10,14 @@ package: @chat-adapter/whatsapp
 # WhatsApp Business Cloud
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the WhatsApp Business Cloud adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="whatsapp memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -56,29 +64,37 @@ export async function POST(request: Request) {
 
 ## Platform setup
 
-### 1. Create a Meta app
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Create a Meta app
 
-1. Go to [developers.facebook.com/apps](https://developers.facebook.com/apps) and create a **Business** app.
-2. Add the **WhatsApp** product to your app.
+    1. Go to [developers.facebook.com/apps](https://developers.facebook.com/apps) and create a **Business** app.
+    2. Add the **WhatsApp** product to your app.
+  </div>
 
-### 2. Get credentials
+  <div className="fd-step">
+    ### Get credentials
 
-From your Meta app dashboard, copy:
+    From your Meta app dashboard, copy:
 
-* **App Secret** (under **App Settings** then **Basic**) to `WHATSAPP_APP_SECRET`.
-* **Access Token** (under **WhatsApp** then **API Setup**) to `WHATSAPP_ACCESS_TOKEN`. The token shown there is temporary. For production, generate a permanent **System User Token** instead.
-* **Phone Number ID** (under **WhatsApp** then **API Setup**) to `WHATSAPP_PHONE_NUMBER_ID`.
+    * **App Secret** (under **App Settings** then **Basic**) to `WHATSAPP_APP_SECRET`.
+    * **Access Token** (under **WhatsApp** then **API Setup**) to `WHATSAPP_ACCESS_TOKEN`. The token shown there is temporary. For production, generate a permanent **System User Token** instead.
+    * **Phone Number ID** (under **WhatsApp** then **API Setup**) to `WHATSAPP_PHONE_NUMBER_ID`.
 
-Choose your own random string for `WHATSAPP_VERIFY_TOKEN`. You enter the same value in the next step.
+    Choose your own random string for `WHATSAPP_VERIFY_TOKEN`. You enter the same value in the next step.
+  </div>
 
-### 3. Configure webhooks
+  <div className="fd-step">
+    ### Configure webhooks
 
-Deploy the GET and POST route shown above to a public HTTPS URL first, then:
+    Deploy the GET and POST route shown above to a public HTTPS URL first, then:
 
-1. Open **WhatsApp** then **Configuration**.
-2. Set the callback URL to `https://your-domain.com/api/webhooks/whatsapp`.
-3. Set **Verify Token** to the same value as `WHATSAPP_VERIFY_TOKEN`.
-4. Subscribe to the `messages` webhook field. Also subscribe to `user_id_update` so the adapter can follow [user ID rotations](#user-identity).
+    1. Open **WhatsApp** then **Configuration**.
+    2. Set the callback URL to `https://your-domain.com/api/webhooks/whatsapp`.
+    3. Set **Verify Token** to the same value as `WHATSAPP_VERIFY_TOKEN`.
+    4. Subscribe to the `messages` webhook field. Also subscribe to `user_id_update` so the adapter can follow [user ID rotations](#user-identity).
+  </div>
+</div>
 
 ## Configuration
 
@@ -148,7 +164,7 @@ Templates must be created and approved in [WhatsApp Manager](https://business.fa
 Use `thread.reply()` to quote a specific message in WhatsApp:
 
 ```typescript
-bot.onNewMessage(async (thread, message) => {
+bot.onDirectMessage(async (thread, message) => {
   await thread.reply(message, {
     markdown: "I can help with that.",
   });
@@ -195,7 +211,7 @@ Incoming media attachments expose a lazy `fetchData()`. Media is downloaded only
 WhatsApp supports typing indicators through `thread.startTyping()` or `adapter.startTyping(threadId)`. Use it when the bot is about to respond and may take a few seconds:
 
 ```typescript
-bot.onNewMessage(async (thread, message) => {
+bot.onDirectMessage(async (thread, message) => {
   await thread.startTyping();
 
   await thread.post({

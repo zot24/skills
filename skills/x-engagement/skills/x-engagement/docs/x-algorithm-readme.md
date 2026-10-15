@@ -39,7 +39,7 @@ This repository contains the core code that determines which posts a viewer sees
 Notable updates:
 
 - **How weights work.** There's a common misconception about how weights related to actions (e.g. Like, Share, Block, Report, etc) work in ranking. The weights scale the predicted probabilities of such actions (or predicted continuous values, e.g. dwell time) — they do *not* scale the raw engagement counts, so e.g. it'd be incorrect to see that a report has 468 times higher weight than a like and conclude that e.g. "1 report cancels out 468 likes". The weights are a multiple on your own predicted probability of Liking, Reporting, etc, which is substantially driven by your own behavior. We've [added comments](home-mixer/params/param.rs) [to the code](xai-value-model/scoring.rs) so that LLMs or people reading it are more likely to understand it correctly.
-- **Brazil 2026 Elections.** As [announced by X](https://x.com/XBR/status/2088341967864320507?s=20), in accordance with Brazilian electoral law, For You now runs `Brazil2026ElectionFilter`, which removes posts from accounts reported to Brazil's Electoral Court for the 2026 election, unless the viewer explicitly follows the account. *(Account list updated August 27, 2026.)* A benefit of open-source is that you can see that changes like this exist, and exactly how they work — take a [look at the code](home-mixer/filters/brazil_2026_election_filter.rs).
+- **Brazil 2026 Elections.** As [announced by X](https://x.com/XBR/status/2088341967864320507?s=20), in accordance with Brazilian electoral law, For You now runs `Brazil2026ElectionFilter`, which removes posts from accounts reported to Brazil's Electoral Court for the 2026 election, unless the viewer explicitly follows the account. *(Account list updated October 13, 2026.)* A benefit of open-source is that you can see that changes like this exist, and exactly how they work — take a [look at the code](home-mixer/filters/brazil_2026_election_filter.rs).
 
 ### August 13th, 2026
 
@@ -67,7 +67,7 @@ This update is also paired with a new [**Under the Hood**](#under-the-hood-label
 The For You feed is assembled per request. Posts come from two places:
 
 1. **In-Network** — [`thunder/`](thunder/) keeps recent posts from the accounts a viewer follows in memory
-2. **Out-of-Network** — [`phoenix/`](phoenix/) retrieval and [`simclusters/`](simclusters/) find posts from accounts the viewer does not follow
+2. **Out-of-Network** — [`phoenix/`](phoenix/) retrieval and [`simclusters/`](simclusters/) find posts from accounts the viewer does not follow. [`popular_posts_source`](home-mixer/sources/popular_posts_source.rs) adds a shared list of popular recent posts.
 
 Both are ranked together by the same model. **Phoenix** reads the viewer's recent engagement history and predicts, for each post, how likely the viewer is to take each action on it. Those predictions are combined into one score using weights held in the code — see [Scoring and Ranking](#scoring-and-ranking).
 
@@ -107,7 +107,7 @@ Ranking sets the order. Whether a post can be shown at all is decided separately
 │  │    │ IN-NETWORK                    │ │ OUT-OF-NETWORK                         │    │  │
 │  │    │ <a href="thunder/">Thunder</a>                       │ │ <a href="phoenix/">Phoenix retrieval</a>   retrieval model    │    │  │
 │  │    │   recent posts from the       │ │ <a href="simclusters/">SimClusters</a>         cluster similarity │    │  │
-│  │    │   accounts the viewer follows │ │                                        │    │  │
+│  │    │   accounts the viewer follows │ │ <a href="home-mixer/sources/popular_posts_source.rs">Popular posts</a>       shared list        │    │  │
 │  │    └───────────────────────────────┘ └────────────────────────────────────────┘    │  │
 │  └────────────────────────────────────────────────────────────────────────────────────┘  │
 │                                            ▼                                             │
@@ -206,9 +206,10 @@ Stages can be switched on and off individually, with defaults in [`home-mixer/pa
                                              ▼
 ┌───────────────────  4. VISIBILITY FILTERING   <a href="visibility-filtering/">visibility-filtering/</a>  ────────────────────┐
 │                                                                                          │
-│    for each post and viewer, one of three answers:                                       │
+│    for each post and viewer, one of four answers:                                        │
 │                                                                                          │
 │       ALLOW          show the post normally                                              │
+│       NOTICE         show the post with a notice attached to it                          │
 │       INTERSTITIAL   show it behind an interstitial the viewer can tap                   │
 │                      through, e.g. for adult or graphic media                            │
 │       DROP           do not show it                                                      │
@@ -229,6 +230,8 @@ Stages can be switched on and off individually, with defaults in [`home-mixer/pa
 │               itself dropped                                                             │
 │    interstitial  ──►  the post stays in the feed; nothing in this                        │
 │               repository draws the interstitial                                          │
+│    notice  ──►  the post stays in the feed; nothing in this                              │
+│               repository draws the notice                                                │
 │                                                                                          │
 └──────────────────────────────────────────────────────────────────────────────────────────┘
 </pre>
@@ -255,11 +258,12 @@ Stages can be switched on and off individually, with defaults in [`home-mixer/pa
 ### Candidate Sources
 
 
-| Component                        | What it does                                                                                              |
-| -------------------------------- | --------------------------------------------------------------------------------------------------------- |
-| [`thunder/`](thunder/)           | Holds recent posts in memory as they are published, and returns those from the accounts a viewer follows. |
-| [`phoenix/`](phoenix/) retrieval | Embeds the viewer and each post as vectors, and returns the posts nearest the viewer.                     |
-| [`simclusters/`](simclusters/)   | Clusters accounts and posts by who engages with what, then uses the clusters to find candidates.          |
+| Component                                                               | What it does                                                                                              |
+| ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| [`thunder/`](thunder/)                                                  | Holds recent posts in memory as they are published, and returns those from the accounts a viewer follows. |
+| [`phoenix/`](phoenix/) retrieval                                        | Embeds the viewer and each post as vectors, and returns the posts nearest the viewer.                     |
+| [`simclusters/`](simclusters/)                                          | Clusters accounts and posts by who engages with what, then uses the clusters to find candidates.          |
+| [`popular_posts_source.rs`](home-mixer/sources/popular_posts_source.rs) | A shared list of popular recent posts, initially from the most-followed active accounts.                                     |
 
 
 
@@ -337,7 +341,7 @@ Phoenix predicts a probability for each action:
 ```
 Engagement    favorite · reply · repost · quote · share · share via DM · share via copy link
 Clicks        post · profile · link · photo expand · video open · quoted post
-Attention     video quality view · dwell · dwell time · click dwell time · active seconds
+Attention     video quality view · dwell · dwell time · click dwell time · video continuation seconds · profile visit seconds
 Author        follow author
 Negative      not interested · mute author · block author · report · not dwelled
 ```
@@ -380,10 +384,12 @@ Three adjustments follow:
 | `PreviouslyServedPostsFilter`     | Posts already served earlier in the session                                                       |
 | `MutedKeywordFilter`              | Posts matching the viewer's muted keywords                                                        |
 | `AuthorSocialgraphFilter`         | Posts from accounts the viewer blocks or mutes                                                    |
+| `Brazil2026ElectionFilter`        | Posts from accounts reported to Brazil's Electoral Court — see [Notable Updates](#august-14th-2026) |
 | `VideoFilter`                     | Video posts, when the request excludes video                                                      |
 | `TopicIdsFilter`                  | Posts outside the requested topics, and posts in excluded topics                                  |
 | `NewUserMinEngagementFilter`      | For new accounts, out-of-network posts below an engagement threshold                              |
 | `InventoryHoldoutFilter`          | A configured percentage of posts, chosen deterministically per post and viewer                    |
+| `FavHoldoutFilter`                | A percentage of posts set by each post's like count, chosen deterministically per post and viewer |
 
 
 Already-seen posts are handled twice over: `ThunderSource` is passed the list and leaves them out, the other sources are not, so their repeats are caught by the filters above.

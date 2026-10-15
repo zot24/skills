@@ -54,7 +54,7 @@ Load secrets
 # Load secrets into scripts
 
 
-1.  <a href="#use-op-run-to-pass-environment-variables-from-a-1password-environment-beta" class="link">Use <code>op run</code> to pass environment variables from a 1Password Environment</a>
+1.  <a href="#use-op-run-to-pass-environment-variables-from-a-1password-environment" class="link">Use <code>op run</code> to pass environment variables from a 1Password Environment</a>
 2.  <a href="#use-op-run-to-pass-secrets-using-secret-references" class="link">Use <code>op run</code> to load secrets into the environment.</a>
 3.  <a href="#use-op-read-to-read-secrets" class="link">Use <code>op read</code> to read secrets.</a>
 4.  <a href="#use-op-inject-to-load-secrets-into-a-config-file" class="link">Use <code>op inject</code> to load secrets into a config file.</a>
@@ -77,7 +77,7 @@ Load secrets
 ## 
 
 
-<a href="#use-op-run-to-pass-environment-variables-from-a-1password-environment-beta" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#use-op-run-to-pass-environment-variables-from-a-1password-environment" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 ## 

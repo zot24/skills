@@ -123,3 +123,6 @@ When `FIRECRAWL_API_URL` is set, the API key is optional if Firecrawl server aut
 * [Firecrawl search](/features/search)
 * [Firecrawl scrape](/features/scrape)
 * [Nous Research models quickstart](/quickstarts/nous-research) (API tool calling with Hermes models)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

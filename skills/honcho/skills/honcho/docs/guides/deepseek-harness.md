@@ -197,3 +197,4 @@ Set `injection.tools` to `false` to inject memory without exposing tools.
     Learn about peers, sessions, and dialectic reasoning.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

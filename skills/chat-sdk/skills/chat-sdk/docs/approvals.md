@@ -3,6 +3,8 @@
 ---
 title: Approvals
 description: Pause a durable workflow until a human approves it in chat.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/cards
@@ -11,8 +13,7 @@ related:
   - /docs/ai/ai-sdk-tools
 ---
 
-# Approvals
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 `requestApproval` from `chat/workflow` posts a card with Approve/Deny buttons and suspends a [Workflow SDK](https://workflow-sdk.dev) workflow until a user clicks. The wait can last seconds or days and survives deploys and restarts. You don't need an approvals table, an `onAction` handler, or a polling loop.
 
@@ -109,11 +110,9 @@ const card = buildApprovalCard(
 );
 ```
 
-
-  The [Human-in-the-Loop guide](https://vercel.com/kb/guide/human-in-the-loop-with-chat-sdk-and-workflow-sdk)
-  walks through the underlying pattern, including multi-stage approvals and
-  validating approvers with `createHook()`.
-
+> The [Human-in-the-Loop guide](https://vercel.com/kb/guide/human-in-the-loop-with-chat-sdk-and-workflow-sdk)
+> walks through the underlying pattern, including multi-stage approvals and
+> validating approvers with `createHook()`.
 
 ---
 

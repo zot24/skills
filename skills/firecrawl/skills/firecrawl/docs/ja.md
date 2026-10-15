@@ -4,7 +4,7 @@
 
 ## Japanese
 
-- [Japanese / v2 (204 pages)](https://docs.firecrawl.dev/_llms/ja/v2.md): Documentation for Japanese / v2.
+- [Japanese / v2 (221 pages)](https://docs.firecrawl.dev/_llms/ja/v2.txt): Documentation for Japanese / v2.
 
 ### v1
 
@@ -25,6 +25,7 @@
 ###### Enterprise
 
 - [Enterprise](https://docs.firecrawl.dev/ja/enterprise.md): 大規模な Firecrawl 向けの Enterprise プラン、セキュリティ、機能
+- [SSO と SCIM](https://docs.firecrawl.dev/ja/features/sso.md): シングルサインオン（SSO）と SCIM ディレクトリ同期を設定すると、Team は ID プロバイダー経由でサインインでき、ユーザーのアクセス権もディレクトリと常に同期されます。
 - [IP制限](https://docs.firecrawl.dev/ja/features/ip-restrictions.md): チームのAPIキーをIPアドレスまたはCIDR範囲の許可リストに制限し、承認済みネットワークからのみ利用できるようにします。サーバー側で適用されます。
 - [キー制限](https://docs.firecrawl.dev/ja/features/key-restrictions.md): 個別のAPIキーを特定の出力フォーマットとエンドポイントに限定します。サーバー側で強制されるため、リクエストで上書きすることはできません。
 - [脅威保護](https://docs.firecrawl.dev/ja/features/threat-protection.md): 組織が管理するポリシーを使って、すべてのエンドポイントで危険な URL へのリクエストをブロックします。サーバー側で適用されます。

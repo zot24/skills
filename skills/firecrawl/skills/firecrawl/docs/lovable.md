@@ -37,3 +37,6 @@ Lovable apps can use Firecrawl to scrape and crawl websites into clean, structur
 * [Lovable Firecrawl integration](https://docs.lovable.dev/integrations/firecrawl)
 * [Firecrawl scrape docs](/features/scrape)
 * [Firecrawl crawl docs](/features/crawl)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

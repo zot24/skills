@@ -241,3 +241,6 @@ console.log('Response:', JSON.stringify(response.output, null, 2));
 ```
 
 For more examples, check the [OpenAI documentation](https://platform.openai.com/docs).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

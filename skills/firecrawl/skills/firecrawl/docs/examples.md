@@ -67,3 +67,4 @@
     * [GitHub Repo](https://github.com/firecrawl/open-researcher)
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.
