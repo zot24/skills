@@ -156,3 +156,6 @@ testWorkflow().catch(console.error);
 ```
 
 For more examples, check the [Mastra documentation](https://mastra.ai/docs).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

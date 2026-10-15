@@ -151,3 +151,4 @@ uv run python main.py
     Dig into the code
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

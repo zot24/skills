@@ -17,8 +17,9 @@ pub const TRACE_USER_IDS: &[u64] = &[];
 
 pub const MAX_GRPC_MESSAGE_SIZE: usize = 128 * 1024 * 1024;
 pub const TOP_K_CANDIDATES_TO_SELECT: usize = 50;
+pub const VIDEO_CAROUSEL_EXTRA_CANDIDATES: usize = 30;
 pub const RESULT_SIZE: usize = 35;
-pub const FEED_MODULE_SLOTS: usize = 4;
+pub const FEED_MODULE_SLOTS: usize = 5;
 pub const MAX_JETFUEL_FRAMES_PER_RESPONSE: usize = 8;
 pub const FOR_YOU_MAX_RESULT_SIZE: usize =
     RESULT_SIZE + FEED_MODULE_SLOTS + MAX_JETFUEL_FRAMES_PER_RESPONSE;
@@ -32,6 +33,9 @@ pub const WHO_TO_FOLLOW_POSITION: usize = 6;
 pub const FOLLOWING_WHO_TO_FOLLOW_MIN_POSTS: usize = 10;
 pub const PROMPTS_POSITION: i32 = 0;
 pub const FEED_SURVEY_POSITION: usize = 12;
+
+pub const VIDEO_CAROUSEL_MAX_VIDEOS: usize = 5;
+pub const VIDEO_CAROUSEL_MIN_VIDEOS: usize = 3;
 
 pub const UAS_WINDOW_TIME_MS: i64 = 300_000;
 

@@ -245,6 +245,16 @@ components:
           type: boolean
           description: Enable ad and cookie popup blocking.
           default: true
+        checkPromptInjection:
+          type: boolean
+          description: >-
+            When enabled, scans the parsed content for prompt injection attempts
+            before any LLM-backed format (such as json, summary or question)
+            runs. If an injection is detected, the request fails with a 403 and
+            error code SCRAPE_PROMPT_INJECTION_DETECTED. Adds 4 credits when the
+            check runs. If the check cannot scan all of the content, the parse
+            continues with a warning and the check is not billed.
+          default: false
         redactPII:
           oneOf:
             - type: boolean
@@ -467,6 +477,23 @@ components:
               items:
                 type: string
               description: List of links on the page if `links` is in `formats`
+            attributes:
+              type: array
+              description: >-
+                Attribute values extracted by the `attributes` format. Only
+                present if an `attributes` format object was included in
+                `formats`.
+              items:
+                type: object
+                properties:
+                  selector:
+                    type: string
+                  attribute:
+                    type: string
+                  values:
+                    type: array
+                    items:
+                      type: string
             actions:
               type: object
               nullable: true
@@ -613,6 +640,32 @@ components:
                   description: >-
                     Time in milliseconds the request waited in the concurrency
                     queue. Only present when concurrencyLimited is true.
+                provider:
+                  type: object
+                  description: Set when a third-party data provider served the URL.
+                  properties:
+                    id:
+                      type: string
+                      description: The provider that returned the data.
+                    creditsCost:
+                      type: integer
+                      description: What that access cost, in credits.
+                    steps:
+                      type: array
+                      description: Each provider tried, in order.
+                      items:
+                        type: object
+                        properties:
+                          provider:
+                            type: string
+                          status:
+                            type: string
+                            enum:
+                              - matched
+                              - not_found
+                              - error
+                          creditsCost:
+                            type: integer
             warning:
               type: string
               nullable: true
@@ -1274,12 +1327,17 @@ components:
       type: object
       description: >-
         A catalogued provider tool discovered via Alexandria, semantic search,
-        or domain matching.
+        or domain matching. The `toolDetail` request parameter sets which fields
+        appear: `compact` returns only `provider`, `capability`, and
+        `description`; `summary` adds the other fields except `options` and
+        `response`; `full` also adds `options`, `response`, and `examples`.
       additionalProperties: true
       properties:
         id:
           type: string
-          description: The tool's identifier, formatted as `provider/capability`.
+          description: >-
+            The tool's identifier, formatted as `provider/capability`. Omitted
+            when `toolDetail` is `compact`.
         provider:
           type: string
           description: The catalogued provider.
@@ -1288,22 +1346,28 @@ components:
           description: The provider-relative capability.
         name:
           type: string
-          description: Human-readable name of the tool.
+          description: >-
+            Human-readable name of the tool. Omitted when `toolDetail` is
+            `compact`.
         description:
           type: string
           description: Human-readable description of what the tool does.
         creditsCost:
           type: integer
           minimum: 0
-          description: Credits charged per execution of this tool.
+          description: >-
+            Credits charged per execution of this tool. Omitted when
+            `toolDetail` is `compact`.
         perRecord:
           type: boolean
           description: >-
             Whether `creditsCost` is charged per record returned rather than per
-            call.
+            call. Omitted when `toolDetail` is `compact`.
         options:
           type: array
-          description: The capability's accepted options.
+          description: >-
+            The capability's accepted options. Present only when `toolDetail` is
+            `full`.
           items:
             type: object
             additionalProperties: true
@@ -1317,7 +1381,9 @@ components:
         response:
           type: object
           additionalProperties: true
-          description: Description of the shape of a successful response's `data`.
+          description: >-
+            Description of the shape of a successful response's `data`. Present
+            only when `toolDetail` is `full`.
           properties:
             about:
               type: string
@@ -1335,7 +1401,7 @@ components:
                 additionalProperties: true
         matchedBy:
           type: array
-          description: Why this tool was surfaced.
+          description: Why this tool was surfaced. Omitted when `toolDetail` is `compact`.
           items:
             type: string
             enum:
@@ -1343,17 +1409,15 @@ components:
               - domain
         matchedUrls:
           type: array
-          description: URLs whose domain matched this tool, when matched by domain.
+          description: >-
+            URLs whose domain matched this tool, when matched by domain. Omitted
+            when `toolDetail` is `compact`.
           items:
             type: string
       required:
-        - id
         - provider
         - capability
-        - name
         - description
-        - creditsCost
-        - perRecord
     RedactPIIEntity:
       type: string
       enum:
@@ -1370,3 +1434,5 @@ components:
       scheme: bearer
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -20,12 +20,22 @@ Umami
 Copy page
 
 
+Install a self-hosted Umami instance from source, with Docker Compose, from a prebuilt Docker image, or on Kubernetes with a third-party Helm chart.
+
+
 There are several different ways to install Umami.
 
 - **Installing from source**: Get the code from [GitHub](https://github.com/umami-software/umami) and build the application yourself.
-- **Using Docker compose**: Build your own Docker container using `docker compose`.
+- **Using Docker Compose**: Build your own Docker container using `docker compose`.
 - **Using a Docker image**: Download a pre-built Docker image.
 - **Using Kubernetes with HelmForge**: Deploy Umami with a third-party Helm chart maintained by the HelmForge project. See the [Running on Kubernetes with HelmForge](/docs/guides/running-on-helmforge) guide.
+
+
+Change the default password
+
+
+Umami creates a default login account with username **admin** and password **umami** the first time it sets up its database. Change the default password immediately after your first login.
+
 
 ## Installing from source<a href="#installing-from-source" class="heading-anchor" aria-label="Permalink to “Installing from source”">#</a>
 
@@ -61,7 +71,7 @@ pnpm install
 
 ### Configure Umami<a href="#configure-umami" class="heading-anchor" aria-label="Permalink to “Configure Umami”">#</a>
 
-Create an `.env` file with the following
+Create an `.env` file with the following:
 
 
 ``` code-block
@@ -69,7 +79,7 @@ DATABASE_URL={connection url}
 ```
 
 
-The connection url is in the following format:
+The connection URL is in the following format:
 
 
 ``` code-block
@@ -85,7 +95,7 @@ pnpm build
 ```
 
 
-The first time the build is run, it will create all the required database tables in your database. It will also create a login account with username **admin** and password **umami**.
+The first time the build is run, it will create all the required database tables in your database. It will also create a login account with username **admin** and password **umami**. Change this password after your first login.
 
 ### Start the application<a href="#start-the-application" class="heading-anchor" aria-label="Permalink to “Start the application”">#</a>
 
@@ -95,7 +105,7 @@ pnpm start
 ```
 
 
-By default this will launch the application on `http://localhost:3000`. You will need to either [proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) requests from your web server or change the [port](https://nextjs.org/docs/api-reference/cli#production) to serve the application directly.
+By default this will launch the application on `http://localhost:3000`. You will need to either [proxy](https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/) requests from your web server or change the [port](https://nextjs.org/docs/app/api-reference/cli/next#next-start-options) to serve the application directly.
 
 ### Running Umami<a href="#running-umami" class="heading-anchor" aria-label="Permalink to “Running Umami”">#</a>
 
@@ -115,9 +125,9 @@ pm2 save
 
 ## Installing with Docker<a href="#installing-with-docker" class="heading-anchor" aria-label="Permalink to “Installing with Docker”">#</a>
 
-Umami ships with a docker compose file that contains the application and a PostgreSQL database.
+Umami ships with a Docker Compose file that contains the application and a PostgreSQL database.
 
-To build the Docker container and start up with a Postgres database, run:
+To build the Docker container and start up with a PostgreSQL database, run:
 
 
 ``` code-block
@@ -125,20 +135,13 @@ docker compose up -d
 ```
 
 
-This will create a PostgreSQL database and start the Umami application on `http://localhost:3000`. The default login credentials are username **admin** and password **umami**.
+This will create a PostgreSQL database and start the Umami application on `http://localhost:3000`. The default login credentials are username **admin** and password **umami**. Change this password after your first login.
 
-
-Change the default password
-
-
-Change the default password immediately after your first login.
-
-
-Alternatively, if you want to use prebuilt images, you can pull the Umami Docker image with PostgreSQL support:
+Alternatively, if you want to use prebuilt images, you can pull the Umami Docker image:
 
 
 ``` code-block
-docker pull docker.umami.is/umami-software/umami:postgresql-latest
+docker pull docker.umami.is/umami-software/umami:latest
 ```
 
 

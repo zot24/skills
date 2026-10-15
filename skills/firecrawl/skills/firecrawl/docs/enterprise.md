@@ -17,14 +17,14 @@ Firecrawl Enterprise is built for teams that need to run the web at scale with s
 ## Security & compliance
 
 * **SOC 2 Type II**: Independently audited security controls covering data protection and operational security.
-* **Zero Data Retention (ZDR)**: Page content and extracted data are processed in-memory and never persisted beyond the lifetime of the request. Available for both scraping ([Scrape ZDR](/features/scrape#zero-data-retention-zdr)) and search ([Search ZDR](/features/search#zero-data-retention-zdr)), including an end-to-end mode where our upstream search provider also enforces ZDR.
+* **Zero Data Retention (ZDR)**: Page content and extracted data are processed in-memory and never persisted beyond the lifetime of the request. Available for scraping ([Scrape ZDR](/features/scrape#zero-data-retention-zdr)), browser sessions ([Interact ZDR](/features/interact#zero-data-retention-zdr)) and search ([Search ZDR](/features/search#zero-data-retention-zdr)), including an end-to-end mode where our upstream search provider also enforces ZDR.
 * **PII redaction**: Automatically redact personally identifiable information from scrape and parse output. See [PII redaction](/features/scrape#pii-redaction).
 * **DPA & custom contracts**: Data Processing Agreements, custom MSAs, and security reviews to meet your procurement requirements.
 
 ## Identity & access management
 
-* **Single Sign-On (SSO)**: SAML and OIDC single sign-on so your team authenticates through your existing identity provider (Okta, Entra ID, Google Workspace, and more).
-* **SCIM directory sync**: Automatically provision and deprovision users from your directory so access stays in sync with your org.
+* **[Single Sign-On (SSO)](/features/sso)**: SAML and OIDC single sign-on so your team authenticates through your existing identity provider (Okta, Entra ID, Google Workspace, and more).
+* **[SCIM directory sync](/features/sso#scim-directory-sync)**: Automatically provision and deprovision users from your directory so access stays in sync with your org.
 * **Static IP allowlisting**: Route your traffic through dedicated, whitelisted IP addresses for allowlisting on your systems.
 * **[IP restrictions](/features/ip-restrictions)**: Restrict your team's API keys to an allowlist of IP addresses or CIDR ranges so they only work from approved networks.
 * **[Key restrictions](/features/key-restrictions)**: Lock individual API keys to specific output formats and endpoints, enforced server-side with no request-level override.
@@ -44,3 +44,6 @@ Firecrawl Enterprise is built for teams that need to run the web at scale with s
 This list isn't exhaustive. If there's an enterprise capability you need that isn't shown here, just ask and we'll work with you on it.
 
 Ready to talk through your requirements? Visit [firecrawl.dev/enterprise](https://www.firecrawl.dev/enterprise) to contact sales, or email [help@firecrawl.dev](mailto:help@firecrawl.dev).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

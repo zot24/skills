@@ -126,3 +126,6 @@ console.log('Extracted company info:', response?.text);
 ```
 
 For more examples, check the [Gemini documentation](https://ai.google.dev/docs).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -3,6 +3,8 @@
 ---
 title: Modals
 description: Collect structured user input through modal dialogs with text fields, dropdowns, and validation.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/actions
@@ -12,8 +14,7 @@ related:
   - /docs/slash-commands
 ---
 
-# Modals
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Modals open form dialogs in response to button clicks or [slash commands](/docs/slash-commands). They support text inputs, dropdowns, radio buttons, and server-side validation. Modals are currently supported on Slack and Teams.
 
@@ -117,9 +118,7 @@ A numeric field. Renders a Slack `number_input` and an Adaptive Card `Input.Numb
 
 Like every other field, the submitted value arrives in `event.values` as a string. Parse it with `Number(...)` if you need a number.
 
-
-  `decimal` is enforced by Slack. Adaptive Cards has no decimal switch, so `Input.Number` accepts decimals on Teams regardless. Validate server-side if the distinction matters.
-
+> `decimal` is enforced by Slack. Adaptive Cards has no decimal switch, so `Input.Number` accepts decimals on Teams regardless. Validate server-side if the distinction matters.
 
 ### Select
 
@@ -197,12 +196,9 @@ bot.onOptionsLoad("assignee", async (event) => {
 
 Slack limits: max 100 groups, max 100 options per group, group label max 75 characters.
 
+> Slack requires a response within 3 seconds for options requests. The adapter caps the loader at \~2.5s and returns an empty result on timeout, so keep your loader fast by caching, prefetching, or narrowing the query server-side.
 
-  Slack requires a response within 3 seconds for options requests. The adapter caps the loader at \~2.5s and returns an empty result on timeout, so keep your loader fast by caching, prefetching, or narrowing the query server-side.
-
-
-  On Slack, `ExternalSelect` uses Slack's `block_suggestion` payload, which is dispatched to the **Options Load URL**. In your [Slack app settings](https://api.slack.com/apps) go to **Interactivity & Shortcuts** → **Select Menus** and set the **Options Load URL** to the same endpoint as your Interactivity Request URL (e.g. `https://your-domain.com/api/webhooks/slack`). Without this setting, typing into an external select returns no results and no error.
-
+> On Slack, `ExternalSelect` uses Slack's `block_suggestion` payload, which is dispatched to the **Options Load URL**. In your [Slack app settings](https://api.slack.com/apps) go to **Interactivity & Shortcuts** → **Select Menus** and set the **Options Load URL** to the same endpoint as your Interactivity Request URL (e.g. `https://your-domain.com/api/webhooks/slack`). Without this setting, typing into an external select returns no results and no error.
 
 ### RadioSelect
 
@@ -365,7 +361,6 @@ bot.onModalSubmit("report_form", async (event) => {
   console.log(metadata.reportType); // "bug"
 });
 ```
-
 
 ---
 

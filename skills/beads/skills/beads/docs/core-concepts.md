@@ -166,3 +166,6 @@ connects to an external `dolt sql-server` for multi-writer setups — see the
   depth.
 * [Multi-Agent](/multi-agent/index) — routing, coordination, and federation
   for fleets of agents.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -3,11 +3,12 @@
 ---
 title: Overview
 description: API reference for the Chat SDK core package.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: overview
 ---
 
-# Overview
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 API reference for the `chat` package. All exports are available from the top-level import:
 
@@ -48,7 +49,6 @@ import { Chat, root, paragraph, text, Card, Button, emoji } from "chat";
 ## AI utilities
 
 `toAiMessages`, `createChatTools`, and the supporting types live in the [`chat/ai`](/docs/ai) subpath. See the [AI section](/docs/ai) for the full reference.
-
 
 ---
 

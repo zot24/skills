@@ -39,3 +39,6 @@ Composio exposes Firecrawl as a toolkit so your agents can search, scrape, crawl
 
 * [Composio Firecrawl toolkit](https://docs.composio.dev/toolkits/firecrawl)
 * [Get an API key](https://www.firecrawl.dev/app/api-keys)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

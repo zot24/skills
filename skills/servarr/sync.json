@@ -506,6 +506,18 @@
       "target": "skills/servarr/docs/lidarr-metadata-troubleshooting.md",
       "type": "extract-content",
       "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/lidarr/plugins",
+      "target": "skills/servarr/docs/lidarr-plugins.md",
+      "type": "extract-content",
+      "freshness_days": 30
+    },
+    {
+      "url": "https://wiki.servarr.com/sonarr/privacy",
+      "target": "skills/servarr/docs/sonarr-privacy.md",
+      "type": "extract-content",
+      "freshness_days": 30
     }
   ],
   "cache_dir": ".cache",

@@ -24,7 +24,7 @@ rules:
       reason: user_not_found
 
   - id: high_follower_count
-    # Prod uses a different follower count floor; this is a mock value to reduce gaming.
+    # Prod uses a different follower count threshold; this is a mock value to reduce gaming.
     when: cred.follower_count >= 12.34 && !score.skip_author_credibility_prechecks
     then:
       kind: skip
@@ -43,21 +43,21 @@ rules:
     then:
       kind: act_add_post_labels_v2
       labels: ["RiskyHighVizReply"]
-      ttl_msec: 2592000000   
+      ttl_msec: 2592000000
 
   - id: act_add_gibberish_post_label
     when: '"gibberish_post" in score.labels'
     then:
       kind: act_add_post_labels_v2
       labels: ["SpamHighRecall"]
-      ttl_msec: 2592000000   
+      ttl_msec: 2592000000
 
   - id: act_add_fast_reply_spam_post_label
     when: '"fast_reply_spam_post" in score.labels'
     then:
       kind: act_add_post_labels_v2
       labels: ["SpamHighRecall"]
-      ttl_msec: 2592000000   
+      ttl_msec: 2592000000
 
   - id: anchor_campaign_post
     when: '"anchor_campaign_post" in score.labels'

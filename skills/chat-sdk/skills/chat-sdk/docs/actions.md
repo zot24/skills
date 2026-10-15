@@ -3,6 +3,8 @@
 ---
 title: Actions
 description: Handle button clicks and interactive card events across platforms.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/cards
@@ -11,8 +13,7 @@ related:
   - /docs/approvals
 ---
 
-# Actions
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Actions let you handle button clicks, dropdown selections, and other interactive events from [cards](/docs/cards). Register handlers with `onAction` to respond when users interact with your cards.
 
@@ -58,6 +59,7 @@ The `event` object passed to action handlers:
 | `adapter`   | `Adapter`                                             | The platform adapter                                                               |
 | `triggerId` | `string` (optional)                                   | Platform trigger ID (used for opening modals)                                      |
 | `openModal` | `(modal) => Promise<{ viewId: string } \| undefined>` | Open a modal dialog. Resolves to `undefined` if the adapter doesn't support modals |
+| `values`    | `Record<string, string>` (optional)                   | The card's own input values, keyed by input ID                                     |
 | `raw`       | `unknown`                                             | Platform-specific event payload                                                    |
 
 ## Pass data with buttons
@@ -79,6 +81,31 @@ bot.onAction("report", async (event) => {
 });
 ```
 
+## Read a text box on the card
+
+On Teams, a card can carry a [`TextInput`](/docs/cards). What the user typed arrives on the action as `event.values`, keyed by input ID, in the same shape as `ModalSubmitEvent.values`:
+
+```tsx title="lib/bot.tsx" lineNumbers
+<Card title="Deploy to production?">
+  <TextInput id="notes" label="Notes" multiline optional />
+  <Actions>
+    <Button id="approve" style="primary">Approve</Button>
+  </Actions>
+</Card>
+```
+
+```typescript title="lib/bot.ts" lineNumbers
+bot.onAction("approve", async (event) => {
+  const notes = event.values?.notes?.trim().slice(0, 500) ?? "";
+  await recordApproval({ userId: event.user.userId, notes });
+  await event.thread?.post("Approved");
+});
+```
+
+`recordApproval` stands in for your own storage or deploy logic. `values` is absent on platforms that cannot put an input on a card, and on cards that have none.
+
+Treat `event.values` as untrusted user input. Teams enforces `optional` and `maxLength` in its own UI, but a value can still arrive missing, empty, or longer than the limit, so validate it in the handler. If you post a value back into the thread, the platform renders any markdown the user typed, such as a link, in a message that appears to come from the bot. Wrapping the value in a code span or sending it as `{ raw }` does not prevent this, so store or process the value instead of echoing it.
+
 ## Open a modal from an action
 
 Use `event.openModal()` to open a [modal](/docs/modals) in response to a button click:
@@ -99,10 +126,8 @@ bot.onAction("feedback", async (event) => {
 });
 ```
 
-
-  Only the Slack and Teams adapters support modals. On other platforms, `event.openModal()`
-  logs a warning and resolves to `undefined` without opening anything.
-
+> Only the Slack and Teams adapters support modals. On other platforms, `event.openModal()`
+> logs a warning and resolves to `undefined` without opening anything.
 
 ## Callback URLs
 
@@ -146,16 +171,26 @@ The POST body sent to the `callbackUrl`:
 
 If the button also has a `value` prop, it is included in the payload as `"value"`.
 
+If the card carried inputs, the payload includes what the user typed as `"values"`, keyed by input ID. This is the same object the handler reads as `event.values`, and it is omitted when the card has no inputs:
 
-  Platform limits apply to encoded button data. Discord's `custom_id` has a
-  100-character limit, and posting the card throws a `ValidationError` if the
-  action ID plus callback token exceed it. Telegram's `callback_data` has a
-  64-byte limit, and buttons that exceed it also throw a `ValidationError`. Keep
-  action IDs short when using `callbackUrl` on these platforms.
+```json
+{
+  "type": "action",
+  "actionId": "approve",
+  "values": { "notes": "ship it" },
+  "user": { "id": "U123", "name": "alice" },
+  "threadId": "teams:MTk6YWJjMTIzQHRocmVhZC50YWN2Mg:aHR0cHM6Ly9zbWJhLnRyYWZmaWNtYW5hZ2VyLm5ldC9hbWVyLw",
+  "messageId": "1700000012345"
+}
+```
 
+> Platform limits apply to encoded button data. Discord's `custom_id` has a
+> 100-character limit, and posting the card throws a `ValidationError` if the
+> action ID plus callback token exceed it. Telegram's `callback_data` has a
+> 64-byte limit, and buttons that exceed it also throw a `ValidationError`. Keep
+> action IDs short when using `callbackUrl` on these platforms.
 
 For modals, see [callbackUrl on modals](/docs/modals#callback-urls).
-
 
 ---
 

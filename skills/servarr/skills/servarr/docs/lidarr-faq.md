@@ -228,7 +228,7 @@ Custom Formats score releases. Custom Scripts respond to events. They don't over
 
 Deemix and slskd are third-party tools. Deemix is a Deezer downloader. slskd is a Soulseek daemon. Historically there was no built-in way to integrate them with Lidarr, and users cobbled together import scripts.
 
-**This changed with the plugin architecture.** As of the `develop` branch, Lidarr supports third-party plugins that add indexers and download clients for streaming services, peer-to-peer networks, and other sources. This is the fully supported way to extend Lidarr's source coverage. See <a href="/lidarr/plugins" class="is-internal-link is-valid-page">Plugins</a> for install instructions and the current compatibility notes.
+**This changed with the plugin architecture.** As of the `develop` branch, Lidarr supports third-party plugins that add indexers and download clients for streaming services, peer-to-peer networks, and other sources. This is the fully supported way to extend Lidarr's source coverage. See <a href="/lidarr/plugins-install" class="is-internal-link is-valid-page">Install and Manage Lidarr Plugins</a> for install instructions and <a href="/lidarr/plugins" class="is-internal-link is-valid-page">Plugins</a> for the list of available plugins.
 
 Common community plugins cover exactly this ground: Soulseek, Deezer, Tidal, and similar. Plugin names and availability shift faster than this FAQ can track, so the Plugins page is the current reference.
 

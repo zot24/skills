@@ -10,6 +10,14 @@ package: @linqapp/chat-sdk-adapter
 # Linq
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the Linq adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="linq memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 

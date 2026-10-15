@@ -63,6 +63,24 @@ Connect account
 Configure an API key
 
 
+<img src="https://mintcdn.com/firecrawl/CCJGFNIrBeZmk4E5/images/agent-clients/chatgpt.svg?fit=max&amp;auto=format&amp;n=CCJGFNIrBeZmk4E5&amp;q=85&amp;s=f1da3550e42a8fb856053fbe6d8a083a" class="size-6 m-0! shrink-0 bg-transparent dark:bg-transparent" aria-hidden="true" />
+
+
+## Add to ChatGPT & Codex
+
+
+Open in ChatGPT
+
+
+<img src="https://mintcdn.com/firecrawl/CCJGFNIrBeZmk4E5/images/agent-clients/claude-ai.svg?fit=max&amp;auto=format&amp;n=CCJGFNIrBeZmk4E5&amp;q=85&amp;s=01e23ce8cedaa21257700fb093ed3735" class="size-6 m-0! shrink-0 bg-transparent dark:bg-transparent" aria-hidden="true" />
+
+
+## Add to Claude
+
+
+Open in Claude
+
+
 ## 
 
 

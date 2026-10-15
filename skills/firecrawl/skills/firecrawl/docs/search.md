@@ -250,6 +250,30 @@ for (const item of result.web ?? []) {
 - `web`: standard web results (default)
 - `news`: news-focused results
 - `images`: image search results
+- `alexandria`: data tools from <a href="/features/alexandria" class="link">Alexandria</a>, the Firecrawl catalogue of third-party data providers
+
+
+### 
+
+
+<a href="#alexandria-tools" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/search \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -d '{
+    "query": "podcast conversations about AI agents",
+    "sources": ["web", "alexandria"],
+    "limit": 2
+  }'
+```
+
+
+- By default, each tool has only its `provider`, `capability`, and `description`. Set `toolDetail` to `"summary"` for more metadata, or to `"full"` for the input and output contracts.
+- Search also adds tools that match the websites in your results. Set `domainTools: false` to turn off this domain matching.
+- Tool discovery needs an API key. It is not available with zero data retention.
 
 
 ## 
@@ -261,6 +285,7 @@ for (const item of result.web ?? []) {
 - `research`: Restrict web search to academic and research websites (arxiv.org, nature.com, pubmed.ncbi.nlm.nih.gov, and similar). Changes on 2026-11-16 to search the <a href="/features/research" class="link">Research Index</a> and return paper records, see the warning below
 - `pdf`: Search for PDFs
 - `developer`: Search the <a href="/features/developer" class="link">Developer Index</a> — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites
+- `gov`: Search the <a href="/features/gov" class="link">Firecrawl Government Index</a> — statutes, regulations, codes, court opinions, and other government publications
 
 
 ### 
@@ -299,6 +324,24 @@ curl -X POST https://api.firecrawl.dev/v2/search \
   -d '{
     "query": "how do I configure retries",
     "categories": ["developer"],
+    "limit": 10
+  }'
+```
+
+
+### 
+
+
+<a href="#gov-category-search" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/search \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -d '{
+    "query": "food labeling requirements for allergens",
+    "categories": ["gov"],
     "limit": 10
   }'
 ```

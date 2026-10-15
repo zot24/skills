@@ -77,3 +77,6 @@ bd mol bond mol-critical-bug wisp-patrol --pour   # persist a bug found during a
 3. **Squash before you delete** — if a wisp surfaced something durable,
    `bd mol squash` promotes it; burning is irreversible.
 4. **Garbage collect regularly** — `bd mol wisp gc` or `bd purge --force`.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

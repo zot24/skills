@@ -426,7 +426,7 @@ curl -X POST https://api.firecrawl.dev/v2/scrape \
 
 - `schema`: JSON Schema describing the structured output you want (required for schema-based extraction).
 - `prompt`: Optional prompt to guide extraction (also used for no-schema extraction).
-- `checkPromptInjection`: Optional boolean (default `false`). When enabled, Firecrawl scans the scraped page content for prompt injection attempts before running the extraction. See <a href="#prompt-injection-detection" class="link">Prompt injection detection</a>.
+- `checkPromptInjection`: Deprecated. Use the top-level `checkPromptInjection` scrape option instead (see <a href="#prompt-injection-detection" class="link">Prompt injection detection</a>). A value set here is still honored.
 
 
 ### 
@@ -441,17 +441,18 @@ curl -X POST https://api.firecrawl.dev/v2/scrape \
   "formats": [
     {
       "type": "json",
-      "schema": { "type": "object", "properties": { "title": { "type": "string" } } },
-      "checkPromptInjection": true
+      "schema": { "type": "object", "properties": { "title": { "type": "string" } } }
     }
-  ]
+  ],
+  "checkPromptInjection": true
 }
 ```
 
 
-- A dedicated classifier call inspects the scraped page content (it runs in parallel with the extraction, so enabling it does not slow down clean scrapes).
-- If a prompt injection attempt is detected, the request fails with an HTTP `403` and the error code `SCRAPE_PROMPT_INJECTION_DETECTED` — no extraction output is returned.
-- The check is billed as **+4 credits** on top of the standard JSON format cost when it runs. If the scrape fails after the check has run (including when an injection is detected and the request is blocked), **5 credits** are billed instead of the usual 0 for a failed scrape, since the classifier call still ran.
+- A dedicated classifier call inspects the page content once per scrape, before any LLM-backed format runs, so it adds the classifier’s latency to the request.
+- If a prompt injection attempt is detected, the request fails with an HTTP `403` and the error code `SCRAPE_PROMPT_INJECTION_DETECTED`. No output is returned.
+- If the check can’t scan all of the content (for example, because the classifier call failed or the page content is over 2,000,000 characters), the scrape continues, the response includes a `warning`, and the check is not billed.
+- The check is billed as **+4 credits** when it runs. If the scrape fails after the check has run (including when an injection is detected and the request is blocked), **5 credits** are billed instead of the usual 0 for a failed scrape, since the classifier call still ran.
 
 
 ## 

@@ -400,6 +400,8 @@ Sent when the agent encounters an error. The `error` field contains the failure 
 }
 ```
 
+When the run stopped at its `maxCredits` limit, the `data` entry also has `stopReason: "credit_limit_reached"`. It may include a best-effort `partial`, `partialSchemaValid` (only when the request had a `schema`) and a `message` on what is incomplete. A `partial` isn't sent on every credit stop. See [Handling credit-limit stops](/features/agent#handling-credit-limit-stops).
+
 ### `agent.cancelled`
 
 Sent when the agent job is cancelled by the user.
@@ -430,3 +432,6 @@ By default, you receive all events. To subscribe to specific events only, use th
 ```
 
 This is useful if you only care about job completion and don't need per-page updates.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -10,6 +10,14 @@ package: @chat-adapter/teams
 # Microsoft Teams
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the Microsoft Teams adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="teams memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -66,43 +74,51 @@ The [Teams CLI](https://microsoft.github.io/teams-sdk/cli) handles AAD app regis
 npm install -g @microsoft/teams.cli
 ```
 
-### 1. Create the app
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Create the app
 
-```bash
-teams login
-teams status
-teams app create --name "My Bot" --endpoint "https://your-domain.com/api/webhooks/teams" --env .env
-```
+    ```bash
+    teams login
+    teams status
+    teams app create --name "My Bot" --endpoint "https://your-domain.com/api/webhooks/teams" --env .env
+    ```
 
 
-  For local development, use a tunnel such as [devtunnel](https://learn.microsoft.com/en-us/azure/developer/dev-tunnels/), or ngrok to expose your local server.
+      For local development, use a tunnel such as [devtunnel](https://learn.microsoft.com/en-us/azure/developer/dev-tunnels/), or ngrok to expose your local server.
 
 
-Credentials (`CLIENT_ID`, `CLIENT_SECRET`, `TENANT_ID`) are written to `.env`. Rename them to match the adapter:
+    Credentials (`CLIENT_ID`, `CLIENT_SECRET`, `TENANT_ID`) are written to `.env`. Rename them to match the adapter:
 
-```bash
-TEAMS_APP_ID=<CLIENT_ID>
-TEAMS_APP_PASSWORD=<CLIENT_SECRET>
-TEAMS_APP_TENANT_ID=<TENANT_ID>
-```
+    ```bash
+    TEAMS_APP_ID=<CLIENT_ID>
+    TEAMS_APP_PASSWORD=<CLIENT_SECRET>
+    TEAMS_APP_TENANT_ID=<TENANT_ID>
+    ```
+  </div>
 
-### 2. Install in Teams
+  <div className="fd-step">
+    ### Install in Teams
 
-Get a direct install link:
+    Get a direct install link:
 
-```bash
-teams app get <appId> --install-link
-```
+    ```bash
+    teams app get <appId> --install-link
+    ```
 
-Or download the app package for sideloading, then in Teams go to **Apps** > **Manage your apps** > **Upload an app** > **Upload a custom app**.
+    Or download the app package for sideloading, then in Teams go to **Apps** > **Manage your apps** > **Upload an app** > **Upload a custom app**.
+  </div>
 
-### 3. Verify
+  <div className="fd-step">
+    ### Verify
 
-Check the registration, app health, manifest, and endpoint:
+    Check the registration, app health, manifest, and endpoint:
 
-```bash
-teams app doctor <appId>
-```
+    ```bash
+    teams app doctor <appId>
+    ```
+  </div>
+</div>
 
 ## Authentication
 
@@ -128,6 +144,17 @@ The callback requests separate tokens for `https://api.botframework.com/.default
 An `appId` resolver runs once during successful initialization. Call `await bot.initialize()` before using adapter methods directly; Chat initializes automatically before handling webhooks. `botUserId` becomes available after initialization when using a resolver.
 
 A custom `webhookVerifier` receives the incoming request and its raw body. Return a truthy value to accept, or return a falsy value or throw to reject with HTTP 401. Without a verifier, the adapter retains Microsoft's native JWT verification.
+
+Create the connector and attach it to your project with the [Vercel CLI](https://vercel.com/docs/cli/connect). `--trigger-path` registers the Teams webhook route as the trigger destination, and `vercel env pull` downloads a development OIDC token for local runs:
+
+```bash
+vercel link
+vercel connect create microsoft-teams --name acme-teams --triggers
+vercel connect attach microsoft-teams/acme-teams --triggers --trigger-path /api/webhooks/teams
+vercel env pull
+```
+
+Without `--trigger-branch`, Connect forwards webhooks to your production deployment. See [Vercel Connect](/docs/vercel-connect#set-up-a-connector) for the full setup.
 
 ### Client secret
 
@@ -220,6 +247,8 @@ az ad app permission admin-consent --id <appId>
 ## Receiving all messages
 
 By default, Teams bots only receive messages when directly @-mentioned. The RSC permissions above also enable receiving all messages in channels and group chats as a side effect.
+
+The adapter sets `isBot` for the adapter's own bot, senders with `from.role: "bot"`, and Teams bot account IDs starting with `28:`. `isMe` identifies only the adapter's own bot. The same values appear on `message.author` and on `event.user` for reactions, card actions, and dialog events, so handlers can exclude bot activity from human-only conversations.
 
 ## Bot joins
 
@@ -316,6 +345,17 @@ selected-channel metadata remain in `event.raw`.
 
 See Microsoft's [installation update documentation](https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/conversations/subscribe-to-conversation-events#installation-update-event).
 
+## Starting channel threads
+
+A channel post starts a new Teams thread. Use the returned `threadId` to post follow-ups to that thread:
+
+```typescript
+const root = await bot.channel(channelId).post("New support request");
+await bot.thread(root.threadId).post("Follow-up for this request");
+```
+
+Both text and Adaptive Card posts return the created thread's ID. Group chats and personal conversations retain their existing conversation IDs.
+
 ## Targeted / ephemeral messages
 
 Teams targeted messages are available in public preview. Use `thread.postEphemeral()` or `channel.postEphemeral()` to send a native Teams message that only the selected conversation member can see:
@@ -327,6 +367,39 @@ await thread.postEphemeral(message.author, "Only you can see this.", {
 ```
 
 The result has `usedFallback: false` when Teams accepts the targeted message.
+
+## AI-generated content labels
+
+Set `aiGenerated: true` on a message object to show Teams' "AI generated" label on the bot's message. The label works on new, edited, channel, and targeted messages:
+
+```typescript
+await thread.post({ markdown: answer, aiGenerated: true });
+```
+
+The flag works with `markdown`, `raw`, `ast`, and `card` messages. A plain string, a bare card element, or a JSX `` is sent without the label, so static messages such as help text and errors stay unlabeled. To label a card, pass it as `{ card, aiGenerated: true }`, where `card` is a `CardElement`. Convert a JSX card with `toCardElement()` from `chat` first.
+
+To label a streamed response, wrap the stream in a `StreamingPlan`:
+
+```typescript
+import { StreamingPlan } from "chat";
+
+await thread.post(
+  new StreamingPlan(result.fullStream, { aiGenerated: true })
+);
+```
+
+The label applies to native streaming in DMs, to the buffered message in group chats and channels, and to every edit after the placeholder when you configure post-and-edit fallback streaming. Passing a stream to `thread.post()` without a `StreamingPlan` posts it unlabeled.
+
+An edit replaces the whole Teams activity, including its entities. Pass `aiGenerated: true` again on every edit, or the label is removed:
+
+```typescript
+const sent = await thread.post({ markdown: draft, aiGenerated: true });
+await sent.edit({ markdown: finalAnswer, aiGenerated: true });
+```
+
+Messages posted through the built-in [AI tools](/docs/ai/ai-sdk-tools) are labeled when the model sends a `markdown` or `raw` body. A plain-string body is sent unlabeled.
+
+See Microsoft's [AI content labels documentation](https://learn.microsoft.com/en-us/microsoftteams/platform/agents-in-teams/integrate-ai/ai-content-labels).
 
 ## User lookup
 
@@ -558,6 +631,12 @@ await postTeamsMessage({
 Use the full Chat SDK card JSX when you want cross-platform rendering. Use `@chat-adapter/teams/cards` when you are building a Teams-only runtime and want Adaptive Card output directly.
 
 Table children render as the Adaptive Card `Table` element with grid lines on by default. The optional `align`, `widths`, `verticalAlign`, `gridLines` and `gridStyle` fields tune the grid, a table with empty `headers` renders without a header row, and a table with no columns emits no element.
+
+A `TextInput` child renders as an Adaptive Card `Input.Text` with the same mapping the modal converter uses. Teams merges the card's input values into the `Action.Submit` payload, and the adapter reports them as `event.values` on the action. An input is required unless `optional` is set, and Teams blocks the card's buttons until a required input is filled. Teams enforces that in its own client, so validate `event.values` in the handler too.
+
+A button with `actionType="modal"` is the exception. It renders with `associatedInputs: "none"`, so it opens its dialog without waiting for the card's inputs, and its action arrives without `event.values`.
+
+Teams flattens the inputs into the same payload that carries the button's own `actionId`, `value`, and `msteams` keys, so an input with one of those IDs would overwrite the button's data. Posting a card with a `TextInput` that uses one of those IDs throws a `ValidationError`. Modal inputs can use `actionId` and `value`, because a dialog's submit data doesn't carry a button's keys.
 
 ### Modals
 

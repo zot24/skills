@@ -363,13 +363,13 @@ Parameters:
 
 * `schema`: JSON Schema describing the structured output you want (required for schema-based extraction).
 * `prompt`: Optional prompt to guide extraction (also used for no-schema extraction).
-* `checkPromptInjection`: Optional boolean (default `false`). When enabled, Firecrawl scans the scraped page content for prompt injection attempts before running the extraction. See [Prompt injection detection](#prompt-injection-detection).
+* `checkPromptInjection`: Deprecated. Use the top-level `checkPromptInjection` scrape option instead (see [Prompt injection detection](#prompt-injection-detection)). A value set here is still honored.
 
 **Important:** Unlike v1, there is no separate `jsonOptions` parameter in v2. The schema must be included directly inside the format object in the `formats` array.
 
 ### Prompt injection detection
 
-Web pages can contain hidden text crafted to hijack LLM-based extraction — for example, instructions that tell the model to ignore your schema and return attacker-controlled data. If you extract from untrusted or user-submitted URLs, you can enable an opt-in guard that checks the scraped content before your extraction runs:
+Web pages can contain hidden text crafted to hijack an LLM, for example instructions that tell the model to ignore your schema and return attacker-controlled data. If you scrape untrusted or user-submitted URLs, set the top-level `checkPromptInjection` scrape option to check the page content before any LLM-backed format (such as `json`, `summary` or `question`) runs. It works with any format except `rawBase64`, including a plain `markdown` scrape:
 
 ```json theme={null}
 {
@@ -377,20 +377,21 @@ Web pages can contain hidden text crafted to hijack LLM-based extraction — for
   "formats": [
     {
       "type": "json",
-      "schema": { "type": "object", "properties": { "title": { "type": "string" } } },
-      "checkPromptInjection": true
+      "schema": { "type": "object", "properties": { "title": { "type": "string" } } }
     }
-  ]
+  ],
+  "checkPromptInjection": true
 }
 ```
 
 How it works:
 
-* A dedicated classifier call inspects the scraped page content (it runs in parallel with the extraction, so enabling it does not slow down clean scrapes).
-* If a prompt injection attempt is detected, the request fails with an HTTP `403` and the error code `SCRAPE_PROMPT_INJECTION_DETECTED` — no extraction output is returned.
-* The check is billed as **+4 credits** on top of the standard JSON format cost when it runs. If the scrape fails after the check has run (including when an injection is detected and the request is blocked), **5 credits** are billed instead of the usual 0 for a failed scrape, since the classifier call still ran.
+* A dedicated classifier call inspects the page content once per scrape, before any LLM-backed format runs, so it adds the classifier's latency to the request.
+* If a prompt injection attempt is detected, the request fails with an HTTP `403` and the error code `SCRAPE_PROMPT_INJECTION_DETECTED`. No output is returned.
+* If the check can't scan all of the content (for example, because the classifier call failed or the page content is over 2,000,000 characters), the scrape continues, the response includes a `warning`, and the check is not billed.
+* The check is billed as **+4 credits** when it runs. If the scrape fails after the check has run (including when an injection is detected and the request is blocked), **5 credits** are billed instead of the usual 0 for a failed scrape, since the classifier call still ran.
 
-In v1, the same option is available as `jsonOptions.checkPromptInjection`. It is also exposed in all official SDKs (e.g. `checkPromptInjection` in the JS SDK, `check_prompt_injection` in the Python SDK's v2 JSON format).
+The option also works on batch scrape, and in `scrapeOptions` for crawl, search and monitors. Setting `checkPromptInjection` on the `json` format object still works but is deprecated. In v1, the option is `jsonOptions.checkPromptInjection`. The SDKs expose it as `checkPromptInjection` (JS) and `check_prompt_injection` (Python).
 
 
   **HTML attributes are not available in JSON extraction.** JSON extraction works on the markdown conversion of the page, which only preserves visible text content. HTML attributes (e.g., `data-id`, custom attributes on elements) are stripped during conversion and the LLM cannot see them. If you need to extract HTML attribute values, use `rawHtml` format and parse attributes client-side, or use an `executeJavascript` action to inject attribute values into visible text before extraction.
@@ -456,3 +457,6 @@ When a page contains multiple items (e.g. team members, products, reviews), use 
 ```
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

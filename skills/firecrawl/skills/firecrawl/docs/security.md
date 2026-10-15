@@ -131,3 +131,6 @@ X-Firecrawl-Signature: sha256=abc123def456...
 * **Verify every request.** Always check the signature before processing a webhook payload. Reject any request that fails verification with a `401` status.
 * **Use timing-safe comparisons.** Standard string comparison can leak timing information. Use `crypto.timingSafeEqual()` in Node.js or `hmac.compare_digest()` in Python.
 * **Serve your endpoint over HTTPS.** This ensures webhook payloads are encrypted in transit.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

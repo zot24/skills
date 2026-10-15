@@ -227,3 +227,4 @@ Replit usage can take up to 30 minutes to appear in the usage dashboard.
     How Replit powers Agent with Firecrawl
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

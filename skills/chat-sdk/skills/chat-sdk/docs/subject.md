@@ -3,6 +3,8 @@
 ---
 title: Message Subject
 description: Fetch the parent resource that a message is about.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/handling-events
@@ -10,8 +12,7 @@ related:
   - /docs/history
 ---
 
-# Message Subject
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 When your bot receives a comment on a Linear issue, GitHub PR, or Notion page, `message.subject` resolves the parent resource so your handler knows what the conversation is about.
 
@@ -57,7 +58,6 @@ bot.onNewMention(async (thread, message) => {
 ```
 
 For anything beyond `message.subject`, access the platform's typed API client via [`bot.getAdapter("github").octokit`](/docs/api/chat#getadapter) or [`bot.getAdapter("linear").linearClient`](/docs/api/chat#getadapter).
-
 
 ---
 

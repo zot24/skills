@@ -10,6 +10,14 @@ package: @chat-adapter/discord
 # Discord
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the Discord adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="discord memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -59,23 +67,33 @@ export async function POST(request: Request): Promise<Response> {
 
 These steps create your own Discord application and bot, which you need when you [authenticate with Discord app credentials](#discord-app-credentials).
 
-### 1. Create the application
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Create the application
 
-1. Go to the [Discord Developer Portal](https://discord.com/developers/applications) and click **New Application**.
-2. Note the **Application ID** and copy the **Public Key** from the General Information page.
+    1. Go to the [Discord Developer Portal](https://discord.com/developers/applications) and click **New Application**.
+    2. Note the **Application ID** and copy the **Public Key** from the General Information page.
+  </div>
 
-### 2. Create the bot
+  <div className="fd-step">
+    ### Create the bot
 
-1. Open **Bot** in the sidebar and click **Reset Token** to generate a bot token. Discord shows the token only once.
-2. Enable **Message Content Intent**, and **Server Members Intent** if your bot needs it.
+    1. Open **Bot** in the sidebar and click **Reset Token** to generate a bot token. Discord shows the token only once.
+    2. Enable **Message Content Intent**, and **Server Members Intent** if your bot needs it.
+  </div>
 
-### 3. Set the interactions endpoint
+  <div className="fd-step">
+    ### Set the interactions endpoint
 
-In **General Information**, set **Interactions Endpoint URL** to `https://your-domain.com/api/webhooks/discord`. Discord sends a PING to verify the endpoint.
+    In **General Information**, set **Interactions Endpoint URL** to `https://your-domain.com/api/webhooks/discord`. Discord sends a PING to verify the endpoint.
+  </div>
 
-### 4. Add the bot to your server
+  <div className="fd-step">
+    ### Add the bot to your server
 
-In **OAuth2** then **URL Generator**, select the `bot` and `applications.commands` scopes, pick the permissions your bot needs (Send Messages, Send Messages in Threads, Create Public Threads, Manage Threads, Read Message History, Add Reactions, Attach Files), and use the generated URL to invite the bot.
+    In **OAuth2** then **URL Generator**, select the `bot` and `applications.commands` scopes, pick the permissions your bot needs (Send Messages, Send Messages in Threads, Create Public Threads, Manage Threads, Read Message History, Add Reactions, Attach Files), and use the generated URL to invite the bot.
+  </div>
+</div>
 
 ## Authentication
 
@@ -95,6 +113,17 @@ const discord = createDiscordAdapter({
 Replace `discord/acme-discord` with your connector UID. The helper supplies `botToken`, `applicationId`, and `webhookVerifier`, so you don't need `DISCORD_BOT_TOKEN`, `DISCORD_PUBLIC_KEY`, or `DISCORD_APPLICATION_ID` in your deployment. Configure the Connect trigger to forward interactions to `/api/webhooks/discord` on your deployed app.
 
 Connect OIDC verification replaces Discord's Ed25519 public-key check for forwarded interactions. Regular messages and reactions still require a [Gateway connection](#http-interactions-vs-gateway).
+
+Create the connector and attach it to your project with the [Vercel CLI](https://vercel.com/docs/cli/connect). `--trigger-path` registers the Discord webhook route as the trigger destination, and `vercel env pull` downloads a development OIDC token for local runs:
+
+```bash
+vercel link
+vercel connect create discord --name acme-discord --triggers
+vercel connect attach discord/acme-discord --triggers --trigger-path /api/webhooks/discord
+vercel env pull
+```
+
+Without `--trigger-branch`, Connect forwards webhooks to your production deployment. See [Vercel Connect](/docs/vercel-connect#set-up-a-connector) for the full setup.
 
 ### Discord app credentials
 

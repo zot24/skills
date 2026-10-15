@@ -55,3 +55,6 @@ Choose open source when you need source or infrastructure control. Choose Firecr
 * **Use Firecrawl Cloud:** [create an account](https://firecrawl.dev) and follow the [quickstart](/quickstart).
 
 Open source keeps the core engine inspectable and adaptable. Firecrawl Cloud funds that work while giving builders a managed path with additional product and infrastructure capabilities.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

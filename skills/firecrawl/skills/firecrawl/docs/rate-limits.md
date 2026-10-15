@@ -74,7 +74,7 @@ Rate limits are measured in requests per minute and are primarily in place to pr
 
 The hosted Firecrawl MCP keyless endpoint exposes exactly **Search, Scrape, and Parse** without an API key. Other hosted MCP tools require an account connection or an API key.
 
-For official Firecrawl clients, the CLI, SDKs, and REST API, keyless access also includes **Interact**. On Firecrawl Cloud, research and developer search endpoints can also be used without an API key. No other endpoints (crawl, extract, map, batch scrape, etc.) are available without a key.
+For official Firecrawl clients, the CLI, SDKs, and REST API, keyless access also includes **Interact**. On Firecrawl Cloud, research, developer, and government search endpoints can also be used without an API key. No other endpoints (crawl, extract, map, batch scrape, etc.) are available without a key.
 
 Keyless usage is free and capped per IP address per day by **two limits**, and exceeding either returns a `429`:
 
@@ -218,3 +218,6 @@ The browser sandbox endpoints have per-plan rate limits that scale with your sub
 </div>
 
 In addition, each team's plan determines how many browser sessions can be active simultaneously (see Concurrent Browser Limits above). If you exceed this limit, new session requests will return a `429` status code until existing sessions are destroyed.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

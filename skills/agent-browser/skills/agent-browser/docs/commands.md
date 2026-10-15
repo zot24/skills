@@ -2,21 +2,32 @@
 
 
 
-[](https://vercel.com "Made with love by Vercel")<span class="text-neutral-300 dark:text-neutral-700"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+<a href="/" class="flex @min-[1024px]:hidden items-center text-gray-1000"><span class="font-medium tracking-tight" style="font-family:var(--font-geist-pixel-square)">agent-browser</span></a>
 
 
-Commands
+<a href="https://github.com/vercel-labs/agent-browser" class="size-8 items-center justify-center @min-[768px]:inline-flex hidden shrink-0" data-geist-button="" data-prefix="false" data-suffix="false" data-version="v1" aria-label="GitHub repository" rel="noopener" target="_blank"><span class="truncate px-1.5 inline-flex shrink-0 items-center justify-center"></span></a>
 
 
-Copy Page
+        &quot;sidebar toc-popover toc&quot;
+        &quot;sidebar main toc&quot; 1fr / minmax(var(--fd-sidebar-col), 1fr) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-width) - var(--fd-toc-width))) minmax(min-content, 1fr);--fd-docs-row-1:4rem;--fd-docs-row-2:calc(var(--fd-docs-row-1) + var(--fd-header-height));--fd-docs-row-3:calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height));--fd-sidebar-col:var(--fd-sidebar-width)">
 
 
-# Commands<a href="#commands" aria-label="Link to this section">#</a>
-
-## Core<a href="#core" aria-label="Link to this section">#</a>
+Menu
 
 
-``` shiki
+# Commands
+
+
+Copy for LLM
+
+
+View Markdown
+
+
+## <a href="#core" class="peer" data-card="">Core</a>
+
+
+``` m-0
 agent-browser open                    # Launch browser (no nav); stays on about:blank
 agent-browser open <url>              # Launch + navigate (aliases: goto, navigate)
 agent-browser read [url]              # Fetch agent-readable text, or read rendered active-tab DOM
@@ -47,7 +58,7 @@ agent-browser screenshot --screenshot-format jpeg --screenshot-quality 80
 agent-browser pdf <path>              # Save page as PDF
 agent-browser snapshot                # Accessibility tree with refs
 agent-browser eval <js>               # Run JavaScript
-agent-browser connect ​​port|url​​      # Connect to browser via CDP
+agent-browser connect <port|url>      # Connect to browser via CDP
 agent-browser stream enable [--port <port>]  # Start runtime WebSocket streaming
 agent-browser webmcp list                     # List experimental page tools
 agent-browser webmcp invoke <tool> --params @input.json
@@ -59,16 +70,16 @@ agent-browser mcp                     # Start an MCP stdio server
 ```
 
 
-Browser responses automatically announce WebMCP tools on first discovery and when the catalog changes. Summaries contain only names, brief descriptions, origins, and frame IDs. Choose a relevant tool, then fetch its full schema with `agent-browser webmcp list <tool> --frame <frame-id> --json` before invoking it. Schemas and annotations are never included proactively. Unchanged catalogs and pages without tools add no context. JSON exposes updates as `data.webmcp`; CLI and MCP text include the same bounded summary. See [WebMCP](/webmcp) for update semantics and security.
+Browser responses automatically announce WebMCP tools on first discovery and when the catalog changes. Summaries contain only names, brief descriptions, origins, and frame IDs. Choose a relevant tool, then fetch its full schema with `agent-browser webmcp list <tool> --frame <frame-id> --json` before invoking it. Schemas and annotations are never included proactively. Unchanged catalogs and pages without tools add no context. JSON exposes updates as `data.webmcp`; CLI and MCP text include the same bounded summary. See <a href="/webmcp" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">WebMCP</a> for update semantics and security.
 
 Clicks fail before dispatch when another element covers the target's click point. The error names the covering element, for example `covered by <div#consent-banner>`. Dismiss or interact with that element, take a fresh snapshot, then retry the original action.
 
 Headless Chromium screenshots hide native scrollbars for consistent image output. Pass `--hide-scrollbars false` when launching to keep native scrollbars visible.
 
-## Get info<a href="#get-info" aria-label="Link to this section">#</a>
+## <a href="#get-info" class="peer" data-card="">Get info</a>
 
 
-``` shiki
+``` m-0
 agent-browser get text <sel>          # Get text content
 agent-browser get html <sel>          # Get innerHTML
 agent-browser get value <sel>         # Get input value
@@ -82,10 +93,10 @@ agent-browser get styles <sel>        # Get computed styles
 ```
 
 
-## Read agent-friendly text<a href="#read-agent-friendly-text" aria-label="Link to this section">#</a>
+## <a href="#read-agent-friendly-text" class="peer" data-card="">Read agent-friendly text</a>
 
 
-``` shiki
+``` m-0
 agent-browser read
 agent-browser read https://example.com/article
 agent-browser read https://example.com/article --filter overview
@@ -101,22 +112,22 @@ agent-browser read https://example.com/article --json
 
 Options: `--raw` prints the response body without HTML extraction, `--require-md` fails unless the server returns `Content-Type: text/markdown`, `--outline` prints a compact heading outline for one page, `--llms index` prints a compact nearest-ancestor `llms.txt` link list, `--llms full` reads the nearest-ancestor `llms-full.txt`, `--filter <text>` narrows page sections, llms links/sections, or outline headings, and `--timeout <ms>` changes the request timeout. Global safeguards such as `--allowed-domains`, `--content-boundaries`, and `--max-output` also apply to read fetches and output.
 
-## Check state<a href="#check-state" aria-label="Link to this section">#</a>
+## <a href="#check-state" class="peer" data-card="">Check state</a>
 
 
-``` shiki
+``` m-0
 agent-browser is visible <sel>        # Check if visible
 agent-browser is enabled <sel>        # Check if enabled
 agent-browser is checked <sel>        # Check if checked
 ```
 
 
-## Find elements<a href="#find-elements" aria-label="Link to this section">#</a>
+## <a href="#find-elements" class="peer" data-card="">Find elements</a>
 
 Semantic locators with actions (`click`, `fill`, `check`, `hover`, `text`):
 
 
-``` shiki
+``` m-0
 agent-browser find role <role> <action> [value]
 agent-browser find text <text> <action> [value]
 agent-browser find label <label> <action> [value]
@@ -138,7 +149,7 @@ Options:
 Examples:
 
 
-``` shiki
+``` m-0
 agent-browser find role button click --name "Submit"
 agent-browser find role heading text --name "Skills"     # implicit roles work: <h2>=heading, <ul>=list, top-level <header>=banner
 agent-browser find label "Email" fill "test@test.com"
@@ -149,10 +160,10 @@ agent-browser find nth 2 ".card" hover
 ```
 
 
-## Wait<a href="#wait" aria-label="Link to this section">#</a>
+## <a href="#wait" class="peer" data-card="">Wait</a>
 
 
-``` shiki
+``` m-0
 agent-browser wait <selector>         # Wait for element
 agent-browser wait <ms>               # Wait for time
 agent-browser wait --text "Welcome"   # Wait for text (substring match)
@@ -169,10 +180,10 @@ agent-browser wait "#spinner" --state hidden           # Wait for element to dis
 
 After a page change, prefer a selector, text, URL, or JavaScript condition that represents the state you need. Use `networkidle` only when the page is known to become quiet, because SSE, WebSockets, polling, and long-polling can keep it from resolving.
 
-## Downloads<a href="#downloads" aria-label="Link to this section">#</a>
+## <a href="#downloads" class="peer" data-card="">Downloads</a>
 
 
-``` shiki
+``` m-0
 agent-browser download <sel> <path>   # Click element to trigger download
 agent-browser wait --download [path]  # Wait for any download to complete
 ```
@@ -180,12 +191,12 @@ agent-browser wait --download [path]  # Wait for any download to complete
 
 Use `--download-path <dir>` (or `AGENT_BROWSER_DOWNLOAD_PATH` env) to set a default download directory. Without it, downloads go to a temporary directory that is deleted when the browser closes.
 
-See [Files & Clipboard](/files) for upload, download, local file, screenshot, PDF, and clipboard workflows.
+See <a href="/files" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Files &amp; Clipboard</a> for upload, download, local file, screenshot, PDF, and clipboard workflows.
 
-## Mouse<a href="#mouse" aria-label="Link to this section">#</a>
+## <a href="#mouse" class="peer" data-card="">Mouse</a>
 
 
-``` shiki
+``` m-0
 agent-browser mouse move <x> <y>      # Move mouse instantly
 agent-browser mouse move 600 400 --duration 250 --steps 24
 agent-browser mouse move 600 400 --human --seed 42
@@ -197,10 +208,10 @@ agent-browser mouse wheel <dy> [dx]   # Scroll wheel
 
 Use `--human` with `click`, `drag`, or `mouse move` for curved, eased movement from the current cursor position. For `mouse move`, `--duration` sets the target total milliseconds including browser response time, `--steps` sets the number of events, and `--seed` makes the path reproducible. A slow browser can still extend the requested duration.
 
-## Clipboard<a href="#clipboard" aria-label="Link to this section">#</a>
+## <a href="#clipboard" class="peer" data-card="">Clipboard</a>
 
 
-``` shiki
+``` m-0
 agent-browser clipboard read                      # Read text from clipboard
 agent-browser clipboard write "Hello, World!"     # Write text to clipboard
 agent-browser clipboard copy                      # Copy current selection (Ctrl+C)
@@ -208,12 +219,12 @@ agent-browser clipboard paste                     # Paste from clipboard (Ctrl+V
 ```
 
 
-See [Files & Clipboard](/files) for clipboard, upload, download, local file, screenshot, and PDF workflows.
+See <a href="/files" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Files &amp; Clipboard</a> for clipboard, upload, download, local file, screenshot, and PDF workflows.
 
-## Settings<a href="#settings" aria-label="Link to this section">#</a>
+## <a href="#settings" class="peer" data-card="">Settings</a>
 
 
-``` shiki
+``` m-0
 agent-browser set viewport <w> <h> [scale]  # Set viewport size (scale for retina, e.g. 2)
 agent-browser set device <name>       # Emulate device ("iPhone 14")
 agent-browser set geo <lat> <lng>     # Set geolocation
@@ -227,15 +238,15 @@ agent-browser set media [dark|light]  # Emulate color scheme (persists for sessi
 Use `--color-scheme` for persistent dark/light mode across all commands:
 
 
-``` shiki
+``` m-0
 agent-browser --color-scheme dark open https://example.com
 ```
 
 
-## Cookies & storage<a href="#cookies-storage" aria-label="Link to this section">#</a>
+## <a href="#cookies-storage" class="peer" data-card="">Cookies &amp; storage</a>
 
 
-``` shiki
+``` m-0
 agent-browser cookies                 # Get all cookies
 agent-browser cookies set <name> <val> # Set cookie
 agent-browser cookies clear           # Clear cookies
@@ -249,10 +260,10 @@ agent-browser storage session         # Same for sessionStorage
 ```
 
 
-## Network<a href="#network" aria-label="Link to this section">#</a>
+## <a href="#network" class="peer" data-card="">Network</a>
 
 
-``` shiki
+``` m-0
 agent-browser network route <url>              # Intercept requests
 agent-browser network route <url> --abort      # Block requests
 agent-browser network route <url> --body <json>  # Mock response
@@ -272,12 +283,12 @@ agent-browser network har stop [output.har]    # Stop and save HAR (temp path if
 ```
 
 
-See [Network](/network) for pre-navigation routing, request filters, HAR export, and SSR/no-JavaScript debugging.
+See <a href="/network" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Network</a> for pre-navigation routing, request filters, HAR export, and SSR/no-JavaScript debugging.
 
-## Tabs & frames<a href="#tabs-frames" aria-label="Link to this section">#</a>
+## <a href="#tabs-frames" class="peer" data-card="">Tabs &amp; frames</a>
 
 
-``` shiki
+``` m-0
 agent-browser tab                              # List tabs (each row shows tabId and label)
 agent-browser tab new [url]                    # New tab
 agent-browser tab new --label docs [url]       # New tab with a user-assigned label
@@ -290,14 +301,14 @@ agent-browser frame main                       # Back to main frame
 ```
 
 
-### Stable tab ids and labels<a href="#stable-tab-ids-and-labels" aria-label="Link to this section">#</a>
+### <a href="#stable-tab-ids-and-labels" class="peer" data-card="">Stable tab ids and labels</a>
 
 Tab ids are stable strings of the form `t1`, `t2`, `t3`. They're never reused within a session, so `t2` keeps pointing at the same tab even as other tabs are opened or closed. The `t` prefix mirrors the `@e1` element-ref convention and is not interchangeable with positional integers — `agent-browser tab 2` errors with a teaching message; use `t2`.
 
 You can also assign a memorable label (`docs`, `app`, `admin`) at tab-creation time and use it anywhere an id is accepted:
 
 
-``` shiki
+``` m-0
 agent-browser tab new --label docs https://docs.example.com
 agent-browser tab docs          # switch to the docs tab
 agent-browser snapshot          # populate refs for docs
@@ -310,26 +321,26 @@ Labels are never auto-generated and never rewritten on navigation — an agent t
 
 Tabs opened through `tab new` or `click --new-tab` inherit the session's setup before their first document loads: user agent, `set headers`, `set credentials`, origin-scoped `--headers`, init scripts, `route` rules, and emulation overrides (color scheme, timezone, locale, geolocation, offline). Turning offline mode off or setting headers to `{}` restores the default setup for future tabs.
 
-`tab list --json` also reports each tab's CDP `targetId`, and target ids are accepted anywhere a tab ref is accepted (`tab <targetId>`, `tab close <targetId>`). Unlike `t<N>` ids, which are per-daemon counters, target ids stay stable across daemon restarts. Each session is bound to its active tab by target id and returns to it after a daemon restart; with `--pin-tab` the binding is strict and a closed bound tab produces a `tab_gone` error instead of a silent fallback. JSON errors include `code: "tab_gone"`, `data.targetId`, and optional sanitized `data.lastUrl`. Batch output carries the recovery object under `result`. See [CDP Mode](/cdp-mode) for the multi-session workflow.
+`tab list --json` also reports each tab's CDP `targetId`, and target ids are accepted anywhere a tab ref is accepted (`tab <targetId>`, `tab close <targetId>`). Unlike `t<N>` ids, which are per-daemon counters, target ids stay stable across daemon restarts. Each session is bound to its active tab by target id and returns to it after a daemon restart; with `--pin-tab` the binding is strict and a closed bound tab produces a `tab_gone` error instead of a silent fallback. JSON errors include `code: "tab_gone"`, `data.targetId`, and optional sanitized `data.lastUrl`. Batch output carries the recovery object under `result`. See <a href="/cdp-mode" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">CDP Mode</a> for the multi-session workflow.
 
 Refs (`@e1`, etc.) are scoped to the tab that was active when the snapshot ran, so switch tabs first, then snapshot and interact:
 
 
-``` shiki
+``` m-0
 agent-browser tab docs          # switch first
 agent-browser snapshot          # refs for docs
 agent-browser click @e3         # uses docs's refs
 ```
 
 
-### Discarded tab revival<a href="#discarded-tab-revival" aria-label="Link to this section">#</a>
+### <a href="#discarded-tab-revival" class="peer" data-card="">Discarded tab revival</a>
 
 Browsers discard background tabs to save memory, leaving a tab with no renderer to drive. Switching to a discarded tab reactivates it, which reloads the page and resets its unsaved state; the switch result adds `"revived": true` so the reload is visible rather than silent. A tab whose page is paused by a JavaScript dialog is alive rather than discarded: the switch leaves it untouched and adds `"dialogBlocked": true`. Resolve the dialog with `dialog accept` or `dialog dismiss` and the tab keeps its state. Closing the active tab onto a discarded successor revives it the same way and reports `"activeTabRevived": true`.
 
-### Snapshot deltas<a href="#snapshot-deltas" aria-label="Link to this section">#</a>
+### <a href="#snapshot-deltas" class="peer" data-card="">Snapshot deltas</a>
 
 
-``` shiki
+``` m-0
 agent-browser snapshot --delta
 agent-browser snapshot --delta --full
 ```
@@ -337,12 +348,12 @@ agent-browser snapshot --delta --full
 
 `snapshot --delta` returns `full`, `unchanged`, or incremental updates per tab and option set. URL changes or large deltas return full state; `--full` resets the baseline. Apply a delta’s `changes` to ref metadata and `treeChange` to the previous tree: split on newlines, replace `deleteCount` lines at zero-based `startLine` with `lines`, then rejoin. Apply both to `baseRevision` before advancing to `revision`.
 
-### Iframe support<a href="#iframe-support" aria-label="Link to this section">#</a>
+### <a href="#iframe-support" class="peer" data-card="">Iframe support</a>
 
 Iframes are detected automatically during snapshots. `Iframe` nodes are resolved and their content is inlined beneath the iframe element in the snapshot output. Refs assigned to elements inside iframes carry frame context, so `click`, `fill`, and other interactions work without manually switching frames.
 
 
-``` shiki
+``` m-0
 agent-browser snapshot -i
 # @e3 [Iframe] "payment-frame"
 #   @e4 [input] "Card number"
@@ -361,10 +372,10 @@ agent-browser frame main              # Return to main frame
 
 The `frame` command accepts element refs (`@e3`), CSS selectors (`"#my-iframe"`), or frame name/URL.
 
-## Dialogs<a href="#dialogs" aria-label="Link to this section">#</a>
+## <a href="#dialogs" class="peer" data-card="">Dialogs</a>
 
 
-``` shiki
+``` m-0
 agent-browser dialog accept [text]    # Accept dialog (with optional prompt text)
 agent-browser dialog dismiss          # Dismiss dialog
 agent-browser dialog status           # Check if a dialog is currently open
@@ -375,10 +386,10 @@ By default, `alert` and `beforeunload` dialogs are automatically accepted so the
 
 When a JavaScript dialog (`alert`, `confirm`, `prompt`) is pending, all command responses include a `warning` field with the dialog type and message.
 
-## Streaming<a href="#streaming" aria-label="Link to this section">#</a>
+## <a href="#streaming" class="peer" data-card="">Streaming</a>
 
 
-``` shiki
+``` m-0
 agent-browser stream enable           # Start runtime WebSocket streaming on an auto-selected port
 agent-browser stream enable --port 9223  # Bind a specific localhost port
 agent-browser stream status           # Show enabled state, port, browser connection, screencasting
@@ -388,12 +399,12 @@ agent-browser stream disable          # Stop runtime streaming and remove the .s
 
 Streaming is enabled automatically for all sessions. Use these commands to check status, re-enable on a specific port, or disable streaming.
 
-Streaming is separate from file-based recordings. Use [Video Recording](/recording) when you need a saved WebM or MP4 artifact.
+Streaming is separate from file-based recordings. Use <a href="/recording" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Video Recording</a> when you need a saved WebM or MP4 artifact.
 
-## Debug<a href="#debug" aria-label="Link to this section">#</a>
+## <a href="#debug" class="peer" data-card="">Debug</a>
 
 
-``` shiki
+``` m-0
 agent-browser trace start             # Start trace
 agent-browser trace stop [path]       # Stop and save trace
 agent-browser profiler start          # Start Chrome DevTools profiling
@@ -415,12 +426,12 @@ agent-browser inspect                 # Open Chrome DevTools for the active page
 ```
 
 
-Recording requires `ffmpeg` on `PATH`. See [Debugging](/debugging) for console, error, dialog, trace, highlight, and DevTools workflows. See [Video Recording](/recording) for recording requirements and `record` workflows, and [Profiler](/profiler) for performance profiles.
+Recording requires `ffmpeg` on `PATH`. See <a href="/debugging" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Debugging</a> for console, error, dialog, trace, highlight, and DevTools workflows. See <a href="/recording" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Video Recording</a> for recording requirements and `record` workflows, and <a href="/profiler" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Profiler</a> for performance profiles.
 
-## Auth vault<a href="#auth-vault" aria-label="Link to this section">#</a>
+## <a href="#auth-vault" class="peer" data-card="">Auth vault</a>
 
 
-``` shiki
+``` m-0
 agent-browser auth save <name> [opts]    # Save auth profile
 agent-browser auth login <name>          # Login using saved credentials
 agent-browser auth login <name> --no-navigate
@@ -450,12 +461,14 @@ Save options:
 - `--password-selector <sel>`: custom CSS selector for password field
 - `--submit-selector <sel>`: custom CSS selector for submit button
 
+`auth login` filters matching controls by their layout size, computed visibility and opacity, and disabled/readonly state, including custom CSS selectors. If a selected credential field is replaced or redirects focus before entry, the command fails without submitting.
+
 `auth login` navigates with `load` and then waits for the username/password/submit selectors to appear before interacting. This improves reliability on SPA login pages where fields render after initial page load.
 
 Use `--no-navigate` after an in-page click, challenge clearance, consent dismissal, or other stateful setup that must survive credential entry:
 
 
-``` shiki
+``` m-0
 agent-browser open https://example.com/
 agent-browser click "a[href='/login']"
 agent-browser auth login work --no-navigate
@@ -485,7 +498,7 @@ Other plugin capabilities use the same protocol:
 `plugin run` is for `command.run` and custom capabilities. Core capabilities and protocol request types use their dedicated command paths.
 
 
-``` shiki
+``` m-0
 echo "pass" | agent-browser auth save github --url https://github.com/login --username user --password-stdin
 agent-browser auth login github
 agent-browser plugin add agent-browser-plugin-vault --name vault
@@ -497,12 +510,12 @@ agent-browser auth list
 ```
 
 
-## Confirmation<a href="#confirmation" aria-label="Link to this section">#</a>
+## <a href="#confirmation" class="peer" data-card="">Confirmation</a>
 
 When `--confirm-actions` is set, certain action categories return a `confirmation_required` response instead of executing immediately. Use `confirm` or `deny` to approve or reject the action.
 
 
-``` shiki
+``` m-0
 agent-browser confirm <confirmation-id>  # Approve a pending action
 agent-browser deny <confirmation-id>     # Deny a pending action
 ```
@@ -511,17 +524,17 @@ agent-browser deny <confirmation-id>     # Deny a pending action
 Pending confirmations auto-deny after 60 seconds.
 
 
-``` shiki
+``` m-0
 agent-browser --confirm-actions eval,download eval "document.title"
 # Returns confirmation_required with ID
 agent-browser confirm c_8f3a1234
 ```
 
 
-## State management<a href="#state-management" aria-label="Link to this section">#</a>
+## <a href="#state-management" class="peer" data-card="">State management</a>
 
 
-``` shiki
+``` m-0
 agent-browser state save <path>       # Save auth state to file
 agent-browser state load <path>       # Load auth state from file
 agent-browser state list              # List saved state files
@@ -533,29 +546,29 @@ agent-browser state clean --older-than <days>  # Delete old states
 ```
 
 
-## Sessions<a href="#sessions" aria-label="Link to this section">#</a>
+## <a href="#sessions" class="peer" data-card="">Sessions</a>
 
 
-``` shiki
+``` m-0
 agent-browser session                 # Show current session name
 agent-browser session list            # List active sessions
 ```
 
 
-## Chrome profiles<a href="#chrome-profiles" aria-label="Link to this section">#</a>
+## <a href="#chrome-profiles" class="peer" data-card="">Chrome profiles</a>
 
 
-``` shiki
+``` m-0
 agent-browser profiles               # List available Chrome profiles
 agent-browser profiles --json        # List profiles as JSON
 agent-browser --profile Default open https://gmail.com  # Reuse a profile's login state
 ```
 
 
-## Dashboard<a href="#dashboard" aria-label="Link to this section">#</a>
+## <a href="#dashboard" class="peer" data-card="">Dashboard</a>
 
 
-``` shiki
+``` m-0
 agent-browser dashboard [start]       # Start the dashboard server (default port: 4848)
 agent-browser dashboard start --port <n>  # Start on a specific port
 agent-browser dashboard start --allowed-origins <origins> # Allow exact HTTPS reverse-proxied browser origins
@@ -565,12 +578,12 @@ agent-browser dashboard stop          # Stop the dashboard server
 
 Loopback dashboard origins are accepted by default without an access token. For a reverse-proxied or forwarded URL, pass its exact browser origin with `--allowed-origins` or set `AGENT_BROWSER_DASHBOARD_ALLOWED_ORIGINS`. Every configured origin must be a valid exact HTTPS origin. Ports must be integers from 1 to 65535. Unknown options, missing values, invalid ports, and malformed origins fail without starting the server. The command prints private tokenized access URLs only for external origins; open the matching URL once to establish the browser session and do not share it. Open the normal `http://localhost:<port>` URL for local access. The browser stays on the dashboard origin; per-session tabs, status, and stream traffic are proxied internally, so session ports do not need to be exposed. Stop the running dashboard before changing the port or allowed origins.
 
-## Doctor<a href="#doctor" aria-label="Link to this section">#</a>
+## <a href="#doctor" class="peer" data-card="">Doctor</a>
 
 Diagnose your install, auto-clean stale daemon files, and optionally repair common problems.
 
 
-``` shiki
+``` m-0
 agent-browser doctor                     # Full diagnosis (env, Chrome, daemons, config, providers, network, launch test)
 agent-browser doctor --offline --quick   # Local-only, fastest
 agent-browser doctor --fix               # Also run destructive repairs (reinstall Chrome, purge old state, ...)
@@ -579,14 +592,14 @@ agent-browser doctor --json              # Structured JSON output for agents
 ```
 
 
-Exit code is `0` if all checks pass (warnings are fine), `1` if any fail. See the [Installation page](/installation#doctor) for the full check catalog.
+Exit code is `0` if all checks pass (warnings are fine), `1` if any fail. See the <a href="/installation#doctor" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Installation page</a> for the full check catalog.
 
-## Chat<a href="#chat" aria-label="Link to this section">#</a>
+## <a href="#chat" class="peer" data-card="">Chat</a>
 
 Use natural language to control the browser via AI. The `chat` command translates instructions into agent-browser commands, executes them, and streams the AI response. Requires `AI_GATEWAY_API_KEY` to be set.
 
 
-``` shiki
+``` m-0
 agent-browser chat "open google.com and search for cats"     # Single-shot instruction
 agent-browser chat                                           # Interactive REPL (type quit to exit)
 echo "summarize this page" | agent-browser chat              # Piped input
@@ -600,17 +613,17 @@ agent-browser --json chat "open example.com"                 # Structured JSON o
 Chat-specific options:
 
 
-``` shiki
+``` m-0
 --model <name>           # AI model (or AI_GATEWAY_MODEL env, default: anthropic/claude-sonnet-4.6)
 -v, --verbose            # Show tool commands and their raw output
 -q, --quiet              # Show only the AI text response (hide tool calls)
 ```
 
 
-## Navigation<a href="#navigation" aria-label="Link to this section">#</a>
+## <a href="#navigation" class="peer" data-card="">Navigation</a>
 
 
-``` shiki
+``` m-0
 agent-browser back                    # Go back
 agent-browser forward                 # Go forward
 agent-browser reload                  # Reload page
@@ -619,12 +632,12 @@ agent-browser pushstate <url>         # SPA client-side nav; auto-detects window
 ```
 
 
-## Pre-navigation setup<a href="#pre-navigation-setup" aria-label="Link to this section">#</a>
+## <a href="#pre-navigation-setup" class="peer" data-card="">Pre-navigation setup</a>
 
 Some flows need routes, cookies, or init scripts configured *before* the first navigation (SSR debug, auth on protected origins, etc.). `open` without a URL launches the browser but stays on `about:blank`, leaving room to stage state. `batch` makes it one CLI invocation:
 
 
-``` shiki
+``` m-0
 agent-browser batch \
   '["open"]' \
   '["network","route","*","--abort","--resource-type","script"]' \
@@ -633,12 +646,12 @@ agent-browser batch \
 ```
 
 
-## React / Web Vitals<a href="#react-web-vitals" aria-label="Link to this section">#</a>
+## <a href="#react-web-vitals" class="peer" data-card="">React / Web Vitals</a>
 
 React commands require `--enable react-devtools` at launch (installs the React DevTools hook before any page JS runs). `vitals` and `pushstate` work on any site.
 
 
-``` shiki
+``` m-0
 agent-browser open --enable react-devtools <url>   # Launch with React hook installed
 agent-browser react tree                           # Full component tree
 agent-browser react inspect <fiberId>              # Inspect one component
@@ -652,14 +665,14 @@ agent-browser vitals [url] [--json]                # LCP/CLS/TTFB/FCP/INP + hydr
 
 Works on any React app (Next.js, Remix, Vite+React, CRA, TanStack Start, React Native Web, etc.). `vitals` and `pushstate` are framework-agnostic.
 
-See [React & Web Vitals](/react) for full command details and examples.
+See <a href="/react" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">React &amp; Web Vitals</a> for full command details and examples.
 
-## Accessibility audits<a href="#accessibility-audits" aria-label="Link to this section">#</a>
+## <a href="#accessibility-audits" class="peer" data-card="">Accessibility audits</a>
 
 Run an embedded axe-core audit against the current page or navigate to a URL first. The vendored engine works without a CDN request and runs under strict page CSP. It runs private partial audits across the page's frame tree and merges serialized results without page messaging, so page-provided `window.axe` values remain intact and iframe violations retain their frame selector paths. Accessibility audits require a CDP browser and are not available with Safari or iOS WebDriver sessions.
 
 
-``` shiki
+``` m-0
 agent-browser a11y                                 # Audit the current page
 agent-browser a11y https://example.com             # Navigate, then audit
 agent-browser a11y --tags wcag2a,wcag2aa           # Filter by axe rule tags
@@ -670,22 +683,22 @@ agent-browser a11y https://example.com --json      # Structured results
 
 The default output lists violations and incomplete checks with impact, rule ID, fix guidance, and failing-node paths. JSON output preserves axe's `target` selector path arrays, including nested arrays for shadow DOM boundaries and multiple entries for frame boundaries.
 
-## Init scripts<a href="#init-scripts" aria-label="Link to this section">#</a>
+## <a href="#init-scripts" class="peer" data-card="">Init scripts</a>
 
 
-``` shiki
+``` m-0
 agent-browser open --init-script <path>           # Register before first navigation (repeatable)
 agent-browser addinitscript <js>                  # Register at runtime (returns identifier)
 agent-browser removeinitscript <identifier>       # Remove from every tab in the session
 ```
 
 
-See [Init Scripts & Extensions](/init-scripts) for launch-time scripts, runtime scripts, built-in React DevTools, and extensions.
+See <a href="/init-scripts" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Init Scripts &amp; Extensions</a> for launch-time scripts, runtime scripts, built-in React DevTools, and extensions.
 
-## Global options<a href="#global-options" aria-label="Link to this section">#</a>
+## <a href="#global-options" class="peer" data-card="">Global options</a>
 
 
-``` shiki
+``` m-0
 --session <name>         # Isolated browser session
 --restore [name]         # Auto-save/restore session state, defaults to --session
 --restore-save <policy>  # Restore save policy: auto, always, never
@@ -702,8 +715,9 @@ See [Init Scripts & Extensions](/init-scripts) for launch-time scripts, runtime 
 --proxy <url>            # Proxy server URL
 --proxy-bypass <hosts>   # Hosts to bypass proxy
 --ignore-https-errors    # Ignore HTTPS certificate errors
---ca-cert <path>         # Trust a CA for locally launched Chromium on Linux
+--ca-cert <path>         # Trust a CA for CLI requests, and for local Chromium on Linux
 --no-ca-cert             # Clear CA trust retained by the running session
+--use-system-ca          # Use the OS trust store for CLI requests (read, install, upgrade, doctor)
 --allow-file-access      # Allow file:// URLs to access local files (Chromium only)
 --hide-scrollbars <bool> # Hide native scrollbars in headless Chromium screenshots
 -p, --provider <name>    # Browser provider or configured provider plugin
@@ -716,7 +730,7 @@ See [Init Scripts & Extensions](/init-scripts) for launch-time scripts, runtime 
 --headed                 # Show browser window (not headless)
 --webgpu                 # Enable WebGPU (software Vulkan on Linux, no GPU needed)
 --no-webmcp              # Disable default experimental WebMCP Chrome features (or AGENT_BROWSER_NO_WEBMCP env)
---cdp ​​port|url​​         # Connect via CDP; root WebSocket query slash is optional
+--cdp <port|url>         # Connect via CDP; root WebSocket query slash is optional
 --auto-connect           # Auto-discover and connect to running Chrome
 --color-scheme <scheme>  # Color scheme: dark, light, no-preference
 --download-path <path>   # Default download directory
@@ -726,7 +740,7 @@ See [Init Scripts & Extensions](/init-scripts) for launch-time scripts, runtime 
 --action-policy <path>   # Path to action policy JSON file
 --confirm-actions <list> # Action categories requiring confirmation
 --confirm-interactive    # Interactive confirmation prompts (auto-denies if stdin is not a TTY)
---engine <name>          # Browser engine: chrome (default), lightpanda
+--engine <name>          # Browser engine: chrome (default), lightpanda, obscura (experimental)
 --input-mode <mode>      # Pointer movement: instant (default), smooth, human
 --idle-timeout <time>    # Auto-shutdown daemon after inactivity (default: 1h; 0 disables)
 --no-auto-dialog         # Disable auto-accept for alert and beforeunload dialogs
@@ -738,14 +752,14 @@ See [Init Scripts & Extensions](/init-scripts) for launch-time scripts, runtime 
 ```
 
 
-See [Configuration](/configuration) for config files and environment variables. See [Proxy](/proxy) for proxy server, bypass, and credential settings.
+See <a href="/configuration" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Configuration</a> for config files and environment variables. See <a href="/proxy" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Proxy</a> for proxy server, bypass, and credential settings.
 
-## Batch execution<a href="#batch-execution" aria-label="Link to this section">#</a>
+## <a href="#batch-execution" class="peer" data-card="">Batch execution</a>
 
 Execute multiple commands in a single invocation. Commands can be passed as quoted arguments or piped as JSON via stdin.
 
 
-``` shiki
+``` m-0
 # Argument mode: each quoted argument is a full command
 agent-browser batch "open https://example.com" "snapshot -i" "screenshot"
 
@@ -767,10 +781,10 @@ echo '[
 | `--bail` | Stop on first error (default: continue all commands) |
 | `--json` | Output results as a JSON array                       |
 
-## MCP server<a href="#mcp-server" aria-label="Link to this section">#</a>
+## <a href="#mcp-server" class="peer" data-card="">MCP server</a>
 
 
-``` shiki
+``` m-0
 agent-browser mcp
 agent-browser mcp --tools all
 agent-browser mcp --tools core,network,react
@@ -795,7 +809,7 @@ Profiles:
 Example MCP client config:
 
 
-``` shiki
+``` m-0
 {
   "mcpServers": {
     "agent-browser": {
@@ -828,12 +842,12 @@ Each tool has typed fields such as `url`, `selector`, `text`, `key`, `session`, 
 
 Tool invocations use the same config files and environment variables as the CLI. Use `session` in the tool arguments, or set `AGENT_BROWSER_SESSION`, to isolate browser state.
 
-## Command chaining<a href="#command-chaining" aria-label="Link to this section">#</a>
+## <a href="#command-chaining" class="peer" data-card="">Command chaining</a>
 
 Chain commands with `&&` in a single shell invocation. The browser persists via a background daemon, so chaining works naturally and is more efficient than separate calls:
 
 
-``` shiki
+``` m-0
 agent-browser open example.com && agent-browser wait --load domcontentloaded && agent-browser snapshot -i
 agent-browser fill @e1 "user@example.com" && agent-browser fill @e2 "pass" && agent-browser click @e3
 agent-browser open example.com && agent-browser wait --load load && agent-browser screenshot page.png
@@ -842,12 +856,12 @@ agent-browser open example.com && agent-browser wait --load load && agent-browse
 
 Use `&&` when you don't need to read intermediate output. Run commands separately when you need to parse output first (e.g., snapshot to discover refs, then interact with those refs).
 
-## Local files<a href="#local-files" aria-label="Link to this section">#</a>
+## <a href="#local-files" class="peer" data-card="">Local files</a>
 
 Open local files (PDFs, HTML) using `file://` URLs:
 
 
-``` shiki
+``` m-0
 agent-browser --allow-file-access open file:///path/to/document.pdf
 agent-browser --allow-file-access open file:///path/to/page.html
 agent-browser screenshot output.png
@@ -856,7 +870,9 @@ agent-browser screenshot output.png
 
 The `--allow-file-access` flag enables JavaScript to access other local files. Chromium only.
 
-See [Files & Clipboard](/files) for local files, uploads, downloads, screenshots, PDFs, and clipboard workflows.
+See <a href="/files" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Files &amp; Clipboard</a> for local files, uploads, downloads, screenshots, PDFs, and clipboard workflows.
 
 
-Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>
+<a href="/skills" class="group grid w-fit grid-cols-[auto_1fr] items-center gap-x-1.5 gap-y-1 text-gray-1000"><span class="text-gray-900 text-sm col-start-2">Previous</span><span class="row-start-2 font-medium col-start-2">Skills</span></a><a href="/configuration" class="group grid w-fit grid-cols-[1fr_auto] items-center gap-x-1.5 gap-y-1 justify-self-end text-right text-gray-1000"><span class="text-gray-900 text-sm col-start-1">Next</span><span class="row-start-2 font-medium col-start-1">Configuration</span></a>
+
+

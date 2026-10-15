@@ -3,6 +3,8 @@
 ---
 title: Types
 description: TypeScript types exported from the chat/ai subpath.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 related:
   - /docs/ai
@@ -10,8 +12,7 @@ related:
   - /docs/ai/to-ai-messages
 ---
 
-# Types
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Types exported from `chat/ai`. Importing from the subpath keeps the optional `ai` and `zod` peer dependencies out of bundles that don't use them.
 
@@ -33,6 +34,7 @@ import type {
   ChatApprovalToolName,
   ApprovalConfig,
   ToolOptions,
+  ToolScopeOptions,
   ToolOverrides,
   ReadScope,
 } from "chat/ai";
@@ -220,19 +222,32 @@ type ApprovalConfig =
 
 Controls the `requireApproval` option:
 
-* `true` (default): every write tool and `getUser` need approval.
-* `false`: no tool needs approval.
-* An object: per-tool overrides. Approval-gated tools you leave out fall back to `true`.
+- `true` (default): every write tool and `getUser` need approval.
+- `false`: no tool needs approval.
+- An object: per-tool overrides. Approval-gated tools you leave out fall back to `true`.
+
+### ToolScopeOptions
+
+```typescript
+interface ToolScopeOptions {
+  scope?: ReadScope | false;
+  strictScope?: boolean;
+}
+```
+
+Options accepted by every standalone factory for a tool that targets a thread or channel, such as `fetchMessages(chat, { scope: thread })`. They work like the `scope` and `strictScope` options on [`createChatTools`](/docs/ai/ai-sdk-tools#limiting-what-the-agent-can-reach). When no scope resolves, calls are rejected inside a handler that has no conversation, and run workspace-wide with a warning outside any handler.
 
 ### ToolOptions
 
 ```typescript
-interface ToolOptions {
+interface ToolOptions extends ToolScopeOptions {
+  /** @deprecated Pass `scope` instead. */
+  guard?: (id: string) => void;
   needsApproval?: boolean;
 }
 ```
 
-Common options accepted by every standalone write-tool factory (e.g. `postMessage(chat, { needsApproval: false })`).
+Options accepted by every standalone factory for a write tool that targets a thread or channel, such as `postMessage(chat, { needsApproval: false })`. `needsApproval` defaults to `true`. `guard` takes precedence over `scope` and is kept for compatibility. `sendDirectMessage` ignores the scope options, because it targets a user id.
 
 ### ToolOverrides
 
@@ -286,7 +301,6 @@ import type {
 | `TanStackChatToolsOptions`  | Options for `createTanStackTools`: `chat`, `preset`, `requireApproval`, `scope`, `strictScope`, `overrides`.                                                |
 
 `ChatToolName`, `ChatToolPreset`, `ChatWriteToolName`, `ChatApprovalToolName`, `ApprovalConfig`, `ReadScope`, and `ChatBinding` are re-exported from `chat/ai/tanstack` unchanged. Their definitions are in [Tools](#tools) above, and `ReadScope` is described in the [`createChatTools` API](/docs/ai/ai-sdk-tools#api). The TanStack-specific shapes are defined in full on the [TanStack AI](/docs/ai/tanstack-ai#types) page.
-
 
 ---
 

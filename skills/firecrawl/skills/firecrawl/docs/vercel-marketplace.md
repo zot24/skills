@@ -158,7 +158,7 @@ import { generateText, stepCountIs } from "ai";
 import { FirecrawlTools } from "firecrawl-aisdk";
 
 const { text } = await generateText({
-  model: "anthropic/claude-sonnet-4-5",
+  model: "anthropic/claude-sonnet-5.5",
   tools: FirecrawlTools(),
   stopWhen: stepCountIs(20),
   prompt: "Search for recent Vercel AI SDK examples, scrape the best sources, and summarize them.",
@@ -182,3 +182,4 @@ console.log(text);
     Search the web and get page content from results
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

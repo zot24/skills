@@ -337,3 +337,6 @@ bd ready                         # Only "Design" is ready
 * [Agent Coordination](/multi-agent/coordination) — Cross-repo dependency patterns
 * [Dolt Backend for Beads](/architecture/dolt) — Dolt backend configuration
 * [CLI Reference](/cli-reference/index) — Full command reference
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

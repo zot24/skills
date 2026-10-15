@@ -10,6 +10,14 @@ package: @chat-adapter/x
 # XChat
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the XChat adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="xchat memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -77,46 +85,54 @@ You can register both adapters on the same `Chat` instance if your bot needs pub
 
 ## Platform setup
 
-### 1. Register encryption keys
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Register encryption keys
 
-The bot account needs registered public keys and a Juicebox-backed private-key store before it can participate in encrypted conversations:
+    The bot account needs registered public keys and a Juicebox-backed private-key store before it can participate in encrypted conversations:
 
-1. Generate keypairs with [`chat-xdk`](https://github.com/xdevplatform/chat-xdk) (`generateKeypairs()`).
-2. Register them via `POST /2/users/{id}/public_keys`.
-3. Store the private keys in Juicebox with a PIN (`chat.setup(pin)`).
+    1. Generate keypairs with [`chat-xdk`](https://github.com/xdevplatform/chat-xdk) (`generateKeypairs()`).
+    2. Register them via `POST /2/users/{id}/public_keys`.
+    3. Store the private keys in Juicebox with a PIN (`chat.setup(pin)`).
 
-The adapter unlocks the keys at startup with the same PIN (`XCHAT_PIN`). Registration is a one-time step per account.
+    The adapter unlocks the keys at startup with the same PIN (`XCHAT_PIN`). Registration is a one-time step per account.
+  </div>
 
-### 2. Create a webhook
+  <div className="fd-step">
+    ### Create a webhook
 
-Register a webhook URL so the [X Activity API](https://docs.x.com/x-api/activity/introduction) can deliver events:
+    Register a webhook URL so the [X Activity API](https://docs.x.com/x-api/activity/introduction) can deliver events:
 
-```bash
-curl -X POST "https://api.x.com/2/webhooks" \
-  -H "Authorization: Bearer $APP_BEARER_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://your-domain.com/api/webhooks/xchat"}'
-```
+    ```bash
+    curl -X POST "https://api.x.com/2/webhooks" \
+      -H "Authorization: Bearer $APP_BEARER_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{"url": "https://your-domain.com/api/webhooks/xchat"}'
+    ```
 
-X validates the URL with a CRC challenge, so the endpoint must be live before you create the webhook. Webhooks and activity subscriptions can also be managed in the [X Developer Portal](https://developer.x.com/en/portal/dashboard).
+    X validates the URL with a CRC challenge, so the endpoint must be live before you create the webhook. Webhooks and activity subscriptions can also be managed in the [X Developer Portal](https://developer.x.com/en/portal/dashboard).
+  </div>
 
-### 3. Subscribe to chat events
+  <div className="fd-step">
+    ### Subscribe to chat events
 
-Create [activity subscriptions](https://docs.x.com/x-api/activity/create-x-activity-subscription) for the bot user with the bot's OAuth 2.0 user token:
+    Create [activity subscriptions](https://docs.x.com/x-api/activity/create-x-activity-subscription) for the bot user with the bot's OAuth 2.0 user token:
 
-```bash
-curl -X POST "https://api.x.com/2/activity/subscriptions" \
-  -H "Authorization: Bearer $BOT_USER_TOKEN" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "event_type": "chat.received",
-    "filter": {"user_id": "YOUR_BOT_USER_ID"},
-    "tag": "bot-chat-received",
-    "webhook_id": "YOUR_WEBHOOK_ID"
-  }'
-```
+    ```bash
+    curl -X POST "https://api.x.com/2/activity/subscriptions" \
+      -H "Authorization: Bearer $BOT_USER_TOKEN" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "event_type": "chat.received",
+        "filter": {"user_id": "YOUR_BOT_USER_ID"},
+        "tag": "bot-chat-received",
+        "webhook_id": "YOUR_WEBHOOK_ID"
+      }'
+    ```
 
-Subscribe to `chat.conversation_join` as well if you want the bot to post a welcome message when it is added to a group.
+    Subscribe to `chat.conversation_join` as well if you want the bot to post a welcome message when it is added to a group.
+  </div>
+</div>
 
 ## Configuration
 
@@ -147,7 +163,7 @@ Every XChat conversation is encrypted, and the adapter handles the whole crypto 
 
 ## Mention behavior in groups
 
-`bot.onNewMention(handler)` fires for group messages that mention the bot. A group message counts as a mention when its rich-text mention entities include the bot's @handle or user ID, when it is a swipe-reply to one of the bot's own messages, or when its plain text contains `@handle` (fallback when no entities are present). To reply to every group message instead, register a catch-all `bot.onNewMessage(/.+/, handler)`.
+`bot.onNewMention(handler)` fires for group messages that mention the bot. A group message counts as a mention when its rich-text mention entities include the bot's @handle or user ID, when it is a swipe-reply to one of the bot's own messages, or when its plain text contains `@handle` (fallback when no entities are present). To also reply to group messages that don't mention the bot, register `bot.onNewMessage(handler)` without a pattern.
 
 ## Open DM
 

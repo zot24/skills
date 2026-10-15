@@ -701,7 +701,7 @@ Swap OpenAI for another provider:
 import { anthropic } from "@ai-sdk/anthropic";
 
 const result = streamText({
-  model: anthropic("claude-4.5-sonnet"),
+  model: anthropic("claude-sonnet-5-5"),
   // ... rest of config
 });
 ```
@@ -740,3 +740,4 @@ AI Elements components are built on shadcn/ui, so you can:
     Pre-built UI components for AI applications built on shadcn/ui.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

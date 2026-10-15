@@ -20,6 +20,9 @@ Configuration
 Copy page
 
 
+Reference for the runtime and build time environment variables you can set to configure a self-hosted Umami installation.
+
+
 You can configure Umami with the use of environment variables. They go into the same `.env` file as your `DATABASE_URL`.
 
 ------------------------------------------------------------------------
@@ -123,7 +126,7 @@ DISABLE_LOGIN = 1
 ### DISABLE_TELEMETRY<a href="#disable_telemetry" class="heading-anchor" aria-label="Permalink to “DISABLE_TELEMETRY”">#</a>
 
 
-Umami collects completely anonymous telemetry data in order help improve the application. You can choose to disable this if you don't want to participate.
+Umami collects completely anonymous telemetry data in order to help improve the application. You can choose to disable this if you don't want to participate.
 
 
 ``` code-block
@@ -187,7 +190,7 @@ GEO_DATABASE_URL = "https://example.com/GeoLite2-City.mmdb"
 ### HOSTNAME / PORT<a href="#hostname--port" class="heading-anchor" aria-label="Permalink to “HOSTNAME / PORT”">#</a>
 
 
-If you are running on an environment which requires you to bind to a specific hostname or port, such as Heroku, you can add these variables and start your app with `npm run start-env` instead of `npm start`.
+If you are running on an environment which requires you to bind to a specific hostname or port, such as Heroku, you can add these variables and start your app with `pnpm run start-env` instead of `pnpm start`.
 
 
 ``` code-block
@@ -220,7 +223,8 @@ LOG_QUERY = 1
 
 ### MCP_ENABLED<a href="#mcp_enabled" class="heading-anchor" aria-label="Permalink to “MCP_ENABLED”">#</a>
 
-Enables the [Model Context Protocol (MCP)](/docs/mcp) endpoint. MCP is disabled by default.
+
+Enables the remote [Model Context Protocol (MCP)](/docs/mcp) endpoint at `/mcp`. Disabled by default.
 
 
 ``` code-block
@@ -253,7 +257,7 @@ REDIS_URL = "redis://localhost:6379"
 ### REMOVE_TRAILING_SLASH<a href="#remove_trailing_slash" class="heading-anchor" aria-label="Permalink to “REMOVE_TRAILING_SLASH”">#</a>
 
 
-Removes the trailing slash from all incoming urls.
+Removes the trailing slash from all incoming URLs.
 
 
 ``` code-block
@@ -334,7 +338,7 @@ Build time variables are only recognized during the build process. This also inc
 ### ALLOWED_FRAME_URLS<a href="#allowed_frame_urls" class="heading-anchor" aria-label="Permalink to “ALLOWED_FRAME_URLS”">#</a>
 
 
-A space-delimited list of urls allowed to host the application in an iframe.
+A space-delimited list of URLs allowed to host the application in an iframe.
 
 
 ``` code-block
@@ -345,7 +349,7 @@ ALLOWED_FRAME_URLS = "URLs"
 ### BASE_PATH<a href="#base_path" class="heading-anchor" aria-label="Permalink to “BASE_PATH”">#</a>
 
 
-If you want to host Umami under a subdirectory. You may need to update your reverse proxy settings to correctly handle the BASE_PATH prefix.
+Use this if you want to host Umami under a subdirectory. You may need to update your reverse proxy settings to correctly handle the BASE_PATH prefix.
 
 
 ``` code-block
@@ -356,7 +360,7 @@ BASE_PATH = "/custom"
 ### BUILD_GEO<a href="#build_geo" class="heading-anchor" aria-label="Permalink to “BUILD_GEO”">#</a>
 
 
-Run the local GeoIP database setup step even in Vercel environment.
+Run the local GeoIP database setup step even in a Vercel environment.
 
 
 ``` code-block
@@ -400,7 +404,7 @@ DIRECT_DATABASE_URL = "connection string"
 ### FORCE_SSL<a href="#force_ssl" class="heading-anchor" aria-label="Permalink to “FORCE_SSL”">#</a>
 
 
-This will send a HTTP `Strict-Transport-Security` response header with all requests. See <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security>.
+This will send an HTTP `Strict-Transport-Security` response header with all requests. See <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security>.
 
 
 ``` code-block
@@ -441,7 +445,7 @@ SKIP_DB_MIGRATION = 1
 ```
 
 
-<a href="/docs/enable-share-url" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Enable Share URL</span></span></a><a href="/docs/mcp" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Enable MCP</span></span></a>
+<a href="/docs/enable-share-url" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Enable Share URL</span></span></a><a href="/docs/enable-cloudflare-headers" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Enable Cloudflare headers</span></span></a>
 
 
 On this page

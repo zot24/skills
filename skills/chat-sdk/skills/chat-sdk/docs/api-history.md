@@ -3,11 +3,12 @@
 ---
 title: History
 description: API reference for bot.history, covering the user, thread, and channel scopes.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 ---
 
-# History
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 `bot.history` provides three namespaced scopes for persisting and querying messages. See the [History guide](/docs/history) for setup and usage patterns.
 
@@ -21,14 +22,29 @@ History scopes are configured under the `history` key on `ChatConfig`.
 
 ### ChatConfig.history
 
+| Property | Type                                                    | Description                                                                                                                                                                                 |
+| -------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `user`   | `UserHistoryConfig \| undefined`                        | Cross-platform per-user message persistence. Requires an \`identity\` resolver. Replaces the legacy \`transcripts\` + \`identity\` top-level fields.                                        |
+| `thread` | `{ maxMessages?: number; ttlMs?: number } \| undefined` | Per-thread message history backfill. Used by adapters that set \`persistThreadHistory: true\` (e.g. Telegram, WhatsApp). Replaces the legacy \`threadHistory\` / \`messageHistory\` fields. |
 
 ### UserHistoryConfig
 
 Same fields as the deprecated `TranscriptsConfig`, plus an optional `identity` resolver (preferred over the deprecated top-level `ChatConfig.identity`):
 
+| Property         | Type                                                                      | Description                                                                                                                                                                                    |
+| ---------------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `identity`       | `(context: IdentityContext) => string \| null \| Promise<string \| null>` | Resolves a stable cross-platform user key from each inbound message. Return \`null\` to skip persistence for that event. May also be set via the deprecated top-level \`ChatConfig.identity\`. |
+| `retention`      | `number \| DurationString \| undefined`                                   | List TTL, refreshed on every append. Accepts milliseconds or a duration string ("45s", "30m", "6h", "7d"). Omit for no expiry.                                                                 |
+| `maxPerUser`     | `number \| false`                                                         | Hard cap per user key. Older entries are evicted on append. Set \`false\` for no cap.                                                                                                          |
+| `storeFormatted` | `boolean`                                                                 | Persist the mdast \`formatted\` field alongside \`text\`. Off by default to keep storage small.                                                                                                |
 
 #### IdentityContext
 
+| Property  | Type      | Description                             |
+| --------- | --------- | --------------------------------------- |
+| `adapter` | `string`  | Adapter name (e.g. "slack", "discord"). |
+| `author`  | `Author`  | Message author info.                    |
+| `message` | `Message` | The inbound message.                    |
 
 ***
 
@@ -54,9 +70,18 @@ When `message` is a `Message`, `userKey` is read from the instance (set automati
 
 #### AppendInput
 
+| Property            | Type                                | Description                                                                   |
+| ------------------- | ----------------------------------- | ----------------------------------------------------------------------------- |
+| `role`              | `"user" \| "assistant" \| "system"` | Role tag for the entry.                                                       |
+| `text`              | `string`                            | Plain-text body.                                                              |
+| `formatted`         | `FormattedContent \| undefined`     | Optional mdast AST. Only stored when \`history.user.storeFormatted\` is true. |
+| `platformMessageId` | `string \| undefined`               | Platform-native message ID, when known.                                       |
 
 #### AppendOptions
 
+| Property  | Type                  | Description                                                                                                  |
+| --------- | --------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `userKey` | `string \| undefined` | Required when appending an \`AppendInput\` (assistant or system role); ignored when appending a \`Message\`. |
 
 ### list
 
@@ -68,6 +93,13 @@ list(query: ListQuery): Promise<HistoryEntry[]>;
 
 #### ListQuery
 
+| Property    | Type                                                 | Description                          |
+| ----------- | ---------------------------------------------------- | ------------------------------------ |
+| `userKey`   | `string`                                             | Cross-platform user key.             |
+| `limit`     | `number`                                             | Maximum entries returned.            |
+| `platforms` | `string[] \| undefined`                              | Filter to a subset of adapter names. |
+| `threadId`  | `string \| undefined`                                | Filter to a single thread.           |
+| `roles`     | `("user" \| "assistant" \| "system")[] \| undefined` | Filter to specific roles.            |
 
 ### count
 
@@ -101,9 +133,18 @@ Fetches messages from a thread. Delegates to `adapter.fetchMessages`. On adapter
 
 #### FetchOptions
 
+| Property    | Type                                   | Description                                                     |
+| ----------- | -------------------------------------- | --------------------------------------------------------------- |
+| `limit`     | `number \| undefined`                  | Maximum number of messages to return.                           |
+| `cursor`    | `string \| undefined`                  | Pagination cursor returned by a prior call.                     |
+| `direction` | `"backward" \| "forward" \| undefined` | "backward" (newest first, default) or "forward" (oldest first). |
 
 #### FetchResult
 
+| Property     | Type                  | Description                                                   |
+| ------------ | --------------------- | ------------------------------------------------------------- |
+| `messages`   | `Message[]`           | Normalized messages for the requested page.                   |
+| `nextCursor` | `string \| undefined` | Cursor for the next page. \`undefined\` when no more results. |
 
 ### collect
 
@@ -162,9 +203,17 @@ Convenience helper: lists up to `maxThreads` (default 5) threads, then fetches `
 
 #### ListThreadsOptions
 
+| Property | Type                  | Description                          |
+| -------- | --------------------- | ------------------------------------ |
+| `limit`  | `number \| undefined` | Maximum number of threads to return. |
+| `cursor` | `string \| undefined` | Pagination cursor.                   |
 
 #### ListThreadsResult
 
+| Property     | Type                  | Description                                                   |
+| ------------ | --------------------- | ------------------------------------------------------------- |
+| `threads`    | `ThreadSummary[]`     | Thread summaries.                                             |
+| `nextCursor` | `string \| undefined` | Cursor for the next page. \`undefined\` when no more results. |
 
 ***
 
@@ -172,6 +221,17 @@ Convenience helper: lists up to `maxThreads` (default 5) threads, then fetches `
 
 Returned by `bot.history.user.append` and `bot.history.user.list`. Exported from `chat` as `HistoryEntry` (canonical) and `TranscriptEntry` (deprecated alias).
 
+| Property            | Type                                | Description                                                           |
+| ------------------- | ----------------------------------- | --------------------------------------------------------------------- |
+| `id`                | `string`                            | UUID assigned by the SDK at append time.                              |
+| `userKey`           | `string`                            | Cross-platform user key from the identity resolver.                   |
+| `role`              | `"user" \| "assistant" \| "system"` | Role tag.                                                             |
+| `text`              | `string`                            | Plain-text body. Use this field when building prompts.                |
+| `formatted`         | `FormattedContent \| undefined`     | mdast AST. Only present when \`history.user.storeFormatted\` is true. |
+| `platform`          | `string`                            | Originating adapter name.                                             |
+| `threadId`          | `string`                            | Originating thread ID.                                                |
+| `platformMessageId` | `string \| undefined`               | Platform-native message ID, when known.                               |
+| `timestamp`         | `number`                            | Milliseconds since epoch, set at append time on the SDK side.         |
 
 ## toPromptEntries
 
@@ -193,6 +253,10 @@ const { text } = await generateText({
 
 #### PromptEntry
 
+| Property  | Type                                | Description                                   |
+| --------- | ----------------------------------- | --------------------------------------------- |
+| `role`    | `"user" \| "assistant" \| "system"` | Role tag carried over from the history entry. |
+| `content` | `string`                            | Plain-text body of the entry.                 |
 
 ## Storage
 
@@ -214,7 +278,6 @@ Appends are atomic, so concurrent inbound messages on the same key don't race.
 | `ChatConfig.threadHistory` / `ChatConfig.messageHistory` | `ChatConfig.history.thread`                                                                             |
 
 All deprecated names continue to work and will not be removed in the current major version. See [Migrating from `bot.transcripts`](/docs/history#migrating-from-bottranscripts).
-
 
 ---
 

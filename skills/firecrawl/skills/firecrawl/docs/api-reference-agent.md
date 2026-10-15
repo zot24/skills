@@ -134,6 +134,125 @@ paths:
                   $ref: '#/components/schemas/AuditMetadata'
                 threatProtection:
                   $ref: '#/components/schemas/ThreatProtectionOverride'
+                threadId:
+                  type: string
+                  format: uuid
+                  description: >-
+                    Continue an existing thread: pass the `threadId` an earlier
+                    run returned, and this request runs as that thread's next
+                    turn. Omitted `urls`, `schema`, `effort`, `mode` and
+                    `exchange` settings carry over from the previous turn. Omit
+                    `threadId` to start a new thread.
+                mode:
+                  type: string
+                  enum:
+                    - extract
+                    - chat
+                  default: extract
+                  description: >-
+                    `extract` returns the complete structured result in `data`
+                    every turn. `chat` lets a follow-up that asks for no new
+                    data get a short reply in `message` instead of a re-run.
+                    `exchange.requireApproval` needs `chat` on the same request.
+                    Omitted on a follow-up turn keeps the thread's mode.
+                exchange:
+                  type: object
+                  description: >-
+                    Let the agent call your team's
+                    [Alexandria](https://docs.firecrawl.dev/features/alexandria)
+                    data providers during the run. Without this object the run
+                    uses the web only (a follow-up turn inherits the previous
+                    turn's settings). See [Use your connected Alexandria
+                    tools](https://docs.firecrawl.dev/features/agent#use-your-connected-alexandria-tools).
+                  additionalProperties: false
+                  properties:
+                    enabled:
+                      type: boolean
+                      default: true
+                      description: >-
+                        Let the agent call Alexandria providers. Defaults to
+                        `true` once `exchange` is sent; send `false` to turn
+                        providers off for a turn of a thread.
+                    toolkits:
+                      type: array
+                      items:
+                        type: string
+                      maxItems: 5
+                      description: >-
+                        Pin up to 5 providers by slug, for example `["apollo"]`.
+                        The agent then uses only those. Empty or omitted means
+                        every provider your team can use.
+                    maxCalls:
+                      type: integer
+                      minimum: 1
+                      maximum: 30
+                      default: 16
+                      description: Most provider calls the agent may make in this turn.
+                    requireApproval:
+                      type: boolean
+                      default: false
+                      description: >-
+                        Before any paid provider call, end the turn with a
+                        `pendingApproval` of kind `calls` that you approve or
+                        decline on the next turn. Requires `mode: "chat"` on the
+                        same request, including on a follow-up.
+                    approve:
+                      type: object
+                      description: >-
+                        Answer yes to the `pendingApproval` the previous turn of
+                        this thread ended on. Needs `threadId`.
+                      additionalProperties: false
+                      properties:
+                        approvalId:
+                          type: string
+                          format: uuid
+                          description: The `pendingApproval.id` to answer.
+                        callIds:
+                          type: array
+                          items:
+                            type: string
+                          description: >-
+                            Run only these calls from the approval. Defaults to
+                            all of them. Ignored on a `terms` approval.
+                        always:
+                          type: boolean
+                          default: false
+                          description: >-
+                            Stop asking for approval for the rest of the thread.
+                            Ignored on a `terms` approval.
+                      required:
+                        - approvalId
+                    decline:
+                      type: object
+                      description: >-
+                        Answer no to the `pendingApproval` the previous turn of
+                        this thread ended on. Needs `threadId`. A declined
+                        `terms` offer keeps its providers out of the rest of the
+                        thread.
+                      additionalProperties: false
+                      properties:
+                        approvalId:
+                          type: string
+                          format: uuid
+                          description: The `pendingApproval.id` to answer.
+                      required:
+                        - approvalId
+                    onTermsRequired:
+                      type: string
+                      enum:
+                        - skip
+                        - ask
+                      default: skip
+                      description: >-
+                        What to do when a provider the agent would use needs
+                        data terms your team has not accepted. Such providers
+                        are never called. `skip` answers with accepted providers
+                        and lists the others in `exchange.skippedProviders`;
+                        `ask` also ends the turn with a `terms`
+                        `pendingApproval` and `exchange.requiresAction`. Omitted
+                        on a follow-up turn keeps the previous turn's value. See
+                        [Data providers that need
+                        terms](https://docs.firecrawl.dev/features/agent#data-providers-that-need-terms).
               required:
                 - prompt
       responses:
@@ -149,6 +268,15 @@ paths:
                   id:
                     type: string
                     format: uuid
+                  threadId:
+                    type: string
+                    format: uuid
+                    description: >-
+                      The thread this run belongs to. Pass it as `threadId` to
+                      continue the thread.
+                  threadTurn:
+                    type: integer
+                    description: This run's turn in the thread, starting at 1.
         '400':
           description: >-
             Bad request — the request body failed validation (for example an
@@ -293,3 +421,5 @@ components:
       scheme: bearer
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

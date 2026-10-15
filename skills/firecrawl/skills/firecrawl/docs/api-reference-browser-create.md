@@ -21,9 +21,13 @@
 | - | - | - | - | - |
 | `ttl` | number | No | 600 | Total session lifetime in seconds (30-3600) |
 | `activityTtl` | number | No | 300 | Seconds of inactivity before session is destroyed (10-3600) |
+| `blockAds` | boolean | No | true | Block ads, trackers, and cookie popups, as in scrape |
 | `profile` | object | No | — | Enable persistent storage across sessions. See below. |
 | `profile.name` | string | Yes\* | — | Name for the profile (1-128 chars). Sessions with the same name share storage. |
 | `profile.saveChanges` | boolean | No | `true` | When `true`, browser state is saved back to the profile on close. Set to `false` to load existing data without writing. Only one saver is allowed at a time. |
+| `location` | object | No | — | Country the session browses from. Without it, sessions browse from the US. |
+| `location.country` | string | Yes\* | — | ISO 3166-1 alpha-2 country code, such as `GB` or `DE`. Other values, such as `us-generic`, are rejected with a `400`. |
+| `zeroDataRetention` | boolean | No | `false` | Run the session with [Zero Data Retention](/features/interact#zero-data-retention-zdr). Requires ZDR to be enabled for your team (`403` otherwise). Cannot be combined with `profile` (`400`). |
 
 ## Response
 
@@ -43,7 +47,8 @@ curl -X POST "https://api.firecrawl.dev/v2/interact" \
   -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
   -H "Content-Type: application/json" \
   -d '{
-    "ttl": 120
+    "ttl": 120,
+    "location": { "country": "GB" }
   }'
 ```
 
@@ -111,6 +116,13 @@ paths:
                   type: boolean
                   default: true
                   description: Whether to stream a live view of the browser
+                blockAds:
+                  type: boolean
+                  default: true
+                  description: >-
+                    Enable ad and cookie popup blocking, as in scrape. Sessions
+                    started from a scrape with interact use the scrape's
+                    blockAds.
                 profile:
                   type: object
                   description: >-
@@ -135,6 +147,22 @@ paths:
                         only one saving session at a time.
                   required:
                     - name
+                location:
+                  type: object
+                  description: >-
+                    Country the session browses from. Defaults to the US.
+                    Sessions started from a scrape with interact use the
+                    scrape's location.
+                  properties:
+                    country:
+                      type: string
+                      description: >-
+                        ISO 3166-1 alpha-2 country code, such as `GB` or `DE`.
+                        Case-insensitive.
+                      example: GB
+                  required:
+                    - country
+                  additionalProperties: false
       responses:
         '200':
           description: Interact session created successfully
@@ -182,3 +210,5 @@ components:
       scheme: bearer
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

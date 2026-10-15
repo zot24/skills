@@ -2,7 +2,9 @@
 
 ---
 title: List a vendor-official adapter
-description: Qualify for the vendor-official tier and add your adapter to the Chat SDK docs, chat/adapters catalog, create-chat-sdk, and eve.dev/integrations.
+description: "Qualify for the vendor-official tier and add your adapter to the Chat SDK docs, @chat-adapter/catalog, create-chat-sdk, and eve.dev/integrations."
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/contributing/building
@@ -14,15 +16,14 @@ related:
   - /docs/vercel-connect
 ---
 
-# List a vendor-official adapter
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 A vendor-official adapter is built and maintained by the company behind the platform or by the primary maintainer of that platform's API. You implement the same `Adapter` interface as a [community adapter](/docs/contributing/building). After Vercel accepts your listing, your adapter appears in:
 
-* The [Adapters](/adapters) page under **Vendor Official**
-* The [`chat/adapters` catalog](/docs/adapters#adapter-catalog-chatadapters)
-* [`create-chat-sdk`](/docs/create-chat-sdk)
-* [eve.dev/integrations](https://eve.dev/integrations)
+- The [Adapters](/adapters) page under **Vendor Official**
+- The [`@chat-adapter/catalog`](/docs/adapter-catalog) setup metadata
+- [`create-chat-sdk`](/docs/create-chat-sdk)
+- [eve.dev/integrations](https://eve.dev/integrations)
 
 Browse current listings on the [Adapters](/adapters) page.
 
@@ -34,25 +35,23 @@ Browse current listings on the [Adapters](/adapters) page.
 | npm package                                          | `@chat-adapter/*`      | Your org scope or unscoped    | Your org scope or unscoped |
 | Docs listing                                         | `/adapters/official/…` | `/adapters/vendor-official/…` | `/adapters/community/…`    |
 | [eve.dev/integrations](https://eve.dev/integrations) | Yes                    | Yes                           | No                         |
-| `chat/adapters` catalog                              | Yes                    | Yes                           | No                         |
+| `@chat-adapter/catalog` setup metadata               | Yes                    | Yes                           | No                         |
 | `create-chat-sdk`                                    | Yes                    | Yes                           | No                         |
 
 All three tiers share the same interface. Developers install and register your adapter the same way they use any other adapter. Vendor-official adds stronger discoverability and a higher maintenance bar.
 
-
-  The `@chat-adapter/` npm scope is reserved for Vercel-maintained official adapters. Publish under your own org scope or as an unscoped package.
-
+> The `@chat-adapter/` npm scope is reserved for Vercel-maintained official adapters. Publish under your own org scope or as an unscoped package.
 
 ## Check qualifications
 
 Before you open a listing PR, confirm that you can meet all of these:
 
-* You will continue to maintain the adapter
-* The repo lives in an official vendor-owned GitHub organization
-* Your primary product docs cover the adapter
-* You have announced the adapter in a blog post, changelog, or on social media
-* The adapter does not depend on platform APIs that are in private or closed beta
-* The adapter accepts credentials as resolver functions, not only static strings
+- You will continue to maintain the adapter
+- The repo lives in an official vendor-owned GitHub organization
+- Your primary product docs cover the adapter
+- You have announced the adapter in a blog post, changelog, or on social media
+- The adapter does not depend on platform APIs that are in private or closed beta
+- The adapter accepts credentials as resolver functions, not only static strings
 
 ### Support non-static credentials
 
@@ -72,9 +71,9 @@ Meeting the qualifications does not guarantee acceptance. Vercel reviews each re
 
 If Vercel lists your adapter, you own ongoing support:
 
-* Keep the adapter compatible with current Chat SDK APIs and your platform's APIs
-* Address bug reports promptly
-* Support developers who use your adapter
+- Keep the adapter compatible with current Chat SDK APIs and your platform's APIs
+- Address bug reports promptly
+- Support developers who use your adapter
 
 Vercel may remove a vendor-official adapter from the docs, catalog, eve integrations, and `create-chat-sdk` at any time, without notice. Removal can follow lack of maintenance, security or support risk, or failure to meet the tier bar.
 
@@ -95,30 +94,28 @@ Open a pull request against [vercel/chat](https://github.com/vercel/chat). Copy 
 
 Include all of the following in the PR:
 
-1. **Docs page.** Add an MDX page under `apps/docs/content/adapters/vendor-official/` and register the slug in that folder's `meta.json`. Mark the page as vendor-official, set your company as the author, complete the feature matrix, and add install and quick-start examples that match your published package and README.
-2. **Adapters registry.** Add an entry to `apps/docs/adapters.json` so the adapter appears on the [Adapters](/adapters) page. Point `readme` at a pinned commit or tag, not a branch. See [Pin your README to a commit or tag](/docs/contributing/publishing#pin-your-readme-to-a-commit-or-tag). Keep the package name and flags consistent with the docs page.
-3. **Catalog entry.** Add your adapter to [`chat/adapters`](/docs/adapters#adapter-catalog-chatadapters) in `packages/chat/src/adapters/index.ts`. Setup UIs use this metadata (package name, factory export, peer dependencies, and environment variables) without importing your package. Copy a similar vendor-official entry and update it from your docs.
-4. **CLI scaffold.** Add a matching entry in `packages/create-chat-sdk/src/catalog/scaffold-spec.ts` so `create-chat-sdk` can generate a bot that uses your adapter. Match the factory call shape of a similar adapter. After merge, developers can pass `--adapter your_slug` or browse vendor-official adapters with `--vendor`.
-5. **Test allowlists.** Update the lists in `packages/integration-tests` so CI recognizes the new docs page and package imports.
-6. **Changeset.** Add a changeset that bumps `chat` and `create-chat-sdk` (patch), with one line describing the addition.
+1. **Docs page.** Add an MDX page under `apps/docs/content/adapters/vendor-official/` and register the slug in that folder's `meta.json`. Mark the page as vendor-official, set your company as the author, render the feature matrix with ``, and add install and quick-start examples that match your published package and README.
+2. **Catalog entry.** Add `packages/catalog/src/adapters/vendor-official/your-slug.ts` and register it in `ADAPTERS` in `packages/catalog/src/adapters/index.ts`. The entry drives the [Adapters](/adapters) listing, the feature matrix on your docs page, and setup UIs that read [`@chat-adapter/catalog`](/docs/adapter-catalog) without importing your package. Copy a similar vendor-official entry and fill in the package name, author, factory export, peer dependencies, environment variables, and `features` from your docs. Point `readme` at a pinned commit or tag, not a branch. See [Pin your README to a commit or tag](/docs/contributing/publishing#pin-your-readme-to-a-commit-or-tag).
+3. **CLI scaffold.** Add a matching entry in `packages/create-chat-sdk/src/catalog/scaffold-spec.ts` so `create-chat-sdk` can generate a bot that uses your adapter. Match the factory call shape of a similar adapter. After merge, developers can pass `--adapter your_slug` or browse vendor-official adapters with `--vendor`.
+4. **Test allowlists.** Update the lists in `packages/integration-tests` so CI recognizes the new docs page and package imports.
+5. **Changeset.** Add a changeset that bumps `@chat-adapter/catalog` and `create-chat-sdk` (patch), with one line describing the addition.
 
 ## Prepare for review
 
 Reviewers check that:
 
-* You meet the qualifications above
-* Install snippets, factory exports, and env vars match the published package and README
-* The README link is pinned to a commit or tag
-* Catalog peer dependencies match what the docs tell people to install
-* Credential fields accept function-form values and are resolved per call
-* The adapter appears in both the docs registry and the `chat/adapters` catalog
+- You meet the qualifications above
+- Install snippets, factory exports, and env vars match the published package and README
+- The README link is pinned to a commit or tag
+- Catalog peer dependencies match what the docs tell people to install
+- Credential fields accept function-form values and are resolved per call
+- The catalog entry matches the docs page, including the package name, author, and capabilities
 
 ## Keep the listing current
 
 After merge, your adapter appears under **Vendor Official** on the [Adapters](/adapters) page, in the static catalog, on [eve.dev/integrations](https://eve.dev/integrations), and in `create-chat-sdk` when it fits the webhook-only scaffold.
 
 When you change env vars, peer dependencies, or the factory API, open a follow-up PR that updates the docs page, catalog entry, and pinned README ref together.
-
 
 ---
 

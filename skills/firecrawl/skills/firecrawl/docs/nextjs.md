@@ -151,3 +151,4 @@ export async function POST(request: Request) {
     Full SDK reference with crawl, map, batch scrape, and more
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

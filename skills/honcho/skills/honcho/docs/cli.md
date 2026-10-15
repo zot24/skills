@@ -1113,3 +1113,6 @@ Non-interactive onboarding:
 # Pre-seed via flags / env vars; init still prompts for anything missing
 HONCHO_API_KEY=hch-v3-xxx honcho init --base-url https://api.honcho.dev
 ```
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -2,27 +2,38 @@
 
 
 
-[](https://vercel.com "Made with love by Vercel")<span class="text-neutral-300 dark:text-neutral-700"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+<a href="/" class="flex @min-[1024px]:hidden items-center text-gray-1000"><span class="font-medium tracking-tight" style="font-family:var(--font-geist-pixel-square)">agent-browser</span></a>
 
 
-Streaming
+<a href="https://github.com/vercel-labs/agent-browser" class="size-8 items-center justify-center @min-[768px]:inline-flex hidden shrink-0" data-geist-button="" data-prefix="false" data-suffix="false" data-version="v1" aria-label="GitHub repository" rel="noopener" target="_blank"><span class="truncate px-1.5 inline-flex shrink-0 items-center justify-center"></span></a>
 
 
-Copy Page
+        &quot;sidebar toc-popover toc&quot;
+        &quot;sidebar main toc&quot; 1fr / minmax(var(--fd-sidebar-col), 1fr) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-width) - var(--fd-toc-width))) minmax(min-content, 1fr);--fd-docs-row-1:4rem;--fd-docs-row-2:calc(var(--fd-docs-row-1) + var(--fd-header-height));--fd-docs-row-3:calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height));--fd-sidebar-col:var(--fd-sidebar-width)">
 
 
-# Streaming<a href="#streaming" aria-label="Link to this section">#</a>
+Menu
+
+
+# Streaming
+
+
+Copy for LLM
+
+
+View Markdown
+
 
 Stream the browser viewport via WebSocket for live preview or "pair browsing" where a human can watch and interact alongside an AI agent.
 
-## Streaming<a href="#streaming" aria-label="Link to this section">#</a>
+## <a href="#streaming" class="peer" data-card="">Streaming</a>
 
 Every session automatically starts a WebSocket stream server on an OS-assigned port. The server streams viewport frames and accepts input events (mouse, keyboard, touch).
 
 To bind to a specific port, set `AGENT_BROWSER_STREAM_PORT`:
 
 
-``` shiki
+``` m-0
 AGENT_BROWSER_STREAM_PORT=9223 agent-browser open example.com
 ```
 
@@ -30,7 +41,7 @@ AGENT_BROWSER_STREAM_PORT=9223 agent-browser open example.com
 You can also manage streaming at runtime:
 
 
-``` shiki
+``` m-0
 agent-browser stream status            # Show streaming state and bound port
 agent-browser stream enable --port 9223  # Re-enable on a specific port
 agent-browser stream disable           # Stop streaming for the session
@@ -39,14 +50,14 @@ agent-browser stream disable           # Stop streaming for the session
 
 `stream status` returns the enabled state, active port, browser connection state, and whether screencasting is active. `stream disable` tears the server down and removes the session's `.stream` metadata file.
 
-Use [Video Recording](/recording) when you need a saved WebM or MP4 artifact instead of a live WebSocket stream. Recording requires `ffmpeg` on `PATH`.
+Use <a href="/recording" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Video Recording</a> when you need a saved WebM or MP4 artifact instead of a live WebSocket stream. Recording requires `ffmpeg` on `PATH`.
 
-## Runtime status response<a href="#runtime-status-response" aria-label="Link to this section">#</a>
+## <a href="#runtime-status-response" class="peer" data-card="">Runtime status response</a>
 
 `agent-browser stream status --json` returns data like:
 
 
-``` shiki
+``` m-0
 {
   "enabled": true,
   "port": 9223,
@@ -58,13 +69,13 @@ Use [Video Recording](/recording) when you need a saved WebM or MP4 artifact ins
 
 `connected` reports whether the daemon currently has a browser attached. `screencasting` reports whether frames are actively being produced for the stream server.
 
-## Relationship to screencast commands<a href="#relationship-to-screencast-commands" aria-label="Link to this section">#</a>
+## <a href="#relationship-to-screencast-commands" class="peer" data-card="">Relationship to screencast commands</a>
 
 `stream enable` creates the WebSocket server and keeps it available for the session. WebSocket clients then trigger live frame delivery automatically.
 
 The lower-level `screencast_start` and `screencast_stop` commands still control explicit CDP screencasts directly. Use them when you want a screencast without the WebSocket runtime server.
 
-## WebSocket protocol<a href="#websocket-protocol" aria-label="Link to this section">#</a>
+## <a href="#websocket-protocol" class="peer" data-card="">WebSocket protocol</a>
 
 Connect to `ws://localhost:9223` to receive frames and send input.
 
@@ -72,12 +83,12 @@ Frame encoding is set per daemon with `AGENT_BROWSER_STREAM_QUALITY` (0 to 100),
 
 Browser clients must load from `localhost`, `127.0.0.1`, `::1` or `file://`. Any other origin gets a 403 on the upgrade and needs a proxy.
 
-### Frame messages<a href="#frame-messages" aria-label="Link to this section">#</a>
+### <a href="#frame-messages" class="peer" data-card="">Frame messages</a>
 
 The server sends frame messages with base64-encoded images:
 
 
-``` shiki
+``` m-0
 {
   "type": "frame",
   "seq": 41,
@@ -99,12 +110,12 @@ The server sends frame messages with base64-encoded images:
 
 `metadata.timestamp` is the capture time in epoch milliseconds. Comparing it against the clock when the frame is drawn gives the age of what is on screen, which is the number worth watching on a constrained link.
 
-### URL messages<a href="#url-messages" aria-label="Link to this section">#</a>
+### <a href="#url-messages" class="peer" data-card="">URL messages</a>
 
 On Chrome, the server sends URL updates for full-document, History API, and fragment navigation in the active tab's main frame:
 
 
-``` shiki
+``` m-0
 {
   "type": "url",
   "url": "https://example.com/dashboard#activity",
@@ -115,12 +126,12 @@ On Chrome, the server sends URL updates for full-document, History API, and frag
 
 Navigation inside child frames or background tabs does not emit a URL message or replace the active tab's cached URL.
 
-### Status messages<a href="#status-messages" aria-label="Link to this section">#</a>
+### <a href="#status-messages" class="peer" data-card="">Status messages</a>
 
 Connection and screencast status:
 
 
-``` shiki
+``` m-0
 {
   "type": "status",
   "connected": true,
@@ -131,7 +142,7 @@ Connection and screencast status:
 ```
 
 
-### Frame delivery<a href="#frame-delivery" aria-label="Link to this section">#</a>
+### <a href="#frame-delivery" class="peer" data-card="">Frame delivery</a>
 
 Frames are delivered latest-first: the server holds only the newest frame and reads it at send time, so every frame produced while an earlier one is still being written is skipped instead of queued. The application never builds a backlog.
 
@@ -139,12 +150,12 @@ In the default push pacing the transport underneath still can: frames already ac
 
 Input handling is independent of frame delivery. Each connection reads input on its own task, so clicks and keystrokes dispatch to the browser immediately even while a large frame is mid-write to a slow client. Events go to the browser without waiting for its reply, so a click stays responsive behind a burst of mouse moves, and ordering is preserved.
 
-### Client configuration<a href="#client-configuration" aria-label="Link to this section">#</a>
+### <a href="#client-configuration" class="peer" data-card="">Client configuration</a>
 
 A client can cap its own frame rate by sending a `config` message at any time:
 
 
-``` shiki
+``` m-0
 {
   "type": "config",
   "maxFps": 10
@@ -154,12 +165,12 @@ A client can cap its own frame rate by sending a `config` message at any time:
 
 `maxFps` caps how many frames per second the server sends to this client (1 to 120). Set `0` to remove the cap (the default). Each client controls its own rate; other connected clients are unaffected.
 
-### Ack pacing<a href="#ack-pacing" aria-label="Link to this section">#</a>
+### <a href="#ack-pacing" class="peer" data-card="">Ack pacing</a>
 
 Push pacing hands each frame to the socket as soon as the rate allows, so a client that stalls drains what the transport buffered. To get one frame at a time instead, opt into ack pacing:
 
 
-``` shiki
+``` m-0
 {
   "type": "config",
   "pacing": "ack"
@@ -170,7 +181,7 @@ Push pacing hands each frame to the socket as soon as the rate allows, so a clie
 The server then keeps at most one frame in flight and waits for the client to acknowledge it:
 
 
-``` shiki
+``` m-0
 {
   "type": "ack",
   "seq": 41
@@ -191,21 +202,21 @@ Acks are cumulative: acknowledging a newer id covers every older one, so a clien
 A `config` message cannot cover the connection's opening frame, because the server sends the most recent frame as soon as the client connects. To have pacing apply from the very first frame, declare it on the URL instead:
 
 
-``` shiki
+``` m-0
 ws://127.0.0.1:<port>/?pacing=ack&maxFps=10
 ```
 
 
 A `config` message sent later still wins. An unrecognized or unparsable value on the URL is ignored rather than failing the connection.
 
-## Input injection<a href="#input-injection" aria-label="Link to this section">#</a>
+## <a href="#input-injection" class="peer" data-card="">Input injection</a>
 
 Send input events to control the browser remotely. Mouse, keyboard, and touch input reset the daemon idle timer, so an actively controlled dashboard or streaming session is not shut down by the default timeout.
 
-### Mouse events<a href="#mouse-events" aria-label="Link to this section">#</a>
+### <a href="#mouse-events" class="peer" data-card="">Mouse events</a>
 
 
-``` shiki
+``` m-0
 // Click
 {
   "type": "input_mouse",
@@ -245,10 +256,10 @@ Send input events to control the browser remotely. Mouse, keyboard, and touch in
 ```
 
 
-### Keyboard events<a href="#keyboard-events" aria-label="Link to this section">#</a>
+### <a href="#keyboard-events" class="peer" data-card="">Keyboard events</a>
 
 
-``` shiki
+``` m-0
 // Key down
 {
   "type": "input_keyboard",
@@ -283,10 +294,10 @@ Send input events to control the browser remotely. Mouse, keyboard, and touch in
 ```
 
 
-### Touch events<a href="#touch-events" aria-label="Link to this section">#</a>
+### <a href="#touch-events" class="peer" data-card="">Touch events</a>
 
 
-``` shiki
+``` m-0
 // Touch start
 {
   "type": "input_touch",
@@ -320,12 +331,12 @@ Send input events to control the browser remotely. Mouse, keyboard, and touch in
 ```
 
 
-## Programmatic API<a href="#programmatic-api" aria-label="Link to this section">#</a>
+## <a href="#programmatic-api" class="peer" data-card="">Programmatic API</a>
 
 For advanced use, control streaming directly via the TypeScript API:
 
 
-``` shiki
+``` m-0
 import { BrowserManager } from 'agent-browser';
 
 const browser = new BrowserManager();
@@ -374,7 +385,7 @@ await browser.stopScreencast();
 ```
 
 
-## Use cases<a href="#use-cases" aria-label="Link to this section">#</a>
+## <a href="#use-cases" class="peer" data-card="">Use cases</a>
 
 - **Pair browsing** - Human watches and assists AI agent in real-time
 - **Remote preview** - View browser output in a separate UI
@@ -383,4 +394,6 @@ await browser.stopScreencast();
 - **Accessibility testing** - Manual interaction during automated tests
 
 
-Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>
+<a href="/webmcp" class="group grid w-fit grid-cols-[auto_1fr] items-center gap-x-1.5 gap-y-1 text-gray-1000"><span class="text-gray-900 text-sm col-start-2">Previous</span><span class="row-start-2 font-medium col-start-2">WebMCP</span></a><a href="/recording" class="group grid w-fit grid-cols-[1fr_auto] items-center gap-x-1.5 gap-y-1 justify-self-end text-right text-gray-1000"><span class="text-gray-900 text-sm col-start-1">Next</span><span class="row-start-2 font-medium col-start-1">Video Recording</span></a>
+
+

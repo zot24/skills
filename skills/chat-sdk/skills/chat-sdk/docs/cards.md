@@ -3,6 +3,8 @@
 ---
 title: Cards
 description: Send rich interactive cards with buttons, fields, and images across all platforms.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/usage
@@ -13,8 +15,7 @@ related:
   - /docs/emoji
 ---
 
-# Cards
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Cards are structured, interactive messages that each adapter renders in its platform's native format: Block Kit on Slack, Adaptive Cards on Teams, embeds or Components on Discord, and Cards on Google Chat.
 
@@ -82,9 +83,7 @@ Renders formatted text. Supports a subset of markdown.
 <CardText style="bold">Bold section header</CardText>
 ```
 
-
-  Use `CardText` instead of `Text` when using JSX to avoid conflicts with React's built-in types.
-
+> Use `CardText` instead of `Text` when using JSX to avoid conflicts with React's built-in types.
 
 ### Section
 
@@ -142,6 +141,16 @@ Optional `tooltip` is hover text for the button. Teams renders it; other adapter
 <Button id="approve" tooltip="Approve the request">Approve</Button>
 ```
 
+Optional `visibleTo` lists the user IDs that can see the button. Slack renders it with `visible_to_user_ids`, and everyone else in the conversation won't see the button. Other adapters ignore it and show the button to everyone:
+
+```tsx title="lib/bot.tsx"
+<Button id="approve" style="primary" visibleTo={[event.user.userId]}>
+  Approve
+</Button>
+```
+
+> `visibleTo` only controls who sees the button. It doesn't stop other users from triggering the action, so check `event.user` in your `onAction` handler before you act on it.
+
 ### CardLink
 
 Inline hyperlink rendered as text. `LinkButton` must be inside `Actions`, but you can place `CardLink` directly in a card alongside other content.
@@ -156,9 +165,7 @@ Or with children as the label:
 <CardLink url="https://example.com/docs">Read the docs</CardLink>
 ```
 
-
-  `CardLink` renders as a platform-native link: `<url|label>` on Slack, `[label](url)` on Teams/Discord/GitHub/Linear, and `<a href>` on Google Chat.
-
+> `CardLink` renders as a platform-native link: `<url|label>` on Slack, `[label](url)` on Teams/Discord/GitHub/Linear, and `<a href>` on Google Chat.
 
 ### LinkButton
 
@@ -183,6 +190,8 @@ Optional `tooltip` is hover text for the button. Teams renders it; other adapter
   View Order
 </LinkButton>
 ```
+
+`LinkButton` also accepts `visibleTo`, which works the same way as on `Button`.
 
 ### Actions
 
@@ -225,6 +234,22 @@ Radio button group for mutually exclusive choices.
   </RadioSelect>
 </Actions>
 ```
+
+### TextInput
+
+A text box on the card itself, so a user can type a reply without opening a [modal](/docs/modals). Only Teams renders it. Slack, Google Chat, Discord, GitHub, and Linear show the label as text. WhatsApp, Messenger, Twilio, and X omit the input, so don't make it the only content on the card.
+
+```tsx title="lib/bot.tsx" lineNumbers
+<Card title="Deploy to production?">
+  <TextInput id="notes" label="Notes" multiline optional placeholder="Anything to flag?" />
+  <Actions>
+    <Button id="approve" style="primary">Approve</Button>
+    <Button id="decline" style="danger">Decline</Button>
+  </Actions>
+</Card>
+```
+
+What the user typed arrives on the action as [`event.values`](/docs/actions), keyed by input ID. Teams validates every input on the card before it lets a button through, so mark an input `optional` unless the buttons beside it should stay blocked until it is filled. A button that opens a modal isn't blocked. On Teams, `actionId`, `value`, and `msteams` are reserved and can't be used as a card input's ID. The Teams client enforces that validation, so treat `event.values` as user input and validate it in the handler too. Pair the input with a `Button`, because the input can't submit anything on its own.
 
 ### Table
 
@@ -383,7 +408,6 @@ await thread.post(
   </Card>
 );
 ```
-
 
 ---
 

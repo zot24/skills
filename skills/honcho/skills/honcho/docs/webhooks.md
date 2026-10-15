@@ -226,3 +226,4 @@ worker must be running for events to be sent. See
     Full request and response schemas for the webhook endpoints
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

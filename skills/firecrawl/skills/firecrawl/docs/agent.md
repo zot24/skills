@@ -321,11 +321,11 @@ curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
 <a href="#possible-states" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-| Status       | Description                                                                                                                      |
-|--------------|----------------------------------------------------------------------------------------------------------------------------------|
-| `processing` | The agent is still working on your request                                                                                       |
-| `completed`  | Extraction finished successfully                                                                                                 |
-| `failed`     | An error occurred during extraction, or the job was cancelled (cancelled jobs report `failed` with a cancellation error message) |
+| Status       | Description                                                                                                                                                                                                                                                        |
+|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `processing` | The agent is still working on your request                                                                                                                                                                                                                         |
+| `completed`  | Extraction finished successfully                                                                                                                                                                                                                                   |
+| `failed`     | An error occurred during extraction, the run reached its `maxCredits` limit (see <a href="#handling-credit-limit-stops" class="link">Handling credit-limit stops</a>), or the job was cancelled (cancelled jobs report `failed` with a cancellation error message) |
 
 
 #### 
@@ -371,6 +371,158 @@ curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
   },
   "expiresAt": "2024-12-15T00:00:00.000Z",
   "creditsUsed": 15
+}
+```
+
+
+## 
+
+
+<a href="#handling-credit-limit-stops" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+| Field                | Type    | Description                                                                                |
+|----------------------|---------|--------------------------------------------------------------------------------------------|
+| `stopReason`         | string  | Why the run stopped early. Currently only `credit_limit_reached`.                          |
+| `partial`            | any     | Best-effort JSON recovered from the incomplete run. It can be missing rows or fields.      |
+| `partialSchemaValid` | boolean | Only present when the request included a `schema`. Whether `partial` validates against it. |
+| `message`            | string  | A short note on what is incomplete, when available.                                        |
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+from firecrawl import Firecrawl
+from pydantic import BaseModel
+from typing import List
+
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+class Company(BaseModel):
+    name: str
+    website: str
+
+class CompaniesSchema(BaseModel):
+    companies: List[Company]
+
+result = app.agent(
+    prompt="Find every company in the YC W24 batch that builds developer tools",
+    schema=CompaniesSchema,
+    max_credits=100
+)
+
+if result.status == "completed":
+    print(result.data)
+elif result.status == "failed" and result.stop_reason == "credit_limit_reached":
+    # `data` is never set on a failed run. `partial` is best-effort and may be missing.
+    if result.partial is not None:
+        if result.partial_schema_valid is not True:
+            print("The partial result does not match the schema yet.")
+        print(result.message, result.partial)
+
+    # Continue the same thread. The agent picks up from the incomplete result.
+    # The follow-up inherits the schema but not max_credits, so set a budget.
+    follow_up = app.agent(
+        thread_id=result.thread_id,
+        prompt="Continue and finish the list.",
+        max_credits=200
+    )
+    print(follow_up.status, follow_up.data)
+else:
+    print(result.error)
+```
+
+
+``` shiki
+import { Firecrawl } from 'firecrawl';
+import { z } from 'zod';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+const result = await firecrawl.agent({
+  prompt: "Find every company in the YC W24 batch that builds developer tools",
+  schema: z.object({
+    companies: z.array(z.object({
+      name: z.string(),
+      website: z.string()
+    }))
+  }),
+  maxCredits: 100
+});
+
+if (result.status === "completed") {
+  console.log(result.data);
+} else if (result.status === "failed" && result.stopReason === "credit_limit_reached") {
+  // `data` is never set on a failed run. `partial` is best-effort and may be missing.
+  if (result.partial !== undefined) {
+    if (result.partialSchemaValid !== true) {
+      console.warn("The partial result does not match the schema yet.");
+    }
+    console.log(result.message, result.partial);
+  }
+
+  // Continue the same thread. The agent picks up from the incomplete result.
+  // The follow-up inherits the schema but not maxCredits, so set a budget.
+  const followUp = await firecrawl.agent({
+    threadId: result.threadId,
+    prompt: "Continue and finish the list.",
+    maxCredits: 200
+  });
+  console.log(followUp.status, followUp.data);
+} else {
+  console.error(result.error);
+}
+```
+
+
+``` shiki
+# 1. Poll the run. A credit stop reports "status": "failed" with "stopReason": "credit_limit_reached".
+curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+
+# 2. Continue the same thread to finish the work.
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "threadId": "<threadId from the failed run>",
+    "prompt": "Continue and finish the list.",
+    "maxCredits": 200
+  }'
+```
+
+
+#### 
+
+
+<a href="#credit-limit-example" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+``` shiki
+{
+  "success": true,
+  "status": "failed",
+  "error": "Agent reached max credits",
+  "stopReason": "credit_limit_reached",
+  "partial": {
+    "companies": [
+      { "name": "Acme", "website": "https://acme.dev" },
+      { "name": "Globex" }
+    ]
+  },
+  "partialSchemaValid": false,
+  "message": "Credit limit reached; this result is incomplete.",
+  "threadId": "0199bbbb-0000-7000-8000-000000000000",
+  "threadTurn": 1,
+  "expiresAt": "2024-12-15T00:00:00.000Z",
+  "creditsUsed": 0
 }
 ```
 
@@ -865,6 +1017,207 @@ curl -X POST "https://api.firecrawl.dev/v2/agent" \
 ## 
 
 
+<a href="#use-your-connected-alexandria-tools" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+from firecrawl import Firecrawl
+
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+result = app.agent(
+    prompt="Find recent podcast episodes about AI agents and who appeared on them",
+    exchange={
+        "enabled": True,
+        # Up to 5 provider slugs. Leave out to let the agent use every provider.
+        "toolkits": ["particle"],
+    },
+)
+
+print(result.data)
+if result.exchange:
+    print(result.exchange.paid_calls, result.exchange.credits_used)
+```
+
+
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+const result = await firecrawl.agent({
+  prompt: "Find recent podcast episodes about AI agents and who appeared on them",
+  exchange: {
+    enabled: true,
+    // Up to 5 provider slugs. Leave out to let the agent use every provider.
+    toolkits: ["particle"]
+  }
+});
+
+console.log(result.data);
+console.log(result.exchange?.paidCalls, result.exchange?.creditsUsed);
+```
+
+
+``` shiki
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Find recent podcast episodes about AI agents and who appeared on them",
+    "exchange": {
+      "enabled": true,
+      "toolkits": ["particle"]
+    }
+  }'
+```
+
+
+| Field                | What it does                                                                                                                                                                        |
+|----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `enabled`            | Lets the agent call providers. Defaults to `true` once you send `exchange`, so an empty object also turns them on. Send `false` to turn them off for one turn of a thread.          |
+| `toolkits`           | Up to 5 provider slugs, such as `["apollo"]`. The agent uses only those. Empty or left out means every provider your team can use.                                                  |
+| `maxCalls`           | The most provider calls the agent may make in one turn, from 1 to 30. Defaults to 16.                                                                                               |
+| `requireApproval`    | Stops the turn before any paid provider call and ends it with a `pendingApproval` for you to answer. Needs `mode: "chat"` on the same request. Defaults to `false`.                 |
+| `approve`, `decline` | Answer the previous turn’s `pendingApproval` on the next turn of the thread. See <a href="#approve-paid-calls-before-they-run" class="link">Approve paid calls before they run</a>. |
+| `onTermsRequired`    | What to do when a provider needs data terms your team hasn’t accepted. See <a href="#data-providers-that-need-terms" class="link">Data providers that need terms</a>.               |
+
+
+### 
+
+
+<a href="#follow-up-turns" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+### 
+
+
+<a href="#approve-paid-calls-before-they-run" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- `exchange.approve: { "approvalId": "<pendingApproval.id>" }` runs the calls. Add `callIds` to run only some of them, or `always: true` to stop asking for the rest of the thread.
+- `exchange.decline: { "approvalId": "<pendingApproval.id>" }` skips them, and the agent answers without them.
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+from firecrawl import Firecrawl
+
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+# requireApproval needs chat mode on every request that sends it.
+first = app.agent(
+    prompt="Find the head of engineering at Firecrawl and a verified work email",
+    mode="chat",
+    exchange={"enabled": True, "toolkits": ["apollo"], "requireApproval": True},
+)
+
+approval = first.pending_approval
+if approval is None or approval.is_terms:
+    print(first.data or first.message)
+else:
+    for call in approval.calls or []:
+        print(call.provider, call.capability, call.credits_estimate)
+
+    # Answer on the next turn of the same thread. Sending requireApproval again
+    # keeps later paid calls waiting for approval too.
+    result = app.agent(
+        thread_id=first.thread_id,
+        prompt="Approved, go ahead.",
+        mode="chat",
+        exchange={"requireApproval": True, "approve": {"approvalId": approval.id}},
+        # To refuse instead: exchange={"decline": {"approvalId": approval.id}}
+    )
+    print(result.data or result.message)
+```
+
+
+``` shiki
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+// requireApproval needs chat mode on every request that sends it.
+const first = await firecrawl.agent({
+  prompt: "Find the head of engineering at Firecrawl and a verified work email",
+  mode: "chat",
+  exchange: { enabled: true, toolkits: ["apollo"], requireApproval: true }
+});
+
+const approval = first.pendingApproval;
+if (!approval || approval.kind === "terms") {
+  console.log(first.data ?? first.message);
+} else {
+  for (const call of approval.calls) {
+    console.log(call.provider, call.capability, call.creditsEstimate);
+  }
+
+  // Answer on the next turn of the same thread. Sending requireApproval again
+  // keeps later paid calls waiting for approval too.
+  const result = await firecrawl.agent({
+    threadId: first.threadId,
+    prompt: "Approved, go ahead.",
+    mode: "chat",
+    exchange: { requireApproval: true, approve: { approvalId: approval.id } }
+    // To refuse instead: exchange: { decline: { approvalId: approval.id } }
+  });
+  console.log(result.data ?? result.message);
+}
+```
+
+
+``` shiki
+# 1. Start a run that asks before any paid provider call.
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Find the head of engineering at Firecrawl and a verified work email",
+    "mode": "chat",
+    "exchange": { "enabled": true, "toolkits": ["apollo"], "requireApproval": true }
+  }'
+
+# 2. Poll the run. When it ends with a pendingApproval, read its id and calls.
+curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+
+# 3. Approve on the next turn of the same thread, or send
+#    "decline": { "approvalId": "<pendingApproval.id>" } instead.
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "threadId": "<threadId from the first run>",
+    "prompt": "Approved, go ahead.",
+    "mode": "chat",
+    "exchange": {
+      "requireApproval": true,
+      "approve": { "approvalId": "<pendingApproval.id>" }
+    }
+  }'
+```
+
+
+## 
+
+
 <a href="#data-providers-that-need-terms" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
@@ -983,17 +1336,26 @@ curl -X POST https://api.firecrawl.dev/v2/agent \
 <a href="#parameters" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-| Parameter                  | Type    | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
-|----------------------------|---------|----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `prompt`                   | string  | **Yes**  | Natural language description of the data you want to extract (max 10,000 characters)                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
-| `model`                    | string  | No       | Defaults to `spark-2`, the model every run executes on. Spark 1 models are deprecated and route to `spark-2`                                                                                                                                                                                                                                                                                                                                                                                                                                            |
-| `effort`                   | string  | No       | Reasoning budget: `low`, `medium`, or `high`. Every run executes on `spark-2`, so `effort` can be sent with or without `model`                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| `urls`                     | array   | No       | Optional list of URLs to focus the extraction                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| `schema`                   | object  | No       | Optional JSON schema for structured output                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
-| `strictConstrainToURLs`    | boolean | No       | If `true`, the agent only visits the URLs provided in the `urls` array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
-| `webhook`                  | object  | No       | Webhook to receive agent lifecycle events (`agent.started`, `agent.action`, `agent.completed`, `agent.failed`, `agent.cancelled`). See the <a href="/api-reference/endpoint/webhook-agent-started" class="link">webhook payloads</a>                                                                                                                                                                                                                                                                                                                    |
-| `maxCredits`               | number  | No       | Maximum number of credits to spend on this agent task. Defaults to **2,500** if not set. The dashboard supports values up to **2,500**; for higher limits, set `maxCredits` via the API (values above 2,500 are always treated as paid requests). If the limit is reached, the job fails and **no data is returned**. Failed runs are not billed: credits used for AI reasoning are never charged on failure, any credits used for tool calls during the run (scraping, search, mapping, etc.) are refunded, and the response reports `creditsUsed: 0`. |
-| `exchange.onTermsRequired` | string  | No       | What to do when an Alexandria data provider the agent would use needs terms your team has not accepted: `skip` (default) or `ask`. See <a href="#data-providers-that-need-terms" class="link">Data providers that need terms</a>                                                                                                                                                                                                                                                                                                                        |
+| Parameter                  | Type    | Required | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+|----------------------------|---------|----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `prompt`                   | string  | **Yes**  | Natural language description of the data you want to extract (max 10,000 characters)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `model`                    | string  | No       | Defaults to `spark-2`, the model every run executes on. Spark 1 models are deprecated and route to `spark-2`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `effort`                   | string  | No       | Reasoning budget: `low`, `medium`, or `high`. Every run executes on `spark-2`, so `effort` can be sent with or without `model`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `urls`                     | array   | No       | Optional list of URLs to focus the extraction                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| `schema`                   | object  | No       | Optional JSON schema for structured output                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `strictConstrainToURLs`    | boolean | No       | If `true`, the agent only visits the URLs provided in the `urls` array                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `webhook`                  | object  | No       | Webhook to receive agent lifecycle events (`agent.started`, `agent.action`, `agent.completed`, `agent.failed`, `agent.cancelled`). See the <a href="/api-reference/endpoint/webhook-agent-started" class="link">webhook payloads</a>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `maxCredits`               | number  | No       | Maximum number of credits to spend on this agent task. Defaults to **2,500** if not set. The dashboard supports values up to **2,500**; for higher limits, set `maxCredits` via the API (values above 2,500 are always treated as paid requests). If the limit is reached, the job fails with `stopReason: "credit_limit_reached"` and **no `data` is returned**. The response may include a best-effort `partial`; see <a href="#handling-credit-limit-stops" class="link">Handling credit-limit stops</a>. Failed runs are not billed: credits used for AI reasoning are never charged on failure, any credits used for tool calls during the run (scraping, search, mapping, etc.) are refunded, and the response reports `creditsUsed: 0`. |
+| `threadId`                 | string  | No       | Continue an existing thread: the `threadId` an earlier run returned. Left-out `urls`, `schema`, `effort`, `mode` and `exchange` settings carry over from the previous turn                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
+| `mode`                     | string  | No       | `extract` (default) returns the full structured result in `data` every turn. `chat` lets a follow-up that asks for no new data get a short reply in `message`. Required for `exchange.requireApproval`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `exchange`                 | object  | No       | Lets the agent call your team’s Alexandria data providers. Without it the run uses the web only. See <a href="#use-your-connected-alexandria-tools" class="link">Use your connected Alexandria tools</a>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| `exchange.enabled`         | boolean | No       | Lets the agent call providers. Defaults to `true` once `exchange` is sent                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| `exchange.toolkits`        | array   | No       | Up to 5 provider slugs to pin. Empty or left out means every provider your team can use                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `exchange.maxCalls`        | integer | No       | The most provider calls per turn, from 1 to 30. Defaults to 16                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `exchange.requireApproval` | boolean | No       | Ends the turn with a `pendingApproval` before any paid provider call. Needs `mode: "chat"`. Defaults to `false`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `exchange.approve`         | object  | No       | `{ approvalId, callIds?, always? }`: approves the previous turn’s `pendingApproval`. Needs `threadId`. See <a href="#approve-paid-calls-before-they-run" class="link">Approve paid calls before they run</a>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `exchange.decline`         | object  | No       | `{ approvalId }`: declines the previous turn’s `pendingApproval`. Needs `threadId`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             |
+| `exchange.onTermsRequired` | string  | No       | What to do when an Alexandria data provider the agent would use needs terms your team has not accepted: `skip` (default) or `ask`. See <a href="#data-providers-that-need-terms" class="link">Data providers that need terms</a>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 
 
 ## 

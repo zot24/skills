@@ -213,3 +213,6 @@ Configuration options include: whether to crawl sub-pages, page crawling limit, 
 Imported page text is stored in knowledge base documents. View the results and click Add URL to import more pages.
 
 <img className="block" src="https://mintcdn.com/firecrawl/vlKm1oZYK3oSRVTM/images/fc_dify_results.webp?fit=max&auto=format&n=vlKm1oZYK3oSRVTM&q=85&s=8b8d23b10e050329b7062da93f1c4de3" alt="See results of the Firecrawl scrape" width="2304" height="1150" data-path="images/fc_dify_results.webp" />
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

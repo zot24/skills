@@ -10,6 +10,14 @@ package: @chat-adapter/state-memory
 # Memory
 
 
+## Create a new bot
+
+Scaffold a Next.js bot that uses the Memory state adapter with [`create-chat-sdk`](/docs/create-chat-sdk). Replace `slack` with your platform adapter:
+
+<CreateChatSdk adapters="slack memory" />
+
+To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 

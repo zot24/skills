@@ -10,6 +10,14 @@ package: @chat-adapter/x
 # X
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the X adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="x memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -75,23 +83,29 @@ You can register both adapters on the same `Chat` instance if your bot needs pub
 
 ## Platform setup
 
-### 1. Create an X app
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Create an X app
 
-1. Go to the [X developer portal](https://developer.x.com) and create a Project and App.
-2. Under **Keys and tokens**, copy the **API Key Secret** to `X_CONSUMER_SECRET`.
-3. Enable **OAuth 2.0** user authentication with the scopes `tweet.read`, `tweet.write`, `users.read`, `dm.read`, `dm.write`, `like.write`, `media.write`, and `offline.access`.
-4. Complete the OAuth 2.0 flow for the bot account, then store the resulting tokens as described in [Authentication](#authentication).
+    1. Go to the [X developer portal](https://developer.x.com) and create a Project and App.
+    2. Under **Keys and tokens**, copy the **API Key Secret** to `X_CONSUMER_SECRET`.
+    3. Enable **OAuth 2.0** user authentication with the scopes `tweet.read`, `tweet.write`, `users.read`, `dm.read`, `dm.write`, `like.write`, `media.write`, and `offline.access`.
+    4. Complete the OAuth 2.0 flow for the bot account, then store the resulting tokens as described in [Authentication](#authentication).
+  </div>
 
-### 2. Register a webhook and subscriptions
+  <div className="fd-step">
+    ### Register a webhook and subscriptions
 
-X delivers events through the [X Activity API](https://docs.x.com/x-api/activity/introduction). Set this up once in the [X developer console](https://console.x.com), which handles the auth for you:
+    X delivers events through the [X Activity API](https://docs.x.com/x-api/activity/introduction). Set this up once in the [X developer console](https://console.x.com), which handles the auth for you:
 
-1. Register your webhook URL (`https://your-domain.com/api/webhooks/x`). It must be publicly reachable over HTTPS and cannot include a port. X sends a CRC challenge immediately and revalidates hourly; the adapter answers both automatically.
-2. Create subscriptions for the events the adapter consumes: `post.mention.create`, `dm.received`, and `dm.sent`. These are private events, so the bot user must have authorized your app first.
+    1. Register your webhook URL (`https://your-domain.com/api/webhooks/x`). It must be publicly reachable over HTTPS and cannot include a port. X sends a CRC challenge immediately and revalidates hourly; the adapter answers both automatically.
+    2. Create subscriptions for the events the adapter consumes: `post.mention.create`, `dm.received`, and `dm.sent`. These are private events, so the bot user must have authorized your app first.
 
 
-  Subscription and webhook management is one-time setup; the adapter does not do it at runtime. If you script it instead of using the console, be aware that the Activity API endpoints are auth-picky and operation-specific (creating a private-event subscription needed OAuth 1.0a user context in testing, while list and delete used the app-only bearer token), and do not fully match the published spec. The console avoids all of this.
+      Subscription and webhook management is one-time setup; the adapter does not do it at runtime. If you script it instead of using the console, be aware that the Activity API endpoints are auth-picky and operation-specific (creating a private-event subscription needed OAuth 1.0a user context in testing, while list and delete used the app-only bearer token), and do not fully match the published spec. The console avoids all of this.
 
+  </div>
+</div>
 
 ## Authentication
 

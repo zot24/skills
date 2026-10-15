@@ -2,21 +2,32 @@
 
 
 
-[](https://vercel.com "Made with love by Vercel")<span class="text-neutral-300 dark:text-neutral-700"></span>[<span class="font-medium tracking-tight text-lg" style="font-family:var(--font-geist-pixel-square)">agent-browser</span>](/)
+<a href="/" class="flex @min-[1024px]:hidden items-center text-gray-1000"><span class="font-medium tracking-tight" style="font-family:var(--font-geist-pixel-square)">agent-browser</span></a>
 
 
-Sessions
+<a href="https://github.com/vercel-labs/agent-browser" class="size-8 items-center justify-center @min-[768px]:inline-flex hidden shrink-0" data-geist-button="" data-prefix="false" data-suffix="false" data-version="v1" aria-label="GitHub repository" rel="noopener" target="_blank"><span class="truncate px-1.5 inline-flex shrink-0 items-center justify-center"></span></a>
 
 
-Copy Page
+        &quot;sidebar toc-popover toc&quot;
+        &quot;sidebar main toc&quot; 1fr / minmax(var(--fd-sidebar-col), 1fr) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-width) - var(--fd-toc-width))) minmax(min-content, 1fr);--fd-docs-row-1:4rem;--fd-docs-row-2:calc(var(--fd-docs-row-1) + var(--fd-header-height));--fd-docs-row-3:calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height));--fd-sidebar-col:var(--fd-sidebar-width)">
 
 
-# Sessions<a href="#sessions" aria-label="Link to this section">#</a>
+Menu
+
+
+# Sessions
+
+
+Copy for LLM
+
+
+View Markdown
+
 
 Run multiple isolated browser instances:
 
 
-``` shiki
+``` m-0
 # Different sessions
 agent-browser --session agent1 open site-a.com
 agent-browser --session agent2 open site-b.com
@@ -42,7 +53,7 @@ agent-browser session info --json
 ```
 
 
-## Session isolation<a href="#session-isolation" aria-label="Link to this section">#</a>
+## <a href="#session-isolation" class="peer" data-card="">Session isolation</a>
 
 Each session has its own:
 
@@ -51,27 +62,27 @@ Each session has its own:
 - Navigation history
 - Authentication state
 
-## Tab pinning in a shared browser<a href="#tab-pinning-in-a-shared-browser" aria-label="Link to this section">#</a>
+## <a href="#tab-pinning-in-a-shared-browser" class="peer" data-card="">Tab pinning in a shared browser</a>
 
 Full isolation applies when each session launches its own browser. When sessions instead share one Chrome over `--cdp`, only the tab selection separates them. Each session remembers which tab it is bound to (by CDP target id, persisted across daemon restarts), so a restarted daemon reattaches to the session's own tab instead of adopting the most recently active one.
 
 Add `--pin-tab` (or set `AGENT_BROWSER_PIN_TAB=1`) to make the binding strict:
 
 
-``` shiki
+``` m-0
 agent-browser --session agent1 --cdp 9222 --pin-tab open https://site-a.com
 agent-browser --session agent2 --cdp 9222 --pin-tab open https://site-b.com
 ```
 
 
-With `--pin-tab`, a session whose bound tab was closed gets a `tab_gone` error instead of silently acting on another session's tab; run `tab new <url>` or pick a tab from `tab list` to recover. JSON output includes `"code": "tab_gone"`, `data.targetId`, and optional sanitized `data.lastUrl`. Batch output uses `result` for the same recovery object. The flag is sticky per session; pass `--no-pin-tab` to turn it off again. See [CDP Mode](/cdp-mode) for details.
+With `--pin-tab`, a session whose bound tab was closed gets a `tab_gone` error instead of silently acting on another session's tab; run `tab new <url>` or pick a tab from `tab list` to recover. JSON output includes `"code": "tab_gone"`, `data.targetId`, and optional sanitized `data.lastUrl`. Batch output uses `result` for the same recovery object. The flag is sticky per session; pass `--no-pin-tab` to turn it off again. See <a href="/cdp-mode" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">CDP Mode</a> for details.
 
-## Chrome profile reuse<a href="#chrome-profile-reuse" aria-label="Link to this section">#</a>
+## <a href="#chrome-profile-reuse" class="peer" data-card="">Chrome profile reuse</a>
 
 The simplest way to reuse your existing login state: pass a Chrome profile name to `--profile`. agent-browser copies the profile to a temp directory (read-only snapshot) and launches Chrome with your existing cookies and sessions.
 
 
-``` shiki
+``` m-0
 # List available Chrome profiles
 agent-browser profiles
 
@@ -94,12 +105,12 @@ AGENT_BROWSER_PROFILE=Default agent-browser open https://gmail.com
 | Cleanup            | Temp copy deleted when browser closes                                    |
 | Windows note       | Close Chrome before using `--profile <name>` if Chrome is running        |
 
-## Persistent profiles<a href="#persistent-profiles" aria-label="Link to this section">#</a>
+## <a href="#persistent-profiles" class="peer" data-card="">Persistent profiles</a>
 
 For a custom profile directory that persists state across browser restarts, pass a path to `--profile`:
 
 
-``` shiki
+``` m-0
 # Use a persistent profile directory
 agent-browser --profile ~/.myapp-profile open myapp.com
 
@@ -119,14 +130,14 @@ The profile directory stores:
 - Browser cache
 - Login sessions
 
-## Import auth from your browser<a href="#import-auth-from-your-browser" aria-label="Link to this section">#</a>
+## <a href="#import-auth-from-your-browser" class="peer" data-card="">Import auth from your browser</a>
 
 If you are already logged in to a site in Chrome, you can grab that auth state and reuse it in agent-browser. This is the fastest way to bypass login flows, OAuth, SSO, or 2FA.
 
 **Step 1:** Start Chrome with remote debugging:
 
 
-``` shiki
+``` m-0
 # macOS
 "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --remote-debugging-port=9222
 
@@ -142,7 +153,7 @@ Log in to your target site(s) in this Chrome window.
 **Step 2:** Connect and save the authenticated state:
 
 
-``` shiki
+``` m-0
 agent-browser --auto-connect state save ./my-auth.json
 ```
 
@@ -150,7 +161,7 @@ agent-browser --auto-connect state save ./my-auth.json
 **Step 3:** Use the saved auth in future sessions:
 
 
-``` shiki
+``` m-0
 # Load auth at launch
 agent-browser --state ./my-auth.json open https://app.example.com/dashboard
 
@@ -164,21 +175,21 @@ agent-browser open https://app.example.com/dashboard
 Combine with `--session <id> --restore` so the imported auth auto-persists across restarts:
 
 
-``` shiki
+``` m-0
 SESSION="$(agent-browser session id --scope worktree --prefix myapp)"
 agent-browser --session "$SESSION" --restore --state ./my-auth.json open https://app.example.com/dashboard
 # From now on, state auto-saves/restores for this session
 ```
 
 
-State files contain session tokens in plaintext. Add them to `.gitignore` and delete when no longer needed. For encryption at rest, see <a href="#state-encryption" target="_blank" rel="noopener noreferrer">State encryption</a> below.
+State files contain session tokens in plaintext. Add them to `.gitignore` and delete when no longer needed. For encryption at rest, see <a href="#state-encryption" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">State encryption</a> below.
 
-## Session persistence<a href="#session-persistence" aria-label="Link to this section">#</a>
+## <a href="#session-persistence" class="peer" data-card="">Session persistence</a>
 
 Use `--restore` with a stable `--session` to automatically save and restore cookies and localStorage across browser restarts:
 
 
-``` shiki
+``` m-0
 # Auto-save/load state for this worktree
 SESSION="$(agent-browser session id --scope worktree --prefix twitter)"
 agent-browser --session "$SESSION" --restore open twitter.com
@@ -195,12 +206,12 @@ State files are stored in `~/.agent-browser/sessions/` and automatically loaded 
 
 When `--restore` or another restore key is configured, state is saved when the browser closes (explicit `close`, idle timeout, or daemon shutdown) and also periodically while the browser is open, so a browser window you close by hand still leaves a recent save behind. A session ID by itself only isolates the daemon and does not enable persistence; without a restore key, shutdown discards transient browser state and open tabs. Periodic autosave waits for commands to settle, then saves at most once per `AGENT_BROWSER_AUTOSAVE_INTERVAL_MS` (default 30000; set to `0` to save only on close). Idle sessions with configured persistence keep saving on the same interval, so changes the page makes on its own (token refreshes, background requests) are captured too. The daemon exits after one hour without commands or dashboard input by default; `--idle-timeout <time>` or `AGENT_BROWSER_IDLE_TIMEOUT_MS` tunes this, and `0` disables it. Headed, Safari/iOS WebDriver, and user-attached browsers are exempt from the default timeout; provider-owned cloud browsers are not. State saving respects the `--restore-save` policy.
 
-### Restore key rules<a href="#restore-key-rules" aria-label="Link to this section">#</a>
+### <a href="#restore-key-rules" class="peer" data-card="">Restore key rules</a>
 
 Session and restore names must contain only alphanumeric characters, hyphens, and underscores. Use `agent-browser session id` to generate a valid key:
 
 
-``` shiki
+``` m-0
 # Valid generated key
 agent-browser session id --scope worktree --prefix my-project
 
@@ -211,12 +222,12 @@ agent-browser --session "foo/bar" --restore open example.com    # slashes
 ```
 
 
-## State encryption<a href="#state-encryption" aria-label="Link to this section">#</a>
+## <a href="#state-encryption" class="peer" data-card="">State encryption</a>
 
 Encrypt saved state files (cookies, localStorage) using AES-256-GCM:
 
 
-``` shiki
+``` m-0
 # Generate a 256-bit key (64 hex characters)
 openssl rand -hex 32
 
@@ -231,12 +242,12 @@ agent-browser state list
 ```
 
 
-## State auto-expiration<a href="#state-auto-expiration" aria-label="Link to this section">#</a>
+## <a href="#state-auto-expiration" class="peer" data-card="">State auto-expiration</a>
 
 Automatically delete old state files to prevent accumulation:
 
 
-``` shiki
+``` m-0
 # Set expiration (default: 30 days)
 export AGENT_BROWSER_STATE_EXPIRE_DAYS=7
 
@@ -245,10 +256,10 @@ agent-browser state clean --older-than 7
 ```
 
 
-## State management commands<a href="#state-management-commands" aria-label="Link to this section">#</a>
+## <a href="#state-management-commands" class="peer" data-card="">State management commands</a>
 
 
-``` shiki
+``` m-0
 # List all saved states
 agent-browser state list
 
@@ -270,12 +281,12 @@ agent-browser state load ./backup.json
 ```
 
 
-## Authenticated sessions<a href="#authenticated-sessions" aria-label="Link to this section">#</a>
+## <a href="#authenticated-sessions" class="peer" data-card="">Authenticated sessions</a>
 
 Use `--headers` to set HTTP headers for a specific origin:
 
 
-``` shiki
+``` m-0
 # Headers scoped to api.example.com only
 agent-browser open api.example.com --headers '{"Authorization": "Bearer <token>"}'
 
@@ -295,26 +306,26 @@ Useful for:
 - **API testing** - Access protected endpoints
 - **Security** - Headers scoped to origin, not leaked
 
-## Multiple origins<a href="#multiple-origins" aria-label="Link to this section">#</a>
+## <a href="#multiple-origins" class="peer" data-card="">Multiple origins</a>
 
 
-``` shiki
+``` m-0
 agent-browser open api.example.com --headers '{"Authorization": "Bearer token1"}'
 agent-browser open api.acme.com --headers '{"Authorization": "Bearer token2"}'
 ```
 
 
-## Global headers<a href="#global-headers" aria-label="Link to this section">#</a>
+## <a href="#global-headers" class="peer" data-card="">Global headers</a>
 
 For headers on all domains:
 
 
-``` shiki
+``` m-0
 agent-browser set headers '{"X-Custom-Header": "value"}'
 ```
 
 
-## Environment variables<a href="#environment-variables" aria-label="Link to this section">#</a>
+## <a href="#environment-variables" class="peer" data-card="">Environment variables</a>
 
 | Variable                             | Description                                                                  |
 |--------------------------------------|------------------------------------------------------------------------------|
@@ -332,4 +343,6 @@ agent-browser set headers '{"X-Custom-Header": "value"}'
 | `AGENT_BROWSER_STATE_EXPIRE_DAYS`    | Auto-delete states older than N days (default: 30)                           |
 
 
-Ask AI<span class="kbd hidden sm:inline-flex items-center gap-0.5 text-xs opacity-60 font-mono">⌘I</span>
+<a href="/snapshots" class="group grid w-fit grid-cols-[auto_1fr] items-center gap-x-1.5 gap-y-1 text-gray-1000"><span class="text-gray-900 text-sm col-start-2">Previous</span><span class="row-start-2 font-medium col-start-2">Snapshots</span></a><a href="/dashboard" class="group grid w-fit grid-cols-[1fr_auto] items-center gap-x-1.5 gap-y-1 justify-self-end text-right text-gray-1000"><span class="text-gray-900 text-sm col-start-1">Next</span><span class="row-start-2 font-medium col-start-1">Dashboard</span></a>
+
+

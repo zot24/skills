@@ -213,3 +213,5 @@
 
   **Pro Tip:** Start with Zapier's pre-built templates and customize as needed. Perfect for quick, no-code automation!
 
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

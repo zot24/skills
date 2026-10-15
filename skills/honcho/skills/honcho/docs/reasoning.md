@@ -98,3 +98,4 @@ Without exhaustive reasoning, you're stuck with surface-level retrieval or someo
     Learn how reasoning produces peer representations
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

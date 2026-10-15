@@ -458,6 +458,9 @@ Passing `parsers: []` skips parsing entirely and returns the PDF as base64
 
 **Extensions:** `.html`, `.htm`, `.xhtml`, `.pdf`, `.docx`, `.doc`, `.docm`, `.odt`, `.ods`, `.odp`, `.rtf`, `.xlsx`, `.xls`, `.xlsm`, `.xlsb`, `.pptx`, `.ppt`, `.pptm`, `.epub`, `.csv`.
 
+To read the list programmatically, with MIME types, call
+[`GET /v2/parse/formats`](/api-reference/endpoint/parse-formats).
+
 See [Document Parsing](/features/document-parsing) for how each format is
 converted.
 
@@ -488,3 +491,6 @@ optional `options` JSON part. `options` accepts a subset of scrape options:
 * For batches of files, call `/parse` per file in parallel; there is no batch upload variant.
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

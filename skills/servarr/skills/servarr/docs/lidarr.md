@@ -14,6 +14,7 @@
 - <a href="/lidarr/concepts" class="is-internal-link is-valid-page"><em></em> Concepts <em>How Lidarr models music and why it depends on MusicBrainz</em></a>
 - <a href="/lidarr/environment-variables" class="is-internal-link is-valid-page"><em></em> Environment Variables</a>
 - <a href="/lidarr/faq" class="is-internal-link is-valid-page"><em></em> FAQ</a>
+- <a href="/lidarr/plugins" class="is-internal-link is-valid-page"><em></em> Using the Plugin System</a>
 
 # <a href="#user-guide" class="toc-anchor">¶</a> User Guide
 

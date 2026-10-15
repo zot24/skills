@@ -204,3 +204,4 @@ The clone path runs the TypeScript source directly and so requires **[bun](https
     Learn about peers, sessions, and dialectic reasoning.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

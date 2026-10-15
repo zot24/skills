@@ -100,7 +100,7 @@ Use `--session` when you already know the session path or ID. Use `--fork` to cr
 <a href="#export-or-share-a-session" class="heading-anchor" aria-label="Permalink: Export or share a session" data-copy="" data-copy-text="https://pi.dev/docs/latest/sessions#export-or-share-a-session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Use `/export` to write the current session as HTML or JSONL. Use `/share` to upload it and get a viewer link. Pi uses a Radius artifact when Radius authentication is configured; otherwise, it uses a private GitHub gist.
+Use `/export` to write the current session as HTML or JSONL. Use `/share` to upload it and get a viewer link. By default, Pi uses a Radius artifact when Radius authentication is configured; otherwise, it uses a private GitHub gist. Set [`sessionShareDestination`](/docs/latest/settings#sessions-and-context) to `gist` or `radius` to force one destination.
 
 Review exported or shared sessions first. They can contain prompts, model responses, tool arguments, command output, file contents, and extension messages.
 

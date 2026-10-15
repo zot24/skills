@@ -363,3 +363,6 @@ The new Honcho peer/session API makes Telegram bot integration much simpler and 
 * **Helper Functions**: Clean code organization with focused helper functions
 
 This approach provides a clean, maintainable structure for building Telegram bots with conversational memory and context management across both private conversations and group chats.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

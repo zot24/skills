@@ -3,19 +3,28 @@
 ---
 title: Thread
 description: Represents a conversation thread with methods for posting, subscribing, and state management.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 related:
   - /docs/threads-messages-channels
   - /docs/posting-messages
 ---
 
-# Thread
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 A `Thread` represents a conversation thread on any platform. Event handlers receive one, and you can also create thread handles with `chat.thread()` or `chat.openDM()`.
 
 ## Properties
 
+| Property         | Type        | Description                                          |
+| ---------------- | ----------- | ---------------------------------------------------- |
+| `id`             | `string`    | Full thread ID in \`adapter:channel:thread\` format. |
+| `channelId`      | `string`    | Channel or conversation ID.                          |
+| `adapter`        | `Adapter`   | The platform adapter this thread belongs to.         |
+| `isDM`           | `boolean`   | Whether this is a direct message conversation.       |
+| `channel`        | `Channel`   | The \`Channel\` containing this thread.              |
+| `recentMessages` | `Message[]` | Cached messages from the webhook payload.            |
 
 ## post
 
@@ -83,6 +92,11 @@ await thread.postEphemeral(userId, "Only you can see this", {
 });
 ```
 
+| Property               | Type                                    | Description                                                                               |
+| ---------------------- | --------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `user`                 | `string \| Author`                      | User ID string or Author object.                                                          |
+| `message`              | `AdapterPostableMessage \| ChatElement` | Message content. Streams are not supported.                                               |
+| `options.fallbackToDM` | `boolean`                               | If true, falls back to DM when native ephemeral is not supported. If false, returns null. |
 
 **Returns:** `Promise<EphemeralMessage | null>`
 
@@ -103,9 +117,7 @@ await scheduled.cancel();
 
 **Returns:** `Promise<ScheduledMessage>`
 
-
-  Streaming and file uploads are not supported in scheduled messages.
-
+> Streaming and file uploads are not supported in scheduled messages.
 
 ## getParticipants
 
@@ -125,9 +137,7 @@ if (participants.length > 1) {
 }
 ```
 
-
-  Each call fetches the full message history to find all participants, which takes multiple platform API calls on threads with long history. Consider checking `message.author` against a known set before calling `getParticipants()` on every incoming message.
-
+> Each call fetches the full message history to find all participants, which takes multiple platform API calls on threads with long history. Consider checking `message.author` against a known set before calling `getParticipants()` on every incoming message.
 
 ## subscribe / unsubscribe
 
@@ -284,11 +294,24 @@ If you pass an adapter directly to `ThreadImpl.fromJSON(data, adapter)`, streami
 
 Returned by `thread.schedule()` and `channel.schedule()`.
 
+| Property             | Type                  | Description                                     |
+| -------------------- | --------------------- | ----------------------------------------------- |
+| `scheduledMessageId` | `string`              | Platform-specific scheduled message ID.         |
+| `channelId`          | `string`              | Channel ID where the message will be posted.    |
+| `postAt`             | `Date`                | When the message will be sent.                  |
+| `raw`                | `unknown`             | Platform-specific raw response.                 |
+| `cancel()`           | `() => Promise<void>` | Cancel the scheduled message before it is sent. |
 
 ## SentMessage
 
 Returned by `thread.post()`. Extends `Message` with mutation methods.
 
+| Property                | Type                                                                          | Description                          |
+| ----------------------- | ----------------------------------------------------------------------------- | ------------------------------------ |
+| `edit(newContent)`      | `(content: string \| PostableMessage \| ChatElement) => Promise<SentMessage>` | Edit this message.                   |
+| `delete()`              | `() => Promise<void>`                                                         | Delete this message.                 |
+| `addReaction(emoji)`    | `(emoji: EmojiValue \| string) => Promise<void>`                              | Add a reaction to this message.      |
+| `removeReaction(emoji)` | `(emoji: EmojiValue \| string) => Promise<void>`                              | Remove a reaction from this message. |
 
 ---
 

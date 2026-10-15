@@ -183,3 +183,6 @@ bd list --label-all backend,security
 # Combined filters
 bd list --status open --priority 1 --type bug --json
 ```
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

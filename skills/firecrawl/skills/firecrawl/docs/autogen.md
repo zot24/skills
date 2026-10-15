@@ -146,3 +146,6 @@ if __name__ == "__main__":
 * Firecrawl's Python SDK is synchronous; AutoGen will call your wrappers inside its event loop without issues for small workloads. For heavy concurrent scraping, move calls off the main thread or use [batch scrape](/features/batch-scrape).
 * Replace `OpenAIChatCompletionClient` with any AutoGen-supported model client (Azure OpenAI, Anthropic via `autogen-ext`, Ollama, etc.). Firecrawl is model-agnostic.
 * See the [AutoGen docs](https://microsoft.github.io/autogen/) for agent patterns beyond round-robin (selector, swarm, nested teams).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

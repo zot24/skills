@@ -90,7 +90,7 @@ Comprehensive guide on using Wealthfolio to track and manage your investments.
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 This guide will walk you through the main features of Wealthfolio and how to use them effectively.

@@ -3,11 +3,12 @@
 ---
 title: Overview
 description: AI utilities that ship with Chat SDK, including agent tools, message conversion, and supporting types.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: overview
 ---
 
-# Overview
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 The `chat/ai` subpath contains the AI utilities that ship with Chat SDK. Bots built on the [AI SDK](https://ai-sdk.dev) import from `chat/ai`; bots built on [TanStack AI](https://tanstack.com/ai) import the equivalent helpers from `chat/ai/tanstack`.
 
@@ -18,6 +19,9 @@ import { createTanStackTools, toTanStackMessages } from "chat/ai/tanstack";
 
 Add the optional peers if you don't already have them:
 
+```bash
+pnpm add ai zod
+```
 
 ## What's included
 
@@ -72,10 +76,9 @@ Using TanStack AI instead? The same flow works with `toTanStackMessages` and `cr
 
 ## Resources
 
-* [Human-in-the-Loop with Chat SDK and Workflow SDK](https://vercel.com/kb/guide/human-in-the-loop-with-chat-sdk-and-workflow-sdk?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=ai\&utm_content=human-in-the-loop-with-chat-sdk-and-workflow-sdk): pause durable workflows on Slack approval cards using Chat SDK and Workflow SDK. The guide uses `createWebhook` to suspend a workflow until a button click, with patterns for multi-stage approvals, timeouts via durable sleep, and approver validation.
+- [Human-in-the-Loop with Chat SDK and Workflow SDK](https://vercel.com/kb/guide/human-in-the-loop-with-chat-sdk-and-workflow-sdk?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=ai\&utm_content=human-in-the-loop-with-chat-sdk-and-workflow-sdk): pause durable workflows on Slack approval cards using Chat SDK and Workflow SDK. The guide uses `createWebhook` to suspend a workflow until a button click, with patterns for multi-stage approvals, timeouts via durable sleep, and approver validation.
 
 See all guides and templates on the [resources](/resources?utm_source=chat-sdk_site\&utm_medium=docs\&utm_campaign=ai\&utm_content=resources) page.
-
 
 ---
 

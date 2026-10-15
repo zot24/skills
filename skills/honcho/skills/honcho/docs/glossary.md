@@ -70,3 +70,6 @@ In CogSci, frameworks describing fixed structures & mechanisms underlying human 
 #### Predictive Coding
 
 A theory in CogSci proposing the brain is an active prediction machine, continually generating & updating internal world models to anticipate sensory input, rather than passively receiving it—closely linked to Bayesian brain hypotheses, which hold that the brain interprets the world probabilistically, weighing prior knowledge against new evidence to minimize uncertainty.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

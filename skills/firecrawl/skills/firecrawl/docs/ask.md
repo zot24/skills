@@ -275,3 +275,6 @@ The actual `answer`, `fixParameters`, and `validation.evidence` are produced per
 Have feedback or need help? Email [help@firecrawl.com](mailto:help@firecrawl.com).
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

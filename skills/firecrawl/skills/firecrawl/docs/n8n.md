@@ -732,3 +732,6 @@ You now have the fundamentals to build web scraping automations with Firecrawl a
 * [Firecrawl API Documentation](/api-reference/v2-introduction)
 * [n8n Documentation](https://docs.n8n.io/)
 * [Web Scraping Best Practices](https://www.firecrawl.dev/blog)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

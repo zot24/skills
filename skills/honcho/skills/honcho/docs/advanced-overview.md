@@ -28,3 +28,6 @@ Advanced features give you fine-grained control over Honcho's behavior and imple
 * [Streaming Responses](/docs/v3/documentation/features/advanced/streaming-response) - Stream dialectic responses in real-time
 * [File Uploads](/docs/v3/documentation/features/advanced/file-uploads) - Ingest files into peer memory
 * [Deleting Data](/docs/v3/documentation/features/advanced/deleting-data) - Delete sessions, workspaces, and conclusions
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

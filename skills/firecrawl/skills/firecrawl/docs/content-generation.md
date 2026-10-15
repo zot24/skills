@@ -65,3 +65,6 @@ Surface relevant news stories as part of your request to keep generated content 
 * [AI Platforms](/use-cases/ai-platforms) - Build AI-powered content tools
 * [Lead Enrichment](/use-cases/lead-enrichment) - Personalize with prospect data
 * [SEO Platforms](/use-cases/seo-platforms) - Optimize generated content
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

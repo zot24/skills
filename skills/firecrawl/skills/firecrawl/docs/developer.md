@@ -141,3 +141,5 @@ This surface returns the web result shape, not the ranked developer shape. For t
 
   The hosted [MCP server](/mcp-server) exposes both surfaces, and neither writes anything. See [MCP tools](/mcp-server/tools) for `firecrawl_developer_search`, for developer results through `firecrawl_search`, and for which of the two the keyless tool surface carries.
 
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

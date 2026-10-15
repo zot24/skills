@@ -1504,6 +1504,81 @@ curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
 ## 
 
 
+<a href="#alexandria-data-tools" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+Python
+
+
+Node
+
+
+cURL
+
+
+``` shiki
+result = firecrawl.scrape(
+    alexandria={
+        "provider": "particle",
+        "capability": "podcasts/episodes/search",
+        "options": {"semantic_search": "AI agents", "limit": 2},
+    },
+)
+
+print(result.alexandria[0].data)
+```
+
+
+``` shiki
+const result = await firecrawl.scrape({
+  alexandria: {
+    provider: "particle",
+    capability: "podcasts/episodes/search",
+    options: { semantic_search: "AI agents", limit: 2 },
+  },
+});
+
+console.log(result.alexandria[0].data);
+```
+
+
+``` shiki
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -d '{
+    "alexandria": {
+      "provider": "particle",
+      "capability": "podcasts/episodes/search",
+      "options": { "semantic_search": "AI agents", "limit": 2 }
+    }
+  }'
+```
+
+
+- The response has one item for each call in `data.alexandria`. Each item has `data` or an `error`. Examine each item, because one call can fail when the request succeeds.
+- Send an array of up to 10 calls to run them in one request. You cannot use `alexandria` together with `url` or other scrape options.
+- Each call costs the price listed on its tool. `data.creditsCost` shows the total.
+- To retry, send the same `x-request-id` header with the same body. A completed request replays its result and does not run again. Without this header, a retry is a new charge. This replay applies to `alexandria` calls only. A URL scrape that a third-party data provider serves (for example, a LinkedIn URL) is charged on every request, so a retry pays the full cost of its provider steps again: 30 credits when Apollo is first in your order and has the record.
+- Some providers need an org admin to accept their terms first. Then the request fails with <a href="/api-reference/errors" class="link"><code>THIRD_PARTY_DATA_TERMS_REQUIRED</code></a>.
+
+
+## 
+
+
+<a href="#provider-routed-urls" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+
+
+- **Setup**: an org admin turns on enrichment and chooses providers, in order, in the dashboard’s enrichment settings. Some providers also need their terms accepted first (<a href="/api-reference/errors" class="link"><code>THIRD_PARTY_DATA_TERMS_REQUIRED</code></a>).
+- **First match wins**: providers are tried in the saved order. The first one that returns a record answers the request, and the rest don’t run. A provider with no record for the URL passes to the next one. When none has a record, the request fails with `THIRD_PARTY_DATA_NOT_FOUND` (404).
+- **Only the page itself**: a profile or company root page is served, not the pages under it. A company’s `/company/<slug>/about` page is served as the company record. Other sub-pages such as `/in/<handle>/details/experience` or `/company/<slug>/jobs` fail with `THIRD_PARTY_DATA_UNSUPPORTED_URL` (400).
+- **Options that turn routing off**: these URLs can’t be served with `actions`, `profile`, `minAge`, `zeroDataRetention`, `lockdown`, `redactPII`, or any format other than `markdown`, `html`, `rawHtml`, `links`, `images`, `json`, `summary`, `question`, `highlights` and `query`. Such a request fails with `THIRD_PARTY_DATA_UNSUPPORTED_OPTION` (400), and `error` names the option. Remove it and send the request again. If your team’s policy enforces zero data retention, these URLs can’t be served. Page rendering options such as `headers`, `waitFor`, `mobile`, `location`, `proxy`, `includeTags` and `excludeTags` are ignored for these URLs.
+- **Billing**: the request costs the sum of the credits its provider steps charged (`metadata.provider.creditsCost`, broken down in `steps`), in place of the 1-credit scrape base. A provider with no record charges nothing, so a request normally costs the price of the provider that matched. Format surcharges such as `json` still apply. Every request is charged, because `x-request-id` doesn’t replay URL scrapes. See <a href="/billing#provider-routed-urls" class="link">Billing</a> for prices.
+
+
+## 
+
+
 <a href="#batch-scraping-multiple-urls" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 

@@ -493,3 +493,6 @@ Official, typed SDKs covering the full Firecrawl API surface. Point your agent a
 
 
 Firecrawl also has first-class SDK bindings for the major LLM SDKs and agent frameworks — see [LLM SDKs and Frameworks](/developer-guides/llm-sdks-and-frameworks/openai) for OpenAI, Anthropic, Gemini, Google ADK, Vercel AI SDK, LangChain, LangGraph, LlamaIndex, Mastra, and ElevenAgents.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

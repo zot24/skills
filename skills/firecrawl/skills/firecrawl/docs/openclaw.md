@@ -116,3 +116,6 @@ Here are some prompts you can give your OpenClaw agent:
 * [Firecrawl CLI reference](/sdks/cli)
 * [Browser Sandbox docs](/features/browser)
 * [Agent docs](/features/agent)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

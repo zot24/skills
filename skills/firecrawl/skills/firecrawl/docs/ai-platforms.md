@@ -57,3 +57,6 @@ Your AI assistants need current information, not outdated training data. Whether
 * [Deep Research](/use-cases/deep-research) - Advanced research capabilities
 * [Content Generation](/use-cases/content-generation) - AI-powered content creation
 * [Developers & MCP](/use-cases/developers-mcp) - Developer integrations
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

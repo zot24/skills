@@ -24,7 +24,7 @@ AI_GATEWAY_API_KEY=your-key         # https://vercel.com/ai-gateway
 ```
 
 
-  These examples use the [Vercel AI Gateway](https://vercel.com/ai-gateway) string model format, but Firecrawl tools work with any AI SDK provider. You can also use provider imports like `anthropic('claude-sonnet-4-5-20250514')` from `@ai-sdk/anthropic`.
+  These examples use the [Vercel AI Gateway](https://vercel.com/ai-gateway) string model format, but Firecrawl tools work with any AI SDK provider. You can also use provider imports like `anthropic('claude-sonnet-5-5')` from `@ai-sdk/anthropic`.
 
 
 ## Quick Start
@@ -36,7 +36,7 @@ import { generateText, stepCountIs } from 'ai';
 import { FirecrawlTools } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   tools: FirecrawlTools(),
   stopWhen: stepCountIs(30),
   prompt: `
@@ -59,7 +59,7 @@ import { FirecrawlTools } from 'firecrawl-aisdk';
 const tools = FirecrawlTools();
 
 const { text } = await generateText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   system: `${tools.systemPrompt}\n\nAnswer with citations when possible.`,
   tools,
   stopWhen: stepCountIs(20),
@@ -107,7 +107,7 @@ import { generateText } from 'ai';
 import { scrape, search } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   prompt: 'Search for Firecrawl, then scrape the most relevant result.',
   tools: { search, scrape },
 });
@@ -122,7 +122,7 @@ import { generateText } from 'ai';
 import { search, scrape } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   prompt: 'Search for Firecrawl, scrape the top official result, and explain what it does.',
   tools: { search, scrape },
 });
@@ -135,7 +135,7 @@ import { generateText } from 'ai';
 import { map } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   prompt: 'Map https://docs.firecrawl.dev and list the main sections.',
   tools: { map },
 });
@@ -148,7 +148,7 @@ import { streamText, stepCountIs } from 'ai';
 import { scrape } from 'firecrawl-aisdk';
 
 const result = streamText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   prompt: 'What is the first 100 words of firecrawl.dev?',
   tools: { scrape },
   stopWhen: stepCountIs(3),
@@ -173,7 +173,7 @@ const interactTool = interact();
 console.log('Live view:', await interactTool.start('https://news.ycombinator.com'));
 
 const { text } = await generateText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   tools: { interact: interactTool, search },
   stopWhen: stepCountIs(25),
   prompt: 'Use interact on the current Hacker News session, find the top story, then search for more context.',
@@ -205,7 +205,7 @@ import { generateText } from 'ai';
 import { crawl, poll } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   prompt: 'Crawl https://docs.firecrawl.dev (limit 3 pages) and summarize.',
   tools: { crawl, poll },
 });
@@ -218,7 +218,7 @@ import { generateText } from 'ai';
 import { batchScrape, poll } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   prompt: 'Scrape https://firecrawl.dev and https://docs.firecrawl.dev, then compare them.',
   tools: { batchScrape, poll },
 });
@@ -233,7 +233,7 @@ import { generateText, stepCountIs } from 'ai';
 import { agent, poll } from 'firecrawl-aisdk';
 
 const { text } = await generateText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   prompt: 'Find the founders of Firecrawl, their roles, and their backgrounds.',
   tools: { agent, poll },
   stopWhen: stepCountIs(10),
@@ -249,7 +249,7 @@ import { logStep, scrape, stepLogger } from 'firecrawl-aisdk';
 const logger = stepLogger();
 
 const { text, usage } = await generateText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   prompt: 'Scrape https://firecrawl.dev and summarize it.',
   tools: { scrape },
   onStepFinish: logger.onStep,
@@ -260,7 +260,7 @@ logger.close();
 logger.summary(usage);
 
 await generateText({
-  model: 'anthropic/claude-sonnet-4-5',
+  model: 'anthropic/claude-sonnet-5.5',
   prompt: 'Scrape https://firecrawl.dev and summarize it again.',
   tools: { scrape },
   onStepFinish: logStep,
@@ -296,3 +296,6 @@ import {
   logStep,            // Simple one-liner logging
 } from 'firecrawl-aisdk';
 ```
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

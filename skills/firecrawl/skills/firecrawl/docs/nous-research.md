@@ -114,3 +114,6 @@ See the [OpenRouter guide](/quickstarts/openrouter) for the full pattern.
 * Hermes is strong at structured tool output — pair with Firecrawl's [JSON format](/features/llm-extract) to chain scrape → extract cleanly.
 * For long-running agent loops, stream tool calls and use Firecrawl's [async crawl](/features/crawl) so the model isn't blocked on large scrapes.
 * Verify the exact Nous Portal base URL and model slug at [portal.nousresearch.com](https://portal.nousresearch.com) — model names update as new Hermes generations ship.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

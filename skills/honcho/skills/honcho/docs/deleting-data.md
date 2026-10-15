@@ -133,3 +133,6 @@ follow-up.
 Session and workspace deletion accept any key scoped to that workspace — an
 admin key is not required. Deleting a session additionally accepts a
 session-scoped key.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

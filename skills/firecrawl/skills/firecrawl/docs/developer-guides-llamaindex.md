@@ -62,3 +62,6 @@ console.log('\nAnswer:', response.toString());
 ```
 
 For more examples, check the [LlamaIndex documentation](https://ts.llamaindex.ai/).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -4,7 +4,7 @@
 
 ## French
 
-- [French / v2 (204 pages)](https://docs.firecrawl.dev/_llms/fr/v2.md): Documentation for French / v2.
+- [French / v2 (221 pages)](https://docs.firecrawl.dev/_llms/fr/v2.txt): Documentation for French / v2.
 
 ### v1
 
@@ -12,7 +12,7 @@
 
 ##### Démarrage rapide
 
-- [Introduction](https://docs.firecrawl.dev/fr/introduction.md): L’API de web data pour les agents IA. Recherchez sur le web, extrayez n’importe quelle page et interagissez avec elle via une seule API.
+- [Introduction](https://docs.firecrawl.dev/fr/introduction.md): L’API de données web pour les agents IA. Recherchez sur le web, extrayez n’importe quelle page et interagissez avec elle via une seule API.
 - [Premiers pas](https://docs.firecrawl.dev/fr/mcp-server.md): Configurez Firecrawl MCP avec un accès sans clé, une connexion à un compte ou une clé API.
 - [Guide avancé de scraping](https://docs.firecrawl.dev/fr/advanced-scraping-guide.md): Configurez les options de scraping, les actions du navigateur, le crawl, la cartographie et le point de terminaison de l'agent grâce à l’ensemble de la surface de l’API Firecrawl.
 
@@ -25,6 +25,7 @@
 ###### Entreprise
 
 - [Enterprise](https://docs.firecrawl.dev/fr/enterprise.md): Offres Enterprise, sécurité et fonctionnalités de Firecrawl à grande échelle
+- [SSO et SCIM](https://docs.firecrawl.dev/fr/features/sso.md): Configurez l’authentification unique (SSO) et la synchronisation d’annuaire SCIM pour que votre équipe se connecte via votre provider d’identité et que les accès des utilisateurs restent synchronisés avec votre annuaire.
 - [Restrictions d’adresses IP](https://docs.firecrawl.dev/fr/features/ip-restrictions.md): Restreignez les clés API de votre équipe à une liste d’autorisation d’adresses IP ou de plages CIDR, afin qu’elles ne fonctionnent que depuis des réseaux approuvés. Contrôle appliqué côté serveur.
 - [Restrictions de clé](https://docs.firecrawl.dev/fr/features/key-restrictions.md): Verrouillez une clé API individuelle sur des formats de sortie et des points de terminaison spécifiques. Appliqué côté serveur, sans possibilité pour une requête de passer outre.
 - [Protection contre les menaces](https://docs.firecrawl.dev/fr/features/threat-protection.md): Bloquez les requêtes vers des URL à risque sur tous les points de terminaison, à l’aide d’une politique contrôlée par votre organisation. Appliquée côté serveur.
@@ -42,7 +43,7 @@
 - [Scraping plus rapide](https://docs.firecrawl.dev/fr/features/fast-scraping.md): Accélérez vos scrapes de 500 % grâce au paramètre maxAge
 - [Scrape par lots](https://docs.firecrawl.dev/fr/features/batch-scrape.md): Scraper plusieurs URL en une seule tâche par lots
 - [Mode JSON - Résultat structuré](https://docs.firecrawl.dev/fr/features/llm-extract.md): Extraire des données structurées à partir de pages via des LLM
-- [Suivi des modifications](https://docs.firecrawl.dev/fr/features/change-tracking.md): Détecter et surveiller les changements dans le contenu web entre les scrape
+- [Suivi des modifications](https://docs.firecrawl.dev/fr/features/change-tracking.md): Détecter et surveiller les changements dans le contenu web entre les extractions
 - [Mode avancé](https://docs.firecrawl.dev/fr/features/enhanced-mode.md): Utilisez des proxies avancés pour un scraping fiable sur des sites complexes
 - [Proxys](https://docs.firecrawl.dev/fr/features/proxies.md): Découvrez les types de proxy, les emplacements et la façon dont Firecrawl sélectionne des proxy pour vos requêtes.
 

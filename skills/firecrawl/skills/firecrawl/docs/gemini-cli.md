@@ -42,3 +42,6 @@ Scrape https://ai.google.dev/gemini-api/docs and outline the sections.
 
 * **Tools do not appear:** restart Gemini CLI after editing `settings.json`; MCP servers load at startup.
 * **Crawl or another tool is missing:** keyless exposes exactly Search, Scrape, and Parse. Connect with OAuth or an API key for the broader tool surface.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

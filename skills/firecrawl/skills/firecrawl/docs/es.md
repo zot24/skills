@@ -4,7 +4,7 @@
 
 ## Spanish
 
-- [Spanish / v2 (204 pages)](https://docs.firecrawl.dev/_llms/es/v2.md): Documentation for Spanish / v2.
+- [Spanish / v2 (221 pages)](https://docs.firecrawl.dev/_llms/es/v2.txt): Documentation for Spanish / v2.
 
 ### v1
 
@@ -25,6 +25,7 @@
 ###### Empresa
 
 - [Enterprise](https://docs.firecrawl.dev/es/enterprise.md): Planes Enterprise, seguridad y funciones de Firecrawl a gran escala
+- [SSO y SCIM](https://docs.firecrawl.dev/es/features/sso.md): Configura el inicio de sesión único (SSO) y la sincronización de directorio SCIM para que tu equipo inicie sesión a través de tu provider de identidad y el acceso de los usuarios se mantenga sincronizado con tu directorio.
 - [Restricciones de IP](https://docs.firecrawl.dev/es/features/ip-restrictions.md): Restringe las claves de API de tu equipo a una lista de permitido de direcciones IP o rangos CIDR, para que solo funcionen desde redes aprobadas. Aplicadas en el servidor.
 - [Restricciones de claves](https://docs.firecrawl.dev/es/features/key-restrictions.md): Restringe una clave de API individual a formatos de salida y endpoints específicos. Se aplica del lado del servidor, sin que una solicitud pueda omitirlo.
 - [Protección contra amenazas](https://docs.firecrawl.dev/es/features/threat-protection.md): Bloquea solicitudes a URL riesgosas en todos los endpoints mediante una política controlada por tu organización. Se aplica en el servidor.

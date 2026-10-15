@@ -126,3 +126,6 @@ This reference covers all 108 live top-level `bd` commands. Regenerate it with:
 * [`bd version`](/cli-reference/version)
 * [`bd where`](/cli-reference/where)
 * [`bd worktree`](/cli-reference/worktree)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -142,3 +142,6 @@ console.log(result.summary);
 ```
 
 For more examples, check the [LangGraph documentation](https://langchain-ai.github.io/langgraphjs/).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

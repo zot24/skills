@@ -120,3 +120,6 @@ We highly recommend leaving `location` unspecified unless you are sure you need 
 * **auto**: Recommended. Firecrawl will automatically retry scraping with enhanced proxies if the basic proxy fails.
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

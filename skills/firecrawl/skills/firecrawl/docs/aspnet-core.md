@@ -191,3 +191,4 @@ curl -X POST http://localhost:5000/api/interact \
     Complete REST API documentation
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

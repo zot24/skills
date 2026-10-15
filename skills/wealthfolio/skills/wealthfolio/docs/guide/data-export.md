@@ -90,7 +90,7 @@ Export data to CSV or JSON, create profile backups, and restore a portable backu
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 Open **Settings → Backup & Export** in the profile you want to back up. The **Backup** tab manages saved snapshots, portable exports, and restores; the **Export** tab exports data for use elsewhere.
@@ -115,6 +115,7 @@ Open **Settings → Backup & Export** in the profile you want to back up. The **
 | **CSV**                            | Loading one table into a spreadsheet or another tool.                                   |
 | **JSON**                           | Programmatic processing; preserves nested structures that CSV flattens out.             |
 | **Password-protected `.wfbackup`** | Keeping a restorable profile copy outside the installation or moving it to another one. |
+| **Encrypted `.wfrec`**             | A downloaded cloud restore point, opened with your recovery code or a linked device.    |
 | **Unencrypted `.db`**              | An advanced, unprotected database export. Anyone with the file can read its contents.   |
 
 
@@ -172,9 +173,9 @@ Keep the existing installation files until you have verified the recovery. Encry
 
 ------------------------------------------------------------------------
 
-## 5 · Scheduled exports?
+## 5 · Automatic backups without Connect
 
-There’s no built-in scheduler today; exports are manual. If you need automated backups:
+CSV/JSON exports and local snapshots are manual. Connect provides automatic encrypted cloud backups, described below. For an automatic copy managed by your own backup tools instead:
 
 - **Self-hosted:** snapshot the data volume with your container/host’s backup tool (e.g. `restic`, `borg`, Proxmox snapshots, Unraid backup plugins).
 - **Desktop:** include the Wealthfolio data directory in your normal backup tool (Time Machine, Windows File History, Restic).
@@ -182,6 +183,39 @@ There’s no built-in scheduler today; exports are manual. If you need automated
 Both approaches give you point-in-time recovery without trusting any cloud, and they keep working even if Wealthfolio’s export UI changes.
 
 ------------------------------------------------------------------------
+
+## 6 · Encrypted cloud backup
+
+Cloud backup is in **Settings → Backup & Export → Backups** in Wealthfolio 3.10 and later. It is included in Connect Basic and higher and is off until you enable it. Local snapshots and manual exports remain available without Connect.
+
+1.  On the device or server that should run backups, sign in to Connect in the profile you want to protect.
+2.  Choose **Set up cloud backups** and save the recovery code outside this installation.
+3.  Confirm that you saved the code, then choose **Turn on backups**. This installation and profile become your backup source, and the first upload starts right away.
+4.  For automatic daily backups, keep Wealthfolio open and online with that profile unlocked; a self-hosted server only needs to be running. Wealthfolio saves a complete encrypted cloud copy when a backup is due. After downtime, the next backup runs when the source becomes available. On mobile, open or return to Wealthfolio and keep it open while the backup uploads.
+
+Each Connect account has one backup source: one profile on one installation (desktop, mobile or self-hosted server). Backups are not kept per device. If you turn on backups from another installation, it becomes the source; the previous one stops backing up, and its earlier restore points stay in the same list. Without device sync, data that exists only on other devices is not backed up. To back up another profile, sign it in to its own Connect account; within one installation, a Connect account can be signed in to only one profile. Your household members cannot see your backups. Cloud backup covers the selected profile’s complete database, including settings and configuration. Device credentials, API keys from the secret store, other profiles, and the profile registry are excluded.
+
+Up to 30 restore points are retained over 30 days. The latest successful point is kept while your paid access continues, even if the source has been offline longer. An encrypted point may be at most 256 MiB, and its decoded database at most 512 MiB. The **Cloud backups** card shows the **Last backup** and, when one is scheduled, the **Next backup**. Each restore point contains a complete copy, including prices and settings. An offline or locked source cannot upload; mobile backups run while the app is open.
+
+After the first backup, the source can also back up on demand: choose **Back up now** in the cloud backup menu. You can make up to 3 manual backups a day, and each one counts toward the 30 restore points.
+
+### Recovery and restore
+
+The backup key is independent of device sync and the installation’s database key. Linked trusted devices can obtain it using an encrypted key envelope. If access is not available yet, open a linked device that already has backup access and retry. You need your recovery code whenever no accessible device can provide backup access, including when you choose not to link a replacement device. Wealthfolio cannot recover the key for you if both the code and all unlocked devices are lost. Reissuing a recovery code preserves existing cloud points, but older **downloaded** `.wfrec` packages still need the code embedded in their original recovery envelope. New downloads use the new code. Replacing the code does not revoke previously obtained backup keys or copied recovery envelopes.
+
+Download a point as one encrypted `.wfrec` file for storage outside Connect. On desktop, cloud restore uses the same preview, confirmation, safety backup, and rollback flow as a local portable restore. Only the selected destination profile is replaced. After restoring, reconnect Connect rather than replaying historical sync state. If another trusted device exists, link to it and review the replacement confirmation. If this was your only sync device, use the confirmed sync reset flow to start a new baseline. Restore does not automatically replace data on other devices.
+
+Mobile supports backup capture while open, setup, recovery-code entry and encrypted package download. Cloud portfolio restoration is currently available in the desktop app; mobile users should restore on a computer. No backups run while mobile is suspended.
+
+For a self-hosted server, download the package and stop the server before running the existing offline restore command against a healthy, initialized destination:
+
+``` mb-4
+wealthfolio-server db restore /safe/path/wealthfolio-backup.wfrec --profile <PROFILE_ID> --recovery-code-stdin
+```
+
+Select the destination profile explicitly. Review the command’s validation output, then repeat with `--yes` only when you are ready to replace that profile. Pipe the code from a protected source on standard input; the command rejects terminal input. Do not put it in command arguments or shell history. The server retains its own database encryption key. Online database replacement is unavailable in the web app.
+
+Choose **Pause backups** to stop new backups for your Connect account. Saved copies still follow the retention policy; your latest backup is kept while your subscription is active. To resume, turn backups on again from the device you want as the source. Canceling renewal keeps paid features available until the subscription ends. When paid access ends, uploads stop and existing points remain downloadable for 30 days before scheduled deletion. Download any `.wfrec` copies you want to keep before that period ends; local data and downloaded packages remain yours. If backups were on when paid access ended, renewing resumes them from the same source. Renewing cannot bring back deleted cloud copies. The encrypted recovery key record remains until account deletion. Deleting points requires a valid Connect session and explicit confirmation, and removes their listing before storage cleanup. Replacing a recovery code requires a recent sign-in.
 
 
 ------------------------------------------------------------------------
@@ -201,6 +235,8 @@ On This Page
   - <a href="#restore-in-the-app" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Restore in the app</a>
   - <a href="#restore-a-self-hosted-instance" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Restore a self-hosted instance</a>
 - <a href="#4--where-the-database-files-live" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · Where the database files live</a>
-- <a href="#5--scheduled-exports" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">5 · Scheduled exports?</a>
+- <a href="#5--automatic-backups-without-connect" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">5 · Automatic backups without Connect</a>
+- <a href="#6--encrypted-cloud-backup" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">6 · Encrypted cloud backup</a>
+  - <a href="#recovery-and-restore" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Recovery and restore</a>
 
 

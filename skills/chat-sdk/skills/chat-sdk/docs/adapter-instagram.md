@@ -13,6 +13,14 @@ package: @chat-adapter/instagram
   Building for Facebook Messenger? Use the [Messenger adapter](/adapters/official/messenger) instead. It connects through the Messenger Platform API and uses a Facebook Page access token.
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the Instagram adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="instagram memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -66,100 +74,110 @@ export async function POST(request: Request) {
   personal and private accounts cannot use the Messaging API.
 
 
-### 1. Create a Meta app
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Create a Meta app
 
-1. Open the [Meta App Dashboard](https://developers.facebook.com/apps) and
-   click **Create App**.
-2. For the use case, select **Other**, then click **Next**.
-3. Select the **Business** app type, then click **Next**.
-4. Enter the app name and contact email and finish creating the app. Connecting
-   a verified business is required before publishing, but can be completed
-   later under **App settings > Basic**.
-5. In the new app dashboard, find the **Instagram** product and click **Set
-   up**.
+    1. Open the [Meta App Dashboard](https://developers.facebook.com/apps) and
+       click **Create App**.
+    2. For the use case, select **Other**, then click **Next**.
+    3. Select the **Business** app type, then click **Next**.
+    4. Enter the app name and contact email and finish creating the app. Connecting
+       a verified business is required before publishing, but can be completed
+       later under **App settings > Basic**.
+    5. In the new app dashboard, find the **Instagram** product and click **Set
+       up**.
 
-Meta automatically adds **API setup with Instagram login**. Do not select
-**API setup with Facebook login** for this adapter, because that setup uses
-Facebook or Page tokens and `graph.facebook.com`.
+    Meta automatically adds **API setup with Instagram login**. Do not select
+    **API setup with Facebook login** for this adapter, because that setup uses
+    Facebook or Page tokens and `graph.facebook.com`.
+  </div>
 
-### 2. Get credentials
+  <div className="fd-step">
+    ### Get credentials
 
-Generate an access token for the account the bot will use:
+    Generate an access token for the account the bot will use:
 
-1. In the left menu, open **Instagram > API setup with Instagram login**.
-2. Under **Generate access tokens**, click **Add account** and sign in to
-   the public Instagram professional account the bot will use.
-3. Once the account appears, click **Generate token**, sign in again, and copy
-   the token to `INSTAGRAM_ACCESS_TOKEN`.
+    1. In the left menu, open **Instagram > API setup with Instagram login**.
+    2. Under **Generate access tokens**, click **Add account** and sign in to
+       the public Instagram professional account the bot will use.
+    3. Once the account appears, click **Generate token**, sign in again, and copy
+       the token to `INSTAGRAM_ACCESS_TOKEN`.
 
-Tokens generated in the App Dashboard are long-lived and valid for 60 days.
-They are suitable for development and for accounts you own or manage. Refresh
-or rotate the token before it expires.
+    Tokens generated in the App Dashboard are long-lived and valid for 60 days.
+    They are suitable for development and for accounts you own or manage. Refresh
+    or rotate the token before it expires.
 
-For an app that connects other businesses' accounts, configure **Instagram
-business login** and request these scopes in the login flow:
+    For an app that connects other businesses' accounts, configure **Instagram
+    business login** and request these scopes in the login flow:
 
-* `instagram_business_basic`
-* `instagram_business_manage_messages`
+    * `instagram_business_basic`
+    * `instagram_business_manage_messages`
 
-Business Login returns a one-hour token. Exchange it server-side for a
-60-day token through `https://graph.instagram.com/access_token`.
+    Business Login returns a one-hour token. Exchange it server-side for a
+    60-day token through `https://graph.instagram.com/access_token`.
 
-Next, find the Instagram professional account ID. It is not the app ID or the
-app-scoped user ID. Query the professional account associated with the token:
+    Next, find the Instagram professional account ID. It is not the app ID or the
+    app-scoped user ID. Query the professional account associated with the token:
 
-```bash
-curl "https://graph.instagram.com/v26.0/me?fields=user_id,username&access_token=$INSTAGRAM_ACCESS_TOKEN"
-```
+    ```bash
+    curl "https://graph.instagram.com/v26.0/me?fields=user_id,username&access_token=$INSTAGRAM_ACCESS_TOKEN"
+    ```
 
-Copy the returned `data[0].user_id` value to `INSTAGRAM_ACCOUNT_ID`.
+    Copy the returned `data[0].user_id` value to `INSTAGRAM_ACCOUNT_ID`.
 
-Set the remaining secrets:
+    Set the remaining secrets:
 
-* In **App settings > Basic**, copy the Meta app's **App Secret** to
-  `INSTAGRAM_APP_SECRET`. Meta uses this secret to sign webhook requests.
-* Choose your own random string for `INSTAGRAM_VERIFY_TOKEN`. This value is
-  only shared with Meta during webhook verification.
+    * In **App settings > Basic**, copy the Meta app's **App Secret** to
+      `INSTAGRAM_APP_SECRET`. Meta uses this secret to sign webhook requests.
+    * Choose your own random string for `INSTAGRAM_VERIFY_TOKEN`. This value is
+      only shared with Meta during webhook verification.
+  </div>
 
-### 3. Configure webhooks
+  <div className="fd-step">
+    ### Configure webhooks
 
-Deploy the GET and POST route shown above to a public HTTPS URL first, then:
+    Deploy the GET and POST route shown above to a public HTTPS URL first, then:
 
-1. Return to **Instagram > API setup with Instagram login**.
-2. Under **Configure webhooks**, click **Configure**.
-3. Set **Callback URL** to
-   `https://your-domain.com/api/webhooks/instagram`.
-4. Set **Verify token** to the same value as `INSTAGRAM_VERIFY_TOKEN`, then
-   click **Save**.
-5. Click **Manage** and keep these fields enabled:
-   `messages`, `message_reactions`, `messaging_postbacks`, and
-   `messaging_seen`.
+    1. Return to **Instagram > API setup with Instagram login**.
+    2. Under **Configure webhooks**, click **Configure**.
+    3. Set **Callback URL** to
+       `https://your-domain.com/api/webhooks/instagram`.
+    4. Set **Verify token** to the same value as `INSTAGRAM_VERIFY_TOKEN`, then
+       click **Save**.
+    5. Click **Manage** and keep these fields enabled:
+       `messages`, `message_reactions`, `messaging_postbacks`, and
+       `messaging_seen`.
 
-Configuring the callback does not subscribe an Instagram account by itself.
-Subscribe the account represented by the access token:
+    Configuring the callback does not subscribe an Instagram account by itself.
+    Subscribe the account represented by the access token:
 
-```bash
-curl -X POST \
-  "https://graph.instagram.com/v26.0/me/subscribed_apps?subscribed_fields=messages,message_reactions,messaging_postbacks,messaging_seen&access_token=$INSTAGRAM_ACCESS_TOKEN"
-```
+    ```bash
+    curl -X POST \
+      "https://graph.instagram.com/v26.0/me/subscribed_apps?subscribed_fields=messages,message_reactions,messaging_postbacks,messaging_seen&access_token=$INSTAGRAM_ACCESS_TOKEN"
+    ```
 
-To confirm the `messages` webhook works, send the professional account a DM
-from another Instagram account.
+    To confirm the `messages` webhook works, send the professional account a DM
+    from another Instagram account.
+  </div>
 
-### 4. Prepare for production
+  <div className="fd-step">
+    ### Prepare for production
 
-Standard Access works for professional accounts you own or have added to the
-App Dashboard. To connect accounts you do not own, complete Business
-Verification and App Review for Advanced Access to
-`instagram_business_basic` and `instagram_business_manage_messages`.
-Request the **Human Agent** feature only if real support agents will use the
-seven-day response window.
+    Standard Access works for professional accounts you own or have added to the
+    App Dashboard. To connect accounts you do not own, complete Business
+    Verification and App Review for Advanced Access to
+    `instagram_business_basic` and `instagram_business_manage_messages`.
+    Request the **Human Agent** feature only if real support agents will use the
+    seven-day response window.
 
-See Meta's current
-[app creation guide](https://developers.facebook.com/docs/instagram-platform/create-an-instagram-app),
-[Business Login guide](https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login/),
-and [webhook subscription guide](https://developers.facebook.com/docs/instagram-platform/webhooks/)
-for dashboard changes and production review requirements.
+    See Meta's current
+    [app creation guide](https://developers.facebook.com/docs/instagram-platform/create-an-instagram-app),
+    [Business Login guide](https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/business-login/),
+    and [webhook subscription guide](https://developers.facebook.com/docs/instagram-platform/webhooks/)
+    for dashboard changes and production review requirements.
+  </div>
+</div>
 
 ## Configuration
 

@@ -296,3 +296,6 @@ Here's a complete example of building a document analysis assistant:
 * **Validate file types** before upload to avoid processing errors
 * **Handle large files gracefully** with progress indicators
 * **Implement retry logic** for network failures
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

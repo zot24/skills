@@ -69,3 +69,6 @@ Find and scrape the Stripe API docs for payment intents
 ```
 
 Factory will automatically use Firecrawl's search and scrape tools to get the information.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -90,7 +90,7 @@ Learn how to build addons for Wealthfolio to extend its functionality with custo
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 Wealthfolio addons are TypeScript modules that extend the application’s functionality through a sandboxed runtime. This guide covers how to build, test, and distribute addons for Wealthfolio 3.7 and later. Existing 3.6 addons remain supported; see <a href="/docs/addons/v3-7-assets/" class="font-medium underline underline-offset-4">v3.7 compatibility and assets</a> before adopting the new asset API.

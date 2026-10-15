@@ -202,3 +202,6 @@ Please assess the resources above and ask me relevant questions to help build a 
 
 Once you understand my needs, help me create a working implementation with proper memory and statefulness.
 ```
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -3,6 +3,8 @@
 ---
 title: toAiMessages
 description: Convert Chat SDK messages to AI SDK conversation format.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: reference
 related:
   - /docs/ai
@@ -11,27 +13,23 @@ related:
   - /docs/streaming
 ---
 
-# toAiMessages
-
-
-  Using TanStack AI? `toTanStackMessages` in `chat/ai/tanstack` converts the
-  same history into the `ModelMessage[]` shape that `chat()` expects. See
-  [TanStack AI](/docs/ai/tanstack-ai).
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Convert an array of [`Message`](/docs/api/message) objects into the `{ role, content }[]` format expected by the AI SDK. The output is structurally compatible with AI SDK's `ModelMessage[]`.
+
+> Using TanStack AI? `toTanStackMessages` in `chat/ai/tanstack` converts the
+> same history into the `ModelMessage[]` shape that `chat()` expects. See
+> [TanStack AI](/docs/ai/tanstack-ai).
 
 ```typescript
 import { toAiMessages } from "chat/ai";
 ```
 
-
-  `toAiMessages` is also re-exported from the main `chat` entrypoint
-  for backwards compatibility and marked `@deprecated` in JSDoc. New
-  code should import it from [`chat/ai`](/docs/ai) alongside
-  [`createChatTools`](/docs/ai/ai-sdk-tools) and the rest of the AI
-  utilities.
-
+> `toAiMessages` is also re-exported from the main `chat` entrypoint
+> for backwards compatibility and marked `@deprecated` in JSDoc. New
+> code should import it from [`chat/ai`](/docs/ai) alongside
+> [`createChatTools`](/docs/ai/ai-sdk-tools) and the rest of the AI
+> utilities.
 
 ## Usage
 
@@ -57,9 +55,18 @@ function toAiMessages(
 
 ### Parameters
 
+| Property   | Type                  | Description                                                                                                           |
+| ---------- | --------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `messages` | `Message[]`           | Array of Chat SDK Message objects. Works with FetchResult.messages, thread.recentMessages, or any collected iterable. |
+| `options`  | `ToAiMessagesOptions` | Optional configuration.                                                                                               |
 
 ### Options
 
+| Property                  | Type                                                                                         | Description                                                                                 |
+| ------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `includeNames`            | `boolean`                                                                                    | Prefix user messages with \[username]: for multi-user context.                              |
+| `transformMessage`        | `(aiMessage: AiMessage, source: Message) => AiMessage \| null \| Promise<AiMessage \| null>` | Transform or filter each message after default processing. Return null to skip the message. |
+| `onUnsupportedAttachment` | `(attachment: Attachment, message: Message) => void`                                         | Called when an attachment type is not supported (video, audio).                             |
 
 ### Returns
 
@@ -67,11 +74,11 @@ function toAiMessages(
 
 ## Behavior
 
-* Role mapping: messages with `author.isMe === true` become `"assistant"`, and all others become `"user"`.
-* Filtering: a message with no text is kept when it has links or attachments the converter can include, meaning images and text files with a working `fetchData()`. Messages with no text whose only attachments are unsupported (video, audio, other file types, or missing `fetchData()`) are removed.
-* Sorting: messages are sorted oldest first by `metadata.dateSent`.
-* Links: link metadata (URL, title, description, site name) is appended to the message content. Third-party title, description, and site-name fields are normalized, length-limited, escaped, and enclosed in an explicit untrusted-content fence. Embedded message links are labeled `[Embedded message: ...]`.
-* Attachments: images and text files (JSON, XML, YAML, and similar) are fetched with `fetchData()` and included as multipart content. When the message has no text, the `content` array contains only attachment parts, with no leading text part. Video and audio attachments trigger `onUnsupportedAttachment`.
+- Role mapping: messages with `author.isMe === true` become `"assistant"`, and all others become `"user"`.
+- Filtering: a message with no text is kept when it has links or attachments the converter can include, meaning images and text files with a working `fetchData()`. Messages with no text whose only attachments are unsupported (video, audio, other file types, or missing `fetchData()`) are removed.
+- Sorting: messages are sorted oldest first by `metadata.dateSent`.
+- Links: link metadata (URL, title, description, site name) is appended to the message content. Third-party title, description, and site-name fields are normalized, length-limited, escaped, and enclosed in an explicit untrusted-content fence. Embedded message links are labeled `[Embedded message: ...]`.
+- Attachments: images and text files (JSON, XML, YAML, and similar) are fetched with `fetchData()` and included as multipart content. When the message has no text, the `content` array contains only attachment parts, with no leading text part. Video and audio attachments trigger `onUnsupportedAttachment`.
 
 ## Return types
 
@@ -177,9 +184,7 @@ const history = await toAiMessages(result.messages, {
 | `audio` | Any                                                                                                                                         | Skipped (triggers `onUnsupportedAttachment`) |
 | `file`  | Other (e.g. `application/pdf`)                                                                                                              | Silently skipped                             |
 
-
-  Attachments require `fetchData()` to be available on the attachment object. Attachments without `fetchData()` are silently skipped.
-
+> Attachments require `fetchData()` to be available on the attachment object. Attachments without `fetchData()` are silently skipped.
 
 ---
 

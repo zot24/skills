@@ -3,6 +3,8 @@
 ---
 title: Overlapping Messages
 description: Control how overlapping messages on the same thread are handled, with the burst, queue, debounce, drop, and concurrent strategies.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/handling-events
@@ -12,8 +14,7 @@ related:
   - /docs/error-handling
 ---
 
-# Overlapping Messages
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 When a message arrives on a thread while a handler is still processing an earlier one, the SDK drops the new message by default. The `concurrency` option on `ChatConfig` lets you choose a different strategy.
 
@@ -114,9 +115,7 @@ const bot = new Chat({
 });
 ```
 
-
-  WhatsApp and Telegram adapters default to `lockScope: "channel"`, so debounce applies to the entire conversation rather than a single thread.
-
+> WhatsApp and Telegram adapters default to `lockScope: "channel"`, so debounce applies to the entire conversation rather than a single thread.
 
 Flow:
 
@@ -169,9 +168,7 @@ const bot = new Chat({
 | `maxLockLifetimeMs` | drop, queue, debounce, burst | `600000`        | Max total time one handler run may keep renewing its thread lock. After this, renewal stops and the lock lapses at its TTL, so a hung handler cannot block the thread forever |
 | `maxConcurrent`     | concurrent                   | `Infinity`      | Max concurrent handlers per thread                                                                                                                                            |
 
-
-  `maxConcurrent` only applies to the `concurrent` strategy. Pairing it with any other strategy logs a warning and the value is ignored. Setting `maxConcurrent` to a value less than `1` throws at construction time, because `0` would deadlock the strategy.
-
+> `maxConcurrent` only applies to the `concurrent` strategy. Pairing it with any other strategy logs a warning and the value is ignored. Setting `maxConcurrent` to a value less than `1` throws at construction time, because `0` would deadlock the strategy.
 
 ## MessageContext
 
@@ -241,6 +238,8 @@ The `queue`, `debounce`, and `burst` strategies require three additional methods
 
 All built-in state adapters (`@chat-adapter/state-memory`, `@chat-adapter/state-redis`, `@chat-adapter/state-ioredis`) implement these methods. The Redis adapters use Lua scripts for atomicity.
 
+> An adapter can namespace these state keys by tenant, so the key passed to your state adapter isn't always the bare thread ID. The [Slack adapter in multi-workspace mode](/adapters/official/slack#using-the-adapter-outside-webhooks) scopes deduplication, locks, queues, concurrency slots, and turn cancellation by installation. If you inspect state or recover from an incident with calls like `queueDepth(threadId)` or `forceReleaseLock(threadId)`, those calls won't reach the namespaced keys. Log events still report the public `threadId`.
+
 ## Observability
 
 All strategies emit structured log events at `info` level:
@@ -267,11 +266,10 @@ All strategies emit structured log events at `info` level:
 
 ## Backward compatibility
 
-* The default strategy is `drop`, so existing behavior is unchanged.
-* The deprecated `onLockConflict` option continues to work but should be replaced with `concurrency`.
-* Handler signatures are backward-compatible; the new `context` parameter is optional.
-* Deduplication always runs regardless of strategy.
-
+- The default strategy is `drop`, so existing behavior is unchanged.
+- The deprecated `onLockConflict` option continues to work but should be replaced with `concurrency`.
+- Handler signatures are backward-compatible; the new `context` parameter is optional.
+- Deduplication always runs regardless of strategy.
 
 ---
 

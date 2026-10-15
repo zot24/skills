@@ -112,3 +112,4 @@ env FIRECRAWL_API_KEY=fc-YOUR-API-KEY firecrawl-mcp
     Rate limits are enforced by the connected Firecrawl API. Review the current [rate limits](/rate-limits) and the limits configured for a self-hosted deployment.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

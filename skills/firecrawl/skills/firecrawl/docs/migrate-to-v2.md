@@ -15,7 +15,7 @@ Firecrawl is the web data API for AI agents. Search, scrape, and interact with t
 
 Connect over Streamable HTTP. The keyless server URL (Search, Scrape, and Parse; no credential required) is `https://mcp.firecrawl.dev/v2/mcp`.
 
-* Codex: `codex mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp`
+* Codex CLI: `codex mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp`
 * Claude Code: `claude mcp add --transport http firecrawl https://mcp.firecrawl.dev/v2/mcp`
 * Cursor or any JSON-config client: `{"mcpServers": {"firecrawl": {"url": "https://mcp.firecrawl.dev/v2/mcp"}}}`
 * OpenCode (`opencode.json`): `{"mcp": {"firecrawl": {"type": "remote", "url": "https://mcp.firecrawl.dev/v2/mcp", "enabled": true}}}`
@@ -102,15 +102,15 @@ Provide your agent with this Firecrawl setup prompt, or see [all MCP setup optio
 
     <div className="firecrawl-cta-title" style={{ margin: 0 }}>
       <span style={{ color: "#ff4d00" }}>Bounty: 5,000 credit reward</span>
-      <span style={{ fontWeight: 400 }}> for solid feedback on Firecrawl</span>
+      <span style={{ fontWeight: 400 }}> for solid feedback on Alexandria</span>
     </div>
   </div>
 
   <p className="firecrawl-cta-description">
-    To qualify, complete a high-signal interview (thoughtful, concrete use cases, etc) with our Firecrawl Feedback Assistant. Only takes a few minutes, can be stopped at any time, and is both human/agent-friendly (just paste the link into your agentic harness!). New to Firecrawl? Your take still counts.
+    To qualify, complete a high-signal interview (thoughtful, concrete use cases, etc) with our Firecrawl Feedback Assistant. Only takes a few minutes, can be stopped at any time, and is both human/agent-friendly (just paste the link into your agentic harness!). Haven't used Alexandria yet? Your take still counts.
   </p>
 
-  <a href="https://www.firecrawl.dev/survey/dsag9?src=docs-introduction" className="firecrawl-cta-btn-primary firecrawl-cta-btn-inline">
+  <a href="https://www.firecrawl.dev/survey/uilpn?src=docs-alexandria" className="firecrawl-cta-btn-primary firecrawl-cta-btn-inline">
     Start the interview
   </a>
 
@@ -439,3 +439,4 @@ Scrape a page, then keep working with it: click buttons, fill forms, extract dyn
     LangChain, LlamaIndex, OpenAI, and more
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

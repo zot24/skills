@@ -3,6 +3,8 @@
 ---
 title: Handling Events
 description: Register handlers for mentions, messages, reactions, member joins, and platform-specific events.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/getting-started
@@ -13,8 +15,7 @@ related:
   - /docs/api/message
 ---
 
-# Handling Events
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 You register a handler for each type of event your bot cares about, and the SDK routes each incoming webhook to the matching handler.
 
@@ -25,7 +26,7 @@ When a message arrives, the SDK evaluates handlers in this order:
 1. Direct messages: if the thread is a DM and any `onDirectMessage` handlers are registered, they fire before `onSubscribedMessage`, `onNewMention`, and pattern handlers.
 2. Subscribed threads: if the thread is subscribed, `onSubscribedMessage` fires and no other message handler runs. DMs reach this step only when no `onDirectMessage` handlers are registered.
 3. Mentions: if the bot is @-mentioned in an unsubscribed thread, `onNewMention` fires. For backward compatibility, unsubscribed DMs are treated as mentions when no `onDirectMessage` handler is registered.
-4. Pattern matches: if the message text matches any `onNewMessage` regex patterns, those handlers fire.
+4. Pattern routing: `onNewMessage` handlers run one after another in registration order. Regex handlers fire when their pattern matches the message text. Handlers registered without a pattern fire for every message that reaches this step, including messages with empty text.
 
 Reactions, slash commands, actions, and modals have their own dedicated routing and are not affected by subscription state.
 
@@ -84,9 +85,7 @@ bot.onSubscribedMessage(async (thread, message) => {
 });
 ```
 
-
-  Messages sent by the bot itself do not trigger this handler. You don't need to filter out your own messages.
-
+> Messages sent by the bot itself do not trigger this handler. You don't need to filter out your own messages.
 
 ### Example: Conversational AI with history
 
@@ -158,7 +157,7 @@ bot.onSubscribedMessage(async (thread, message) => {
 
 ## Handling pattern matches
 
-`onNewMessage` fires for messages matching a regex pattern in threads the bot is not subscribed to. Use it for keyword-triggered responses without requiring an @-mention.
+`onNewMessage` fires for messages in unsubscribed threads that aren't DMs and don't mention the bot. Pass a regex for keyword-triggered responses that don't need an @-mention:
 
 ```typescript title="lib/bot.ts" lineNumbers
 bot.onNewMessage(/^help$/i, async (thread, message) => {
@@ -166,7 +165,17 @@ bot.onNewMessage(/^help$/i, async (thread, message) => {
 });
 ```
 
-The first argument is a `RegExp` that's tested against the message text. Only messages in unsubscribed threads are evaluated.
+The regex is tested against the message text. To receive every message at this step, including attachment-only messages with empty text, pass only a handler:
+
+```typescript title="lib/bot.ts" lineNumbers
+bot.onNewMessage(async (thread, message) => {
+  await thread.post(`Received: ${message.text || "an attachment"}`);
+});
+```
+
+When several `onNewMessage` handlers apply to a message, they run one after another in registration order.
+
+The handler-only form doesn't receive DMs or mentions, even when no handler for them is registered. Use `onDirectMessage` and `onNewMention` for those, and `onSubscribedMessage` for threads the bot has subscribed to.
 
 ### Example: FAQ auto-responder
 
@@ -320,17 +329,15 @@ bot.onMessageDeleted(async (event) => {
 | `deletedAt`       | `Date \| undefined`    | When the delete happened, when reported                  |
 | `raw`             | `unknown`              | Platform-specific delete event                           |
 
-
-  Only the Slack adapter emits these events today. Registering the handlers on another platform is harmless but nothing will call them. Check the **Message edit events** and **Message delete events** rows on each [adapter page](/adapters) before relying on them.
-
+> Only the Slack adapter emits these events today. Registering the handlers on another platform is harmless but nothing will call them. Check the **Message edit events** and **Message delete events** rows on each [adapter page](/adapters) before relying on them.
 
 ## Handling interactions
 
 For button clicks, slash commands, and modal forms, see the dedicated guides:
 
-* [Slash Commands](/docs/slash-commands): handle `/command` invocations from the message composer.
-* [Actions](/docs/actions): handle button clicks and interactive card events.
-* [Modals](/docs/modals): collect structured input through modal dialogs with validation.
+- [Slash Commands](/docs/slash-commands): handle `/command` invocations from the message composer.
+- [Actions](/docs/actions): handle button clicks and interactive card events.
+- [Modals](/docs/modals): collect structured input through modal dialogs with validation.
 
 ## Handling Slack-specific events
 
@@ -545,7 +552,6 @@ asynchronous work is registered with the webhook's `waitUntil`.
 
 See [Teams installation lifecycle](/adapters/official/teams#installation-lifecycle)
 for persistence, reinstall cleanup, and proactive messages.
-
 
 ---
 

@@ -59,3 +59,6 @@ A request from an IP that is not on the allowlist is rejected with a `403`:
 
 * IP Restrictions add no credit charges.
 * IP Restrictions are independent of [Key Restrictions](/features/key-restrictions); a team can use both, and a single key can be limited by format, endpoint, and origin network at the same time.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

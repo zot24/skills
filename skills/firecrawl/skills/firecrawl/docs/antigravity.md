@@ -42,3 +42,6 @@ Scrape https://docs.firecrawl.dev/ai-onboarding and list the linked guides.
 
 * **Server shows as failed:** confirm the hosted URL and inspect the MCP output panel.
 * **Crawl or another tool is missing:** keyless exposes exactly Search, Scrape, and Parse. Connect with OAuth or an API key for the broader tool surface.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

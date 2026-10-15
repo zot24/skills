@@ -90,7 +90,7 @@ Run Wealthfolio with a compose.yml that bundles restart policies, env files, dir
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 If you already manage your homelab with Compose, this is the path you want. The Wealthfolio repo ships a production-ready `compose.yml` for direct browser access, plus an optional `compose.proxy.yml` override for same-network reverse proxy setups.

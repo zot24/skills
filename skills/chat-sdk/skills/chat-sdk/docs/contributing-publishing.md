@@ -3,6 +3,8 @@
 ---
 title: Publishing your adapter
 description: Package, version, and publish your community Chat SDK adapter to npm.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/contributing/building
@@ -13,8 +15,9 @@ related:
   - /docs/contributing/vendor-official
 ---
 
-# Publishing your adapter
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
+Community adapters are published to npm under your own package name. After publishing, you can list your adapter on the chat-sdk.dev Adapters page.
 
 ## Package checklist
 
@@ -66,9 +69,7 @@ Before publishing, verify your `package.json` meets these requirements:
 
 Replace `PLATFORM` and `YOUR_SCOPE` with your own values. These are naming patterns, not packages to install. New npm package names must be lowercase; see [npm's package name rules](https://docs.npmjs.com/cli/v11/configuring-npm/package-json#name).
 
-
-  The `@chat-adapter/` npm scope is reserved for Vercel-maintained adapters. Do not publish under this scope.
-
+> The `@chat-adapter/` npm scope is reserved for Vercel-maintained adapters. Do not publish under this scope.
 
 ## Build and verify
 
@@ -166,36 +167,43 @@ You should see your exported symbols (`createMatrixAdapter`, `MatrixAdapter`, et
 
 ## Keeping your adapter up to date
 
-* Watch the [Chat SDK changelog](https://github.com/vercel/chat/releases) for new features and breaking changes.
-* Run your test suite against new Chat SDK releases before they ship to catch compatibility issues early.
-* When the `Adapter` interface adds new optional methods, consider implementing them to keep your adapter feature-complete.
+- Watch the [Chat SDK changelog](https://github.com/vercel/chat/releases) for new features and breaking changes.
+- Run your test suite against new Chat SDK releases before they ship to catch compatibility issues early.
+- When the `Adapter` interface adds new optional methods, consider implementing them to keep your adapter feature-complete.
 
 ## Listing on chat-sdk.dev
 
-Community adapters can be listed on the [Adapters](https://chat-sdk.dev/adapters) page by opening a PR that adds an entry to `apps/docs/adapters.json` in the [Chat SDK repo](https://github.com/vercel/chat). Your adapter's README is fetched from GitHub at build time and rendered on its dedicated page.
+Community adapters can be listed on the [Adapters](https://chat-sdk.dev/adapters) page by opening a PR against the [Chat SDK repo](https://github.com/vercel/chat) that adds a docs page under `apps/docs/content/adapters/community/` and an entry in [`@chat-adapter/catalog`](/docs/adapter-catalog). Add the entry as `packages/catalog/src/adapters/community/my-adapter.ts` and register it in `COMMUNITY_ADAPTERS` in `packages/catalog/src/adapters/index.ts`. Your adapter's README is fetched from GitHub at build time and rendered on its dedicated page.
 
-
-  Platform vendors should follow the [vendor-official guide](/docs/contributing/vendor-official) instead.
-
+> Platform vendors should follow the [vendor-official guide](/docs/contributing/vendor-official) instead.
 
 ### Pin your README to a commit or tag
 
-
-  The `readme` field must reference a specific commit SHA or tag, not a branch name like `main`.
-
+> The `readme` field must reference a specific commit SHA or tag, not a branch name like `main`.
 
 The docs site re-renders on every deploy, so an unpinned `readme` would serve whatever is on your default branch at that moment, including edits made after the listing PR was reviewed. Pinning keeps the rendered content at the version we approved. To publish new README content, open a follow-up PR that bumps the ref.
 
-```json title="apps/docs/adapters.json"
-{
-  "name": "My Adapter",
-  "slug": "my-adapter",
-  "type": "platform",
-  "community": true,
-  "packageName": "YOUR_PUBLISHED_ADAPTER_PACKAGE",
-  "readme": "https://github.com/your-org/chat-adapter-my-thing/tree/v1.2.0"
-}
+```typescript title="packages/catalog/src/adapters/community/my-adapter.ts"
+import type { CommunityAdapter } from "../../types";
+
+export const myAdapter = {
+  author: "your-github-org",
+  description: "One-line summary of what the adapter connects to.",
+  features: {
+    postMessage: "yes",
+    editMessage: "yes",
+    streaming: { status: "partial", label: "Post+Edit" },
+  },
+  group: "community",
+  name: "My Adapter",
+  packageName: "YOUR_PUBLISHED_ADAPTER_PACKAGE",
+  readme: "https://github.com/your-org/chat-adapter-my-thing/tree/v1.2.0",
+  slug: "my-adapter",
+  type: "platform",
+} as const satisfies CommunityAdapter;
 ```
+
+The `features` keys are listed in `PLATFORM_FEATURE_CATEGORIES` and `STATE_FEATURE_CATEGORIES` in `packages/catalog/src/features.ts`. Omitted keys render as unsupported.
 
 Accepted `readme` formats:
 
@@ -206,7 +214,6 @@ Accepted `readme` formats:
 | Subpath in a monorepo | `https://github.com/owner/repo/tree/<ref>/packages/adapter` |
 
 Unpinned refs, such as `tree/main` or a URL without `/tree/<ref>`, emit a build warning and are rejected during PR review.
-
 
 ---
 

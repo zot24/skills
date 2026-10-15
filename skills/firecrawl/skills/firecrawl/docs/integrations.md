@@ -18,13 +18,13 @@ Give your agent live web search, scraping, and browser interaction over MCP or t
 }
     href="/quickstarts/claude-code"
   >
-    Set up Firecrawl MCP in Claude Code
+    Connect Firecrawl in Claude or Claude Code
 
 
 }
-    href="/quickstarts/codex-cli"
+    href="/integrations/chatgpt-codex"
   >
-    Use Firecrawl MCP in OpenAI Codex
+    Install the Firecrawl plugin in ChatGPT & Codex
 
 
 }
@@ -133,6 +133,12 @@ Use Firecrawl as a loader, reader, or tool inside your agent code.
     Scrape data from the web with the Firecrawl tool
 
 
+}
+    href="/integrations/neuron-ai"
+  >
+    Give PHP agents web search and page reading
+
+
 ## Visual AI builders
 
 Drag Firecrawl nodes into a visual canvas to build agents and RAG pipelines.
@@ -204,3 +210,5 @@ Expose Firecrawl through a tool layer, or sync web data into your knowledge base
 
   Don't see your platform? Firecrawl works anywhere you can make an HTTP request. See the [API reference](/api-reference/v2-introduction), the [SDKs](/sdks/overview), or the [MCP server](/mcp-server).
 
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

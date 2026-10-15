@@ -90,7 +90,11 @@ paths:
                         letters, digits, `.`, `_`, `:`, `-`) — it is echoed
                         back, and a completed request with the same key replays
                         its original response and `scrape_id` instead of
-                        re-executing.
+                        re-executing. To browse the catalogue and read tool
+                        contracts for free, call Find Tools: set `provider` to
+                        `firecrawl`, `capability` to `find-tools`, and `options`
+                        to a `FindToolsOptions` object. The result `data` is a
+                        `FindToolsData` page.
                     domainTools:
                       type: boolean
                       default: false
@@ -100,6 +104,46 @@ paths:
                         (same `DiscoveredTool` shape as search). Requires the
                         team's Alexandria access to be enabled and no zero data
                         retention (403 otherwise). Free.
+                    toolDetail:
+                      type: string
+                      enum:
+                        - compact
+                        - summary
+                        - full
+                      description: >-
+                        How much of each tool contract to return in `data.tools`
+                        when `domainTools` is true. `compact` returns only
+                        `provider`, `capability`, and `description`. `summary`
+                        returns the full tool entry without `options` and
+                        `response`. `full` also returns `options`, `response`,
+                        and `examples`. If you omit it, tools are returned as
+                        with `summary`.
+            examples:
+              scrapeUrl:
+                summary: Scrape a URL
+                value:
+                  url: https://example.com
+                  formats:
+                    - markdown
+              findTools:
+                summary: 'Find Tools: browse the Alexandria catalogue (free)'
+                description: >-
+                  Calls the `firecrawl/find-tools` capability. It lists the
+                  tools of the `particle` provider and does not execute them.
+                  Follow an item's `next` call, or the page's `next` call, with
+                  another `alexandria` request.
+                value:
+                  alexandria:
+                    provider: firecrawl
+                    capability: find-tools
+                    options:
+                      providers:
+                        - particle
+                      level: tools
+                      expand:
+                        - options
+                        - response
+                      limit: 2
       responses:
         '200':
           description: Successful response
@@ -171,11 +215,37 @@ paths:
                     type: string
                     example: THIRD_PARTY_DATA_TERMS_REQUIRED
                   requiresAction:
-                    type: boolean
+                    type: object
                     description: >-
-                      Present when the team must take action (e.g. accept
-                      third-party data terms) before this request can be
-                      retried.
+                      Present with `THIRD_PARTY_DATA_TERMS_REQUIRED`. Tells you
+                      which provider terms an organization admin must accept
+                      before you retry this request.
+                    properties:
+                      type:
+                        type: string
+                        enum:
+                          - accept_terms
+                        description: The action to take. Always `accept_terms`.
+                      terms:
+                        type: string
+                        description: The provider whose terms must be accepted.
+                      version:
+                        type: string
+                        description: >-
+                          The version of the provider's terms that must be
+                          accepted.
+                      url:
+                        type: string
+                        format: uri
+                        description: >-
+                          The dashboard page where a human (an organization
+                          admin) accepts the terms. Send this URL to a person;
+                          do not accept the terms automatically.
+                    required:
+                      - type
+                      - terms
+                      - version
+                      - url
                   chargeId:
                     type: string
         '404':
@@ -343,6 +413,7 @@ components:
             allowing the page sufficient time to load. This waiting time is in
             addition to Firecrawl's smart wait feature.
           default: 0
+          maximum: 60000
         mobile:
           type: boolean
           description: >-
@@ -364,14 +435,30 @@ components:
         parsers:
           type: array
           description: >-
-            Controls how files are processed during scraping. When "pdf" is
-            included (default), the PDF content is extracted and converted to
-            markdown format, with billing based on the number of pages (1 credit
-            per page). When an empty array is passed, the PDF file is returned
-            in base64 encoding with a flat rate of 1 credit for the entire PDF.
+            Controls how files are processed during scraping. Each item is a
+            parser name (`"pdf"` or `"image"`) or a parser object. Both parsers
+            are on by default.
+
+             - **pdf**: PDF content is extracted and converted to markdown format, with billing based on the number of pages (1 credit per page).
+             - **image**: Raster images (PNG, JPEG, JPEG 2000, TIFF, GIF, BMP, WebP, AVIF) are OCR'd as one-page documents and converted to markdown. SVG and HEIC are not supported.
+
+            If you pass a list, parsers that are not in the list are off. For
+            example, `["pdf"]` turns off image OCR, so image URLs fail as
+            unsupported files. When an empty array is passed, the PDF file is
+            returned in base64 encoding with a flat rate of 1 credit for the
+            entire PDF.
           items:
             oneOf:
-              - type: object
+              - title: Parser name
+                type: string
+                enum:
+                  - pdf
+                  - image
+                description: >-
+                  Shorthand for a parser object with default options. `"pdf"` is
+                  the same as `{ "type": "pdf" }`.
+              - title: PDF
+                type: object
                 properties:
                   type:
                     type: string
@@ -428,8 +515,23 @@ components:
                 required:
                   - type
                 additionalProperties: false
+              - title: Image
+                type: object
+                description: >-
+                  Image OCR parser. It has no options. The PDF options (`mode`,
+                  `maxPages`, `pages`, `blocks`, `pageMarkers`) do not apply to
+                  images.
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - image
+                required:
+                  - type
+                additionalProperties: false
           default:
             - pdf
+            - image
         actions:
           type: array
           description: Actions to perform on the page before grabbing the content
@@ -718,6 +820,17 @@ components:
             pages remain eligible. Billed at 5 credits on hit, 1 credit on cache
             miss.
           default: false
+        checkPromptInjection:
+          type: boolean
+          description: >-
+            When enabled, scans the page content for prompt injection attempts
+            before any LLM-backed format (such as json, summary or question)
+            runs. Works with any format except rawBase64. If an injection is
+            detected, the request fails with a 403 and error code
+            SCRAPE_PROMPT_INJECTION_DETECTED. Adds 4 credits when the check
+            runs. If the check cannot scan all of the content, the scrape
+            continues with a warning and the check is not billed.
+          default: false
         redactPII:
           oneOf:
             - type: boolean
@@ -774,7 +887,16 @@ components:
         options:
           type: object
           default: {}
-          description: Capability-specific options passed through to the provider tool.
+          description: >-
+            Capability-specific options passed through to the provider tool. For
+            Find Tools (`provider: firecrawl`, `capability: find-tools`), use
+            `FindToolsOptions`.
+          anyOf:
+            - $ref: '#/components/schemas/FindToolsOptions'
+            - type: object
+              title: Capability options
+              description: Options for any other capability, as its contract defines them.
+              additionalProperties: true
       required:
         - provider
         - capability
@@ -967,6 +1089,23 @@ components:
               items:
                 type: string
               description: List of links on the page if `links` is in `formats`
+            attributes:
+              type: array
+              description: >-
+                Attribute values extracted by the `attributes` format. Only
+                present if an `attributes` format object was included in
+                `formats`.
+              items:
+                type: object
+                properties:
+                  selector:
+                    type: string
+                  attribute:
+                    type: string
+                  values:
+                    type: array
+                    items:
+                      type: string
             actions:
               type: object
               nullable: true
@@ -1113,6 +1252,32 @@ components:
                   description: >-
                     Time in milliseconds the request waited in the concurrency
                     queue. Only present when concurrencyLimited is true.
+                provider:
+                  type: object
+                  description: Set when a third-party data provider served the URL.
+                  properties:
+                    id:
+                      type: string
+                      description: The provider that returned the data.
+                    creditsCost:
+                      type: integer
+                      description: What that access cost, in credits.
+                    steps:
+                      type: array
+                      description: Each provider tried, in order.
+                      items:
+                        type: object
+                        properties:
+                          provider:
+                            type: string
+                          status:
+                            type: string
+                            enum:
+                              - matched
+                              - not_found
+                              - error
+                          creditsCost:
+                            type: integer
             warning:
               type: string
               nullable: true
@@ -1746,6 +1911,37 @@ components:
             required:
               - type
           - type: object
+            title: Attributes
+            description: >-
+              Extract attribute values from the elements that match CSS
+              selectors. Returns the values in the response `attributes` field.
+            properties:
+              type:
+                type: string
+                enum:
+                  - attributes
+              selectors:
+                type: array
+                description: The elements and attributes to extract.
+                items:
+                  type: object
+                  properties:
+                    selector:
+                      type: string
+                      description: CSS selector to find elements.
+                    attribute:
+                      type: string
+                      description: >-
+                        Attribute name to extract (for example
+                        `data-vehicle-name` or `id`).
+                  required:
+                    - selector
+                    - attribute
+                  additionalProperties: false
+            required:
+              - type
+              - selectors
+          - type: object
             title: Screenshot
             properties:
               type:
@@ -1794,12 +1990,10 @@ components:
                 description: The prompt to use for the JSON output
               checkPromptInjection:
                 type: boolean
+                deprecated: true
                 description: >-
-                  When enabled, scans the scraped page content for prompt
-                  injection attempts before running the extraction. If an
-                  injection is detected, the request fails with a 403 and error
-                  code SCRAPE_PROMPT_INJECTION_DETECTED. Adds 4 credits when the
-                  check runs. Defaults to false.
+                  Deprecated: use the top-level `checkPromptInjection` scrape
+                  option, which this value is merged into. Defaults to false.
                 default: false
             required:
               - type
@@ -2048,16 +2242,90 @@ components:
           type: string
           maxLength: 1024
           description: The username associated with the request.
+    FindToolsOptions:
+      type: object
+      title: Find Tools options
+      description: >-
+        Options for the Find Tools capability (`provider: firecrawl`,
+        `capability: find-tools`) in an `alexandria` call. Find Tools is free
+        and does not execute the tools it returns. All fields are optional.
+        Selectors narrow the results.
+      properties:
+        query:
+          type: string
+          description: >-
+            Natural-language description of the data you need. Returns tools
+            that match by meaning.
+        urls:
+          type: array
+          description: >-
+            Website URLs. Returns tools whose provider matches the domain of a
+            URL.
+          items:
+            type: string
+            format: uri
+        providers:
+          type: array
+          description: Provider IDs to browse, e.g. `particle`.
+          items:
+            type: string
+        categories:
+          type: array
+          description: Category IDs to browse.
+          items:
+            type: string
+        groups:
+          type: array
+          description: Group IDs to browse.
+          items:
+            type: string
+        capabilities:
+          type: array
+          description: Exact capability IDs to return.
+          items:
+            type: string
+        level:
+          type: string
+          enum:
+            - providers
+            - groups
+            - tools
+          description: The catalogue level to list in `items`.
+        expand:
+          type: array
+          description: >-
+            Contract parts to include on each tool. Use `["options",
+            "response"]` for inputs and output shape, add `examples` for example
+            payloads, or use `[]` for compact results.
+          items:
+            type: string
+            enum:
+              - options
+              - response
+              - examples
+        limit:
+          type: integer
+          minimum: 1
+          description: Maximum number of items on the page.
+        offset:
+          type: integer
+          minimum: 0
+          description: Number of items to skip, for pagination.
     DiscoveredTool:
       type: object
       description: >-
         A catalogued provider tool discovered via Alexandria, semantic search,
-        or domain matching.
+        or domain matching. The `toolDetail` request parameter sets which fields
+        appear: `compact` returns only `provider`, `capability`, and
+        `description`; `summary` adds the other fields except `options` and
+        `response`; `full` also adds `options`, `response`, and `examples`.
       additionalProperties: true
       properties:
         id:
           type: string
-          description: The tool's identifier, formatted as `provider/capability`.
+          description: >-
+            The tool's identifier, formatted as `provider/capability`. Omitted
+            when `toolDetail` is `compact`.
         provider:
           type: string
           description: The catalogued provider.
@@ -2066,22 +2334,28 @@ components:
           description: The provider-relative capability.
         name:
           type: string
-          description: Human-readable name of the tool.
+          description: >-
+            Human-readable name of the tool. Omitted when `toolDetail` is
+            `compact`.
         description:
           type: string
           description: Human-readable description of what the tool does.
         creditsCost:
           type: integer
           minimum: 0
-          description: Credits charged per execution of this tool.
+          description: >-
+            Credits charged per execution of this tool. Omitted when
+            `toolDetail` is `compact`.
         perRecord:
           type: boolean
           description: >-
             Whether `creditsCost` is charged per record returned rather than per
-            call.
+            call. Omitted when `toolDetail` is `compact`.
         options:
           type: array
-          description: The capability's accepted options.
+          description: >-
+            The capability's accepted options. Present only when `toolDetail` is
+            `full`.
           items:
             type: object
             additionalProperties: true
@@ -2095,7 +2369,9 @@ components:
         response:
           type: object
           additionalProperties: true
-          description: Description of the shape of a successful response's `data`.
+          description: >-
+            Description of the shape of a successful response's `data`. Present
+            only when `toolDetail` is `full`.
           properties:
             about:
               type: string
@@ -2113,7 +2389,7 @@ components:
                 additionalProperties: true
         matchedBy:
           type: array
-          description: Why this tool was surfaced.
+          description: Why this tool was surfaced. Omitted when `toolDetail` is `compact`.
           items:
             type: string
             enum:
@@ -2121,17 +2397,15 @@ components:
               - domain
         matchedUrls:
           type: array
-          description: URLs whose domain matched this tool, when matched by domain.
+          description: >-
+            URLs whose domain matched this tool, when matched by domain. Omitted
+            when `toolDetail` is `compact`.
           items:
             type: string
       required:
-        - id
         - provider
         - capability
-        - name
         - description
-        - creditsCost
-        - perRecord
     AlexandriaResult:
       type: object
       description: >-
@@ -2152,7 +2426,16 @@ components:
               minimum: 0
               description: Credits charged for this call.
             data:
-              description: The provider's response payload.
+              description: >-
+                The provider's response payload. For Find Tools (`provider:
+                firecrawl`, `capability: find-tools`), this is a `FindToolsData`
+                page.
+              anyOf:
+                - $ref: '#/components/schemas/FindToolsData'
+                - title: Capability response
+                  description: >-
+                    The response of any other capability, as its contract
+                    defines it.
             records:
               type: integer
               description: Number of records returned, when applicable.
@@ -2208,9 +2491,78 @@ components:
         - FINANCIAL
         - SECRET
       description: Public PII entity buckets supported by Firecrawl redaction.
+    FindToolsData:
+      type: object
+      title: Find Tools result
+      description: >-
+        One page of the Alexandria catalogue, returned in
+        `data.alexandria[].data` for a Find Tools call. The call costs 0
+        credits.
+      properties:
+        level:
+          type: string
+          enum:
+            - providers
+            - groups
+            - tools
+          description: The catalogue level of the items on this page.
+        items:
+          type: array
+          description: >-
+            Catalogue entries at `level`. At the `tools` level, each item also
+            has the tool fields of `DiscoveredTool` (`provider`, `capability`,
+            `description`, `creditsCost`, `perRecord`), plus `options` and
+            `response` when `expand` asks for them.
+          items:
+            type: object
+            additionalProperties: true
+            properties:
+              id:
+                type: string
+                description: The entry's identifier.
+              name:
+                type: string
+                description: Human-readable name of the entry.
+              next:
+                allOf:
+                  - $ref: '#/components/schemas/AlexandriaCall'
+                description: An `alexandria` call that returns more detail for this entry.
+              execute:
+                type: object
+                description: >-
+                  The `provider` and `capability` to put in an `alexandria` call
+                  to execute this tool.
+                properties:
+                  provider:
+                    type: string
+                  capability:
+                    type: string
+                required:
+                  - provider
+                  - capability
+            required:
+              - id
+              - name
+        total:
+          type: integer
+          minimum: 0
+          description: Total number of entries that match the selectors.
+        next:
+          allOf:
+            - $ref: '#/components/schemas/AlexandriaCall'
+          nullable: true
+          description: >-
+            An `alexandria` call for the next page of this listing, or `null` on
+            the last page.
+      required:
+        - level
+        - items
+        - total
   securitySchemes:
     bearerAuth:
       type: http
       scheme: bearer
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

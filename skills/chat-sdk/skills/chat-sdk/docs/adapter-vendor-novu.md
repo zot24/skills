@@ -10,6 +10,14 @@ package: @novu/chat-sdk-adapter
 # Novu
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the Novu adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="novu memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 

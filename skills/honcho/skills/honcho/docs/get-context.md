@@ -658,3 +658,6 @@ The `context()` method is essential for integrating Honcho sessions with LLMs. B
 * Handle multi-turn conversations
 
 You can build sophisticated AI applications that maintain conversation history and context across interactions while integrating seamlessly with popular LLM providers.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

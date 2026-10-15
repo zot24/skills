@@ -90,7 +90,7 @@ A tour of the home dashboard. What every card means and how to read it.
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 The home dashboard is the at-a-glance view of your portfolio. This page walks through each card so you know what you’re looking at, and where to dig in.

@@ -54,3 +54,6 @@ Because Firecrawl fully renders JavaScript before extracting, you get the page a
 * [Competitive Intelligence](/use-cases/competitive-intelligence) - Monitor competitor changes
 * [Product & E-commerce](/use-cases/product-ecommerce) - Track inventory and pricing
 * [Data Migration](/use-cases/data-migration) - Validate migrations
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

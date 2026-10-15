@@ -81,3 +81,6 @@ Every team member is assigned one of two roles: **Admin** or **Member**. You cho
 | Delete the team | ✓ | ✗ |
 
 In short, **Admins** have full control over team management, billing, and settings, while **Members** can use the team's resources and view usage on the Usage page but cannot access the Billing tab or modify the team.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

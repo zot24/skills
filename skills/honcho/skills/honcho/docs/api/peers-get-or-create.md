@@ -29,12 +29,10 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.2.2
+  version: 3.3.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
-  - url: http://localhost:8000
-    description: Local Development Server
 security: []
 paths:
   /v3/workspaces/{workspace_id}/peers:
@@ -173,3 +171,5 @@ components:
       scheme: bearer
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

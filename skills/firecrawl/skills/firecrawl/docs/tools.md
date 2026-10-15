@@ -30,12 +30,14 @@ Start with [Get Started](/mcp-server) and pick [For Agents](/mcp-server/keyless)
 | Extract structured data | `firecrawl_scrape` with JSON format | You have the URL and want data matching a prompt or JSON schema. |
 | Discover site URLs | `firecrawl_map` | You need to find pages before deciding what to extract. |
 | Search the web | `firecrawl_search` | You have a query rather than a known URL. |
+| Get data from a third-party provider | `firecrawl_find_tools`, then `firecrawl_scrape` with `alexandria` | You need typed records from a provider in the [Alexandria](/features/alexandria) catalogue. Authenticated `firecrawl_search` also returns matching tools in `data.tools`. |
 | Parse a file | `firecrawl_parse` | You need content from a PDF, document, spreadsheet, or HTML file. |
 | Extract many pages | `firecrawl_crawl` and `firecrawl_check_crawl_status` | You need to traverse a site or section. The crawl tool polls the job to a terminal state before returning. |
 | Run autonomous research | `firecrawl_agent` and `firecrawl_agent_status` | The task spans multiple sources and the exact pages are not known. |
 | Operate a live page | `firecrawl_interact` and `firecrawl_interact_stop` | You need clicks, form fills, navigation, or dynamic-page extraction. |
 | Search scientific literature | `firecrawl_research_*` | You need to find papers, read passages from inside one, or follow citations. Searches the [Research Index](/features/research) of PubMed, bioRxiv, medRxiv, and arXiv paper abstracts. |
 | Answer a programming question | `firecrawl_developer_search` | You need primary-source answers from issues, merged pull requests, READMEs, and curated docs. |
+| Answer a legal or regulatory question | `firecrawl_gov_search` | You need statutes, regulations, codes, court opinions, or other government publications from the [Firecrawl Government Index](/features/gov). |
 | Monitor changes | `firecrawl_monitor_*` | You need recurring checks, diffs, and webhook or email notifications. |
 | Send product feedback | `firecrawl_search_feedback` and `firecrawl_feedback` | You want to rate search results or report endpoint-level quality. |
 
@@ -69,6 +71,15 @@ Start with [Get Started](/mcp-server) and pick [For Agents](/mcp-server/keyless)
     The `firecrawl_monitor_*` family creates, lists, updates, runs, and inspects recurring monitors. `firecrawl_monitor_delete` permanently removes a monitor and should be called only when the user explicitly intends to delete it.
 
 
+    [Alexandria](/features/alexandria) tools need an authenticated session. Keyless sessions get no Alexandria tools.
+
+    1. **Discover.** Authenticated `firecrawl_search` uses `sources: ["web", "alexandria"]` by default and returns matching tools in `data.tools`. Use `sources: ["alexandria"]` for tools only, or `sources: ["web"]` to omit semantic tool discovery.
+    2. **Inspect.** Call `firecrawl_find_tools` with no arguments to browse categories, then providers, then tools. Use `query` or `urls` to find tools for a task or a website. Use `capabilities` to read the full contract of a tool. Follow the returned `nextTool` for the next step.
+    3. **Run.** Call `firecrawl_scrape` with `alexandria: {provider, capability, options}` instead of `url`. Send an array of up to 10 calls to run them together. Each result in `data.alexandria` has `data` or an `error`.
+
+    Discovery is free. Each run costs the price listed on its tool. If a provider needs accepted terms, the tool returns `THIRD_PARTY_DATA_TERMS_REQUIRED` with `requiresAction.url`. Give that URL to an org admin, who accepts the terms in the Firecrawl dashboard. The agent must not accept terms. After the admin confirms, send the same call again.
+
+
     Set `FIRECRAWL_NO_SEARCH_FEEDBACK=1` to prevent `firecrawl_search_feedback` from being registered. Set `FIRECRAWL_NO_ENDPOINT_FEEDBACK=1` to prevent `firecrawl_feedback` from being registered.
 
 
@@ -87,6 +98,9 @@ Start with [Get Started](/mcp-server) and pick [For Agents](/mcp-server/keyless)
     Answer coding questions from issues, PRs, READMEs, and docs.
 
 
+    Search statutes, regulations, codes, and court opinions.
+
+
     Traverse and extract a site or section.
 
 
@@ -102,6 +116,9 @@ Start with [Get Started](/mcp-server) and pick [For Agents](/mcp-server/keyless)
     Track page changes and receive notifications.
 
 
+    Find and run data tools from third-party providers.
+
+
 ## Troubleshooting
 
 * **A tool is missing:** confirm the connection mode on [Get Started](/mcp-server), reconnect or restart the client, and check whether team policy disables optional tools.
@@ -110,3 +127,6 @@ Start with [Get Started](/mcp-server) and pick [For Agents](/mcp-server/keyless)
   * If it is `/v2/mcp`, either replace the API key on that server or update the existing server URL to `/v2/mcp-oauth` and complete sign-in.
   * Start a new client session after either change.
 * **The client is rate-limited:** review the current [rate limits](/rate-limits), wait for the retry interval, or move from keyless to authenticated access.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

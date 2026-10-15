@@ -60,7 +60,7 @@ Load secrets
 <a href="#choose-your-configuration" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- <span data-as="p">**<a href="/environments" class="link">1Password Environments (beta)</a>** allow you to create Environments in 1Password that contain all your environment variables for a specific workflow. You can share Environments with your team and create separate Environments for each project, application, or development context (like staging or production).</span>
+- <span data-as="p">**<a href="/environments" class="link">1Password Environments</a>** allow you to create Environments in 1Password that contain all your environment variables for a specific workflow. You can share Environments with your team and create separate Environments for each project, application, or development context (like staging or production).</span>
 - <span data-as="p">**<a href="/cli/secret-references" class="link">Secret references</a>** are URIs that point to where a secret is stored in your 1Password account. A secret reference uses the names or unique identifiers of the vault, item, section, and field where the secret is stored in 1Password. You can set environment variables to secret references on the command line or use secret references in your `.env` files. Secret references require more manual setup than 1Password Environments to switch between different sets of environment variables for different contexts, or create shared team workflows.</span>
 - <span data-as="p">**Hybrid approach**: You can use `op run` to load variables from a 1Password Environment alongside secret references from `.env` files or exported environment variables.</span>
 
@@ -71,11 +71,11 @@ Load secrets
 <a href="#requirements" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- <div id="1password-environment-beta">
+- <div id="1password-environment">
 
-  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-1Password Environment (beta)">
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-1Password Environment">
 
-  1Password Environment (beta)
+  1Password Environment
 
   </div>
 
@@ -93,7 +93,7 @@ Load secrets
 
 
 1.  <a href="https://1password.com/pricing/password-manager" class="link" target="_blank" rel="noreferrer">Sign up for 1Password.</a>
-2.  <a href="https://app-updates.agilebits.com/product_history/CLI2#beta" class="link" target="_blank" rel="noreferrer">Install the latest beta build of 1Password CLI</a>, version `2.33.0-beta.02` or later.
+2.  <a href="/cli/get-started#step-1-install-1password-cli" class="link">Install 1Password CLI.</a>
 
 
 1.  <a href="https://1password.com/pricing/password-manager" class="link" target="_blank" rel="noreferrer">Sign up for 1Password.</a>
@@ -106,11 +106,11 @@ Load secrets
 <a href="#step-1-store-your-project-secrets-in-1password" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- <div id="1password-environment-beta-2">
+- <div id="1password-environment-2">
 
-  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-1Password Environment (beta)">
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-1Password Environment">
 
-  1Password Environment (beta)
+  1Password Environment
 
   </div>
 
@@ -139,11 +139,11 @@ Load secrets
 <a href="#step-2-pass-the-secrets-to-the-application" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
-- <div id="1password-environment-beta-3">
+- <div id="1password-environment-3">
 
-  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-1Password Environment (beta)">
+  <div class="flex text-sm items-center gap-1.5 leading-6 font-semibold whitespace-nowrap pt-3 pb-2.5 -mb-px max-w-max border-b text-primary dark:text-primary-light border-current" component-part="tab-button" active="true" testid="tab-1Password Environment">
 
-  1Password Environment (beta)
+  1Password Environment
 
   </div>
 
@@ -167,17 +167,17 @@ Load secrets
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_7ladmcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3ql6j69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_7padmcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3sl6j69bb9qnpfb39p7b9snpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_7tadmcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3ul6j69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -185,7 +185,7 @@ Load secrets
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_6admcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" data-id="base-ui-_R_356j69bb9qnpfb39p7b9snpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -214,17 +214,17 @@ Load secrets
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_7lcdmcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3qm6j69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_7pcdmcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3sm6j69bb9qnpfb39p7b9snpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_7tcdmcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_3um6j69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -232,7 +232,7 @@ Load secrets
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_6cdmcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" data-id="base-ui-_R_366j69bb9qnpfb39p7b9snpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -299,17 +299,17 @@ Environment file syntax rules
 
   <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-  <div id="base-ui-_R_fao4l8pqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_7lc2akct69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
   </div>
 
-  <div id="base-ui-_R_fio4l8pqcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_7pc2akct69bb9qnpfb39p7b9snpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
   <span class="sr-only" role="status"></span>
 
   </div>
 
-  <div id="base-ui-_R_fqo4l8pqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_7tc2akct69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
   </div>
 
@@ -317,7 +317,7 @@ Environment file syntax rules
 
   <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-  <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_co4l8pqcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+  <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" data-id="base-ui-_R_6c2akct69bb9qnpfb39p7b9snpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
   <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -351,17 +351,17 @@ Environment file syntax rules
 
   <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-  <div id="base-ui-_R_faogl8pqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_7lc8akct69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
   </div>
 
-  <div id="base-ui-_R_fiogl8pqcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_7pc8akct69bb9qnpfb39p7b9snpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
   <span class="sr-only" role="status"></span>
 
   </div>
 
-  <div id="base-ui-_R_fqogl8pqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+  <div id="base-ui-_R_7tc8akct69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
   </div>
 
@@ -369,7 +369,7 @@ Environment file syntax rules
 
   <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-  <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_cogl8pqcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+  <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" data-id="base-ui-_R_6c8akct69bb9qnpfb39p7b9snpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
   <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -525,17 +525,17 @@ APP_ENV=dev op run --env-file="./app.env" -- myapp deploy
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_faolaqqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7lcaldd69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_fiolaqqcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7pcaldd69bb9qnpfb39p7b9snpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_fqolaqqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7tcaldd69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -543,7 +543,7 @@ APP_ENV=dev op run --env-file="./app.env" -- myapp deploy
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_colaqqcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" data-id="base-ui-_R_6caldd69bb9qnpfb39p7b9snpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 
@@ -571,17 +571,17 @@ APP_ENV=dev op run --env-file="./app.env" -- myapp deploy
 
     <div class="absolute top-3 right-4 flex items-center gap-1.5 print:hidden" floating-buttons="true">
 
-    <div id="base-ui-_R_fap5aqqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7lcildd69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
-    <div id="base-ui-_R_fip5aqqcimmjlfium6jiuqsnpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7pcildd69bb9qnpfb39p7b9snpfiutb_" class="code-block-copy-button z-10 select-none" base-ui-tooltip-trigger="">
 
     <span class="sr-only" role="status"></span>
 
     </div>
 
-    <div id="base-ui-_R_fqp5aqqcimmjlfium6jiuqsnpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
+    <div id="base-ui-_R_7tcildd69bb9qnpfb39p7b9snpfiutb_" class="z-10 select-none" base-ui-tooltip-trigger="">
 
     </div>
 
@@ -589,7 +589,7 @@ APP_ENV=dev op run --env-file="./app.env" -- myapp deploy
 
     <div class="w-0 min-w-full max-w-full h-full dark:bg-codeblock text-sm leading-6 transition-[height] duration-300 ease-in-out code-block-background **:ring-0 **:outline-0 **:focus:ring-0 **:focus:outline-0 rounded-2xl bg-white" role="presentation" style="position:relative;--scroll-area-corner-height:0px;--scroll-area-corner-width:0px;font-variant-ligatures:none;height:auto;background-color:#ffffff;--shiki-dark-bg:#0B0C0E" component-part="code-block-root">
 
-    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" role="presentation" data-id="base-ui-_R_cp5aqqcimmjlfium6jiuqsnpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
+    <div class="size-full rounded-[inherit] [--scroll-area-fade-size:32px] py-3.5 px-4 overflow-y-hidden! base-ui-disable-scrollbar" data-id="base-ui-_R_6cildd69bb9qnpfb39p7b9snpfiutb_-viewport" tabindex="-1" style="overflow:scroll" component-part="scroll-area-viewport">
 
     <div class="min-w-full! h-full children:my-0! children:shadow-none! children:bg-transparent!" role="presentation" style="min-width:fit-content" component-part="scroll-area-content">
 

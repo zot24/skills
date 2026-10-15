@@ -405,3 +405,6 @@ On the first conversation there won't be much — but after a few exchanges, Hon
 | Connection timeouts | Hosted: check that `https://mcp.honcho.dev` is reachable. Local: check `http://127.0.0.1:3000/health` or the stdio process logs. |
 
 Need help? Join us on [Discord](https://discord.gg/honcho) or open an issue on [GitHub](https://github.com/plastic-labs/honcho/tree/main/mcp).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

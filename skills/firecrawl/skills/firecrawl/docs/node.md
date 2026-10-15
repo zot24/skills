@@ -192,7 +192,33 @@ if (started.id) {
 }
 ```
 
+A run that reaches `maxCredits` returns `status: "failed"` with `stopReason: "credit_limit_reached"`, and may include a best-effort `partial` and `partialSchemaValid` instead of `data`. See [Handling credit-limit stops](/features/agent#handling-credit-limit-stops) for how to use it and continue the thread with `threadId`.
+
 Every run also records an execution trace and output snapshots, which you can read with `getAgentTrace` and `getAgentSnapshot`. See [Agent](/features/agent) for the event schema and the full parameter list.
+
+### Alexandria Data Tools
+
+[Alexandria](/features/alexandria) is the Firecrawl catalogue of third-party data providers. Use `findTools` to browse providers and read tool contracts for free. Then run a tool with `scrape` and an `alexandria` request instead of a URL.
+
+```js Node theme={null}
+const catalogue = await firecrawl.findTools({ providers: ["particle"], limit: 2 });
+console.log(catalogue.items);
+
+const result = await firecrawl.scrape({
+  alexandria: {
+    provider: "particle",
+    capability: "podcasts/episodes/search",
+    options: { semantic_search: "AI agents", limit: 2 },
+  },
+});
+
+for (const item of result.alexandria) {
+  if (item.error) console.error(item.error.code, item.error.message);
+  else console.log(item.data);
+}
+```
+
+`alexandria` also accepts an array of up to 10 calls. Each item in `result.alexandria` has `data` or an `error`, and `result.creditsCost` shows the total cost. To retry after an uncertain result, pass the same `requestId` with the same request. `search` with `sources: ["alexandria"]` also returns matching tools in `result.tools`.
 
 ### Crawling a Website with WebSockets
 
@@ -422,3 +448,6 @@ await firecrawl.stopInteraction(scrapeJobId);
 The SDK throws descriptive exceptions for any errors returned by the Firecrawl API. Wrap calls in `try/catch` blocks as shown in the examples above.
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

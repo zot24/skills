@@ -17,7 +17,7 @@ Let's get started with Honcho. In this quickstart, you will:
 
   Running the code below requires an API key. Create an account and get your API key at [app.honcho.dev](https://app.honcho.dev) under "API KEYS".
 
-  Every new tenant gets \$100.00 in free credits on sign up. The code below costs \~\$0.04 to run, so don't worry--still plenty of free credits for iterating.
+  The code below costs \~\$0.04 to run.
 
   To run against a local stack instead, install the CLI (`uv tool install honcho-cli`) and then run `honcho start --setup` (Docker + an LLM provider key). See the [CLI reference](/docs/v3/documentation/reference/cli#local-stack).
 
@@ -385,3 +385,4 @@ From here, you can explore how to use Honcho's features in your own applications
     Integration patterns and advanced use cases
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

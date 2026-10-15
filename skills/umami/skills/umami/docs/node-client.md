@@ -20,6 +20,9 @@ Clients
 Copy page
 
 
+Send pageviews and custom events to Umami from your server with the @umami/node client for Node.js.
+
+
 ## Overview<a href="#overview" class="heading-anchor" aria-label="Permalink to “Overview”">#</a>
 
 The Umami node client allows you to send data to Umami on the server side.
@@ -47,16 +50,16 @@ umami.track({ url: '/home' });
 ```
 
 
-If using Umami Cloud, you can use `https://cloud.umami.is` as the host URL.
+If using Umami Cloud, you can use `https://gateway.umami.is` as the host URL.
 
 The properties you can send using the `.track` function are:
 
 - **hostname**: Hostname of server
-- **language**: Client language (eg. en-US)
+- **language**: Client language (e.g. en-US)
 - **referrer**: Page referrer
-- **screen**: Screen dimensions (eg. 1920x1080)
+- **screen**: Screen dimensions (e.g. 1920x1080)
 - **title**: Page title
-- **url**: Page url
+- **url**: Page URL
 - **name**: Event name (for custom events)
 - **data**: Event data properties
 

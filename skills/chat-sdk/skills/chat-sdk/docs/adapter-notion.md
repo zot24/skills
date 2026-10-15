@@ -10,6 +10,14 @@ package: @chat-adapter/notion
 # Notion
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the Notion adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="notion memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 
@@ -54,23 +62,31 @@ export async function POST(request: Request): Promise<Response> {
 
 The adapter targets a single workspace through an [access-token connection](https://developers.notion.com/docs/getting-started).
 
-### 1. Create the connection
+<div className="fd-steps">
+  <div className="fd-step">
+    ### Create the connection
 
-1. Open the [Developer Portal](https://app.notion.com/developers/connections) and click **New connection**.
-2. Enter a connection name, choose **Access token** as the authentication method, and select the workspace the connection is installable in. Only one workspace is supported, and the connection is installed automatically. Click **Create connection**.
-3. On the connection page, copy the **Access token** and set it as `NOTION_TOKEN`.
+    1. Open the [Developer Portal](https://app.notion.com/developers/connections) and click **New connection**.
+    2. Enter a connection name, choose **Access token** as the authentication method, and select the workspace the connection is installable in. Only one workspace is supported, and the connection is installed automatically. Click **Create connection**.
+    3. On the connection page, copy the **Access token** and set it as `NOTION_TOKEN`.
+  </div>
 
-### 2. Set capabilities
+  <div className="fd-step">
+    ### Set capabilities
 
-1. Under **Capabilities** then **Comment capabilities**, enable **Read comments** and **Insert comments**.
-2. Under **Capabilities** then **Content capabilities**, leave **Read content**, **Update content**, and **Insert content** as they are. **Read content** is required for [`message.subject`](/docs/subject) page metadata.
-3. Under **Capabilities** then **User capabilities**, leave **Read user information including email addresses** as it is. The adapter uses it for author names and mention resolution.
+    1. Under **Capabilities** then **Comment capabilities**, enable **Read comments** and **Insert comments**.
+    2. Under **Capabilities** then **Content capabilities**, leave **Read content**, **Update content**, and **Insert content** as they are. **Read content** is required for [`message.subject`](/docs/subject) page metadata and for verifying the containing page before editing or deleting block-parent comments.
+    3. Under **Capabilities** then **User capabilities**, leave **Read user information including email addresses** as it is. The adapter uses it for author names and mention resolution.
+  </div>
 
-### 3. Choose content access
+  <div className="fd-step">
+    ### Choose content access
 
-On the **Content access** tab, choose which pages and databases the connection can access. The connection is available, and webhooks fire, only for those pages and databases.
+    On the **Content access** tab, choose which pages and databases the connection can access. The connection is available, and webhooks fire, only for those pages and databases.
 
-Capability or access errors, typically HTTP 403, usually mean a comment capability is missing or the page or database was not enabled under **Content access**.
+    Capability or access errors, typically HTTP 403, usually mean a comment capability is missing or the page or database was not enabled under **Content access**.
+  </div>
+</div>
 
 ## Authentication
 
@@ -93,6 +109,15 @@ const notion = createNotionAdapter({
   in Notion and retain `NOTION_VERIFICATION_TOKEN` for native HMAC verification.
   `NOTION_TOKEN` is not needed when using `connectNotionAdapter`.
 
+
+Create the connector and attach it to your project with the [Vercel CLI](https://vercel.com/docs/cli/connect). Notion webhooks go directly to your app, so omit `--triggers`. `vercel env pull` downloads a development OIDC token for local runs:
+
+```bash
+vercel link
+vercel connect create notion --name acme-notion
+vercel connect attach notion/acme-notion
+vercel env pull
+```
 
 ### Access token
 
@@ -230,6 +255,8 @@ One Notion page is one Chat SDK channel, and each discussion is a thread.
 | Whole-block discussion (outbound)   | `notion:{pageId}:block:{blockId}`, from `encodeThreadId({ pageId, blockId })` or the adapter helper | Starts a discussion on an entire block via `parent.block_id`.       |
 
 Inbound `comment.created` events always include a `discussion_id`. The adapter resolves the containing page, including for block-parent comments, and dispatches on `notion:{pageId}:{discussionId}` so replies stay threaded.
+
+Comment edits and deletions require **Read comments** to retrieve the target before writing. The adapter throws a `ValidationError` if the comment is missing or belongs to another page, discussion, or block than the supplied thread ID. For block-parent comments, it retrieves the current block ancestry rather than relying on cached page ownership.
 
 
   You can start page-level and whole-block discussions through the API. You cannot start selected-text-range (inline highlight) discussions through the public Comments API; those must already exist in Notion.

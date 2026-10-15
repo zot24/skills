@@ -143,3 +143,6 @@ Set `highlights` to `false` when you want each website's plain description or sn
 * **Zero Data Retention:** ZDR searches retain the websites' plain descriptions and snippets.
 
 For every Search parameter and the complete response schema, see the [Search API reference](/api-reference/endpoint/search).
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -90,7 +90,7 @@ Run Wealthfolio on your own infrastructure or choose managed hosting with PikaPo
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 Wealthfolio is local-first by design. The desktop app keeps everything on your machine. The **web edition** packages the same engine into a single Docker image so you can run it on a homelab, NAS, or VPS and access it from any browser.

@@ -319,3 +319,6 @@ For additional support:
 
 * Email: [support@sourcesync.ai](mailto:support@sourcesync.ai)
 * Discord: [Join our community](https://discord.gg/Fx3GnFKnRT)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -354,3 +354,6 @@ Working representations provide fast access to cached psychological models that 
 * Combine cached and fresh analysis appropriately
 
 You can build efficient applications that leverage Honcho's continuous learning about peer knowledge and mental states without the latency of real-time generation.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

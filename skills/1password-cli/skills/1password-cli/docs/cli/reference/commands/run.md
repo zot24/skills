@@ -68,6 +68,10 @@ op run -- <command> <command>... [flags]
 ``` shiki
 --env-file stringArray   Enable Dotenv integration with specific Dotenv files to
                          parse. For example: --env-file=.env.
+--environment strings    Load environment variables from one or more 1Password
+                         Environments by ID. If the same variable exists in 
+                         multiple Environments, the last one takes precedence.
+  -h, --help             Help for run
 --no-masking             Disable masking of secrets on stdout and stderr.
 ```
 
@@ -81,7 +85,7 @@ op run -- <command> <command>... [flags]
 #### 
 
 
-<a href="#load-variables-from-environments-beta" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
+<a href="#load-variables-from-environments" class="-ml-10 flex items-center opacity-0 border-0 group-hover:opacity-100 focus:opacity-100 focus:outline-0 group/link" aria-label="Navigate to header">​</a>
 
 
 ``` shiki

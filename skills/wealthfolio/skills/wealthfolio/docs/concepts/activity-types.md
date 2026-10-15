@@ -90,7 +90,7 @@ How Wealthfolio models trades, cash flows, income, transfers, subtypes, and posi
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 Every trade, cash movement, fee, or stock split is recorded as an **activity**. Choosing the right type helps Wealthfolio calculate your balances and returns.
 

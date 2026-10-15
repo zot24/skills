@@ -284,3 +284,6 @@ Modes:
 * `similar`: co-citation and bibliographic-coupling neighborhood
 * `citers`: papers that cite the seed
 * `references`: papers cited by the seed
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

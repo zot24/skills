@@ -25,3 +25,6 @@ flyctl deploy # Deploy with appropriate environment variables
 ```
 
 Then you should have a new URL to initialize your Honcho client with! Consider your user context managed 🪄.\`
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

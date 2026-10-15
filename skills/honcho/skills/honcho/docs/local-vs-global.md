@@ -73,3 +73,5 @@ bob.chat(target="alice", query="What did Alice eat today?")
 
   Local Representations are turned off by default
 
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

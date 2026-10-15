@@ -45,12 +45,13 @@ Still having issues? feel free to stop by one of our support sites for extra hel
 - <a href="https://discord.sonarr.tv/" class="is-external-link"><em></em> Discord <em>Official Sonarr Discord</em></a>
 - <a href="https://reddit.com/r/sonarr" class="is-external-link"><em></em> Reddit <em>Official Sonarr Subreddit</em></a>
 - <a href="https://forums.sonarr.tv/" class="is-external-link"><em></em> Forums <em>Official Sonarr Forums</em></a>
+- <a href="/sonarr/privacy" class="is-internal-link is-valid-page"><em></em> Privacy <em>SonarrBot Privacy Policy</em></a>
 
 # <a href="#links" class="toc-anchor">¶</a> Links
 
 - <a href="https://sonarr.tv" class="is-external-link">sonarr.tv <em>Website</em></a>
 - <a href="https://sonarr.tv/donate" class="is-external-link">sonarr.tv <em>Donations</em></a>
 - <a href="https://github.com/sonarr/sonarr" class="is-external-link">GitHub <em>Source Code</em></a>
-- <a href="/sonarr/xem-guide" class="is-internal-link is-valid-page">XEM Moderation Guide <em><em></em></em></a>
+- <a href="/sonarr/xem-guide" class="is-internal-link is-valid-page">XEM <em>Moderation Guide</em></a>
 
 

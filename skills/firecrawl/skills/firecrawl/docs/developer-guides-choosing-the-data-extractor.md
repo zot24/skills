@@ -433,3 +433,6 @@ The key advantage: with `/agent`, you can drop the URLs entirely and just descri
 * [JSON mode documentation](/features/llm-extract)
 * [Extract documentation](/features/extract)
 * [Batch scraping](/features/batch-scrape)
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

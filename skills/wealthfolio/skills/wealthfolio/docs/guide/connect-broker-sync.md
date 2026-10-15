@@ -90,12 +90,12 @@ Automatically pull activities from your brokerage and sync your data across devi
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 <a href="/connect/" class="font-medium underline underline-offset-4">Wealthfolio Connect</a> is an optional paid service that adds two things on top of the free local-first app:
 
 1.  **Automatic broker sync.** Activities pulled directly from your brokerage, no CSV exports required.
-2.  **End-to-end encrypted device sync.** Keep desktop, iOS, and self-hosted instances in step without anyone (us included) being able to read your portfolio.
+2.  **End-to-end encrypted device sync.** Keep desktop, iOS, Android, and self-hosted instances in step without anyone (us included) being able to read your portfolio.
 
 The core app stays exactly the same with or without Connect. This guide covers what Connect does, what it doesn’t, and how to set it up.
 
@@ -149,7 +149,7 @@ If your broker isn’t listed, request it via <a href="https://snaptrade.com/bro
 ## 3 · Set up broker sync
 
 1.  **Subscribe** to Connect at <a href="/connect/" class="font-medium underline underline-offset-4">wealthfolio.app/connect</a>.
-2.  **Sign in** to Connect from the desktop or iOS app via Settings → **Connect**.
+2.  **Sign in** to Connect from the desktop, iOS, or Android app via Settings → **Connect**.
 3.  **Link a brokerage**: Settings → **Connected Accounts** → **Add brokerage**. You’ll be redirected to SnapTrade’s hosted connection portal. Depending on the institution, you may authorize OAuth on the brokerage website, provide broker-issued API credentials or a reporting token, or authenticate inside the hosted portal. Wealthfolio requests a read-only connection in every case.
 4.  **First sync** runs immediately and pulls the history the connection makes available. The range varies by brokerage and account. Subsequent syncs run automatically once per day, or on demand via **Sync now**.
 
@@ -171,7 +171,7 @@ Each linked brokerage creates one or more **Connect accounts** in Wealthfolio. T
 
 Once Connect is active, devices linked to the same Connect account stay in sync:
 
-1.  Sign into Connect on each device (desktop, iOS, self-hosted).
+1.  Sign into Connect on each device (desktop, iOS, Android, self-hosted).
 2.  Wealthfolio generates a device-specific keypair on first sign-in.
 3.  Changes are encrypted on-device with your account key and pushed to Connect’s storage tier.
 4.  Other devices pull the encrypted blobs and decrypt locally.

@@ -62,3 +62,6 @@ Users build migration tools with Firecrawl to extract data from various platform
 * [Product & E-commerce](/use-cases/product-ecommerce) - Catalog migrations
 * [Content Generation](/use-cases/content-generation) - Content transformation
 * [AI Platforms](/use-cases/ai-platforms) - Knowledge base migration
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

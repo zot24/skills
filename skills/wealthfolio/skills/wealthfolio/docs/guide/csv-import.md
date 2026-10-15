@@ -90,7 +90,7 @@ Map broker exports to Wealthfolio activities. File format, mapping, per-broker r
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 The CSV importer takes broker statements (or any spreadsheet) and turns each row into a Wealthfolio activity. Most brokers don’t follow the same column names, so the importer walks you through a **mapping step** that aligns their columns to ours. Mappings are saved per account, so subsequent imports for that broker are one click.
 
@@ -128,33 +128,33 @@ You don’t have to match this format exactly. The importer does the mapping for
 
 ### Required columns
 
-Investment imports require these six column mappings. Individual cash rows can leave symbol, quantity, and price blank. Cash-only account imports require just `date`, `activityType`, and `amount`.
+Investment imports require these five column mappings. Releases before 3.10 also require an `amount` mapping. Individual cash rows can leave symbol, quantity, and price blank. Cash-only account imports require just `date`, `activityType`, and `amount`.
 
 
-| Field          | What it is                                                                                                                                |
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------------|
-| `date`         | Trade or transaction date. ISO-8601 (`2025-03-15`) preferred; common locale formats are recognized.                                       |
-| `symbol`       | Ticker (`AAPL`, `RY.TO`, `IWDA.AS`). Leave **blank** for pure cash activities — the activity type identifies them.                        |
-| `quantity`     | Shares (positive number). Up to 8 decimal places for fractional shares. Leave blank for plain cash rows.                                  |
-| `activityType` | One of the <a href="/docs/concepts/activity-types/" class="font-medium underline underline-offset-4">supported activity types</a>.        |
-| `unitPrice`    | Price per unit in the activity currency. Leave blank for plain cash rows.                                                                 |
-| `amount`       | Total cash value. Final cash paid or received, including fees and taxes. See the rules below for blank totals and special activity types. |
+| Field          | What it is                                                                                                                         |
+|----------------|------------------------------------------------------------------------------------------------------------------------------------|
+| `date`         | Trade or transaction date. ISO-8601 (`2025-03-15`) preferred; common locale formats are recognized.                                |
+| `symbol`       | Ticker (`AAPL`, `RY.TO`, `IWDA.AS`). Leave **blank** for pure cash activities — the activity type identifies them.                 |
+| `quantity`     | Shares (positive number). Up to 8 decimal places for fractional shares. Leave blank for plain cash rows.                           |
+| `activityType` | One of the <a href="/docs/concepts/activity-types/" class="font-medium underline underline-offset-4">supported activity types</a>. |
+| `unitPrice`    | Price per unit in the activity currency. Leave blank for plain cash rows.                                                          |
 
 
 ### Optional columns
 
 
-| Field            | What it is                                                                                                                                                                        |
-|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `currency`       | Activity currency (ISO 4217, e.g. `USD`, `EUR`, `CAD`). When omitted, a matched asset’s currency can be used before the account currency. Check the preview or map it explicitly. |
-| `fee`            | Fee or commission included in the final amount. Do not deduct it again.                                                                                                           |
-| `tax`            | Tax or withholding included in the final amount.                                                                                                                                  |
-| `instrumentType` | Asset type for a new security, e.g. `EQUITY`, `CRYPTO`. Helps Wealthfolio classify symbols it hasn’t seen before.                                                                 |
-| `isin`           | ISIN identifier — an alternative to the ticker for matching a security.                                                                                                           |
-| `fxRate`         | Exchange rate from activity currency to **account currency**. For a USD activity in a CAD account, `1.36` means USD 1 = CAD 1.36.                                                 |
-| `subtype`        | Refines the activity type, e.g. `DRIP`, `STAKING_REWARD`, `POSITION_OPEN`, `POSITION_CLOSE`, `SELL_SHORT`, `BUY_TO_COVER`, `BTO`, `STO`, `BTC`, `STC`.                            |
-| `comment`        | Free-text note. Useful for cross-referencing your broker statement.                                                                                                               |
-| `account`        | Destination account per row, if you’re not importing everything into the single selected account.                                                                                 |
+| Field            | What it is                                                                                                                                                                                    |
+|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `amount`         | Final cash paid or received, including fees and taxes. In 3.10 or newer, investment imports can leave it out: BUY and SELL totals are calculated. Cash, income, and split rows still need it. |
+| `currency`       | Activity currency (ISO 4217, e.g. `USD`, `EUR`, `CAD`). When omitted, a matched asset’s currency can be used before the account currency. Check the preview or map it explicitly.             |
+| `fee`            | Fee or commission included in the final amount. Do not deduct it again.                                                                                                                       |
+| `tax`            | Tax or withholding included in the final amount.                                                                                                                                              |
+| `instrumentType` | Asset type for a new security, e.g. `EQUITY`, `CRYPTO`. Helps Wealthfolio classify symbols it hasn’t seen before.                                                                             |
+| `isin`           | ISIN identifier — an alternative to the ticker for matching a security.                                                                                                                       |
+| `fxRate`         | Exchange rate from activity currency to **account currency**. For a USD activity in a CAD account, `1.36` means USD 1 = CAD 1.36.                                                             |
+| `subtype`        | Refines the activity type, e.g. `DRIP`, `STAKING_REWARD`, `POSITION_OPEN`, `POSITION_CLOSE`, `SELL_SHORT`, `BUY_TO_COVER`, `BTO`, `STO`, `BTC`, `STC`.                                        |
+| `comment`        | Free-text note. Useful for cross-referencing your broker statement.                                                                                                                           |
+| `account`        | Destination account per row, if you’re not importing everything into the single selected account.                                                                                             |
 
 
 ### How amounts are imported

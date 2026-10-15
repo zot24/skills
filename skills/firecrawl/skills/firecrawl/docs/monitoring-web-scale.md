@@ -261,3 +261,6 @@ Editing the monitor's `goal` or `queries` bumps its `goalVersion`, which invalid
 * [Notifications](/features/monitoring#notifications): webhook and email delivery.
 * [Check results](/features/monitoring#check-results): inspect each check and its results.
 * [Pricing](/features/monitoring#pricing): 2 credits per 10 results per check, plus 1 credit per judged result.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

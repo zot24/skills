@@ -192,3 +192,4 @@ Dive into our [API Reference](/docs/v3/api-reference) to explore all available e
     See Honcho in action with real examples
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -10,6 +10,14 @@ package: @agentphone/chat-sdk-adapter
 # AgentPhone
 
 
+## Create a new bot
+
+Scaffold a Next.js bot with the AgentPhone adapter using [`create-chat-sdk`](/docs/create-chat-sdk):
+
+<CreateChatSdk adapters="agentphone memory" />
+
+The generated app uses the [Memory state adapter](/adapters/official/memory) for local development. To add the adapter to an existing app, start at [Install](#install).
+
 ## Install
 
 

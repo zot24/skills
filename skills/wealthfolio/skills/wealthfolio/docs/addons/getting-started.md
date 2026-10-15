@@ -90,7 +90,7 @@ Create your first Wealthfolio addon in 5 minutes.
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 ## Prerequisites

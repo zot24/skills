@@ -54,6 +54,7 @@ Filter search results by specific categories using the `categories` parameter:
 * **`research`**: Restrict web search to academic and research websites (arxiv.org, nature.com, pubmed.ncbi.nlm.nih.gov, and similar). Changes on 2026-11-16 to search the [Research Index](/features/research) and return paper records, see the warning below
 * **`pdf`**: Search for PDFs
 * **`developer`**: Search the [Developer Index](/features/developer) — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites
+* **`gov`**: Search the [Firecrawl Government Index](/features/gov) — statutes, regulations, codes, court opinions, and other government publications. Cannot be combined with other categories
 
 
   **The `research` category changes on 2026-11-16.** It will search the [Research Index](/features/research) (PubMed, bioRxiv, medRxiv, arXiv) instead of filtering web results to 14 academic websites. Results will move from `data.web` to `data.research` and come back as paper records: `paperId`, `primaryId`, `ids`, `title`, `abstract`, `score`. Until then every response that uses it carries a `warnings` entry.
@@ -246,6 +247,19 @@ paths:
                     is among the sources; set `false` to disable, or `true`
                     alone to add domain-matched tools beside ordinary web
                     results. Free.
+                toolDetail:
+                  type: string
+                  enum:
+                    - compact
+                    - summary
+                    - full
+                  default: compact
+                  description: >-
+                    How much of each tool contract to return in `data.tools`.
+                    `compact` returns only `provider`, `capability`, and
+                    `description`. `summary` returns the full tool entry without
+                    `options` and `response`. `full` also returns `options`,
+                    `response`, and `examples`.
                 categories:
                   type: array
                   items:
@@ -257,6 +271,15 @@ paths:
                             type: string
                             enum:
                               - developer
+                        required:
+                          - type
+                      - type: object
+                        title: Gov
+                        properties:
+                          type:
+                            type: string
+                            enum:
+                              - gov
                         required:
                           - type
                       - type: object
@@ -713,6 +736,7 @@ components:
             allowing the page sufficient time to load. This waiting time is in
             addition to Firecrawl's smart wait feature.
           default: 0
+          maximum: 60000
         mobile:
           type: boolean
           description: >-
@@ -734,14 +758,30 @@ components:
         parsers:
           type: array
           description: >-
-            Controls how files are processed during scraping. When "pdf" is
-            included (default), the PDF content is extracted and converted to
-            markdown format, with billing based on the number of pages (1 credit
-            per page). When an empty array is passed, the PDF file is returned
-            in base64 encoding with a flat rate of 1 credit for the entire PDF.
+            Controls how files are processed during scraping. Each item is a
+            parser name (`"pdf"` or `"image"`) or a parser object. Both parsers
+            are on by default.
+
+             - **pdf**: PDF content is extracted and converted to markdown format, with billing based on the number of pages (1 credit per page).
+             - **image**: Raster images (PNG, JPEG, JPEG 2000, TIFF, GIF, BMP, WebP, AVIF) are OCR'd as one-page documents and converted to markdown. SVG and HEIC are not supported.
+
+            If you pass a list, parsers that are not in the list are off. For
+            example, `["pdf"]` turns off image OCR, so image URLs fail as
+            unsupported files. When an empty array is passed, the PDF file is
+            returned in base64 encoding with a flat rate of 1 credit for the
+            entire PDF.
           items:
             oneOf:
-              - type: object
+              - title: Parser name
+                type: string
+                enum:
+                  - pdf
+                  - image
+                description: >-
+                  Shorthand for a parser object with default options. `"pdf"` is
+                  the same as `{ "type": "pdf" }`.
+              - title: PDF
+                type: object
                 properties:
                   type:
                     type: string
@@ -798,8 +838,23 @@ components:
                 required:
                   - type
                 additionalProperties: false
+              - title: Image
+                type: object
+                description: >-
+                  Image OCR parser. It has no options. The PDF options (`mode`,
+                  `maxPages`, `pages`, `blocks`, `pageMarkers`) do not apply to
+                  images.
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - image
+                required:
+                  - type
+                additionalProperties: false
           default:
             - pdf
+            - image
         actions:
           type: array
           description: Actions to perform on the page before grabbing the content
@@ -1088,6 +1143,17 @@ components:
             pages remain eligible. Billed at 5 credits on hit, 1 credit on cache
             miss.
           default: false
+        checkPromptInjection:
+          type: boolean
+          description: >-
+            When enabled, scans the page content for prompt injection attempts
+            before any LLM-backed format (such as json, summary or question)
+            runs. Works with any format except rawBase64. If an injection is
+            detected, the request fails with a 403 and error code
+            SCRAPE_PROMPT_INJECTION_DETECTED. Adds 4 credits when the check
+            runs. If the check cannot scan all of the content, the scrape
+            continues with a warning and the check is not billed.
+          default: false
         redactPII:
           oneOf:
             - type: boolean
@@ -1191,12 +1257,17 @@ components:
       type: object
       description: >-
         A catalogued provider tool discovered via Alexandria, semantic search,
-        or domain matching.
+        or domain matching. The `toolDetail` request parameter sets which fields
+        appear: `compact` returns only `provider`, `capability`, and
+        `description`; `summary` adds the other fields except `options` and
+        `response`; `full` also adds `options`, `response`, and `examples`.
       additionalProperties: true
       properties:
         id:
           type: string
-          description: The tool's identifier, formatted as `provider/capability`.
+          description: >-
+            The tool's identifier, formatted as `provider/capability`. Omitted
+            when `toolDetail` is `compact`.
         provider:
           type: string
           description: The catalogued provider.
@@ -1205,22 +1276,28 @@ components:
           description: The provider-relative capability.
         name:
           type: string
-          description: Human-readable name of the tool.
+          description: >-
+            Human-readable name of the tool. Omitted when `toolDetail` is
+            `compact`.
         description:
           type: string
           description: Human-readable description of what the tool does.
         creditsCost:
           type: integer
           minimum: 0
-          description: Credits charged per execution of this tool.
+          description: >-
+            Credits charged per execution of this tool. Omitted when
+            `toolDetail` is `compact`.
         perRecord:
           type: boolean
           description: >-
             Whether `creditsCost` is charged per record returned rather than per
-            call.
+            call. Omitted when `toolDetail` is `compact`.
         options:
           type: array
-          description: The capability's accepted options.
+          description: >-
+            The capability's accepted options. Present only when `toolDetail` is
+            `full`.
           items:
             type: object
             additionalProperties: true
@@ -1234,7 +1311,9 @@ components:
         response:
           type: object
           additionalProperties: true
-          description: Description of the shape of a successful response's `data`.
+          description: >-
+            Description of the shape of a successful response's `data`. Present
+            only when `toolDetail` is `full`.
           properties:
             about:
               type: string
@@ -1252,7 +1331,7 @@ components:
                 additionalProperties: true
         matchedBy:
           type: array
-          description: Why this tool was surfaced.
+          description: Why this tool was surfaced. Omitted when `toolDetail` is `compact`.
           items:
             type: string
             enum:
@@ -1260,17 +1339,15 @@ components:
               - domain
         matchedUrls:
           type: array
-          description: URLs whose domain matched this tool, when matched by domain.
+          description: >-
+            URLs whose domain matched this tool, when matched by domain. Omitted
+            when `toolDetail` is `compact`.
           items:
             type: string
       required:
-        - id
         - provider
         - capability
-        - name
         - description
-        - creditsCost
-        - perRecord
     Formats:
       type: array
       items:
@@ -1339,6 +1416,37 @@ components:
             required:
               - type
           - type: object
+            title: Attributes
+            description: >-
+              Extract attribute values from the elements that match CSS
+              selectors. Returns the values in the response `attributes` field.
+            properties:
+              type:
+                type: string
+                enum:
+                  - attributes
+              selectors:
+                type: array
+                description: The elements and attributes to extract.
+                items:
+                  type: object
+                  properties:
+                    selector:
+                      type: string
+                      description: CSS selector to find elements.
+                    attribute:
+                      type: string
+                      description: >-
+                        Attribute name to extract (for example
+                        `data-vehicle-name` or `id`).
+                  required:
+                    - selector
+                    - attribute
+                  additionalProperties: false
+            required:
+              - type
+              - selectors
+          - type: object
             title: Screenshot
             properties:
               type:
@@ -1387,12 +1495,10 @@ components:
                 description: The prompt to use for the JSON output
               checkPromptInjection:
                 type: boolean
+                deprecated: true
                 description: >-
-                  When enabled, scans the scraped page content for prompt
-                  injection attempts before running the extraction. If an
-                  injection is detected, the request fails with a 403 and error
-                  code SCRAPE_PROMPT_INJECTION_DETECTED. Adds 4 credits when the
-                  check runs. Defaults to false.
+                  Deprecated: use the top-level `checkPromptInjection` scrape
+                  option, which this value is merged into. Defaults to false.
                 default: false
             required:
               - type
@@ -1595,3 +1701,5 @@ components:
       scheme: bearer
 
 ````
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

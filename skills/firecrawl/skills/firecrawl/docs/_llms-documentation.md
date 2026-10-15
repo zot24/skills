@@ -6,9 +6,11 @@
 
 ### Prise en main
 
-- [Introduction](https://docs.firecrawl.dev/fr/introduction.md): L’API de web data pour les agents IA. Recherchez sur le web, extrayez n’importe quelle page et interagissez avec elle via une seule API.
+- [Introduction](https://docs.firecrawl.dev/fr/introduction.md): L’API de données web pour les agents IA. Recherchez sur le web, extrayez n’importe quelle page et interagissez avec elle via une seule API.
+- [Firecrawl dans ChatGPT & Codex](https://docs.firecrawl.dev/fr/integrations/chatgpt-codex.md): Effectuez des recherches sur le web, consultez des pages et exploitez des données web en temps réel depuis ChatGPT & Codex.
+- [Firecrawl dans Claude & Claude Code](https://docs.firecrawl.dev/fr/quickstarts/claude-code.md): Effectuez des recherches sur le web et consultez des pages depuis Claude ou votre session Claude Code.
+- [Recherche et scraping web MCP dans Cursor](https://docs.firecrawl.dev/fr/quickstarts/cursor.md): Ajoutez le scraping web et la recherche à Cursor en 2 minutes
 - [CLI](https://docs.firecrawl.dev/fr/sdks/cli.md): Les skills Firecrawl permettent simplement aux agents IA comme Codex, Claude Code, Cursor et OpenCode d’utiliser Firecrawl via la CLI.
-- [Créer avec l’IA](https://docs.firecrawl.dev/fr/ai-onboarding.md): Tout ce dont vous avez besoin pour intégrer votre agent IA à Firecrawl.
 - [Guide avancé de scraping](https://docs.firecrawl.dev/fr/advanced-scraping-guide.md): Configurez les options de scraping, les actions du navigateur, le crawl, la cartographie et le point de terminaison de l'agent grâce à l’ensemble de la surface de l’API Firecrawl.
 
 #### MCP
@@ -24,9 +26,10 @@
 - [Limites de débit](https://docs.firecrawl.dev/fr/rate-limits.md): Limites de débit selon les forfaits et les requêtes API
 - [Crédits partenaires](https://docs.firecrawl.dev/fr/partner-credits.md): Comment fonctionnent les crédits partenaires Firecrawl, notamment les conditions d’éligibilité, leur expiration et les limites de l’offre
 
-#### Entreprise
+#### Enterprise
 
 - [Enterprise](https://docs.firecrawl.dev/fr/enterprise.md): Offres Enterprise, sécurité et fonctionnalités de Firecrawl à grande échelle
+- [SSO et SCIM](https://docs.firecrawl.dev/fr/features/sso.md): Configurez l’authentification unique (SSO) et la synchronisation d’annuaire SCIM pour que votre équipe se connecte via votre provider d’identité et que les accès des utilisateurs restent synchronisés avec votre annuaire.
 - [Restrictions d’adresses IP](https://docs.firecrawl.dev/fr/features/ip-restrictions.md): Restreignez les clés API de votre équipe à une liste d’autorisation d’adresses IP ou de plages CIDR, afin qu’elles ne fonctionnent que depuis des réseaux approuvés. Contrôle appliqué côté serveur.
 - [Restrictions de clé](https://docs.firecrawl.dev/fr/features/key-restrictions.md): Verrouillez une clé API individuelle sur des formats de sortie et des points de terminaison spécifiques. Appliqué côté serveur, sans possibilité pour une requête de passer outre.
 - [Protection contre les menaces](https://docs.firecrawl.dev/fr/features/threat-protection.md): Bloquez les requêtes vers des URL à risque sur tous les points de terminaison, à l’aide d’une politique contrôlée par votre organisation. Appliquée côté serveur.
@@ -40,6 +43,7 @@
 - [Extraits de recherche](https://docs.firecrawl.dev/fr/features/search-highlights.md): Renvoyez des passages pertinents pour la query au lieu de simples descriptions de sites web
 - [Index de recherche](https://docs.firecrawl.dev/fr/features/research.md): Recherchez des articles, lisez des passages d'articles et trouvez des travaux connexes
 - [Index Developer](https://docs.firecrawl.dev/fr/features/developer.md): Recherchez des tickets, des pull requests fusionnées, des README de dépôts et des sites de documentation sélectionnés
+- [Government Index](https://docs.firecrawl.dev/fr/features/gov.md): Recherchez des lois, règlements, codes, décisions de justice et autres publications gouvernementales
 
 #### Extraction
 
@@ -47,7 +51,7 @@
 - [Scraping plus rapide](https://docs.firecrawl.dev/fr/features/fast-scraping.md): Accélérez vos scrapes de 500 % grâce au paramètre maxAge
 - [Scrape par lots](https://docs.firecrawl.dev/fr/features/batch-scrape.md): Scraper plusieurs URL en une seule tâche par lots
 - [Mode JSON - Résultat structuré](https://docs.firecrawl.dev/fr/features/llm-extract.md): Extraire des données structurées à partir de pages via des LLM
-- [Suivi des modifications](https://docs.firecrawl.dev/fr/features/change-tracking.md): Détecter et surveiller les changements dans le contenu web entre les scrape
+- [Suivi des modifications](https://docs.firecrawl.dev/fr/features/change-tracking.md): Détecter et surveiller les changements dans le contenu web entre les extractions
 - [Mode avancé](https://docs.firecrawl.dev/fr/features/enhanced-mode.md): Utilisez des proxies avancés pour un scraping fiable sur des sites complexes
 - [Mode de verrouillage](https://docs.firecrawl.dev/fr/features/lockdown.md): Mode de scraping sur cache uniquement pour la conformité et les environnements isolés du réseau. Aucun trafic sortant.
 - [Masquage des données personnelles identifiables (PII)](https://docs.firecrawl.dev/fr/features/pii-redaction.md): Masquer les données personnelles identifiables dans les sorties de scrape et de parse
@@ -72,6 +76,7 @@
 - [Parse](https://docs.firecrawl.dev/fr/features/parse.md): Convertissez des documents — PDF, Word, Excel, PowerPoint et bien d’autres — en markdown propre, contenu de chaque page, blocs de mise en page et JSON structuré
 - [Cartographier](https://docs.firecrawl.dev/fr/features/map.md): Indiquez un site web et récupérez toutes ses URL — ultra rapide
 - [Crawl](https://docs.firecrawl.dev/fr/features/crawl.md): Crawler récursivement un site web et obtenir le contenu de chaque page
+- [Agent](https://docs.firecrawl.dev/fr/features/agent.md): Collectez les données où qu'elles se trouvent sur le web.
 
 ### Démarrages rapides
 
@@ -158,9 +163,8 @@
 - [Créer un assistant de recherche IA avec Firecrawl et l’AI SDK](https://docs.firecrawl.dev/fr/developer-guides/cookbooks/ai-research-assistant-cookbook.md): Créez un assistant de recherche complet alimenté par l’IA, avec des fonctions de scraping et de recherche web
 - [Créer un générateur de charte graphique de marque avec Firecrawl](https://docs.firecrawl.dev/fr/developer-guides/cookbooks/brand-style-guide-generator-cookbook.md): Générez des chartes graphiques de marque professionnelles au format PDF en extrayant les systèmes de design de n'importe quel site web à l'aide du format de branding de Firecrawl
 
-#### Intégrations
+#### Plateformes et frameworks
 
-- [Intégrations](https://docs.firecrawl.dev/fr/integrations.md): Ajoutez la recherche web, le scraping et les interactions de Firecrawl aux agents de codage, créateurs d’applications, frameworks et plateformes d’automatisation que vous utilisez déjà
 - [Agent Hermes](https://docs.firecrawl.dev/fr/integrations/hermes.md): Utilisez Firecrawl comme backend par défaut pour la recherche web et l’extraction dans Hermes Agent
 - [Replit](https://docs.firecrawl.dev/fr/integrations/replit.md): Connecteur Replit officiel pour la recherche sur le web, le scraping et l’interaction avec le Browser de Firecrawl
 - [Lovable](https://docs.firecrawl.dev/fr/integrations/lovable.md): Connectez Firecrawl à vos applications Lovable pour le scraping et le crawling web en temps réel
@@ -170,6 +174,7 @@
 - [CrewAI](https://docs.firecrawl.dev/fr/integrations/crewai.md): Découvrez comment utiliser Firecrawl avec CrewAI
 - [Camel AI](https://docs.firecrawl.dev/fr/integrations/camelai.md): Firecrawl s’intègre à Camel AI comme chargeur de données.
 - [Praison AI](https://docs.firecrawl.dev/fr/integrations/praison.md): Scrapez le web avec Firecrawl comme outil Praison AI
+- [Neuron AI](https://docs.firecrawl.dev/fr/integrations/neuron-ai.md): Effectuez des recherches sur le web et lisez des pages au format Markdown depuis des agents IA Neuron AI en PHP
 - [Dify](https://docs.firecrawl.dev/fr/integrations/dify.md): Plugin officiel Firecrawl pour les workflows Dify, avec synchronisation de sites web avec la base de connaissances
 - [Langflow](https://docs.firecrawl.dev/fr/integrations/langflow.md): Découvrez comment utiliser Firecrawl avec Langflow
 - [Flowise](https://docs.firecrawl.dev/fr/integrations/flowise.md): Apprenez à utiliser Firecrawl avec Flowise

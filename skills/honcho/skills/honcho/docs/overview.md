@@ -104,3 +104,4 @@ Welcome to Honcho. We're excited to have you at the frontier of AI with us 🫡.
     Learn how Honcho reasons about data to build memory
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

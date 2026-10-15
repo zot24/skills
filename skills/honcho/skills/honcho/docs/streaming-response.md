@@ -274,3 +274,6 @@ When implementing streaming:
 * Use appropriate error handling for network interruptions
 
 Streaming responses provide a more interactive and engaging user experience. By implementing streaming in your Honcho applications, you can create more responsive AI-powered features that feel natural and immediate to your users.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

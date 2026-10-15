@@ -148,3 +148,6 @@ In Normal mode a scan costs **+2 credits per URL scanned**, on top of the base c
 * The error code `unsafe_domain_blocked` is kept stable for compatibility even though checks are URL-level.
 * With the failure policy set to `closed` (the default), a classifier outage causes affected requests to be blocked rather than silently allowed.
 * With [SIEM Audit Logging](/features/siem) configured, every decision is visible in your audit trail: events carry the deciding rule, the classifier consulted, the threat categories, and — for Zscaler-classified URLs — a `security_alert` flag when the URL carried a security-alert classification.
+
+
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

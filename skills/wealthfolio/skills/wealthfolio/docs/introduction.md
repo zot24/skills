@@ -90,7 +90,7 @@ Get started with Wealthfolio — a private, open-source investment tracker and p
 
 ------------------------------------------------------------------------
 
-Last updated October 1, 2026
+Last updated October 14, 2026
 
 
 **New here?** Start with the <a href="/docs/quick-start/" class="font-medium underline underline-offset-4">Quick Start</a>: install, add an account, and see your first dashboard in a few minutes.
@@ -111,7 +111,7 @@ Last updated October 1, 2026
 Install Wealthfolio directly on your devices.
 
 - macOS, Windows, and Linux
-- iPhone and iPad (Android coming soon)
+- iPhone, iPad, and Android devices
 - No server or account required
 
 

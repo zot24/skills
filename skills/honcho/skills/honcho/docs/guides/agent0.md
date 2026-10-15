@@ -33,3 +33,4 @@ The plugin hooks into Agent Zero's extension system. It syncs user and assistant
     Learn about peers, sessions, and dialectic reasoning.
 
 
+This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -3,6 +3,8 @@
 ---
 title: Ephemeral Messages
 description: Send messages visible only to a specific user.
+docs_index: /llms.txt
+lastUpdated: 2026-10-14
 type: guide
 prerequisites:
   - /docs/usage
@@ -10,8 +12,7 @@ related:
   - /docs/direct-messages
 ---
 
-# Ephemeral Messages
-
+> For an index of all documentation, see [/llms.txt](/llms.txt).
 
 Ephemeral messages are visible only to a specific user within a thread. They're useful for confirmations, hints, and private notifications.
 
@@ -25,8 +26,8 @@ await thread.postEphemeral(user, "Only you can see this!", {
 
 The `fallbackToDM` option is required. It controls what happens on platforms without native ephemeral support:
 
-* `fallbackToDM: true`: send the message as a DM instead. If the adapter can't open DMs either, nothing is sent and the call returns `null`.
-* `fallbackToDM: false`: don't send anything, and return `null`.
+- `fallbackToDM: true`: send the message as a DM instead. If the adapter can't open DMs either, nothing is sent and the call returns `null`.
+- `fallbackToDM: false`: don't send anything, and return `null`.
 
 ## Platform behavior
 
@@ -82,7 +83,6 @@ await thread.postEphemeral(
   { fallbackToDM: true }
 );
 ```
-
 
 ---
 
