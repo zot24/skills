@@ -35,22 +35,23 @@ No admin rights required. The installer goes to `%LOCALAPPDATA%\hermes\` and add
 
 
 ``` prism-code
-& ([scriptblock]::Create((irm https://hermes-agent.nousresearch.com/install.ps1))) -NonInteractive -Branch main
+& ([scriptblock]::Create((irm https://hermes-agent.nousresearch.com/install.ps1))) -NonInteractive -Channel main
 ```
 
 
-| Parameter                        | Purpose                                                                  |
-|----------------------------------|--------------------------------------------------------------------------|
-| `-Branch NAME`                   | Select the source branch; default `main`.                                |
-| `-Commit SHA`                    | Select a commit after the branch checkout.                               |
-| `-HermesHome PATH`               | Select the data directory.                                               |
-| `-InstallDir PATH`               | Select the source checkout directory.                                    |
-| `-NonInteractive`                | Skip setup and gateway stages that need input.                           |
-| `-IncludeDesktop`                | Build the desktop app and create shortcuts.                              |
-| `-ShowResolvedPaths`             | Print resolved paths as JSON without installing.                         |
-| `-Verbose`                       | Stream every child command's output instead of one status line per step. |
-| `-Manifest` / `-ProtocolVersion` | Inspect the stage protocol used by the bootstrap GUI.                    |
-| `-Stage NAME -Json`              | Run one stage and emit its result frame.                                 |
+| Parameter                        | Purpose                                                                                                                                                                               |
+|----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `-Channel stable|main`           | `stable` (default): the latest published release. `main`: every commit, saved like `hermes update --set-channel main`. `$env:HERMES_INSTALL_CHANNEL` sets it for a plain `irm | iex`. |
+| `-Branch NAME`                   | Select the source branch; default `main`. Another branch is installed at its tip.                                                                                                     |
+| `-Commit SHA`                    | Select a commit after the branch checkout.                                                                                                                                            |
+| `-HermesHome PATH`               | Select the data directory.                                                                                                                                                            |
+| `-InstallDir PATH`               | Select the source checkout directory.                                                                                                                                                 |
+| `-NonInteractive`                | Skip setup and gateway stages that need input.                                                                                                                                        |
+| `-IncludeDesktop`                | Build the desktop app and create shortcuts.                                                                                                                                           |
+| `-ShowResolvedPaths`             | Print resolved paths as JSON without installing.                                                                                                                                      |
+| `-Verbose`                       | Stream every child command's output instead of one status line per step.                                                                                                              |
+| `-Manifest` / `-ProtocolVersion` | Inspect the stage protocol used by the bootstrap GUI.                                                                                                                                 |
+| `-Stage NAME -Json`              | Run one stage and emit its result frame.                                                                                                                                              |
 
 The current script does not accept `-NoVenv` or `-Tag`. `-SkipSetup` is still accepted as a deprecated alias for `-NonInteractive` so older install wrappers keep binding. To diagnose an unexpected short Windows path, use `-ShowResolvedPaths` first.
 

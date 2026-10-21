@@ -18,12 +18,14 @@ Built a plugin? <a href="/docs/developer-guide/plugins/catalog-submission" class
 
 Filters
 
-SourceAll sourcesOfficialCommunityCategoryAll categoriesSortMost starredNewestRecently updated
+SourceAll sourcesOfficialVerifiedCommunityCategoryAll categoriesSortMost starredNewestRecently updated
 
 
 All<span class="tierCount_yk6q">0</span>
 
 Official<span class="tierCount_yk6q">0</span>
+
+Verified<span class="tierCount_yk6q">0</span>
 
 Community<span class="tierCount_yk6q">0</span>
 

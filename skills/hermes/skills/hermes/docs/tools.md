@@ -264,6 +264,21 @@ process(action="write", session_id="proc_abc123", data="y")  # Send input
 
 PTY mode (`pty=true`) enables interactive CLI tools like Codex and Claude Code.
 
+A foreground command whose only backgrounding is a trailing `&` (for example `python3 -m http.server 8765 &` or `cd app && npm start > app.log 2>&1 &`) runs as `background=true` with the `&` removed, and the result carries an `auto_backgrounded` note with the `session_id`. It goes through the same approval checks as any background command. Shapes that mix in other commands (`server & curl ...`, `a; b &`, multi-line scripts), `nohup`/`disown`/`setsid` wrappers, command substitutions (`$(...)`, backticks, `<(...)`) and commands whose approval category would change without the `&` are still refused with guidance, because Hermes cannot safely tell which part should keep running.
+
+### Repeated waits on a quiet process<a href="#repeated-waits-on-a-quiet-process" class="hash-link" aria-label="Direct link to Repeated waits on a quiet process" translate="no" title="Direct link to Repeated waits on a quiet process">​</a>
+
+When the agent calls `process(action="wait")` or `process(action="poll")` twice in a row on a process that is still running and has printed nothing new, Hermes turns on `notify_on_complete` for that process and the result tells the agent to stop checking: the exit (code and final output) arrives later as its own message, so the agent can do other work or end its turn instead of spending a model call on every unchanged check. New output, the process exiting, or any other action on that process resets the count.
+
+This applies where a completion can reach the agent: the interactive CLI (including interactive `hermes chat -q`), the TUI and desktop app, and messaging chats. Non-interactive `hermes chat -q`, one-shot `hermes -z`, cron jobs, Kanban workers, stateless API requests and delegated subagents keep the previous behaviour because they cannot receive a later completion, as does any profile with `display.background_process_notifications: off` (completions never start an agent turn there). Checking a process whose completion goes to someone else (another session's process, or a subagent's process that was not handed off) also stays plain polling. Admin-managed settings and `${VAR}` values count. To keep plain polling everywhere, set:
+
+
+``` prism-code
+terminal:
+  process_wait_auto_notify: false
+```
+
+
 Completed background commands retain their exit status and captured output in the active profile. Resume the conversation that launched the command (or its compressed continuation), then use the original `session_id` with `process(action="log")` for output and `process(action="poll")` for exit status. Unrelated conversations and requests without a bound owning session cannot read retained receipts, even with an exact process handle. `process(action="list")` also includes retained results for the current task or conversation.
 
 Hermes keeps the newest **64 completed results**, for up to **7 days after completion**, under `logs/process-results/` in the profile's Hermes home. Each receipt contains at most the existing rolling **200,000-character output tail**, with terminal secret-redaction rules always applied, even when live-output redaction is disabled. Receipts expire on subsequent result reads or writes. Recovery does not rerun commands or replay completion notifications. This preserves work that finished while the parent was alive; it does not keep unfinished children alive after a timeout or crash.
@@ -294,6 +309,7 @@ On messaging platforms, if sudo fails, the output includes a tip to add `SUDO_PA
   - <a href="#container-resources" class="table-of-contents__link toc-highlight">Container Resources</a>
   - <a href="#container-security" class="table-of-contents__link toc-highlight">Container Security</a>
 - <a href="#background-process-management" class="table-of-contents__link toc-highlight">Background Process Management</a>
+  - <a href="#repeated-waits-on-a-quiet-process" class="table-of-contents__link toc-highlight">Repeated waits on a quiet process</a>
 - <a href="#sudo-support" class="table-of-contents__link toc-highlight">Sudo Support</a>
 
 
