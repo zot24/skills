@@ -941,6 +941,34 @@ mcp_servers:
 ```
 
 
+## Tool costs and spend limits<a href="#tool-costs-and-spend-limits" class="hash-link" aria-label="Direct link to Tool costs and spend limits" translate="no" title="Direct link to Tool costs and spend limits">​</a>
+
+Some MCP servers spend real money or credits on every call (image, video and 3D generation, paid APIs). A server entry can declare what each tool costs and a budget per chat:
+
+
+``` prism-code
+mcp_servers:
+  renders:
+    command: "render-mcp"
+    trust: untrusted
+    tool_costs:
+      create_image: 20                                   # about 20 credits per call
+      animate: {credits: [5, 20], note: "per animation"}  # a range, with a short note
+      get_status: 0                                       # free; same as leaving it out
+    spend_limit: 100     # per chat; 0 or absent = no limit
+    cost_unit: credits   # label in prompts (default: credits)
+```
+
+
+- The approval prompt names the cost: `Costs about 20 credits.` or `Costs 5-20 credits (per animation).`, plus `This chat has used about 40 credits on 'renders' (limit 100).` once the chat has spent something.
+- Hermes keeps a running total per chat and per server, counting the declared figure (the top of a range) for every costed call it approved and started. Declined or blocked calls add nothing; a call whose server dies before receiving it still counts, which errs toward asking sooner. The total lives in memory: it is a budget for one conversation, not the vendor's bill.
+- The total follows the conversation when context compression or `/branch` continues it under a new session id. Starting a new chat (`/new` in the CLI, a new Desktop chat) starts a new total; on messaging platforms the total belongs to the chat, so it survives `/new` there. Each cron run has its own total. Restarting Hermes resets every total.
+- With `spend_limit`, a costed call that would take the chat past the limit asks first, even on a `trust: full` server that otherwise never prompts, and every further costed call in that chat asks again ("Allow for this session" does not silence it). Where nobody can answer (cron jobs, `hermes chat -q`, a gateway with no approver), the call is refused without running and the model is told not to retry.
+- Below the limit, a `trust: full` server still runs costed tools without asking; on a `trust: untrusted` server every write-capable call already asks and the prompt now carries the cost. Tools annotated `readOnlyHint: true` stay unprompted unless the budget requires it.
+- A malformed `tool_costs`, `spend_limit` or `cost_unit` skips the server with an error naming the key, so a budget you declared is never silently dropped. A `tool_costs` key the server does not offer (a typo, or Hermes' `mcp_<server>_` display prefix copied in) is named in a warning at connect time: use the server's own tool names.
+
+A [portable plugin package](/docs/developer-guide/plugins#portable-agent-plugins-v1-packages) can declare the same table for its server. If you add a same-name `mcp_servers` entry (for example to set `trust: full`), the package's `tool_costs`, `spend_limit` and `cost_unit` still apply unless your entry sets those keys itself; `spend_limit: 0` turns the package's limit off and `tool_costs: {}` drops its costs.
+
 ## MCP Elicitation Support<a href="#mcp-elicitation-support" class="hash-link" aria-label="Direct link to MCP Elicitation Support" translate="no" title="Direct link to MCP Elicitation Support">​</a>
 
 MCP servers can ask the user for structured input mid-tool-call via the `elicitation/create` protocol (mcp Python SDK ≥ 1.11.0). Hermes routes **form-mode** elicitations through its existing approval surface — an interactive prompt in the CLI/TUI, or approval buttons on gateway platforms like Telegram and Slack — so the request reaches you wherever the session lives. **URL-mode** elicitations (where a server points you at an external URL) are declined as unsupported.
@@ -1135,6 +1163,7 @@ The gateway does NOT need to be running for read operations (listing conversatio
   - <a href="#why-didnt-resource-or-prompt-utilities-appear" class="table-of-contents__link toc-highlight">Why didn't resource or prompt utilities appear?</a>
 - <a href="#parallel-tool-calls" class="table-of-contents__link toc-highlight">Parallel Tool Calls</a>
 - <a href="#mcp-sampling-support" class="table-of-contents__link toc-highlight">MCP Sampling Support</a>
+- <a href="#tool-costs-and-spend-limits" class="table-of-contents__link toc-highlight">Tool costs and spend limits</a>
 - <a href="#mcp-elicitation-support" class="table-of-contents__link toc-highlight">MCP Elicitation Support</a>
 - <a href="#running-hermes-as-an-mcp-server" class="table-of-contents__link toc-highlight">Running Hermes as an MCP server</a>
   - <a href="#when-to-use-this" class="table-of-contents__link toc-highlight">When to use this</a>

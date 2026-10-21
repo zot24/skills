@@ -10,24 +10,24 @@
 What the Hermes Agent community is actually building. Every tile below links to a real post, issue, video, or gist where someone describes how they use Hermes — scraped from X, GitHub, Reddit, Hacker News, YouTube, blogs, and podcasts.
 
 
-**371** stories**15** categories**11** sources
+**395** stories**15** categories**11** sources
 
 
-All<span class="filterCount_ONfA">371</span>
+All<span class="filterCount_ONfA">395</span>
 
-Dev Workflow<span class="filterCount_ONfA">80</span>
+Dev Workflow<span class="filterCount_ONfA">82</span>
 
-Personal Assistant<span class="filterCount_ONfA">49</span>
+Business Ops<span class="filterCount_ONfA">57</span>
 
-Business Ops<span class="filterCount_ONfA">48</span>
+Personal Assistant<span class="filterCount_ONfA">55</span>
 
-Integrations<span class="filterCount_ONfA">33</span>
+Integrations<span class="filterCount_ONfA">35</span>
 
-Creative<span class="filterCount_ONfA">26</span>
+Creative<span class="filterCount_ONfA">28</span>
+
+Enterprise<span class="filterCount_ONfA">23</span>
 
 Meta & Ecosystem<span class="filterCount_ONfA">23</span>
-
-Enterprise<span class="filterCount_ONfA">21</span>
 
 Cost Optimization<span class="filterCount_ONfA">20</span>
 
@@ -37,7 +37,7 @@ Content Creation<span class="filterCount_ONfA">12</span>
 
 Research<span class="filterCount_ONfA">12</span>
 
-Messaging<span class="filterCount_ONfA">11</span>
+Messaging<span class="filterCount_ONfA">12</span>
 
 Marketing<span class="filterCount_ONfA">9</span>
 
@@ -48,21 +48,21 @@ Trading & Markets<span class="filterCount_ONfA">5</span>
 
 All sources
 
-X · Twitter<span class="filterCount_ONfA">72</span>
+X · Twitter<span class="filterCount_ONfA">85</span>
 
 Hacker News<span class="filterCount_ONfA">9</span>
 
-Reddit<span class="filterCount_ONfA">79</span>
+Reddit<span class="filterCount_ONfA">85</span>
 
-GitHub<span class="filterCount_ONfA">39</span>
+GitHub<span class="filterCount_ONfA">40</span>
 
 YouTube<span class="filterCount_ONfA">19</span>
 
-Blog<span class="filterCount_ONfA">27</span>
+Blog<span class="filterCount_ONfA">30</span>
 
 Podcast<span class="filterCount_ONfA">2</span>
 
-LinkedIn<span class="filterCount_ONfA">3</span>
+LinkedIn<span class="filterCount_ONfA">4</span>
 
 GitHub Gist<span class="filterCount_ONfA">4</span>
 
@@ -71,7 +71,132 @@ Product Hunt<span class="filterCount_ONfA">1</span>
 Discord<span class="filterCount_ONfA">116</span>
 
 
-<a href="https://engineering.razorpay.com/running-hermes-at-razorpay-a-network-isolated-self-improving-second-brain-for-every-employee-f91d56bea3f1" class="tile_PdK3 tileLg_b1pu" target="_blank" rel="noopener noreferrer" style="--tile-accent:linear-gradient(90deg, #64748b, #94a3b8, #cbd5e1);--tile-accent-solid:#94a3b8;--tile-accent-soft:rgba(148, 163, 184, 0.16)"></a>
+<a href="https://x.com/AlexanderMann/status/2107189008442728730" class="tile_PdK3 tileLg_b1pu" target="_blank" rel="noopener noreferrer" style="--tile-accent:linear-gradient(90deg, #10b981, #34d399, #a7f3d0);--tile-accent-solid:#34d399;--tile-accent-soft:rgba(52, 211, 153, 0.14)"></a>
+
+
+### Hermes built a local safety system with panic buttons for his 89-year-old grandfather
+
+“my @NousResearch Hermes Agent installed @home_assistant on its MacMini then used a Zigbee radio USB to build my Grandfather a local home security system with tablet control, voice feedback, security, and wellness with panic buttons at bottom of stairs and bedroom. Hermes coded it all and even made a custom easy to read dashboard for him.”
+
+
+### A GTM team builds verified contact lists from one Slack message, on one shared subscription
+
+“Our team built an AI agent that builds our entire TAM. … You type what you need in Slack & it comes back with verified contacts. … The VPS keeps it on 24/7 inside our Slack, so the whole team works off that single subscription. That saves us about \$800 a month against a Codex seat per person. … Hermes has access to our GitHub repo, which holds a skill for every part of GTM we run.”
+
+
+### A tech-policy publication runs Hermes agents for editorial suggestions and client proposals
+
+“Built mechanisms for Ed (MediaNama’s Hermes editorial assistant) to recommend speakers, guest authors and commentators for MediaNama events and stories … Created an Hermes agent led RTI agent on MediaNama OS … Added Hermes agent Ev for drafting first drafts of client proposals”
+
+
+### A prospect phoned his Hermes agent about the proposal, and it closed the consulting deal
+
+“I set up @Vapi_AI with Hermes and a telephone number. I told the potential client to call if they were interested and then forgot about it. … It was fully aware of the SOW that had been proposed, and answered all questions related to the proposal. Everything from potential costs, deliverables, schedule, outcomes, etc. … I can't believe my agent closed the deal.”
+
+
+### A business added a Hermes IT-support agent that now solves 90% of issues on its own
+
+“Integrated a bunch of slack Hermes agents for my business. … Ended up creating a hermes agent that does IT support. 90% of issues solved on its own now. Gave it a guidelines it needs to follow. works great”
+
+
+### A solo founder split his startup across seven Hermes assistants, from growth to SRE
+
+“I was exhausted running my startup alone, so I built an AI team using Nous Research's Hermes Agent … my own FounderOS with not one but 7 assistants, each running a part of the business … Growth analyst: uses PostHog MCP, tracks traffic, signups, activation, trials, and conversion to find the real bottleneck. … SRE: connects to Better Stack to monitor app health and helps catch issues … Chief of Staff (Leo): connects to Linear MCP, manages and coordinates everything, turns data into daily decisions”
+
+
+### Team agent implements customer requests and posts a narrated video demo for review
+
+“our team agent (elmo, built on hermes) does a lot within our company … when it sees a customer requests, implements it, and posts a video demo of it's work for review in the reviews channel … with my voice as the narrator”
+
+
+### In the shop: photos plus spoken dimensions become a parametric CAD drawing and model
+
+“Built a photo-to-parametric drawing in CAD file workflow. Now I can just take photos and give critical dimension callouts verbally, and then a drawing and a model pop out … Using FreeCAD + Hermes agent … Game changer in the shop.”
+
+
+### A Hermes project-manager agent orchestrates his fleet of coding and image-generation agents
+
+“my @NousResearch Hermes fleet of agents is humming along orchestrated by my Hermes Agent Gabriel who is our SMF Works Project Manager. I have agents coding on our Praxis and SMF Agent Swarm 2.0 projects, I have an agent grabbing and working on PRs for Hermes open source, I have another agent setting up and testing localized Image generation and editing”
+
+
+### Built his own football manager game, with a local Hermes agent as assistant coach and scout
+
+“my @NousResearch Hermes agent can plug into the active game and take on various roles. DeepSeek V4 Flash, running as a local LLM on my two @NVIDIAAI DGX Spark units, serves as the "brain." … my Hermes agent, Ares, acts as my assistant coach, sporting director, and scout.”
+
+
+### Hermes kept checking a sold-out 70mm IMAX run and found him two adjacent seats
+
+“Everyday all sessions fully booked until mid September. … So, I asked my Hermes agent to keep looking for openings at my desired seat range and today it found two adjacent seats!”
+
+
+### Solo IT department for a 165-person travel company moved 80% of daily work into Hermes
+
+“Over the past few months I've moved my daily work into Hermes, across every area I'm responsible for. By now about 80% of it is covered. … 30% I never see. The agent solves them on its own. … 50% take a yes/no or a one-line answer from me. Diagnosis, drafted reply and planned change are already there.”
+
+
+### A drainlaying business runs quotes, invoices, CRM and stock through Hermes from the truck
+
+“Hermes is my admin for my small drainlaying business. Generates quotes (PDF), invoices, customers (CRM), job tracker, project tracker, customer communications (quotes, invoices, follow ups etc), small inventory management (fittings, pipes etc), equipment management (servicing, maintenance, registration). I do all of this via Telegram, from the job site, or in the truck.”
+
+
+### Field service tech runs repair plans through Hermes, and it found the faulty part
+
+“I chonked all user and service guides for products I service, all advisories and known issues and run any action plan I get for a job through it. … After 6 hours or working with our engineering team, I remembered reading a specific part of the Hermes diagnosis that identified a different component to the action plan I was given. I followed Hermes recommendation and it resolved the issue.”
+
+
+### Musician's Hermes band manager makes setlist PDFs, practice playlists and stargazing plans
+
+“I have a Hermes band manager bot. … It generates and updates Deezer playlists (to practise to) and a PDF of the setlist for upcoming gigs from a text prompt. … Astronomy planning (checks weather daily at 4pm and gives me a list of targets).”
+
+
+### Hermes tidied a family recipe box in Mealie and fills the weekly Kroger pickup cart
+
+“I found out Kroger has an API, so I had Hermes via gpt sol 6.1 plan out access to my pickup cart. … It cleaned them up, matched the ingredients to what mealie has them listed under, and scaled the ingredients 3 adult meals like I asked. … And it’s wife tested and approved.”
+
+
+### Parent keeps school, tutor and home plans in sync for a child with Hermes
+
+“my kid has some learning disabilities and he has a tutor. Hermes has all of that info in it's knowledge base and it helps me keep things in sync between the school, the tutor, and home. It tracks the tutoring sessions and I give it notes and it looks for patterns, tweaks our tutoring plan, and makes sure it aligns with the school.”
+
+
+### In 15 days he wired Hermes into his own tasks, clients and invoices system via MCP
+
+“15 days ago, I installed @NousResearch's Hermes Agent. … What started as a chat interface has gradually become an operating layer across my work, research, personal organisation and family life. … One of the most important additions was connecting Hermes to my own system for managing tasks, projects, clients and invoices. I built a custom MCP server so Hermes can interact directly with that system instead of treating it as disconnected information.”
+
+
+### An energy advisory firm runs one Hermes gateway for the whole team, scoped by role
+
+“We run option 2 ("one gateway serving several people") in production for our energy advisory firm, but with a strict role-based capability layer on top: … One Hermes gateway runs 24/7 on dedicated hardware connected to Telegram. … Sales/Retention: Scoped strictly to their own leads, CRM deals, and tasks (no financial/commissions or infrastructure access).”
+
+
+### A food and beverage company runs ops, finance and approvals on three Hermes profiles
+
+“1 box, 1 gateway, 3 profiles. All split by role: ops, finance, and an approvals-only (for executive and large approvals). … A food and beverage industry and hermes keeps our company running. Everything is in production.”
+
+
+### A dad built his 12-year-old her own Hermes profile instead of handing over his agent
+
+“I wanted my 12-year-old daughter to use AI for learning, creative projects, and the endless questions that come with being 12. I didn’t want to hand her the same general-purpose agent I use. … So I built her a separate Hermes profile from scratch. … I recently ran the blueprint through the design stage with my son for a profile he named “Harry” 😁.”
+
+
+### Hermes keeps his home lab NetBox inventory current with a nightly network discovery scan
+
+“I have been interested in targeting Netbox for my new iteration of home lab IPAM and documentation and wanted to get the Hermes agent doing most of this for me. … This led to me asking it to create a network discovery incremental scan after it grabbed the first scan of the environment. This way my documentation doesn’t go stale and is updated with changes in the environment.”
+
+
+### Hermes books his gym classes the minute booking opens and only shows menu dishes he rates
+
+“The model gets that list and sends me a numbered message on Telegram, with time and instructor, asking which ones I want. I reply "1 and 4". The agent stores the choice and creates, for each class, a one-shot job scheduled for the minute booking opens. … Yesterday it went like this: list at 08:00, my reply at 08:02, booking made at 19:30 for today's 19:30 yoga. I never opened the app.”
+
+
+### A family budget bot on WhatsApp tracks card charges by category and answers in Hebrew
+
+“It reads my credit card SMSs, tracks every category against the budget, and answers questions in Hebrew or English. … The budget bot got its own Hermes profile, its own gateway and its own WhatsApp number. … A charge comes in, gets recorded, and WhatsApp shows what’s left in that category.”
+
+
+### A Hermes skill ran his mushroom tent through two Lion's Mane harvests on a Raspberry Pi
+
+“It operates on a 30-minute decision cycle: read sensors, evaluate against species-specific thresholds, fire relays, and verify results. … Built and tested over two complete Lion's Mane grow cycles (colonization through harvest). … 21 lessons from two live grow cycles”
 
 
 ### Razorpay gives 220+ employees their own isolated, always-on Hermes agent
@@ -1747,11 +1872,6 @@ Discord<span class="filterCount_ONfA">116</span>
 ### I had my research agent dig into what people are building with Hermes
 
 “Had my (Hermes) research agent dig into what people are actually building with Hermes — turned up an ecosystem mosaic of trading bots, personal assistants, content pipelines and self-hosted everything.”
-
-
-### My Hermes agent makes movies now
-
-“My @NousResearch hermes-agent can make movies now using @browser_use skill. No API needed. No human intervention. I told it to set the mood, action, camera movement, dialog and overall story — it used Browser-Use and Seedance 2.0 to generate a video.”
 
 
 ### Client research, follow-ups, podcasts, leads — all on Hermes
