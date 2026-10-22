@@ -990,27 +990,12 @@ The 5-minute default timeout mirrors the gateway approval default so users on as
 
 ## Running Hermes as an MCP server<a href="#running-hermes-as-an-mcp-server" class="hash-link" aria-label="Direct link to Running Hermes as an MCP server" translate="no" title="Direct link to Running Hermes as an MCP server">​</a>
 
-In addition to connecting **to** MCP servers, Hermes can also **be** an MCP server. This lets other MCP-capable agents (Claude Code, Cursor, Codex, or any MCP client) use Hermes's messaging capabilities — list conversations, read message history, and send messages across all your connected platforms.
-
-### When to use this<a href="#when-to-use-this" class="hash-link" aria-label="Direct link to When to use this" translate="no" title="Direct link to When to use this">​</a>
-
-- You want Claude Code, Cursor, or another coding agent to send and read Telegram/Discord/Slack messages through Hermes
-- You want a single MCP server that bridges to all of Hermes's connected messaging platforms at once
-- You already have a running Hermes gateway with connected platforms
-
-### Quick start<a href="#quick-start-1" class="hash-link" aria-label="Direct link to Quick start" translate="no" title="Direct link to Quick start">​</a>
+Hermes can also **be** an MCP server, so Claude Code, Claude Desktop, Cursor, Codex or any MCP client can list and read your messaging conversations, wait for new messages and send messages across every platform Hermes is connected to, and optionally call Hermes' own web, browser, vision, image generation, skills and TTS tools. This ships as the official **mcp-serve** plugin:
 
 
 ``` prism-code
-hermes mcp serve
+hermes plugins install mcp-serve
 ```
-
-
-This starts a stdio MCP server. The MCP client (not you) manages the process lifecycle.
-
-### MCP client configuration<a href="#mcp-client-configuration" class="hash-link" aria-label="Direct link to MCP client configuration" translate="no" title="Direct link to MCP client configuration">​</a>
-
-Add Hermes to your MCP client config. For example, in Claude Code's `~/.claude/claude_desktop_config.json`:
 
 
 ``` prism-code
@@ -1018,84 +1003,14 @@ Add Hermes to your MCP client config. For example, in Claude Code's `~/.claude/c
   "mcpServers": {
     "hermes": {
       "command": "hermes",
-      "args": ["mcp", "serve"]
+      "args": ["mcp-serve"]
     }
   }
 }
 ```
 
 
-Or if you installed Hermes in a specific location:
-
-
-``` prism-code
-{
-  "mcpServers": {
-    "hermes": {
-      "command": "/home/user/.hermes/hermes-agent/venv/bin/hermes",
-      "args": ["mcp", "serve"]
-    }
-  }
-}
-```
-
-
-### Available tools<a href="#available-tools" class="hash-link" aria-label="Direct link to Available tools" translate="no" title="Direct link to Available tools">​</a>
-
-The MCP server exposes 10 tools, matching OpenClaw's channel bridge surface plus a Hermes-specific channel browser:
-
-| Tool                    | Description                                                                     |
-|-------------------------|---------------------------------------------------------------------------------|
-| `conversations_list`    | List active messaging conversations. Filter by platform or search by name.      |
-| `conversation_get`      | Get detailed info about one conversation by session key.                        |
-| `messages_read`         | Read recent message history for a conversation.                                 |
-| `attachments_fetch`     | Extract non-text attachments (images, media) from a specific message.           |
-| `events_poll`           | Poll for new conversation events since a cursor position.                       |
-| `events_wait`           | Long-poll / block until the next event arrives (near-real-time).                |
-| `messages_send`         | Send a message through a platform (e.g. `telegram:123456`, `discord:#general`). |
-| `channels_list`         | List available messaging targets across all platforms.                          |
-| `permissions_list_open` | List pending approval requests observed during this bridge session.             |
-| `permissions_respond`   | Allow or deny a pending approval request.                                       |
-
-### Event system<a href="#event-system" class="hash-link" aria-label="Direct link to Event system" translate="no" title="Direct link to Event system">​</a>
-
-The MCP server includes a live event bridge that polls Hermes's session database for new messages. This gives MCP clients near-real-time awareness of incoming conversations:
-
-
-``` prism-code
-# Poll for new events (non-blocking)
-events_poll(after_cursor=0)
-
-# Wait for next event (blocks up to timeout)
-events_wait(after_cursor=42, timeout_ms=30000)
-```
-
-
-Event types: `message`, `approval_requested`, `approval_resolved`
-
-The event queue is in-memory and starts when the bridge connects. Older messages are available through `messages_read`.
-
-### Options<a href="#options" class="hash-link" aria-label="Direct link to Options" translate="no" title="Direct link to Options">​</a>
-
-
-``` prism-code
-hermes mcp serve              # Normal mode
-hermes mcp serve --verbose    # Debug logging on stderr
-```
-
-
-### How it works<a href="#how-it-works" class="hash-link" aria-label="Direct link to How it works" translate="no" title="Direct link to How it works">​</a>
-
-The MCP server reads conversation data directly from Hermes's session store — `~/.hermes/state.db` is the primary source, with `sessions.json` kept only as a legacy fallback. A background thread polls the database for new messages and maintains an in-memory event queue. For sending messages, it uses the same internal send engine (`tools/send_message_tool.py`) that powers cron delivery and the `hermes send` CLI.
-
-The gateway does NOT need to be running for read operations (listing conversations, reading history, polling events). It DOES need to be running for send operations, since the platform adapters need active connections.
-
-### Current limits<a href="#current-limits" class="hash-link" aria-label="Direct link to Current limits" translate="no" title="Direct link to Current limits">​</a>
-
-- The embedded `hermes mcp serve` exposes a **stdio-only** MCP server today. If you need an HTTP MCP server, run a separate adapter — or, much more commonly, use the MCP **client** side of Hermes, which already speaks both stdio and HTTP (`url` + `headers` in `mcp_servers.yaml` / `config.yaml`; see [HTTP servers](#http-servers) above).
-- Event polling at ~200ms intervals via mtime-optimized DB polling (skips work when files are unchanged)
-- No `claude/channel` push notification protocol yet
-- Text-only sends (no media/attachment sending through `messages_send`)
+It used to be built in as `hermes mcp serve`. An MCP client configured with `"args": ["mcp", "serve"]` changes them to `["mcp-serve"]`; the tool names and parameters are unchanged, and `hermes mcp serve` now prints the new spelling and the install line. Tools, the `--tools` mode and its safety limits are documented in the <a href="https://github.com/NousResearch/hermes-official-plugins/tree/main/mcp-serve" target="_blank" rel="noopener noreferrer">plugin's README</a>.
 
 ## Related docs<a href="#related-docs" class="hash-link" aria-label="Direct link to Related docs" translate="no" title="Direct link to Related docs">​</a>
 
@@ -1166,14 +1081,6 @@ The gateway does NOT need to be running for read operations (listing conversatio
 - <a href="#tool-costs-and-spend-limits" class="table-of-contents__link toc-highlight">Tool costs and spend limits</a>
 - <a href="#mcp-elicitation-support" class="table-of-contents__link toc-highlight">MCP Elicitation Support</a>
 - <a href="#running-hermes-as-an-mcp-server" class="table-of-contents__link toc-highlight">Running Hermes as an MCP server</a>
-  - <a href="#when-to-use-this" class="table-of-contents__link toc-highlight">When to use this</a>
-  - <a href="#quick-start-1" class="table-of-contents__link toc-highlight">Quick start</a>
-  - <a href="#mcp-client-configuration" class="table-of-contents__link toc-highlight">MCP client configuration</a>
-  - <a href="#available-tools" class="table-of-contents__link toc-highlight">Available tools</a>
-  - <a href="#event-system" class="table-of-contents__link toc-highlight">Event system</a>
-  - <a href="#options" class="table-of-contents__link toc-highlight">Options</a>
-  - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How it works</a>
-  - <a href="#current-limits" class="table-of-contents__link toc-highlight">Current limits</a>
 - <a href="#related-docs" class="table-of-contents__link toc-highlight">Related docs</a>
 
 
