@@ -266,6 +266,12 @@
       "target": "skills/pi/docs/nvidia-rtx-llama-cpp.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://pi.dev/docs/latest/models-configuration",
+      "target": "skills/pi/docs/models-configuration.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",
