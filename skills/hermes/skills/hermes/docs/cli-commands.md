@@ -107,8 +107,8 @@ The install also ships `hermes-agent`, a minimal runner that sends one query and
 | `hermes pets`                                         | Browse, install, and select [petdex](/docs/user-guide/features/pets) animated pets shown across the CLI, TUI, and desktop app. Subcommands: `list`, `install`, `select`, `show`, `off`, `scale`, `remove`, `doctor`.                                                                                                                                                                         |
 | `hermes sessions`                                     | Browse, export, prune, rename, and delete sessions.                                                                                                                                                                                                                                                                                                                                          |
 | `hermes insights`                                     | Show token/cost/activity analytics.                                                                                                                                                                                                                                                                                                                                                          |
-| `hermes claw`                                         | OpenClaw migration helpers.                                                                                                                                                                                                                                                                                                                                                                  |
-| `hermes import-agent`                                 | Import a Claude Code (`~/.claude`) or Codex CLI (`~/.codex`) setup.                                                                                                                                                                                                                                                                                                                          |
+| `hermes claw`                                         | OpenClaw migration (`migrate`, `cleanup`), from the [`agent-importers`](/docs/user-guide/import-from-other-agents) plugin; `hermes claw migrate` is the same as `hermes import-agent openclaw`.                                                                                                                                                                                              |
+| `hermes import-agent`                                 | Import an OpenClaw, Claude Code, Codex CLI or Cursor setup (from the [`agent-importers`](/docs/user-guide/import-from-other-agents) plugin).                                                                                                                                                                                                                                                 |
 | `hermes dashboard`                                    | Launch the web dashboard for managing config, API keys, and sessions.                                                                                                                                                                                                                                                                                                                        |
 | `hermes serve`                                        | Start the Hermes backend server (headless; powers the desktop app and remote backends).                                                                                                                                                                                                                                                                                                      |
 | `hermes desktop` (alias `gui`)                        | Build and launch the native Electron desktop app.                                                                                                                                                                                                                                                                                                                                            |
@@ -388,6 +388,8 @@ hermes setup [model|tts|terminal|gateway|tools|agent] [--non-interactive] [--res
 
 **Returning user (already configured):** drops straight into the full reconfigure wizard — every prompt shows your current value as its default, press Enter to keep or type a new value. No menu.
 
+**Coming from another agent:** when the first run finds an OpenClaw, Claude Code, Codex CLI or Cursor setup (`~/.openclaw`, `~/.claude`, `~/.codex`, `~/.cursor`), it first asks **"Import your setup from …?"** (default yes). With more than one found, you then pick which from a checklist. Setup installs the [`agent-importers`](/docs/user-guide/import-from-other-agents) plugin from the catalog, unless you already have it, and runs its import for each pick, which shows a preview and asks before changing anything (OpenClaw's allowlisted API keys and bot tokens are included, as the old built-in step did). Quick Setup after an import that brought a model and its key asks **"Keep your imported model (…) or switch to Nous Portal?"** (default keep, which skips the Nous Portal login). Nothing found, a no, `--non-interactive` or a setup started by the dashboard: no question and nothing installed. On an already configured install, run `hermes import-agent` instead.
+
 Jump into one section instead of the full wizard:
 
 | Section    | Description                         |
@@ -594,7 +596,7 @@ Common flags for migration subcommands:
 | `--apply`     | Rewrite `config.yaml` in-place (default: dry-run, no writes). |
 | `--no-backup` | Skip the timestamped backup of `config.yaml` when applying.   |
 
-> Not to be confused with `hermes claw migrate` (one-shot import of OpenClaw configuration into Hermes) — `hermes migrate` is the top-level config-rewrite command.
+> Not to be confused with `hermes import-agent openclaw` (one-shot import of OpenClaw configuration into Hermes) — `hermes migrate` is the top-level config-rewrite command.
 
 ## `hermes codex-runtime`<a href="#hermes-codex-runtime" class="hash-link" aria-label="Direct link to hermes-codex-runtime" translate="no" title="Direct link to hermes-codex-runtime">​</a>
 
@@ -1439,7 +1441,7 @@ hermes skills search react --source skills-sh
 hermes skills search https://mintlify.com/docs --source well-known
 hermes skills inspect official/security/1password
 hermes skills inspect skills-sh/vercel-labs/json-render/json-render-react
-hermes skills install official/migration/openclaw-migration
+hermes skills install official/mcp/fastmcp
 hermes skills install skills-sh/anthropics/skills/pdf --force
 hermes skills install https://sharethis.chat/SKILL.md                     # Direct URL (+ referenced support files)
 hermes skills install https://example.com/SKILL.md --name my-skill        # Override name when frontmatter has none
@@ -1828,11 +1830,25 @@ hermes insights [--days N] [--source platform]
 | `--days <n>`          | Analyze the last `n` days (default: 30).                  |
 | `--source <platform>` | Filter by source such as `cli`, `telegram`, or `discord`. |
 
-## `hermes claw`<a href="#hermes-claw" class="hash-link" aria-label="Direct link to hermes-claw" translate="no" title="Direct link to hermes-claw">​</a>
+## `hermes import-agent`<a href="#hermes-import-agent" class="hash-link" aria-label="Direct link to hermes-import-agent" translate="no" title="Direct link to hermes-import-agent">​</a>
 
 
 ``` prism-code
-hermes claw migrate [options]
+hermes plugins install agent-importers   # once; the command comes from this official plugin
+hermes import-agent [openclaw|claude-code|codex|cursor] [options]
+```
+
+
+Import an **OpenClaw** (`~/.openclaw`), **Claude Code** (`~/.claude`), **OpenAI Codex CLI** (`~/.codex`) or **Cursor** (`~/.cursor`) setup into Hermes: instructions and rules become memory entries, `Bash(...)` permission rules become `command_allowlist`/`approvals.deny`, MCP servers land in `mcp_servers`, and skills are copied. Always previews first. API keys and credentials are never imported, except OpenClaw's allowlisted keys when you pass `--migrate-secrets`. `--sync` re-imports registered Claude Code, Codex and Cursor sources that changed. On a fresh install, `hermes setup` offers to install the plugin and run the import for you when it finds one of these agents.
+
+The command moved out of core into the official `agent-importers` plugin, together with `hermes claw` (OpenClaw migration), whose spelling the plugin keeps. Without the plugin, `hermes import-agent` and `hermes claw` print the install line. See the **[import guide](/docs/user-guide/import-from-other-agents)** for options and mapping tables.
+
+### OpenClaw: `hermes import-agent openclaw`<a href="#openclaw-hermes-import-agent-openclaw" class="hash-link" aria-label="Direct link to openclaw-hermes-import-agent-openclaw" translate="no" title="Direct link to openclaw-hermes-import-agent-openclaw">​</a>
+
+
+``` prism-code
+hermes import-agent openclaw [options]    # same as the older spelling: hermes claw migrate [options]
+hermes claw cleanup [--source <path>] [--dry-run] [--yes]
 ```
 
 
@@ -1850,7 +1866,9 @@ Migrate your OpenClaw setup to Hermes. Reads from `~/.openclaw` (or a custom pat
 | `--skill-conflict <mode>`   | Handle skill name collisions: `skip` (default), `overwrite`, or `rename`.                                                                                                                            |
 | `--yes`                     | Skip the confirmation prompt.                                                                                                                                                                        |
 
-### What gets migrated<a href="#what-gets-migrated" class="hash-link" aria-label="Direct link to What gets migrated" translate="no" title="Direct link to What gets migrated">​</a>
+`hermes claw cleanup` renames leftover OpenClaw directories to `*.pre-migration` once you have migrated (OpenClaw stops working after this; rename them back to undo).
+
+#### What gets migrated<a href="#what-gets-migrated" class="hash-link" aria-label="Direct link to What gets migrated" translate="no" title="Direct link to What gets migrated">​</a>
 
 The migration covers 30+ categories across persona, memory, skills, model providers, messaging platforms, agent behavior, session policies, MCP servers, TTS, and more. Items are either **directly imported** into Hermes equivalents or **archived** for manual review.
 
@@ -1862,47 +1880,26 @@ The migration covers 30+ categories across persona, memory, skills, model provid
 
 For the complete config key mapping, SecretRef handling details, and post-migration checklist, see the **[full migration guide](/docs/guides/migrate-from-openclaw)**.
 
-### Examples<a href="#examples-5" class="hash-link" aria-label="Direct link to Examples" translate="no" title="Direct link to Examples">​</a>
+#### Examples<a href="#examples-5" class="hash-link" aria-label="Direct link to Examples" translate="no" title="Direct link to Examples">​</a>
 
 
 ``` prism-code
 # Preview what would be migrated
-hermes claw migrate --dry-run
+hermes import-agent openclaw --dry-run
 
 # Full migration (all compatible settings, no secrets)
-hermes claw migrate --preset full
+hermes import-agent openclaw --preset full
 
 # Full migration including API keys
-hermes claw migrate --preset full --migrate-secrets
+hermes import-agent openclaw --preset full --migrate-secrets
 
 # Migrate user data only (no secrets), overwrite conflicts
-hermes claw migrate --preset user-data --overwrite
+hermes import-agent openclaw --preset user-data --overwrite
 
 # Migrate from a custom OpenClaw path
-hermes claw migrate --source /home/user/old-openclaw
+hermes import-agent openclaw --source /home/user/old-openclaw
 ```
 
-
-## `hermes import-agent`<a href="#hermes-import-agent" class="hash-link" aria-label="Direct link to hermes-import-agent" translate="no" title="Direct link to hermes-import-agent">​</a>
-
-
-``` prism-code
-hermes import-agent [claude-code|codex] [options]
-```
-
-
-Import a **Claude Code** (`~/.claude`) or **OpenAI Codex CLI** (`~/.codex`) setup into Hermes. Maps `CLAUDE.md`/`AGENTS.md` instructions to memory entries, `Bash(...)` permission allow/deny rules to `command_allowlist`/`approvals.deny`, MCP servers to `mcp_servers` in `config.yaml`, and skill directories into `~/.hermes/skills/`. Always previews before applying; API keys and credentials are never imported.
-
-| Option            | Description                                                                                                                             |
-|-------------------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| `agent`           | `claude-code` or `codex` (default: auto-detect).                                                                                        |
-| `--source <path>` | Custom source directory (default: `~/.claude` or `~/.codex`).                                                                           |
-| `--dry-run`       | Preview only — write nothing.                                                                                                           |
-| `--overwrite`     | Replace conflicting MCP servers / skills (default: skip).                                                                               |
-| `--yes`, `-y`     | Skip confirmation prompts.                                                                                                              |
-| `--sync`          | Re-import every previously imported source whose files changed since the last import. Prompt-free; combine with `--dry-run` to preview. |
-
-Every successful import registers its source in `~/.hermes/import-sync.json`; `hermes import-agent --sync` then re-imports any registered source whose files changed (a cron-friendly way to keep an imported Claude Code / Codex setup current). See the **[import guide](/docs/user-guide/import-from-other-agents)** for the full mapping tables.
 
 ## `hermes serve`<a href="#hermes-serve" class="hash-link" aria-label="Direct link to hermes-serve" translate="no" title="Direct link to hermes-serve">​</a>
 
@@ -2178,10 +2175,8 @@ Additional behavior:
 - <a href="#hermes-pets" class="table-of-contents__link toc-highlight"><code>hermes pets</code></a>
 - <a href="#hermes-sessions" class="table-of-contents__link toc-highlight"><code>hermes sessions</code></a>
 - <a href="#hermes-insights" class="table-of-contents__link toc-highlight"><code>hermes insights</code></a>
-- <a href="#hermes-claw" class="table-of-contents__link toc-highlight"><code>hermes claw</code></a>
-  - <a href="#what-gets-migrated" class="table-of-contents__link toc-highlight">What gets migrated</a>
-  - <a href="#examples-5" class="table-of-contents__link toc-highlight">Examples</a>
 - <a href="#hermes-import-agent" class="table-of-contents__link toc-highlight"><code>hermes import-agent</code></a>
+  - <a href="#openclaw-hermes-import-agent-openclaw" class="table-of-contents__link toc-highlight">OpenClaw: <code>hermes import-agent openclaw</code></a>
 - <a href="#hermes-serve" class="table-of-contents__link toc-highlight"><code>hermes serve</code></a>
 - <a href="#hermes-dashboard" class="table-of-contents__link toc-highlight"><code>hermes dashboard</code></a>
   - <a href="#hermes-dashboard-register" class="table-of-contents__link toc-highlight"><code>hermes dashboard register</code></a>

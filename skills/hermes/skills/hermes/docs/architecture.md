@@ -114,7 +114,7 @@ hermes-agent/
 │   ├── credential_files.py   # File-based credential passthrough
 │   ├── env_passthrough.py    # Env var passthrough for sandboxes
 │   ├── ansi_strip.py         # ANSI escape stripping
-│   └── environments/         # Terminal backends (local, docker, ssh, modal, daytona, singularity)
+│   └── environments/         # Terminal backends (local, docker, ssh, modal, daytona, vercel_sandbox)
 │
 ├── gateway/                  # Messaging platform gateway
 │   ├── run.py                # GatewayRunner facade — message dispatch (+ run_*.py siblings)
@@ -230,7 +230,7 @@ A shared runtime resolver used by CLI, gateway, cron, ACP, and auxiliary calls. 
 
 ### Tool System<a href="#tool-system" class="hash-link" aria-label="Direct link to Tool System" translate="no" title="Direct link to Tool System">​</a>
 
-Central tool registry (`tools/registry.py`) with 70+ registered tools across ~28 toolsets. Each tool file self-registers at import time. The registry handles schema collection, dispatch, availability checking, and error wrapping. Terminal tools support 7 backends (local, Docker, SSH, Daytona, Modal, Singularity, Vercel Sandbox).
+Central tool registry (`tools/registry.py`) with 70+ registered tools across ~28 toolsets. Each tool file self-registers at import time. The registry handles schema collection, dispatch, availability checking, and error wrapping. Terminal tools support 6 built-in backends (local, Docker, SSH, Daytona, Modal, Vercel Sandbox) plus plugin backends (e.g. Singularity).
 
 → [Tools Runtime](/docs/developer-guide/tools-runtime)
 

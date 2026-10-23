@@ -87,12 +87,12 @@ Copies your current profile's `config.yaml`, `.env`, `SOUL.md`, skills, and the 
 
 #### Keep a clone's imported agent setups synced (`--sync-imports`)<a href="#keep-a-clones-imported-agent-setups-synced---sync-imports" class="hash-link" aria-label="Direct link to keep-a-clones-imported-agent-setups-synced---sync-imports" translate="no" title="Direct link to keep-a-clones-imported-agent-setups-synced---sync-imports">​</a>
 
-If the source profile has run [`hermes import-agent`](/docs/user-guide/import-from-other-agents), its `import-sync.json` records which external Claude Code / Codex trees it imported. `--clone` leaves that manifest behind, so the clone gets a one-off copy of those skills and memories and stops there. Add `--sync-imports` to carry the manifest over:
+If the source profile has run [`hermes import-agent`](/docs/user-guide/import-from-other-agents) (the `agent-importers` plugin), its `import-sync.json` records which external Claude Code / Codex / Cursor trees it imported. `--clone` leaves that manifest behind, so the clone gets a one-off copy of those skills and memories and stops there. Add `--sync-imports` to carry the manifest over:
 
 
 ``` prism-code
 hermes profile create work --clone --sync-imports
-hermes -p work import-agent --sync        # pulls changes from the same ~/.claude / ~/.codex
+hermes -p work import-agent --sync        # pulls changes from the same ~/.claude / ~/.codex / ~/.cursor
 ```
 
 
