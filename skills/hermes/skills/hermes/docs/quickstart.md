@@ -110,6 +110,8 @@ hermes setup --portal
 That logs you in, sets Nous as your provider, and turns on the Tool Gateway in one command.
 
 
+Coming from OpenClaw, Claude Code, Codex CLI or Cursor? When a fresh `hermes setup` finds one of them on your computer it first offers to import your setup (it installs the `agent-importers` plugin for that; see [Import from Other Agents](/docs/user-guide/import-from-other-agents)).
+
 On a fresh install, `hermes setup` offers three modes:
 
 - **Quick Setup (Nous Portal)** — OAuth login, no API keys to manage; sets up a model plus the Tool Gateway tools, billed to your [Nous Portal subscription](/docs/integrations/nous-portal). The recommended fast path.

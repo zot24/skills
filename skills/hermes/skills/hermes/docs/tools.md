@@ -73,15 +73,15 @@ A few tool behaviors are worth knowing when you read agent transcripts:
 
 The terminal tool can execute commands in different environments:
 
-| Backend          | Description                   | Use Case                                                    |
-|------------------|-------------------------------|-------------------------------------------------------------|
-| `local`          | Run on your machine (default) | Development, trusted tasks                                  |
-| `docker`         | Isolated containers           | Security, reproducibility                                   |
-| `ssh`            | Remote server                 | Sandboxing, keep agent away from its own code               |
-| `singularity`    | HPC containers                | Cluster computing, rootless                                 |
-| `modal`          | Cloud execution               | Serverless, scale                                           |
-| `daytona`        | Cloud sandbox workspace       | Persistent remote dev environments                          |
-| `vercel_sandbox` | Vercel Sandbox cloud microVM  | Cloud execution with snapshot-backed filesystem persistence |
+| Backend                | Description                   | Use Case                                                    |
+|------------------------|-------------------------------|-------------------------------------------------------------|
+| `local`                | Run on your machine (default) | Development, trusted tasks                                  |
+| `docker`               | Isolated containers           | Security, reproducibility                                   |
+| `ssh`                  | Remote server                 | Sandboxing, keep agent away from its own code               |
+| `singularity` (plugin) | HPC containers                | Cluster computing, rootless                                 |
+| `modal`                | Cloud execution               | Serverless, scale                                           |
+| `daytona`              | Cloud sandbox workspace       | Persistent remote dev environments                          |
+| `vercel_sandbox`       | Vercel Sandbox cloud microVM  | Cloud execution with snapshot-backed filesystem persistence |
 
 ### Configuration<a href="#configuration" class="hash-link" aria-label="Direct link to Configuration" translate="no" title="Direct link to Configuration">​</a>
 
@@ -89,7 +89,7 @@ The terminal tool can execute commands in different environments:
 ``` prism-code
 # In ~/.hermes/config.yaml
 terminal:
-  backend: local    # or: docker, ssh, singularity, modal, daytona, vercel_sandbox
+  backend: local    # or: docker, ssh, modal, daytona, vercel_sandbox, or a plugin backend (singularity)
   cwd: "."          # Working directory
   timeout: 180      # Command timeout in seconds
 ```
@@ -158,8 +158,12 @@ TERMINAL_SSH_KEY=~/.ssh/id_rsa
 
 ### Singularity/Apptainer<a href="#singularityapptainer" class="hash-link" aria-label="Direct link to Singularity/Apptainer" translate="no" title="Direct link to Singularity/Apptainer">​</a>
 
+An official plugin (<a href="https://github.com/NousResearch/hermes-official-plugins/tree/main/singularity" target="_blank" rel="noopener noreferrer"><code>singularity</code></a>), formerly built in; `hermes update` installs it for profiles that already use it.
+
 
 ``` prism-code
+hermes plugins install singularity
+
 # Pre-build SIF for parallel workers
 apptainer build ~/python.sif docker://python:3.11-slim
 
@@ -220,7 +224,7 @@ Configure CPU, memory, disk, and persistence for all container backends:
 
 ``` prism-code
 terminal:
-  backend: docker  # or singularity, modal, daytona, vercel_sandbox
+  backend: docker  # or modal, daytona, vercel_sandbox, singularity (plugin)
   container_cpu: 1              # CPU cores (default: 1)
   container_memory: 5120        # Memory in MB (default: 5GB)
   container_disk: 51200         # Disk in MB (default: 50GB)
