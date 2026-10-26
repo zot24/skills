@@ -12,8 +12,12 @@ brief's contact address, Crawler Hints.
 
 ## 2. Workers Builds
 
-Connecting a repo to a Worker is a dashboard step, once per site. Ask the owner to open Workers &
-Pages → Create → Import a repository, pick the repo, and set:
+Connecting a repo to a Worker needs the Cloudflare Workers & Pages GitHub app on the repo's owner,
+which only the owner can install. Check first: `GET /accounts/{id}/builds/workers/{script}/triggers`
+lists a Worker's existing connection, and an account where every Worker returns `[]` has none yet.
+The Builds API (`/builds/repos/connections`, `/builds/triggers`) can create the trigger once the app
+is installed; otherwise ask the owner to open Workers & Pages → Create → Import a repository, pick
+the repo, and set:
 
 | Setting | Value |
 |---|---|

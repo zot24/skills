@@ -12,6 +12,7 @@ interface ImportMetaEnv {
   readonly PUBLIC_UMAMI_HOST: string;
   readonly PUBLIC_UMAMI_WEBSITE_ID: string;
   readonly PUBLIC_DEPLOY_ENV: 'production' | 'preview';
+  readonly PUBLIC_BUILD_DATE: string;
 }
 
 interface Window {
