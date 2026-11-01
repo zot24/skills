@@ -7,6 +7,7 @@ sidebar:
   order: 3
 ---
 
+
 <style>{`
   /* Existing styling to ensure block behavior */
   .theme-aware-sf-diagram img,
@@ -36,6 +37,348 @@ This guide covers the core functionality of the Apprise API: sending notificatio
 
 1. **Stateless:** You provide the configuration URLs in the request payload.
 1. **Stateful:** You reference a pre-saved configuration Key.
+
+## Quick Reference
+
+Every way of sending below works on both endpoints. Stateless requests go to `/notify`; stateful requests go to `/notify/{KEY}`, or to `/notify` with an `X-Apprise-Config-ID` header.
+
+| Method          | Stateless (`/notify`)                                       | Stateful (`/notify/{KEY}`)                              |
+| --------------- | ----------------------------------------------------------- | ------------------------------------------------------- |
+| Body only       | `{"body": "..."}` sends to `APPRISE_STATELESS_URLS`         | `{"body": "..."}` sends to the URLs with no tag         |
+| Form            | `body=...&title=...`                                        | `body=...&tag=devops`                                   |
+| Plain text      | `Content-Type: text/plain`, the request body is the message | Same, by path or with `X-Apprise-Config-ID`             |
+| HTML / Markdown | `Content-Type: text/html` or `text/markdown`                | Same                                                    |
+| Headers         | `X-Apprise-Title`, `X-Apprise-Type`                         | Also `X-Apprise-Tag` and `X-Apprise-Template`           |
+| Query string    | `?title=...&type=...&format=...`                            | Also `?tag=...`                                         |
+| Attachments     | `-F attach=@file`, with or without a body                   | Same                                                    |
+| Template values | Not used                                                    | `template` object, `template[name]` fields, or a header |
+| Explicit URLs   | `urls` in a JSON or form payload                            | Not used                                                |
+
+## Field Priority
+
+A field can be sent in the payload, in an `X-Apprise-*` header, or in the query string. When it is sent in more than one place, the first source in this table wins, reading left to right:
+
+| Field      | Payload                                                                          | Header                                                     | Query string           | When none is sent                                                                          |
+| ---------- | -------------------------------------------------------------------------------- | ---------------------------------------------------------- | ---------------------- | ------------------------------------------------------------------------------------------ |
+| `body`     | `body`, or the whole request body for `text/plain`, `text/html`, `text/markdown` | —                                                          | —                      | Required, unless an attachment is sent                                                     |
+| `title`    | `title`                                                                          | `X-Apprise-Title`                                          | `?title=`              | No title                                                                                   |
+| `type`     | `type`                                                                           | `X-Apprise-Type`                                           | `?type=`               | `info`                                                                                     |
+| `tag`      | `tag`, then `tags`                                                               | `X-Apprise-Tag`                                            | `?tag=`, then `?tags=` | Stateful: only the URLs with no tag. Stateless: every URL                                  |
+| `format`   | `format`                                                                         | —                                                          | `?format=`             | Plain text: set by its `Content-Type`. JSON: `APPRISE_DEFAULT_FORMAT`. Form: no conversion |
+| `template` | `template` object, or `template[name]` form fields                               | `X-Apprise-Template`                                       | —                      | Each name falls back to its configuration default, then `APPRISE_TEMPLATE_<NAME>`          |
+| `urls`     | `urls` (stateless only)                                                          | `X-Apprise-Config-ID` uses the saved configuration instead | —                      | `APPRISE_STATELESS_URLS`, for an administrator only when authentication is on              |
+
+- An empty `title`, `type`, or `tag` counts as not sent, so the next source is used.
+- Values set by [payload mapping](#payload-mapping-hooks) (`?:field=`) count as payload values.
+- The `template` sources do not mix: non-empty payload values replace the header completely. If the payload has no usable values, the header may fill them in.
+- These values never change who may send. Authentication, and the tag rules for `locked` and `public` configurations, apply wherever a value comes from.
+
+## Plain Text Messages and Headers
+
+Clients that cannot build JSON can send the message as the whole request body. The `Content-Type` sets its format:
+
+| Content-Type    | The body is sent as |
+| --------------- | ------------------- |
+| `text/plain`    | Text                |
+| `text/html`     | HTML                |
+| `text/markdown` | Markdown            |
+
+Add `?format=` to use a different format. Requests with any other `Content-Type`, or none at all, work as they always have.
+
+```bash
+# Notify the untagged URLs saved under 'my-alerts'
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  --data-raw "Deployment completed" \
+  http://localhost:8000/notify/my-alerts
+
+# Stateless: sends to the server's APPRISE_STATELESS_URLS
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  --data-raw "Deployment completed" \
+  http://localhost:8000/notify
+```
+
+The rest of the message can travel in headers. These headers work with every supported request format, including JSON and forms:
+
+| Header               | Sets                                                               |
+| -------------------- | ------------------------------------------------------------------ |
+| `X-Apprise-Title`    | The title                                                          |
+| `X-Apprise-Type`     | The type: `info`, `success`, `warning`, or `failure`               |
+| `X-Apprise-Tag`      | The [tag expression](#tagging)                                     |
+| `X-Apprise-Template` | [Template values](#supplying-template-values) as URL-encoded pairs |
+
+```http
+POST /notify/my-alerts HTTP/1.1
+Content-Type: text/plain
+X-Apprise-Title: Deployment Status
+X-Apprise-Type: success
+X-Apprise-Tag: devops
+
+Deployment completed successfully
+```
+
+When a field is sent in more than one place, see [Field Priority](#field-priority) for which one wins. The tabs below provide copy-and-paste examples for body-only, form, JSON, query-string, header, attachment, and template requests in both stateful and stateless modes.
+
+## Examples
+
+Each tab shows one way of sending. For the same requests in Python, Go, Java, and other languages, see [Integrations](../integrations/#examples).
+
+
+The examples without `urls` send to the server's `APPRISE_STATELESS_URLS`.
+
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"body": "Backup completed"}' \
+  http://localhost:8000/notify
+```
+
+The title is empty and the type is `info`.
+
+
+```bash
+curl -X POST \
+  -d "title=Nightly Backup" \
+  -d "body=Backup completed" \
+  http://localhost:8000/notify
+```
+
+
+```bash
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  --data-raw "Backup completed" \
+  http://localhost:8000/notify
+```
+
+The whole request body is the message. No JSON or form encoding is needed.
+
+
+```bash
+# Sent as Markdown
+curl -X POST \
+  -H "Content-Type: text/markdown" \
+  --data-raw "**Backup** completed" \
+  http://localhost:8000/notify
+
+# Sent as HTML
+curl -X POST \
+  -H "Content-Type: text/html" \
+  --data-raw "<b>Backup</b> completed" \
+  http://localhost:8000/notify
+
+# A text/plain body read as Markdown
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  --data-raw "**Backup** completed" \
+  "http://localhost:8000/notify?format=markdown"
+```
+
+
+```bash
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  -H "X-Apprise-Title: Nightly Backup" \
+  -H "X-Apprise-Type: success" \
+  --data-raw "Backup completed" \
+  http://localhost:8000/notify
+```
+
+
+```bash
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  --data-raw "Disk almost full" \
+  "http://localhost:8000/notify?title=Storage&type=warning"
+```
+
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "X-Apprise-Title: Title from the header" \
+  -H "X-Apprise-Type: warning" \
+  -d '{"body": "Disk almost full", "title": "Storage"}' \
+  "http://localhost:8000/notify?type=failure"
+```
+
+The title is `Storage`, because the payload wins over the header. The type is `warning`, because the header wins over the query string.
+
+
+```bash
+# Upload a local file
+curl -X POST \
+  -F "body=See attached log" \
+  -F "attach=@/var/log/syslog" \
+  http://localhost:8000/notify
+
+# An attachment alone is enough; the body is optional
+curl -X POST \
+  -F "attach=@/path/to/snapshot.jpg" \
+  http://localhost:8000/notify
+
+# Have the server download a remote file
+curl -X POST \
+  -F "body=Security camera snapshot" \
+  -F "attach=http://camera.local/snapshot.jpg" \
+  http://localhost:8000/notify
+```
+
+
+```bash
+# JSON
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{
+    "urls": ["discord://webhook_id/webhook_token", "mailto://user:pass@gmail.com"],
+    "body": "Backup completed"
+  }' \
+  http://localhost:8000/notify
+
+# Form
+curl -X POST \
+  -d "urls=mailto://user:pass@gmail.com" \
+  -d "body=Backup completed" \
+  http://localhost:8000/notify
+```
+
+`urls` replaces `APPRISE_STATELESS_URLS` for this request. Plain text requests cannot carry `urls`.
+
+
+These examples send through a configuration saved under the key `my-alerts`.
+
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"body": "Backup completed"}' \
+  http://localhost:8000/notify/my-alerts
+```
+
+Without a tag, only the URLs that have no tag are notified, just like the Apprise CLI.
+
+
+```bash
+curl -X POST \
+  -d "tag=devops" \
+  -d "body=Backup completed" \
+  http://localhost:8000/notify/my-alerts
+```
+
+
+```bash
+# The key in the path
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  --data-raw "Backup completed" \
+  http://localhost:8000/notify/my-alerts
+
+# The key in a header, keeping it out of the URL
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  -H "X-Apprise-Config-ID: my-alerts" \
+  --data-raw "Backup completed" \
+  http://localhost:8000/notify
+```
+
+
+```bash
+# Sent as Markdown
+curl -X POST \
+  -H "Content-Type: text/markdown" \
+  --data-raw "**Backup** completed" \
+  http://localhost:8000/notify/my-alerts
+
+# Sent as HTML
+curl -X POST \
+  -H "Content-Type: text/html" \
+  --data-raw "<b>Backup</b> completed" \
+  http://localhost:8000/notify/my-alerts
+```
+
+
+```bash
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  -H "X-Apprise-Title: Deployment Status" \
+  -H "X-Apprise-Type: success" \
+  -H "X-Apprise-Tag: devops" \
+  --data-raw "Deployment completed successfully" \
+  http://localhost:8000/notify/my-alerts
+```
+
+
+```bash
+# Plain text
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  --data-raw "Database connection lost" \
+  "http://localhost:8000/notify/my-alerts?type=warning&tag=operations"
+
+# JSON
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"body": "Database connection lost"}' \
+  "http://localhost:8000/notify/my-alerts?type=warning&tag=operations"
+```
+
+This suits tools that let you set a URL but not headers or a payload layout.
+
+
+```bash
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -H "X-Apprise-Tag: operations" \
+  -H "X-Apprise-Type: warning" \
+  -d '{"body": "Database connection lost", "tag": "devops"}' \
+  "http://localhost:8000/notify/my-alerts?type=failure&title=Database"
+```
+
+The tag is `devops` (payload over header), the type is `warning` (header over query string), and the title is `Database` (only the query string sets it).
+
+
+```bash
+# Upload a local file
+curl -X POST \
+  -F "tag=devops" \
+  -F "body=See attached log" \
+  -F "attach=@/var/log/syslog" \
+  http://localhost:8000/notify/my-alerts
+
+# An attachment alone is enough; the body is optional
+curl -X POST \
+  -F "attach=@/path/to/snapshot.jpg" \
+  http://localhost:8000/notify/my-alerts
+```
+
+
+```bash
+# JSON
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"tag": "alerts", "body": "Backup completed", "template": {"api_key": "your-secret-key"}}' \
+  http://localhost:8000/notify/my-alerts
+
+# Form
+curl -X POST \
+  -F "tag=alerts" \
+  -F "body=Backup completed" \
+  -F "template[api_key]=your-secret-key" \
+  http://localhost:8000/notify/my-alerts
+
+# Header, with any Content-Type
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  -H "X-Apprise-Tag: alerts" \
+  -H "X-Apprise-Template: api_key=your-secret-key" \
+  --data-raw "Backup completed" \
+  http://localhost:8000/notify/my-alerts
+```
+
+See [Supplying Template Values](#supplying-template-values).
+
 
 ## Response Formats
 
@@ -118,7 +461,7 @@ proxy waits for live-stream activity and defaults to 10 minutes.
   />
 </picture>
 
-Stateless notifications are ideal for "sidecar" usage where you don't want to manage persistent configuration on the server. You must provide the `urls` parameter in every request.
+Stateless notifications are ideal for "sidecar" usage where you don't want to manage persistent configuration on the server. Provide the `urls` parameter with each request, or set `APPRISE_STATELESS_URLS` on the server to use when it is left out.
 
 With authentication enabled, use administrator credentials, or send explicit `urls` with configuration-user credentials and the matching `X-Apprise-Config-ID` header. Configuration-user access must be `user`; `locked`, `public`, and `disabled` cannot send stateless notifications. For Apprise API v2 compatibility, the header without `urls` remains a stateful send through the saved configuration.
 
@@ -235,6 +578,8 @@ curl -X POST -d '{"tag": "devops critical", "body": "..."}' ...
 curl -X POST -d '{"tag": "comment create,admin", "body": "..."}' ...
 ```
 
+The tag can also be sent in the `X-Apprise-Tag` header or the `?tag=` query string. See [Field Priority](#field-priority) for which one wins.
+
 ### Supplying Template Values
 
 If a saved configuration uses `${NAME}` markers, the URLs that need them are
@@ -274,6 +619,19 @@ curl -X POST \
   -F "template[api_key]=your-secret-key" \
   http://localhost:8000/notify/my-alerts
 ```
+
+With any other request, send URL-encoded `name=value` pairs in the `X-Apprise-Template` header. Encode `&` and `=` inside a value as `%26` and `%3D`:
+
+```bash
+curl -X POST \
+  -H "Content-Type: text/plain" \
+  -H "X-Apprise-Tag: alerts" \
+  -H "X-Apprise-Template: api_key=your-secret-key" \
+  --data-raw "Database connection failed" \
+  http://localhost:8000/notify/my-alerts
+```
+
+The header is used only when the payload has no `template` values. A malformed header returns HTTP `400`.
 
 A value sent this way takes priority. If it is blank or whitespace-only,
 Apprise uses the configuration default, then the server's environment.

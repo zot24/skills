@@ -12,9 +12,9 @@ Scrape business directories for leads, enrich your CRM with live company data, a
 
 ## Start with a Template
 
-
-  AI-powered lead enrichment and data extraction from websites
-
+> [card] [Fire Enrich](https://github.com/firecrawl/fire-enrich)
+>
+> AI-powered lead enrichment and data extraction from websites
 
 ## How It Works
 
@@ -34,20 +34,25 @@ Firecrawl pulls information directly from live company websites instead of a sta
 
 ### Qualify leads before they reach your CRM
 
-Pair Firecrawl with a decision model like [Jev](/developer-guides/llm-sdks-and-frameworks/jev#qualify-leads) to check whether each company fits your market, sending clear matches to your CRM and uncertain ones to a person for review.
+Pair Firecrawl with a decision model like [Jev](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/jev.md#qualify-leads) to check whether each company fits your market, sending clear matches to your CRM and uncertain ones to a person for review.
 
 ## Customer Stories
 
+> [card]
+>
+> **Zapier**
+>
+> Discover how Zapier uses Firecrawl to empower customers with custom knowledge in their chatbots.
+>
+> [Open](https://www.firecrawl.dev/blog/how-zapier-uses-firecrawl-to-power-chatbots)
 
-    **Zapier**
-
-    Discover how Zapier uses Firecrawl to empower customers with custom knowledge in their chatbots.
-
-
-    **Cargo**
-
-    See how Cargo uses Firecrawl to instantly analyze webpage content and power Go-To-Market workflows.
-
+> [card]
+>
+> **Cargo**
+>
+> See how Cargo uses Firecrawl to instantly analyze webpage content and power Go-To-Market workflows.
+>
+> [Open](https://www.firecrawl.dev/blog/how-cargo-empowers-gtm-teams-with-firecrawl)
 
 ## Lead Sources
 
@@ -73,27 +78,31 @@ Use a company URL when you already know the account and want deeper context for 
 
 ## FAQs
 
+> [accordion] How does Firecrawl enhance lead enrichment processes?
+>
+> Firecrawl automatically extracts company information, contact details, product offerings, and recent news from prospect websites. This enriches your CRM with accurate, up-to-date information for better sales outreach.
 
-    Firecrawl automatically extracts company information, contact details, product offerings, and recent news from prospect websites. This enriches your CRM with accurate, up-to-date information for better sales outreach.
+> [accordion] Can Firecrawl find contact information from websites?
+>
+> Yes! Firecrawl extracts publicly available contact information including emails and phone numbers from company websites, team pages, and contact sections.
 
+> [accordion] How accurate is the lead data from Firecrawl?
+>
+> Since Firecrawl extracts data directly from live websites, you get the most current information available. This is more accurate than static databases that quickly become outdated.
 
-    Yes! Firecrawl extracts publicly available contact information including emails and phone numbers from company websites, team pages, and contact sections.
+> [accordion] Can I integrate Firecrawl with my CRM?
+>
+> Yes. Use our API or Zapier integration to automatically enrich leads in Salesforce, HubSpot, Pipedrive, and other CRMs. Keep your lead data fresh without manual research.
 
-
-    Since Firecrawl extracts data directly from live websites, you get the most current information available. This is more accurate than static databases that quickly become outdated.
-
-
-    Yes. Use our API or Zapier integration to automatically enrich leads in Salesforce, HubSpot, Pipedrive, and other CRMs. Keep your lead data fresh without manual research.
-
-
-    Extract detailed company information, recent updates, and trigger events from target account websites. This intelligence helps personalize outreach and identify the perfect timing for engagement.
-
+> [accordion] How does Firecrawl help with account-based marketing?
+>
+> Extract detailed company information, recent updates, and trigger events from target account websites. This intelligence helps personalize outreach and identify the perfect timing for engagement.
 
 ## Related Use Cases
 
-* [AI Platforms](/use-cases/ai-platforms) - Build AI sales assistants
-* [Competitive Intelligence](/use-cases/competitive-intelligence) - Track competitors
-* [Investment & Finance](/use-cases/investment-finance) - Investment opportunities
+* [AI Platforms](https://docs.firecrawl.dev/use-cases/ai-platforms.md) - Build AI sales assistants
+* [Competitive Intelligence](https://docs.firecrawl.dev/use-cases/competitive-intelligence.md) - Track competitors
+* [Investment & Finance](https://docs.firecrawl.dev/use-cases/investment-finance.md) - Investment opportunities
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

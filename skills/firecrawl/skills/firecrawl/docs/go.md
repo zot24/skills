@@ -53,22 +53,22 @@ func main() {
 }
 ```
 
-
-  ```json
-  {
-    "success": true,
-    "data": {
-      "web": [
-        {
-          "url": "https://docs.firecrawl.dev",
-          "title": "Firecrawl Documentation",
-          "markdown": "# Firecrawl\n\nFirecrawl is a web scraping API..."
-        }
-      ]
-    }
-  }
-  ```
-
+> [accordion] Example response
+>
+> ```json
+> {
+>   "success": true,
+>   "data": {
+>     "web": [
+>       {
+>         "url": "https://docs.firecrawl.dev",
+>         "title": "Firecrawl Documentation",
+>         "markdown": "# Firecrawl\n\nFirecrawl is the context API for AI agents..."
+>       }
+>     ]
+>   }
+> }
+> ```
 
 ## Scrape a page
 
@@ -92,20 +92,20 @@ result, _ := io.ReadAll(resp.Body)
 fmt.Println(string(result))
 ```
 
-
-  ```json
-  {
-    "success": true,
-    "data": {
-      "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
-      "metadata": {
-        "title": "Example Domain",
-        "sourceURL": "https://example.com"
-      }
-    }
-  }
-  ```
-
+> [accordion] Example response
+>
+> ```json
+> {
+>   "success": true,
+>   "data": {
+>     "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
+>     "metadata": {
+>       "title": "Example Domain",
+>       "sourceURL": "https://example.com"
+>     }
+>   }
+> }
+> ```
 
 ## Interact with a page
 
@@ -248,23 +248,27 @@ func (fc *FirecrawlClient) Search(query string, limit int) ([]byte, error) {
 }
 ```
 
-
-  A [community Go SDK](https://github.com/mendableai/firecrawl-go) is available for the v1 API. See the [Go SDK docs](/sdks/go) for details.
-
+> [!NOTE]
+>
+> A [community Go SDK](https://github.com/firecrawl/firecrawl-go) is available for the v1 API. See the [Go SDK docs](https://docs.firecrawl.dev/sdks/go.md) for details.
 
 ## Next steps
 
+> [card] [Search docs](https://docs.firecrawl.dev/features/search.md)
+>
+> Search the web and get full page content
 
-    Search the web and get full page content
+> [card] [Scrape docs](https://docs.firecrawl.dev/features/scrape.md)
+>
+> All scrape options including formats, actions, and proxies
 
+> [card] [Interact docs](https://docs.firecrawl.dev/features/interact.md)
+>
+> Click, fill forms, and extract dynamic content
 
-    All scrape options including formats, actions, and proxies
-
-
-    Click, fill forms, and extract dynamic content
-
-
-    Complete REST API documentation
+> [card] [API Reference](https://docs.firecrawl.dev/api-reference/v2-introduction.md)
+>
+> Complete REST API documentation
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

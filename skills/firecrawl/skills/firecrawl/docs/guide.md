@@ -10,11 +10,11 @@
 
 Run Firecrawl locally when you are changing the API, workers, or tests. This path installs development dependencies and starts source-owned services with the API harness.
 
-
-  This is a contributor development environment, not a deployment guide. If
-  you want to run Firecrawl on infrastructure you control without changing the
-  product, use [Self-hosting Firecrawl](/contributing/self-host).
-
+> [!WARNING]
+>
+> This is a contributor development environment, not a deployment guide. If
+> you want to run Firecrawl on infrastructure you control without changing the
+> product, use [Self-hosting Firecrawl](https://docs.firecrawl.dev/contributing/self-host.md).
 
 ## Choose local development or self-hosting
 
@@ -156,8 +156,8 @@ An empty `PLAYWRIGHT_MICROSERVICE_URL` leaves the separate Playwright service di
 
 ## Where to go next
 
-* **Deploying instead of developing?** Follow [Self-hosting Firecrawl](/contributing/self-host).
-* **Still choosing a path?** Compare [Open source or Firecrawl Cloud](/contributing/open-source-or-cloud).
+* **Deploying instead of developing?** Follow [Self-hosting Firecrawl](https://docs.firecrawl.dev/contributing/self-host.md).
+* **Still choosing a path?** Compare [Open source or Firecrawl Cloud](https://docs.firecrawl.dev/contributing/open-source-or-cloud.md).
 * **Ready to contribute?** Use the source-owned [contribution guide](https://github.com/firecrawl/firecrawl/blob/main/CONTRIBUTING.md).
 
 

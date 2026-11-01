@@ -45,7 +45,9 @@ Firecrawl automatically selects the best proxy based on your specified or detect
 | TR | Turkey | Yes | No |
 | US | United States | Yes | Yes |
 
-The list of supported proxy locations will change over time.
+> [!WARNING]
+>
+> The list of supported proxy locations will change over time.
 
 If you need proxies in a location not listed above, please [contact us](mailto:help@firecrawl.com) and let us know your requirements.
 
@@ -57,66 +59,68 @@ You can request a specific proxy location by setting the `location.country` para
 
 For full details, see the [API reference for `location.country`](https://docs.firecrawl.dev/api-reference/endpoint/scrape#body-location).
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  doc = firecrawl.scrape('https://example.com',
-      formats=['markdown'],
-      location={
-          'country': 'US',
-          'languages': ['en']
-      }
-  )
+doc = firecrawl.scrape('https://example.com',
+    formats=['markdown'],
+    location={
+        'country': 'US',
+        'languages': ['en']
+    }
+)
 
-  print(doc)
-  ```
+print(doc)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  const doc = await firecrawl.scrape('https://example.com', {
-    formats: ['markdown'],
-    location: { country: 'US', languages: ['en'] },
-  });
+const doc = await firecrawl.scrape('https://example.com', {
+  formats: ['markdown'],
+  location: { country: 'US', languages: ['en'] },
+});
 
-  console.log(doc.metadata);
-  ```
+console.log(doc.metadata);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://example.com",
-      "formats": ["markdown"],
-      "location": { "country": "US", "languages": ["en"] }
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com",
+    "formats": ["markdown"],
+    "location": { "country": "US", "languages": ["en"] }
+  }'
+```
 
-If you request a country where a proxy is not available, Firecrawl will use the closest available region (EU or US) and set the browser location to your requested country.
+> [!NOTE]
+>
+> If you request a country where a proxy is not available, Firecrawl will use the closest available region (EU or US) and set the browser location to your requested country.
 
-We highly recommend leaving `location` unspecified unless you are sure you need it.
+> [!WARNING]
+>
+> We highly recommend leaving `location` unspecified unless you are sure you need it.
 
 ## Proxy Types
 
-
-  The `proxy` parameter is deprecated. We recommend `auto` — the default — which lets Firecrawl handle proxy selection for you.
-
+> [!WARNING]
+>
+> The `proxy` parameter is deprecated. We recommend `auto` — the default — which lets Firecrawl handle proxy selection for you.
 
 * **basic**: Proxies for scraping most sites.
-* **enhanced**: Enhanced proxies for scraping complex sites while maintaining privacy. [Learn more about Enhanced Mode →](/features/enhanced-mode)
+* **enhanced**: Enhanced proxies for scraping complex sites while maintaining privacy. [Learn more about Enhanced Mode →](https://docs.firecrawl.dev/features/enhanced-mode.md)
 * **auto**: Recommended. Firecrawl will automatically retry scraping with enhanced proxies if the basic proxy fails.
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.

@@ -12,12 +12,13 @@ IP Restrictions let your team maintain an allowlist of IP addresses and CIDR ran
 
 The allowlist is team-scoped: it applies to all of the team's API keys at once.
 
+> [!NOTE]
+>
+> IP Restrictions are an enterprise feature and are gated per organization. Contact your Firecrawl account team to have them enabled for your account.
 
-  IP Restrictions are an enterprise feature and are gated per organization. Contact your Firecrawl account team to have them enabled for your account.
-
-
-  This is the *inbound* control — where your requests to Firecrawl may come from. If you are looking for the *outbound* direction (static egress IPs for Firecrawl's traffic to your systems, so you can allowlist Firecrawl), see [Enterprise features](/enterprise).
-
+> [!NOTE]
+>
+> This is the *inbound* control — where your requests to Firecrawl may come from. If you are looking for the *outbound* direction (static egress IPs for Firecrawl's traffic to your systems, so you can allowlist Firecrawl), see [Enterprise features](https://docs.firecrawl.dev/enterprise.md).
 
 ## What you can allowlist
 
@@ -58,7 +59,7 @@ A request from an IP that is not on the allowlist is rejected with a `403`:
 ## Notes
 
 * IP Restrictions add no credit charges.
-* IP Restrictions are independent of [Key Restrictions](/features/key-restrictions); a team can use both, and a single key can be limited by format, endpoint, and origin network at the same time.
+* IP Restrictions are independent of [Key Restrictions](https://docs.firecrawl.dev/features/key-restrictions.md); a team can use both, and a single key can be limited by format, endpoint, and origin network at the same time.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

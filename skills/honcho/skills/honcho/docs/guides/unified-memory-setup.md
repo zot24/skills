@@ -8,10 +8,10 @@
 
 > Wire one shared Honcho workspace across a chat companion, a coding agent, an autonomous agent, and a scheduled ingestion job
 
-
-  This is a how-to, not an intro. It assumes you know what workspaces, peers, and
-  sessions are. If you don't, start with [Core Concepts](/docs/v3/documentation/core-concepts/).
-
+> [!NOTE]
+>
+> This is a how-to, not an intro. It assumes you know what workspaces, peers, and
+> sessions are. If you don't, start with [Core Concepts](https://honcho.dev/docs/v3/documentation/core-concepts/).
 
 This guide wires four integration points into a single Honcho setup: a
 chat companion (Discord/Slack), a coding agent (Claude Code), an autonomous agent
@@ -42,7 +42,7 @@ session.add_peers([user, assistant])  # plus any other humans in the channel
 
 Slack mirrors this with `slack_{user_id}` peers and `slack-{channel}` sessions. For a
 full bot walkthrough — message ingestion, watchlists, and storing turns — see the
-[Discord guide](/docs/v3/guides/discord).
+[Discord guide](https://honcho.dev/docs/v3/guides/discord.md).
 
 ***
 
@@ -66,11 +66,11 @@ attributes you to one peer:
 }
 ```
 
-
-  This is a minimal, illustrative snippet — the real config file carries more fields
-  (session maps, recall mode, observation strategy, etc.). See the [integration](/docs/v3/guides/overview/)
-  guides for the full schema and per-host options.
-
+> [!NOTE]
+>
+> This is a minimal, illustrative snippet — the real config file carries more fields
+> (session maps, recall mode, observation strategy, etc.). See the [integration](https://honcho.dev/docs/v3/guides/overview.md)
+> guides for the full schema and per-host options.
 
 Add the user peer and the `claude` agent peer (no special observation config needed),
 then store turns — stripping `tool_use` blocks from the assistant message so only
@@ -81,20 +81,20 @@ states while coding ("keep it simple, pass config directly") is queryable from t
 Discord bot via `user.chat(...)`, and vice versa — both write to the same peer
 representation.
 
-
-  **A shared workspace is not the default.** The Honcho plugins — Claude Code, OpenCode,
-  Hermes, Cursor — each default to a *per-host* workspace (`Claude_Code`, `hermes`, …),
-  keeping memory isolated per tool. The unification above only happens when you set the
-  same workspace **and** the same user peer across all of them; otherwise each builds its
-  own separate representation.
-
+> [!WARNING]
+>
+> **A shared workspace is not the default.** The Honcho plugins — Claude Code, OpenCode,
+> Hermes, Cursor — each default to a *per-host* workspace (`Claude_Code`, `hermes`, …),
+> keeping memory isolated per tool. The unification above only happens when you set the
+> same workspace **and** the same user peer across all of them; otherwise each builds its
+> own separate representation.
 
 ***
 
 ## 3. Autonomous agent (Hermes)
 
 The Hermes Honcho plugin is configured through `honcho.json`, set its `workspace`
-and `aiPeer` there. See the [Hermes guide](/docs/v3/guides/integrations/hermes) for the full config schema.
+and `aiPeer` there. See the [Hermes guide](https://honcho.dev/docs/v3/guides/integrations/hermes.md) for the full config schema.
 
 * **Sessions** follow a `session_strategy` (default `per-directory`, like the coding
   agent above; `per-repo` or `per-session` for a fresh Honcho session each run). The
@@ -136,18 +136,18 @@ for i in range(0, len(messages), 100):
     session.add_messages(messages[i:i + 100])
 ```
 
-The [Gmail](/docs/v3/guides/gmail) and [Granola](/docs/v3/guides/granola) guides are related
+The [Gmail](https://honcho.dev/docs/v3/guides/gmail.md) and [Granola](https://honcho.dev/docs/v3/guides/granola.md) guides are related
 import examples.
 
-
-  If a cron run also posts as a deterministic agent (a bot or tool agent whose behavior
-  you fully control), set `observe_me=False` on that peer so Honcho doesn't spend
-  reasoning modeling it. Its messages still land in the session for context.
-
-  ```python
-  agent = honcho.peer("cron_agent", configuration=PeerConfig(observe_me=False))
-  ```
-
+> [!TIP]
+>
+> If a cron run also posts as a deterministic agent (a bot or tool agent whose behavior
+> you fully control), set `observe_me=False` on that peer so Honcho doesn't spend
+> reasoning modeling it. Its messages still land in the session for context.
+>
+> ```python
+> agent = honcho.peer("cron_agent", configuration=PeerConfig(observe_me=False))
+> ```
 
 ***
 
@@ -164,17 +164,21 @@ decisions, Hermes task runs, and imported emails. They blend because:
 
 ## Next Steps
 
+> [card] [Design Patterns](https://honcho.dev/docs/v3/documentation/core-concepts/design-patterns.md)
+>
+> The reasoning behind every decision in this guide.
 
-    The reasoning behind every decision in this guide.
+> [card] [Get Context](https://honcho.dev/docs/v3/documentation/features/get-context.md)
+>
+> Pull session + cross-session context into your LLM calls.
 
+> [card] [Granola](https://honcho.dev/docs/v3/guides/granola.md)
+>
+> An interactive import using the per-import session and created\_at patterns.
 
-    Pull session + cross-session context into your LLM calls.
-
-
-    An interactive import using the per-import session and created\_at patterns.
-
-
-    Production multi-platform companion with parent/subagent tracking.
+> [card] [OpenClaw](https://honcho.dev/docs/v3/guides/integrations/openclaw.md)
+>
+> Production multi-platform companion with parent/subagent tracking.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

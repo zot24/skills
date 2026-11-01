@@ -40,7 +40,7 @@ Firecrawl currently supports the following document formats:
   * Handles both text-based and scanned PDFs (with OCR support)
   * Optional per-page markdown and typed layout blocks with bounding boxes
   * Priced at 1 credit per-page. See [Pricing](https://firecrawl.dev/pricing) for details.
-  * See [PDF options](/features/parse#pdf-options) for the full reference: parsing modes, page caps, per-page markdown, and layout blocks.
+  * See [PDF options](https://docs.firecrawl.dev/features/parse.md#pdf-options) for the full reference: parsing modes, page caps, per-page markdown, and layout blocks.
 
 ## How to Use Document Parsing
 
@@ -55,45 +55,43 @@ For URL-based parsing, Firecrawl detects file type from extension or content typ
 
 Use `/v2/parse` when the source document is local or not publicly accessible by URL.
 
-<CodeGroup>
-  ```bash cURL
-  curl -X POST "https://api.firecrawl.dev/v2/parse" \
-    -H "Authorization: Bearer fc-YOUR-API-KEY" \
-    -F 'options={"formats":["markdown"]}' \
-    -F "file=@./document.docx;type=application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-  ```
+```bash cURL theme={null}
+curl -X POST "https://api.firecrawl.dev/v2/parse" \
+  -H "Authorization: Bearer fc-YOUR-API-KEY" \
+  -F 'options={"formats":["markdown"]}' \
+  -F "file=@./document.docx;type=application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+```
 
-  ```js Node
-  import { Firecrawl } from "firecrawl";
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
 
-  const app = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const app = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
-  const doc = await app.parse(
-    {
-      data: "<html><body><h1>Upload Parse</h1></body></html>",
-      filename: "upload.html",
-      contentType: "text/html",
-    },
-    { formats: ["markdown"] },
-  );
+const doc = await app.parse(
+  {
+    data: "<html><body><h1>Upload Parse</h1></body></html>",
+    filename: "upload.html",
+    contentType: "text/html",
+  },
+  { formats: ["markdown"] },
+);
 
-  console.log(doc.markdown);
-  ```
+console.log(doc.markdown);
+```
 
-  ```python Python
-  from firecrawl import Firecrawl
-  from firecrawl.v2.types import ScrapeOptions
+```python Python theme={null}
+from firecrawl import Firecrawl
+from firecrawl.v2.types import ScrapeOptions
 
-  app = Firecrawl(api_key="fc-YOUR-API-KEY")
-  doc = app.parse(
-      b"<!DOCTYPE html><html><body><h1>Upload Parse</h1></body></html>",
-      filename="upload.html",
-      content_type="text/html",
-      options=ScrapeOptions(formats=["markdown"]),
-  )
-  print(doc.markdown)
-  ```
-</CodeGroup>
+app = Firecrawl(api_key="fc-YOUR-API-KEY")
+doc = app.parse(
+    b"<!DOCTYPE html><html><body><h1>Upload Parse</h1></body></html>",
+    filename="upload.html",
+    content_type="text/html",
+    options=ScrapeOptions(formats=["markdown"]),
+)
+print(doc.markdown)
+```
 
 ### Example: Scraping an Excel File
 

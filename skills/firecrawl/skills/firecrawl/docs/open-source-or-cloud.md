@@ -10,13 +10,13 @@
 
 Choose open source when you need source or infrastructure control. Choose Firecrawl Cloud when you want to start scraping without operating the stack. Both paths expose Firecrawl's core APIs; the difference is who configures, secures, and runs the supporting services.
 
-
-  Running Firecrawl for product development and operating a self-hosted
-  deployment are different jobs. Use [Contributor Setup](/contributing/guide)
-  when you are changing Firecrawl code. Use the [self-hosting
-  guide](/contributing/self-host) when you want an API running on infrastructure
-  you control.
-
+> [!NOTE]
+>
+> Running Firecrawl for product development and operating a self-hosted
+> deployment are different jobs. Use [Contributor Setup](https://docs.firecrawl.dev/contributing/guide.md)
+> when you are changing Firecrawl code. Use the [self-hosting
+> guide](https://docs.firecrawl.dev/contributing/self-host.md) when you want an API running on infrastructure
+> you control.
 
 ## Choose your Firecrawl deployment
 
@@ -46,13 +46,13 @@ Choose open source when you need source or infrastructure control. Choose Firecr
 | Security, persistence, availability, and upgrades | You own them | Firecrawl operates them |
 | Usage, limits, and billing | Your infrastructure and provider costs | Firecrawl plan and credit model |
 
-<img src="https://mintcdn.com/firecrawl/vlKm1oZYK3oSRVTM/images/open-source-cloud.png?fit=max&auto=format&n=vlKm1oZYK3oSRVTM&q=85&s=763a6e92c8605d06294ed7ed45df85d0" alt="Firecrawl Cloud vs Open Source" width="2808" height="856" data-path="images/open-source-cloud.png" />
+![Firecrawl Cloud vs Open Source](https://mintcdn.com/firecrawl/vlKm1oZYK3oSRVTM/images/open-source-cloud.png?fit=max\&auto=format\&n=vlKm1oZYK3oSRVTM\&q=85\&s=763a6e92c8605d06294ed7ed45df85d0)
 
 ## Start with the path you chose
 
-* **Self-host Firecrawl:** follow the [Docker Compose self-hosting guide](/contributing/self-host) from a pinned release to one verified scrape.
-* **Change Firecrawl code:** use [Contributor Setup](/contributing/guide) for the development environment.
-* **Use Firecrawl Cloud:** [create an account](https://firecrawl.dev) and follow the [quickstart](/quickstart).
+* **Self-host Firecrawl:** follow the [Docker Compose self-hosting guide](https://docs.firecrawl.dev/contributing/self-host.md) from a pinned release to one verified scrape.
+* **Change Firecrawl code:** use [Contributor Setup](https://docs.firecrawl.dev/contributing/guide.md) for the development environment.
+* **Use Firecrawl Cloud:** [create an account](https://firecrawl.dev) and follow the [quickstart](https://docs.firecrawl.dev/quickstart).
 
 Open source keeps the core engine inspectable and adaptable. Firecrawl Cloud funds that work while giving builders a managed path with additional product and infrastructure capabilities.
 

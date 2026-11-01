@@ -8,59 +8,57 @@
 
 > Rate limits for different pricing plans and API requests
 
-Rate limits cap how many requests your team can make per minute, while concurrency limits cap how many jobs can run in parallel. Both are set by your plan; exceeding either returns a `429` response. See [Errors](/api-reference/errors) for the full error catalog and a retry-with-backoff snippet.
+Rate limits cap how many requests your team can make per minute, while concurrency limits cap how many jobs can run in parallel. Both are set by your plan; exceeding either returns a `429` response. See [Errors](https://docs.firecrawl.dev/api-reference/errors.md) for the full error catalog and a retry-with-backoff snippet.
 
 ## Concurrent Browser Limits
 
 Concurrent browsers control how many pages Firecrawl can process for you in parallel. Your plan sets the ceiling; any jobs beyond it wait in a queue until a browser frees up.
 
-Time spent in the queue counts against the request's [`timeout`](/advanced-scraping-guide#timing-and-cache) parameter, so you can set a lower timeout to fail fast instead of waiting. To see current availability before sending work, call the [Queue Status](/api-reference/endpoint/queue-status) endpoint. Jobs that are waiting in your concurrency queue will time out after a maximum of 48 hours.
+Time spent in the queue counts against the request's [`timeout`](https://docs.firecrawl.dev/advanced-scraping-guide#timing-and-cache) parameter, so you can set a lower timeout to fail fast instead of waiting. To see current availability before sending work, call the [Queue Status](https://docs.firecrawl.dev/api-reference/endpoint/queue-status.md) endpoint. Jobs that are waiting in your concurrency queue will time out after a maximum of 48 hours.
 
 ### Current Plans
 
-<div style={{ overflowX: 'auto', maxWidth: '100%' }}>
 
-    <thead>
-      <tr>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>Plan</th>
-        <th style={{ padding: '8px 12px' }}>Concurrent Browsers</th>
-        <th style={{ padding: '8px 12px' }}>Max Queued Jobs</th>
-      </tr>
-    </thead>
+  <thead>
+    <tr>
+      <th>Plan</th>
+      <th>Concurrent Browsers</th>
+      <th>Max Queued Jobs</th>
+    </tr>
+  </thead>
 
-    <tbody>
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Free</td>
-        <td style={{ padding: '8px 12px' }}>2</td>
-        <td style={{ padding: '8px 12px' }}>50,000</td>
-      </tr>
+  <tbody>
+    <tr>
+      <td>Free</td>
+      <td>2</td>
+      <td>50,000</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Hobby</td>
-        <td style={{ padding: '8px 12px' }}>5</td>
-        <td style={{ padding: '8px 12px' }}>50,000</td>
-      </tr>
+    <tr>
+      <td>Hobby</td>
+      <td>5</td>
+      <td>50,000</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Standard</td>
-        <td style={{ padding: '8px 12px' }}>25</td>
-        <td style={{ padding: '8px 12px' }}>50,000</td>
-      </tr>
+    <tr>
+      <td>Standard</td>
+      <td>25</td>
+      <td>50,000</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Growth</td>
-        <td style={{ padding: '8px 12px' }}>50</td>
-        <td style={{ padding: '8px 12px' }}>100,000</td>
-      </tr>
+    <tr>
+      <td>Growth</td>
+      <td>50</td>
+      <td>100,000</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Scale / Enterprise</td>
-        <td style={{ padding: '8px 12px' }}>100+</td>
-        <td style={{ padding: '8px 12px' }}>200,000+</td>
-      </tr>
-    </tbody>
+    <tr>
+      <td>Scale / Enterprise</td>
+      <td>100+</td>
+      <td>200,000+</td>
+    </tr>
+  </tbody>
 
-</div>
 
 Each team has a maximum number of jobs that can be waiting in the concurrency queue. If you exceed this limit, new jobs will be rejected with a `429` status code until existing jobs complete. For larger plans with custom concurrency limits, the max queued jobs is 2,000 times your concurrency limit, capped at 2,000,000.
 
@@ -85,79 +83,77 @@ Keyless usage is free and capped per IP address per day by **two limits**, and e
 
 ### Current Plans
 
-<div style={{ overflowX: 'auto', maxWidth: '100%' }}>
 
-    <thead>
-      <tr>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>Plan</th>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/scrape</th>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/map</th>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/crawl</th>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/search</th>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/agent</th>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/crawl/status</th>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/agent/status</th>
-      </tr>
-    </thead>
+  <thead>
+    <tr>
+      <th>Plan</th>
+      <th>/scrape</th>
+      <th>/map</th>
+      <th>/crawl</th>
+      <th>/search</th>
+      <th>/agent</th>
+      <th>/crawl/status</th>
+      <th>/agent/status</th>
+    </tr>
+  </thead>
 
-    <tbody>
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Free</td>
-        <td style={{ padding: '8px 12px' }}>10</td>
-        <td style={{ padding: '8px 12px' }}>10</td>
-        <td style={{ padding: '8px 12px' }}>2</td>
-        <td style={{ padding: '8px 12px' }}>10</td>
-        <td style={{ padding: '8px 12px' }}>2</td>
-        <td style={{ padding: '8px 12px' }}>500</td>
-        <td style={{ padding: '8px 12px' }}>500</td>
-      </tr>
+  <tbody>
+    <tr>
+      <td>Free</td>
+      <td>10</td>
+      <td>10</td>
+      <td>2</td>
+      <td>10</td>
+      <td>2</td>
+      <td>500</td>
+      <td>500</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Hobby</td>
-        <td style={{ padding: '8px 12px' }}>100</td>
-        <td style={{ padding: '8px 12px' }}>100</td>
-        <td style={{ padding: '8px 12px' }}>20</td>
-        <td style={{ padding: '8px 12px' }}>100</td>
-        <td style={{ padding: '8px 12px' }}>20</td>
-        <td style={{ padding: '8px 12px' }}>5000</td>
-        <td style={{ padding: '8px 12px' }}>5000</td>
-      </tr>
+    <tr>
+      <td>Hobby</td>
+      <td>100</td>
+      <td>100</td>
+      <td>20</td>
+      <td>100</td>
+      <td>20</td>
+      <td>5000</td>
+      <td>5000</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Standard</td>
-        <td style={{ padding: '8px 12px' }}>500</td>
-        <td style={{ padding: '8px 12px' }}>500</td>
-        <td style={{ padding: '8px 12px' }}>100</td>
-        <td style={{ padding: '8px 12px' }}>500</td>
-        <td style={{ padding: '8px 12px' }}>100</td>
-        <td style={{ padding: '8px 12px' }}>25000</td>
-        <td style={{ padding: '8px 12px' }}>25000</td>
-      </tr>
+    <tr>
+      <td>Standard</td>
+      <td>500</td>
+      <td>500</td>
+      <td>100</td>
+      <td>500</td>
+      <td>100</td>
+      <td>25000</td>
+      <td>25000</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Growth</td>
-        <td style={{ padding: '8px 12px' }}>5000</td>
-        <td style={{ padding: '8px 12px' }}>5000</td>
-        <td style={{ padding: '8px 12px' }}>1000</td>
-        <td style={{ padding: '8px 12px' }}>5000</td>
-        <td style={{ padding: '8px 12px' }}>1000</td>
-        <td style={{ padding: '8px 12px' }}>250000</td>
-        <td style={{ padding: '8px 12px' }}>250000</td>
-      </tr>
+    <tr>
+      <td>Growth</td>
+      <td>5000</td>
+      <td>5000</td>
+      <td>1000</td>
+      <td>5000</td>
+      <td>1000</td>
+      <td>250000</td>
+      <td>250000</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Scale</td>
-        <td style={{ padding: '8px 12px' }}>10000</td>
-        <td style={{ padding: '8px 12px' }}>10000</td>
-        <td style={{ padding: '8px 12px' }}>2000</td>
-        <td style={{ padding: '8px 12px' }}>10000</td>
-        <td style={{ padding: '8px 12px' }}>2000</td>
-        <td style={{ padding: '8px 12px' }}>500000</td>
-        <td style={{ padding: '8px 12px' }}>500000</td>
-      </tr>
-    </tbody>
+    <tr>
+      <td>Scale</td>
+      <td>10000</td>
+      <td>10000</td>
+      <td>2000</td>
+      <td>10000</td>
+      <td>2000</td>
+      <td>500000</td>
+      <td>500000</td>
+    </tr>
+  </tbody>
 
-</div>
 
 These rate limits are enforced to ensure fair usage and availability of the API for all users. If you require higher limits, please contact us at [help@firecrawl.com](mailto:help@firecrawl.com) to discuss custom plans.
 
@@ -173,49 +169,47 @@ The batch scrape endpoints share limits with the corresponding /crawl rate limit
 
 The browser sandbox endpoints have per-plan rate limits that scale with your subscription:
 
-<div style={{ overflowX: 'auto', maxWidth: '100%' }}>
 
-    <thead>
-      <tr>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>Plan</th>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/interact</th>
-        <th style={{ padding: '8px 12px', textAlign: 'left' }}>/interact/\{id}/execute</th>
-      </tr>
-    </thead>
+  <thead>
+    <tr>
+      <th>Plan</th>
+      <th>/interact</th>
+      <th>/interact/\{id}/execute</th>
+    </tr>
+  </thead>
 
-    <tbody>
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Free</td>
-        <td style={{ padding: '8px 12px' }}>2</td>
-        <td style={{ padding: '8px 12px' }}>10</td>
-      </tr>
+  <tbody>
+    <tr>
+      <td>Free</td>
+      <td>2</td>
+      <td>10</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Hobby</td>
-        <td style={{ padding: '8px 12px' }}>20</td>
-        <td style={{ padding: '8px 12px' }}>100</td>
-      </tr>
+    <tr>
+      <td>Hobby</td>
+      <td>20</td>
+      <td>100</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Standard</td>
-        <td style={{ padding: '8px 12px' }}>100</td>
-        <td style={{ padding: '8px 12px' }}>500</td>
-      </tr>
+    <tr>
+      <td>Standard</td>
+      <td>100</td>
+      <td>500</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Growth</td>
-        <td style={{ padding: '8px 12px' }}>1,000</td>
-        <td style={{ padding: '8px 12px' }}>5,000</td>
-      </tr>
+    <tr>
+      <td>Growth</td>
+      <td>1,000</td>
+      <td>5,000</td>
+    </tr>
 
-      <tr>
-        <td style={{ padding: '8px 12px' }}>Scale</td>
-        <td style={{ padding: '8px 12px' }}>1,500</td>
-        <td style={{ padding: '8px 12px' }}>7,500</td>
-      </tr>
-    </tbody>
+    <tr>
+      <td>Scale</td>
+      <td>1,500</td>
+      <td>7,500</td>
+    </tr>
+  </tbody>
 
-</div>
 
 In addition, each team's plan determines how many browser sessions can be active simultaneously (see Concurrent Browser Limits above). If you exceed this limit, new session requests will return a `429` status code until existing sessions are destroyed.
 

@@ -24,35 +24,33 @@ Most applications start with peer chat. Jump to [Workspace Chat](#workspace-chat
 
 The simplest way to use the chat endpoint is to ask a question and get a text response:
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  honcho = Honcho()
-  peer = honcho.peer("user-123")
+honcho = Honcho()
+peer = honcho.peer("user-123")
 
-  # Ask Honcho about the peer
-  query = "What is the user's favorite way of completing the task?"
-  answer = peer.chat(query)
+# Ask Honcho about the peer
+query = "What is the user's favorite way of completing the task?"
+answer = peer.chat(query)
 
-  print(answer)
-  # "Based on conclusions, the user prefers using keyboard shortcuts..."
-  ```
+print(answer)
+# "Based on conclusions, the user prefers using keyboard shortcuts..."
+```
 
-  ```typescript TypeScript
-  import { Honcho } from '@honcho-ai/sdk';
+```typescript TypeScript theme={null}
+import { Honcho } from '@honcho-ai/sdk';
 
-  const honcho = new Honcho({});
-  const peer = await honcho.peer("user-123");
+const honcho = new Honcho({});
+const peer = await honcho.peer("user-123");
 
-  // Ask Honcho about the peer
-  const query = "What is the user's favorite way of completing the task?";
-  const answer = await peer.chat(query);
+// Ask Honcho about the peer
+const query = "What is the user's favorite way of completing the task?";
+const answer = await peer.chat(query);
 
-  console.log(answer);
-  // "Based on conclusions, the user prefers using keyboard shortcuts..."
-  ```
-</CodeGroup>
+console.log(answer);
+// "Based on conclusions, the user prefers using keyboard shortcuts..."
+```
 
 Peer chat searches through the peer's representation--all the conclusions Honcho has reasoned about them--and synthesizes a natural language answer.
 
@@ -70,42 +68,38 @@ The reasoning level controls which model the request is routed to, the tools use
 | `high` | Complex synthesis across sources | Thinks like `medium`, but uses more tools. |
 | `max` | Deep research, most complex queries | Highest thinking budget, max iterations. |
 
-<CodeGroup>
-  ```python Python
-  query = "Summarize the user's long-term goals."
-  answer = peer.chat(query, reasoning_level="high")
-  ```
+```python Python theme={null}
+query = "Summarize the user's long-term goals."
+answer = peer.chat(query, reasoning_level="high")
+```
 
-  ```typescript TypeScript
-  const query = "Summarize the user's long-term goals.";
-  const answer = await peer.chat(query, { reasoningLevel: "high" });
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+const query = "Summarize the user's long-term goals.";
+const answer = await peer.chat(query, { reasoningLevel: "high" });
+```
 
 ## Streaming Responses
 
-For longer answers, use streaming to get incremental responses:
+You can also receive the answer as a stream of text chunks:
 
-<CodeGroup>
-  ```python Python
-  query = "What do we know about the user?"
-  response_stream = peer.chat(query, stream=True)
+```python Python theme={null}
+query = "What do we know about the user?"
+response_stream = peer.chat(query, stream=True)
 
-  for chunk in response_stream.iter_text():
-      print(chunk, end="", flush=True)
-  ```
+for chunk in response_stream.iter_text():
+    print(chunk, end="", flush=True)
+```
 
-  ```typescript TypeScript
-  const query = "What do we know about the user?";
-  const responseStream = await peer.chat(query, { stream: true });
+```typescript TypeScript theme={null}
+const query = "What do we know about the user?";
+const responseStream = await peer.chat(query, { stream: true });
 
-  for await (const chunk of responseStream.iter_text()) {
-      process.stdout.write(chunk);
-  }
-  ```
-</CodeGroup>
+for await (const chunk of responseStream.iter_text()) {
+    process.stdout.write(chunk);
+}
+```
 
-Streaming is useful for displaying real-time responses in chat interfaces or when asking complex questions that require longer answers.
+The agent gathers context before it answers, so the answer usually arrives as a single chunk once it finishes; only an answer synthesized at the tool-call limit streams as it is generated. See [Streaming Responses](https://honcho.dev/docs/v3/documentation/features/advanced/streaming-response.md).
 
 ## Scoping to Sessions
 
@@ -113,86 +107,80 @@ By default the chat endpoint reasons over everything Honcho knows about the
 peer. Pass `session` (`session_id` on the REST body) to restrict it to one
 session:
 
-<CodeGroup>
-  ```python Python
-  answer = peer.chat("What did the user ask about?", session=session.id)
-  ```
+```python Python theme={null}
+answer = peer.chat("What did the user ask about?", session=session.id)
+```
 
-  ```typescript TypeScript
-  const answer = await peer.chat("What did the user ask about?", { session: session.id });
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+const answer = await peer.chat("What did the user ask about?", { session: session.id });
+```
 
 To restrict a request to a *set* of sessions, use the session allowlist — a
 constrained `filters` body on the endpoint. See
-[Scoping Recall to Sessions](/docs/v3/documentation/features/advanced/using-filters#scoping-recall-to-sessions)
+[Scoping Recall to Sessions](https://honcho.dev/docs/v3/documentation/features/advanced/using-filters.md#scoping-recall-to-sessions)
 for the accepted shapes and for what an allowlist changes about the answer.
 
-Pass `scope="therapy"` to answer from that [scope](/docs/v3/documentation/features/advanced/scopes)'s
+Pass `scope="therapy"` to answer from that [scope](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md)'s
 own representation of the peer. A list (`scope=["therapy", "intake"]`) is an
 allowlist of those scopes' sessions, not named-scope depth.
 `honcho.chat(scope=)` is always the allowlist arm, even with one name. Details
-are on the [scopes page](/docs/v3/documentation/features/advanced/scopes#the-two-arms).
+are on the [scopes page](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md#the-two-arms).
 
 ## Structured Outputs
 
 When your application needs a machine-readable answer instead of prose, pass a schema as `response_format` and the answer is guaranteed to conform to it:
 
-<CodeGroup>
-  ```python Python
-  from pydantic import BaseModel
+```python Python theme={null}
+from pydantic import BaseModel
 
-  class OnboardingStatus(BaseModel):
-      completed: bool
-      remaining_steps: list[str]
+class OnboardingStatus(BaseModel):
+    completed: bool
+    remaining_steps: list[str]
 
-  status = peer.chat(
-      "Has the user completed the onboarding flow?",
-      response_format=OnboardingStatus,
-  )
-  # status is a parsed OnboardingStatus instance
-  ```
-
-  ```typescript TypeScript
-  import { z } from 'zod';
-
-  const OnboardingStatus = z.object({
-    completed: z.boolean(),
-    remainingSteps: z.array(z.string()),
-  });
-
-  const status = await peer.chat(
+status = peer.chat(
     "Has the user completed the onboarding flow?",
-    { responseFormat: OnboardingStatus },
-  );
-  // status is typed as z.infer<typeof OnboardingStatus>
-  ```
-</CodeGroup>
+    response_format=OnboardingStatus,
+)
+# status is a parsed OnboardingStatus instance
+```
 
-The agent runs its full reasoning loop either way — only the final answer is formatted to your schema. See [Structured Outputs](/docs/v3/documentation/features/advanced/structured-outputs) for the supported schema subset, streaming behavior, and best practices.
+```typescript TypeScript theme={null}
+import { z } from 'zod';
+
+const OnboardingStatus = z.object({
+  completed: z.boolean(),
+  remainingSteps: z.array(z.string()),
+});
+
+const status = await peer.chat(
+  "Has the user completed the onboarding flow?",
+  { responseFormat: OnboardingStatus },
+);
+// status is typed as z.infer<typeof OnboardingStatus>
+```
+
+The agent runs its full reasoning loop either way — only the final answer is formatted to your schema. See [Structured Outputs](https://honcho.dev/docs/v3/documentation/features/advanced/structured-outputs.md) for the supported schema subset, streaming behavior, and best practices.
 
 ## Evidence
 
 Pass `include_evidence` to get back the conclusions and messages the agent read while answering, alongside the tools it called:
 
-<CodeGroup>
-  ```python Python
-  result = peer.chat("What coffee does this user prefer?", include_evidence=True)
+```python Python theme={null}
+result = peer.chat("What coffee does this user prefer?", include_evidence=True)
 
-  print(result.content)
-  for conclusion in result.evidence.conclusions:
-      print(conclusion.id, conclusion.content)
-  ```
+print(result.content)
+for conclusion in result.evidence.conclusions:
+    print(conclusion.id, conclusion.content)
+```
 
-  ```typescript TypeScript
-  const { content, evidence } = await peer.chat(
-    "What coffee does this user prefer?",
-    { includeEvidence: true }
-  );
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+const { content, evidence } = await peer.chat(
+  "What coffee does this user prefer?",
+  { includeEvidence: true }
+);
+```
 
-Evidence is collated from what the agent read rather than reported by the model, so it lists everything that was available to the answer rather than only what the answer used. See [Evidence](/docs/v3/documentation/features/advanced/evidence) for the full shape, streaming behavior, and what the trade-off costs you.
+Evidence is collated from what the agent read rather than reported by the model, so it lists everything that was available to the answer rather than only what the answer used. See [Evidence](https://honcho.dev/docs/v3/documentation/features/advanced/evidence.md) for the full shape, streaming behavior, and what the trade-off costs you.
 
 ## Workspace Chat
 
@@ -219,33 +207,31 @@ holds a peer-scoped key.
 
 `chat()` lives on the client, not on a peer:
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  honcho = Honcho(workspace_id="my-app")
+honcho = Honcho(workspace_id="my-app")
 
-  answer = honcho.chat("What themes appear across all peers this week?")
-  print(answer)
-  # "Three themes recur: onboarding friction (alice, dana), ..."
-  ```
+answer = honcho.chat("What themes appear across all peers this week?")
+print(answer)
+# "Three themes recur: onboarding friction (alice, dana), ..."
+```
 
-  ```typescript TypeScript
-  import { Honcho } from '@honcho-ai/sdk';
+```typescript TypeScript theme={null}
+import { Honcho } from '@honcho-ai/sdk';
 
-  const honcho = new Honcho({ workspaceId: "my-app" });
+const honcho = new Honcho({ workspaceId: "my-app" });
 
-  const answer = await honcho.chat("What themes appear across all peers this week?");
-  console.log(answer);
-  ```
+const answer = await honcho.chat("What themes appear across all peers this week?");
+console.log(answer);
+```
 
-  ```bash cURL
-  curl -X POST "$HONCHO_URL/v3/workspaces/my-app/chat" \
-    -H "Authorization: Bearer $HONCHO_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{"query": "What themes appear across all peers this week?", "reasoning_level": "low"}'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/chat" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What themes appear across all peers this week?", "reasoning_level": "low"}'
+```
 
 The response body is `{"content": "..."}`, or `{"content": null}` when nothing
 relevant was found. The SDKs return the string directly (`None` / `null` for no
@@ -258,54 +244,49 @@ Two options narrow what the agent can read. They are mutually exclusive.
 **`session`** (`session_id` on the REST body) narrows message tools to one
 session. Conclusion recall is unaffected.
 
-<CodeGroup>
-  ```python Python
-  answer = honcho.chat("What was decided in this thread?", session=session.id)
-  ```
+```python Python theme={null}
+answer = honcho.chat("What was decided in this thread?", session=session.id)
+```
 
-  ```typescript TypeScript
-  const answer = await honcho.chat("What was decided in this thread?", { session: session.id });
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+const answer = await honcho.chat("What was decided in this thread?", { session: session.id });
+```
 
 **`scope`** restricts recall to the union of the named
-[scopes](/docs/v3/documentation/features/advanced/scopes)' member sessions. On
+[scopes](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md)' member sessions. On
 workspace chat this is *always* the allowlist arm, even for a single name,
 because there is no observer to swap. A scope with no member sessions recalls
 nothing rather than everything.
 
-<CodeGroup>
-  ```python Python
-  answer = honcho.chat("What came up in therapy-related sessions?", scope="therapy")
-  answer = honcho.chat("What came up at intake?", scope=["therapy", "intake"])
-  ```
+```python Python theme={null}
+answer = honcho.chat("What came up in therapy-related sessions?", scope="therapy")
+answer = honcho.chat("What came up at intake?", scope=["therapy", "intake"])
+```
 
-  ```typescript TypeScript
-  const answer = await honcho.chat("What came up in therapy-related sessions?", { scope: "therapy" });
-  const both = await honcho.chat("What came up at intake?", { scope: ["therapy", "intake"] });
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+const answer = await honcho.chat("What came up in therapy-related sessions?", { scope: "therapy" });
+const both = await honcho.chat("What came up at intake?", { scope: ["therapy", "intake"] });
+```
 
 Workspace chat does not accept `filters` or `target`.
 
 ### Streaming
 
-Use `chat_stream` / `chatStream` for incremental output. The stream yields text
-chunks; the REST endpoint sends `text/event-stream` when `stream` is `true`.
+Use `chat_stream` / `chatStream` to receive the answer as a stream. The stream
+yields text chunks (usually one, as for peer chat); the REST endpoint sends
+`text/event-stream` when `stream` is `true`.
 
-<CodeGroup>
-  ```python Python
-  for chunk in honcho.chat_stream("Summarize the open disagreements between peers"):
-      print(chunk, end="", flush=True)
-  ```
+```python Python theme={null}
+for chunk in honcho.chat_stream("Summarize the open disagreements between peers"):
+    print(chunk, end="", flush=True)
+```
 
-  ```typescript TypeScript
-  const stream = await honcho.chatStream("Summarize the open disagreements between peers");
-  for await (const chunk of stream) {
-    process.stdout.write(chunk);
-  }
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+const stream = await honcho.chatStream("Summarize the open disagreements between peers");
+for await (const chunk of stream) {
+  process.stdout.write(chunk);
+}
+```
 
 ### Workspace Structured Outputs
 
@@ -314,41 +295,39 @@ Pydantic model returns a parsed instance; passing a raw JSON Schema returns a
 JSON string. The TypeScript client accepts a JSON Schema object and returns the
 JSON string for you to parse.
 
-<CodeGroup>
-  ```python Python
-  from pydantic import BaseModel
+```python Python theme={null}
+from pydantic import BaseModel
 
-  class Theme(BaseModel):
-      name: str
-      peers: list[str]
+class Theme(BaseModel):
+    name: str
+    peers: list[str]
 
-  class Themes(BaseModel):
-      themes: list[Theme]
+class Themes(BaseModel):
+    themes: list[Theme]
 
-  result = honcho.chat("What themes recur across peers?", response_format=Themes)
-  # result is a Themes instance (or None)
-  ```
+result = honcho.chat("What themes recur across peers?", response_format=Themes)
+# result is a Themes instance (or None)
+```
 
-  ```typescript TypeScript
-  const raw = await honcho.chat("What themes recur across peers?", {
-    responseFormat: {
-      type: "object",
-      properties: {
-        themes: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: { name: { type: "string" }, peers: { type: "array", items: { type: "string" } } },
-            required: ["name", "peers"],
-          },
+```typescript TypeScript theme={null}
+const raw = await honcho.chat("What themes recur across peers?", {
+  responseFormat: {
+    type: "object",
+    properties: {
+      themes: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: { name: { type: "string" }, peers: { type: "array", items: { type: "string" } } },
+          required: ["name", "peers"],
         },
       },
-      required: ["themes"],
     },
-  });
-  const result = raw ? JSON.parse(raw) : null;
-  ```
-</CodeGroup>
+    required: ["themes"],
+  },
+});
+const result = raw ? JSON.parse(raw) : null;
+```
 
 ### How Workspace Chat Answers
 
@@ -367,7 +346,7 @@ workspace-flat top-k, and matches how memory is stored: one collection per
 
 Workspace chat requires a workspace- or admin-level key. Peer- and
 session-scoped keys are rejected with `401` regardless of the other options.
-See [Manage API Keys](/docs/v3/documentation/reference/platform#3-manage-api-keys) for scoping
+See [Manage API Keys](https://honcho.dev/docs/v3/documentation/reference/platform.md#3-manage-api-keys) for scoping
 rules.
 
 ### Peer Chat vs Workspace Chat
@@ -388,114 +367,106 @@ rules.
 
 Let your LLM decide what it needs to know, then inject that context into the next generation:
 
-<CodeGroup>
-  ```python Python
-  # Your LLM generates a query based on the conversation
-  llm_query = "Does the user prefer formal or casual communication?"
+```python Python theme={null}
+# Your LLM generates a query based on the conversation
+llm_query = "Does the user prefer formal or casual communication?"
 
-  # Get answer from Honcho
-  context = peer.chat(llm_query)
+# Get answer from Honcho
+context = peer.chat(llm_query)
 
-  # Add to your next LLM prompt
-  enhanced_prompt = f"""
-  Context about the user: {context}
+# Add to your next LLM prompt
+enhanced_prompt = f"""
+Context about the user: {context}
 
-  User message: {user_input}
+User message: {user_input}
 
-  Respond appropriately based on the context.
-  """
-  ```
+Respond appropriately based on the context.
+"""
+```
 
-  ```typescript TypeScript
-  // Your LLM generates a query based on the conversation
-  const llmQuery = "Does the user prefer formal or casual communication?";
+```typescript TypeScript theme={null}
+// Your LLM generates a query based on the conversation
+const llmQuery = "Does the user prefer formal or casual communication?";
 
-  // Get answer from Honcho
-  const context = await peer.chat(llmQuery);
+// Get answer from Honcho
+const context = await peer.chat(llmQuery);
 
-  // Add to your next LLM prompt
-  const enhancedPrompt = `
-  Context about the user: ${context}
+// Add to your next LLM prompt
+const enhancedPrompt = `
+Context about the user: ${context}
 
-  User message: ${userInput}
+User message: ${userInput}
 
-  Respond appropriately based on the context.
-  `;
-  ```
-</CodeGroup>
+Respond appropriately based on the context.
+`;
+```
 
 ### Conditional Logic
 
 Use chat endpoint responses to drive application logic:
 
-<CodeGroup>
-  ```python Python
-  # Check if user has completed onboarding
-  onboarding_status = peer.chat("Has the user completed the onboarding flow?")
+```python Python theme={null}
+# Check if user has completed onboarding
+onboarding_status = peer.chat("Has the user completed the onboarding flow?")
 
-  if "yes" in onboarding_status.lower():
-      # Show main interface
-      pass
-  else:
-      # Show onboarding
-      pass
-  ```
+if "yes" in onboarding_status.lower():
+    # Show main interface
+    pass
+else:
+    # Show onboarding
+    pass
+```
 
-  ```typescript TypeScript
-  // Check if user has completed onboarding
-  const onboardingStatus = await peer.chat("Has the user completed the onboarding flow?");
+```typescript TypeScript theme={null}
+// Check if user has completed onboarding
+const onboardingStatus = await peer.chat("Has the user completed the onboarding flow?");
 
-  if (onboardingStatus.toLowerCase().includes("yes")) {
-      // Show main interface
-  } else {
-      // Show onboarding
-  }
-  ```
-</CodeGroup>
+if (onboardingStatus.toLowerCase().includes("yes")) {
+    // Show main interface
+} else {
+    // Show onboarding
+}
+```
 
 ### Preference Extraction
 
 Extract specific preferences for personalization:
 
-<CodeGroup>
-  ```python Python
-  # Get multiple insights
-  tone = peer.chat("What tone does the user prefer in responses?")
-  expertise = peer.chat("What is the user's level of technical expertise?")
-  goals = peer.chat("What are the user's main goals or objectives?")
+```python Python theme={null}
+# Get multiple insights
+tone = peer.chat("What tone does the user prefer in responses?")
+expertise = peer.chat("What is the user's level of technical expertise?")
+goals = peer.chat("What are the user's main goals or objectives?")
 
-  # Use these to configure your agent's behavior
-  ```
+# Use these to configure your agent's behavior
+```
 
-  ```typescript TypeScript
-  // Get multiple insights
-  const tone = await peer.chat("What tone does the user prefer in responses?");
-  const expertise = await peer.chat("What is the user's level of technical expertise?");
-  const goals = await peer.chat("What are the user's main goals or objectives?");
+```typescript TypeScript theme={null}
+// Get multiple insights
+const tone = await peer.chat("What tone does the user prefer in responses?");
+const expertise = await peer.chat("What is the user's level of technical expertise?");
+const goals = await peer.chat("What are the user's main goals or objectives?");
 
-  // Use these to configure your agent's behavior
-  ```
-</CodeGroup>
+// Use these to configure your agent's behavior
+```
 
 ### Team Digests
 
 Use workspace chat where the unit of interest is the group rather than one user:
 
-<CodeGroup>
-  ```python Python
-  digest = honcho.chat(
-      "Summarize what each peer worked on this week and any blockers they raised.",
-      reasoning_level="medium",
-  )
-  ```
-
-  ```typescript TypeScript
-  const digest = await honcho.chat(
+```python Python theme={null}
+digest = honcho.chat(
     "Summarize what each peer worked on this week and any blockers they raised.",
-    { reasoningLevel: "medium" },
-  );
-  ```
-</CodeGroup>
+    reasoning_level="medium",
+)
+```
+
+```typescript TypeScript theme={null}
+const digest = await honcho.chat(
+  "Summarize what each peer worked on this week and any blockers they raised.",
+  { reasoningLevel: "medium" },
+);
+```
 
 ## How Honcho Answers
 
@@ -506,7 +477,7 @@ When you call `peer.chat(query)`:
 3. Combines them with segments of source messages, if needed, to gather more context
 4. Synthesizes them into a coherent natural language response to your query
 
-Honcho [reasoning](/docs/v3/documentation/core-concepts/reasoning) runs continuously in the background, processing new messages and updating representations. The chat endpoint always has access to Honcho's latest conclusions about the peer. Workspace chat follows the same loop with a different starting point; see [How Workspace Chat Answers](#how-workspace-chat-answers).
+Honcho [reasoning](https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md) runs continuously in the background, processing new messages and updating representations. The chat endpoint always has access to Honcho's latest conclusions about the peer. Workspace chat follows the same loop with a different starting point; see [How Workspace Chat Answers](#how-workspace-chat-answers).
 
 ## Best Practices
 
@@ -530,7 +501,7 @@ Peer chat for one peer's perspective, workspace chat for questions that span pee
 
 Use `context()` for conversation context and `peer.chat()` for specific insights. They complement each other.
 
-For more ideas on using the chat endpoint, see our [guides](/docs/v3/guides/overview).
+For more ideas on using the chat endpoint, see our [guides](https://honcho.dev/docs/v3/guides/overview.md).
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

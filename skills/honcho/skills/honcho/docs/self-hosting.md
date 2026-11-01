@@ -10,11 +10,11 @@
 
 This guide helps you set up a local environment to run Honcho for development, testing, or self-hosting.
 
-**Just want a running instance?** `uv tool install honcho-cli` only installs the `honcho` command. Then run [`honcho start --setup`](/docs/v3/documentation/reference/cli#local-stack) (Docker + an LLM provider key) — that pulls a published image and starts API, deriver, Postgres, and Redis. The rest of this page is for building from source, contributing, or deploying without the CLI.
+**Just want a running instance?** `uv tool install honcho-cli` only installs the `honcho` command. Then run [`honcho start --setup`](https://honcho.dev/docs/v3/documentation/reference/cli#local-stack) (Docker + an LLM provider key) — that pulls a published image and starts API, deriver, Postgres, and Redis. The rest of this page is for building from source, contributing, or deploying without the CLI.
 
-
-  **Don't want to run Postgres, Redis, and a background worker?** Honcho Cloud runs the same open-source server for you, with a generous free tier. [Get an API key](https://app.honcho.dev/api-keys?utm_source=docs\&utm_medium=callout\&utm_content=selfhost_callout) and point the SDK at it — no infrastructure required.
-
+> [!TIP]
+>
+> **Don't want to run Postgres, Redis, and a background worker?** Honcho Cloud runs the same open-source server for you, with a generous free tier. [Get an API key](https://app.honcho.dev/api-keys?utm_source=docs\&utm_medium=callout\&utm_content=selfhost_callout) and point the SDK at it — no infrastructure required.
 
 ## Overview
 
@@ -67,9 +67,48 @@ DERIVER_MODEL_CONFIG__MODEL=google/gemini-2.5-flash
 DERIVER_MODEL_CONFIG__OVERRIDES__BASE_URL=https://openrouter.ai/api/v1
 ```
 
+> [!NOTE]
+>
+> For recommended model tiers per feature, using multiple providers, or direct vendor API keys, see the [Configuration Guide](https://honcho.dev/docs/v3/contributing/configuration.md#llm-configuration).
 
-  For recommended model tiers per feature, using multiple providers, or direct vendor API keys, see the [Configuration Guide](./configuration#llm-configuration).
+### Running without a model provider
 
+`src/mock_provider/` is a deterministic, OpenAI-compatible endpoint, so you can run the full
+stack with no provider account, no API key, and no spend. It answers `/v1/chat/completions`
+and `/v1/embeddings` with obviously-synthetic content derived from the request, and the same
+request always produces the same response. Run it from the standard image or the repo:
+
+```bash theme={null}
+uv run fastapi run --host 0.0.0.0 --port 8106 src/mock_provider/main.py
+```
+
+Then point Honcho at it. All three variables are required:
+
+```bash theme={null}
+export LLM_OPENAI_API_KEY=any-non-empty-string   # only truthiness is checked
+export LLM_OPENAI_BASE_URL=http://localhost:8106/v1
+export EMBEDDING_MODEL_CONFIG__OVERRIDES__BASE_URL=http://localhost:8106/v1
+```
+
+The key's *value* is never checked — the mock reads no Authorization header, and Honcho only
+tests it for truthiness before building the client (`src/llm/registry.py`). Set the base URL
+without it and the client is never constructed, so the base URL is silently ignored. Keep the
+value obviously fake, so a module that ever escapes the override 401s rather than spends.
+
+Embeddings resolve through a separate client that reads the base URL only from the per-module
+override, so without the third variable your embedding calls go to `api.openai.com` for real.
+Do not set any per-module credential override (`..._OVERRIDES__API_KEY` / `API_KEY_ENV`) —
+that makes the module ignore the global base URL.
+
+Two things to know:
+
+* **A repo `.env` beats your exported environment.** `src/config.py` calls
+  `load_dotenv(override=True)` at import, so a stale `.env` silently wins over the variables
+  above. Set `PYTHON_DOTENV_DISABLED=1` (and `HONCHO_CONFIG_TOML_DISABLED=1` for a local
+  `config.toml`) when you need the environment to be the only input.
+* **Mock embeddings are hash-derived and carry no semantic similarity.** Two paraphrases are as
+  far apart as two unrelated strings. Recall against this provider must use lexical/full-text
+  search; anything asserting on vector ranking needs a real embedding provider.
 
 ## Personal local stack (CLI)
 
@@ -82,11 +121,11 @@ honcho start --setup basic   # prompts for LLM provider + key, then starts Docke
 
 `honcho start` pulls `ghcr.io/plastic-labs/honcho:latest`, pins that digest, and starts API + deriver + Postgres + Redis. Stack files live under `~/.honcho/profiles/local/`. It does **not** rewrite `environmentUrl` in `~/.honcho/config.json` (that file is shared with plugins). Talk to the stack with `HONCHO_BASE_URL=http://127.0.0.1:8000`, or run `honcho init --base-url http://127.0.0.1:8000` to persist local as the CLI default.
 
-See the [CLI reference](/docs/v3/documentation/reference/cli#local-stack) for `--setup`, profiles, `--image`, ports, `honcho status` / `stop`, and pointing the CLI at local.
+See the [CLI reference](https://honcho.dev/docs/v3/documentation/reference/cli.md#local-stack) for `--setup`, profiles, `--image`, ports, `honcho status` / `stop`, and pointing the CLI at local.
 
 ## From source (Docker Compose)
 
-Docker Compose in this repo handles the database, Redis, and Honcho server. The compose file **builds the image from source** so you can develop against local code. A pre-built image is published at `ghcr.io/plastic-labs/honcho:latest` (what `honcho start` uses); it is not on Docker Hub. Building from source requires Docker with BuildKit enabled — see [Troubleshooting](./troubleshooting#docker-build-fails-with-permission-errors) if the build fails.
+Docker Compose in this repo handles the database, Redis, and Honcho server. The compose file **builds the image from source** so you can develop against local code. A pre-built image is published at `ghcr.io/plastic-labs/honcho:latest` (what `honcho start` uses); it is not on Docker Hub. Building from source requires Docker with BuildKit enabled — see [Troubleshooting](https://honcho.dev/docs/v3/contributing/troubleshooting.md#docker-build-fails-with-permission-errors) if the build fails.
 
 The compose file is production-oriented by default (ports bound to `127.0.0.1`, restart policies, caching enabled). For development, uncomment the source mounts and monitoring services inside the file.
 
@@ -120,7 +159,7 @@ The default image does not include LanceDB. To use `VECTOR_STORE_TYPE=lancedb`, 
 
 This starts five services: **api** (port 8000), **deriver** (background worker), **mcp** (Streamable HTTP on port 3000), **database** (PostgreSQL with pgvector, port 5432), and **redis** (port 6379). All ports are bound to `127.0.0.1`. Redis caching is enabled by default.
 
-Point MCP clients at `http://127.0.0.1:3000` — see [Run locally](/docs/v3/guides/integrations/mcp#run-locally) for stdio, HTTP, and Docker.
+Point MCP clients at `http://127.0.0.1:3000` — see [Run locally](https://honcho.dev/docs/v3/guides/integrations/mcp.md#run-locally) for stdio, HTTP, and Docker.
 
 For development, uncomment the source mount and monitoring sections inside `docker-compose.yml` to enable live reload, Prometheus, and Grafana.
 
@@ -146,7 +185,7 @@ For a full end-to-end test, see [Verify Your Setup](#verify-your-setup) below.
 
 ## Manual Setup
 
-For more control over your environment, you can set up everything manually.
+For more control over your environment, or on a host without Docker, you can set up everything manually. You need Postgres with pgvector and an LLM provider key. Redis is optional: caching is off by default (`CACHE_ENABLED=false`).
 
 ### 1. Clone and Install Dependencies
 
@@ -170,22 +209,26 @@ Install PostgreSQL and pgvector on your system:
 **macOS (using Homebrew):**
 
 ```bash theme={null}
-brew install postgresql
-brew install pgvector
+brew install postgresql@17 pgvector
+brew services start postgresql@17
 ```
 
 **Ubuntu/Debian:**
 
 ```bash theme={null}
 sudo apt update
-sudo apt install postgresql postgresql-contrib
-# Install pgvector extension (see pgvector docs for your version)
+# Postgres and pgvector majors must match the distro's packaged version.
+# Ubuntu 24.04:
+sudo apt install postgresql-16 postgresql-16-pgvector
+# Debian 12:
+sudo apt install postgresql-15 postgresql-15-pgvector
+# Other versions: add the PostgreSQL APT repo (apt.postgresql.org) first.
 ```
 
 **Windows:**
 Download from [postgresql.org](https://www.postgresql.org/download/windows/)
 
-#### Option B: Docker PostgreSQL
+#### Option B: Docker PostgreSQL (if Docker is available)
 
 ```bash theme={null}
 docker run --name honcho-db \
@@ -197,7 +240,7 @@ docker run --name honcho-db \
 
 ### 3. Enable Extensions
 
-Connect to PostgreSQL and enable pgvector and pg\_trgm:
+Connect to PostgreSQL and enable pgvector, pg\_trgm and btree\_gin:
 
 ```bash theme={null}
 # Connect to PostgreSQL
@@ -206,14 +249,15 @@ psql -U postgres
 # Enable the extensions on the default database
 CREATE EXTENSION IF NOT EXISTS vector;
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
+CREATE EXTENSION IF NOT EXISTS btree_gin;
 \q
 ```
 
-
-  **Least-privilege database roles.** Honcho runs `CREATE EXTENSION IF NOT EXISTS vector` before migrations and again at startup, so if the role in `DB_CONNECTION_URI` can't create extensions, both fail with a privilege error — `IF NOT EXISTS` doesn't help, because Postgres checks the privilege first.
-
-  Run the statements above once as a superuser (or `rds_superuser`) and the application role needs no extension privileges. `pg_trgm` is optional: if it can't be created, migrations skip the trigram index that speeds up message search and log the statement to create it later. See [Troubleshooting](/docs/v3/contributing/troubleshooting) if you hit this.
-
+> [!NOTE]
+>
+> **Least-privilege database roles.** Honcho runs `CREATE EXTENSION IF NOT EXISTS vector` before migrations and again at startup, so if the role in `DB_CONNECTION_URI` can't create extensions, both fail with a privilege error — `IF NOT EXISTS` doesn't help, because Postgres checks the privilege first.
+>
+> Run the statements above once as a superuser (or `rds_superuser`) and the application role needs no extension privileges. `pg_trgm` and `btree_gin` are optional: if one can't be created, migrations skip the index that needs it (the trigram index that speeds up message search, and a queue index used when deleting data) and log the statement to create it later. See [Troubleshooting](https://honcho.dev/docs/v3/contributing/troubleshooting.md) if you hit this.
 
 ### 4. Configure Environment
 
@@ -349,15 +393,15 @@ const client = new Honcho({
 
 ### Next Steps
 
-* **Configure Honcho**: Visit the [Configuration Guide](./configuration) for model tiers, provider options, and tuning
-* **Use the CLI**: install with `uv tool install honcho-cli`, then [`honcho start --setup`](/docs/v3/documentation/reference/cli#local-stack) for a local stack; inspect with `honcho workspace inspect` / `honcho doctor`
-* **Explore the API**: Check out the [API Reference](../api-reference/introduction)
+* **Configure Honcho**: Visit the [Configuration Guide](https://honcho.dev/docs/v3/contributing/configuration.md) for model tiers, provider options, and tuning
+* **Use the CLI**: install with `uv tool install honcho-cli`, then [`honcho start --setup`](https://honcho.dev/docs/v3/documentation/reference/cli#local-stack) for a local stack; inspect with `honcho workspace inspect` / `honcho doctor`
+* **Explore the API**: Check out the [API Reference](https://honcho.dev/docs/v3/api-reference/introduction.md)
 * **Try the SDKs**: See our [guides](../guides) for examples
 * **Join the community**: [Discord](https://discord.gg/honcho)
 
 ## Troubleshooting
 
-Running into issues? See the [Troubleshooting Guide](./troubleshooting) for detailed solutions to common problems including:
+Running into issues? See the [Troubleshooting Guide](https://honcho.dev/docs/v3/contributing/troubleshooting.md) for detailed solutions to common problems including:
 
 * Startup failures (missing API keys, database issues)
 * Runtime errors ("An unexpected error occurred" on every request)
@@ -439,7 +483,7 @@ When `DB_POOL_CLASS=null`, SQLAlchemy uses `NullPool`; `DB_POOL_SIZE` and `DB_MA
 ### LLM Providers
 
 * Ensure your API keys are configured (see [LLM Setup](#llm-setup))
-* For alternative providers or per-feature model overrides, see the [Configuration Guide](./configuration#llm-configuration)
+* For alternative providers or per-feature model overrides, see the [Configuration Guide](https://honcho.dev/docs/v3/contributing/configuration.md#llm-configuration)
 
 ### Monitoring
 
@@ -462,9 +506,9 @@ When `DB_POOL_CLASS=null`, SQLAlchemy uses `NullPool`; `DB_POOL_SIZE` and `DB_MA
 
 The API can be deployed on [Fly.io](https://fly.io). Follow the [Fly.io getting-started docs](https://fly.io/docs/getting-started/) to set up your account and install `flyctl`. A sample `fly.toml` is included in the repo for convenience.
 
-
-  The included `fly.toml` does not provision a PostgreSQL database. Stand one up separately (Fly Postgres, Supabase, Neon, or another managed provider) and set `DB_CONNECTION_URI` to point at it.
-
+> [!NOTE]
+>
+> The included `fly.toml` does not provision a PostgreSQL database. Stand one up separately (Fly Postgres, Supabase, Neon, or another managed provider) and set `DB_CONNECTION_URI` to point at it.
 
 Once `flyctl` is set up, from the repo root:
 

@@ -4,7 +4,7 @@
 title: Vercel Connect
 description: Authenticate Slack, Microsoft Teams, GitHub, Linear, Discord, Notion, and Telegram adapters with Vercel Connect, using short-lived runtime tokens for outbound calls and OIDC-verified inbound webhooks where supported.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: overview
 related:
   - /docs/usage
@@ -66,35 +66,49 @@ vercel link
 
 2. Create the connector and attach it to the linked project. For Slack, Microsoft Teams, GitHub, Linear, and Discord, enable trigger forwarding and register your Chat SDK webhook route (`/api/webhooks/{platform}`) as the trigger destination. Notion and Telegram webhooks go directly to your app, so create and attach those connectors without triggers and use native webhook verification or polling.
 
+**Slack**
+
 ```bash
 vercel connect create slack --name acme-slack --triggers
 vercel connect attach slack/acme-slack --triggers --trigger-path /api/webhooks/slack
 ```
+
+**Microsoft Teams**
 
 ```bash
 vercel connect create microsoft-teams --name acme-teams --triggers
 vercel connect attach microsoft-teams/acme-teams --triggers --trigger-path /api/webhooks/teams
 ```
 
+**GitHub**
+
 ```bash
 vercel connect create github --name acme-github --triggers
 vercel connect attach github/acme-github --triggers --trigger-path /api/webhooks/github
 ```
+
+**Linear**
 
 ```bash
 vercel connect create linear --name acme-linear --triggers
 vercel connect attach linear/acme-linear --triggers --trigger-path /api/webhooks/linear
 ```
 
+**Discord**
+
 ```bash
 vercel connect create discord --name acme-discord --triggers
 vercel connect attach discord/acme-discord --triggers --trigger-path /api/webhooks/discord
 ```
 
+**Notion**
+
 ```bash
 vercel connect create notion --name acme-notion
 vercel connect attach notion/acme-notion
 ```
+
+**Telegram**
 
 ```bash
 vercel connect create telegram --name acme-telegram

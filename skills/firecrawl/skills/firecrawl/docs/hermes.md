@@ -8,11 +8,11 @@
 
 > Use Firecrawl as the default web search and extract backend in Hermes Agent
 
-
-  **Official Hermes docs:** [Web search](https://hermes-agent.nousresearch.com/docs/user-guide/features/web-search) · [Browser](https://hermes-agent.nousresearch.com/docs/user-guide/features/browser)
-
-  [Hermes Agent](https://hermes-agent.nousresearch.com/) by Nous Research uses Firecrawl as the default backend for `web_search` and `web_extract`
-
+> [!NOTE]
+>
+> **Official Hermes docs:** [Web search](https://hermes-agent.nousresearch.com/docs/user-guide/features/web-search) · [Browser](https://hermes-agent.nousresearch.com/docs/user-guide/features/browser)
+>
+> [Hermes Agent](https://hermes-agent.nousresearch.com/) by Nous Research uses Firecrawl as the default backend for `web_search` and `web_extract`
 
 ## Overview
 
@@ -120,9 +120,9 @@ When `FIRECRAWL_API_URL` is set, the API key is optional if Firecrawl server aut
 * [Hermes Agent](https://hermes-agent.nousresearch.com/)
 * [Hermes web search docs (Firecrawl default)](https://hermes-agent.nousresearch.com/docs/user-guide/features/web-search#firecrawl-default)
 * [Hermes browser docs (Firecrawl cloud mode)](https://hermes-agent.nousresearch.com/docs/user-guide/features/browser#firecrawl-cloud-mode)
-* [Firecrawl search](/features/search)
-* [Firecrawl scrape](/features/scrape)
-* [Nous Research models quickstart](/quickstarts/nous-research) (API tool calling with Hermes models)
+* [Firecrawl search](https://docs.firecrawl.dev/features/search.md)
+* [Firecrawl scrape](https://docs.firecrawl.dev/features/scrape.md)
+* [Nous Research models quickstart](https://docs.firecrawl.dev/quickstarts/nous-research.md) (API tool calling with Hermes models)
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

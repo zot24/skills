@@ -31,7 +31,7 @@ The [Agent](https://www.firecrawl.dev/app/agent) is an AI-powered research tool 
 
 [Activity Logs](https://www.firecrawl.dev/app/logs) show a history of your recent API requests, including status, duration, and credits consumed.
 
-Rows that failed or finished with errors carry a sparkles **Debug issue** button in the Actions column. It runs Firecrawl's support agent against that job and returns a diagnosis with a suggested fix you can copy. See [Debug with Ask](/features/ask#debug-from-activity-logs).
+Rows that failed or finished with errors carry a sparkles **Debug issue** button in the Actions column. It runs Firecrawl's support agent against that job and returns a diagnosis with a suggested fix you can copy. See [Debug with Ask](https://docs.firecrawl.dev/features/ask.md#debug-from-activity-logs).
 
 ## Usage
 
@@ -46,7 +46,7 @@ From the [API Keys](https://www.firecrawl.dev/app/api-keys) page you can create,
 The [Settings](https://www.firecrawl.dev/app/settings) page has three tabs:
 
 * **Team**: Invite members, assign roles, and manage your team. See [Team management & roles](#team-management--roles) below.
-* **Billing**: View your current plan and invoices, set your monthly pay-as-you-go limit, and apply coupons. See also [Billing](/billing).
+* **Billing**: View your current plan and invoices, set your monthly pay-as-you-go limit, and apply coupons. See also [Billing](https://docs.firecrawl.dev/billing.md).
 * **Advanced**: Webhook signing secret and team deletion.
 
 ***

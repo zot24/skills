@@ -6,7 +6,7 @@
 
 # Mastra
 
-> Wire Firecrawl into Mastra tools so your agents and workflows can search and scrape live web data.
+> Wire Firecrawl into Mastra tools and agents so they can search, scrape, and interact with live web pages.
 
 ## Prerequisites
 
@@ -38,7 +38,7 @@ import { Firecrawl } from "firecrawl";
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
 
-const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY! });
+const firecrawl = new Firecrawl();
 
 export const firecrawlSearch = createTool({
   id: "firecrawl-search",
@@ -55,10 +55,9 @@ export const firecrawlSearch = createTool({
   execute: async ({ query }) => {
     const results = await firecrawl.search(query, { limit: 3 });
     return {
-      results: (results.web ?? []).map((item) => ({
-        title: item.title ?? null,
-        url: item.url,
-      })),
+      results: (results.web ?? []).flatMap((item) =>
+        "url" in item ? [{ title: item.title ?? null, url: item.url }] : [],
+      ),
     };
   },
 });
@@ -111,10 +110,10 @@ export const mastra = new Mastra({
 
 ## Test in Studio
 
-Run the dev server and open [Mastra Studio](https://mastra.ai/docs/studio/overview):
+Run the dev server and open [Mastra Studio](https://mastra.ai/docs/studio/overview) at `http://localhost:4111`:
 
 ```bash theme={null}
-mastra dev
+npm run dev
 ```
 
 Open the **Web Agent** and try prompts like:
@@ -122,30 +121,61 @@ Open the **Web Agent** and try prompts like:
 * "Find the latest Firecrawl changelog and summarize the last release."
 * "Search for Firecrawl pricing and extract the plan tiers."
 
-## Self-hosted Firecrawl
+## Give the agent a hosted browser
 
-If you run Firecrawl locally, set `FIRECRAWL_API_URL` and pass `apiUrl` to the client:
+For pages that need clicks, typing, or scrolling, Mastra's [`@mastra/browser-firecrawl`](https://mastra.ai/integrations/browsers/firecrawl) package runs the agent's browser tools in a Firecrawl browser session, so you don't need a local Chromium install.
+
+```bash theme={null}
+npm install @mastra/browser-firecrawl agent-browser@0.19.0
+```
+
+> [!NOTE]
+>
+> Pin `agent-browser` to 0.19.0. Later releases ship only the CLI, so `@mastra/browser-firecrawl` fails to import with `Cannot find package .../agent-browser/index.js`.
+
+Create `src/mastra/agents/browser-agent.ts`, then register `browserAgent` on your Mastra instance the same way as `webAgent`:
 
 ```typescript theme={null}
-const firecrawl = new Firecrawl({
-  apiKey: process.env.FIRECRAWL_API_KEY!,
-  apiUrl: process.env.FIRECRAWL_API_URL,
+import { Agent } from "@mastra/core/agent";
+import { FirecrawlBrowser } from "@mastra/browser-firecrawl";
+
+export const browserAgent = new Agent({
+  id: "browser-agent",
+  name: "Browser Agent",
+  instructions:
+    "Use the browser tools to open pages, click, and type. Take a snapshot after each action to check the result.",
+  model: "openai/gpt-5.4",
+  browser: new FirecrawlBrowser({ apiKey: process.env.FIRECRAWL_API_KEY }),
 });
+```
+
+Each conversation thread gets its own browser session by default. See the [Mastra Firecrawl browser docs](https://mastra.ai/integrations/browsers/firecrawl) for shared sessions, session timeouts, and saved profiles.
+
+## Self-hosted Firecrawl
+
+If you run Firecrawl yourself, add `FIRECRAWL_API_URL` to `.env`. The SDK reads it from the environment, so the tools above need no changes:
+
+```bash theme={null}
+FIRECRAWL_API_URL=http://localhost:3002
 ```
 
 ## Next steps
 
+> [card] [Scrape docs](https://docs.firecrawl.dev/features/scrape.md)
+>
+> All scrape options including formats, actions, and proxies
 
-    All scrape options including formats, actions, and proxies
+> [card] [Search docs](https://docs.firecrawl.dev/features/search.md)
+>
+> Search the web and get full page content
 
+> [card] [Agent docs](https://docs.firecrawl.dev/features/agent.md)
+>
+> Let an agent drive Firecrawl end to end
 
-    Search the web and get full page content
-
-
-    Let an agent drive Firecrawl end to end
-
-
-    Full SDK reference with crawl, map, batch scrape, and more
+> [card] [Node SDK reference](https://docs.firecrawl.dev/sdks/node.md)
+>
+> Full SDK reference with crawl, map, batch scrape, and more
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

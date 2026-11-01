@@ -8,7 +8,7 @@
 
 Expand from a seed paper through structural expansion and rank candidate papers against a natural-language `intent`. Use `mode` to choose similar papers, citers, or references.
 
-For a workflow overview, see the [Research Index guide](/features/research).
+For a workflow overview, see the [Research Index guide](https://docs.firecrawl.dev/features/research.md).
 
 
 ## OpenAPI

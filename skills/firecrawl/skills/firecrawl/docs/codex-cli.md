@@ -8,11 +8,11 @@
 
 > Add Firecrawl web scraping and search to OpenAI Codex CLI
 
-Connect [OpenAI Codex CLI](https://github.com/openai/codex) to Firecrawl through the hosted OAuth MCP server.
+Connect [OpenAI Codex CLI](https://github.com/openai/codex) to Firecrawl, the context API for AI agents, through the hosted OAuth MCP server, so Codex can search, scrape, and interact with the web.
 
-
-  Using the Codex app? [Install the Firecrawl plugin](/integrations/chatgpt-codex) directly from the plugin directory. The steps below are for manual CLI setup.
-
+> [!TIP]
+>
+> Using the Codex app? [Install the Firecrawl plugin](https://docs.firecrawl.dev/integrations/chatgpt-codex.md) directly from the plugin directory. The steps below are for manual CLI setup.
 
 ## Quick setup
 
@@ -20,10 +20,13 @@ Connect [OpenAI Codex CLI](https://github.com/openai/codex) to Firecrawl through
 
 ```bash theme={null}
 codex mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp-oauth
-codex mcp login firecrawl
 ```
 
-The URL is a client configuration value, not a page to open directly in a browser. Codex opens the Firecrawl sign-in flow, where you choose a team and approve the connection.
+The URL is a client configuration value, not a page to open directly in a browser. Codex detects that the server uses OAuth and opens the Firecrawl sign-in flow, where you choose a team and approve the connection. If the sign-in doesn't start or you close it, run:
+
+```bash theme={null}
+codex mcp login firecrawl
+```
 
 ### 2. Start Codex and verify
 
@@ -45,13 +48,13 @@ Scrape https://docs.firecrawl.dev and list the top-level sections.
 
 ## Other connection modes
 
-* [Try keyless MCP](/mcp-server/keyless#try-keyless) for Search, Scrape, and Parse without an account or key.
-* [Configure an API key](/mcp-server/keyless#add-an-api-key) with `bearer_token_env_var` for unattended use. Keep the secret outside agent chat and source control.
-* [Run MCP locally](/mcp-server/local) only when you need a local process or a self-hosted Firecrawl API. The local package requires Node.js 22 or newer.
+* [Try keyless MCP](https://docs.firecrawl.dev/mcp-server/keyless.md#try-keyless) for Search, Scrape, and Parse without an account or key.
+* [Configure an API key](https://docs.firecrawl.dev/mcp-server/keyless.md#add-an-api-key) with `bearer_token_env_var` for unattended use. Keep the secret outside agent chat and source control.
+* [Run MCP locally](https://docs.firecrawl.dev/mcp-server/local) only when you need a local process or a self-hosted Firecrawl API. The local package requires Node.js 22 or newer.
 
 ## Optional: literature research
 
-For paper and literature work, the research-index skill routes those queries to the `firecrawl_research_*` tools and the [Research Index](/features/research) instead of general web search:
+For paper and literature work, the research-index skill routes those queries to the `firecrawl_research_*` tools and the [Research Index](https://docs.firecrawl.dev/features/research.md) instead of general web search:
 
 ```bash theme={null}
 npx skills add firecrawl/skills@firecrawl-research-index

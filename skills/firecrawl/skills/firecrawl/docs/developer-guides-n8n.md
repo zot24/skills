@@ -10,9 +10,9 @@
 
 ## Introduction to Firecrawl and n8n
 
-Web scraping automation has become essential for modern businesses. Whether you need to monitor competitor prices, aggregate content, generate leads, or power AI applications with real-time data, the combination of Firecrawl and n8n provides a powerful solution without requiring programming knowledge.
+Firecrawl is the context API for AI agents, and the Firecrawl node brings Search, Scrape, Crawl, Map, Interact, and Agent into your n8n workflows. Monitor prices, aggregate content, generate leads, or feed clean context to AI agents, without writing code.
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/firecrawl-n8n-integration-hero.png?fit=max&auto=format&n=ATrkZnTEGYY5UO9D&q=85&s=cb863000a893ef260cfe023e2455c88c" alt="Firecrawl and n8n integration" width="1536" height="1024" data-path="images/guides/n8n/firecrawl-n8n-integration-hero.png" />
+![Firecrawl and n8n integration](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/firecrawl-n8n-integration-hero.png?fit=max\&auto=format\&n=ATrkZnTEGYY5UO9D\&q=85\&s=cb863000a893ef260cfe023e2455c88c)
 
 **What is n8n?**
 
@@ -20,7 +20,7 @@ n8n is an open-source workflow automation platform that connects different tools
 
 ## Why Use Firecrawl with n8n?
 
-Traditional web scraping presents several challenges. Custom scripts break when websites update their structure. Anti-bot systems block automated requests. JavaScript-heavy sites don't render properly. Infrastructure requires constant maintenance.
+Traditional web scraping presents several challenges. Custom scripts break when websites update their structure. Complex, JavaScript-heavy sites don't render properly. Infrastructure requires constant maintenance.
 
 Firecrawl handles these technical complexities on the scraping side, while n8n provides the automation framework. Together, they let you build production-ready workflows that:
 
@@ -52,11 +52,11 @@ After signing in, you need an API key to connect Firecrawl to n8n:
 4. Give your key a descriptive name (e.g., "n8n Integration")
 5. Copy the generated API key and save it somewhere secure
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/firecrawl-api-key-creation-dashboard.gif?s=2c04559b9027dfe825e3ba7d78af8527" alt="Firecrawl api key section" width="2092" height="1080" data-path="images/guides/n8n/firecrawl-api-key-creation-dashboard.gif" />
+![Firecrawl api key section](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/firecrawl-api-key-creation-dashboard.gif?s=2c04559b9027dfe825e3ba7d78af8527)
 
-
-  Your API key is like a password. Keep it secure and never share it publicly. You'll need this key in the next section.
-
+> [!NOTE]
+>
+> Your API key is like a password. Keep it secure and never share it publicly. You'll need this key in the next section.
 
 Firecrawl provides free credits when you sign up, which is enough to test your workflows and complete this tutorial.
 
@@ -90,7 +90,7 @@ Choose the option that fits your needs. Both paths will lead you to the same wor
 4. Complete the verification process
 5. You'll be directed to your n8n dashboard
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-cloud-signup-homepage.png?fit=max&auto=format&n=ATrkZnTEGYY5UO9D&q=85&s=7965f6fab8bd1d48b81db7c1dbed1e7f" alt="n8n Cloud homepage showing the signup options" width="938" height="534" data-path="images/guides/n8n/n8n-cloud-signup-homepage.png" />
+![n8n Cloud homepage showing the signup options](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-cloud-signup-homepage.png?fit=max\&auto=format\&n=ATrkZnTEGYY5UO9D\&q=85\&s=7965f6fab8bd1d48b81db7c1dbed1e7f)
 
 The free tier provides everything you need to build and test workflows. You can upgrade later if you need more execution time or advanced features.
 
@@ -120,25 +120,25 @@ This volume stores your workflows, credentials, and execution history so they pe
 docker run -it --rm --name n8n -p 5678:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
 ```
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-docker-self-hosted-installation.gif?s=4968ecd0996ef3e76dc0abb886ae52ca" alt="Terminal showing the docker commands being executed with n8n starting up" width="1772" height="1080" data-path="images/guides/n8n/n8n-docker-self-hosted-installation.gif" />
+![Terminal showing the docker commands being executed with n8n starting up](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-docker-self-hosted-installation.gif?s=4968ecd0996ef3e76dc0abb886ae52ca)
 
 4. Wait for n8n to start. You'll see output indicating the server is running
 5. Open your web browser and navigate to `http://localhost:5678`
 6. Create your n8n account by registering with an email
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-localhost-registration-form.gif?fit=max&auto=format&n=ATrkZnTEGYY5UO9D&q=85&s=163949933d76425a68ec728639e767ea" alt="n8n self-hosted welcome screen at localhost:5678" width="1440" height="1750" data-path="images/guides/n8n/n8n-localhost-registration-form.gif" />
+![n8n self-hosted welcome screen at localhost:5678](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-localhost-registration-form.gif?fit=max\&auto=format\&n=ATrkZnTEGYY5UO9D\&q=85\&s=163949933d76425a68ec728639e767ea)
 
 Your self-hosted n8n instance is now running locally. The interface is identical to n8n Cloud, so you can follow the rest of this guide regardless of which option you chose.
 
-
-  The `--rm` flag automatically removes the container when you stop it, but your data remains safe in the `n8n_data` volume. For production deployments, see the [n8n self-hosting documentation](https://docs.n8n.io/hosting/) for more advanced configuration options.
-
+> [!NOTE]
+>
+> The `--rm` flag automatically removes the container when you stop it, but your data remains safe in the `n8n_data` volume. For production deployments, see the [n8n self-hosting documentation](https://docs.n8n.io/hosting/) for more advanced configuration options.
 
 ### Understanding the n8n Interface
 
 When you first log in to n8n, you'll see the main dashboard:
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-dashboard-workflow-list.png?fit=max&auto=format&n=ATrkZnTEGYY5UO9D&q=85&s=5d92092b94fd021c2cebf163c2ef4d01" alt="n8n dashboard showing the workflow list view with &#x22;Create new workflow&#x22; button" width="2488" height="1582" data-path="images/guides/n8n/n8n-dashboard-workflow-list.png" />
+![n8n dashboard showing the workflow list view with "Create new workflow" button](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-dashboard-workflow-list.png?fit=max\&auto=format\&n=ATrkZnTEGYY5UO9D\&q=85\&s=5d92092b94fd021c2cebf163c2ef4d01)
 
 Key interface elements:
 
@@ -153,7 +153,7 @@ Click "Create New Workflow" to open the workflow editor.
 
 The workflow editor is where you'll build your automations:
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-empty-workflow-canvas.png?fit=max&auto=format&n=ATrkZnTEGYY5UO9D&q=85&s=7508078e88b57ccedc2a4d4a258fddf8" alt="Empty n8n workflow canvas with the &#x22;+&#x22; button visible in the center" width="2488" height="1582" data-path="images/guides/n8n/n8n-empty-workflow-canvas.png" />
+![Empty n8n workflow canvas with the "+" button visible in the center](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-empty-workflow-canvas.png?fit=max\&auto=format\&n=ATrkZnTEGYY5UO9D\&q=85\&s=7508078e88b57ccedc2a4d4a258fddf8)
 
 Important elements:
 
@@ -167,7 +167,7 @@ Let's build your first workflow by adding the Firecrawl node.
 
 ## Step 3: Install and Configure the Firecrawl Node
 
-n8n includes native support for Firecrawl. You'll install the node and connect it to your Firecrawl account using the API key you created earlier.
+Firecrawl is available in n8n as a verified node (`@mendable/n8n-nodes-firecrawl`), built and maintained by Firecrawl. You'll install the node and connect it to your Firecrawl account using the API key you created earlier. On self-hosted n8n, an instance owner installs verified nodes once, and then everyone on the instance can use them.
 
 ### Add the Firecrawl Node to Your Workflow
 
@@ -176,21 +176,21 @@ n8n includes native support for Firecrawl. You'll install the node and connect i
 3. In the search box at the top, type "**Firecrawl**"
 4. You'll see the Firecrawl node appear in the search results
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-search-install-firecrawl-node.gif?s=6d81f8bf967429cfaf2bcf22c3976fbf" alt="Clicking the + button, typing &#x22;Firecrawl&#x22; in the search, and the Firecrawl node appearing" width="1692" height="1080" data-path="images/guides/n8n/n8n-search-install-firecrawl-node.gif" />
+![Clicking the + button, typing "Firecrawl" in the search, and the Firecrawl node appearing](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-search-install-firecrawl-node.gif?s=6d81f8bf967429cfaf2bcf22c3976fbf)
 
 5. Click "**Install**" next to the Firecrawl node
 6. Wait for the installation to complete (this takes a few seconds)
 7. Once installed, click on the Firecrawl node to add it to your canvas
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-firecrawl-node-added-canvas.gif?s=d7480ebf8ef357fba9a0c5ee5123ffc8" alt="Firecrawl node now added to the canvas, showing as a box with the Firecrawl logo" width="1692" height="1080" data-path="images/guides/n8n/n8n-firecrawl-node-added-canvas.gif" />
+![Firecrawl node now added to the canvas, showing as a box with the Firecrawl logo](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-firecrawl-node-added-canvas.gif?s=d7480ebf8ef357fba9a0c5ee5123ffc8)
 
 The Firecrawl node will appear on your canvas as a box with the Firecrawl logo. This node represents a single Firecrawl operation in your workflow.
 
 ### Connect Your Firecrawl API Key
 
-
-  **n8n Cloud users:** The launch offer that included a free Hobby plan and 100,000 credits has expired. You can still use the one-click **"Connect to Firecrawl"** OAuth button when adding the Firecrawl node. This automatically creates a new Firecrawl team linked to your n8n account and grants **10,000 free credits**. These credits do not include a Hobby plan upgrade. To view them on the [Firecrawl dashboard](https://www.firecrawl.dev/app/usage), make sure you switch to your n8n-linked team using the team selector in the top-left corner.
-
+> [!TIP]
+>
+> **n8n Cloud users:** The launch offer that included a free Hobby plan and 100,000 credits has expired. You can still use the one-click **"Connect to Firecrawl"** OAuth button when adding the Firecrawl node. This automatically creates a new Firecrawl team linked to your n8n account and grants **10,000 free credits**. These credits do not include a Hobby plan upgrade. To view them on the [Firecrawl dashboard](https://www.firecrawl.dev/app/usage), make sure you switch to your n8n-linked team using the team selector in the top-left corner.
 
 Before you can use the Firecrawl node, you need to authenticate it with your API key:
 
@@ -198,7 +198,7 @@ Before you can use the Firecrawl node, you need to authenticate it with your API
 2. At the top, you'll see a "Credential to connect with" dropdown
 3. Since this is your first time, click "**Create New Credential**"
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-firecrawl-api-credentials-setup.gif?s=547bda13daeb17dd963160a8ef4bbf48" alt="Firecrawl node configuration panel showing the credentials dropdown with &#x22;Create New Credential&#x22; option" width="1692" height="1080" data-path="images/guides/n8n/n8n-firecrawl-api-credentials-setup.gif" />
+![Firecrawl node configuration panel showing the credentials dropdown with "Create New Credential" option](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-firecrawl-api-credentials-setup.gif?s=547bda13daeb17dd963160a8ef4bbf48)
 
 4. A credential configuration window opens
 5. Enter a name for this credential (e.g., "My Firecrawl Account")
@@ -207,19 +207,23 @@ Before you can use the Firecrawl node, you need to authenticate it with your API
 
 The credential is now saved in n8n. You won't need to enter your API key again for future Firecrawl nodes.
 
+> [!NOTE]
+>
+> The credential also has a **Base URL** field, which defaults to `https://api.firecrawl.dev/v2`. Credentials created with older versions of the node can still point at `https://api.firecrawl.dev/v1`. With a v1 Base URL, operations that only exist in v2, such as Agent, Browser, and Interact, fail with a 404 error ("The resource you are requesting could not be found"). Open the credential and set **Base URL** to `https://api.firecrawl.dev/v2`.
+
 ### Test Your Connection
 
 Let's verify that your Firecrawl node is properly connected:
 
 1. With the Firecrawl node still selected, look at the configuration panel
-2. In the "Resource" dropdown, select "**Scrape a url and get its content**"
+2. Set **Resource** to "**Scraping**" and **Operation** to "**Scrape URL**"
 3. In the "URL" field, enter: `https://firecrawl.dev`
 4. Leave other settings at their defaults for now
-5. Click the "**Test step**" button at the bottom right of the node
+5. Click the "**Execute step**" button
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-firecrawl-test-connection-scrape.gif?s=a5a832a971778744a6ceaf9d2ff0cdb1" alt="Selecting Scrape operation, entering example.com URL, and clicking Test step button" width="1260" height="720" data-path="images/guides/n8n/n8n-firecrawl-test-connection-scrape.gif" />
+![Selecting Scrape operation, entering example.com URL, and clicking Test step button](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-firecrawl-test-connection-scrape.gif?s=a5a832a971778744a6ceaf9d2ff0cdb1)
 
-If everything is configured correctly, you'll see the scraped content from example.com appear in the output panel below the node.
+If everything is configured correctly, you'll see the scraped content from firecrawl.dev appear in the output panel.
 
 Congratulations! Your Firecrawl node is now connected and working.
 
@@ -238,11 +242,11 @@ Before building your first workflow, you'll need a Telegram bot to receive notif
 7. Next, choose a username for your bot. It must end with "bot" (e.g., "**my\_firecrawl\_updates\_bot**")
 8. If the username is available, BotFather will create your bot and send you a message with your bot token
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/telegram-botfather-create-new-bot.png?fit=max&auto=format&n=ATrkZnTEGYY5UO9D&q=85&s=45ee39deae96fbc3eac5fdb2eeba2e0b" alt="Creating a bot with BotFather, showing the full conversation flow" width="1342" height="1072" data-path="images/guides/n8n/telegram-botfather-create-new-bot.png" />
+![Creating a bot with BotFather, showing the full conversation flow](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/telegram-botfather-create-new-bot.png?fit=max\&auto=format\&n=ATrkZnTEGYY5UO9D\&q=85\&s=45ee39deae96fbc3eac5fdb2eeba2e0b)
 
-
-  Save your bot token securely. This token is like a password that allows n8n to send messages as your bot. Never share it publicly.
-
+> [!NOTE]
+>
+> Save your bot token securely. This token is like a password that allows n8n to send messages as your bot. Never share it publicly.
 
 ### Get Your Chat ID
 
@@ -261,11 +265,11 @@ To send messages to yourself, you need your Telegram chat ID:
 8. The number next to `"id":` is your chat ID (e.g., `123456789`)
 9. Save this chat ID for later
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/telegram-api-get-chat-id-browser.gif?s=e074ecf1a659bdfa7284e86c923be06f" alt="Browser showing Telegram API getUpdates response with chat ID highlighted" width="1820" height="1080" data-path="images/guides/n8n/telegram-api-get-chat-id-browser.gif" />
+![Browser showing Telegram API getUpdates response with chat ID highlighted](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/telegram-api-get-chat-id-browser.gif?s=e074ecf1a659bdfa7284e86c923be06f)
 
-
-  Your chat ID is the unique identifier for your conversation with the bot. You'll use this to tell n8n where to send messages.
-
+> [!NOTE]
+>
+> Your chat ID is the unique identifier for your conversation with the bot. You'll use this to tell n8n where to send messages.
 
 You now have everything needed to integrate Telegram with your n8n workflows.
 
@@ -291,18 +295,19 @@ Get a daily summary of Firecrawl product updates delivered to your Telegram ever
    * Search for "**Schedule Trigger**"
    * Configure: Every day at 9:00 AM
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-schedule-trigger-daily-cron.gif?s=ae68cd74cdf14a1d012861df8319b245" alt="Schedule Trigger configured for daily 9 AM execution" width="2116" height="1080" data-path="images/guides/n8n/n8n-schedule-trigger-daily-cron.gif" />
+![Schedule Trigger configured for daily 9 AM execution](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-schedule-trigger-daily-cron.gif?s=ae68cd74cdf14a1d012861df8319b245)
 
 3. Add the **Firecrawl** node:
    * Click "**+**" next to Schedule Trigger
    * Search for and add "**Firecrawl**"
    * Select your Firecrawl credential
    * Configure:
-     * **Resource**: Scrape a url and get its content
+     * **Resource**: Scraping
+     * **Operation**: Scrape URL
      * **URL**: `https://www.firecrawl.dev/blog/category/product-updates`
-     * **Formats**: Select "Summary"
+     * **Scrape Options**: Add **Formats** and select "Summary"
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-firecrawl-scrape-blog-summary.gif?s=ad1684f165aacd7ab5d1530cdac73962" alt="Adding and configuring Firecrawl node with the blog URL and Summary format selected" width="2116" height="1080" data-path="images/guides/n8n/n8n-firecrawl-scrape-blog-summary.gif" />
+![Adding and configuring Firecrawl node with the blog URL and Summary format selected](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-firecrawl-scrape-blog-summary.gif?s=ad1684f165aacd7ab5d1530cdac73962)
 
 4. Add the **Telegram** node:
    * Click "**+**" next to Firecrawl
@@ -315,7 +320,7 @@ Get a daily summary of Firecrawl product updates delivered to your Telegram ever
    * Paste your bot token from BotFather
    * Click "**Save**"
 
-<img src="https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/images/guides/n8n/n8n-telegram-bot-token-credentials.gif" alt="Telegram credential configuration with bot token field" />
+![Telegram credential configuration with bot token field](https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/images/guides/n8n/n8n-telegram-bot-token-credentials.gif)
 
 6. Configure the Telegram message:
    * **Operation**: Send Message
@@ -326,15 +331,15 @@ Get a daily summary of Firecrawl product updates delivered to your Telegram ever
 
    * Click **Execute step** to test sending a message while receiving the summary from Firecrawl.
 
-<img src="https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/images/guides/n8n/n8n-test-telegram-message-firecrawl.gif" alt="Configuring Telegram node and mapping the summary field to the message text" />
+![Configuring Telegram node and mapping the summary field to the message text](https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/images/guides/n8n/n8n-test-telegram-message-firecrawl.gif)
 
-* Now with Firecrawl's summary structure, add the summary to the message text by dragging the `summary` field from Firecrawl node output.
+* Now with Firecrawl's summary structure, add the summary to the message text by dragging the `summary` field (under `data`) from the Firecrawl node output.
 
 7. Test the workflow:
    * Click "**Execute Workflow**"
    * Check your Telegram for the summary message
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-workflow-complete-firecrawl-telegram.png?fit=max&auto=format&n=ATrkZnTEGYY5UO9D&q=85&s=1c3eacbcb705c21c6265ae3ecbd59d59" alt="Complete workflow showing Schedule Trigger → Firecrawl → Telegram with all nodes connected" width="1538" height="1046" data-path="images/guides/n8n/n8n-workflow-complete-firecrawl-telegram.png" />
+![Complete workflow showing Schedule Trigger → Firecrawl → Telegram with all nodes connected](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-workflow-complete-firecrawl-telegram.png?fit=max\&auto=format\&n=ATrkZnTEGYY5UO9D\&q=85\&s=1c3eacbcb705c21c6265ae3ecbd59d59)
 
 8. Activate the workflow by toggling the "**Active**" switch
 
@@ -355,11 +360,12 @@ This workflow uses Firecrawl's Search operation to find AI news and send formatt
 1. Create a new workflow and add a **Manual Trigger** node
 
 2. Add **Firecrawl** node with these settings:
-   * **Resource**: Search and optionally scrape search results
+   * **Resource**: Map & Search
+   * **Operation**: Search Web
    * **Query**: `ai news`
    * **Limit**: 5
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-firecrawl-search-ai-news-results.gif?s=23eb224783b0b3155d179a0342839621" alt="Firecrawl Search node configuration with &#x22;ai news&#x22; query" width="1776" height="1080" data-path="images/guides/n8n/n8n-firecrawl-search-ai-news-results.gif" />
+![Firecrawl Search node configuration with "ai news" query](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-firecrawl-search-ai-news-results.gif?s=23eb224783b0b3155d179a0342839621)
 
 3. Add a **Code** node to format the search results:
    * Select "Run Once for All Items"
@@ -381,16 +387,16 @@ results.forEach((item) => {
 return [{ json: { message } }];
 ```
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-code-node-format-news-articles.gif?s=cafb96e0b7f2ef27a09ae2957390799b" alt="Adding Code node and pasting the formatting script" width="1768" height="1080" data-path="images/guides/n8n/n8n-code-node-format-news-articles.gif" />
+![Adding Code node and pasting the formatting script](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-code-node-format-news-articles.gif?s=cafb96e0b7f2ef27a09ae2957390799b)
 
 4. Update **Telegram** node (using your saved credential):
    * **Text**: Drag the `message` field from Code node
 
-<img src="https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/images/guides/n8n/n8n-execute-workflow-telegram-delivery.gif" alt="Complete workflow execution with AI news sent to Telegram" />
+![Complete workflow execution with AI news sent to Telegram](https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/images/guides/n8n/n8n-execute-workflow-telegram-delivery.gif)
 
-
-  Replace the Manual Trigger with a Schedule Trigger to get automatic AI news updates at set intervals.
-
+> [!TIP]
+>
+> Replace the Manual Trigger with a Schedule Trigger to get automatic AI news updates at set intervals.
 
 ### Example 3: AI-Powered News Summary
 
@@ -412,7 +418,7 @@ This workflow adds AI to Example 2, using OpenAI to generate intelligent summari
    * Give it a name (e.g., "n8n Integration")
    * Copy the API key immediately (you won't see it again)
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/openai-api-key-creation-dashboard.gif?s=8222a339a403f85272102256fa91fc27" alt="OpenAI dashboard showing API key creation" width="1780" height="1080" data-path="images/guides/n8n/openai-api-key-creation-dashboard.gif" />
+![OpenAI dashboard showing API key creation](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/openai-api-key-creation-dashboard.gif?s=8222a339a403f85272102256fa91fc27)
 
 2. **Add and connect the AI Agent node**:
    * Click "**+**" after the Code node
@@ -420,7 +426,7 @@ This workflow adds AI to Example 2, using OpenAI to generate intelligent summari
    * Drag the `message` field from the Code node to the AI Agent's input prompt field
    * Select **OpenAI** as the LLM provider
 
-<img src="https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/images/guides/n8n/n8n-ai-agent-openai-llm-setup.gif" alt="Adding AI Agent node, dragging input from Code node, and connecting OpenAI as LLM" />
+![Adding AI Agent node, dragging input from Code node, and connecting OpenAI as LLM](https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/images/guides/n8n/n8n-ai-agent-openai-llm-setup.gif)
 
 3. **Add your OpenAI credentials**:
    * Click "**Create New Credential**" for OpenAI
@@ -428,7 +434,7 @@ This workflow adds AI to Example 2, using OpenAI to generate intelligent summari
    * Select model: **gpt-5-mini** (cost-effective) or **gpt-5** (more capable)
    * Click "**Save**"
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-openai-credentials-gpt-model.gif?s=c97249f572e8d530583918ebc3357d53" alt="Adding OpenAI credentials to the AI Agent node" width="1596" height="1080" data-path="images/guides/n8n/n8n-openai-credentials-gpt-model.gif" />
+![Adding OpenAI credentials to the AI Agent node](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-openai-credentials-gpt-model.gif?s=c97249f572e8d530583918ebc3357d53)
 
 4. **Add the system prompt to the AI Agent**:
    * In the AI Agent node, add this system prompt:
@@ -440,7 +446,7 @@ Group related topics together and provide context about why these developments m
 Keep the summary conversational and engaging, around 3-4 paragraphs.
 ```
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-ai-agent-system-prompt-configuration.gif?s=45c34c7010aa6319f8d4dde84c6e5ab9" alt="Adding the system prompt to the AI Agent node" width="1764" height="1080" data-path="images/guides/n8n/n8n-ai-agent-system-prompt-configuration.gif" />
+![Adding the system prompt to the AI Agent node](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-ai-agent-system-prompt-configuration.gif?s=45c34c7010aa6319f8d4dde84c6e5ab9)
 
 5. **Update the Telegram node and test**:
    * Update the Telegram node:
@@ -450,24 +456,25 @@ Keep the summary conversational and engaging, around 3-4 paragraphs.
    * The AI will analyze all news articles and create a summary
    * Check your Telegram for the AI-generated summary
 
-<img src="https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/images/guides/n8n/n8n-ai-summary-telegram-workflow-execution.gif" alt="Complete workflow execution with AI-generated summary sent to Telegram" />
+![Complete workflow execution with AI-generated summary sent to Telegram](https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/images/guides/n8n/n8n-ai-summary-telegram-workflow-execution.gif)
 
-
-  The AI Agent receives all the formatted news articles and creates an intelligent summary, making it easier to understand trends and important developments at a glance.
-
+> [!NOTE]
+>
+> The AI Agent receives all the formatted news articles and creates an intelligent summary, making it easier to understand trends and important developments at a glance.
 
 ## Understanding Firecrawl Operations
 
-Now that you've built some workflows, let's explore the different Firecrawl operations available in n8n. Each operation is designed for specific web scraping use cases.
+Now that you've built some workflows, let's explore the different Firecrawl operations available in n8n. On the Firecrawl node, you first pick a **Resource** (Scraping, Crawling, Map & Search, Agent, Interact, Browser, Account, or Extract (Legacy)) and then an **Operation**. Each operation is designed for specific web data use cases.
 
-### Scrape a url and get its content
+### Scrape URL
 
-Extracts content from a single web page and returns it in various formats.
+Resource: **Scraping**. Extracts content from a single web page and returns it in various formats.
 
 **What it does:**
 
 * Scrapes a single URL
 * Returns clean markdown, HTML, or AI-generated summaries
+* Returns structured data with the **JSON** format and a prompt or schema
 * Can capture screenshots and extract links
 
 **Best for:**
@@ -479,13 +486,21 @@ Extracts content from a single web page and returns it in various formats.
 
 **Example use case:** Daily blog summaries (like Example 1 above)
 
-### Scrape + Interact with persistent profiles
+### Interact
 
-For workflows that use Scrape followed by Interact, set the persistent `profile` on the **Scrape** step. The Interact step only needs the `scrapeId` from the scrape response plus a prompt or code. Do not add `profile` to the Interact request body; Interact inherits the profile from the scrape job.
+Resource: **Interact**. Keeps working with a page after **Scrape URL**: click, fill forms, and navigate, using a natural language prompt or Playwright or Bash code.
 
-To save cookies, localStorage, and other browser state, stop the interact session when the workflow is done. If you only need to read an existing profile in a later workflow run, set `saveChanges` to `false` on the Scrape step.
+**Operations:**
 
-If your installed Firecrawl n8n node version does not expose profile settings on the Scrape operation, update to the latest Firecrawl n8n node. If your n8n version supports custom request or body options for the node, you can pass the same `profile` object there:
+* **Execute Interaction**: runs a prompt or code against a scraped page, using the `scrapeId` from the Scrape URL output (`data.metadata.scrapeId`)
+* **Stop Interaction**: ends the interact session for that `scrapeId`
+* **Get Interact Context**: returns usage instructions for AI agents that call these operations as tools
+
+For workflows that use Scrape followed by Interact with a persistent browser profile, set the **Profile** on the **Scrape URL** step. The Execute Interaction step only needs the `scrapeId` plus a prompt or code. Do not add `profile` to the Interact request body; Interact inherits the profile from the scrape job.
+
+To save cookies, localStorage, and other browser state, run **Stop Interaction** when the workflow is done. If you only need to read an existing profile in a later workflow run, turn off **Save Changes** in the Scrape step's profile settings.
+
+If your installed Firecrawl n8n node version does not show **Profile** on the Scrape URL operation, update to the latest Firecrawl n8n node. You can also pass the same `profile` object under **Additional Fields** > **Custom Properties (JSON)**:
 
 ```json theme={null}
 {
@@ -496,9 +511,11 @@ If your installed Firecrawl n8n node version does not expose profile settings on
 }
 ```
 
-### Search and optionally scrape search results
+For details, see the [Interact documentation](https://docs.firecrawl.dev/features/interact.md).
 
-Performs web searches and returns results with optional content scraping.
+### Search Web
+
+Resource: **Map & Search**. Performs web searches and returns results with optional content scraping.
 
 **What it does:**
 
@@ -515,15 +532,18 @@ Performs web searches and returns results with optional content scraping.
 
 **Example use case:** AI news aggregation (like Example 2 above)
 
-### Crawl a website
+### Crawl Website
 
-Recursively discovers and scrapes multiple pages from a website.
+Resource: **Crawling**. Recursively discovers and scrapes multiple pages from a website.
 
 **What it does:**
 
 * Follows links automatically
-* Scrapes multiple pages in one operation
+* Scrapes multiple pages in one job
 * Can filter URLs by patterns
+* Returns a crawl job ID; add a second Firecrawl node with **Get Crawl Status** to read the scraped pages
+
+The Crawling resource also has **Cancel Crawl Job**, **Get Crawl Errors**, **Get Many Active Crawls**, and **Preview Crawl Parameters** (turns a natural language prompt into crawl settings).
 
 **Best for:**
 
@@ -531,13 +551,13 @@ Recursively discovers and scrapes multiple pages from a website.
 * Site archiving
 * Multi-page data collection
 
-### Map a website and get urls
+### Map Website
 
-Returns all URLs found on a website without scraping content.
+Resource: **Map & Search**. Returns the URLs found on a website without scraping content.
 
 **What it does:**
 
-* Discovers all links on a site
+* Discovers links on a site
 * Returns clean URL list
 * Fast and lightweight
 
@@ -547,31 +567,17 @@ Returns all URLs found on a website without scraping content.
 * Sitemap generation
 * Planning larger crawls
 
-### Extract Data
+### Batch Scrape URLs
 
-Uses AI to extract structured information based on custom prompts or schemas.
-
-**What it does:**
-
-* AI-powered data extraction
-* Returns data in your specified format
-* Works across multiple pages
-
-**Best for:**
-
-* Custom data extraction
-* Building databases
-* Structured information gathering
-
-### Batch Scrape
-
-Scrapes multiple URLs in parallel efficiently.
+Resource: **Scraping**. Scrapes multiple URLs in parallel in one job.
 
 **What it does:**
 
-* Processes multiple URLs at once
+* Processes a list of URLs at once, with the same scrape options for each
 * More efficient than loops
-* Returns all results together
+* Returns a batch job ID; add **Get Batch Scrape Status** to read all results together
+
+The Scraping resource also has **Get Batch Scrape Errors** and **Cancel Batch Scrape Job**.
 
 **Best for:**
 
@@ -581,14 +587,14 @@ Scrapes multiple URLs in parallel efficiently.
 
 ### Agent
 
-Uses an AI agent to autonomously browse and extract data from websites based on a natural language prompt.
+Resource: **Agent**. Uses an AI agent to autonomously browse and extract data from websites based on a natural language prompt.
 
 **What it does:**
 
-* Accepts a prompt describing what data you need
+* Accepts a prompt describing what data you need, plus optional URLs and a JSON schema
 * AI agent navigates and extracts information autonomously
-* Available in **Sync** mode (waits for results) and **Async** mode (returns a job ID immediately)
-* Use **Get Agent Status** to poll for results when using Async mode
+* Available as **Extract Data With AI Agent** (waits for results) and **Start AI Agent Job (Async)** (returns a job ID immediately)
+* Use **Get Agent Status** to poll for results when using the async operation
 
 **Best for:**
 
@@ -598,21 +604,28 @@ Uses an AI agent to autonomously browse and extract data from websites based on 
 
 **Sync vs. Async:**
 
-* **Agent (Sync)** starts the job and waits for the result in one step — simplest for most use cases. The **Max Wait Time** parameter controls how long the node polls before timing out (default: 300 seconds, maximum: 600 seconds). If the agent job takes longer than this, the node returns a timeout status even though the job may still complete on the Firecrawl side. For jobs that may exceed 10 minutes, use the async mode instead.
-* **Agent (Async)** returns a job ID immediately. Add a second Firecrawl node with the **Get Agent Status** operation to retrieve results once the job completes.
+* **Extract Data With AI Agent** starts the job and waits for the result in one step, which is simplest for most use cases. The **Max Wait Time** parameter controls how long the node polls before timing out (default: 300 seconds, maximum: 600 seconds). If the agent job takes longer than this, the node returns a `timeout` status with the `jobId`, even though the job may still complete on the Firecrawl side. Pass that ID to **Get Agent Status**, or use the async operation for jobs that may exceed 10 minutes.
+* **Start AI Agent Job (Async)** returns a job ID immediately. Add a second Firecrawl node with the **Get Agent Status** operation to retrieve results once the job completes.
 
-For details on the agent feature, see the [Agent documentation](/features/agent).
+For details on the agent feature, see the [Agent documentation](https://docs.firecrawl.dev/features/agent.md).
+
+### Extract Structured Data (legacy)
+
+Resource: **Extract (Legacy)**. Uses AI to extract structured information from a list of URLs based on a prompt or schema, with **Get Extract Status** to read the results.
+
+This resource calls the legacy `/extract` endpoint. For new workflows, use **Agent** instead, or **Scrape URL** with the **JSON** format when you already know the page.
 
 ### Browser Sandbox
 
-Provides a persistent browser session that you can control with code, allowing multi-step browser automation within a single session.
+Resource: **Browser**. Provides a persistent browser session that you can control with code, allowing multi-step browser automation within a single session.
 
 **Operations:**
 
-* **Create Browser Session** — starts a new browser session and returns a `sessionId`
-* **Execute Browser Code** — runs JavaScript, Python, or bash code in the session (using the `sessionId` from the Create step)
-* **List Browser Sessions** — lists active or destroyed sessions
-* **Delete Browser Session** — destroys a session when you are done
+* **Create Browser Session**: starts a new browser session and returns its `id`
+* **Execute Browser Code**: runs Node (Playwright), Python, or Bash code in the session, using the `id` from the Create step as the **Session ID**
+* **Get Many Browser Sessions**: lists active or destroyed sessions
+* **Delete Browser Session**: destroys a session when you are done
+* **Get Browser Context**: returns usage instructions and active sessions for AI agents that call these operations as tools
 
 **Best for:**
 
@@ -620,9 +633,13 @@ Provides a persistent browser session that you can control with code, allowing m
 * Dynamic page navigation where the number of steps is not known in advance
 * Workflows that use persistent browser profiles to preserve cookies and localStorage across runs
 
-In n8n, select the **Browser** resource on the Firecrawl node to access these operations. Pass the `sessionId` from the Create step into each subsequent Execute or Delete step. Use n8n's **Loop Over Items** node to iterate through a dynamic list of pages, calling Execute for each one within the same session.
+Pass the session `id` from the Create step into each subsequent Execute or Delete step. Use n8n's **Loop Over Items** node to iterate through a dynamic list of pages, calling Execute for each one within the same session.
 
-For details on the Browser Sandbox feature, see the [Browser Sandbox documentation](/features/browser).
+For details on the Browser Sandbox feature, see the [Browser Sandbox documentation](https://docs.firecrawl.dev/features/browser.md).
+
+### Account
+
+Resource: **Account**. Reads your team's credit usage, token usage, and queue status, so a workflow can check remaining credits before a large job.
 
 ## Workflow Templates and Examples
 
@@ -630,27 +647,33 @@ Instead of building from scratch, you can start with pre-built templates. The n8
 
 ### Featured Templates
 
+> [card] [Complete n8n Tutorial](https://www.firecrawl.dev/blog/firecrawl-n8n-web-automation)
+>
+> Build an AI chatbot with web access using Firecrawl and n8n
 
-    Build an AI chatbot with web access using Firecrawl and n8n
+> [card] [8 Production Workflows](https://www.firecrawl.dev/blog/n8n-web-scraping-workflow-templates)
+>
+> Ready-to-use templates for lead generation, price monitoring, and more
 
+> [card] [Supabase pgvector RAG Pipeline](https://n8n.io/workflows/13911-scrape-and-ingest-web-content-into-supabase-pgvector-with-firecrawl/)
+>
+> Scrape pages into embeddings and store in Supabase pgvector for RAG
 
-    Ready-to-use templates for lead generation, price monitoring, and more
+> [card] [Lead Enrichment with AI](https://n8n.io/workflows/13910-enrich-company-leads-with-firecrawl-openrouter-ai-and-supabase/)
+>
+> Scrape company websites and extract structured business signals
 
+> [card] [Pinecone RAG Pipeline](https://n8n.io/workflows/13964-scrape-and-ingest-web-pages-into-a-pinecone-rag-stack-with-firecrawl-and-openai/)
+>
+> Scrape pages into embeddings and store in Pinecone for RAG
 
-    Scrape pages into embeddings and store in Supabase pgvector for RAG
+> [card] [n8n Community Workflows](https://n8n.io/workflows?search=firecrawl)
+>
+> Browse hundreds of workflows using Firecrawl
 
-
-    Scrape company websites and extract structured business signals
-
-
-    Scrape pages into embeddings and store in Pinecone for RAG
-
-
-    Browse hundreds of workflows using Firecrawl
-
-
-    View official integration documentation
-
+> [card] [Official n8n Integration](https://n8n.io/integrations/firecrawl/)
+>
+> View official integration documentation
 
 ### How to Import Templates
 
@@ -663,7 +686,7 @@ To use a template from the n8n community:
 5. Customize settings for your use case
 6. Activate the workflow
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-workflow-import.gif?s=5bd77d25fa2dc525e0032a483803fd00" alt="Importing a template from n8n.io, showing the import button and workflow appearing in n8n" width="2088" height="1080" data-path="images/guides/n8n/n8n-workflow-import.gif" />
+![Importing a template from n8n.io, showing the import button and workflow appearing in n8n](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-workflow-import.gif?s=5bd77d25fa2dc525e0032a483803fd00)
 
 ## Best Practices
 
@@ -676,7 +699,7 @@ Follow these guidelines to build reliable, efficient workflows:
 * Check output data at each node to verify correctness
 * Use the "**Executions**" tab to review past runs and debug issues
 
-<img src="https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-debugging.gif?s=2962335b6f72ea39cf6cb68cb6ed83c3" alt="Executions tab showing workflow run history with timestamps and status" width="2080" height="1080" data-path="images/guides/n8n/n8n-debugging.gif" />
+![Executions tab showing workflow run history with timestamps and status](https://mintcdn.com/firecrawl/ATrkZnTEGYY5UO9D/images/guides/n8n/n8n-debugging.gif?s=2962335b6f72ea39cf6cb68cb6ed83c3)
 
 ### Error Handling
 
@@ -723,13 +746,13 @@ You now have the fundamentals to build web scraping automations with Firecrawl a
 4. Explore advanced Firecrawl operations
 5. Contribute your own templates to help others
 
-
-  **Need help?** If you're stuck or have questions, the Firecrawl and n8n communities are active and helpful. Don't hesitate to ask for guidance as you build your automations.
-
+> [!NOTE]
+>
+> **Need help?** If you're stuck or have questions, the Firecrawl and n8n communities are active and helpful. Don't hesitate to ask for guidance as you build your automations.
 
 ## Additional Resources
 
-* [Firecrawl API Documentation](/api-reference/v2-introduction)
+* [Firecrawl API Documentation](https://docs.firecrawl.dev/api-reference/v2-introduction.md)
 * [n8n Documentation](https://docs.n8n.io/)
 * [Web Scraping Best Practices](https://www.firecrawl.dev/blog)
 

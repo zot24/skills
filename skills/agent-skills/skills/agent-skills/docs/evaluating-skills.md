@@ -124,9 +124,9 @@ Timing data lets you compare how much time and tokens the skill costs relative t
 }
 ```
 
-
-  In Claude Code, when a subagent task finishes, the [task completion notification](https://platform.claude.com/docs/en/agent-sdk/typescript#sdk-task-notification-message) includes `total_tokens` and `duration_ms`. Save these values immediately — they aren't persisted anywhere else.
-
+> [!TIP]
+>
+> In Claude Code, when a subagent task finishes, the [task completion notification](https://platform.claude.com/docs/en/agent-sdk/typescript#sdk-task-notification-message) includes `total_tokens` and `duration_ms`. Save these values immediately — they aren't persisted anywhere else.
 
 ## Writing assertions
 
@@ -211,9 +211,9 @@ The simplest approach is to give the outputs and assertions to an LLM and ask it
 * **Require concrete evidence for a PASS.** Don't give the benefit of the doubt. If an assertion says "includes a summary" and the output has a section titled "Summary" with one vague sentence, that's a FAIL — the label is there but the substance isn't.
 * **Review the assertions themselves, not just the results.** While grading, notice when assertions are too easy (always pass regardless of skill quality), too hard (always fail even when the output is good), or unverifiable (can't be checked from the output alone). Fix these for the next iteration.
 
-
-  For comparing two skill versions, try **blind comparison**: present both outputs to an LLM judge without revealing which came from which version. The judge scores holistic qualities — organization, formatting, usability, polish — on its own rubric, free from bias about which version "should" be better. This complements assertion grading: two outputs might both pass all assertions but differ significantly in overall quality.
-
+> [!TIP]
+>
+> For comparing two skill versions, try **blind comparison**: present both outputs to an LLM judge without revealing which came from which version. The judge scores holistic qualities — organization, formatting, usability, polish — on its own rubric, free from bias about which version "should" be better. This complements assertion grading: two outputs might both pass all assertions but differ significantly in overall quality.
 
 ## Aggregating results
 
@@ -243,9 +243,9 @@ Once every run in the iteration is graded, compute summary statistics per config
 
 The `delta` tells you what the skill costs (more time, more tokens) and what it buys (higher pass rate). A skill that adds 13 seconds but improves pass rate by 50 percentage points is probably worth it. A skill that doubles token usage for a 2-point improvement might not be.
 
-
-  Standard deviation (`stddev`) is only meaningful with multiple runs per eval. In early iterations with just 2-3 test cases and single runs, focus on the raw pass counts and the delta — the statistical measures become useful as you expand the test set and run each eval multiple times.
-
+> [!NOTE]
+>
+> Standard deviation (`stddev`) is only meaningful with multiple runs per eval. In early iterations with just 2-3 test cases and single runs, focus on the raw pass counts and the delta — the statistical measures become useful as you expand the test set and run each eval multiple times.
 
 ## Analyzing patterns
 
@@ -285,7 +285,7 @@ The most effective way to turn these signals into skill improvements is to give 
 * **Generalize from feedback.** The skill will be used across many different prompts, not just the test cases. Fixes should address underlying issues broadly rather than adding narrow patches for specific examples.
 * **Keep the skill lean.** Fewer, better instructions often outperform exhaustive rules. If transcripts show wasted work (unnecessary validation, unneeded intermediate outputs), remove those instructions. If pass rates plateau despite adding more rules, the skill may be over-constrained — try removing instructions and see if results hold or improve.
 * **Explain the why.** Reasoning-based instructions ("Do X because Y tends to cause Z") work better than rigid directives ("ALWAYS do X, NEVER do Y"). Models follow instructions more reliably when they understand the purpose.
-* **Bundle repeated work.** If every test run independently wrote a similar helper script (a chart builder, a data parser), that's a signal to bundle the script into the skill's `scripts/` directory. See [Using scripts](/skill-creation/using-scripts) for how to do this.
+* **Bundle repeated work.** If every test run independently wrote a similar helper script (a chart builder, a data parser), that's a signal to bundle the script into the skill's `scripts/` directory. See [Using scripts](https://agentskills.io/skill-creation/using-scripts.md) for how to do this.
 
 ### The loop
 
@@ -297,6 +297,6 @@ The most effective way to turn these signals into skill improvements is to give 
 
 Stop when you're satisfied with the results, feedback is consistently empty, or you're no longer seeing meaningful improvement between iterations.
 
-
-  The [`skill-creator`](https://github.com/anthropics/skills/tree/main/skills/skill-creator) Skill automates much of this workflow — running evals, grading assertions, aggregating benchmarks, and presenting results for human review.
-
+> [!TIP]
+>
+> The [`skill-creator`](https://github.com/anthropics/skills/tree/main/skills/skill-creator) Skill automates much of this workflow — running evals, grading assertions, aggregating benchmarks, and presenting results for human review.

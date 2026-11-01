@@ -48,20 +48,20 @@ end
 IO.puts(result.body["data"]["markdown"])
 ```
 
-
-  ```json
-  {
-    "success": true,
-    "data": {
-      "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
-      "metadata": {
-        "title": "Example Domain",
-        "sourceURL": "https://example.com"
-      }
-    }
-  }
-  ```
-
+> [accordion] Example response
+>
+> ```json
+> {
+>   "success": true,
+>   "data": {
+>     "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
+>     "metadata": {
+>       "title": "Example Domain",
+>       "sourceURL": "https://example.com"
+>     }
+>   }
+> }
+> ```
 
 ## Interact with a page
 
@@ -112,17 +112,21 @@ export FIRECRAWL_API_KEY=fc-YOUR-API-KEY
 
 ## Next steps
 
+> [card] [Scrape docs](https://docs.firecrawl.dev/features/scrape.md)
+>
+> All scrape options including formats, actions, and proxies
 
-    All scrape options including formats, actions, and proxies
+> [card] [Search docs](https://docs.firecrawl.dev/features/search.md)
+>
+> Search the web and get full page content
 
+> [card] [Interact docs](https://docs.firecrawl.dev/features/interact.md)
+>
+> Click, fill forms, and extract dynamic content
 
-    Search the web and get full page content
-
-
-    Click, fill forms, and extract dynamic content
-
-
-    Full SDK reference with crawl, map, batch scrape, and more
+> [card] [Elixir SDK reference](https://docs.firecrawl.dev/sdks/elixir.md)
+>
+> Full SDK reference with crawl, map, batch scrape, and more
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

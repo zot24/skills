@@ -8,11 +8,11 @@
 
 > Design your workspace, peers, and sessions for common application patterns
 
-
-  This page covers **how to structure** workspaces, peers, and sessions for real applications. For the conceptual model behind them, start with [Architecture](/docs/v3/documentation/core-concepts/architecture).
-
-  Ready to add Honcho to your codebase? The **`/honcho-integration` skill** applies these patterns for you — it explores your code, asks how your peers and sessions should map to your app, and wires in the Honcho SDK. Run it in any coding agent that supports skills (Claude Code, Cursor, and others).
-
+> [!NOTE]
+>
+> This page covers **how to structure** workspaces, peers, and sessions for real applications. For the conceptual model behind them, start with [Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md).
+>
+> Ready to add Honcho to your codebase? The **`/honcho-integration` skill** applies these patterns for you — it explores your code, asks how your peers and sessions should map to your app, and wires in the Honcho SDK. Run it in any coding agent that supports skills (Claude Code, Cursor, and others).
 
 ## Quick Reference
 
@@ -27,21 +27,21 @@
 | How does cross-session reasoning work? | Session memory stays local to one session. Peer representations accumulate across every session where the peer is included, and `session.context()` becomes cross-session when you include a peer target. |
 | Should I set `observe_me: false`? | Yes, for deterministic peers Honcho does not need to model, like bots or tool agents. Still save their messages so other peers have session context. Keep it enabled for users and evolving agents. |
 | Do I need `observe_others`? | Only when a peer needs its own perspective on another participant, such as in games, multi-agent systems, or parent/subagent workflows. |
-| When do I need a scope? | When one peer's history spans contexts that must not leak into each other's recall — but you still want one workspace and one unified peer. Group the confidential sessions into a [scope](/docs/v3/documentation/features/advanced/scopes) and pass it at query time. |
-| Peer chat or workspace chat? | `peer.chat()` for one peer's perspective (personalization, what one agent knows about another). [`honcho.chat()`](/docs/v3/documentation/features/chat#workspace-chat) when the question spans peers: team digests, cross-agent themes, or you don't know which peer holds the answer. |
+| When do I need a scope? | When one peer's history spans contexts that must not leak into each other's recall — but you still want one workspace and one unified peer. Group the confidential sessions into a [scope](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md) and pass it at query time. |
+| Peer chat or workspace chat? | `peer.chat()` for one peer's perspective (personalization, what one agent knows about another). [`honcho.chat()`](https://honcho.dev/docs/v3/documentation/features/chat#workspace-chat) when the question spans peers: team digests, cross-agent themes, or you don't know which peer holds the answer. |
 | Perspectives or scopes? | `observe_others` gives a *participant* its own view of another peer. A scope bounds recall to *where things were said*, for a reader that isn't a participant. If the reader is in the session, use perspectives; if you're fencing off a set of sessions, use a scope. |
 
 ## Workspace Design
 
 A workspace is a hard isolation boundary. **Default to one workspace per application,** and split only at a real privacy, compliance, or product boundary (e.g. per-tenant SaaS, or a tool that needs intentionally isolated memory). Agents that collaborate over the same product, user, or game state belong in the *same* workspace so each can retrieve what the others produced.
 
-If what you actually need is "this part of a peer's history shouldn't inform that assistant," don't split the workspace — that severs the peer's identity too. Use a [scope](/docs/v3/documentation/features/advanced/scopes) instead: the peer stays whole, and recall through the scope sees only its member sessions.
+If what you actually need is "this part of a peer's history shouldn't inform that assistant," don't split the workspace — that severs the peer's identity too. Use a [scope](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md) instead: the peer stays whole, and recall through the scope sees only its member sessions.
 
-Honcho plugins default to one workspace *per host* (`hermes`, `claude_code`, `cursor`, `opencode`). To unify memory across them, point each at the same workspace — see [Unified Memory Setup](/docs/v3/guides/recipes/unified-memory-setup).
+Honcho plugins default to one workspace *per host* (`hermes`, `claude_code`, `cursor`, `opencode`). To unify memory across them, point each at the same workspace — see [Unified Memory Setup](https://honcho.dev/docs/v3/guides/recipes/unified-memory-setup.md).
 
-
-  The SDK creates a workspace called `default` when no `workspace_id` is specified.
-
+> [!NOTE]
+>
+> The SDK creates a workspace called `default` when no `workspace_id` is specified.
 
 ***
 
@@ -49,9 +49,9 @@ Honcho plugins default to one workspace *per host* (`hermes`, `claude_code`, `cu
 
 Give each real-world entity **one** stable peer ID and reuse it everywhere — splitting one entity across `user-web`, `user-discord`, and `user-slack` builds three separate representations. Prefix IDs by source for multi-channel apps (`discord_491827364`), and if a peer goes by multiple names, store the aliases in its peer card with `set_card()` / `setCard()`.
 
-
-  For unified context across Honcho plugins, set the same user peer ID (`peerName`) everywhere — that shared ID is what connects memory across Claude Code, Cursor, OpenCode, and your own app. See [Unified Memory Setup](/docs/v3/guides/recipes/unified-memory-setup).
-
+> [!TIP]
+>
+> For unified context across Honcho plugins, set the same user peer ID (`peerName`) everywhere — that shared ID is what connects memory across Claude Code, Cursor, OpenCode, and your own app. See [Unified Memory Setup](https://honcho.dev/docs/v3/guides/recipes/unified-memory-setup.md).
 
 ***
 
@@ -76,7 +76,7 @@ Create a **new** session when context resets (new conversation, new day, new top
 * **Session memory** is local to an interaction — summaries and recent-message context describe only what happened there.
 * **Peer memory** (representations) accumulates reasoning across every session the peer is part of.
 
-So you can start a session fresh or pull in a peer's long-term memory. [`session.context()`](/docs/v3/documentation/features/get-context) returns the current session's summary and recent messages; add a [peer target](/docs/v3/documentation/features/get-context#peer-representation-in-context) to fold in that peer's cross-session history.
+So you can start a session fresh or pull in a peer's long-term memory. [`session.context()`](https://honcho.dev/docs/v3/documentation/features/get-context) returns the current session's summary and recent messages; add a [peer target](https://honcho.dev/docs/v3/documentation/features/get-context.md#peer-representation-in-context) to fold in that peer's cross-session history.
 
 ***
 
@@ -87,7 +87,7 @@ Honcho gives you three boundaries at different strengths. Pick the weakest one t
 | Boundary | Strength | Use when |
 | - | - | - |
 | **Workspace** | Hard isolation — nothing crosses, including the peer itself | Different products, tenants, or environments |
-| **[Scope](/docs/v3/documentation/features/advanced/scopes)** | Recall boundary — one peer, but queries through the scope see only its sessions | One peer's contexts must not leak into each other (clinical vs. billing, per-reseller support) |
+| **[Scope](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md)** | Recall boundary — one peer, but queries through the scope see only its sessions | One peer's contexts must not leak into each other (clinical vs. billing, per-reseller support) |
 | **Session allowlist** (`sessions=[...]`) | Ad-hoc recall restriction, decided per request | The session set varies per query, or you need a quick boundary without provisioning anything |
 
 Two things scopes are **not**:
@@ -111,20 +111,25 @@ Two things scopes are **not**:
 
 ## Next Steps
 
+> [card] [Unified Memory Setup](https://honcho.dev/docs/v3/guides/recipes/unified-memory-setup.md)
+>
+> Wire these patterns into one shared workspace across four integrations
 
-    Wire these patterns into one shared workspace across four integrations
+> [card] [Get Context](https://honcho.dev/docs/v3/documentation/features/get-context.md)
+>
+> Retrieve formatted context from sessions for your LLM
 
+> [card] [Scopes](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md)
+>
+> Bound recall to named sets of sessions
 
-    Retrieve formatted context from sessions for your LLM
+> [card] [Chat Endpoint](https://honcho.dev/docs/v3/documentation/features/chat.md)
+>
+> Query Honcho about one peer, or across the whole workspace
 
-
-    Bound recall to named sets of sessions
-
-
-    Query Honcho about one peer, or across the whole workspace
-
-
-    Fine-tune what gets reasoned about and how
+> [card] [Reasoning Configuration](https://honcho.dev/docs/v3/documentation/features/advanced/reasoning-configuration.md)
+>
+> Fine-tune what gets reasoned about and how
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

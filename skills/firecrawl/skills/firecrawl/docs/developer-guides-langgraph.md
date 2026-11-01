@@ -8,7 +8,7 @@
 
 > Integrate Firecrawl with LangGraph for building agent workflows
 
-This guide shows how to integrate Firecrawl with LangGraph to build AI agent workflows that can scrape and process web content.
+This guide shows how to use Firecrawl, the context API for AI agents, with LangGraph to build agent workflows that scrape web pages into clean Markdown and process the content.
 
 ## Setup
 
@@ -39,7 +39,7 @@ const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
 // Initialize LLM
 const llm = new ChatOpenAI({
-    model: "gpt-5-nano",
+    model: "gpt-5.6-luna",
     apiKey: process.env.OPENAI_API_KEY
 });
 
@@ -91,7 +91,7 @@ import { ChatOpenAI } from '@langchain/openai';
 import { StateGraph, Annotation, START, END } from '@langchain/langgraph';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
-const llm = new ChatOpenAI({ model: "gpt-5-nano", apiKey: process.env.OPENAI_API_KEY });
+const llm = new ChatOpenAI({ model: "gpt-5.6-luna", apiKey: process.env.OPENAI_API_KEY });
 
 // Define custom state
 const WorkflowState = Annotation.Root({
@@ -141,7 +141,7 @@ const result = await app.invoke({
 console.log(result.summary);
 ```
 
-For more examples, check the [LangGraph documentation](https://langchain-ai.github.io/langgraphjs/).
+For more examples, check the [LangGraph documentation](https://docs.langchain.com/oss/javascript/langgraph/overview).
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

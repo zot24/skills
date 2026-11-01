@@ -10,9 +10,9 @@
 
 [OpenClaw](https://openclaw.ai) is a general AI agent that can perform actions on behalf of a user. The Honcho plugin gives OpenClaw memory across every channel — WhatsApp, Telegram, Discord, Slack, and more.
 
-
-  Honcho can run entirely locally with OpenClaw — no external API required. Keep your data on your machine while getting full memory capabilities across all channels. See the [self-hosting guide](/docs/v3/contributing/self-hosting) to get started.
-
+> [!NOTE]
+>
+> Honcho can run entirely locally with OpenClaw — no external API required. Keep your data on your machine while getting full memory capabilities across all channels. See the [self-hosting guide](https://honcho.dev/docs/v3/contributing/self-hosting.md) to get started.
 
 For OpenClaw's own documentation on Honcho, see the [Honcho Memory guide](https://docs.openclaw.ai/concepts/memory-honcho).
 
@@ -26,28 +26,28 @@ openclaw gateway --force
 
 `openclaw honcho setup` prompts for your API key, writes the config, and optionally uploads any legacy memory files to Honcho.
 
-<iframe className="w-full aspect-video rounded-xl" src="https://www.loom.com/embed/bc870932f1694302a80f1f71276790e8" title="Loom video" allowFullScreen />
+[Loom video](https://www.loom.com/embed/bc870932f1694302a80f1f71276790e8)
 
-
-  **Alternative: ClawHub Skill**
-
-  The `honcho-setup` skill handles installation and migration interactively from a chat session:
-
-  ```bash
-  npx clawhub install honcho-setup
-  # Restart OpenClaw, then invoke the skill from a session
-  openclaw plugins install @honcho-ai/openclaw-honcho
-  openclaw gateway restart
-  ```
-
+> [!NOTE]
+>
+> **Alternative: ClawHub Skill**
+>
+> The `honcho-setup` skill handles installation and migration interactively from a chat session:
+>
+> ```bash
+> npx clawhub install honcho-setup
+> # Restart OpenClaw, then invoke the skill from a session
+> openclaw plugins install @honcho-ai/openclaw-honcho
+> openclaw gateway restart
+> ```
 
 ## Migrating Legacy Memory
 
 If you have existing workspace memory files (`USER.md`, `MEMORY.md`, `IDENTITY.md`, `memory/`, `canvas/`, etc.), `openclaw honcho setup` will detect them and offer to migrate them.
 
-
-  Migration is **non-destructive** — files are uploaded to Honcho. Originals are never deleted or moved.
-
+> [!NOTE]
+>
+> Migration is **non-destructive** — files are uploaded to Honcho. Originals are never deleted or moved.
 
 ### Legacy files
 
@@ -163,14 +163,17 @@ When QMD is configured, you get both Honcho and local file tools:
 
 ## Next Steps
 
+> [card] [GitHub Repository](https://github.com/plastic-labs/openclaw-honcho)
+>
+> Source code, issues, and README.
 
-    Source code, issues, and README.
+> [card] [OpenClaw Memory Docs](https://docs.openclaw.ai/concepts/memory)
+>
+> Memory backends, search, and configuration in the OpenClaw docs.
 
-
-    Memory backends, search, and configuration in the OpenClaw docs.
-
-
-    Learn about peers, sessions, and dialectic reasoning.
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Learn about peers, sessions, and dialectic reasoning.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

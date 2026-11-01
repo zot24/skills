@@ -12,12 +12,13 @@ Audit entire websites for SEO and AI readability at scale. Firecrawl extracts me
 
 ## Start with a Template
 
+> [card] [FireGEO](https://github.com/firecrawl/firegeo)
+>
+> GEO-powered SEO monitoring and multi-region rank tracking
 
-  GEO-powered SEO monitoring and multi-region rank tracking
-
-
-  **Get started with the FireGEO template.** Optimize for both search engines and AI assistants.
-
+> [!NOTE]
+>
+> **Get started with the FireGEO template.** Optimize for both search engines and AI assistants.
 
 ## How It Works
 
@@ -42,27 +43,31 @@ Audit entire websites instead of sampling a handful of pages. Extract meta tags,
 
 ## FAQs
 
+> [accordion] How can I optimize my site for AI assistants?
+>
+> Firecrawl helps you structure content for optimal AI comprehension, extract semantic signals, and ensure your site follows best practices for AI discovery. This includes generating experimental formats like llms.txt (an emerging convention for AI crawler guidance).
 
-    Firecrawl helps you structure content for optimal AI comprehension, extract semantic signals, and ensure your site follows best practices for AI discovery. This includes generating experimental formats like llms.txt (an emerging convention for AI crawler guidance).
+> [accordion] How does Firecrawl support SEO audits?
+>
+> Firecrawl extracts complete site structures, meta tags, headers, internal links, and content to perform comprehensive SEO audits. Identify optimization opportunities and track improvements over time.
 
+> [accordion] Can Firecrawl help with competitor SEO analysis?
+>
+> Yes. Analyze competitor site structures, keyword usage, content strategies, and technical SEO implementations. Understand what's working in your industry to inform your strategy.
 
-    Firecrawl extracts complete site structures, meta tags, headers, internal links, and content to perform comprehensive SEO audits. Identify optimization opportunities and track improvements over time.
+> [accordion] How can I use Firecrawl for content gap analysis?
+>
+> Crawl competitor sites to identify topics they cover that you don't. Extract their content categories, blog topics, and page structures to find opportunities for new content.
 
-
-    Yes. Analyze competitor site structures, keyword usage, content strategies, and technical SEO implementations. Understand what's working in your industry to inform your strategy.
-
-
-    Crawl competitor sites to identify topics they cover that you don't. Extract their content categories, blog topics, and page structures to find opportunities for new content.
-
-
-    Yes. Identify broken links, track redirect chains, extract canonical tags, and monitor meta tag implementation. Regular crawls help identify technical SEO issues across your site.
-
+> [accordion] Does Firecrawl help with technical SEO monitoring?
+>
+> Yes. Identify broken links, track redirect chains, extract canonical tags, and monitor meta tag implementation. Regular crawls help identify technical SEO issues across your site.
 
 ## Related Use Cases
 
-* [AI Platforms](/use-cases/ai-platforms) - Build AI-powered SEO tools
-* [Competitive Intelligence](/use-cases/competitive-intelligence) - Track competitor SEO
-* [Content Generation](/use-cases/content-generation) - Create SEO content
+* [AI Platforms](https://docs.firecrawl.dev/use-cases/ai-platforms.md) - Build AI-powered SEO tools
+* [Competitive Intelligence](https://docs.firecrawl.dev/use-cases/competitive-intelligence.md) - Track competitor SEO
+* [Content Generation](https://docs.firecrawl.dev/use-cases/content-generation.md) - Create SEO content
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

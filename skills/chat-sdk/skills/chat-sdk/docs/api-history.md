@@ -4,7 +4,7 @@
 title: History
 description: API reference for bot.history, covering the user, thread, and channel scopes.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: reference
 ---
 

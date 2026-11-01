@@ -8,7 +8,7 @@
 
 > Give ElevenLabs voice and chat agents real-time web access with Firecrawl
 
-Give your [ElevenAgents](https://elevenlabs.io/agents) voice and chat agents real-time web access using Firecrawl. This guide covers two integration paths:
+Give your [ElevenAgents](https://elevenlabs.io/agents) voice and chat agents clean context from the live web by using Firecrawl to search and scrape. This guide covers two integration paths:
 
 1. **MCP server** — connect the hosted Firecrawl MCP server for zero-code setup.
 2. **Server webhook tool** — point a custom tool at Firecrawl's REST API for full control over requests.
@@ -24,9 +24,8 @@ The fastest way to give an agent web access. ElevenAgents supports remote MCP se
 
 ### Add the MCP server
 
-1. Open the [Integrations page](https://elevenlabs.io/app/agents/integrations) in ElevenLabs and click **+ Add integration**.
-2. Select **Custom MCP Server** from the integration library.
-3. Fill in the following fields:
+1. Open the [Integrations page](https://elevenlabs.io/app/agents/integrations) in ElevenLabs and click **Add Custom MCP Server**. The first time anyone in your workspace adds an MCP server, ElevenLabs asks you to accept its MCP server terms, which turns on MCP for the whole workspace.
+2. Fill in the following fields:
 
 | Field | Value |
 | - | - |
@@ -34,21 +33,22 @@ The fastest way to give an agent web access. ElevenAgents supports remote MCP se
 | **Description** | Search, scrape, and parse web content with Firecrawl. |
 | **Server type** | Streamable HTTP |
 | **Server URL** | `https://mcp.firecrawl.dev/v2/mcp` |
+| **Secret Token** (optional) | `Bearer fc-YOUR_API_KEY`, stored as a workspace secret |
 
-Keyless MCP exposes exactly Search, Scrape, and Parse, with shared limits. [Sign in](/mcp-server/oauth) or [add an API key](/mcp-server/keyless#add-an-api-key) for the broader tool surface. Keep API keys in an environment variable or secret store, never in a URL.
+Keyless MCP exposes exactly Search, Scrape, and Parse, with shared limits. [Sign in](https://docs.firecrawl.dev/mcp-server/oauth.md) or [add an API key](https://docs.firecrawl.dev/mcp-server/keyless.md#add-an-api-key) for the broader tool surface. Keep API keys in an environment variable or secret store, never in a URL.
 
+> [!NOTE]
+>
+> You must select **Streamable HTTP** as the server type. The default SSE option does not work with the Firecrawl MCP endpoint.
 
-  You must select **Streamable HTTP** as the server type. The default SSE option does not work with the Firecrawl MCP endpoint.
-
-
-4. Under **Tool Approval Mode**, choose an approval level:
+3. Under **Tool Approval Mode**, choose an approval level:
    * **No Approval** — the agent uses tools freely. Fine for read-only scraping.
    * **Fine-Grained Tool Approval** — lets you pre-select which tools can run automatically and which require approval.
    * **Always Ask** (default) — the agent requests permission before every tool call.
 
-5. Check **I trust this server**, then click **Add Server**.
+4. Click **Add Integration**. ElevenLabs saves the server and tests the connection.
 
-ElevenLabs will connect to the keyless server and list Search, Scrape, and Parse.
+ElevenLabs will connect to the keyless server and list Search, Scrape, and Parse. With a Secret Token set, it lists the full Firecrawl MCP tool set.
 
 ### Attach it to an agent
 
@@ -73,7 +73,7 @@ Click **Preview** in the top navigation bar. You can test using the text chat in
 
 > "What does firecrawl.dev do? Go to the site and summarize it for me."
 
-The agent will call the Firecrawl MCP `scrape` tool, receive the page markdown, and respond with a summary.
+The agent will call the Firecrawl MCP `firecrawl_scrape` tool, receive the page markdown, and respond with a summary.
 
 ***
 
@@ -96,9 +96,9 @@ Create a tool that scrapes a single URL and returns its content as markdown.
 | **Method** | POST |
 | **URL** | `https://api.firecrawl.dev/v2/scrape` |
 
-
-  The **Method** field defaults to GET — make sure to change it to **POST**.
-
+> [!NOTE]
+>
+> The **Method** field defaults to GET — make sure to change it to **POST**.
 
 4. Scroll to the **Headers** section and click **Add header** for authentication:
 
@@ -108,11 +108,12 @@ Create a tool that scrapes a single URL and returns its content as markdown.
 
 Alternatively, if you have workspace auth connections configured, you can use the **Authentication** dropdown instead.
 
-5. Add a **body parameter**:
+5. Add **body parameters**:
 
 | Parameter | Type | Description | Required |
 | - | - | - | - |
 | `url` | string | The URL to scrape | Yes |
+| `integration` | string | Constant value `_elevenlabs`. Set it as a constant so the LLM never fills it in. It identifies the request as coming from ElevenAgents. | No |
 
 6. Click **Add tool**.
 
@@ -120,14 +121,14 @@ The Firecrawl API returns the page content as markdown by default. The agent rec
 
 ### Search tool
 
-Create a tool that searches the web and returns results with scraped content.
+Create a tool that searches the web and returns the title, URL, and description of each result.
 
 1. Click **Add tool** → **Webhook** again and configure:
 
 | Field | Value |
 | - | - |
 | **Name** | search\_web |
-| **Description** | Search the web for a query and return relevant results with page content. |
+| **Description** | Search the web for a query and return the title, URL, and description of each result. |
 | **Method** | POST |
 | **URL** | `https://api.firecrawl.dev/v2/search` |
 
@@ -138,7 +139,8 @@ Create a tool that searches the web and returns results with scraped content.
 | Parameter | Type | Description | Required |
 | - | - | - | - |
 | `query` | string | The search query | Yes |
-| `limit` | number | Maximum number of results to return (default 5) | No |
+| `limit` | number | Maximum number of results to return (default 10) | No |
+| `integration` | string | Constant value `_elevenlabs`. Set it as a constant so the LLM never fills it in. It identifies the request as coming from ElevenAgents. | No |
 
 4. Click **Add tool**.
 
@@ -151,7 +153,8 @@ You are a knowledgeable assistant with access to web tools.
 
 - Use `scrape_website` when the user gives you a specific URL to read.
 - Use `search_web` when the user asks a general question that requires
-  finding information online.
+  finding information online. Then call `scrape_website` on the most
+  relevant result URL to read the full page.
 
 Always summarize the information concisely and cite the source URL.
 ```
@@ -168,18 +171,18 @@ The agent will call `search_web`, receive results from Firecrawl, and respond wi
 
 ## Tips
 
-* **Model selection** — For reliable tool calling, use a high-intelligence model such as GPT-4o, Claude Sonnet 5.5, or Gemini 2.5 Flash. Smaller models may struggle to extract the correct parameters.
-* **Keep prompts specific** — Tell the agent exactly when to use each tool. Vague instructions lead to missed or incorrect tool calls.
-* **Limit response size** — For voice agents, long scraped pages can overwhelm the LLM context. Use `onlyMainContent: true` in scrape options (or instruct the agent to summarize aggressively) to keep responses concise.
-* **Tool call sounds** — In the webhook or MCP tool settings, you can configure a **Tool call sound** to play ambient audio while a tool runs. This signals to the user that the agent is working.
+* **Model selection**: For reliable tool calling, use a high-intelligence model such as GPT-4o, Claude Sonnet 5, or Gemini 2.5 Flash. Smaller models may struggle to extract the correct parameters.
+* **Keep prompts specific**: Tell the agent exactly when to use each tool. Vague instructions lead to missed or incorrect tool calls.
+* **Limit response size**: For voice agents, long scraped pages can overwhelm the LLM context. Scrape already returns only the main content by default (`onlyMainContent: true`), so also instruct the agent to summarize aggressively to keep responses concise.
+* **Tool call sounds**: In the webhook or MCP tool settings, you can configure a **Tool call sound** to play ambient audio while a tool runs. This signals to the user that the agent is working.
 
 ## Resources
 
 * [ElevenAgents documentation](https://elevenlabs.io/docs/eleven-agents/overview)
 * [ElevenAgents tools overview](https://elevenlabs.io/docs/eleven-agents/customization/tools)
 * [ElevenAgents MCP integration](https://elevenlabs.io/docs/eleven-agents/customization/tools/mcp)
-* [Firecrawl API reference](https://docs.firecrawl.dev/api-reference/v2-introduction)
-* [Firecrawl MCP server](https://docs.firecrawl.dev/mcp-server)
+* [Firecrawl API reference](https://docs.firecrawl.dev/api-reference/v2-introduction.md)
+* [Firecrawl MCP server](https://docs.firecrawl.dev/mcp-server.md)
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

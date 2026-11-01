@@ -10,16 +10,15 @@
 
 ## Try keyless
 
-<div id="try-instantly" />
-
 Keyless server URL (Streamable HTTP, no credential): `https://mcp.firecrawl.dev/v2/mcp`
 
 * Codex: `codex mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp`
 * Claude Code: `claude mcp add --transport http firecrawl https://mcp.firecrawl.dev/v2/mcp`
 * Cursor or any JSON-config client: `{"mcpServers": {"firecrawl": {"url": "https://mcp.firecrawl.dev/v2/mcp"}}}`
 * OpenCode (`opencode.json`): `{"mcp": {"firecrawl": {"type": "remote", "url": "https://mcp.firecrawl.dev/v2/mcp", "enabled": true}}}`
+* Droid: `droid mcp add firecrawl https://mcp.firecrawl.dev/v2/mcp --type http`
 
-ChatGPT and Claude use the native Firecrawl connector instead: see [For Humans](/mcp-server/oauth.md#chatgpt-and-claude).
+ChatGPT and Claude use the native Firecrawl connector instead: see [For Humans](https://docs.firecrawl.dev/mcp-server/oauth.md#chatgpt-and-claude).
 
 Keyless MCP is rate limited and exposes Search, Scrape, and Parse. Add an API key to unlock the full tool surface or higher limits.
 
@@ -41,9 +40,18 @@ Keyless MCP is rate limited and exposes Search, Scrape, and Parse. Add an API ke
 }
 ```
 
+In Droid, pass the key as a header and turn off OAuth:
+
+```bash theme={null}
+droid mcp add firecrawl https://mcp.firecrawl.dev/v2/mcp --type http \
+  --header "Authorization: Bearer <FIRECRAWL_API_KEY>" --no-oauth
+```
+
+To sign in through the browser instead of pasting a key, see [For Humans](https://docs.firecrawl.dev/mcp-server/oauth.md). [Authentication](https://docs.firecrawl.dev/authentication.md) compares API keys, MCP sign-in and OAuth for your own app.
+
 ## Verify your connection
 
-Open your client's MCP status or tool list and confirm that `firecrawl` is connected. A keyless connection shows `firecrawl_search`, `firecrawl_scrape`, and `firecrawl_parse`; an API-key connection can expose the [full tool surface](/mcp-server/tools), subject to plan, deployment, and team policy.
+Open your client's MCP status or tool list and confirm that `firecrawl` is connected. A keyless connection shows `firecrawl_search`, `firecrawl_scrape`, and `firecrawl_parse`; an API-key connection can expose the [full tool surface](https://docs.firecrawl.dev/mcp-server/tools), subject to plan, deployment, and team policy.
 
 ## Try
 
@@ -55,14 +63,15 @@ If no Firecrawl tools appear, restart or reload the client after saving its MCP 
 
 ## More
 
+> [card] [Choose a tool](https://docs.firecrawl.dev/mcp-server/tools)
+>
+> Find the right Firecrawl MCP tool and review connection-specific availability.
 
-    Find the right Firecrawl MCP tool and review connection-specific availability.
+> [card] [Run locally](https://docs.firecrawl.dev/mcp-server/local)
+>
+> Start the open-source server over stdio or Streamable HTTP.
 
-
-    Start the open-source server over stdio or Streamable HTTP.
-
-
-For the current keyless allowance and plan limits, see [Rate limits](/rate-limits#keyless-no-api-key).
+For the current keyless allowance and plan limits, see [Rate limits](https://docs.firecrawl.dev/rate-limits.md#keyless-no-api-key).
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

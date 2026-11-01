@@ -27,7 +27,7 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.3.0
+  version: 3.5.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -154,6 +154,11 @@ components:
         stream:
           type: boolean
           title: Stream
+          description: >-
+            Return the answer as a text/event-stream. The answer arrives when
+            the agent finishes gathering context, usually as a single chunk;
+            only an answer synthesized at the tool-call limit streams as it is
+            generated.
           default: false
         reasoning_level:
           type: string

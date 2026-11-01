@@ -155,6 +155,49 @@ paths:
                     data get a short reply in `message` instead of a re-run.
                     `exchange.requireApproval` needs `chat` on the same request.
                     Omitted on a follow-up turn keeps the thread's mode.
+                zeroDataRetention:
+                  type: boolean
+                  default: false
+                  description: >-
+                    Run the agent with Zero Data Retention: Firecrawl keeps no
+                    prompt, result or step content in logs or storage, only
+                    billing and status metadata. The result is kept for 24 hours
+                    for retrieval, then deleted. Requires Scrape ZDR and Search
+                    ZDR to be enabled for your team, otherwise the request
+                    returns 400 `zdr_not_enabled`. Cannot be combined with
+                    `threadId`. With `exchange`, only capabilities that support
+                    ZDR are used. See [Zero Data
+                    Retention](https://docs.firecrawl.dev/features/agent#zero-data-retention-zdr).
+                location:
+                  type: object
+                  description: >-
+                    Proxy country for every request the agent makes during the
+                    run: scrapes, batch scrapes and browser sessions go out from
+                    this country, and the agent cannot change it. Search results
+                    are localized to the country. Omitted on a follow-up turn
+                    keeps the thread's country. See [Choosing a
+                    location](https://docs.firecrawl.dev/features/agent#choosing-a-location).
+                  additionalProperties: false
+                  required:
+                    - country
+                  properties:
+                    country:
+                      type: string
+                      description: >-
+                        ISO 3166-1 alpha-2 country code, case-insensitive (e.g.
+                        `DE`, `gb`). Special values such as `us-generic` and
+                        `us-whitelist` are rejected.
+                      example: DE
+                safe:
+                  type: boolean
+                  description: >-
+                    When `true`, every web search the agent makes during the run
+                    filters explicit content, the same filter as the search
+                    endpoint's `safe` option. Pages the agent scrapes or opens
+                    in a browser are not filtered. Omit to keep the default
+                    behavior, which does not apply the filter. Omitted on a
+                    follow-up turn keeps the thread's setting; `false` turns it
+                    off.
                 exchange:
                   type: object
                   description: >-

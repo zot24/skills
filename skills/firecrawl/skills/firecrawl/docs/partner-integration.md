@@ -10,11 +10,11 @@
 
 ## Overview
 
-Firecrawl for Platforms lets your platform create and manage Firecrawl API keys for your users directly from your own backend. Users start using Firecrawl without leaving your platform.
+Firecrawl for Platforms lets your platform create and manage Firecrawl API keys for your users directly from your own backend. Your users can then search, scrape, and interact with the web through Firecrawl, the context API for AI agents, without leaving your platform.
 
-
-  Set up Firecrawl for Platforms yourself in the [Firecrawl dashboard](https://www.firecrawl.dev/app/partner-api). Any admin or member of an organization can create an integration: name it, choose an integration type, accept the agreement for that type, and copy the platform key. The key is shown once. You can mint and revoke keys later under Settings. No application or approval is needed.
-
+> [!NOTE]
+>
+> Set up Firecrawl for Platforms yourself in the [Firecrawl dashboard](https://www.firecrawl.dev/app/partner-api). Any admin or member of an organization can create an integration: name it, choose an integration type, accept the agreement for that type, and copy the platform key. The key is shown once. You can mint and revoke keys later under Settings. No application or approval is needed.
 
 There are two integration types. Both provision accounts the same way through the endpoints below, with the same platform key; they differ in who pays for the user's usage:
 
@@ -23,7 +23,7 @@ There are two integration types. Both provision accounts the same way through th
 
 You choose the integration type when you create the integration. It is not easy to change afterwards, so we recommend reviewing both options carefully before you accept the agreement. See the [Firecrawl for Platforms page](https://www.firecrawl.dev/firecrawl-for-platforms) for an overview.
 
-Some partner offers include promotional credits for provisioned users; when they do, [Partner Credits](/partner-credits) describes what the user receives.
+Some partner offers include promotional credits for provisioned users; when they do, [Partner Credits](https://docs.firecrawl.dev/partner-credits.md) describes what the user receives.
 
 ### Gateway
 
@@ -55,6 +55,39 @@ Platform keys are distinct from standard Firecrawl API keys. You create and revo
 * **Server-side only**: Platform keys must only be used in server-side code. Never expose a platform key in frontend code, client-side JavaScript, or mobile applications.
 * **Terms of Service**: Before calling `POST /partner/v1/accounts`, your platform must prompt the user to accept Firecrawl's [Terms of Service](https://www.firecrawl.dev/terms-of-service).
 
+## Before you are verified
+
+You can create an integration and provision accounts right away, with no application, so you can build and test your integration today. Until Firecrawl verifies your platform:
+
+* **Volume is limited.** The number of accounts your integration can create is limited. That is enough to build and test, not to roll out to all your users.
+* **Accounts carry no free credits.** See [Credits for provisioned accounts](#credits-for-provisioned-accounts).
+
+Every `POST /partner/v1/accounts` response carries a `notice` with the code `partner_unverified` while your platform is unverified, and the Firecrawl for Platforms page in the dashboard shows the same status.
+
+### Request verification
+
+Verification is a manual review on Firecrawl's side. When your integration is live, or you are preparing to launch, write to [partnerships@firecrawl.dev](mailto:partnerships@firecrawl.dev) with your integration ID and the volume you expect.
+
+### What verification unlocks
+
+* Account limits that fit the volume you expect.
+* The Free plan's monthly credits on new and existing accounts. For Gateway accounts those are used before your organization is billed.
+
+### The limit error
+
+When an unverified integration reaches its limit, `POST /partner/v1/accounts` returns `403` and creates no account:
+
+```json theme={null}
+{
+  "error": {
+    "code": "partner_account_cap_reached",
+    "message": "This integration isn't verified yet, so the number of accounts it can create is limited. Email partnerships@firecrawl.dev with your integration ID <integration ID> and the volume you expect to request verification. See https://docs.firecrawl.dev/firecrawl-for-platforms#before-you-are-verified"
+  }
+}
+```
+
+Accounts you have already created keep working, and a repeated call for a user you have already provisioned still returns that account.
+
 ## Credits for provisioned accounts
 
 Accounts your integration creates do not carry free credits unless Firecrawl has verified your platform or you have a signed agreement with Firecrawl. Until then:
@@ -62,13 +95,15 @@ Accounts your integration creates do not carry free credits unless Firecrawl has
 * A **Standard** account starts without included credits. The user can add a payment method or pick a plan in the Firecrawl dashboard at any time.
 * A **Gateway** account bills every credit to your organization.
 
-Once your platform is verified, new and existing accounts carry the Free plan's monthly credits; for Gateway accounts those are used before your organization is billed. Verification is a manual step on Firecrawl's side. When your integration is live, or if you are building a production application, write to [partnerships@firecrawl.dev](mailto:partnerships@firecrawl.dev) with your integration ID.
+Once your platform is verified, new and existing accounts carry the Free plan's monthly credits; for Gateway accounts those are used before your organization is billed. See [Request verification](#request-verification).
+
+When a Gateway account runs out of credits, its requests to the Firecrawl API return `402` with the code `platform_managed_credits` and a message that tells your user to contact your platform.
 
 ## Limits
 
 Account creation is limited per integration, both in how many accounts an integration can create and in how fast. The limits grow with your organization's relationship with Firecrawl and never affect accounts you have already created. A repeated call for a user you have already provisioned returns the existing account and does not count toward the account limit. The address you send for a Standard account has to be one your user can receive mail at.
 
-If you reach a limit, or you are planning a production integration, write to [partnerships@firecrawl.dev](mailto:partnerships@firecrawl.dev) with your integration ID and the volume you expect. If Firecrawl suspends your integration, write to [help@firecrawl.com](mailto:help@firecrawl.com).
+Until your platform is verified, volume is limited; see [Before you are verified](#before-you-are-verified). If you reach a limit, or you are planning a production integration, write to [partnerships@firecrawl.dev](mailto:partnerships@firecrawl.dev) with your integration ID and the volume you expect. If Firecrawl suspends your integration, write to [help@firecrawl.com](mailto:help@firecrawl.com).
 
 ***
 
@@ -138,6 +173,7 @@ For a Gateway integration the response also carries the enrollment status:
 | `apiKey` | string | The Firecrawl API key for the team your integration provisioned for this user |
 | `alreadyExisted` | boolean | `true` if your integration had already provisioned an account for this email. It says nothing about whether the email exists elsewhere in Firecrawl. |
 | `gatewayStatus` | string | Gateway integrations only. `enrolled` on the call that creates the account, `already_enrolled` on repeated calls for the same email. |
+| `notice` | object | Present while your platform is not verified. `code` is `partner_unverified`, `message` explains what is limited and how to request verification, `integrationId` is your integration ID and `docsUrl` links to [Before you are verified](#before-you-are-verified). |
 
 #### Errors
 
@@ -145,7 +181,7 @@ For a Gateway integration the response also carries the enrollment status:
 | - | - |
 | `400` | Bad request - `email` is missing or malformed |
 | `401` | Unauthorized - the platform key is incorrect or invalid |
-| `403` | Refused - the body's `error.code` says why: `partner_account_cap_reached` (the integration is at its account limit), `partner_provisioning_email_rejected` (the address cannot be used for a Firecrawl account) or `partner_integration_suspended`. See [Limits](#limits) |
+| `403` | Refused - the body's `error.code` says why: `partner_account_cap_reached` (the integration is at its account limit; see [The limit error](#the-limit-error)), `partner_provisioning_email_rejected` (the address cannot be used for a Firecrawl account) or `partner_integration_suspended`. See [Limits](#limits) |
 | `429` | Too many requests - `rate_limit_exceeded`; slow down and retry |
 | `502` | Firecrawl could not reach its billing provider while setting the account up - retry the request |
 | `503` | Firecrawl could not check the rate limit - retry shortly |
@@ -259,6 +295,18 @@ curl -X POST "https://integrations.firecrawl.dev/partner/v1/api-keys/rotate" \
 ## Get Started
 
 Create your integration in the [Firecrawl dashboard](https://www.firecrawl.dev/app/partner-api): sign in, choose Standard or Gateway, accept the agreement, and copy your platform key. The integration type is not easy to change afterwards, so please confirm your choice before accepting the agreement. Then call the endpoints above from your server. Questions about your setup? Write to [help@firecrawl.com](mailto:help@firecrawl.com). A larger integration in mind? Write to [partnerships@firecrawl.dev](mailto:partnerships@firecrawl.dev).
+
+## Partner program
+
+Platforms that provision Firecrawl accounts for their users can apply to the Firecrawl Partner Program. Approved partners get a revenue share on paid usage from the users they bring, co-marketing and a listing in our partner directory, early access to new endpoints, a direct line to our team for technical support, and higher limits for their users. The program is by application, and we reply within a week.
+
+In return, partners display "Powered by Firecrawl" in their product, linking to firecrawl.dev with their `?ref=<partner>` tag.
+
+Rev share applies only to new paying customers you refer after your application is approved, never retroactively. Every partner is reviewed and approved by our team.
+
+[Apply to the Partner Program](https://www.firecrawl.dev/firecrawl-for-platforms/partner-program?source=docs)
+
+Writing about Firecrawl or linking to it? The [affiliate program](https://www.firecrawl.dev/affiliates) fits better.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

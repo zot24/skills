@@ -12,128 +12,122 @@ The Honcho SDKs provide ergonomic interfaces for building agentic AI application
 
 ## Installation
 
-<CodeGroup>
-  ```bash Python (uv)
-  uv add honcho-ai
-  ```
+```bash Python (uv) theme={null}
+uv add honcho-ai
+```
 
-  ```bash Python (pip)
-  pip install honcho-ai
-  ```
+```bash Python (pip) theme={null}
+pip install honcho-ai
+```
 
-  ```bash TypeScript (npm)
-  npm install @honcho-ai/sdk
-  ```
+```bash TypeScript (npm) theme={null}
+npm install @honcho-ai/sdk
+```
 
-  ```bash TypeScript (yarn)
-  yarn add @honcho-ai/sdk
-  ```
+```bash TypeScript (yarn) theme={null}
+yarn add @honcho-ai/sdk
+```
 
-  ```bash TypeScript (pnpm)
-  pnpm add @honcho-ai/sdk
-  ```
-</CodeGroup>
+```bash TypeScript (pnpm) theme={null}
+pnpm add @honcho-ai/sdk
+```
 
 ## Quickstart
 
+> [!NOTE]
+>
+> Without configuration, the SDK defaults to the demo server. For production use:
+>
+> 1. Get your API key at [app.honcho.dev/api-keys](https://app.honcho.dev/api-keys)
+> 2. Set `environment="production"` and provide your `api_key`
 
-  Without configuration, the SDK defaults to the demo server. For production use:
+```python Python theme={null}
+from honcho import Honcho
 
-  1. Get your API key at [app.honcho.dev/api-keys](https://app.honcho.dev/api-keys)
-  2. Set `environment="production"` and provide your `api_key`
+# Initialize client (using the default workspace)
+honcho = Honcho()
 
+# Create peers
+alice = honcho.peer("alice")
+assistant = honcho.peer("assistant")
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+# Create a session for conversation
+session = honcho.session("conversation-1")
 
-  # Initialize client (using the default workspace)
-  honcho = Honcho()
-
-  # Create peers
-  alice = honcho.peer("alice")
-  assistant = honcho.peer("assistant")
-
-  # Create a session for conversation
-  session = honcho.session("conversation-1")
-
-  # Add messages to conversation
-  session.add_messages([
-      alice.message("What's the weather like today?"),
-      assistant.message("It's sunny and 75°F outside!")
-  ])
-
-  # Chat with Honcho about a peer
-  response = alice.chat("What did the assistant tell this user about the weather?")
-
-  # Get conversation context for LLM completions
-  context = session.context()
-  openai_messages = context.to_openai(assistant=assistant)
-  ```
-
-  ```typescript TypeScript
-  import { Honcho } from "@honcho-ai/sdk";
-
-  // Initialize client (using the default workspace)
-  const honcho = new Honcho({});
-
-  // Create peers
-  const alice = await honcho.peer("alice");
-  const assistant = await honcho.peer("assistant");
-
-  // Create a session for conversation
-  const session = await honcho.session("conversation-1");
-
-  // Add messages to conversation
-  await session.addMessages([
+# Add messages to conversation
+session.add_messages([
     alice.message("What's the weather like today?"),
     assistant.message("It's sunny and 75°F outside!")
-  ]);
+])
 
-  // Chat with Honcho about a peer
-  const response = await alice.chat("What did the assistant tell this user about the weather?");
+# Chat with Honcho about a peer
+response = alice.chat("What did the assistant tell this user about the weather?")
 
-  // Get conversation context for LLM completions
-  const context = await session.context();
-  const openaiMessages = context.toOpenAI(assistant);
-  ```
-</CodeGroup>
+# Get conversation context for LLM completions
+context = session.context()
+openai_messages = context.to_openai(assistant=assistant)
+```
+
+```typescript TypeScript theme={null}
+import { Honcho } from "@honcho-ai/sdk";
+
+// Initialize client (using the default workspace)
+const honcho = new Honcho({});
+
+// Create peers
+const alice = await honcho.peer("alice");
+const assistant = await honcho.peer("assistant");
+
+// Create a session for conversation
+const session = await honcho.session("conversation-1");
+
+// Add messages to conversation
+await session.addMessages([
+  alice.message("What's the weather like today?"),
+  assistant.message("It's sunny and 75°F outside!")
+]);
+
+// Chat with Honcho about a peer
+const response = await alice.chat("What did the assistant tell this user about the weather?");
+
+// Get conversation context for LLM completions
+const context = await session.context();
+const openaiMessages = context.toOpenAI(assistant);
+```
 
 ## Core Concepts
 
 ### Peers and Representations
 
+> [!NOTE]
+>
+> **Representations** are how Honcho models what peers know. Each peer has a **global representation** (everything they know across all sessions) and **local representations** (what other specific peers know about them, scoped by session or globally).
 
-  **Representations** are how Honcho models what peers know. Each peer has a **global representation** (everything they know across all sessions) and **local representations** (what other specific peers know about them, scoped by session or globally).
+```python Python theme={null}
+# Query alice's global knowledge
+response = alice.chat("What does the user know about weather?")
 
+# Query what alice knows about the assistant (local representation)
+response = alice.chat("What does the user know about the assistant?", target=assistant)
 
-<CodeGroup>
-  ```python Python
-  # Query alice's global knowledge
-  response = alice.chat("What does the user know about weather?")
+# Query scoped to a specific session
+response = alice.chat("What happened in our conversation?", session=session.id)
+```
 
-  # Query what alice knows about the assistant (local representation)
-  response = alice.chat("What does the user know about the assistant?", target=assistant)
+```typescript TypeScript theme={null}
+// Query alice's global knowledge
+const response = await alice.chat("What does the user know about weather?");
 
-  # Query scoped to a specific session
-  response = alice.chat("What happened in our conversation?", session=session.id)
-  ```
+// Query what alice knows about the assistant (local representation)
+const targetResponse = await alice.chat("What does the user know about the assistant?", {
+  target: assistant
+});
 
-  ```typescript TypeScript
-  // Query alice's global knowledge
-  const response = await alice.chat("What does the user know about weather?");
-
-  // Query what alice knows about the assistant (local representation)
-  const targetResponse = await alice.chat("What does the user know about the assistant?", {
-    target: assistant
-  });
-
-  // Query scoped to a specific session
-  const sessionResponse = await alice.chat("What happened in our conversation?", {
-    sessionId: session.id
-  });
-  ```
-</CodeGroup>
+// Query scoped to a specific session
+const sessionResponse = await alice.chat("What happened in our conversation?", {
+  sessionId: session.id
+});
+```
 
 ## Core Classes
 
@@ -141,45 +135,43 @@ The Honcho SDKs provide ergonomic interfaces for building agentic AI application
 
 The main entry point for workspace operations:
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  # Basic initialization (uses environment variables)
-  honcho = Honcho(workspace_id="my-app-name")
+# Basic initialization (uses environment variables)
+honcho = Honcho(workspace_id="my-app-name")
 
-  # Full configuration
-  honcho = Honcho(
-      workspace_id="my-app-name",
-      api_key="my-api-key",
-      environment="production",  # or "local", "demo"
-      base_url="https://api.honcho.dev",
-      timeout=30.0,
-      max_retries=3
-  )
-  ```
+# Full configuration
+honcho = Honcho(
+    workspace_id="my-app-name",
+    api_key="my-api-key",
+    environment="production",  # or "local", "demo"
+    base_url="https://api.honcho.dev",
+    timeout=30.0,
+    max_retries=3
+)
+```
 
-  ```typescript TypeScript
-  import { Honcho } from "@honcho-ai/sdk";
+```typescript TypeScript theme={null}
+import { Honcho } from "@honcho-ai/sdk";
 
-  // Basic initialization (uses environment variables)
-  const honcho = new Honcho({
-    workspaceId: "my-app-name"
-  });
+// Basic initialization (uses environment variables)
+const honcho = new Honcho({
+  workspaceId: "my-app-name"
+});
 
-  // Full configuration
-  const honcho = new Honcho({
-    workspaceId: "my-app-name",
-    apiKey: "my-api-key",
-    environment: "production",  // or "local", "demo"
-    baseURL: "https://api.honcho.dev",
-    timeout: 30000,
-    maxRetries: 3,
-    defaultHeaders: { "X-Custom-Header": "value" },
-    defaultQuery: { "param": "value" }
-  });
-  ```
-</CodeGroup>
+// Full configuration
+const honcho = new Honcho({
+  workspaceId: "my-app-name",
+  apiKey: "my-api-key",
+  environment: "production",  // or "local", "demo"
+  baseURL: "https://api.honcho.dev",
+  timeout: 30000,
+  maxRetries: 3,
+  defaultHeaders: { "X-Custom-Header": "value" },
+  defaultQuery: { "param": "value" }
+});
+```
 
 **Environment Variables:**
 
@@ -189,142 +181,138 @@ The main entry point for workspace operations:
 
 **Key Methods:**
 
-<CodeGroup>
-  ```python Python
-  # Get or create a peer
-  peer = honcho.peer(id)
+```python Python theme={null}
+# Get or create a peer
+peer = honcho.peer(id)
 
-  # Get or create a session
-  session = honcho.session(id)
+# Get or create a session
+session = honcho.session(id)
 
-  # List all peers in workspace
-  peers = honcho.peers()
+# List all peers in workspace
+peers = honcho.peers()
 
-  # List all sessions in workspace
-  sessions = honcho.sessions()
+# List all sessions in workspace
+sessions = honcho.sessions()
 
-  # Search across all content in workspace
-  results = honcho.search(query)
+# Search across all content in workspace
+results = honcho.search(query)
 
-  # Ask a question across every peer in the workspace
-  answer = honcho.chat(query)
-  stream = honcho.chat_stream(query)
+# Ask a question across every peer in the workspace
+answer = honcho.chat(query)
+stream = honcho.chat_stream(query)
 
-  # Workspace metadata management
-  metadata = honcho.get_metadata()
-  honcho.set_metadata(dict)
+# Workspace metadata management
+metadata = honcho.get_metadata()
+honcho.set_metadata(dict)
 
-  # Get list of all workspace IDs
-  workspaces = honcho.workspaces()
+# Get list of all workspace IDs
+workspaces = honcho.workspaces()
 
-  # Delete a workspace and everything in it (requires no active sessions)
-  honcho.delete_workspace(workspace_id)
-  ```
+# Delete a workspace and everything in it (requires no active sessions)
+honcho.delete_workspace(workspace_id)
+```
 
-  ```typescript TypeScript
-  // Get or create a peer
-  const peer = await honcho.peer(id);
+```typescript TypeScript theme={null}
+// Get or create a peer
+const peer = await honcho.peer(id);
 
-  // Get or create a session
-  const session = await honcho.session(id);
+// Get or create a session
+const session = await honcho.session(id);
 
-  // List all peers in workspace (returns Page<Peer>)
-  const peers = await honcho.peers();
+// List all peers in workspace (returns Page<Peer>)
+const peers = await honcho.peers();
 
-  // List with pagination and filtering
-  const filtered = await honcho.peers({
-    filters: { metadata: { role: "user" } },
-    page: 1,
-    size: 25,
-    reverse: true
-  });
+// List with pagination and filtering
+const filtered = await honcho.peers({
+  filters: { metadata: { role: "user" } },
+  page: 1,
+  size: 25,
+  reverse: true
+});
 
-  // List all sessions in workspace (returns Page<Session>)
-  const sessions = await honcho.sessions();
+// List all sessions in workspace (returns Page<Session>)
+const sessions = await honcho.sessions();
 
-  // Search across all content in workspace (returns Page<any>)
-  const results = await honcho.search(query);
+// Search across all content in workspace (returns Page<any>)
+const results = await honcho.search(query);
 
-  // Ask a question across every peer in the workspace
-  const answer = await honcho.chat(query);
-  const stream = await honcho.chatStream(query);
+// Ask a question across every peer in the workspace
+const answer = await honcho.chat(query);
+const stream = await honcho.chatStream(query);
 
-  // Workspace metadata management
-  const metadata = await honcho.getMetadata();
-  await honcho.setMetadata(metadata);
+// Workspace metadata management
+const metadata = await honcho.getMetadata();
+await honcho.setMetadata(metadata);
 
-  // Get list of all workspace IDs
-  const workspaces = await honcho.workspaces();
+// Get list of all workspace IDs
+const workspaces = await honcho.workspaces();
 
-  // Delete a workspace and everything in it (requires no active sessions)
-  await honcho.deleteWorkspace(workspaceId);
-  ```
-</CodeGroup>
+// Delete a workspace and everything in it (requires no active sessions)
+await honcho.deleteWorkspace(workspaceId);
+```
 
-
-  `peer()` and `session()` always make a get-or-create API call, returning objects with cached metadata, configuration, and timestamps.
-
+> [!NOTE]
+>
+> `peer()` and `session()` always make a get-or-create API call, returning objects with cached metadata, configuration, and timestamps.
 
 ### Workspace Chat
 
-`honcho.chat()` asks a question of the whole workspace rather than one peer's representation. It lives on the client, not on `Peer`, and takes no `target`: the agent works out which peers are relevant and reads their memory pair by pair. See [Workspace Chat](/docs/v3/documentation/features/chat#workspace-chat) for when to use it over `peer.chat()`.
+`honcho.chat()` asks a question of the whole workspace rather than one peer's representation. It lives on the client, not on `Peer`, and takes no `target`: the agent works out which peers are relevant and reads their memory pair by pair. See [Workspace Chat](https://honcho.dev/docs/v3/documentation/features/chat.md#workspace-chat) for when to use it over `peer.chat()`.
 
-<CodeGroup>
-  ```python Python
-  # Cross-peer question
-  answer = honcho.chat("What themes appear across all peers this week?")
+```python Python theme={null}
+# Cross-peer question
+answer = honcho.chat("What themes appear across all peers this week?")
 
-  # Narrow message tools to one session
-  answer = honcho.chat("What was decided in this thread?", session="session-1")
+# Narrow message tools to one session
+answer = honcho.chat("What was decided in this thread?", session="session-1")
 
-  # Restrict recall to a scope's member sessions (always an allowlist; mutually exclusive with session)
-  answer = honcho.chat("What came up in therapy sessions?", scope="therapy")
-  answer = honcho.chat("What came up at intake?", scope=["therapy", "intake"])
+# Restrict recall to a scope's member sessions (always an allowlist; mutually exclusive with session)
+answer = honcho.chat("What came up in therapy sessions?", scope="therapy")
+answer = honcho.chat("What came up at intake?", scope=["therapy", "intake"])
 
-  # Deeper reasoning
-  answer = honcho.chat("Where do peers disagree?", reasoning_level="high")
+# Deeper reasoning
+answer = honcho.chat("Where do peers disagree?", reasoning_level="high")
 
-  # Structured output: a Pydantic model returns a parsed instance, a JSON Schema dict returns a JSON string
-  result = honcho.chat("List recurring themes", response_format=Themes)
+# Structured output: a Pydantic model returns a parsed instance, a JSON Schema dict returns a JSON string
+result = honcho.chat("List recurring themes", response_format=Themes)
 
-  # Streaming
-  for chunk in honcho.chat_stream("Summarize the workspace"):
-      print(chunk, end="", flush=True)
+# Streaming
+for chunk in honcho.chat_stream("Summarize the workspace"):
+    print(chunk, end="", flush=True)
 
-  # Async mirrors
-  answer = await honcho.aio.chat("What themes appear across all peers?")
-  async for chunk in await honcho.aio.chat_stream("Summarize the workspace"):
-      print(chunk, end="", flush=True)
-  ```
+# Async mirrors
+answer = await honcho.aio.chat("What themes appear across all peers?")
+async for chunk in await honcho.aio.chat_stream("Summarize the workspace"):
+    print(chunk, end="", flush=True)
+```
 
-  ```typescript TypeScript
-  // Cross-peer question
-  const answer = await honcho.chat("What themes appear across all peers this week?");
+```typescript TypeScript theme={null}
+// Cross-peer question
+const answer = await honcho.chat("What themes appear across all peers this week?");
 
-  // Narrow message tools to one session
-  const threadAnswer = await honcho.chat("What was decided in this thread?", {
-    session: "session-1"
-  });
+// Narrow message tools to one session
+const threadAnswer = await honcho.chat("What was decided in this thread?", {
+  session: "session-1"
+});
 
-  // Restrict recall to a scope's member sessions (always an allowlist; mutually exclusive with session)
-  const scoped = await honcho.chat("What came up in therapy sessions?", { scope: "therapy" });
-  const union = await honcho.chat("What came up at intake?", { scope: ["therapy", "intake"] });
+// Restrict recall to a scope's member sessions (always an allowlist; mutually exclusive with session)
+const scoped = await honcho.chat("What came up in therapy sessions?", { scope: "therapy" });
+const union = await honcho.chat("What came up at intake?", { scope: ["therapy", "intake"] });
 
-  // Deeper reasoning
-  const deeper = await honcho.chat("Where do peers disagree?", { reasoningLevel: "high" });
+// Deeper reasoning
+const deeper = await honcho.chat("Where do peers disagree?", { reasoningLevel: "high" });
 
-  // Structured output: pass a JSON Schema object, receive a JSON string
-  const raw = await honcho.chat("List recurring themes", {
-    responseFormat: { type: "object", properties: { themes: { type: "array", items: { type: "string" } } }, required: ["themes"] }
-  });
+// Structured output: pass a JSON Schema object, receive a JSON string
+const raw = await honcho.chat("List recurring themes", {
+  responseFormat: { type: "object", properties: { themes: { type: "array", items: { type: "string" } } }, required: ["themes"] }
+});
 
-  // Streaming
-  const stream = await honcho.chatStream("Summarize the workspace");
-  for await (const chunk of stream) {
-    process.stdout.write(chunk);
-  }
-  ```
-</CodeGroup>
+// Streaming
+const stream = await honcho.chatStream("Summarize the workspace");
+for await (const chunk of stream) {
+  process.stdout.write(chunk);
+}
+```
 
 | Option | Python | TypeScript | Notes |
 | - | - | - | - |
@@ -340,131 +328,131 @@ Workspace chat requires a workspace- or admin-level key. There is no `target` or
 
 Represents an entity that can participate in conversations:
 
-<CodeGroup>
-  ```python Python
-  # Create peers (get-or-create API call)
-  alice = honcho.peer("alice")
-  assistant = honcho.peer("assistant")
+```python Python theme={null}
+# Create peers (get-or-create API call)
+alice = honcho.peer("alice")
+assistant = honcho.peer("assistant")
 
-  # Create with immediate configuration
-  # This will make an API call to create the peer with the custom configuration and/or metadata
-  alice = honcho.peer("bob", config={"role": "user", "active": True}, metadata={"location": "NYC", "role": "developer"})
+# Create with immediate configuration
+# This will make an API call to create the peer with the custom configuration and/or metadata
+alice = honcho.peer("bob", config={"role": "user", "active": True}, metadata={"location": "NYC", "role": "developer"})
 
-  # Peer properties
-  print(f"Peer ID: {alice.id}")
-  print(f"Workspace: {alice.workspace_id}")
-  print(f"Created: {alice.created_at}")  # Available after API fetch
+# Peer properties
+print(f"Peer ID: {alice.id}")
+print(f"Workspace: {alice.workspace_id}")
+print(f"Created: {alice.created_at}")  # Available after API fetch
+print(f"UID: {alice.uid}")              # Server-assigned, never changes; available after API fetch
 
-  # Chat with peer's representations (supports streaming)
-  response = alice.chat("What did I have for breakfast?")
-  response = alice.chat("What do I know about Bob?", target="bob")
-  response = alice.chat("What happened in session-1?", session="session-1")
-  response = alice.chat("Summarize what matters most to me.", reasoning_level="high")
+# Chat with peer's representations (supports streaming)
+response = alice.chat("What did I have for breakfast?")
+response = alice.chat("What do I know about Bob?", target="bob")
+response = alice.chat("What happened in session-1?", session="session-1")
+response = alice.chat("Summarize what matters most to me.", reasoning_level="high")
 
-  # Override the timeout for one non-streaming dialectic request
-  response = alice.chat("Give me a quick summary.", timeout=5.0)
+# Override the timeout for one non-streaming dialectic request
+response = alice.chat("Give me a quick summary.", timeout=5.0)
 
-  # Add content to a session with a peer
-  session = honcho.session("session-1")
-  session.add_messages([
-    alice.message("I love Python programming"),
-    alice.message("Today I learned about async programming"),
-    alice.message("I prefer functional programming patterns")
-  ])
+# Add content to a session with a peer
+session = honcho.session("session-1")
+session.add_messages([
+  alice.message("I love Python programming"),
+  alice.message("Today I learned about async programming"),
+  alice.message("I prefer functional programming patterns")
+])
 
-  # Get peer's sessions
-  sessions = alice.sessions()
+# Get peer's sessions
+sessions = alice.sessions()
 
-  # Search peer's messages
-  results = alice.search("programming")
+# Search peer's messages
+results = alice.search("programming")
 
-  # Metadata management
-  metadata = alice.get_metadata()
-  metadata["location"] = "Paris"
-  alice.set_metadata(metadata)
+# Metadata management
+metadata = alice.get_metadata()
+metadata["location"] = "Paris"
+alice.set_metadata(metadata)
 
-  # Peer card management
-  card = alice.get_card()                          # Get peer card
-  card = alice.get_card(target="bob")              # Get card about another peer
-  updated = alice.set_card(["Likes Python", "Lives in NYC"])  # Set peer card
-  updated = alice.set_card(["Works at Acme"], target="bob")   # Set card about another peer
+# Peer card management
+card = alice.get_card()                          # Get peer card
+card = alice.get_card(target="bob")              # Get card about another peer
+updated = alice.set_card(["Likes Python", "Lives in NYC"])  # Set peer card
+updated = alice.set_card(["Works at Acme"], target="bob")   # Set card about another peer
 
-  # Get peer context (representation + peer card in one call)
-  context = alice.context()
-  context = alice.context(target="bob")  # What alice knows about bob
+# Get peer context (representation + peer card in one call)
+context = alice.context()
+context = alice.context(target="bob")  # What alice knows about bob
 
-  # Get working representation with semantic search
-  rep = alice.representation(search_query="preferences", search_top_k=10)
+# Get working representation with semantic search
+rep = alice.representation(search_query="preferences", search_top_k=10)
 
-  # Access conclusions
-  self_conclusions = alice.conclusions.list()  # Self-conclusions
-  bob_conclusions = alice.conclusions_of("bob").list()  # Conclusions of bob
-  ```
+# Access conclusions
+self_conclusions = alice.conclusions.list()  # Self-conclusions
+bob_conclusions = alice.conclusions_of("bob").list()  # Conclusions of bob
+```
 
-  ```typescript TypeScript
-  // Create peers (returns Promise<Peer>)
-  const alice = await honcho.peer("alice");
-  const assistant = await honcho.peer("assistant");
+```typescript TypeScript theme={null}
+// Create peers (returns Promise<Peer>)
+const alice = await honcho.peer("alice");
+const assistant = await honcho.peer("assistant");
 
-  // Peer properties
-  console.log(`Peer ID: ${alice.id}`);
-  console.log(`Created: ${alice.createdAt}`);  // Available after API fetch
+// Peer properties
+console.log(`Peer ID: ${alice.id}`);
+console.log(`Created: ${alice.createdAt}`);  // Available after API fetch
+console.log(`UID: ${alice.uid}`);            // Server-assigned, never changes; available after API fetch
 
-  // Chat with peer's representations (supports streaming)
-  const response = await alice.chat("What did I have for breakfast?");
-  const targetResponse = await alice.chat("What do I know about Bob?", { target: "bob" });
-  const sessionResponse = await alice.chat("What happened in session-1?", {
-    sessionId: "session-1"
-  });
-  const deeperResponse = await alice.chat("Summarize what matters most to me.", {
-    reasoningLevel: "high"
-  });
+// Chat with peer's representations (supports streaming)
+const response = await alice.chat("What did I have for breakfast?");
+const targetResponse = await alice.chat("What do I know about Bob?", { target: "bob" });
+const sessionResponse = await alice.chat("What happened in session-1?", {
+  sessionId: "session-1"
+});
+const deeperResponse = await alice.chat("Summarize what matters most to me.", {
+  reasoningLevel: "high"
+});
 
-  // Chat with streaming support
-  const streamResponse = await alice.chat("Tell me a story", { stream: true });
+// Chat with streaming support
+const streamResponse = await alice.chat("Tell me a story", { stream: true });
 
-  // Add content to a session with a peer
-  const session = await honcho.session("session-1");
-  await session.addMessages([
-    alice.message("I love TypeScript programming"),
-    alice.message("Today I learned about async programming"),
-    alice.message("I prefer functional programming patterns")
-  ]);
+// Add content to a session with a peer
+const session = await honcho.session("session-1");
+await session.addMessages([
+  alice.message("I love TypeScript programming"),
+  alice.message("Today I learned about async programming"),
+  alice.message("I prefer functional programming patterns")
+]);
 
-  // Get peer's sessions
-  const sessions = await alice.sessions();
+// Get peer's sessions
+const sessions = await alice.sessions();
 
-  // Search peer's messages
-  const results = await alice.search("programming");
+// Search peer's messages
+const results = await alice.search("programming");
 
-  // Metadata management
-  const metadata = await alice.getMetadata();
-  await alice.setMetadata({
-    ...metadata,
-    location: "Paris"
-  });
+// Metadata management
+const metadata = await alice.getMetadata();
+await alice.setMetadata({
+  ...metadata,
+  location: "Paris"
+});
 
-  // Peer card management
-  const card = await alice.getCard();                              // Get peer card
-  const targetCard = await alice.getCard("bob");                   // Get card about another peer
-  const updated = await alice.setCard(["Likes TypeScript", "Lives in NYC"]);  // Set peer card
-  const updatedTarget = await alice.setCard(["Works at Acme"], "bob");        // Set card about another peer
+// Peer card management
+const card = await alice.getCard();                              // Get peer card
+const targetCard = await alice.getCard("bob");                   // Get card about another peer
+const updated = await alice.setCard(["Likes TypeScript", "Lives in NYC"]);  // Set peer card
+const updatedTarget = await alice.setCard(["Works at Acme"], "bob");        // Set card about another peer
 
-  // Get peer context (representation + peer card in one call)
-  const context = await alice.context();
-  const targetContext = await alice.context({ target: "bob" });  // What alice knows about bob
+// Get peer context (representation + peer card in one call)
+const context = await alice.context();
+const targetContext = await alice.context({ target: "bob" });  // What alice knows about bob
 
-  // Get working representation with semantic search
-  const rep = await alice.representation({
-    searchQuery: "preferences",
-    searchTopK: 10
-  });
+// Get working representation with semantic search
+const rep = await alice.representation({
+  searchQuery: "preferences",
+  searchTopK: 10
+});
 
-  // Access conclusions
-  const selfConclusions = await alice.conclusions.list();  // Self-conclusions
-  const bobConclusions = await alice.conclusionsOf("bob").list();  // Conclusions of bob
-  ```
-</CodeGroup>
+// Access conclusions
+const selfConclusions = await alice.conclusions.list();  // Self-conclusions
+const bobConclusions = await alice.conclusionsOf("bob").list();  // Conclusions of bob
+```
 
 For Python, `peer.chat(timeout=...)` and `await peer.aio.chat(timeout=...)`
 accept a timeout in seconds for each HTTP attempt made by one non-streaming
@@ -477,426 +465,414 @@ one attempt.
 
 The `context()` method on peers retrieves both the working representation and peer card in a single API call:
 
-<CodeGroup>
-  ```python Python
-  # Get peer's own context
-  context = alice.context()
-  print(context.representation)  # Working representation
-  print(context.peer_card)       # Peer card as list of strings
+```python Python theme={null}
+# Get peer's own context
+context = alice.context()
+print(context.representation)  # Working representation
+print(context.peer_card)       # Peer card as list of strings
 
-  # Get context about another peer (what alice knows about bob)
-  bob_context = alice.context(target="bob")
+# Get context about another peer (what alice knows about bob)
+bob_context = alice.context(target="bob")
 
-  # Get context with semantic search
-  context = alice.context(
-      target="bob",
-      search_query="work preferences",
-      search_top_k=10,
-      search_max_distance=0.8,
-      include_most_frequent=True,
-      max_conclusions=50
-  )
-  ```
+# Get context with semantic search
+context = alice.context(
+    target="bob",
+    search_query="work preferences",
+    search_top_k=10,
+    search_max_distance=0.8,
+    include_most_frequent=True,
+    max_conclusions=50
+)
+```
 
-  ```typescript TypeScript
-  // Get peer's own context
-  const context = await alice.context();
-  console.log(context.representation);  // Working representation
-  console.log(context.peerCard);        // Peer card as array of strings
+```typescript TypeScript theme={null}
+// Get peer's own context
+const context = await alice.context();
+console.log(context.representation);  // Working representation
+console.log(context.peerCard);        // Peer card as array of strings
 
-  // Get context about another peer (what alice knows about bob)
-  const bobContext = await alice.context({ target: "bob" });
+// Get context about another peer (what alice knows about bob)
+const bobContext = await alice.context({ target: "bob" });
 
-  // Get context with semantic search
-  const searchedContext = await alice.context({
-    target: "bob",
-    searchQuery: "work preferences",
-    searchTopK: 10,
-    searchMaxDistance: 0.8,
-    includeMostFrequent: true,
-    maxConclusions: 50
-  });
-  ```
-</CodeGroup>
+// Get context with semantic search
+const searchedContext = await alice.context({
+  target: "bob",
+  searchQuery: "work preferences",
+  searchTopK: 10,
+  searchMaxDistance: 0.8,
+  includeMostFrequent: true,
+  maxConclusions: 50
+});
+```
 
 ### Peer Card
 
 The peer card contains stable biographical facts about a peer (name, preferences, background). Use `get_card()` / `getCard()` to retrieve it and `set_card()` / `setCard()` to overwrite it:
 
-<CodeGroup>
-  ```python Python
-  # Get peer's own card
-  card = alice.get_card()
-  print(card)  # ["Likes Python", "Lives in NYC", ...]
+```python Python theme={null}
+# Get peer's own card
+card = alice.get_card()
+print(card)  # ["Likes Python", "Lives in NYC", ...]
 
-  # Get card about another peer (local representation)
-  bob_card = alice.get_card(target="bob")
+# Get card about another peer (local representation)
+bob_card = alice.get_card(target="bob")
 
-  # Set peer's own card
-  updated = alice.set_card(["Likes Python", "Lives in NYC"])
+# Set peer's own card
+updated = alice.set_card(["Likes Python", "Lives in NYC"])
 
-  # Set card about another peer
-  updated = alice.set_card(["Works at Acme", "Enjoys hiking"], target="bob")
-  ```
+# Set card about another peer
+updated = alice.set_card(["Works at Acme", "Enjoys hiking"], target="bob")
+```
 
-  ```typescript TypeScript
-  // Get peer's own card
-  const card = await alice.getCard();
-  console.log(card);  // ["Likes TypeScript", "Lives in NYC", ...]
+```typescript TypeScript theme={null}
+// Get peer's own card
+const card = await alice.getCard();
+console.log(card);  // ["Likes TypeScript", "Lives in NYC", ...]
 
-  // Get card about another peer (local representation)
-  const bobCard = await alice.getCard("bob");
+// Get card about another peer (local representation)
+const bobCard = await alice.getCard("bob");
 
-  // Set peer's own card
-  const updated = await alice.setCard(["Likes TypeScript", "Lives in NYC"]);
+// Set peer's own card
+const updated = await alice.setCard(["Likes TypeScript", "Lives in NYC"]);
 
-  // Set card about another peer
-  const updatedBob = await alice.setCard(["Works at Acme", "Enjoys hiking"], "bob");
-  ```
-</CodeGroup>
+// Set card about another peer
+const updatedBob = await alice.setCard(["Works at Acme", "Enjoys hiking"], "bob");
+```
 
-
-  Peer cards are automatically maintained by the dreaming agent during message processing. Use `set_card()` / `setCard()` when you need to manually override or seed the card — the peer will be created automatically if it doesn't already exist.
-
+> [!NOTE]
+>
+> Peer cards are automatically maintained by the dreaming agent during message processing. Use `set_card()` / `setCard()` when you need to manually override or seed the card — the peer will be created automatically if it doesn't already exist.
 
 ### Conclusions
 
 Peers can access their conclusions (facts derived from messages) through the `conclusions` property and `conclusions_of()` method:
 
-<CodeGroup>
-  ```python Python
-  # Access self-conclusions (what honcho knows about alice)
-  self_conclusions = alice.conclusions
+```python Python theme={null}
+# Access self-conclusions (what honcho knows about alice)
+self_conclusions = alice.conclusions
 
-  # List self-conclusions
-  conclusions_list = self_conclusions.list()
+# List self-conclusions
+conclusions_list = self_conclusions.list()
 
-  # Search self-conclusions semantically
-  results = self_conclusions.query("food preferences")
+# Search self-conclusions semantically
+results = self_conclusions.query("food preferences")
 
-  # Delete a conclusion
-  self_conclusions.delete("conclusion-id")
+# Delete a conclusion
+self_conclusions.delete("conclusion-id")
 
-  # Access conclusions of another peer (what alice knows about bob)
-  bob_conclusions = alice.conclusions_of("bob")
-  bob_conclusions_list = bob_conclusions.list()
-  bob_search = bob_conclusions.query("work history")
-  ```
+# Access conclusions of another peer (what alice knows about bob)
+bob_conclusions = alice.conclusions_of("bob")
+bob_conclusions_list = bob_conclusions.list()
+bob_search = bob_conclusions.query("work history")
+```
 
-  ```typescript TypeScript
-  // Access self-conclusions (what honcho knows about alice)
-  const selfConclusions = alice.conclusions;
+```typescript TypeScript theme={null}
+// Access self-conclusions (what honcho knows about alice)
+const selfConclusions = alice.conclusions;
 
-  // List self-conclusions
-  const conclusionsList = await selfConclusions.list();
+// List self-conclusions
+const conclusionsList = await selfConclusions.list();
 
-  // Search self-conclusions semantically
-  const results = await selfConclusions.query("food preferences");
+// Search self-conclusions semantically
+const results = await selfConclusions.query("food preferences");
 
-  // Delete a conclusion
-  await selfConclusions.delete("conclusion-id");
+// Delete a conclusion
+await selfConclusions.delete("conclusion-id");
 
-  // Access conclusions of another peer (what alice knows about bob)
-  const bobConclusions = alice.conclusionsOf("bob");
-  const bobConclusionsList = await bobConclusions.list();
-  const bobSearch = await bobConclusions.query("work history");
-  ```
-</CodeGroup>
+// Access conclusions of another peer (what alice knows about bob)
+const bobConclusions = alice.conclusionsOf("bob");
+const bobConclusionsList = await bobConclusions.list();
+const bobSearch = await bobConclusions.query("work history");
+```
 
 #### Creating Conclusions Manually
 
 You can also create conclusions directly, which is useful for importing data or adding explicit facts:
 
-<CodeGroup>
-  ```python Python
-  # Create conclusions for what alice knows about bob
-  bob_conclusions = alice.conclusions_of("bob")
+```python Python theme={null}
+# Create conclusions for what alice knows about bob
+bob_conclusions = alice.conclusions_of("bob")
 
-  # Create a single conclusion
-  created = bob_conclusions.create([
-      {"content": "User prefers dark mode", "session_id": "session-1"}
-  ])
+# Create a single conclusion
+created = bob_conclusions.create([
+    {"content": "User prefers dark mode", "session_id": "session-1"}
+])
 
-  # Create multiple conclusions in batch
-  created = bob_conclusions.create([
-      {"content": "User prefers dark mode", "session_id": "session-1"},
-      {"content": "User works late at night", "session_id": "session-1"},
-      {"content": "User enjoys programming", "session_id": "session-1"},
-  ])
+# Create multiple conclusions in batch
+created = bob_conclusions.create([
+    {"content": "User prefers dark mode", "session_id": "session-1"},
+    {"content": "User works late at night", "session_id": "session-1"},
+    {"content": "User enjoys programming", "session_id": "session-1"},
+])
 
-  # Returns list of created Conclusion objects with IDs
-  for conclusion in created:
-      print(f"Created conclusion: {conclusion.id} - {conclusion.content}")
-  ```
+# Returns list of created Conclusion objects with IDs
+for conclusion in created:
+    print(f"Created conclusion: {conclusion.id} - {conclusion.content}")
+```
 
-  ```typescript TypeScript
-  // Create conclusions for what alice knows about bob
-  const bobConclusions = alice.conclusionsOf("bob");
+```typescript TypeScript theme={null}
+// Create conclusions for what alice knows about bob
+const bobConclusions = alice.conclusionsOf("bob");
 
-  // Create a single conclusion
-  const created = await bobConclusions.create([
-      { content: "User prefers dark mode", sessionId: "session-1" }
-  ]);
+// Create a single conclusion
+const created = await bobConclusions.create([
+    { content: "User prefers dark mode", sessionId: "session-1" }
+]);
 
-  // Create multiple conclusions in batch
-  const batchCreated = await bobConclusions.create([
-      { content: "User prefers dark mode", sessionId: "session-1" },
-      { content: "User works late at night", sessionId: "session-1" },
-      { content: "User enjoys programming", sessionId: "session-1" },
-  ]);
+// Create multiple conclusions in batch
+const batchCreated = await bobConclusions.create([
+    { content: "User prefers dark mode", sessionId: "session-1" },
+    { content: "User works late at night", sessionId: "session-1" },
+    { content: "User enjoys programming", sessionId: "session-1" },
+]);
 
-  // Returns array of created Conclusion objects with IDs
-  for (const conclusion of batchCreated) {
-      console.log(`Created conclusion: ${conclusion.id} - ${conclusion.content}`);
-  }
-  ```
-</CodeGroup>
+// Returns array of created Conclusion objects with IDs
+for (const conclusion of batchCreated) {
+    console.log(`Created conclusion: ${conclusion.id} - ${conclusion.content}`);
+}
+```
 
-
-  Manually created conclusions are marked as "explicit" and are treated the same as system-derived conclusions. Each conclusion must be tied to a session and the content length is validated against the embedding token limit.
-
+> [!NOTE]
+>
+> Manually created conclusions are marked as "explicit" and are treated the same as system-derived conclusions. Each conclusion must be tied to a session and the content length is validated against the embedding token limit.
 
 ### Session
 
 Manages multi-party conversations:
 
-<CodeGroup>
-  ```python Python
-  # Create session (get-or-create API call)
-  session = honcho.session("conversation-1")
+```python Python theme={null}
+# Create session (get-or-create API call)
+session = honcho.session("conversation-1")
 
-  # Create with immediate configuration
-  # This will make an API call to create the session with the custom configuration and/or metadata
-  session = honcho.session("meeting-1", config={"type": "meeting", "max_peers": 10})
+# Create with immediate configuration
+# This will make an API call to create the session with the custom configuration and/or metadata
+session = honcho.session("meeting-1", config={"type": "meeting", "max_peers": 10})
 
-  # Session properties
-  print(f"Session ID: {session.id}")
-  print(f"Workspace: {session.workspace_id}")
-  print(f"Created: {session.created_at}")  # Available after API fetch
-  print(f"Active: {session.is_active}")    # Available after API fetch
+# Session properties
+print(f"Session ID: {session.id}")
+print(f"Workspace: {session.workspace_id}")
+print(f"Created: {session.created_at}")  # Available after API fetch
+print(f"Active: {session.is_active}")    # Available after API fetch
+print(f"UID: {session.uid}")            # Server-assigned, never changes; available after API fetch
 
-  # Peer management
-  session.add_peers([alice, assistant])
-  session.add_peers([(alice, SessionPeerConfig(observe_others=True))])
-  session.set_peers([alice, bob, charlie])  # Replace all peers
-  session.remove_peers([alice])
+# Peer management
+session.add_peers([alice, assistant])
+session.add_peers([(alice, SessionPeerConfig(observe_others=True))])
+session.set_peers([alice, bob, charlie])  # Replace all peers
+session.remove_peers([alice])
 
-  # Get session peers and their configurations
-  peers = session.peers()
-  peer_config = session.get_peer_configuration(alice)
-  session.set_peer_configuration(alice, SessionPeerConfig(observe_me=False))
+# Get session peers and their configurations
+peers = session.peers()
+peer_config = session.get_peer_configuration(alice)
+session.set_peer_configuration(alice, SessionPeerConfig(observe_me=False))
 
-  # Message management
-  session.add_messages([
-      alice.message("Hello everyone!"),
-      assistant.message("Hi Alice! How can I help today?")
-  ])
-
-  # Get messages (with optional pagination)
-  messages = session.messages()
-  messages = session.messages(page=1, size=100, reverse=True)
-
-  # Get a single message by ID
-  message = session.get_message("message-id")
-
-  # Get conversation context
-  context = session.context(summary=True, tokens=2000)
-
-  # Get context with peer representation included
-  context = session.context(
-      tokens=2000,
-      peer_target="user",
-      peer_perspective="assistant",
-      search_query="What are my preferences?",
-      limit_to_session=True,
-      search_top_k=10,
-      search_max_distance=0.8,
-      include_most_frequent=True,
-      max_conclusions=25
-  )
-
-  # Search session content
-  results = session.search("help")
-
-  # Working representation queries with semantic search
-  global_rep = session.representation("alice")
-  targeted_rep = session.representation(alice, target=bob)
-  searched_rep = session.representation(
-      "alice",
-      search_query="preferences",
-      search_top_k=10,
-      include_most_frequent=True
-  )
-
-  # Upload a file to create messages
-  messages = session.upload_file(
-      file=open("document.pdf", "rb"),
-      peer="user",
-      metadata={"source": "upload"},
-      created_at="2024-01-15T10:30:00Z"
-  )
-
-  # Clone a session (creates a copy with all data)
-  # Copies: messages, metadata, configuration, peers, and peer configurations
-  cloned = session.clone()
-
-  # Clone up to a specific message (inclusive)
-  # Only messages up to and including the specified message are copied
-  cloned_partial = session.clone(message_id="msg-123")
-
-  # Delete session (async - returns 202)
-  session.delete()
-
-  # Metadata management
-  session.set_metadata({"topic": "product planning", "status": "active"})
-  metadata = session.get_metadata()
-  ```
-
-  ```typescript TypeScript
-  // Create session (returns Promise<Session>)
-  const session = await honcho.session("conversation-1");
-
-  // Session properties
-  console.log(`Session ID: ${session.id}`);
-  console.log(`Created: ${session.createdAt}`);  // Available after API fetch
-  console.log(`Active: ${session.isActive}`);    // Available after API fetch
-
-  // Peer management
-  await session.addPeers([alice, assistant]);
-  await session.addPeers("single-peer-id");
-  await session.setPeers([alice, bob, charlie]);  // Replace all peers
-  await session.removePeers([alice]);
-  await session.removePeers("single-peer-id");
-
-  // Get session peers
-  const peers = await session.peers();
-
-  // Message management
-  await session.addMessages([
+# Message management
+session.add_messages([
     alice.message("Hello everyone!"),
     assistant.message("Hi Alice! How can I help today?")
-  ]);
+])
 
-  // Get messages (with optional pagination)
-  const messages = await session.messages();
-  const paged = await session.messages({ page: 1, size: 100, reverse: true });
+# Get messages (with optional pagination)
+messages = session.messages()
+messages = session.messages(page=1, size=100, reverse=True)
 
-  // Get a single message by ID
-  const message = await session.getMessage("message-id");
+# Get a single message by ID
+message = session.get_message("message-id")
 
-  // Get conversation context
-  const context = await session.context({ summary: true, tokens: 2000 });
+# Get conversation context
+context = session.context(summary=True, tokens=2000)
 
-  // Get context with peer representation included
-  const richContext = await session.context({
-    tokens: 2000,
-    peerTarget: "user",
-    peerPerspective: "assistant",
-    limitToSession: true,
-    representationOptions: {
-      searchQuery: "What are my preferences?",
-      searchTopK: 10,
-      searchMaxDistance: 0.8,
-      includeMostFrequent: true,
-      maxConclusions: 25
-    }
-  });
+# Get context with peer representation included
+context = session.context(
+    tokens=2000,
+    peer_target="user",
+    peer_perspective="assistant",
+    search_query="What are my preferences?",
+    limit_to_session=True,
+    search_top_k=10,
+    search_max_distance=0.8,
+    include_most_frequent=True,
+    max_conclusions=25
+)
 
-  // Search session content
-  const results = await session.search("help");
+# Search session content
+results = session.search("help")
 
-  // Working representation queries with semantic search
-  const globalRep = await session.representation("alice");
-  const targetedRep = await session.representation(alice, { target: bob });
-  const searchedRep = await session.representation("alice", {
-    searchQuery: "preferences",
+# Working representation queries with semantic search
+global_rep = session.representation("alice")
+targeted_rep = session.representation(alice, target=bob)
+searched_rep = session.representation(
+    "alice",
+    search_query="preferences",
+    search_top_k=10,
+    include_most_frequent=True
+)
+
+# Upload a file to create messages
+messages = session.upload_file(
+    file=open("document.pdf", "rb"),
+    peer="user",
+    metadata={"source": "upload"},
+    created_at="2024-01-15T10:30:00Z"
+)
+
+# Clone a session (creates a copy with all data)
+# Copies: messages, metadata, configuration, peers, and peer configurations
+cloned = session.clone()
+
+# Clone up to a specific message (inclusive)
+# Only messages up to and including the specified message are copied
+cloned_partial = session.clone(message_id="msg-123")
+
+# Delete session (async - returns 202)
+session.delete()
+
+# Metadata management
+session.set_metadata({"topic": "product planning", "status": "active"})
+metadata = session.get_metadata()
+```
+
+```typescript TypeScript theme={null}
+// Create session (returns Promise<Session>)
+const session = await honcho.session("conversation-1");
+
+// Session properties
+console.log(`Session ID: ${session.id}`);
+console.log(`Created: ${session.createdAt}`);  // Available after API fetch
+console.log(`Active: ${session.isActive}`);    // Available after API fetch
+console.log(`UID: ${session.uid}`);            // Server-assigned, never changes; available after API fetch
+
+// Peer management
+await session.addPeers([alice, assistant]);
+await session.addPeers("single-peer-id");
+await session.setPeers([alice, bob, charlie]);  // Replace all peers
+await session.removePeers([alice]);
+await session.removePeers("single-peer-id");
+
+// Get session peers
+const peers = await session.peers();
+
+// Message management
+await session.addMessages([
+  alice.message("Hello everyone!"),
+  assistant.message("Hi Alice! How can I help today?")
+]);
+
+// Get messages (with optional pagination)
+const messages = await session.messages();
+const paged = await session.messages({ page: 1, size: 100, reverse: true });
+
+// Get a single message by ID
+const message = await session.getMessage("message-id");
+
+// Get conversation context
+const context = await session.context({ summary: true, tokens: 2000 });
+
+// Get context with peer representation included
+const richContext = await session.context({
+  tokens: 2000,
+  peerTarget: "user",
+  peerPerspective: "assistant",
+  limitToSession: true,
+  representationOptions: {
+    searchQuery: "What are my preferences?",
     searchTopK: 10,
-    includeMostFrequent: true
-  });
+    searchMaxDistance: 0.8,
+    includeMostFrequent: true,
+    maxConclusions: 25
+  }
+});
 
-  // Upload a file to create messages
-  const messages = await session.uploadFile(
-    fileBuffer,
-    "user",
-    {
-      metadata: { source: "upload" },
-      createdAt: "2024-01-15T10:30:00Z"
-    }
-  );
+// Search session content
+const results = await session.search("help");
 
-  // Clone a session (creates a copy with all data)
-  // Copies: messages, metadata, configuration, peers, and peer configurations
-  const cloned = await session.clone();
+// Working representation queries with semantic search
+const globalRep = await session.representation("alice");
+const targetedRep = await session.representation(alice, { target: bob });
+const searchedRep = await session.representation("alice", {
+  searchQuery: "preferences",
+  searchTopK: 10,
+  includeMostFrequent: true
+});
 
-  // Clone up to a specific message (inclusive)
-  // Only messages up to and including the specified message are copied
-  const clonedPartial = await session.clone("msg-123");
+// Upload a file to create messages
+const messages = await session.uploadFile(
+  fileBuffer,
+  "user",
+  {
+    metadata: { source: "upload" },
+    createdAt: "2024-01-15T10:30:00Z"
+  }
+);
 
-  // Delete session (async - returns 202)
-  await session.delete();
+// Clone a session (creates a copy with all data)
+// Copies: messages, metadata, configuration, peers, and peer configurations
+const cloned = await session.clone();
 
-  // Metadata management
-  await session.setMetadata({
-    topic: "product planning",
-    status: "active"
-  });
-  const metadata = await session.getMetadata();
-  ```
-</CodeGroup>
+// Clone up to a specific message (inclusive)
+// Only messages up to and including the specified message are copied
+const clonedPartial = await session.clone("msg-123");
+
+// Delete session (async - returns 202)
+await session.delete();
+
+// Metadata management
+await session.setMetadata({
+  topic: "product planning",
+  status: "active"
+});
+const metadata = await session.getMetadata();
+```
 
 **Session-Level Theory of Mind Configuration:**
 
+> [!NOTE]
+>
+> **Theory of Mind** controls whether peers can form models of what other peers think. Use `observe_others=False` to prevent a peer from modeling others within a session, and `observe_me=False` to prevent others from modeling this peer within a session.
 
-  **Theory of Mind** controls whether peers can form models of what other peers think. Use `observe_others=False` to prevent a peer from modeling others within a session, and `observe_me=False` to prevent others from modeling this peer within a session.
+```python Python theme={null}
+from honcho.api_types import SessionPeerConfig
 
+# Configure peer observation settings
+config = SessionPeerConfig(
+    observe_others=False,  # Form theory-of-mind of other peers -- False by default
+    observe_me=True        # Don't let others form theory-of-mind of me -- True by default
+)
 
-<CodeGroup>
-  ```python Python
-  from honcho.api_types import SessionPeerConfig
+session.add_peers([(alice, config)])
+```
 
-  # Configure peer observation settings
-  config = SessionPeerConfig(
-      observe_others=False,  # Form theory-of-mind of other peers -- False by default
-      observe_me=True        # Don't let others form theory-of-mind of me -- True by default
-  )
+```typescript TypeScript theme={null}
+// Configure peer observation settings
+const config = new SessionPeerConfig({
+    observeOthers: false,  // Form theory-of-mind of other peers -- False by default
+    observeMe: true        // Don't let others form theory-of-mind of me -- True by default
+});
 
-  session.add_peers([(alice, config)])
-  ```
-
-  ```typescript TypeScript
-  // Configure peer observation settings
-  const config = new SessionPeerConfig({
-      observeOthers: false,  // Form theory-of-mind of other peers -- False by default
-      observeMe: true        // Don't let others form theory-of-mind of me -- True by default
-  });
-
-  await session.addPeers([alice, config]);
-  ```
-</CodeGroup>
+await session.addPeers([alice, config]);
+```
 
 ### SessionContext
 
 Provides formatted conversation context for LLM integration:
 
-<CodeGroup>
-  ```python Python
-  # Get session context
-  context = session.context(summary=True, tokens=1500)
+```python Python theme={null}
+# Get session context
+context = session.context(summary=True, tokens=1500)
 
-  # Convert to LLM-friendly formats
-  openai_messages = context.to_openai(assistant=assistant)
-  anthropic_messages = context.to_anthropic(assistant=assistant)
-  ```
+# Convert to LLM-friendly formats
+openai_messages = context.to_openai(assistant=assistant)
+anthropic_messages = context.to_anthropic(assistant=assistant)
+```
 
-  ```typescript TypeScript
-  // Get session context
-  const context = await session.context({ summary: true, tokens: 1500 });
+```typescript TypeScript theme={null}
+// Get session context
+const context = await session.context({ summary: true, tokens: 1500 });
 
-  // Convert to LLM-friendly formats
-  const openaiMessages = context.toOpenAI(assistant);
-  const anthropicMessages = context.toAnthropic(assistant);
-  ```
-</CodeGroup>
+// Convert to LLM-friendly formats
+const openaiMessages = context.toOpenAI(assistant);
+const anthropicMessages = context.toAnthropic(assistant);
+```
 
 The SessionContext object has the following structure:
 
@@ -945,92 +921,88 @@ The SessionContext object has the following structure:
 
 ### Multi-Party Conversations
 
-<CodeGroup>
-  ```python Python
-  # Create multiple peers
-  users = [honcho.peer(f"user-{i}") for i in range(5)]
-  moderator = honcho.peer("moderator")
+```python Python theme={null}
+# Create multiple peers
+users = [honcho.peer(f"user-{i}") for i in range(5)]
+moderator = honcho.peer("moderator")
 
-  # Create group session
-  group_chat = honcho.session("group-discussion")
-  group_chat.add_peers(users + [moderator])
+# Create group session
+group_chat = honcho.session("group-discussion")
+group_chat.add_peers(users + [moderator])
 
-  # Add messages from different peers
-  group_chat.add_messages([
-      users[0].message("What's our agenda for today?"),
-      moderator.message("We'll discuss the new feature roadmap"),
-      users[1].message("I have some concerns about the timeline")
-  ])
-
-  # Query different perspectives
-  user_perspective = users[0].chat("What are people's concerns?")
-  moderator_view = moderator.chat("What feedback am I getting?", session=group_chat.id)
-  ```
-
-  ```typescript TypeScript
-  // Create multiple peers
-  const users = await Promise.all(
-    Array.from({ length: 5 }, (_, i) => honcho.peer(`user-${i}`))
-  );
-  const moderator = await honcho.peer("moderator");
-
-  // Create group session
-  const groupChat = await honcho.session("group-discussion");
-  await groupChat.addPeers([...users, moderator]);
-
-  // Add messages from different peers
-  await groupChat.addMessages([
+# Add messages from different peers
+group_chat.add_messages([
     users[0].message("What's our agenda for today?"),
     moderator.message("We'll discuss the new feature roadmap"),
     users[1].message("I have some concerns about the timeline")
-  ]);
+])
 
-  // Query different perspectives
-  const userPerspective = await users[0].chat("What are people's concerns?");
-  const moderatorView = await moderator.chat("What feedback am I getting?", {
-    sessionId: groupChat.id
-  });
-  ```
-</CodeGroup>
+# Query different perspectives
+user_perspective = users[0].chat("What are people's concerns?")
+moderator_view = moderator.chat("What feedback am I getting?", session=group_chat.id)
+```
+
+```typescript TypeScript theme={null}
+// Create multiple peers
+const users = await Promise.all(
+  Array.from({ length: 5 }, (_, i) => honcho.peer(`user-${i}`))
+);
+const moderator = await honcho.peer("moderator");
+
+// Create group session
+const groupChat = await honcho.session("group-discussion");
+await groupChat.addPeers([...users, moderator]);
+
+// Add messages from different peers
+await groupChat.addMessages([
+  users[0].message("What's our agenda for today?"),
+  moderator.message("We'll discuss the new feature roadmap"),
+  users[1].message("I have some concerns about the timeline")
+]);
+
+// Query different perspectives
+const userPerspective = await users[0].chat("What are people's concerns?");
+const moderatorView = await moderator.chat("What feedback am I getting?", {
+  sessionId: groupChat.id
+});
+```
 
 ### LLM Integration
 
-<CodeGroup>
-  ```python Python
-  import openai
+```python Python theme={null}
+import openai
 
-  # Get conversation context
-  context = session.context(tokens=3000)
-  messages = context.to_openai(assistant=assistant)
+# Get conversation context
+context = session.context(tokens=3000)
+messages = context.to_openai(assistant=assistant)
 
-  # Call OpenAI API
-  response = openai.chat.completions.create(
-      model="gpt-4",
-      messages=messages + [
-          {"role": "user", "content": "Summarize the key discussion points."}
-      ]
-  )
-  ```
-
-  ```typescript TypeScript
-  import OpenAI from 'openai';
-
-  const openai = new OpenAI();
-
-  // Get conversation context
-  const context = await session.context({ tokens: 3000 });
-  const messages = context.toOpenAI(assistant);
-
-  // Call OpenAI API
-  const response = await openai.chat.completions.create({
-    model: "gpt-4",
-    messages: [
-      ...messages,
-      { role: "user", content: "Summarize the key discussion points." }
+# Call OpenAI API
+response = openai.chat.completions.create(
+    model="gpt-4",
+    messages=messages + [
+        {"role": "user", "content": "Summarize the key discussion points."}
     ]
-  });
-  ```
-</CodeGroup>
+)
+```
+
+```typescript TypeScript theme={null}
+import OpenAI from 'openai';
+
+const openai = new OpenAI();
+
+// Get conversation context
+const context = await session.context({ tokens: 3000 });
+const messages = context.toOpenAI(assistant);
+
+// Call OpenAI API
+const response = await openai.chat.completions.create({
+  model: "gpt-4",
+  messages: [
+    ...messages,
+    { role: "user", content: "Summarize the key discussion points." }
+  ]
+});
+```
 
 ### Custom Message Timestamps
 
@@ -1062,169 +1034,161 @@ If `created_at` is not provided, messages will use the server's current timestam
 
 ### Metadata and Filtering
 
-See [Using Filters](/docs/v3/documentation/features/advanced/using-filters) for more examples on how to use filters.
+See [Using Filters](https://honcho.dev/docs/v3/documentation/features/advanced/using-filters.md) for more examples on how to use filters.
 
-<CodeGroup>
-  ```python Python
-  # Add messages with metadata
-  session.add_messages([
-      alice.message("Let's discuss the budget", metadata={
-          "topic": "finance",
-          "priority": "high"
-      }),
-      assistant.message("I'll prepare the financial report", metadata={
-          "action_item": True,
-          "due_date": "2024-01-15"
-      })
-  ])
-
-  # Filter messages by metadata
-  finance_messages = session.messages(filters={"metadata": {"topic": "finance"}})
-  action_items = session.messages(filters={"metadata": {"action_item": True}})
-  ```
-
-  ```typescript TypeScript
-  // Add messages with metadata
-  await session.addMessages([
-    alice.message("Let's discuss the budget", {
-      metadata: {
-        topic: "finance",
-        priority: "high"
-      }
+```python Python theme={null}
+# Add messages with metadata
+session.add_messages([
+    alice.message("Let's discuss the budget", metadata={
+        "topic": "finance",
+        "priority": "high"
     }),
-    assistant.message("I'll prepare the financial report", {
-      metadata: {
-        action_item: true,
-        due_date: "2024-01-15"
-      }
+    assistant.message("I'll prepare the financial report", metadata={
+        "action_item": True,
+        "due_date": "2024-01-15"
     })
-  ]);
+])
 
-  // Filter messages by metadata
-  const financeMessages = await session.messages({
-    filters: { metadata: { topic: "finance" } }
-  });
-  const actionItems = await session.messages({
-    filters: { metadata: { action_item: true } }
-  });
-  ```
-</CodeGroup>
+# Filter messages by metadata
+finance_messages = session.messages(filters={"metadata": {"topic": "finance"}})
+action_items = session.messages(filters={"metadata": {"action_item": True}})
+```
+
+```typescript TypeScript theme={null}
+// Add messages with metadata
+await session.addMessages([
+  alice.message("Let's discuss the budget", {
+    metadata: {
+      topic: "finance",
+      priority: "high"
+    }
+  }),
+  assistant.message("I'll prepare the financial report", {
+    metadata: {
+      action_item: true,
+      due_date: "2024-01-15"
+    }
+  })
+]);
+
+// Filter messages by metadata
+const financeMessages = await session.messages({
+  filters: { metadata: { topic: "finance" } }
+});
+const actionItems = await session.messages({
+  filters: { metadata: { action_item: true } }
+});
+```
 
 ### Pagination
 
 All list methods support `page`, `size`, and `reverse` parameters:
 
-<CodeGroup>
-  ```python Python
-  # Default pagination (page 1, size 50)
-  for session in honcho.sessions():
-      print(f"Session: {session.id}")
+```python Python theme={null}
+# Default pagination (page 1, size 50)
+for session in honcho.sessions():
+    print(f"Session: {session.id}")
 
-  # Custom page size
-  for message in session.messages(size=100):
-      print(f"  {message.peer_id}: {message.content}")
+# Custom page size
+for message in session.messages(size=100):
+    print(f"  {message.peer_id}: {message.content}")
 
-  # Start at a specific page
-  page3 = session.messages(page=3, size=25)
+# Start at a specific page
+page3 = session.messages(page=3, size=25)
 
-  # Reverse ordering
-  recent_first = session.messages(reverse=True)
+# Reverse ordering
+recent_first = session.messages(reverse=True)
 
-  # Combine with filters
-  filtered = session.messages(filters={"peer_id": "alice"}, size=10)
-  ```
+# Combine with filters
+filtered = session.messages(filters={"peer_id": "alice"}, size=10)
+```
 
-  ```typescript TypeScript
-  // Default pagination (page 1, size 50)
-  const peersPage = await honcho.peers();
+```typescript TypeScript theme={null}
+// Default pagination (page 1, size 50)
+const peersPage = await honcho.peers();
 
-  // Custom page size and filtering
-  const filtered = await honcho.peers({
-    filters: { metadata: { role: "user" } },
-    size: 25
-  });
+// Custom page size and filtering
+const filtered = await honcho.peers({
+  filters: { metadata: { role: "user" } },
+  size: 25
+});
 
-  // Start at a specific page
-  const page3 = await session.messages({ page: 3, size: 25 });
+// Start at a specific page
+const page3 = await session.messages({ page: 3, size: 25 });
 
-  // Reverse ordering
-  const recent = await session.messages({ reverse: true });
+// Reverse ordering
+const recent = await session.messages({ reverse: true });
 
-  // Iterate through all items (auto-paginates)
-  for await (const peer of await honcho.peers()) {
-    console.log(`Peer: ${peer.id}`);
-  }
+// Iterate through all items (auto-paginates)
+for await (const peer of await honcho.peers()) {
+  console.log(`Peer: ${peer.id}`);
+}
 
-  // Manual pagination
-  let currentPage = peersPage;
-  while (currentPage) {
-    const data = await currentPage.data();
-    console.log(`Processing ${data.length} items`);
-    currentPage = await currentPage.nextPage();
-  }
-  ```
-</CodeGroup>
+// Manual pagination
+let currentPage = peersPage;
+while (currentPage) {
+  const data = await currentPage.data();
+  console.log(`Processing ${data.length} items`);
+  currentPage = await currentPage.nextPage();
+}
+```
 
 ## Best Practices
 
 ### Resource Management
 
-<CodeGroup>
-  ```python Python
-  # Peers and sessions are lightweight - create as needed
-  alice = honcho.peer("alice")
-  session = honcho.session("chat-1")
+```python Python theme={null}
+# Peers and sessions are lightweight - create as needed
+alice = honcho.peer("alice")
+session = honcho.session("chat-1")
 
-  # Use descriptive IDs for better debugging
-  user_session = honcho.session(f"user-{user_id}-support-{ticket_id}")
-  support_agent = honcho.peer(f"agent-{agent_id}")
-  ```
+# Use descriptive IDs for better debugging
+user_session = honcho.session(f"user-{user_id}-support-{ticket_id}")
+support_agent = honcho.peer(f"agent-{agent_id}")
+```
 
-  ```typescript TypeScript
-  // Peers and sessions are lightweight - create as needed
-  const alice = await honcho.peer("alice");
-  const session = await honcho.session("chat-1");
+```typescript TypeScript theme={null}
+// Peers and sessions are lightweight - create as needed
+const alice = await honcho.peer("alice");
+const session = await honcho.session("chat-1");
 
-  // Use descriptive IDs for better debugging
-  const userSession = await honcho.session(`user-${userId}-support-${ticketId}`);
-  const supportAgent = await honcho.peer(`agent-${agentId}`);
-  ```
-</CodeGroup>
+// Use descriptive IDs for better debugging
+const userSession = await honcho.session(`user-${userId}-support-${ticketId}`);
+const supportAgent = await honcho.peer(`agent-${agentId}`);
+```
 
 ### Performance Optimization
 
-<CodeGroup>
-  ```python Python
-  # Create peers (each makes a get-or-create call)
-  peers = [honcho.peer(f"user-{i}") for i in range(100)]
+```python Python theme={null}
+# Create peers (each makes a get-or-create call)
+peers = [honcho.peer(f"user-{i}") for i in range(100)]
 
-  # Batch operations when possible
-  session.add_messages([peer.message(f"Message {i}") for i, peer in enumerate(peers)])
+# Batch operations when possible
+session.add_messages([peer.message(f"Message {i}") for i, peer in enumerate(peers)])
 
-  # Use context limits to control token usage
-  context = session.context(tokens=1500)  # Limit context size
-  ```
+# Use context limits to control token usage
+context = session.context(tokens=1500)  # Limit context size
+```
 
-  ```typescript TypeScript
-  // Create peers (each makes a get-or-create call)
-  const peers = await Promise.all(
-    Array.from({ length: 100 }, (_, i) => honcho.peer(`user-${i}`))
-  );
+```typescript TypeScript theme={null}
+// Create peers (each makes a get-or-create call)
+const peers = await Promise.all(
+  Array.from({ length: 100 }, (_, i) => honcho.peer(`user-${i}`))
+);
 
-  // Batch operations when possible
-  await session.addMessages(
-    peers.map((peer, i) => peer.message(`Message ${i}`))
-  );
+// Batch operations when possible
+await session.addMessages(
+  peers.map((peer, i) => peer.message(`Message ${i}`))
+);
 
-  // Use context limits to control token usage
-  const context = await session.context({ tokens: 1500 }); // Limit context size
+// Use context limits to control token usage
+const context = await session.context({ tokens: 1500 }); // Limit context size
 
-  // Iterate efficiently with async iteration
-  for await (const peer of await honcho.peers()) {
-    // Process one peer at a time without loading all into memory
-  }
-  ```
-</CodeGroup>
+// Iterate efficiently with async iteration
+for await (const peer of await honcho.peers()) {
+  // Process one peer at a time without loading all into memory
+}
+```
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

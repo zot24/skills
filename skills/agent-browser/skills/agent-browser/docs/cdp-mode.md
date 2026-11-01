@@ -41,6 +41,10 @@ agent-browser --cdp 9222 snapshot
 ```
 
 
+The session stays attached until `agent-browser close`. Later commands without a connection flag run against the same browser, as if you passed `--cdp` again. If that browser goes away, commands fail instead of launching a local one.
+
+If the debugging port is not open yet, `connect` and `--cdp` wait up to 2 seconds for it before failing.
+
 ## <a href="#remote-websocket-urls" class="peer" data-card="">Remote WebSocket URLs</a>
 
 Connect to remote browser services via WebSocket URL:
@@ -52,6 +56,10 @@ agent-browser --cdp "wss://browser-service.com/cdp?token=..." snapshot
 
 # Works with any CDP-compatible service
 agent-browser --cdp "ws://localhost:9222/devtools/browser/abc123" open example.com
+
+# Authenticated CDP WebSocket (e.g. Cloudflare Browser Rendering)
+agent-browser --cdp "wss://api.cloudflare.com/.../devtools/browser" \
+  --cdp-headers '{"Authorization":"Bearer YOUR_API_TOKEN"}' snapshot
 ```
 
 
@@ -59,6 +67,10 @@ The `--cdp` flag accepts either:
 
 - A port number (e.g., `9222`) for local connections via `http://localhost:{port}`
 - A full WebSocket URL (e.g., `wss://...` or `ws://...`) for remote browser services
+
+Use `--cdp-headers` (or `AGENT_BROWSER_CDP_HEADERS`) when the service authenticates the WebSocket handshake instead of the URL. It takes a JSON object with string values and is sent on HTTP discovery (`/json/version`, `/json/list`) and on the WebSocket handshake, for URLs and port numbers alike. It is separate from `--headers`, which sets HTTP headers on page requests.
+
+For an `https://` CDP URL, discovery keeps the encryption of the input: requests go over `https://`/`wss://`, so credentials are never sent in plaintext, and there is no fallback to an unencrypted scheme. Only pass `--cdp-headers` with `http://`/`ws://` targets on networks you trust.
 
 Root WebSocket endpoints accept query strings with or without an explicit slash, so both `wss://browser-service.com?token=...` and `wss://browser-service.com/?token=...` work.
 
@@ -110,8 +122,9 @@ With `--pin-tab`:
 - If the bound tab is closed, commands fail with a `tab_gone` error instead of silently acting on another tab. JSON responses carry `"code": "tab_gone"`, `data.targetId`, and optional `data.lastUrl`
 - `tab list`, `tab new`, and `tab <ref>` still work in that state, so an agent can recover by binding a new tab
 - Tabs opened by other sessions or the user never steal the pinned session's active tab
+- Another session cannot take a pinned tab with `tab <ref>` while the pinning session is running; the switch fails with `tab_locked` naming the owner
 
-The flag is sticky per session: pass it once and later commands and daemon restarts keep the strict semantics. Pass `--no-pin-tab` to explicitly turn the pin off again. See <a href="/sessions" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Sessions</a> for the multi-session workflow and <a href="/commands" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Commands</a> for tab refs by CDP target id.
+The flag is sticky per session: pass it once and later commands keep the strict semantics. Daemon restarts keep the pin; an explicit close releases it so other sessions can take the tab, and the next pinned command pins again. Pass `--no-pin-tab` to explicitly turn the pin off again. See <a href="/sessions" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Sessions</a> for the multi-session workflow and <a href="/commands" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Commands</a> for tab refs by CDP target id.
 
 The structured `lastUrl` is emitted only for sanitized HTTP(S) URLs and `about:blank`. Credentials, query strings, and fragments are removed from HTTP(S) URLs, while opaque URLs such as `data:` are omitted. Batch JSON exposes the recovery object under `result`.
 
@@ -155,7 +168,7 @@ This enables control of:
 | `-p <provider>`           | Browser provider (`browserbase`, `browseruse`, `kernel`, `browserless`, `agentcore`, or a configured `browser.provider` plugin) |
 | `--headers <json>`        | HTTP headers scoped to origin                                                                                                   |
 | `--executable-path`       | Custom browser executable                                                                                                       |
-| `--args <args>`           | Browser launch args (comma-separated)                                                                                           |
+| `--args <args>`           | Browser launch args. Commas inside a value are kept.                                                                            |
 | `--user-agent <ua>`       | Custom User-Agent string                                                                                                        |
 | `--proxy <url>`           | Proxy server URL                                                                                                                |
 | `--proxy-bypass <hosts>`  | Hosts to bypass proxy                                                                                                           |

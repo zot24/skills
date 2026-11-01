@@ -4,7 +4,7 @@
 title: Transcripts (deprecated)
 description: Configuration, methods, and entry shape for the deprecated cross-platform per-user transcript API.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: reference
 related:
   - /docs/history

@@ -10,46 +10,44 @@
 
 Honcho's reasoning runs in the background, so a message you just created is not
 immediately reflected in the peer's representation. Instead of polling
-[queue status](/docs/v3/documentation/features/advanced/queue-status), you can
+[queue status](https://honcho.dev/docs/v3/documentation/features/advanced/queue-status.md), you can
 register a webhook endpoint and have Honcho notify you when the work it queued
 for a session has drained.
 
 Webhooks are registered per workspace. Every event for that workspace is
 delivered to every endpoint registered on it.
 
-
-  **On Honcho Cloud, register endpoints from the dashboard.** The webhook API
-  below is available on self-hosted instances; on `api.honcho.dev` it returns
-  `405 Method Not Allowed`. Use the
-  [Webhooks page](https://app.honcho.dev/webhooks) instead. Everything else on
-  this page — payload shapes, delivery semantics — applies to both.
-
+> [!NOTE]
+>
+> **On Honcho Cloud, register endpoints from the dashboard.** The webhook API
+> below is available on self-hosted instances; on `api.honcho.dev` it returns
+> `405 Method Not Allowed`. Use the
+> [Webhooks page](https://app.honcho.dev/webhooks) instead. Everything else on
+> this page — payload shapes, delivery semantics — applies to both.
 
 ## Registering an Endpoint
 
-<CodeGroup>
-  ```bash Register
-  curl -X POST "$HONCHO_URL/v3/workspaces/my-app/webhooks" \
-    -H "Authorization: Bearer $HONCHO_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{"url": "https://example.com/honcho/webhook"}'
-  ```
+```bash Register theme={null}
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/webhooks" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://example.com/honcho/webhook"}'
+```
 
-  ```bash List
-  curl -X GET "$HONCHO_URL/v3/workspaces/my-app/webhooks" \
-    -H "Authorization: Bearer $HONCHO_API_KEY"
-  ```
+```bash List theme={null}
+curl -X GET "$HONCHO_URL/v3/workspaces/my-app/webhooks" \
+  -H "Authorization: Bearer $HONCHO_API_KEY"
+```
 
-  ```bash Test
-  curl -X GET "$HONCHO_URL/v3/workspaces/my-app/webhooks/test" \
-    -H "Authorization: Bearer $HONCHO_API_KEY"
-  ```
+```bash Test theme={null}
+curl -X GET "$HONCHO_URL/v3/workspaces/my-app/webhooks/test" \
+  -H "Authorization: Bearer $HONCHO_API_KEY"
+```
 
-  ```bash Delete
-  curl -X DELETE "$HONCHO_URL/v3/workspaces/my-app/webhooks/$ENDPOINT_ID" \
-    -H "Authorization: Bearer $HONCHO_API_KEY"
-  ```
-</CodeGroup>
+```bash Delete theme={null}
+curl -X DELETE "$HONCHO_URL/v3/workspaces/my-app/webhooks/$ENDPOINT_ID" \
+  -H "Authorization: Bearer $HONCHO_API_KEY"
+```
 
 Registration is get-or-create: a URL already registered on the workspace
 returns `200` with the existing endpoint, a new one returns `201`. The test
@@ -59,10 +57,10 @@ quickest way to confirm your receiver and signature check work end to end.
 Webhook routes accept an admin key or a workspace-scoped key for that
 workspace. Peer- and session-scoped keys cannot manage webhooks.
 
-
-  Webhook management is also available in the dashboard on the
-  [Webhooks](https://app.honcho.dev/webhooks) page.
-
+> [!NOTE]
+>
+> Webhook management is also available in the dashboard on the
+> [Webhooks](https://app.honcho.dev/webhooks) page.
 
 ### URL Requirements
 
@@ -70,11 +68,11 @@ A webhook URL must be absolute and use `http` or `https`. URLs whose host is an
 IP literal in a private, loopback, link-local, reserved, multicast, or
 unspecified range are rejected with `422`.
 
-
-  This check inspects IP literals only — hostnames are accepted without
-  resolution. If you self-host, treat network-level egress controls, not this
-  validation, as your defense against internal-address delivery.
-
+> [!WARNING]
+>
+> This check inspects IP literals only — hostnames are accepted without
+> resolution. If you self-host, treat network-level egress controls, not this
+> validation, as your defense against internal-address delivery.
 
 Each workspace can register up to `WEBHOOK_MAX_WORKSPACE_LIMIT` endpoints
 (default 10). Exceeding the limit returns `409`.
@@ -86,13 +84,13 @@ Each workspace can register up to `WEBHOOK_MAX_WORKSPACE_LIMIT` endpoints
 | `queue.empty` | A unit of queued background work finished draining | `workspace_id`, `queue_type` (`representation` or `summary`), `session_id`, `observer`, `observed` |
 | `test.event` | You called `GET /webhooks/test` | `workspace_id` |
 
-
-  `queue.empty` is scoped to a single unit of work — one task type for one
-  session and observer/observed pair — not to the workspace as a whole. Other
-  work may still be queued elsewhere in the workspace when it fires. A session
-  whose messages produce both representation and summary work emits one event per
-  task type.
-
+> [!WARNING]
+>
+> `queue.empty` is scoped to a single unit of work — one task type for one
+> session and observer/observed pair — not to the workspace as a whole. Other
+> work may still be queued elsewhere in the workspace when it fires. A session
+> whose messages produce both representation and summary work emits one event per
+> task type.
 
 ## Payload
 
@@ -142,54 +140,52 @@ HMAC-SHA256 of the **raw request body**, keyed with your deployment's
 the bytes you received — Honcho serializes the body compactly with sorted keys,
 so re-serializing your parsed JSON will not reliably reproduce it.
 
-<CodeGroup>
-  ```python Python
-  import hashlib
-  import hmac
-  import json
-  import os
+```python Python theme={null}
+import hashlib
+import hmac
+import json
+import os
 
-  def verify(raw_body: bytes, signature: str) -> bool:
-      expected = hmac.new(
-          os.environ["WEBHOOK_SECRET"].encode(),
-          raw_body,
-          hashlib.sha256,
-      ).hexdigest()
-      return hmac.compare_digest(expected, signature)
+def verify(raw_body: bytes, signature: str) -> bool:
+    expected = hmac.new(
+        os.environ["WEBHOOK_SECRET"].encode(),
+        raw_body,
+        hashlib.sha256,
+    ).hexdigest()
+    return hmac.compare_digest(expected, signature)
 
-  # FastAPI — read the raw body, not a parsed model
-  @app.post("/honcho/webhook")
-  async def handle(request: Request):
-      raw = await request.body()
-      if not verify(raw, request.headers.get("X-Honcho-Signature", "")):
-          raise HTTPException(status_code=401)
-      event = json.loads(raw)
-      ...
-  ```
+# FastAPI — read the raw body, not a parsed model
+@app.post("/honcho/webhook")
+async def handle(request: Request):
+    raw = await request.body()
+    if not verify(raw, request.headers.get("X-Honcho-Signature", "")):
+        raise HTTPException(status_code=401)
+    event = json.loads(raw)
+    ...
+```
 
-  ```typescript TypeScript
-  import crypto from 'node:crypto';
+```typescript TypeScript theme={null}
+import crypto from 'node:crypto';
 
-  function verify(rawBody: Buffer, signature: string): boolean {
-    const expected = crypto
-      .createHmac('sha256', process.env.WEBHOOK_SECRET!)
-      .update(rawBody)
-      .digest('hex');
-    const a = Buffer.from(expected);
-    const b = Buffer.from(signature);
-    return a.length === b.length && crypto.timingSafeEqual(a, b);
+function verify(rawBody: Buffer, signature: string): boolean {
+  const expected = crypto
+    .createHmac('sha256', process.env.WEBHOOK_SECRET!)
+    .update(rawBody)
+    .digest('hex');
+  const a = Buffer.from(expected);
+  const b = Buffer.from(signature);
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
+}
+
+// Express — note express.raw(), not express.json()
+app.post('/honcho/webhook', express.raw({ type: 'application/json' }), (req, res) => {
+  if (!verify(req.body, req.header('X-Honcho-Signature') ?? '')) {
+    return res.sendStatus(401);
   }
-
-  // Express — note express.raw(), not express.json()
-  app.post('/honcho/webhook', express.raw({ type: 'application/json' }), (req, res) => {
-    if (!verify(req.body, req.header('X-Honcho-Signature') ?? '')) {
-      return res.sendStatus(401);
-    }
-    const event = JSON.parse(req.body.toString());
-    res.sendStatus(200);
-  });
-  ```
-</CodeGroup>
+  const event = JSON.parse(req.body.toString());
+  res.sendStatus(200);
+});
+```
 
 ## Delivery Semantics
 
@@ -202,28 +198,30 @@ Delivery is best-effort and fire-and-forget:
 
 Design your receiver accordingly: treat the event as a hint to re-read state
 from the API rather than as the state itself, and fall back to
-[queue status](/docs/v3/documentation/features/advanced/queue-status) polling if you
+[queue status](https://honcho.dev/docs/v3/documentation/features/advanced/queue-status.md) polling if you
 need a guarantee.
 
 ## Self-Hosting Requirements
 
-
-  `WEBHOOK_SECRET` must be set, or nothing is delivered. Honcho signs every
-  payload before sending it; with no secret configured, signing fails and the
-  event is dropped after being logged. Registration still succeeds, so a missing
-  secret looks like silence rather than an error.
-
+> [!WARNING]
+>
+> `WEBHOOK_SECRET` must be set, or nothing is delivered. Honcho signs every
+> payload before sending it; with no secret configured, signing fails and the
+> event is dropped after being logged. Registration still succeeds, so a missing
+> secret looks like silence rather than an error.
 
 Webhook delivery is queued work handled by the deriver process, so a deriver
 worker must be running for events to be sent. See
-[Configuration](/docs/v3/contributing/configuration#webhooks) for
+[Configuration](https://honcho.dev/docs/v3/contributing/configuration.md#webhooks) for
 `WEBHOOK_SECRET` and `WEBHOOK_MAX_WORKSPACE_LIMIT`.
 
+> [card] [Queue Status](https://honcho.dev/docs/v3/documentation/features/advanced/queue-status.md)
+>
+> Poll background processing state instead of waiting for a push
 
-    Poll background processing state instead of waiting for a push
-
-
-    Full request and response schemas for the webhook endpoints
+> [card] [Webhook API Reference](https://honcho.dev/docs/v3/api-reference/endpoint/webhooks/get-or-create-webhook-endpoint.md)
+>
+> Full request and response schemas for the webhook endpoints
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -4,7 +4,7 @@
 title: Message Subject
 description: Fetch the parent resource that a message is about.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/handling-events
@@ -14,7 +14,7 @@ related:
 
 > For an index of all documentation, see [/llms.txt](/llms.txt).
 
-When your bot receives a comment on a Linear issue, GitHub PR, or Notion page, `message.subject` resolves the parent resource so your handler knows what the conversation is about.
+When your bot receives a comment on a Linear issue, GitHub PR, GitLab merge request, or Notion page, `message.subject` resolves the parent resource so your handler knows what the conversation is about.
 
 ## Usage
 
@@ -30,17 +30,18 @@ bot.onNewMention(async (thread, message) => {
 });
 ```
 
-On Linear, GitHub, and Notion, comment webhooks deliver the comment text but not the full parent resource, so `message.subject` fetches it from the platform API on first access and caches the result on the message instance. Chat platforms have no parent resource, so `message.subject` returns `null` there. It also returns `null` if the API call fails.
+On Linear, GitHub, GitLab, and Notion, comment webhooks deliver the comment text but not the full parent resource, so `message.subject` fetches it from the platform API on first access and caches the result on the message instance. Chat platforms have no parent resource, so `message.subject` returns `null` there. It also returns `null` if the API call fails.
 
 See [`MessageSubject`](/docs/api/message#messagesubject) for the full type shape.
 
 ### Platform support
 
-| Platform | `message.subject` returns                  |
-| -------- | ------------------------------------------ |
-| Linear   | Parent issue (from comment webhooks)       |
-| GitHub   | Parent issue or PR (from comment webhooks) |
-| Notion   | Parent page (from comment webhooks)        |
+| Platform | `message.subject` returns                             |
+| -------- | ----------------------------------------------------- |
+| Linear   | Parent issue (from comment webhooks)                  |
+| GitHub   | Parent issue or PR (from comment webhooks)            |
+| GitLab   | Parent merge request or issue (from comment webhooks) |
+| Notion   | Parent page (from comment webhooks)                   |
 
 All other platforms return `null`.
 

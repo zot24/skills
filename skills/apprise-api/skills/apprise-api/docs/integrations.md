@@ -257,11 +257,9 @@ curl -X POST "http://localhost:8000/notify" \
 ```bash
 # Stateless notification with an attachment
 curl -X POST "http://localhost:8000/notify" \
-  -F 'payload={
-    "urls": ["discord://TOKEN/CHANNEL"],
-    "title": "Build Complete",
-    "body": "Artifact attached"
-  };type=application/json' \
+  -F "urls=discord://TOKEN/CHANNEL" \
+  -F "title=Build Complete" \
+  -F "body=Artifact attached" \
   -F "attach=@/path/to/file.txt"
 ```
 

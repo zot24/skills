@@ -183,17 +183,21 @@ curl -X POST http://localhost:8000/api/interact \
 
 ## Next steps
 
+> [card] [Search docs](https://docs.firecrawl.dev/features/search.md)
+>
+> Search the web and get full page content
 
-    Search the web and get full page content
+> [card] [Scrape docs](https://docs.firecrawl.dev/features/scrape.md)
+>
+> All scrape options including formats, actions, and proxies
 
+> [card] [Interact docs](https://docs.firecrawl.dev/features/interact.md)
+>
+> Click, fill forms, and extract dynamic content
 
-    All scrape options including formats, actions, and proxies
-
-
-    Click, fill forms, and extract dynamic content
-
-
-    Complete REST API documentation
+> [card] [API Reference](https://docs.firecrawl.dev/api-reference/v2-introduction.md)
+>
+> Complete REST API documentation
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

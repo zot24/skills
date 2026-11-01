@@ -4,7 +4,7 @@
 
 ## Japanese
 
-- [Japanese / v2 (221 pages)](https://docs.firecrawl.dev/_llms/ja/v2.txt): Documentation for Japanese / v2.
+- [Japanese / v2 (247 pages)](https://docs.firecrawl.dev/_llms/ja/v2.txt): Documentation for Japanese / v2.
 
 ### v1
 
@@ -12,7 +12,7 @@
 
 ##### はじめに
 
-- [はじめに](https://docs.firecrawl.dev/ja/introduction.md): AIエージェントのためのウェブデータAPI。ウェブを検索し、あらゆるページをスクレイピングして操作できます、すべてを1つのAPIで。
+- [はじめに](https://docs.firecrawl.dev/ja/introduction.md): AIエージェントのためのコンテキストAPI。ウェブを検索し、あらゆるページをスクレイピングして操作できます、すべてを1つのAPIで。
 - [はじめに](https://docs.firecrawl.dev/ja/mcp-server.md): キーレスアクセス、アカウントへのサインイン、またはAPIキーを使用してFirecrawl MCPを設定します。
 - [高度なスクレイピングガイド](https://docs.firecrawl.dev/ja/advanced-scraping-guide.md): Firecrawl の API 全体で、スクレイピングオプション、ブラウザ アクション、クロール、マップ、エージェントエンドポイントを構成します。
 
@@ -25,6 +25,7 @@
 ###### Enterprise
 
 - [Enterprise](https://docs.firecrawl.dev/ja/enterprise.md): 大規模な Firecrawl 向けの Enterprise プラン、セキュリティ、機能
+- [セキュリティの概要](https://docs.firecrawl.dev/ja/security.md): Firecrawl によるデータ保護の取り組み（ゼロデータ保持、DPA、SSO、アクセス制御、データレジデンシー）を一か所にまとめています。セキュリティ審査にご活用ください。
 - [SSO と SCIM](https://docs.firecrawl.dev/ja/features/sso.md): シングルサインオン（SSO）と SCIM ディレクトリ同期を設定すると、Team は ID プロバイダー経由でサインインでき、ユーザーのアクセス権もディレクトリと常に同期されます。
 - [IP制限](https://docs.firecrawl.dev/ja/features/ip-restrictions.md): チームのAPIキーをIPアドレスまたはCIDR範囲の許可リストに制限し、承認済みネットワークからのみ利用できるようにします。サーバー側で適用されます。
 - [キー制限](https://docs.firecrawl.dev/ja/features/key-restrictions.md): 個別のAPIキーを特定の出力フォーマットとエンドポイントに限定します。サーバー側で強制されるため、リクエストで上書きすることはできません。
@@ -39,7 +40,7 @@
 
 ###### スクレイピング
 
-- [スクレイピング](https://docs.firecrawl.dev/ja/features/scrape.md): あらゆるURLをクリーンなデータに変換
+- [スクレイピング](https://docs.firecrawl.dev/ja/features/scrape.md): あらゆるURLをクリーンなMarkdownまたは構造化データに変換
 - [スクレイピングを高速化](https://docs.firecrawl.dev/ja/features/fast-scraping.md): maxAge（キャッシュ）パラメータでスクレイプを最大5倍高速化
 - [バッチスクレイピング](https://docs.firecrawl.dev/ja/features/batch-scrape.md): 単一のバッチジョブで複数のURLをスクレイピングする
 - [JSONモード - 構造化結果](https://docs.firecrawl.dev/ja/features/llm-extract.md): LLMでページから構造化データを抽出する
@@ -66,14 +67,14 @@
 
 ##### 公式
 
-- [Python](https://docs.firecrawl.dev/ja/sdks/python.md): Firecrawl Python SDK は、Firecrawl API のラッパーで、ウェブサイトを手軽に Markdown に変換できます。
-- [Node](https://docs.firecrawl.dev/ja/sdks/node.md): Firecrawl Node SDK を使って、Web サイトをスクレイピング、クロールし、構造化データを抽出します。
-- [Go](https://docs.firecrawl.dev/ja/sdks/go.md): Firecrawl Go SDK は、Web サイトを簡単に Markdown に変換するための Firecrawl API のラッパーです。
-- [Java](https://docs.firecrawl.dev/ja/sdks/java.md): Firecrawl Java SDK は、Web サイトを簡単に Markdown に変換するための Firecrawl API のラッパーです。
-- [Ruby](https://docs.firecrawl.dev/ja/sdks/ruby.md): Firecrawl Ruby SDK は、Web サイトを簡単に Markdown に変換できるようにする、Firecrawl API のラッパーです。
-- [Rust](https://docs.firecrawl.dev/ja/sdks/rust.md): Firecrawl Rust SDK は、Web サイトを簡単に Markdown に変換できる Firecrawl API のラッパーです。
-- [.NET](https://docs.firecrawl.dev/ja/sdks/dotnet.md): Firecrawl .NET SDK は、Firecrawl API のラッパーで、Web サイトを簡単に Markdown に変換できます。
-- [PHP](https://docs.firecrawl.dev/ja/sdks/php.md): Firecrawl PHP SDK は、Web サイトを簡単に Markdown に変換できる Firecrawl API のラッパーです。
+- [Python](https://docs.firecrawl.dev/ja/sdks/python.md): Firecrawl Python SDK は、Firecrawl API のラッパーで、ウェブの検索、スクレイピング、クロールを行い、クリーンな Markdown や構造化データを取得できます。
+- [Node](https://docs.firecrawl.dev/ja/sdks/node.md): Firecrawl Node SDK を使用して、ウェブの検索、スクレイピング、クロール、操作を行えます。
+- [Go](https://docs.firecrawl.dev/ja/sdks/go.md): Firecrawl Go SDK は、ウェブの検索・スクレイピング・クロールを行い、クリーンな Markdown や構造化データを取得するための Firecrawl API のラッパーです。
+- [Java](https://docs.firecrawl.dev/ja/sdks/java.md): Firecrawl Java SDK は、ウェブの検索、スクレイピング、クロールを行い、クリーンな Markdown や構造化データを取得するための Firecrawl API のラッパーです。
+- [Ruby](https://docs.firecrawl.dev/ja/sdks/ruby.md): Firecrawl Ruby SDK は、ウェブの検索・スクレイピング・クロールを行い、クリーンな Markdown や構造化データを取得できる Firecrawl API のラッパーです。
+- [Rust](https://docs.firecrawl.dev/ja/sdks/rust.md): Firecrawl Rust SDK は、ウェブの検索、スクレイピング、クロールを行い、クリーンな Markdown や構造化データを取得できる Firecrawl API のラッパーです。
+- [.NET](https://docs.firecrawl.dev/ja/sdks/dotnet.md): Firecrawl .NET SDK は、Firecrawl API のラッパーで、ウェブの検索、スクレイピング、クロールを行い、クリーンな Markdown や構造化データを取得できます。
+- [PHP](https://docs.firecrawl.dev/ja/sdks/php.md): Firecrawl PHP SDK は、ウェブの検索、スクレイピング、クロールを行い、クリーンな Markdown や構造化データを取得できる Firecrawl API のラッパーです。
 - [Elixir](https://docs.firecrawl.dev/ja/sdks/elixir.md): Firecrawl Elixir SDK は、Req と NimbleOptions を使用して構築された、Firecrawl API v2 向けの自動生成クライアントです。
 
 ## OpenAPI Specs

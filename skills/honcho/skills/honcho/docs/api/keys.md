@@ -8,17 +8,17 @@
 
 > Create a new Key
 
-
-  Requires an admin key. On Honcho Cloud (`api.honcho.dev`) the returned key is a
-  real cloud key on the calling key's instance, attributed to its owner and
-  revocable from the [API Keys page](https://app.honcho.dev/api-keys). On a
-  self-hosted instance it returns an error when `AUTH_USE_AUTH` is disabled.
-
-  Provide at least one of `workspace_id`, `peer_id`, or `session_id` — a request
-  carrying none of them is rejected. A key scoped to a peer or a session must also
-  carry its `workspace_id`. On Honcho Cloud, pass either `admin=true` or a
-  `workspace_id`.
-
+> [!NOTE]
+>
+> Requires an admin key. On Honcho Cloud (`api.honcho.dev`) the returned key is a
+> real cloud key on the calling key's instance, attributed to its owner and
+> revocable from the [API Keys page](https://app.honcho.dev/api-keys). On a
+> self-hosted instance it returns an error when `AUTH_USE_AUTH` is disabled.
+>
+> Provide at least one of `workspace_id`, `peer_id`, or `session_id` — a request
+> carrying none of them is rejected. A key scoped to a peer or a session must also
+> carry its `workspace_id`. On Honcho Cloud, pass either `admin=true` or a
+> `workspace_id`.
 
 For a directly accessed Honcho instance with authentication enabled, pass
 `workspace_id` and `scope_id` to mint a JWT bound to a single named scope. It
@@ -27,7 +27,7 @@ supports scoped recall and message ingestion; do not combine `scope_id` with
 keys and minting inputs keep their behavior.
 
 This new core JWT option does not add named-scope grants to Honcho Cloud's
-managed key service. See [named-scope keys](/docs/v3/documentation/features/advanced/scopes#named-scope-api-keys)
+managed key service. See [named-scope keys](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md#named-scope-api-keys)
 for allowed operations, SDK usage, and rollout requirements.
 
 
@@ -48,7 +48,7 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.3.0
+  version: 3.5.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform

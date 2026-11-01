@@ -14,7 +14,7 @@ Firecrawl partners with select platforms to offer their users free Firecrawl cre
 
 ## What You Get
 
-The standard partner offer may include **10,000 free Firecrawl credits**. These credits let you use any Firecrawl endpoint, including [Search](/features/search), [Scrape](/features/scrape), [Crawl](/features/crawl), [Map](/features/map), [Interact](/features/interact), and more. See [Billing](/billing#credits) for how credits are consumed per endpoint.
+The standard partner offer may include **10,000 free Firecrawl credits**. These credits let you use any Firecrawl endpoint, including [Search](https://docs.firecrawl.dev/features/search.md), [Scrape](https://docs.firecrawl.dev/features/scrape.md), [Crawl](https://docs.firecrawl.dev/features/crawl.md), [Map](https://docs.firecrawl.dev/features/map.md), [Interact](https://docs.firecrawl.dev/features/interact.md), and more. See [Billing](https://docs.firecrawl.dev/billing.md#credits) for how credits are consumed per endpoint.
 
 ## Credit Expiration
 
@@ -22,7 +22,7 @@ Partner credits **expire 3 months** after they are applied to your account. Unus
 
 ## Plan Limits
 
-Partner credits use Firecrawl's **standard Free Plan limits** unless otherwise stated by the partner offer. This includes the same rate limits and concurrent browser limits as the Free plan. See [Rate Limits](/rate-limits) for the full breakdown of per-plan limits.
+Partner credits use Firecrawl's **standard Free Plan limits** unless otherwise stated by the partner offer. This includes the same rate limits and concurrent browser limits as the Free plan. See [Rate Limits](https://docs.firecrawl.dev/rate-limits.md) for the full breakdown of per-plan limits.
 
 ## What's Not Included
 
@@ -34,23 +34,27 @@ If you need more credits, higher rate limits, or access to paid-plan features, y
 
 * Visit the [Firecrawl pricing page](https://www.firecrawl.dev/pricing) to compare plans
 * Upgrade directly from your [dashboard](https://www.firecrawl.dev/app)
-* See [Billing](/billing#plans) for details on available plans and [Pay-as-you-go](/billing#pay-as-you-go)
+* See [Billing](https://docs.firecrawl.dev/billing.md#plans) for details on available plans and [Pay-as-you-go](https://docs.firecrawl.dev/billing.md#pay-as-you-go)
 
 Upgrading your plan is separate from the partner offer. Your partner credits will continue to be available alongside your plan's monthly credit allotment until they expire.
 
 ## FAQs
 
+> [accordion] Can I use partner credits with any Firecrawl endpoint?
+>
+> Yes. Partner credits work the same as any other Firecrawl credits and can be used with all available endpoints. See [Billing](https://docs.firecrawl.dev/billing.md#credit-costs-per-endpoint) for credit costs per endpoint.
 
-    Yes. Partner credits work the same as any other Firecrawl credits and can be used with all available endpoints. See [Billing](/billing#credit-costs-per-endpoint) for credit costs per endpoint.
+> [accordion] What happens when my partner credits expire?
+>
+> After 3 months, any unused partner credits are removed from your account. If you have not upgraded to a paid plan, your account remains on the standard Free plan. You can upgrade at any time from the [pricing page](https://www.firecrawl.dev/pricing).
 
+> [accordion] Can I receive partner credits more than once?
+>
+> If you already have a Firecrawl account associated with the partner, the promotional credits will not be re-applied. Each partner offer is applied once per user per partner.
 
-    After 3 months, any unused partner credits are removed from your account. If you have not upgraded to a paid plan, your account remains on the standard Free plan. You can upgrade at any time from the [pricing page](https://www.firecrawl.dev/pricing).
-
-
-    If you already have a Firecrawl account associated with the partner, the promotional credits will not be re-applied. Each partner offer is applied once per user per partner.
-
-
-    If you'd like to offer Firecrawl to your users, set up Firecrawl for Platforms yourself in the [Firecrawl dashboard](https://www.firecrawl.dev/app/partner-api). The [Firecrawl for Platforms page](https://www.firecrawl.dev/firecrawl-for-platforms) explains the two integration types and the [reference](/firecrawl-for-platforms) covers the endpoints. Promotional credits for your users are a separate offer: email [partnerships@firecrawl.dev](mailto:partnerships@firecrawl.dev) to discuss one.
+> [accordion] I'm a platform maintainer - how do I become a partner?
+>
+> If you'd like to offer Firecrawl to your users, set up Firecrawl for Platforms yourself in the [Firecrawl dashboard](https://www.firecrawl.dev/app/partner-api). The [Firecrawl for Platforms page](https://www.firecrawl.dev/firecrawl-for-platforms) explains the two integration types and the [reference](https://docs.firecrawl.dev/firecrawl-for-platforms.md) covers the endpoints. Promotional credits for your users are a separate offer: email [partnerships@firecrawl.dev](mailto:partnerships@firecrawl.dev) to discuss one.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

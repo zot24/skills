@@ -8,13 +8,13 @@
 
 ## Capabilities
 
-[Capabilities](/capabilities) is the single page listing what a scrape can do to a page, which of those capabilities run in a self-hosted deployment, and which endpoints accept a request with no API key.
+[Capabilities](https://docs.firecrawl.dev/capabilities) is the single page listing what a scrape can do to a page, which of those capabilities run in a self-hosted deployment, and which endpoints accept a request with no API key.
 
 ## Interactions
 
-For browser interactions (clicking, typing, navigating, extracting dynamic content), use the [Interact endpoint](/features/interact). Scrape a page first, then call `POST /v2/scrape/{scrapeId}/interact` with a natural-language prompt or Playwright code to take actions on the page.
+For browser interactions (clicking, typing, navigating, extracting dynamic content), use the [Interact endpoint](https://docs.firecrawl.dev/features/interact.md). Scrape a page first, then call `POST /v2/scrape/{scrapeId}/interact` with a natural-language prompt or Playwright code to take actions on the page.
 
-See the [Interact documentation](/features/interact) for full details and examples.
+See the [Interact documentation](https://docs.firecrawl.dev/features/interact.md) for full details and examples.
 
 Optionally you can also use the `actions` parameter, although it's not recommended to use it for complex interactions.
 
@@ -1174,12 +1174,13 @@ components:
                     Description extracted from the page, can be a string or
                     array of strings
                 language:
-                  oneOf:
+                  anyOf:
                     - type: string
+                      nullable: true
                     - type: array
                       items:
                         type: string
-                  nullable: true
+                      nullable: true
                   description: >-
                     Language extracted from the page, can be a string or array
                     of strings
@@ -2133,7 +2134,7 @@ components:
         formats require specific options to be set. Example: `['markdown', {
         type: 'json', schema: {...} }]`.
       default:
-        - markdown
+        - type: markdown
     RedactPIIOptions:
       type: object
       description: Tuning options for PII redaction.
@@ -2550,6 +2551,7 @@ components:
         next:
           allOf:
             - $ref: '#/components/schemas/AlexandriaCall'
+          type: object
           nullable: true
           description: >-
             An `alexandria` call for the next page of this listing, or `null` on

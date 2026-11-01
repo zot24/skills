@@ -60,7 +60,7 @@ Tools are hidden when `recallMode` is `context`.
 
 ## Running Honcho locally with Hermes
 
-Follow the [Self-Hosting Guide](/docs/v3/contributing/self-hosting) to get Honcho running locally. Once it's up, point Hermes at your instance:
+Follow the [Self-Hosting Guide](https://honcho.dev/docs/v3/contributing/self-hosting.md) to get Honcho running locally. Once it's up, point Hermes at your instance:
 
 ```bash theme={null}
 hermes memory setup honcho  # choose self-hosted, enter http://localhost:8000 as the base URL
@@ -138,17 +138,21 @@ File plugin bugs and feature requests with the [Hermes plugin issue template](ht
 
 ## Next steps
 
+> [card] [Plugin README](https://github.com/plastic-labs/honcho/tree/main/hermes-plugin-honcho#readme)
+>
+> Full configuration reference, CLI commands, and how the plugin works.
 
-    Full configuration reference, CLI commands, and how the plugin works.
+> [card] [Plugin Source](https://github.com/plastic-labs/honcho/tree/main/hermes-plugin-honcho)
+>
+> `hermes-plugin-honcho` in the Honcho repository.
 
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Peers, sessions, and how reasoning works.
 
-    `hermes-plugin-honcho` in the Honcho repository.
-
-
-    Peers, sessions, and how reasoning works.
-
-
-    Full local environment setup, provider configuration, and troubleshooting.
+> [card] [Self-Hosting Guide](https://honcho.dev/docs/v3/contributing/self-hosting.md)
+>
+> Full local environment setup, provider configuration, and troubleshooting.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

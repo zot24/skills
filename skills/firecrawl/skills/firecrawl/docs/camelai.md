@@ -8,17 +8,19 @@
 
 > Firecrawl integrates with Camel AI as a data loader.
 
-
-  **Official CAMEL docs:** [docs.camel-ai.org/key\_modules/loaders](https://docs.camel-ai.org/key_modules/loaders)
-
-  Firecrawl ships as a CAMEL loader, turning any site into LLM-ready markdown for your agents
-
+> [!NOTE]
+>
+> **Official CAMEL docs:** [docs.camel-ai.org/key\_modules/loaders](https://docs.camel-ai.org/key_modules/loaders)
+>
+> Firecrawl ships as a CAMEL loader, turning any site into LLM-ready markdown for your agents
 
 ## Installation
 
 ```bash theme={null}
-pip install camel-ai
+pip install "camel-ai[web-tools]"
 ```
+
+The `web-tools` extra installs the Firecrawl SDK version the loader supports. A plain `pip install camel-ai` doesn't include it, and the current CAMEL release fails with `firecrawl-py` 4.x, so don't upgrade `firecrawl-py` separately in the same environment.
 
 Set your Firecrawl key so the loader picks it up automatically:
 
@@ -56,15 +58,34 @@ response = firecrawl.scrape(url="https://www.camel-ai.org/about")
 print(response["markdown"])
 ```
 
+### Mapping a Site and Extracting Structured Data
 
-  `Firecrawl()` reads `FIRECRAWL_API_KEY` from the environment. Pass `api_key=...` to override it, or `api_url=...` to point at a [self-hosted](/contributing/self-host) instance.
+`map_site` lists a site's URLs, and `structured_scrape` returns fields that match a Pydantic model.
 
+```python theme={null}
+from pydantic import BaseModel
+from camel.loaders import Firecrawl
+
+
+class About(BaseModel):
+    mission: str
+
+
+firecrawl = Firecrawl()
+
+print(firecrawl.map_site(url="https://www.camel-ai.org")["links"][:5])
+print(firecrawl.structured_scrape(url="https://www.camel-ai.org/about", response_format=About))
+```
+
+> [!TIP]
+>
+> `Firecrawl()` reads `FIRECRAWL_API_KEY` from the environment. Pass `api_key=...` to override it, or `api_url=...` to point at a [self-hosted](https://docs.firecrawl.dev/contributing/self-host.md) instance.
 
 ## Resources
 
 * [CAMEL loaders documentation](https://docs.camel-ai.org/key_modules/loaders)
 * [CAMEL and Firecrawl walkthrough](https://www.camel-ai.org/blogs/firecrawl)
-* [Firecrawl scrape](/features/scrape) and [crawl](/features/crawl) docs
+* [Firecrawl scrape](https://docs.firecrawl.dev/features/scrape.md) and [crawl](https://docs.firecrawl.dev/features/crawl.md) docs
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

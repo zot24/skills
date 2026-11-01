@@ -30,53 +30,51 @@ Honcho currently supports the following file types with more to come:
 * **Text files** (`text/*`) - Plain text, markdown, code files, etc.
 * **JSON files** (`application/json`) - Structured data converted to readable format
 
-
-  Files are processed in memory and not stored on disk. Only the extracted text content is preserved in Honcho's message system.
-
+> [!NOTE]
+>
+> Files are processed in memory and not stored on disk. Only the extracted text content is preserved in Honcho's message system.
 
 ## Basic Usage
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  # Initialize client
-  honcho = Honcho()
+# Initialize client
+honcho = Honcho()
 
-  # Create session and peer
-  session = honcho.session("research-session")
-  user = honcho.peer("researcher")
+# Create session and peer
+session = honcho.session("research-session")
+user = honcho.peer("researcher")
 
-  # Upload a PDF to a session
-  with open("research_paper.pdf", "rb") as file:
-      messages = session.upload_file(
-          file=file,
-          peer_id=user.id,
-      )
+# Upload a PDF to a session
+with open("research_paper.pdf", "rb") as file:
+    messages = session.upload_file(
+        file=file,
+        peer_id=user.id,
+    )
 
-  print(f"Created {len(messages)} messages from the PDF")
-  ```
+print(f"Created {len(messages)} messages from the PDF")
+```
 
-  ```typescript TypeScript
-  import { Honcho } from "@honcho-ai/sdk";
-  import fs from "fs";
+```typescript TypeScript theme={null}
+import { Honcho } from "@honcho-ai/sdk";
+import fs from "fs";
 
-  (async () => {
-      // Initialize client
-      const honcho = new Honcho({});
+(async () => {
+    // Initialize client
+    const honcho = new Honcho({});
 
-      // Create session and peer
-      const session = await honcho.session("research-session");
-      const user = await honcho.peer("researcher");
+    // Create session and peer
+    const session = await honcho.session("research-session");
+    const user = await honcho.peer("researcher");
 
-      // Upload a PDF to a session
-      const fileStream = fs.createReadStream("research_paper.pdf");
-      const messages = await session.uploadFile(fileStream, user.id);
+    // Upload a PDF to a session
+    const fileStream = fs.createReadStream("research_paper.pdf");
+    const messages = await session.uploadFile(fileStream, user.id);
 
-      console.log(`Created ${messages.length} messages from the PDF`);
-  })();
-  ```
-</CodeGroup>
+    console.log(`Created ${messages.length} messages from the PDF`);
+})();
+```
 
 ## Upload Parameters
 
@@ -122,37 +120,35 @@ Each chunk becomes a separate message, maintaining the original document structu
 
 Once files are uploaded, you can query the content using Honcho's natural language interface:
 
-<CodeGroup>
-  ```python Python
-  # Query what was learned from the uploaded documents
-  response = user.chat("What are the key findings from the research papers I uploaded?")
-  print(response)
+```python Python theme={null}
+# Query what was learned from the uploaded documents
+response = user.chat("What are the key findings from the research papers I uploaded?")
+print(response)
 
-  # Ask about specific documents
-  response = user.chat("What does the quarterly report say about revenue growth?")
-  print(response)
+# Ask about specific documents
+response = user.chat("What does the quarterly report say about revenue growth?")
+print(response)
 
-  # Get context from the uploaded documents for LLM integration
-  context = session.context(tokens=3000)
-  messages = context.to_openai(assistant=assistant)
-  ```
+# Get context from the uploaded documents for LLM integration
+context = session.context(tokens=3000)
+messages = context.to_openai(assistant=assistant)
+```
 
-  ```typescript TypeScript
-  (async () => {
-      // Query what was learned from the uploaded documents
-      const response = await user.chat("What are the key findings from the research papers I uploaded?");
-      console.log(response);
+```typescript TypeScript theme={null}
+(async () => {
+    // Query what was learned from the uploaded documents
+    const response = await user.chat("What are the key findings from the research papers I uploaded?");
+    console.log(response);
 
-      // Ask about specific documents
-      const response2 = await user.chat("What does the quarterly report say about revenue growth?");
-      console.log(response2);
+    // Ask about specific documents
+    const response2 = await user.chat("What does the quarterly report say about revenue growth?");
+    console.log(response2);
 
-      // Get context from the uploaded documents for LLM integration
-      const context = await session.context({ tokens: 3000 });
-      const messages = context.toOpenAI(assistant);
-  })();
-  ```
-</CodeGroup>
+    // Get context from the uploaded documents for LLM integration
+    const context = await session.context({ tokens: 3000 });
+    const messages = context.toOpenAI(assistant);
+})();
+```
 
 ## Error Handling
 
@@ -187,108 +183,106 @@ except ValueError as e:
 
 Here's a complete example of building a document analysis assistant:
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  # Initialize
-  honcho = Honcho()
-  session = honcho.session("document-analysis")
-  user = honcho.peer("analyst")
-  assistant = honcho.peer("analysis-bot")
+# Initialize
+honcho = Honcho()
+session = honcho.session("document-analysis")
+user = honcho.peer("analyst")
+assistant = honcho.peer("analysis-bot")
 
-  def upload_document(file_path, description):
-      """Upload a document and add it to the session"""
-      with open(file_path, "rb") as file:
-          messages = session.upload_file(
-              file=file,
-              peer_id=user.id,
-          )
-      return messages
+def upload_document(file_path, description):
+    """Upload a document and add it to the session"""
+    with open(file_path, "rb") as file:
+        messages = session.upload_file(
+            file=file,
+            peer_id=user.id,
+        )
+    return messages
 
-  def analyze_documents():
-      """Get AI analysis of uploaded documents"""
-      context = session.context(tokens=4000)
-      messages = context.to_openai(assistant=assistant)
-      # Add analysis request
-      messages.append({
-          "role": "user",
-          "content": "Please analyze all the documents I've uploaded and provide a comprehensive summary of the key findings, trends, and recommendations."
-      })
+def analyze_documents():
+    """Get AI analysis of uploaded documents"""
+    context = session.context(tokens=4000)
+    messages = context.to_openai(assistant=assistant)
+    # Add analysis request
+    messages.append({
+        "role": "user",
+        "content": "Please analyze all the documents I've uploaded and provide a comprehensive summary of the key findings, trends, and recommendations."
+    })
 
-      # Call OpenAI (or your preferred LLM)
-      # response = openai.chat.completions.create(model="gpt-4", messages=messages)
-      # return response.choices[0].message.content
+    # Call OpenAI (or your preferred LLM)
+    # response = openai.chat.completions.create(model="gpt-4", messages=messages)
+    # return response.choices[0].message.content
 
-      return "Analysis would be generated here"
+    return "Analysis would be generated here"
 
-  # Upload multiple documents
-  documents = [
-      ("quarterly_report.pdf", "Q3 2024 Quarterly Financial Report"),
-      ("market_research.pdf", "Market Analysis and Competitive Landscape"),
-      ("product_roadmap.pdf", "Product Development Roadmap 2024-2025")
-  ]
+# Upload multiple documents
+documents = [
+    ("quarterly_report.pdf", "Q3 2024 Quarterly Financial Report"),
+    ("market_research.pdf", "Market Analysis and Competitive Landscape"),
+    ("product_roadmap.pdf", "Product Development Roadmap 2024-2025")
+]
 
-  for file_path, description in documents:
-      messages = upload_document(file_path, description)
-      print(f"Uploaded {file_path}: {len(messages)} messages created")
+for file_path, description in documents:
+    messages = upload_document(file_path, description)
+    print(f"Uploaded {file_path}: {len(messages)} messages created")
 
-  # Get AI analysis
-  analysis = analyze_documents()
-  print("Document Analysis:", analysis)
-  ```
+# Get AI analysis
+analysis = analyze_documents()
+print("Document Analysis:", analysis)
+```
 
-  ```typescript TypeScript
-  import { Honcho } from "@honcho-ai/sdk";
-  import fs from "fs";
+```typescript TypeScript theme={null}
+import { Honcho } from "@honcho-ai/sdk";
+import fs from "fs";
 
-  (async () => {
-      // Initialize
-      const honcho = new Honcho({});
-      const session = await honcho.session("document-analysis");
-      const user = await honcho.peer("analyst");
-      const assistant = await honcho.peer("analysis-bot");
+(async () => {
+    // Initialize
+    const honcho = new Honcho({});
+    const session = await honcho.session("document-analysis");
+    const user = await honcho.peer("analyst");
+    const assistant = await honcho.peer("analysis-bot");
 
-      async function uploadDocument(filePath: string, description: string) {
-        const fileStream = fs.createReadStream(filePath);
-        const messages = await session.uploadFile(fileStream, user.id);
-        return messages;
-      }
+    async function uploadDocument(filePath: string, description: string) {
+      const fileStream = fs.createReadStream(filePath);
+      const messages = await session.uploadFile(fileStream, user.id);
+      return messages;
+    }
 
-      async function analyzeDocuments() {
-        const context = await session.context({ tokens: 4000 });
-        const messages = context.toOpenAI(assistant);
-        // Add analysis request
-        messages.push({
-          role: "user",
-          content: "Please analyze all the documents I've uploaded and provide a comprehensive summary of the key findings, trends, and recommendations."
-        });
+    async function analyzeDocuments() {
+      const context = await session.context({ tokens: 4000 });
+      const messages = context.toOpenAI(assistant);
+      // Add analysis request
+      messages.push({
+        role: "user",
+        content: "Please analyze all the documents I've uploaded and provide a comprehensive summary of the key findings, trends, and recommendations."
+      });
 
-        // Call OpenAI (or your preferred LLM)
-        // const response = await openai.chat.completions.create({ model: "gpt-4", messages });
-        // return response.choices[0].message.content;
+      // Call OpenAI (or your preferred LLM)
+      // const response = await openai.chat.completions.create({ model: "gpt-4", messages });
+      // return response.choices[0].message.content;
 
-        return "Analysis would be generated here";
-      }
+      return "Analysis would be generated here";
+    }
 
-      // Upload multiple documents
-      const documents = [
-        ["quarterly_report.pdf", "Q3 2024 Quarterly Financial Report"],
-        ["market_research.pdf", "Market Analysis and Competitive Landscape"],
-        ["product_roadmap.pdf", "Product Development Roadmap 2024-2025"]
-      ];
+    // Upload multiple documents
+    const documents = [
+      ["quarterly_report.pdf", "Q3 2024 Quarterly Financial Report"],
+      ["market_research.pdf", "Market Analysis and Competitive Landscape"],
+      ["product_roadmap.pdf", "Product Development Roadmap 2024-2025"]
+    ];
 
-      for (const [filePath, description] of documents) {
-        const messages = await uploadDocument(filePath, description);
-        console.log(`Uploaded ${filePath}: ${messages.length} messages created`);
-      }
+    for (const [filePath, description] of documents) {
+      const messages = await uploadDocument(filePath, description);
+      console.log(`Uploaded ${filePath}: ${messages.length} messages created`);
+    }
 
-      // Get AI analysis
-      const analysis = await analyzeDocuments();
-      console.log("Document Analysis:", analysis);
-  })();
-  ```
-</CodeGroup>
+    // Get AI analysis
+    const analysis = await analyzeDocuments();
+    console.log("Document Analysis:", analysis);
+})();
+```
 
 ## Error Handling
 

@@ -10,15 +10,17 @@
 
 [Reachy Mini](https://huggingface.co/blog/reachy-mini) is Hugging Face and Pollen Robotics' open-source robot for human-robot interaction. This guide integrates Honcho for persistent, multi-user memory with OpenAI's Realtime API for voice.
 
+> [!NOTE]
+>
+> **Real-time memory**: Honcho's async API is designed for live voice interactions. Messages persist in the background without blocking audio, and the dialectic API returns user context fast enough for mid-conversation tool calls.
 
-  **Real-time memory**: Honcho's async API is designed for live voice interactions. Messages persist in the background without blocking audio, and the dialectic API returns user context fast enough for mid-conversation tool calls.
+> [card] [GitHub Repository](https://github.com/plastic-labs/reachy-mini-honcho)
+>
+> Full source code
 
-
-    Full source code
-
-
-    Watch us build it live
-
+> [card] [Build Livestream](https://www.youtube.com/watch?v=i6iijJnkxh0)
+>
+> Watch us build it live
 
 ## What It Does
 
@@ -138,17 +140,21 @@ uv run python main.py
 
 ## Next Steps
 
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Understand peers, sessions, and reasoning
 
-    Understand peers, sessions, and reasoning
+> [card] [Chat Endpoint](https://honcho.dev/docs/v3/documentation/features/chat.md)
+>
+> Learn about Honcho's dialectic API
 
+> [card] [Get Context](https://honcho.dev/docs/v3/documentation/features/get-context.md)
+>
+> Retrieve formatted conversation history
 
-    Learn about Honcho's dialectic API
-
-
-    Retrieve formatted conversation history
-
-
-    Dig into the code
+> [card] [GitHub code](https://github.com/plastic-labs/reachy-mini-honcho)
+>
+> Dig into the code
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

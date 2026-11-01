@@ -74,7 +74,7 @@
 #### Connect
 
 
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
+<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
 
 
 Docs
@@ -85,14 +85,14 @@ MCP Server — Connect AI Agents
 
 # MCP Server — Connect AI Agents
 
-Connect Wealthfolio to external AI agents — Claude, Cursor, Windsurf, Cline, VS Code — over the Model Context Protocol, with scoped, revocable access tokens.
+Connect Wealthfolio to external AI agents — Claude Code, Codex, ChatGPT desktop, Cursor, Windsurf, Cline, VS Code — over the Model Context Protocol, with scoped, revocable access tokens.
 
 
 ------------------------------------------------------------------------
 
-Last updated October 14, 2026
+Last updated October 31, 2026
 
-**Wealthfolio’s MCP server** lets external AI agents talk to your portfolio over the <a href="https://modelcontextprotocol.io" class="font-medium underline underline-offset-4">Model Context Protocol</a>. Point Claude Desktop, Claude Code, Cursor, Windsurf, Cline, or any MCP-capable client at Wealthfolio and it can read your holdings, performance, and activities — and, if you allow it, draft or record new activities — through the exact same typed tools the built-in <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a> uses.
+**Wealthfolio’s MCP server** lets external AI agents talk to your portfolio over the <a href="https://modelcontextprotocol.io" class="font-medium underline underline-offset-4">Model Context Protocol</a>. Point Claude Code (including Claude Desktop’s Code tab), Codex, the ChatGPT desktop app, Cursor, Windsurf, Cline, or any MCP-capable client at Wealthfolio and it can read your holdings, performance, and activities — and, if you allow it, draft or record new activities — through the exact same typed tools the built-in <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a> uses.
 
 Every connection is authenticated with a **scoped access token** you create and can revoke. Nothing is exposed until you turn the server on and hand out a token.
 
@@ -123,8 +123,8 @@ Agent Access is a **desktop and web** feature. It isn’t available on the mobil
 ## 2 · Turn it on and create a token
 
 1.  **Enable the server.** Flip the master toggle (desktop) or set the environment variable (self-hosted). On desktop, press **Start** — the endpoint URL appears with a green dot when it’s live.
-2.  **Create an access token.** Under **Personal access tokens**, click **Create token**, name it (e.g. “Claude Desktop”), pick an expiry, and choose its scopes. Tokens default to **read-only** — one click away from the common case.
-3.  **Copy the token once.** It’s shown a single time at creation. The dialog also gives you a ready-to-paste client config with the token already embedded.
+2.  **Create an access token.** Under **Personal access tokens**, click **Create token**, name it (e.g. “Claude Code”), pick an expiry, and choose its scopes. Tokens default to **read-only** — one click away from the common case.
+3.  **Copy the token once.** It’s shown a single time at creation. The dialog also gives you ready-to-paste setup for Claude Code, Codex, or JSON-config clients, with the token already embedded.
 
 <figure class="my-6">
 <img src="https://assets.wealthfolio.app/images/screenshots/agent-access/new-token.png" class="block rounded-lg border border-border dark:hidden" alt="Creating a scoped access token — read and write scopes with a live capability summary" /><img src="https://assets.wealthfolio.app/images/screenshots/agent-access/new-token-dark.png" class="hidden rounded-lg border border-border dark:block" alt="Creating a scoped access token — read and write scopes with a live capability summary" />
@@ -174,7 +174,56 @@ The dialog offers four presets that cover most needs: **Read-only**, **Read + dr
 
 ## 4 · Connect a client
 
-Wealthfolio speaks **Streamable HTTP** MCP. Most clients (Claude Desktop, Claude Code, Cursor, Windsurf, Cline) share the same config shape — the **Copy config** button on the server card produces exactly this, with `YOUR_TOKEN` as a placeholder:
+Wealthfolio speaks **Streamable HTTP** MCP. The server card’s **Copy config** button copies the Claude Code command below with `YOUR_TOKEN` as a placeholder. Its help (?) button and the token dialog have a **Claude Code**, **Codex / ChatGPT** and **Other** tab with the snippet for each app; the token dialog fills in your new token. Replace `PORT` with the port shown on the server card (self-hosted users use their server’s URL) and `YOUR_TOKEN` with the token you copied.
+
+Wealthfolio labels each tool as read-only or as a write, and marks the writes that change or remove existing data. Clients use these labels to decide when to ask you first: Codex, for example, runs read tools without asking and asks before tools that change existing data. Draft and suggest tools count as read-only: they return a preview and save nothing.
+
+### Claude Code and Claude Desktop (Code tab)
+
+Run this in a terminal:
+
+``` mb-4
+claude mcp add --scope user --transport http wealthfolio http://127.0.0.1:PORT/mcp --header "Authorization: Bearer YOUR_TOKEN"
+```
+
+`--scope user` adds Wealthfolio for all your projects (Claude Code keeps it in `~/.claude.json`). The **Code** tab in Claude Desktop runs Claude Code, so it picks up the same server. Run `claude mcp list`, or `/mcp` in a session, to check the connection.
+
+
+**The Claude Desktop chat tab can’t use this server.** Its `claude_desktop_config.json` only loads servers it starts as a local command, so an HTTP entry there is skipped. Use the Code tab instead. See <a href="#use-your-claude-or-chatgpt-subscription" class="font-medium underline underline-offset-4">Use your Claude or ChatGPT subscription</a> for what else can and can’t connect.
+
+
+To share the server with one project instead, add a `.mcp.json` at the project root. It reads the token from the `WEALTHFOLIO_TOKEN` environment variable, so the file holds no secret and is safe to commit:
+
+``` mb-4
+{
+  "mcpServers": {
+    "wealthfolio": {
+      "type": "http",
+      "url": "http://127.0.0.1:PORT/mcp",
+      "headers": { "Authorization": "Bearer ${WEALTHFOLIO_TOKEN}" }
+    }
+  }
+}
+```
+
+Set `WEALTHFOLIO_TOKEN` in the shell that starts Claude Code. Claude Code asks you to approve a project’s servers the first time it uses them.
+
+### Codex and the ChatGPT desktop app
+
+The Codex CLI, the Codex IDE extension, and the ChatGPT desktop app share one config file, `~/.codex/config.toml`. Add:
+
+``` mb-4
+[mcp_servers.wealthfolio]
+url = "http://127.0.0.1:PORT/mcp"
+http_headers = { Authorization = "Bearer YOUR_TOKEN" }
+tool_timeout_sec = 120
+```
+
+To keep the token out of the file, remove `Authorization` from `http_headers` and add `bearer_token_env_var = "WEALTHFOLIO_TOKEN"` instead. Codex then reads the token from that environment variable. Run `codex mcp list` to check the server is configured.
+
+### Other apps
+
+The app’s **Other** tab has a snippet for each of these. Cursor, Windsurf, Cline and Unsloth Studio share one config shape:
 
 ``` mb-4
 {
@@ -188,7 +237,7 @@ Wealthfolio speaks **Streamable HTTP** MCP. Most clients (Claude Desktop, Claude
 }
 ```
 
-Replace `PORT` with the port shown on the server card (self-hosted users use their server’s URL) and `YOUR_TOKEN` with the token you copied.
+**LM Studio** uses the same shape without the `"type"` line.
 
 **VS Code** differs — it uses a top-level `servers` key:
 
@@ -204,23 +253,56 @@ Replace `PORT` with the port shown on the server card (self-hosted users use the
 }
 ```
 
-Any other client that speaks Streamable HTTP just needs the URL plus an `Authorization: Bearer YOUR_TOKEN` header.
+**OpenCode** uses its own `mcp` key. `"oauth": false` stops it from starting an OAuth flow for this server:
+
+``` mb-4
+{
+  "mcp": {
+    "wealthfolio": {
+      "type": "remote",
+      "url": "http://127.0.0.1:PORT/mcp",
+      "oauth": false,
+      "headers": { "Authorization": "Bearer YOUR_TOKEN" }
+    }
+  }
+}
+```
+
+**Jan** has its own format too; pick Jan in the app’s **Other** tab to copy it. Any other client that speaks Streamable HTTP just needs the URL plus an `Authorization: Bearer YOUR_TOKEN` header.
 
 ### Where the config goes
 
 
-| Client             | Config location                                                   |
-|--------------------|-------------------------------------------------------------------|
-| **Claude Desktop** | Settings → Developer → Edit Config (`claude_desktop_config.json`) |
-| **Claude Code**    | `.mcp.json` in your project root                                  |
-| **Cursor**         | `~/.cursor/mcp.json` (or `.cursor/mcp.json` in a project)         |
-| **VS Code**        | `.vscode/mcp.json`                                                |
-| **Windsurf**       | `~/.codeium/windsurf/mcp_config.json`                             |
-| **Cline**          | Cline → MCP Servers → Configure (`cline_mcp_settings.json`)       |
-| **Jan**            | Settings → MCP Servers → Add                                      |
+| Client                                  | Config location                                                                 |
+|-----------------------------------------|---------------------------------------------------------------------------------|
+| **Claude Code / Claude Desktop (Code)** | `claude mcp add --scope user …` (`~/.claude.json`), or `.mcp.json` in a project |
+| **Codex / ChatGPT desktop**             | `~/.codex/config.toml`                                                          |
+| **Cursor**                              | `~/.cursor/mcp.json` (or `.cursor/mcp.json` in a project)                       |
+| **VS Code**                             | `.vscode/mcp.json`                                                              |
+| **Windsurf**                            | `~/.codeium/windsurf/mcp_config.json`                                           |
+| **Cline**                               | Cline → MCP Servers → Configure (`cline_mcp_settings.json`)                     |
+| **OpenCode**                            | `opencode.json` in a project, or `~/.config/opencode/opencode.json`             |
+| **Jan**                                 | Settings → MCP Servers → Add                                                    |
+| **LM Studio**                           | Program → Install → Edit `mcp.json`                                             |
+| **Unsloth Studio**                      | In a chat: **+** → MCP servers                                                  |
 
+
+On a self-hosted server with several profiles, the snippets the app gives you also carry an `X-WF-Profile-Id` header for the profile you’re signed in to. Keep it; without it the server uses the default profile.
 
 Once connected, the agent discovers Wealthfolio’s tools automatically. Ask it “what are my top holdings?” or “how did my portfolio do this year?” and it’ll call the read tools and answer with your real numbers.
+
+### Use your Claude or ChatGPT subscription
+
+Claude Code (in a terminal, an IDE, or Claude Desktop’s Code tab) signs in with your Claude plan, and Codex (CLI, IDE extension, or the ChatGPT desktop app) signs in with your ChatGPT plan. Connected to Wealthfolio, they use that plan: you don’t need an API key.
+
+Some Claude apps can’t reach a local Wealthfolio:
+
+- **claude.ai and the Claude mobile apps** connect to MCP servers from Anthropic’s cloud, which can’t see `127.0.0.1` on your computer.
+- **The Claude Desktop chat tab** only starts local command servers, not HTTP ones (see above).
+
+The community <a href="https://www.npmjs.com/package/mcp-remote" class="font-medium underline underline-offset-4"><code>mcp-remote</code></a> package can wrap an HTTP server as a local command for the Claude Desktop chat tab. It needs Node.js, and Wealthfolio doesn’t test or support it.
+
+The in-app <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a> is different: it calls a model provider directly, so it needs an API key or a local model.
 
 ------------------------------------------------------------------------
 
@@ -299,7 +381,7 @@ Yes. Wealthfolio ships a native Model Context Protocol server — there’s no t
 
 ### Which MCP clients work with Wealthfolio?
 
-Any MCP-capable client, including Claude Desktop, Claude Code, Cursor, Windsurf, Cline, and the VS Code MCP integration. Wealthfolio exposes standard MCP tools, so anything that speaks the protocol can connect.
+Any MCP client that speaks Streamable HTTP, including Claude Code (and Claude Desktop’s Code tab), Codex, the ChatGPT desktop app, Cursor, Windsurf, Cline, and the VS Code MCP integration. The Claude Desktop chat tab, claude.ai, and the Claude mobile apps can’t reach a local Wealthfolio; see <a href="#use-your-claude-or-chatgpt-subscription" class="font-medium underline underline-offset-4">Use your Claude or ChatGPT subscription</a>.
 
 ### Is the Wealthfolio MCP server safe?
 
@@ -323,7 +405,11 @@ On This Page
   - <a href="#read-access" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Read access</a>
   - <a href="#write-access" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Write access</a>
 - <a href="#4--connect-a-client" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · Connect a client</a>
+  - <a href="#claude-code-and-claude-desktop-code-tab" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Claude Code and Claude Desktop (Code tab)</a>
+  - <a href="#codex-and-the-chatgpt-desktop-app" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Codex and the ChatGPT desktop app</a>
+  - <a href="#other-apps" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Other apps</a>
   - <a href="#where-the-config-goes" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Where the config goes</a>
+  - <a href="#use-your-claude-or-chatgpt-subscription" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Use your Claude or ChatGPT subscription</a>
 - <a href="#5--audit-log" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">5 · Audit log</a>
 - <a href="#6--self-hosted-servers" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">6 · Self-hosted servers</a>
 - <a href="#7--security-model" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">7 · Security model</a>

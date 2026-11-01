@@ -8,20 +8,16 @@
 
 > Search the web and read pages from Claude or your Claude Code session.
 
-Choose the setup for the app you use. Both paths are optional; you only need to connect the one you want to use.
+Give Claude the context API for AI agents: search the web and read pages from Claude or Claude Code. Choose the setup for the app you use. Both paths are optional; connect only the one you want.
 
 ## Optional: Add to Claude
 
-<div className="fc-agent-prompt fc-openai-install not-prose">
-  <div className="fc-openai-install-actions">
-    <a className="fc-agent-prompt-button" href="https://claude.ai/directory/connectors/firecrawl" target="_blank" rel="noopener noreferrer">
-      <img src="https://mintcdn.com/firecrawl/CCJGFNIrBeZmk4E5/images/agent-clients/claude-ai.svg?fit=max&auto=format&n=CCJGFNIrBeZmk4E5&q=85&s=01e23ce8cedaa21257700fb093ed3735" width="20" height="20" alt="" data-path="images/agent-clients/claude-ai.svg" />
+![](https://mintcdn.com/firecrawl/CCJGFNIrBeZmk4E5/images/agent-clients/claude-ai.svg?fit=max\&auto=format\&n=CCJGFNIrBeZmk4E5\&q=85\&s=01e23ce8cedaa21257700fb093ed3735)
 
-      Add to Claude
-      <span aria-hidden="true">↗</span>
-    </a>
-  </div>
-</div>
+Add to Claude
+
+
+[Open](https://claude.ai/directory/connectors/firecrawl)
 
 1. Open the Firecrawl connector using the button above.
 2. Connect your Firecrawl account and approve access when prompted.
@@ -61,28 +57,31 @@ Scrape https://firecrawl.dev and explain what it does.
 
 ## What you can do
 
+> [card] [Search](https://docs.firecrawl.dev/features/search.md)
+>
+> Find current information and read the content of relevant results.
 
-    Find current information and read the content of relevant results.
+> [card] [Scrape](https://docs.firecrawl.dev/features/scrape.md)
+>
+> Turn URLs into clean markdown or structured data.
 
+> [card] [Interact](https://docs.firecrawl.dev/features/interact.md)
+>
+> Navigate, click, and fill forms to reach the data you need.
 
-    Turn URLs into clean markdown or structured data.
-
-
-    Navigate, click, and fill forms to reach the data you need.
-
-
-    Discover structured data tools, inspect inputs and pricing, then run them through Firecrawl.
-
+> [card] [Alexandria](https://docs.firecrawl.dev/features/alexandria.md)
+>
+> Discover structured data tools, inspect inputs and pricing, then run them through Firecrawl.
 
 ## Other connection modes
 
-* [Try keyless MCP](/mcp-server/keyless#try-keyless) for Search, Scrape, and Parse without an account or key.
-* [Configure an API key](/mcp-server/keyless#add-an-api-key) for unattended use. Keep the secret outside agent chat and use an environment-variable reference.
-* [Run MCP locally](/mcp-server/local) only when you need a local process or a self-hosted Firecrawl API. The local package requires Node.js 22 or newer.
+* [Try keyless MCP](https://docs.firecrawl.dev/mcp-server/keyless.md#try-keyless) for Search, Scrape, and Parse without an account or key.
+* [Configure an API key](https://docs.firecrawl.dev/mcp-server/keyless.md#add-an-api-key) for unattended use. Keep the secret outside agent chat and use an environment-variable reference.
+* [Run MCP locally](https://docs.firecrawl.dev/mcp-server/local) only when you need a local process or a self-hosted Firecrawl API. The local package requires Node.js 22 or newer.
 
 ## Optional: literature research
 
-For paper and literature work, the research-index skill routes those queries to the `firecrawl_research_*` tools and the [Research Index](/features/research) instead of general web search:
+For paper and literature work, the research-index skill routes those queries to the `firecrawl_research_*` tools and the [Research Index](https://docs.firecrawl.dev/features/research.md) instead of general web search:
 
 ```bash theme={null}
 npx skills add firecrawl/skills@firecrawl-research-index

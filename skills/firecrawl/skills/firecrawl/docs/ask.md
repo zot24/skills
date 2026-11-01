@@ -12,9 +12,9 @@ Firecrawl `/support/ask` is an AI support agent exposed as an API. Describe your
 
 **Think of `/support/ask` as a senior Firecrawl engineer on-call for your agent.**
 
-
-  The Ask API is designed primarily for **AI agent callers**. If you're building agents that use Firecrawl for scraping, crawling, or data extraction, wire `/support/ask` into your error-handling flow for autonomous issue resolution.
-
+> [!NOTE]
+>
+> The Ask API is designed primarily for **AI agent callers**. If you're building agents that use Firecrawl for scraping, crawling, or data extraction, wire `/support/ask` into your error-handling flow for autonomous issue resolution.
 
 ## Two endpoints
 
@@ -102,9 +102,9 @@ The panel that opens gives you:
 
 If the diagnosis doesn't resolve it, **Open support ticket** at the bottom of the panel files a ticket with the agent's analysis already attached, so you don't have to re-explain the failure.
 
-
-  Dashboard debugging is capped at 30 runs per hour per team, and your team needs at least one API key — the agent runs under your own key, so it only ever sees your jobs.
-
+> [!NOTE]
+>
+> Dashboard debugging is capped at 30 runs per hour per team, and your team needs at least one API key — the agent runs under your own key, so it only ever sees your jobs.
 
 Once you have a diagnosis, apply the returned `fixParameters` and retry — see the [agent retry pattern](#agent-retry-pattern) below.
 
@@ -269,8 +269,8 @@ The actual `answer`, `fixParameters`, and `validation.evidence` are produced per
 
 ## API Reference
 
-* [Ask endpoint API Reference](/api-reference/endpoint/ask)
-* [Docs Search endpoint API Reference](/api-reference/endpoint/docs-search)
+* [Ask endpoint API Reference](https://docs.firecrawl.dev/api-reference/endpoint/ask.md)
+* [Docs Search endpoint API Reference](https://docs.firecrawl.dev/api-reference/endpoint/docs-search.md)
 
 Have feedback or need help? Email [help@firecrawl.com](mailto:help@firecrawl.com).
 

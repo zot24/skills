@@ -8,11 +8,11 @@
 
 > Add Firecrawl scrape, crawl, search, map, and extract steps to Pipedream workflows
 
-
-  **Official Pipedream app:** [pipedream.com/apps/firecrawl](https://pipedream.com/apps/firecrawl/)
-
-  Add Firecrawl steps to Pipedream workflows triggered by schedules, webhooks, or other apps
-
+> [!NOTE]
+>
+> **Official Pipedream app:** [pipedream.com/apps/firecrawl](https://pipedream.com/apps/firecrawl/)
+>
+> Add Firecrawl steps to Pipedream workflows triggered by schedules, webhooks, or other apps
 
 ## Overview
 
@@ -26,18 +26,18 @@ Use the Firecrawl Pipedream app to scrape pages, crawl sites, search the web, ma
 
 ## What you can do
 
-| Capability | Use case |
+| Action | Use case |
 | - | - |
-| **Scrape** | Pull page content when a webhook or schedule fires |
-| **Crawl** | Start a multi page crawl job (poll with Get Crawl Data) |
+| **Scrape Page** | Pull page content when a webhook or schedule fires |
+| **Crawl URL** | Start a multi page crawl job (poll with **Get Crawl Data**) |
 | **Search** | Discover sources before downstream steps |
-| **Map** | List URLs on a site, optionally filtered by a search term |
-| **Extract** | Pull structured data from one or more URLs |
+| **Map URL** | List URLs on a site, optionally filtered by a search term |
+| **Extract Data** | Pull structured data from one or more URLs (check a running job with **Get Extract Status**) |
 
 ## Resources
 
 * [Pipedream Firecrawl app](https://pipedream.com/apps/firecrawl/)
-* [Firecrawl API introduction](/api-reference/v2-introduction)
+* [Firecrawl API introduction](https://docs.firecrawl.dev/api-reference/v2-introduction.md)
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

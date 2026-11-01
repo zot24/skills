@@ -50,7 +50,7 @@ brew install beads
 
 Homebrew core's `beads` formula is the supported Homebrew package. If you
 previously installed the old tap formula as `bd`, see
-[Migrating from the old Homebrew tap](/getting-started/upgrading#homebrew) to
+[Migrating from the old Homebrew tap](https://beads.gascity.com/getting-started/upgrading.md#homebrew) to
 switch to the core formula.
 
 **Why Homebrew?**
@@ -122,7 +122,7 @@ Use Homebrew, npm, or the install script if you do not specifically need `go ins
 
 `go install` has two supported modes that give different capabilities:
 
-* **Server-mode only (nocgo, simplest):** `CGO_ENABLED=0 go install github.com/steveyegge/beads/cmd/bd@latest`. Works on any machine with a Go toolchain, no C compiler needed. Produces a server-mode-only binary — you must run an external `dolt sql-server` and use `bd init --server`. See [Dolt](/architecture/dolt) for server-mode setup.
+* **Server-mode only (nocgo, simplest):** `CGO_ENABLED=0 go install github.com/steveyegge/beads/cmd/bd@latest`. Works on any machine with a Go toolchain, no C compiler needed. Produces a server-mode-only binary — you must run an external `dolt sql-server` and use `bd init --server`. See [Dolt](https://beads.gascity.com/architecture/dolt.md) for server-mode setup.
 * **Embedded-capable (cgo):** `CGO_ENABLED=1 GOFLAGS=-tags=gms_pure_go go install github.com/steveyegge/beads/cmd/bd@latest`. Requires a C compiler (gcc/clang on Unix, MinGW on Windows). Produces a binary with the default embedded-Dolt backend — `bd init` Just Works.
 
 ICU headers are not required. The embedded-capable command uses `gms_pure_go` so go-mysql-server uses Go's stdlib regexp instead of ICU.
@@ -133,9 +133,9 @@ If you don't have a preference, `brew install beads` or the install script give 
 
 ### Build Dependencies (Contributors Only)
 
-
-  These dependencies are only needed if you build from source. If you installed via Homebrew, npm, or the install script, skip this section entirely.
-
+> [!NOTE]
+>
+> These dependencies are only needed if you build from source. If you installed via Homebrew, npm, or the install script, skip this section entirely.
 
 Building from source requires a C compiler (for CGO / embedded Dolt). ICU is
 not required — all builds use the `gms_pure_go` tag which selects Go's
@@ -295,7 +295,7 @@ Move-Item bd.exe $env:USERPROFILE\AppData\Local\Microsoft\WindowsApps\
 * The Dolt server listens on a loopback TCP endpoint
 * Allow `bd.exe` loopback traffic through any host firewall
 * Installed from npm, `bd` is a `bd.cmd` shim — Node's `execFile`/`spawn`
-  need `shell: true` to run it ([details](/reference/troubleshooting#platform-specific-issues))
+  need `shell: true` to run it ([details](https://beads.gascity.com/reference/troubleshooting.md#platform-specific-issues))
 
 ## IDE and Editor Integrations
 
@@ -355,11 +355,11 @@ The plugin adds:
 * Slash commands: `/beads:ready`, `/beads:create`, `/beads:show`, `/beads:update`, `/beads:close`, etc.
 * Task agent for autonomous execution
 
-See [Claude Code Plugin](/integrations/claude-code-plugin) for complete plugin documentation.
+See [Claude Code Plugin](https://beads.gascity.com/integrations/claude-code-plugin.md) for complete plugin documentation.
 
 ### GitHub Copilot
 
-For **VS Code with GitHub Copilot**, install the MCP server (`uv tool install beads-mcp`) and create `.vscode/mcp.json` in your project — or add it to the VS Code user-level MCP config to enable it for all projects. See [GitHub Copilot](/integrations/github-copilot) for the complete setup guide, including the user-level config paths per platform.
+For **VS Code with GitHub Copilot**, install the MCP server (`uv tool install beads-mcp`) and create `.vscode/mcp.json` in your project — or add it to the VS Code user-level MCP config to enable it for all projects. See [GitHub Copilot](https://beads.gascity.com/integrations/github-copilot.md) for the complete setup guide, including the user-level config paths per platform.
 
 For the **GitHub Copilot CLI** terminal integration:
 
@@ -368,7 +368,7 @@ bd setup copilot         # Install project Copilot plugin + repository instructi
 bd setup copilot --check # Verify the project integration files exist
 ```
 
-This setup is currently project-scoped only. It writes `.copilot-plugin/plugin.json` and `.github/copilot-instructions.md`; there is no separate `--global` or `--project` mode for Copilot today, and it does not manage `~/.copilot/...` paths. See [Copilot CLI](/integrations/copilot-cli) for the full guide.
+This setup is currently project-scoped only. It writes `.copilot-plugin/plugin.json` and `.github/copilot-instructions.md`; there is no separate `--global` or `--project` mode for Copilot today, and it does not manage `~/.copilot/...` paths. See [Copilot CLI](https://beads.gascity.com/integrations/copilot-cli.md) for the full guide.
 
 ### MCP Server (Alternative)
 
@@ -396,7 +396,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json`:
 }
 ```
 
-For Sourcegraph Amp configuration and detailed MCP server documentation, see [MCP Server](/integrations/mcp-server).
+For Sourcegraph Amp configuration and detailed MCP server documentation, see [MCP Server](https://beads.gascity.com/integrations/mcp-server.md).
 
 ## Verifying Installation
 
@@ -409,7 +409,7 @@ bd help
 
 ## Troubleshooting
 
-For additional troubleshooting, see [Troubleshooting](/reference/troubleshooting).
+For additional troubleshooting, see [Troubleshooting](https://beads.gascity.com/reference/troubleshooting.md).
 
 ### `bd: command not found`
 
@@ -439,7 +439,7 @@ If you installed via Homebrew, this shouldn't be necessary as the formula alread
 
 ### MCP server fails to start (standalone beads-mcp)
 
-The Claude Code plugin itself does not bundle an MCP server. If you configured the standalone `beads-mcp` server (see [MCP Server](/integrations/mcp-server)) and it fails immediately, `uv` is likely not installed or not in your PATH.
+The Claude Code plugin itself does not bundle an MCP server. If you configured the standalone `beads-mcp` server (see [MCP Server](https://beads.gascity.com/integrations/mcp-server.md)) and it fails immediately, `uv` is likely not installed or not in your PATH.
 
 **Symptoms:**
 
@@ -462,7 +462,7 @@ which uv
 # Restart Claude Code
 ```
 
-See [Claude Code Plugin](/integrations/claude-code-plugin) for alternative installation methods.
+See [Claude Code Plugin](https://beads.gascity.com/integrations/claude-code-plugin.md) for alternative installation methods.
 
 ## Updating bd
 
@@ -485,7 +485,7 @@ Upgrade checklist:
    `bd dolt push`
 
 Other clones should install the new binary and run `bd bootstrap`, not
-independently migrate. For the full procedure, see [Upgrading](/getting-started/upgrading).
+independently migrate. For the full procedure, see [Upgrading](https://beads.gascity.com/getting-started/upgrading.md).
 
 ### Quick install script (macOS/Linux/FreeBSD)
 
@@ -542,19 +542,19 @@ Prereleases (e.g. release candidates) are published only as GitHub prereleases
 and are not pushed to the stable Homebrew/npm/PyPI channels, so `brew upgrade`
 and friends will not move you onto them — fetch the prerelease build explicitly.
 
-For post-upgrade steps (hooks, migrations), see [Upgrading](/getting-started/upgrading).
+For post-upgrade steps (hooks, migrations), see [Upgrading](https://beads.gascity.com/getting-started/upgrading.md).
 
 ## Uninstalling
 
-To completely remove Beads from a repository, see [Uninstalling](/recovery/uninstalling).
+To completely remove Beads from a repository, see [Uninstalling](https://beads.gascity.com/recovery/uninstalling.md).
 
 ## Next Steps
 
 After installation:
 
 1. **Initialize a project**: `cd your-project && bd init`
-2. **Learn the basics**: See [Quick Start](/getting-started/quickstart)
-3. **Configure your agent**: See [IDE Setup](/getting-started/ide-setup), or run `bd setup --list`
+2. **Learn the basics**: See [Quick Start](https://beads.gascity.com/getting-started/quickstart.md)
+3. **Configure your agent**: See [IDE Setup](https://beads.gascity.com/getting-started/ide-setup.md), or run `bd setup --list`
 4. **Explore examples**: Check out the [examples/](https://github.com/gastownhall/beads/tree/main/examples) directory
 
 

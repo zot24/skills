@@ -4,7 +4,7 @@
 title: Modals
 description: Collect structured user input through modal dialogs with text fields, dropdowns, and validation.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/actions

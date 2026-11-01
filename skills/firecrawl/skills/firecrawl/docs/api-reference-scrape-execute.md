@@ -33,7 +33,7 @@ When you are done, call `DELETE /v2/scrape/{jobId}/interact` to stop the session
 | `language` | string | No | `"node"` | One of `"python"`, `"node"`, or `"bash"`. Only used with `code`. |
 | `timeout` | number | No | `30` | Execution timeout in seconds (1–300). |
 | `origin` | string | No | — | Optional origin label used for telemetry. |
-| `zeroDataRetention` | boolean | No | `false` | Run the session with [Zero Data Retention](/features/interact#zero-data-retention-zdr). Requires ZDR to be enabled for your team. Applied automatically when the scrape itself used ZDR. |
+| `zeroDataRetention` | boolean | No | `false` | Run the session with [Zero Data Retention](https://docs.firecrawl.dev/features/interact.md#zero-data-retention-zdr). Requires ZDR to be enabled for your team. Applied automatically when the scrape itself used ZDR. |
 | `url` | string | No | — | Page to open in a new session when the original scrape's context is unavailable, such as after a ZDR scrape. The scrape's actions are not replayed. |
 
 ## Response
@@ -123,7 +123,7 @@ curl -X POST "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-446655
 | `502` | Browser service or AI agent execution failed |
 | `503` | Browser feature not configured (self-hosted only) |
 
-For detailed usage with examples, see the [Interact feature guide](/features/interact).
+For detailed usage with examples, see the [Interact feature guide](https://docs.firecrawl.dev/features/interact.md).
 
 
 ## OpenAPI

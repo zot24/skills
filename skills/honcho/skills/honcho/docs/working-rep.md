@@ -20,75 +20,73 @@ Working representations are automatically generated and cached through Honcho's 
 
 3. **Retrieval**: The `working_rep()` method provides fast access to these cached representations without requiring LLM processing
 
-
-  **Cached vs On-Demand**: `working_rep()` retrieves cached representations for fast access, while `peer.chat()` generates fresh representations using the dialectic system. Use `working_rep()` when you need fast access to stored knowledge, and `chat()` when you need current analysis with custom queries.
-
+> [!NOTE]
+>
+> **Cached vs On-Demand**: `working_rep()` retrieves cached representations for fast access, while `peer.chat()` generates fresh representations using the dialectic system. Use `working_rep()` when you need fast access to stored knowledge, and `chat()` when you need current analysis with custom queries.
 
 ## Basic Usage
 
 Working representations are accessed through the `working_rep()` method on Session or Peer objects:
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  # Initialize client
-  honcho = Honcho()
+# Initialize client
+honcho = Honcho()
 
-  # Create peers and session
-  user = honcho.peer("user-123")
-  assistant = honcho.peer("ai-assistant")
-  session = honcho.session("support-conversation")
+# Create peers and session
+user = honcho.peer("user-123")
+assistant = honcho.peer("ai-assistant")
+session = honcho.session("support-conversation")
 
-  # Add conversation to trigger representation generation
-  session.add_messages([
-      user.message("I'm having trouble with my billing account"),
-      assistant.message("I can help with that. What specific issue are you seeing?"),
-      user.message("My credit card was charged twice last month"),
-      assistant.message("I see duplicate charges on your account. Let me refund one of them.")
-  ])
-
-  # Chat to generate a working representation
-  response = user.chat("What is this user's main concern right now?", session_id=session.id)
-
-  # Retrieve the cached working representation for the user
-  user_representation = session.working_rep("user-123")
-  print("Cached user representation:", user_representation)
-
-  # Or access from the peer directly
-  peer_representation = user.working_rep()
-  ```
-
-  ```typescript TypeScript
-  import { Honcho } from "@honcho-ai/sdk";
-
-  // Initialize client
-  const honcho = new Honcho({});
-
-  // Create peers and session
-  const user = await honcho.peer("user-123");
-  const assistant = await honcho.peer("ai-assistant");
-  const session = await honcho.session("support-conversation");
-
-  // Add conversation to trigger representation generation
-  await session.addMessages([
+# Add conversation to trigger representation generation
+session.add_messages([
     user.message("I'm having trouble with my billing account"),
     assistant.message("I can help with that. What specific issue are you seeing?"),
     user.message("My credit card was charged twice last month"),
     assistant.message("I see duplicate charges on your account. Let me refund one of them.")
-  ]);
+])
 
-  // Chat to generate a working representation
-  const response = await user.chat("What is this user's main concern right now?", { sessionId: session.id });
+# Chat to generate a working representation
+response = user.chat("What is this user's main concern right now?", session_id=session.id)
 
-  // Retrieve the cached working representation for the user
-  const userRepresentation = await session.workingRep("user-123");
-  console.log("Cached user representation:", userRepresentation);
+# Retrieve the cached working representation for the user
+user_representation = session.working_rep("user-123")
+print("Cached user representation:", user_representation)
 
-  // Or access from the peer directly
-  const peerRepresentation = await user.workingRep();
-  ```
-</CodeGroup>
+# Or access from the peer directly
+peer_representation = user.working_rep()
+```
+
+```typescript TypeScript theme={null}
+import { Honcho } from "@honcho-ai/sdk";
+
+// Initialize client
+const honcho = new Honcho({});
+
+// Create peers and session
+const user = await honcho.peer("user-123");
+const assistant = await honcho.peer("ai-assistant");
+const session = await honcho.session("support-conversation");
+
+// Add conversation to trigger representation generation
+await session.addMessages([
+  user.message("I'm having trouble with my billing account"),
+  assistant.message("I can help with that. What specific issue are you seeing?"),
+  user.message("My credit card was charged twice last month"),
+  assistant.message("I see duplicate charges on your account. Let me refund one of them.")
+]);
+
+// Chat to generate a working representation
+const response = await user.chat("What is this user's main concern right now?", { sessionId: session.id });
+
+// Retrieve the cached working representation for the user
+const userRepresentation = await session.workingRep("user-123");
+console.log("Cached user representation:", userRepresentation);
+
+// Or access from the peer directly
+const peerRepresentation = await user.workingRep();
+```
 
 ## Semantic Search in Representations
 
@@ -104,58 +102,56 @@ Working representations support semantic search to retrieve the most relevant ob
 | `include_most_derived` | `bool` | Whether to include the most recently derived observations |
 | `max_observations` | `int` | Maximum number of observations to include (1-100) |
 
-<CodeGroup>
-  ```python Python
-  # Get representation focused on a specific topic
-  billing_rep = session.working_rep(
-      "user-123",
-      search_query="billing and payment issues",
-      search_top_k=10,
-      search_max_distance=0.8,
-      include_most_derived=True,
-      max_observations=25
-  )
+```python Python theme={null}
+# Get representation focused on a specific topic
+billing_rep = session.working_rep(
+    "user-123",
+    search_query="billing and payment issues",
+    search_top_k=10,
+    search_max_distance=0.8,
+    include_most_derived=True,
+    max_observations=25
+)
 
-  # Get representation from peer with target
-  # What user-123 knows about the assistant
-  local_rep = session.working_rep(
-      "user-123",
-      target="ai-assistant",
-      search_query="support interactions"
-  )
+# Get representation from peer with target
+# What user-123 knows about the assistant
+local_rep = session.working_rep(
+    "user-123",
+    target="ai-assistant",
+    search_query="support interactions"
+)
 
-  # Access from peer object with semantic search
-  user_rep = user.working_rep(
-      session=session,
-      search_query="preferences",
-      search_top_k=5
-  )
-  ```
+# Access from peer object with semantic search
+user_rep = user.working_rep(
+    session=session,
+    search_query="preferences",
+    search_top_k=5
+)
+```
 
-  ```typescript TypeScript
-  // Get representation focused on a specific topic
-  const billingRep = await session.workingRep("user-123", {
-    searchQuery: "billing and payment issues",
-    searchTopK: 10,
-    searchMaxDistance: 0.8,
-    includeMostDerived: true,
-    maxObservations: 25
-  });
+```typescript TypeScript theme={null}
+// Get representation focused on a specific topic
+const billingRep = await session.workingRep("user-123", {
+  searchQuery: "billing and payment issues",
+  searchTopK: 10,
+  searchMaxDistance: 0.8,
+  includeMostDerived: true,
+  maxObservations: 25
+});
 
-  // Get representation from peer with target
-  // What user-123 knows about the assistant
-  const localRep = await session.workingRep("user-123", {
-    target: "ai-assistant",
-    searchQuery: "support interactions"
-  });
+// Get representation from peer with target
+// What user-123 knows about the assistant
+const localRep = await session.workingRep("user-123", {
+  target: "ai-assistant",
+  searchQuery: "support interactions"
+});
 
-  // Access from peer object with semantic search
-  const userRep = await user.workingRep(session, undefined, {
-    searchQuery: "preferences",
-    searchTopK: 5
-  });
-  ```
-</CodeGroup>
+// Access from peer object with semantic search
+const userRep = await user.workingRep(session, undefined, {
+  searchQuery: "preferences",
+  searchTopK: 5
+});
+```
 
 ## Understanding Representation Content
 
@@ -171,45 +167,43 @@ Facts about the peer that have been extracted and stored over time from various 
 
 ### Example Representation Structure
 
-<CodeGroup>
-  ```python Python
-  # Example of what a cached representation might contain
-  representation = session.working_rep("user-123")
+```python Python theme={null}
+# Example of what a cached representation might contain
+representation = session.working_rep("user-123")
 
-  # Typical content structure:
-  """
-  PREDICTION ABOUT THE USER'S CURRENT MENTAL STATE:
-  The user appears frustrated with a billing issue, specifically concerning duplicate charges.
-  They seem to have some confidence in the support process as they provided specific details.
+# Typical content structure:
+"""
+PREDICTION ABOUT THE USER'S CURRENT MENTAL STATE:
+The user appears frustrated with a billing issue, specifically concerning duplicate charges.
+They seem to have some confidence in the support process as they provided specific details.
 
-  RELEVANT LONG-TERM FACTS ABOUT THE USER:
-  - User has had previous billing inquiries
-  - User prefers direct, specific communication
-  - User is detail-oriented when reporting issues
-  """
+RELEVANT LONG-TERM FACTS ABOUT THE USER:
+- User has had previous billing inquiries
+- User prefers direct, specific communication
+- User is detail-oriented when reporting issues
+"""
 
-  print("Full representation:", representation)
-  ```
+print("Full representation:", representation)
+```
 
-  ```typescript TypeScript
-  // Example of what a cached representation might contain
-  const representation = await session.workingRep("user-123");
+```typescript TypeScript theme={null}
+// Example of what a cached representation might contain
+const representation = await session.workingRep("user-123");
 
-  // Typical content structure:
-  /*
-  PREDICTION ABOUT THE USER'S CURRENT MENTAL STATE:
-  The user appears frustrated with a billing issue, specifically concerning duplicate charges.
-  They seem to have some confidence in the support process as they provided specific details.
+// Typical content structure:
+/*
+PREDICTION ABOUT THE USER'S CURRENT MENTAL STATE:
+The user appears frustrated with a billing issue, specifically concerning duplicate charges.
+They seem to have some confidence in the support process as they provided specific details.
 
-  RELEVANT LONG-TERM FACTS ABOUT THE USER:
-  - User has had previous billing inquiries
-  - User prefers direct, specific communication
-  - User is detail-oriented when reporting issues
-  */
+RELEVANT LONG-TERM FACTS ABOUT THE USER:
+- User has had previous billing inquiries
+- User prefers direct, specific communication
+- User is detail-oriented when reporting issues
+*/
 
-  console.log("Full representation:", representation);
-  ```
-</CodeGroup>
+console.log("Full representation:", representation);
+```
 
 ## When Representations Are Updated
 
@@ -250,27 +244,25 @@ Understanding when to use `working_rep()` vs `peer.chat()`:
 * You need customized insights for specific use cases
 * You want to query about relationships between peers
 
-<CodeGroup>
-  ```python Python
-  # Fast cached access
-  cached_rep = session.working_rep("user-123")
-  print("Cached:", cached_rep[:100] + "...")
+```python Python theme={null}
+# Fast cached access
+cached_rep = session.working_rep("user-123")
+print("Cached:", cached_rep[:100] + "...")
 
-  # Custom query with fresh analysis
-  custom_analysis = user.chat("What is this user's main concern right now?", session_id=session.id)
-  print("Fresh analysis:", custom_analysis)
-  ```
+# Custom query with fresh analysis
+custom_analysis = user.chat("What is this user's main concern right now?", session_id=session.id)
+print("Fresh analysis:", custom_analysis)
+```
 
-  ```typescript TypeScript
-  // Fast cached access
-  const cachedRep = await session.workingRep("user-123");
-  console.log("Cached:", cachedRep.substring(0, 100) + "...");
+```typescript TypeScript theme={null}
+// Fast cached access
+const cachedRep = await session.workingRep("user-123");
+console.log("Cached:", cachedRep.substring(0, 100) + "...");
 
-  // Custom query with fresh analysis
-  const customAnalysis = await user.chat("What is this user's main concern right now?", { sessionId: session.id });
-  console.log("Fresh analysis:", customAnalysis);
-  ```
-</CodeGroup>
+// Custom query with fresh analysis
+const customAnalysis = await user.chat("What is this user's main concern right now?", { sessionId: session.id });
+console.log("Fresh analysis:", customAnalysis);
+```
 
 ## Best Practices
 
@@ -282,67 +274,63 @@ Make sure that a representation exists before processing it by using the chat en
 
 Cached representations are ideal for analytics dashboards:
 
-<CodeGroup>
-  ```python Python
-  # Good: Fast dashboard updates using cached data
-  def update_analytics_dashboard(sessions):
-      analytics = {}
-      for session in sessions:
-          for peer_id in session.get_peer_ids():
-              rep = session.working_rep(peer_id)
-              analytics[peer_id] = analyze_representation(rep)
-      return analytics
-  ```
+```python Python theme={null}
+# Good: Fast dashboard updates using cached data
+def update_analytics_dashboard(sessions):
+    analytics = {}
+    for session in sessions:
+        for peer_id in session.get_peer_ids():
+            rep = session.working_rep(peer_id)
+            analytics[peer_id] = analyze_representation(rep)
+    return analytics
+```
 
-  ```typescript TypeScript
-  // Good: Fast dashboard updates using cached data
-  async function updateAnalyticsDashboard(sessions) {
-    const analytics: Record<string, any> = {};
-    for (const session of sessions) {
-      const peerIds = await session.getPeerIds();
-      for (const peerId of peerIds) {
-        const rep = await session.workingRep(peerId);
-        analytics[peerId] = analyzeRepresentation(rep);
-      }
+```typescript TypeScript theme={null}
+// Good: Fast dashboard updates using cached data
+async function updateAnalyticsDashboard(sessions) {
+  const analytics: Record<string, any> = {};
+  for (const session of sessions) {
+    const peerIds = await session.getPeerIds();
+    for (const peerId of peerIds) {
+      const rep = await session.workingRep(peerId);
+      analytics[peerId] = analyzeRepresentation(rep);
     }
-    return analytics;
   }
-  ```
-</CodeGroup>
+  return analytics;
+}
+```
 
 ### 3. Combine with Fresh Analysis When Needed
 
 Use cached representations for baseline understanding, and fresh analysis for current insights:
 
-<CodeGroup>
-  ```python Python
-  # Get baseline understanding from cache
-  baseline = session.working_rep("user-123")
+```python Python theme={null}
+# Get baseline understanding from cache
+baseline = session.working_rep("user-123")
 
-  # Get current specific insights
-  current_state = user.chat("How is this user feeling right now?", session_id=session.id)
+# Get current specific insights
+current_state = user.chat("How is this user feeling right now?", session_id=session.id)
 
-  # Combine for comprehensive view
-  comprehensive_view = {
-      "baseline_knowledge": baseline,
-      "current_analysis": current_state
-  }
-  ```
+# Combine for comprehensive view
+comprehensive_view = {
+    "baseline_knowledge": baseline,
+    "current_analysis": current_state
+}
+```
 
-  ```typescript TypeScript
-  // Get baseline understanding from cache
-  const baseline = await session.workingRep("user-123");
+```typescript TypeScript theme={null}
+// Get baseline understanding from cache
+const baseline = await session.workingRep("user-123");
 
-  // Get current specific insights
-  const currentState = await user.chat("How is this user feeling right now?", { sessionId: session.id });
+// Get current specific insights
+const currentState = await user.chat("How is this user feeling right now?", { sessionId: session.id });
 
-  // Combine for comprehensive view
-  const comprehensiveView = {
-    baselineKnowledge: baseline,
-    currentAnalysis: currentState
-  };
-  ```
-</CodeGroup>
+// Combine for comprehensive view
+const comprehensiveView = {
+  baselineKnowledge: baseline,
+  currentAnalysis: currentState
+};
+```
 
 ## Conclusion
 

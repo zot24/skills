@@ -4,7 +4,7 @@
 title: AI SDK Tools
 description: Let an AI agent post messages, send DMs, react, edit, and delete inside your workspace, with approval required for writes by default.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/usage

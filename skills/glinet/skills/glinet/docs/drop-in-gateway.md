@@ -79,7 +79,7 @@ There are two deployment modes for different application scenarios: All client d
 
 In the following example, the gateway address of the primary router is `192.168.1.1`.
 
-### All devices are networked through Drop-in Gateway<a href="#all-devices-are-networked-through-drop-in-gateway" class="headerlink" title="Permanent link">¶</a>
+### All devices are networked through Drop-in Gateway<a href="#all-devices-managed-by-the-drop-in-gateway" class="headerlink" title="Permanent link">¶</a>
 
 1.  Connect the LAN port of the primary router to the WAN port of the GL.iNet router via an ethernet cable.
 
@@ -145,7 +145,7 @@ In the following example, the gateway address of the primary router is `192.168.
 
 4.  Go back to the GL.iNet router and set up features like [AdGuard Home](../adguardhome/), [encrypted DNS](../dns/), [WireGuard Client](../wireguard_client/) and [OpenVPN Client](../openvpn_client/).
 
-### Specific devices are networked through Drop-in Gateway<a href="#specific-devices-are-networked-through-drop-in-gateway" class="headerlink" title="Permanent link">¶</a>
+### Specific devices are networked through Drop-in Gateway<a href="#some-devices-managed-by-the-drop-in-gateway" class="headerlink" title="Permanent link">¶</a>
 
 1.  Connect the LAN port of the primary router to the WAN port of the GL.iNet router via an ethernet cable.
 
@@ -181,7 +181,7 @@ In the following example, the gateway address of the primary router is `192.168.
 
     5.  Select the **Manual** option. Turn on the **IPv4 toggle** switch.
 
-    6.  Set the **IP address** as the IP address you see in step d, **Subnet mask** set as `255.255.255.0`, both **Gateway** and **Preferred DNS** set as the IP address in Drop-in Gateway page.
+    6.  Set the **IP address** as the IP address you see in step 4, **Subnet mask** set as `255.255.255.0`, both **Gateway** and **Preferred DNS** set as the IP address in Drop-in Gateway page.
 
         <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/drop-in_gateway/windows/windwos11_ethernet_edit_ip_settings.png" class="glboxshadow" alt="windows 11 ethernet edit" />
 

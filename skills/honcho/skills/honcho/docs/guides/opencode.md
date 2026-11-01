@@ -20,9 +20,9 @@ Give OpenCode long-term memory that survives context wipes, session restarts, an
 
 ### Step 2: Install the Plugin
 
-
-  This plugin requires the [OpenCode CLI](https://opencode.ai). If `opencode` isn't on your `PATH`, install it first, then restart your shell.
-
+> [!NOTE]
+>
+> This plugin requires the [OpenCode CLI](https://opencode.ai). If `opencode` isn't on your `PATH`, install it first, then restart your shell.
 
 Install the plugin:
 
@@ -96,9 +96,9 @@ For **self-hosted or local Honcho**:
 * `baseUrl` should point to your deployment (e.g. `http://127.0.0.1:8000`)
 * `apiKey` is only required if the deployment is authenticated
 
-
-  If OpenCode is running inside Docker or another remote environment, `localhost` won't refer to your host machine. The `baseUrl` must be reachable from the OpenCode runtime.
-
+> [!WARNING]
+>
+> If OpenCode is running inside Docker or another remote environment, `localhost` won't refer to your host machine. The `baseUrl` must be reachable from the OpenCode runtime.
 
 ### Recall Modes
 
@@ -187,11 +187,13 @@ Both write to `team-acme`; Honcho's dialectic reasoning draws on context from bo
 
 ## Next Steps
 
+> [card] [GitHub Repository](https://github.com/plastic-labs/opencode-honcho)
+>
+> Source code, issues, and README.
 
-    Source code, issues, and README.
-
-
-    Learn about peers, sessions, and dialectic reasoning.
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Learn about peers, sessions, and dialectic reasoning.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

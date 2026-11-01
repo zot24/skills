@@ -112,6 +112,11 @@ paths:
                     description: >-
                       Reasoning budget used for the agent run (only present for
                       runs that set effort)
+                  safe:
+                    type: boolean
+                    description: >-
+                      Whether the run's web searches filtered explicit content
+                      (only present for runs that set `safe: true`)
                   error:
                     type: string
                     description: Error message (only present when status is failed)

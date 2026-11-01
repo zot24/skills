@@ -398,7 +398,7 @@ auxiliary:
 ```
 
 
-With `enabled: false`, automatic post-turn forks do not spawn; manual `/refine` still works.
+With `enabled: false`, automatic post-turn forks do not spawn; manual `/refine` still works, with or without focus text.
 
 ### Capping review cost (`max_input_tokens`)<a href="#capping-review-cost-max_input_tokens" class="hash-link" aria-label="Direct link to capping-review-cost-max_input_tokens" translate="no" title="Direct link to capping-review-cost-max_input_tokens">​</a>
 

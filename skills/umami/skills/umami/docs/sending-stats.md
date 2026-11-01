@@ -31,20 +31,20 @@ To register an `event`, you need to send a `POST` to `/api/send` with the follow
 
 **Parameters**
 
-| Parameter          | Type   | Description                                                                       |
-|--------------------|--------|-----------------------------------------------------------------------------------|
-| `payload.hostname` | string | Name of host.                                                                     |
-| `payload.screen`   | string | Screen resolution (ex. "1920x1080").                                              |
-| `payload.language` | string | Language of visitor (ex. "en-US").                                                |
-| `payload.url`      | string | Page URL.                                                                         |
-| `payload.referrer` | string | Referrer URL.                                                                     |
-| `payload.title`    | string | Page title.                                                                       |
-| `payload.tag`      | string | Additional tag description.                                                       |
-| `payload.id`       | string | Distinct ID used to identify the visitor. See [Distinct IDs](/docs/distinct-ids). |
-| `payload.website`  | string | Website ID.                                                                       |
-| `payload.name`     | string | Name of the event.                                                                |
-| `payload.data`     | object | (optional) Additional data for the event.                                         |
-| `type`             | string | One of `event`, `identify`, or `performance`.                                     |
+| Parameter          | Type   | Description                                                                                        |
+|--------------------|--------|----------------------------------------------------------------------------------------------------|
+| `payload.hostname` | string | Name of host.                                                                                      |
+| `payload.screen`   | string | Screen resolution (ex. "1920x1080").                                                               |
+| `payload.language` | string | Language of visitor (ex. "en-US").                                                                 |
+| `payload.url`      | string | Page URL.                                                                                          |
+| `payload.referrer` | string | Referrer URL.                                                                                      |
+| `payload.title`    | string | Page title.                                                                                        |
+| `payload.tag`      | string | Additional tag description.                                                                        |
+| `payload.id`       | string | Distinct ID used to identify the visitor. See [Distinct IDs](/docs/distinct-ids).                  |
+| `payload.website`  | string | Website ID.                                                                                        |
+| `payload.name`     | string | Name of the event.                                                                                 |
+| `payload.data`     | object | (optional) Additional data for the event.                                                          |
+| `type`             | string | One of `event`, `identify`, `performance`, or `error`. See [Error tracking](/docs/error-tracking). |
 
 **Sample payload**
 

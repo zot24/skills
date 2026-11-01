@@ -10,6 +10,8 @@
 
 Use search feedback after a `search` result is used or fails to help. Feedback improves result quality and can refund 1 credit for the first feedback submission on a search job, subject to team limits.
 
+Use `valuableResults` to mark useful results by where they appeared in the response. Each entry names the `source` group (`web`, `images`, or `news`) and the result's 1-indexed `position` within that group, because each group is numbered from 1 independently. List every useful result: unlisted results are treated as not useful, and positions beyond what a group returned are ignored. This works for news and image results that have no `url`. Use `valuableSources` for useful URLs, including ones that were not among the returned results.
+
 ### Example Request
 
 ```bash theme={null}
@@ -22,6 +24,17 @@ curl -X POST "https://api.firecrawl.dev/v2/search/550e8400-e29b-41d4-a716-446655
       {
         "url": "https://docs.firecrawl.dev/features/search",
         "reason": "Most up-to-date description of /search."
+      }
+    ],
+    "valuableResults": [
+      {
+        "source": "web",
+        "position": 1,
+        "reason": "Answered the question directly."
+      },
+      {
+        "source": "news",
+        "position": 2
       }
     ],
     "missingContent": [
@@ -119,9 +132,9 @@ components:
     SearchFeedbackRequest:
       type: object
       description: >-
-        For 'good', include valuableSources. For 'partial', include
-        valuableSources or missingContent. For 'bad', include missingContent or
-        querySuggestions.
+        For 'good', include valuableSources or valuableResults. For 'partial',
+        include valuableSources, valuableResults, or missingContent. For 'bad',
+        include missingContent or querySuggestions.
       properties:
         rating:
           type: string
@@ -143,6 +156,36 @@ components:
                 maxLength: 1000
             required:
               - url
+        valuableResults:
+          type: array
+          maxItems: 50
+          description: >-
+            Results that were useful, each addressed by the `data` group it
+            appears in and its 1-indexed position within that group. Results are
+            returned grouped (`data.web`, `data.images`, `data.news`) and each
+            group is numbered from 1 independently, so `source` is required.
+            List every useful result; unlisted results are treated as not
+            useful. Positions beyond what the group actually returned are
+            ignored.
+          items:
+            type: object
+            properties:
+              source:
+                type: string
+                enum:
+                  - web
+                  - images
+                  - news
+              position:
+                type: integer
+                minimum: 1
+                maximum: 100
+              reason:
+                type: string
+                maxLength: 1000
+            required:
+              - source
+              - position
         missingContent:
           type: array
           maxItems: 20

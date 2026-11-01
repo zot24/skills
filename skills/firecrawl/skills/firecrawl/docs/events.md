@@ -40,6 +40,7 @@ All webhook events share this structure:
   "success": true,
   "type": "crawl.page",
   "id": "550e8400-e29b-41d4-a716-446655440000",
+  "webhookId": "f1e2d3c4-0000-0000-0000-000000000001",
   "data": [...],
   "metadata": {}
 }
@@ -50,6 +51,7 @@ All webhook events share this structure:
 | `success` | boolean | Whether the operation succeeded |
 | `type` | string | Event type (e.g. `crawl.page`) |
 | `id` | string | Job ID |
+| `webhookId` | string | Unique ID for this webhook delivery. Sent with crawl, batch scrape, extract, and monitor events |
 | `data` | array or object | Event-specific data (see examples below) |
 | `metadata` | object | Custom metadata from your webhook config |
 | `error` | string | Error message (when `success` is `false`) |
@@ -65,6 +67,7 @@ Sent when the crawl job begins processing.
   "success": true,
   "type": "crawl.started",
   "id": "550e8400-e29b-41d4-a716-446655440000",
+  "webhookId": "f1e2d3c4-0000-0000-0000-000000000002",
   "data": [],
   "metadata": {}
 }
@@ -79,6 +82,7 @@ Sent for each page scraped. The `data` array contains the page content and metad
   "success": true,
   "type": "crawl.page",
   "id": "550e8400-e29b-41d4-a716-446655440000",
+  "webhookId": "f1e2d3c4-0000-0000-0000-000000000003",
   "data": [
     {
       "markdown": "# Page content...",
@@ -110,6 +114,7 @@ Sent when the crawl job finishes and all pages have been processed.
   "success": true,
   "type": "crawl.completed",
   "id": "550e8400-e29b-41d4-a716-446655440000",
+  "webhookId": "f1e2d3c4-0000-0000-0000-000000000004",
   "data": [],
   "metadata": {}
 }
@@ -126,6 +131,7 @@ Sent when the batch scrape job begins processing.
   "success": true,
   "type": "batch_scrape.started",
   "id": "550e8400-e29b-41d4-a716-446655440000",
+  "webhookId": "f1e2d3c4-0000-0000-0000-000000000005",
   "data": [],
   "metadata": {}
 }
@@ -140,6 +146,7 @@ Sent for each URL scraped. The `data` array contains the page content and metada
   "success": true,
   "type": "batch_scrape.page",
   "id": "550e8400-e29b-41d4-a716-446655440000",
+  "webhookId": "f1e2d3c4-0000-0000-0000-000000000006",
   "data": [
     {
       "markdown": "# Page content...",
@@ -171,6 +178,7 @@ Sent when all URLs in the batch have been processed.
   "success": true,
   "type": "batch_scrape.completed",
   "id": "550e8400-e29b-41d4-a716-446655440000",
+  "webhookId": "f1e2d3c4-0000-0000-0000-000000000007",
   "data": [],
   "metadata": {}
 }
@@ -266,6 +274,7 @@ Sent when the extract job begins processing.
   "success": true,
   "type": "extract.started",
   "id": "550e8400-e29b-41d4-a716-446655440000",
+  "webhookId": "f1e2d3c4-0000-0000-0000-000000000008",
   "data": [],
   "metadata": {}
 }
@@ -280,6 +289,7 @@ Sent when extraction finishes successfully. The `data` array contains the extrac
   "success": true,
   "type": "extract.completed",
   "id": "550e8400-e29b-41d4-a716-446655440000",
+  "webhookId": "f1e2d3c4-0000-0000-0000-000000000009",
   "data": [
     {
       "success": true,
@@ -306,6 +316,7 @@ Sent when extraction fails. The `error` field contains the failure reason.
   "success": false,
   "type": "extract.failed",
   "id": "550e8400-e29b-41d4-a716-446655440000",
+  "webhookId": "f1e2d3c4-0000-0000-0000-000000000010",
   "data": [],
   "error": "Failed to extract data: timeout exceeded",
   "metadata": {}
@@ -314,7 +325,7 @@ Sent when extraction fails. The `error` field contains the failure reason.
 
 ## Agent Events
 
-Sent for jobs started with a `webhook` on [`/v2/agent`](/features/agent).
+Sent for jobs started with a `webhook` on [`/v2/agent`](https://docs.firecrawl.dev/features/agent).
 
 ### `agent.started`
 
@@ -352,11 +363,11 @@ Sent after each tool execution (scrape, search, etc.).
 }
 ```
 
-
-  The `creditsUsed` value in `action` events is an **estimate** of the total
-  credits used so far. The final accurate credit count is only
-  available in the `completed`, `failed`, or `cancelled` events.
-
+> [!NOTE]
+>
+> The `creditsUsed` value in `action` events is an **estimate** of the total
+> credits used so far. The final accurate credit count is only
+> available in the `completed`, `failed`, or `cancelled` events.
 
 ### `agent.completed`
 
@@ -400,7 +411,7 @@ Sent when the agent encounters an error. The `error` field contains the failure 
 }
 ```
 
-When the run stopped at its `maxCredits` limit, the `data` entry also has `stopReason: "credit_limit_reached"`. It may include a best-effort `partial`, `partialSchemaValid` (only when the request had a `schema`) and a `message` on what is incomplete. A `partial` isn't sent on every credit stop. See [Handling credit-limit stops](/features/agent#handling-credit-limit-stops).
+When the run stopped at its `maxCredits` limit, the `data` entry also has `stopReason: "credit_limit_reached"`. It may include a best-effort `partial`, `partialSchemaValid` (only when the request had a `schema`) and a `message` on what is incomplete. A `partial` isn't sent on every credit stop. See [Handling credit-limit stops](https://docs.firecrawl.dev/features/agent.md#handling-credit-limit-stops).
 
 ### `agent.cancelled`
 

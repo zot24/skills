@@ -18,57 +18,55 @@ Filters in Honcho are expressed as dictionaries that define conditions for match
 
 The most basic filters check for exact matches:
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  # Initialize client
-  honcho = Honcho()
+# Initialize client
+honcho = Honcho()
 
-  # Simple peer filter
-  peers = honcho.peers(filters={"peer_id": "alice"})
+# Simple peer filter
+peers = honcho.peers(filters={"peer_id": "alice"})
 
-  # Simple session filter with metadata
-  sessions = honcho.sessions(filters={
-      "metadata": {"type": "support"}
-  })
+# Simple session filter with metadata
+sessions = honcho.sessions(filters={
+    "metadata": {"type": "support"}
+})
 
-  # Simple message filter
-  messages = honcho.messages(filters={
-      "session_id": "support-chat-1",
-      "peer_id": "alice"
-  })
-  ```
+# Simple message filter
+messages = honcho.messages(filters={
+    "session_id": "support-chat-1",
+    "peer_id": "alice"
+})
+```
 
-  ```typescript TypeScript
-  import { Honcho } from "@honcho-ai/sdk";
+```typescript TypeScript theme={null}
+import { Honcho } from "@honcho-ai/sdk";
 
-  (async () => {
-      // Initialize client
-      const honcho = new Honcho({});
+(async () => {
+    // Initialize client
+    const honcho = new Honcho({});
 
-      // Simple peer filter
-      const peers = await honcho.peers({
-        filters: { peer_id: "alice" }
-      });
+    // Simple peer filter
+    const peers = await honcho.peers({
+      filters: { peer_id: "alice" }
+    });
 
-      // Simple session filter with metadata
-      const sessions = await honcho.sessions({
-        filters: {
-          metadata: { type: "support" }
-        }
-      });
+    // Simple session filter with metadata
+    const sessions = await honcho.sessions({
+      filters: {
+        metadata: { type: "support" }
+      }
+    });
 
-      // Simple message filter
-      const messages = await honcho.messages({
-        filters: {
-          session_id: "support-chat-1",
-          peer_id: "alice"
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+    // Simple message filter
+    const messages = await honcho.messages({
+      filters: {
+        session_id: "support-chat-1",
+        peer_id: "alice"
+      }
+    });
+})();
+```
 
 ## Logical Operators
 
@@ -78,123 +76,117 @@ Combine multiple conditions using logical operators for complex queries:
 
 Use AND to require all conditions to be true:
 
-<CodeGroup>
-  ```python Python
-  messages = honcho.messages(filters={
-      "AND": [
-          {"session_id": "chat-1"},
-          {"created_at": {"gte": "2024-01-01"}}
-      ]
-  })
-  ```
+```python Python theme={null}
+messages = honcho.messages(filters={
+    "AND": [
+        {"session_id": "chat-1"},
+        {"created_at": {"gte": "2024-01-01"}}
+    ]
+})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      const messages = await honcho.messages({
-        filters: {
-          AND: [
-            { session_id: "chat-1" },
-            { created_at: { gte: "2024-01-01" } }
-          ]
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+(async () => {
+    const messages = await honcho.messages({
+      filters: {
+        AND: [
+          { session_id: "chat-1" },
+          { created_at: { gte: "2024-01-01" } }
+        ]
+      }
+    });
+})();
+```
 
 ### OR Operator
 
 Use OR to match any of the specified conditions:
 
-<CodeGroup>
-  ```python Python
-  # Find messages from either alice or bob
-  messages = session.messages(filters={
-      "OR": [
-          {"peer_id": "alice"},
-          {"peer_id": "bob"}
-      ]
-  })
+```python Python theme={null}
+# Find messages from either alice or bob
+messages = session.messages(filters={
+    "OR": [
+        {"peer_id": "alice"},
+        {"peer_id": "bob"}
+    ]
+})
 
-  # Complex OR with metadata conditions
-  sessions = honcho.sessions(filters={
-      "OR": [
-          {"metadata": {"priority": "high"}},
-          {"metadata": {"urgent": True}},
-          {"metadata": {"escalated": True}}
-      ]
-  })
-  ```
+# Complex OR with metadata conditions
+sessions = honcho.sessions(filters={
+    "OR": [
+        {"metadata": {"priority": "high"}},
+        {"metadata": {"urgent": True}},
+        {"metadata": {"escalated": True}}
+    ]
+})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      // Find messages from either alice or bob
-      const messages = await session.messages({
-        filters: {
-          OR: [
-            { peer_id: "alice" },
-            { peer_id: "bob" }
-          ]
-        }
-      });
+```typescript TypeScript theme={null}
+(async () => {
+    // Find messages from either alice or bob
+    const messages = await session.messages({
+      filters: {
+        OR: [
+          { peer_id: "alice" },
+          { peer_id: "bob" }
+        ]
+      }
+    });
 
-      // Complex OR with metadata conditions
-      const sessions = await honcho.sessions({
-        filters: {
-          OR: [
-            { metadata: { priority: "high" } },
-            { metadata: { urgent: true } },
-            { metadata: { escalated: true } }
-          ]
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+    // Complex OR with metadata conditions
+    const sessions = await honcho.sessions({
+      filters: {
+        OR: [
+          { metadata: { priority: "high" } },
+          { metadata: { urgent: true } },
+          { metadata: { escalated: true } }
+        ]
+      }
+    });
+})();
+```
 
 ### NOT Operator
 
 Use NOT to exclude specific conditions:
 
-<CodeGroup>
-  ```python Python
-  # Find all peers except alice
-  peers = honcho.peers(filters={
-      "NOT": [
-          {"peer_id": "alice"}
-      ]
-  })
+```python Python theme={null}
+# Find all peers except alice
+peers = honcho.peers(filters={
+    "NOT": [
+        {"peer_id": "alice"}
+    ]
+})
 
-  # Find sessions that are NOT completed
-  sessions = honcho.sessions(filters={
-      "NOT": [
-          {"metadata": {"status": "completed"}}
-      ]
-  })
-  ```
+# Find sessions that are NOT completed
+sessions = honcho.sessions(filters={
+    "NOT": [
+        {"metadata": {"status": "completed"}}
+    ]
+})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      // Find all peers except alice
-      const peers = await honcho.peers({
-        filters: {
-          NOT: [
-            { peer_id: "alice" }
-          ]
-        }
-      });
+```typescript TypeScript theme={null}
+(async () => {
+    // Find all peers except alice
+    const peers = await honcho.peers({
+      filters: {
+        NOT: [
+          { peer_id: "alice" }
+        ]
+      }
+    });
 
-      // Find sessions that are NOT completed
-      const sessions = await honcho.sessions({
-        filters: {
-          NOT: [
-            { metadata: { status: "completed" } }
-          ]
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+    // Find sessions that are NOT completed
+    const sessions = await honcho.sessions({
+      filters: {
+        NOT: [
+          { metadata: { status: "completed" } }
+        ]
+      }
+    });
+})();
+```
 
 ### Negation and Unset Fields
 
@@ -219,114 +211,108 @@ conclusion drawn across a whole workspace belongs to no single session. Every
 other field is always populated, so none of this affects filters on them. See
 [Filtering Conclusions](#filtering-conclusions) for what conclusions are.
 
-<CodeGroup>
-  ```python Python
-  # Every conclusion except the ones in this session — including
-  # workspace-level conclusions, which belong to no session at all
-  conclusions = peer.conclusions.list(filters={
-      "NOT": [
-          {"session_id": "session-123"}
-      ]
-  })
+```python Python theme={null}
+# Every conclusion except the ones in this session — including
+# workspace-level conclusions, which belong to no session at all
+conclusions = peer.conclusions.list(filters={
+    "NOT": [
+        {"session_id": "session-123"}
+    ]
+})
 
-  # Equivalent
-  conclusions = peer.conclusions.list(filters={
-      "session_id": {"ne": "session-123"}
-  })
-  ```
+# Equivalent
+conclusions = peer.conclusions.list(filters={
+    "session_id": {"ne": "session-123"}
+})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      // Every conclusion except the ones in this session — including
-      // workspace-level conclusions, which belong to no session at all
-      const conclusions = await peer.conclusions.list({
-        filters: { NOT: [{ session_id: "session-123" }] }
-      });
+```typescript TypeScript theme={null}
+(async () => {
+    // Every conclusion except the ones in this session — including
+    // workspace-level conclusions, which belong to no session at all
+    const conclusions = await peer.conclusions.list({
+      filters: { NOT: [{ session_id: "session-123" }] }
+    });
 
-      // Equivalent
-      const same = await peer.conclusions.list({
-        filters: { session_id: { ne: "session-123" } }
-      });
-  })();
-  ```
-</CodeGroup>
+    // Equivalent
+    const same = await peer.conclusions.list({
+      filters: { session_id: { ne: "session-123" } }
+    });
+})();
+```
 
 To exclude a value **and** require the field to be set, combine the two with
 `AND`:
 
-<CodeGroup>
-  ```python Python
-  # Excludes workspace-level conclusions and `session-123`
-  conclusions = peer.conclusions.list(filters={
-      "AND": [
-          {"session_id": {"ne": "session-123"}},
-          {"session_id": {"ne": None}}
-      ]
-  })
-  ```
+```python Python theme={null}
+# Excludes workspace-level conclusions and `session-123`
+conclusions = peer.conclusions.list(filters={
+    "AND": [
+        {"session_id": {"ne": "session-123"}},
+        {"session_id": {"ne": None}}
+    ]
+})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      // Excludes workspace-level conclusions and `session-123`
-      const conclusions = await peer.conclusions.list({
-        filters: {
-          AND: [
-            { session_id: { ne: "session-123" } },
-            { session_id: { ne: null } }
-          ]
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+(async () => {
+    // Excludes workspace-level conclusions and `session-123`
+    const conclusions = await peer.conclusions.list({
+      filters: {
+        AND: [
+          { session_id: { ne: "session-123" } },
+          { session_id: { ne: null } }
+        ]
+      }
+    });
+})();
+```
 
 ### Combining Logical Operators
 
 Create sophisticated queries by combining different logical operators:
 
-<CodeGroup>
-  ```python Python
-  # Find messages from alice OR bob, but NOT where message has archived set to true in metadata
-  messages = session.messages(filters={
-      "AND": [
+```python Python theme={null}
+# Find messages from alice OR bob, but NOT where message has archived set to true in metadata
+messages = session.messages(filters={
+    "AND": [
+        {
+            "OR": [
+                {"peer_id": "alice"},
+                {"peer_id": "bob"}
+            ]
+        },
+        {
+            "NOT": [
+                {"metadata": {"archived": True}}
+            ]
+        }
+    ]
+})
+```
+
+```typescript TypeScript theme={null}
+(async () => {
+    // Find messages from alice OR bob, but NOT where message has archived set to true in metadata
+    const messages = await session.messages({
+      filters: {
+        AND: [
           {
-              "OR": [
-                  {"peer_id": "alice"},
-                  {"peer_id": "bob"}
-              ]
+            OR: [
+              { peer_id: "alice" },
+              { peer_id: "bob" }
+            ]
           },
           {
-              "NOT": [
-                  {"metadata": {"archived": True}}
-              ]
+            NOT: [
+              { metadata: { archived: true } }
+            ]
           }
-      ]
-  })
-  ```
-
-  ```typescript TypeScript
-  (async () => {
-      // Find messages from alice OR bob, but NOT where message has archived set to true in metadata
-      const messages = await session.messages({
-        filters: {
-          AND: [
-            {
-              OR: [
-                { peer_id: "alice" },
-                { peer_id: "bob" }
-              ]
-            },
-            {
-              NOT: [
-                { metadata: { archived: true } }
-              ]
-            }
-          ]
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+        ]
+      }
+    });
+})();
+```
 
 ## Comparison Operators
 
@@ -334,142 +320,136 @@ Use comparison operators for range queries and advanced matching:
 
 ### Numeric Comparisons
 
-<CodeGroup>
-  ```python Python
-  # Find sessions created after a specific date
-  sessions = honcho.sessions(filters={
-      "created_at": {"gte": "2024-01-01"}
-  })
+```python Python theme={null}
+# Find sessions created after a specific date
+sessions = honcho.sessions(filters={
+    "created_at": {"gte": "2024-01-01"}
+})
 
-  # Find messages within a date range
-  messages = session.messages(filters={
-      "created_at": {
-          "gte": "2024-01-01",
-          "lte": "2024-12-31"
+# Find messages within a date range
+messages = session.messages(filters={
+    "created_at": {
+        "gte": "2024-01-01",
+        "lte": "2024-12-31"
+    }
+})
+
+# Metadata numeric comparisons
+sessions = honcho.sessions(filters={
+    "metadata": {
+        "score": {"gt": 8.5},
+        "duration": {"lte": 3600}
+    }
+})
+```
+
+```typescript TypeScript theme={null}
+(async () => {
+    // Find sessions created after a specific date
+    const sessions = await honcho.sessions({
+      filters: {
+        created_at: { gte: "2024-01-01" }
       }
-  })
+    });
 
-  # Metadata numeric comparisons
-  sessions = honcho.sessions(filters={
-      "metadata": {
-          "score": {"gt": 8.5},
-          "duration": {"lte": 3600}
+    // Find messages within a date range
+    const messages = await session.messages({
+      filters: {
+        created_at: {
+          gte: "2024-01-01",
+          lte: "2024-12-31"
+        }
       }
-  })
-  ```
+    });
 
-  ```typescript TypeScript
-  (async () => {
-      // Find sessions created after a specific date
-      const sessions = await honcho.sessions({
-        filters: {
-          created_at: { gte: "2024-01-01" }
+    // Metadata numeric comparisons
+    const filteredSessions = await honcho.sessions({
+      filters: {
+        metadata: {
+          score: { gt: 8.5 },
+          duration: { lte: 3600 }
         }
-      });
-
-      // Find messages within a date range
-      const messages = await session.messages({
-        filters: {
-          created_at: {
-            gte: "2024-01-01",
-            lte: "2024-12-31"
-          }
-        }
-      });
-
-      // Metadata numeric comparisons
-      const filteredSessions = await honcho.sessions({
-        filters: {
-          metadata: {
-            score: { gt: 8.5 },
-            duration: { lte: 3600 }
-          }
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+      }
+    });
+})();
+```
 
 ### List Membership
 
 A bare list is shorthand for `in`, so `{"peer_id": ["alice", "bob"]}` and
 `{"peer_id": {"in": ["alice", "bob"]}}` are equivalent:
 
-<CodeGroup>
-  ```python Python
-  # Shorthand: a bare list means "any of these"
-  messages = session.messages(filters={
-      "peer_id": ["alice", "bob", "charlie"]
-  })
-  ```
+```python Python theme={null}
+# Shorthand: a bare list means "any of these"
+messages = session.messages(filters={
+    "peer_id": ["alice", "bob", "charlie"]
+})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      // Shorthand: a bare list means "any of these"
-      const messages = await session.messages({
-        filters: { peer_id: ["alice", "bob", "charlie"] }
-      });
-  })();
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+(async () => {
+    // Shorthand: a bare list means "any of these"
+    const messages = await session.messages({
+      filters: { peer_id: ["alice", "bob", "charlie"] }
+    });
+})();
+```
 
-
-  Bare lists behave differently inside metadata — use `{"in": [...]}` there for OR matching.
-
+> [!WARNING]
+>
+> Bare lists behave differently inside metadata — use `{"in": [...]}` there for OR matching.
 
 The explicit form, plus the other comparison operators:
 
-<CodeGroup>
-  ```python Python
-  # Find messages from specific peers in a session
-  messages = session.messages(filters={
-      "peer_id": {"in": ["alice", "bob", "charlie"]}
-  })
+```python Python theme={null}
+# Find messages from specific peers in a session
+messages = session.messages(filters={
+    "peer_id": {"in": ["alice", "bob", "charlie"]}
+})
 
-  # Find sessions with specific tags
-  sessions = honcho.sessions(filters={
-      "metadata": {
-          "tag": {"in": ["important", "urgent", "follow-up"]}
+# Find sessions with specific tags
+sessions = honcho.sessions(filters={
+    "metadata": {
+        "tag": {"in": ["important", "urgent", "follow-up"]}
+    }
+})
+
+# Not equal comparisons
+peers = honcho.peers(filters={
+    "metadata": {
+        "status": {"ne": "inactive"}
+    }
+})
+```
+
+```typescript TypeScript theme={null}
+(async () => {
+    // Find messages from specific peers in a session
+    const messages = await session.messages({
+      filters: {
+        peer_id: { in: ["alice", "bob", "charlie"] }
       }
-  })
+    });
 
-  # Not equal comparisons
-  peers = honcho.peers(filters={
-      "metadata": {
-          "status": {"ne": "inactive"}
+    // Find sessions with specific tags
+    const sessions = await honcho.sessions({
+      filters: {
+        metadata: {
+          tag: { in: ["important", "urgent", "follow-up"] }
+        }
       }
-  })
-  ```
+    });
 
-  ```typescript TypeScript
-  (async () => {
-      // Find messages from specific peers in a session
-      const messages = await session.messages({
-        filters: {
-          peer_id: { in: ["alice", "bob", "charlie"] }
+    // Not equal comparisons
+    const peers = await honcho.peers({
+      filters: {
+        metadata: {
+          status: { ne: "inactive" }
         }
-      });
-
-      // Find sessions with specific tags
-      const sessions = await honcho.sessions({
-        filters: {
-          metadata: {
-            tag: { in: ["important", "urgent", "follow-up"] }
-          }
-        }
-      });
-
-      // Not equal comparisons
-      const peers = await honcho.peers({
-        filters: {
-          metadata: {
-            status: { ne: "inactive" }
-          }
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+      }
+    });
+})();
+```
 
 ## Metadata Filtering
 
@@ -477,257 +457,256 @@ Metadata filtering is particularly powerful in Honcho, supporting nested conditi
 
 ### Basic Metadata Filtering
 
-<CodeGroup>
-  ```python Python
-  # Simple metadata equality
-  sessions = honcho.sessions(filters={
-      "metadata": {
-          "type": "customer_support",
-          "priority": "high"
-      }
-  })
+```python Python theme={null}
+# Simple metadata equality
+sessions = honcho.sessions(filters={
+    "metadata": {
+        "type": "customer_support",
+        "priority": "high"
+    }
+})
 
-  # Nested metadata objects
-  peers = honcho.peers(filters={
-      "metadata": {
-          "profile": {
-              "role": "admin",
-              "department": "engineering"
-          }
-      }
-  })
-  ```
+# Nested metadata objects
+peers = honcho.peers(filters={
+    "metadata": {
+        "profile": {
+            "role": "admin",
+            "department": "engineering"
+        }
+    }
+})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      // Simple metadata equality
-      const sessions = await honcho.sessions({
-        filters: {
-          metadata: {
-            type: "customer_support",
-            priority: "high"
+```typescript TypeScript theme={null}
+(async () => {
+    // Simple metadata equality
+    const sessions = await honcho.sessions({
+      filters: {
+        metadata: {
+          type: "customer_support",
+          priority: "high"
+        }
+      }
+    });
+
+    // Nested metadata objects
+    const peers = await honcho.peers({
+      filters: {
+        metadata: {
+          profile: {
+            role: "admin",
+            department: "engineering"
           }
         }
-      });
-
-      // Nested metadata objects
-      const peers = await honcho.peers({
-        filters: {
-          metadata: {
-            profile: {
-              role: "admin",
-              department: "engineering"
-            }
-          }
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+      }
+    });
+})();
+```
 
 ### Advanced Metadata Queries
 
+> [!NOTE]
+>
+> If you want to do advanced queries like these, make sure not to create metadata fields that use the same names as the included comparison operators! For example, if you have a metadata field called `contains`, it will conflict with the `contains` operator.
 
-  If you want to do advanced queries like these, make sure not to create metadata fields that use the same names as the included comparison operators! For example, if you have a metadata field called `contains`, it will conflict with the `contains` operator.
+```python Python theme={null}
+# Metadata with comparison operators
+sessions = honcho.sessions(filters={
+    "metadata": {
+        "score": {"gte": 4.0, "lte": 5.0},
+        "created_by": {"ne": "system"},
+        "tags": {"contains": "important"}
+    }
+})
 
+# Complex metadata conditions
+messages = session.messages(filters={
+    "AND": [
+        {"metadata": {"sentiment": {"in": ["positive", "neutral"]}}},
+        {"metadata": {"confidence": {"gt": 0.8}}},
+        {"content": {"icontains": "thank"}}
+    ]
+})
+```
 
-<CodeGroup>
-  ```python Python
-  # Metadata with comparison operators
-  sessions = honcho.sessions(filters={
-      "metadata": {
-          "score": {"gte": 4.0, "lte": 5.0},
-          "created_by": {"ne": "system"},
-          "tags": {"contains": "important"}
+```typescript TypeScript theme={null}
+(async () => {
+    // Metadata with comparison operators
+    const sessions = await honcho.sessions({
+      filters: {
+        metadata: {
+          score: { gte: 4.0, lte: 5.0 },
+          created_by: { ne: "system" },
+          tags: { contains: "important" }
+        }
       }
-  })
+    });
 
-  # Complex metadata conditions
-  messages = session.messages(filters={
-      "AND": [
-          {"metadata": {"sentiment": {"in": ["positive", "neutral"]}}},
-          {"metadata": {"confidence": {"gt": 0.8}}},
-          {"content": {"icontains": "thank"}}
-      ]
-  })
-  ```
-
-  ```typescript TypeScript
-  (async () => {
-      // Metadata with comparison operators
-      const sessions = await honcho.sessions({
-        filters: {
-          metadata: {
-            score: { gte: 4.0, lte: 5.0 },
-            created_by: { ne: "system" },
-            tags: { contains: "important" }
-          }
-        }
-      });
-
-      // Complex metadata conditions
-      const messages = await session.messages({
-        filters: {
-          AND: [
-            { metadata: { sentiment: { in: ["positive", "neutral"] } } },
-            { metadata: { confidence: { gt: 0.8 } } },
-            { content: { icontains: "thank" } }
-          ]
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+    // Complex metadata conditions
+    const messages = await session.messages({
+      filters: {
+        AND: [
+          { metadata: { sentiment: { in: ["positive", "neutral"] } } },
+          { metadata: { confidence: { gt: 0.8 } } },
+          { content: { icontains: "thank" } }
+        ]
+      }
+    });
+})();
+```
 
 ## Wildcards
 
 Use wildcards (\*) to match any value for a field:
 
-<CodeGroup>
-  ```python Python
-  # Find all sessions with any peer_id (essentially all sessions)
-  sessions = honcho.sessions(filters={
-      "peer_id": "*"
-  })
+```python Python theme={null}
+# Find all sessions with any peer_id (essentially all sessions)
+sessions = honcho.sessions(filters={
+    "peer_id": "*"
+})
 
-  # Wildcard in lists - matches everything
-  messages = session.messages(filters={
-      "peer_id": {"in": ["alice", "bob", "*"]}
-  })
+# Wildcard in lists - matches everything
+messages = session.messages(filters={
+    "peer_id": {"in": ["alice", "bob", "*"]}
+})
 
-  # Metadata wildcards
-  sessions = honcho.sessions(filters={
-      "metadata": {
-          "type": "*",  # Any type
-          "status": "active"  # But status must be active
+# Metadata wildcards
+sessions = honcho.sessions(filters={
+    "metadata": {
+        "type": "*",  # Any type
+        "status": "active"  # But status must be active
+    }
+})
+```
+
+```typescript TypeScript theme={null}
+(async () => {
+    // Find all sessions with any peer_id (essentially all sessions)
+    const sessions = await honcho.sessions({
+      filters: {
+        peer_id: "*"
       }
-  })
-  ```
+    });
 
-  ```typescript TypeScript
-  (async () => {
-      // Find all sessions with any peer_id (essentially all sessions)
-      const sessions = await honcho.sessions({
-        filters: {
-          peer_id: "*"
-        }
-      });
+    // Wildcard in lists - matches everything
+    const messages = await session.messages({
+      filters: {
+        peer_id: { in: ["alice", "bob", "*"] }
+      }
+    });
 
-      // Wildcard in lists - matches everything
-      const messages = await session.messages({
-        filters: {
-          peer_id: { in: ["alice", "bob", "*"] }
+    // Metadata wildcards
+    const filteredSessions = await honcho.sessions({
+      filters: {
+        metadata: {
+          type: "*",  // Any type
+          status: "active"  // But status must be active
         }
-      });
+      }
+    });
+})();
+```
 
-      // Metadata wildcards
-      const filteredSessions = await honcho.sessions({
-        filters: {
-          metadata: {
-            type: "*",  // Any type
-            status: "active"  // But status must be active
-          }
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+A wildcard, like an empty filter `{}`, places no constraint, so it is always true, including inside logical operators:
+
+| Filter | Matches |
+| - | - |
+| `{"AND": [{"peer_id": "*"}, {"peer_id": "bob"}]}` | bob only |
+| `{"OR": [{"peer_id": "*"}, {"peer_id": "bob"}]}` | everything |
+| `{"NOT": [{"peer_id": "*"}]}` | nothing |
+| `{"NOT": [{}]}` | nothing |
 
 ## Resource-Specific Examples
 
 ### Filtering Workspaces
 
-<CodeGroup>
-  ```python Python
-  # Find workspaces by name pattern
-  workspaces = honcho.workspaces(filters={
-      "name": {"contains": "prod"}
-  })
+```python Python theme={null}
+# Find workspaces by name pattern
+workspaces = honcho.workspaces(filters={
+    "name": {"contains": "prod"}
+})
 
-  # Filter by metadata
-  workspaces = honcho.workspaces(filters={
-      "metadata": {
-          "environment": "production",
-          "team": {"in": ["backend", "frontend", "devops"]}
+# Filter by metadata
+workspaces = honcho.workspaces(filters={
+    "metadata": {
+        "environment": "production",
+        "team": {"in": ["backend", "frontend", "devops"]}
+    }
+})
+```
+
+```typescript TypeScript theme={null}
+(async () => {
+    // Find workspaces by name pattern
+    const workspaces = await honcho.workspaces({
+      filters: {
+        name: { contains: "prod" }
       }
-  })
-  ```
+    });
 
-  ```typescript TypeScript
-  (async () => {
-      // Find workspaces by name pattern
-      const workspaces = await honcho.workspaces({
-        filters: {
-          name: { contains: "prod" }
+    // Filter by metadata
+    const workspaces = await honcho.workspaces({
+      filters: {
+        metadata: {
+          environment: "production",
+          team: { in: ["backend", "frontend", "devops"] }
         }
-      });
-
-      // Filter by metadata
-      const workspaces = await honcho.workspaces({
-        filters: {
-          metadata: {
-            environment: "production",
-            team: { in: ["backend", "frontend", "devops"] }
-          }
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+      }
+    });
+})();
+```
 
 ### Filtering Messages
 
-<CodeGroup>
-  ```python Python
-  # Find error messages from the last week
-  from datetime import datetime, timedelta
+```python Python theme={null}
+# Find error messages from the last week
+from datetime import datetime, timedelta
 
-  week_ago = (datetime.now() - timedelta(days=7)).isoformat()
-  messages = session.messages(filters={
-      "AND": [
-          {"content": {"icontains": "error"}},
-          {"created_at": {"gte": week_ago}},
-          {"metadata": {"level": {"in": ["error", "critical"]}}}
-      ]
-  })
+week_ago = (datetime.now() - timedelta(days=7)).isoformat()
+messages = session.messages(filters={
+    "AND": [
+        {"content": {"icontains": "error"}},
+        {"created_at": {"gte": week_ago}},
+        {"metadata": {"level": {"in": ["error", "critical"]}}}
+    ]
+})
 
-  # Find messages in specific sessions with sentiment analysis
-  messages = session.messages(filters={
-      "AND": [
-          {"session_id": {"in": ["support-1", "support-2", "support-3"]}},
-          {"metadata": {"sentiment": "negative"}},
-          {"metadata": {"confidence": {"gte": 0.7}}}
-      ]
-  })
-  ```
+# Find messages in specific sessions with sentiment analysis
+messages = session.messages(filters={
+    "AND": [
+        {"session_id": {"in": ["support-1", "support-2", "support-3"]}},
+        {"metadata": {"sentiment": "negative"}},
+        {"metadata": {"confidence": {"gte": 0.7}}}
+    ]
+})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      // Find error messages from the last week
-      const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
-      const messages = await session.messages({
-        filters: {
-          AND: [
-            { content: { icontains: "error" } },
-            { created_at: { gte: weekAgo } },
-            { metadata: { level: { in: ["error", "critical"] } } }
-          ]
-        }
-      });
+```typescript TypeScript theme={null}
+(async () => {
+    // Find error messages from the last week
+    const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const messages = await session.messages({
+      filters: {
+        AND: [
+          { content: { icontains: "error" } },
+          { created_at: { gte: weekAgo } },
+          { metadata: { level: { in: ["error", "critical"] } } }
+        ]
+      }
+    });
 
-      // Find messages in specific sessions with sentiment analysis
-      const sentimentMessages = await session.messages({
-        filters: {
-          AND: [
-            { session_id: { in: ["support-1", "support-2", "support-3"] } },
-            { metadata: { sentiment: "negative" } },
-            { metadata: { confidence: { gte: 0.7 } } }
-          ]
-        }
-      });
-  })();
-  ```
-</CodeGroup>
+    // Find messages in specific sessions with sentiment analysis
+    const sentimentMessages = await session.messages({
+      filters: {
+        AND: [
+          { session_id: { in: ["support-1", "support-2", "support-3"] } },
+          { metadata: { sentiment: "negative" } },
+          { metadata: { confidence: { gte: 0.7 } } }
+        ]
+      }
+    });
+})();
+```
 
 ### Filtering Conclusions
 
@@ -744,49 +723,81 @@ The most useful conclusion-specific field is `level`, the reasoning level:
 A common request is to surface only the directly-stated facts and exclude
 anything inferred during dreaming — filter `level` to `explicit`:
 
-<CodeGroup>
-  ```python Python
-  # Only conclusions extracted directly from messages (exclude dream-derived)
-  explicit = peer.conclusions.list(filters={"level": "explicit"})
+```python Python theme={null}
+# Only conclusions extracted directly from messages (exclude dream-derived)
+explicit = peer.conclusions.list(filters={"level": "explicit"})
 
-  # Only dream-derived conclusions
-  derived = peer.conclusions.list(filters={"level": {"in": ["deductive", "inductive"]}})
+# Only dream-derived conclusions
+derived = peer.conclusions.list(filters={"level": {"in": ["deductive", "inductive"]}})
 
-  # Same filtering on semantic search
-  results = peer.conclusions.query(
+# Same filtering on semantic search
+results = peer.conclusions.query(
+    "food preferences",
+    filters={"level": "deductive"},
+)
+
+# Conclusions about another peer, explicit only
+bob_explicit = peer.conclusions_of("bob").list(filters={"level": "explicit"})
+```
+
+```typescript TypeScript theme={null}
+(async () => {
+    // Only conclusions extracted directly from messages (exclude dream-derived)
+    const explicit = await peer.conclusions.list({ filters: { level: "explicit" } });
+
+    // Only dream-derived conclusions
+    const derived = await peer.conclusions.list({
+      filters: { level: { in: ["deductive", "inductive"] } }
+    });
+
+    // Same filtering on semantic search (query, topK, distance, filters)
+    const results = await peer.conclusions.query(
       "food preferences",
-      filters={"level": "deductive"},
-  )
+      10,
+      undefined,
+      { level: "deductive" }
+    );
 
-  # Conclusions about another peer, explicit only
-  bob_explicit = peer.conclusions_of("bob").list(filters={"level": "explicit"})
-  ```
+    // Conclusions about another peer, explicit only
+    const bobExplicit = await peer.conclusionsOf("bob").list({
+      filters: { level: "explicit" }
+    });
+})();
+```
 
-  ```typescript TypeScript
-  (async () => {
-      // Only conclusions extracted directly from messages (exclude dream-derived)
-      const explicit = await peer.conclusions.list({ filters: { level: "explicit" } });
+Two fields link conclusions to what they came from. `source_ids` holds the
+conclusions a derived one was reasoned from; `source_message_ids` holds the
+messages an explicit one cites as evidence. Both take `contains` for a single
+id, `in` for any of several, and a bare list to require every id listed:
 
-      // Only dream-derived conclusions
-      const derived = await peer.conclusions.list({
-        filters: { level: { in: ["deductive", "inductive"] } }
-      });
+```python Python theme={null}
+# Conclusions reasoned from a given conclusion
+built_on = peer.conclusions.list(filters={"source_ids": {"contains": conclusion_id}})
 
-      // Same filtering on semantic search (query, topK, distance, filters)
-      const results = await peer.conclusions.query(
-        "food preferences",
-        10,
-        undefined,
-        { level: "deductive" }
-      );
+# Conclusions that cite a given message as evidence
+from_message = peer.conclusions.list(
+    filters={"source_message_ids": {"contains": message_id}}
+)
+```
 
-      // Conclusions about another peer, explicit only
-      const bobExplicit = await peer.conclusionsOf("bob").list({
-        filters: { level: "explicit" }
-      });
-  })();
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+(async () => {
+    // Conclusions reasoned from a given conclusion
+    const builtOn = await peer.conclusions.list({
+      filters: { source_ids: { contains: conclusionId } }
+    });
+
+    // Conclusions that cite a given message as evidence
+    const fromMessage = await peer.conclusions.list({
+      filters: { source_message_ids: { contains: messageId } }
+    });
+})();
+```
+
+`source_message_ids` is recorded only for conclusions the deriver wrote on
+Honcho v3.5.0 or later. Every derived level returns it as null, and so do older
+explicit conclusions until the deriver derives the same conclusion again and
+merges the new citations into them.
 
 ## Value Types
 
@@ -818,6 +829,16 @@ Three consequences worth knowing:
   a match, wrap the whole condition in `NOT`. See
   [Metadata Filtering](#metadata-filtering).
 
+Numeric comparisons within metadata (for example,
+`{"metadata": {"score": {"gt": 0}}}`) compare stored native JSON numbers and finite
+numeric strings. Native numbers retain PostgreSQL's full JSONB numeric range.
+Stored strings are conservatively limited to 1,000 characters and at most four
+exponent digits to avoid overflow during casting; strings such as `"NaN"`, `"Infinity"`, and
+`"-Infinity"` are intentionally not treated as numbers. Non-numeric or out-of-bound
+strings do not match ordered numeric comparisons (`gt`, `gte`, `lt`, `lte`);
+`ne` still matches values distinct from the requested number, including non-numeric
+and missing values.
+
 For every field other than `metadata`, the same rules apply however the value is
 wrapped — bare, under an operator, or inside an `in` list — so
 `{"level": "explicit"}`, `{"level": {"ne": "explicit"}}` and
@@ -825,23 +846,21 @@ wrapped — bare, under an operator, or inside an `in` list — so
 
 An empty `in` list matches nothing:
 
-<CodeGroup>
-  ```python Python
-  # Returns no results — an empty allowlist excludes everything
-  messages = session.messages(filters={"peer_id": {"in": []}})
-  ```
+```python Python theme={null}
+# Returns no results — an empty allowlist excludes everything
+messages = session.messages(filters={"peer_id": {"in": []}})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      // Returns no results — an empty allowlist excludes everything
-      const messages = await session.messages({ filters: { peer_id: { in: [] } } });
-  })();
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+(async () => {
+    // Returns no results — an empty allowlist excludes everything
+    const messages = await session.messages({ filters: { peer_id: { in: [] } } });
+})();
+```
 
 ## Scoping Recall to Sessions
 
-The [chat endpoint](/docs/v3/documentation/features/chat) and the representation
+The [chat endpoint](https://honcho.dev/docs/v3/documentation/features/chat.md) and the representation
 endpoint accept a `filters` body too, but a deliberately narrow one: it defines
 a **session allowlist**, restricting what the request can recall to the sessions
 you name — conclusions on both endpoints, and on chat the messages the agent
@@ -858,56 +877,52 @@ Only the `session_id` key is supported here, in three shapes:
 {"filters": {"session_id": {"in": ["support-chat-1", "support-chat-2"]}}}
 ```
 
-<CodeGroup>
-  ```bash Chat
-  curl -X POST "$HONCHO_URL/v3/workspaces/my-app/peers/user-123/chat" \
-    -H "Authorization: Bearer $HONCHO_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "query": "What did the user ask about billing?",
-      "filters": { "session_id": ["support-chat-1", "support-chat-2"] }
-    }'
-  ```
+```bash Chat theme={null}
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/peers/user-123/chat" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "What did the user ask about billing?",
+    "filters": { "session_id": ["support-chat-1", "support-chat-2"] }
+  }'
+```
 
-  ```bash Representation
-  curl -X POST "$HONCHO_URL/v3/workspaces/my-app/peers/user-123/representation" \
-    -H "Authorization: Bearer $HONCHO_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "filters": { "session_id": ["support-chat-1", "support-chat-2"] }
-    }'
-  ```
-</CodeGroup>
+```bash Representation theme={null}
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/peers/user-123/representation" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "filters": { "session_id": ["support-chat-1", "support-chat-2"] }
+  }'
+```
 
 Both SDKs expose this as a `sessions` option, which goes on the wire as the
 `filters` body above:
 
-<CodeGroup>
-  ```python Python
-  answer = user.chat("What did the user ask about billing?",
-                     sessions=["support-chat-1", "support-chat-2"])
+```python Python theme={null}
+answer = user.chat("What did the user ask about billing?",
+                   sessions=["support-chat-1", "support-chat-2"])
 
-  rep = user.representation(sessions=["support-chat-1", "support-chat-2"])
-  ```
+rep = user.representation(sessions=["support-chat-1", "support-chat-2"])
+```
 
-  ```typescript TypeScript
-  const answer = await user.chat("What did the user ask about billing?", {
-    sessions: ["support-chat-1", "support-chat-2"],
-  });
+```typescript TypeScript theme={null}
+const answer = await user.chat("What did the user ask about billing?", {
+  sessions: ["support-chat-1", "support-chat-2"],
+});
 
-  const rep = await user.representation({
-    sessions: ["support-chat-1", "support-chat-2"],
-  });
-  ```
-</CodeGroup>
+const rep = await user.representation({
+  sessions: ["support-chat-1", "support-chat-2"],
+});
+```
 
-
-  If the same set of sessions is a boundary you reuse, name it: a
-  [scope](/docs/v3/documentation/features/advanced/scopes) is a persistent version of
-  this allowlist, and querying a single scope recalls at full depth rather than
-  `explicit`-only. `sessions` is the right tool when the set is decided
-  per-request.
-
+> [!NOTE]
+>
+> If the same set of sessions is a boundary you reuse, name it: a
+> [scope](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md) is a persistent version of
+> this allowlist, and querying a single scope recalls at full depth rather than
+> `explicit`-only. `sessions` is the right tool when the set is decided
+> per-request.
 
 ### Rules
 
@@ -925,13 +940,13 @@ dropped filter here would widen recall instead of narrowing it.
 | An empty allowlist (`[]`) | Valid, and recalls nothing |
 | A peer-scoped key naming a session its peer isn't an active member of | `401` on chat — see below |
 
-
-  On chat, a peer-scoped key must be an active member of every session it names —
-  the allowlist reaches message recall there — and the request is rejected with
-  `401` otherwise. The representation endpoint runs no membership check: key scope
-  already confines the caller to its own peer's representation, which an allowlist
-  can only narrow.
-
+> [!NOTE]
+>
+> On chat, a peer-scoped key must be an active member of every session it names —
+> the allowlist reaches message recall there — and the request is rejected with
+> `401` otherwise. The representation endpoint runs no membership check: key scope
+> already confines the caller to its own peer's representation, which an allowlist
+> can only narrow.
 
 ### What Changes Under an Allowlist
 
@@ -945,67 +960,65 @@ Restricting recall by session narrows what the reasoning agent can draw on:
 * **Message recall is restricted to the allowlisted sessions** across every
   search path — semantic, keyword, and date-range.
 
-
-  Because of this, an allowlisted request answers from directly-stated facts
-  rather than higher-order inferences. If you want the full representation, omit
-  `filters` and let the agent search everything.
-
+> [!NOTE]
+>
+> Because of this, an allowlisted request answers from directly-stated facts
+> rather than higher-order inferences. If you want the full representation, omit
+> `filters` and let the agent search everything.
 
 ## Error Handling
 
 Handle filter errors gracefully:
 
-<CodeGroup>
-  ```python Python
-  from honcho.exceptions import FilterError
+```python Python theme={null}
+from honcho.exceptions import FilterError
 
-  try:
-      # Invalid filter - unsupported operator
-      messages = session.messages(filters={
-          "created_at": {"invalid_operator": "2024-01-01"}
-      })
-  except FilterError as e:
-      print(f"Filter error: {e}")
-      # Handle the error appropriately
+try:
+    # Invalid filter - unsupported operator
+    messages = session.messages(filters={
+        "created_at": {"invalid_operator": "2024-01-01"}
+    })
+except FilterError as e:
+    print(f"Filter error: {e}")
+    # Handle the error appropriately
 
-  try:
-      # Invalid column name
-      sessions = honcho.sessions(filters={
-          "nonexistent_field": "value"
-      })
-  except FilterError as e:
-      print(f"Invalid field: {e}")
-  ```
+try:
+    # Invalid column name
+    sessions = honcho.sessions(filters={
+        "nonexistent_field": "value"
+    })
+except FilterError as e:
+    print(f"Invalid field: {e}")
+```
 
-  ```typescript TypeScript
-  (async () => {
-      try {
-        // Invalid filter - unsupported operator
-        const messages = await session.messages({
-          filters: {
-            created_at: { invalid_operator: "2024-01-01" }
-          }
-        });
-      } catch (error) {
-        if (error.message.includes("filters")) {
-          console.error(`Filter error: ${error.message}`);
-          // Handle the error appropriately
+```typescript TypeScript theme={null}
+(async () => {
+    try {
+      // Invalid filter - unsupported operator
+      const messages = await session.messages({
+        filters: {
+          created_at: { invalid_operator: "2024-01-01" }
         }
+      });
+    } catch (error) {
+      if (error.message.includes("filters")) {
+        console.error(`Filter error: ${error.message}`);
+        // Handle the error appropriately
       }
+    }
 
-      try {
-        // Invalid column name
-        const sessions = await honcho.sessions({
-          filters: {
-            nonexistent_field: "value"
-          }
-        });
-      } catch (error) {
-        console.error(`Invalid field: ${error.message}`);
-      }
-  })();
-  ```
-</CodeGroup>
+    try {
+      // Invalid column name
+      const sessions = await honcho.sessions({
+        filters: {
+          nonexistent_field: "value"
+        }
+      });
+    } catch (error) {
+      console.error(`Invalid field: ${error.message}`);
+    }
+})();
+```
 
 ## Conclusion
 

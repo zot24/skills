@@ -4,7 +4,7 @@
 title: History
 description: Store and retrieve message history across user, thread, and channel scopes.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/state-adapters

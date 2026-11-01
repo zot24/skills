@@ -4,7 +4,7 @@
 title: Chat
 description: The class that coordinates adapters, state, and event handlers for a multi-platform chat bot.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: reference
 related:
   - /docs/usage

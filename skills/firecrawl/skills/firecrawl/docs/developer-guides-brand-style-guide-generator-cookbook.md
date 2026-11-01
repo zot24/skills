@@ -10,7 +10,7 @@
 
 Build a brand style guide generator that automatically extracts colors, typography, spacing, and visual identity from any website and compiles it into a professional PDF document.
 
-<img src="https://mintcdn.com/firecrawl/cdt2w_aIKa5KajZT/images/guides/cookbooks/branding-format/brand-style-guide-pdf-generator-firecrawl.gif?s=2c8e0a9d223ea655238b17442c7bf41b" alt="Brand style guide PDF generator using Firecrawl branding format to extract design system" width="1280" height="720" data-path="images/guides/cookbooks/branding-format/brand-style-guide-pdf-generator-firecrawl.gif" />
+![Brand style guide PDF generator using Firecrawl branding format to extract design system](https://mintcdn.com/firecrawl/cdt2w_aIKa5KajZT/images/guides/cookbooks/branding-format/brand-style-guide-pdf-generator-firecrawl.gif?s=2c8e0a9d223ea655238b17442c7bf41b)
 
 ## What You'll Build
 
@@ -22,7 +22,7 @@ A Node.js application that takes any website URL, extracts its complete brand id
 * Logo and brand imagery
 * Theme information (light/dark mode)
 
-<img src="https://mintcdn.com/firecrawl/cdt2w_aIKa5KajZT/images/guides/cookbooks/branding-format/generated-brand-style-guide-pdf-example.png?fit=max&auto=format&n=cdt2w_aIKa5KajZT&q=85&s=de8be5319be990d6630591afa3fc2dc2" alt="Example of generated brand style guide PDF with colors typography and spacing" width="1866" height="1436" data-path="images/guides/cookbooks/branding-format/generated-brand-style-guide-pdf-example.png" />
+![Example of generated brand style guide PDF with colors typography and spacing](https://mintcdn.com/firecrawl/cdt2w_aIKa5KajZT/images/guides/cookbooks/branding-format/generated-brand-style-guide-pdf-example.png?fit=max\&auto=format\&n=cdt2w_aIKa5KajZT\&q=85\&s=de8be5319be990d6630591afa3fc2dc2)
 
 ## Prerequisites
 
@@ -30,141 +30,144 @@ A Node.js application that takes any website URL, extracts its complete brand id
 * A Firecrawl API key from [firecrawl.dev](https://firecrawl.dev)
 * Basic knowledge of TypeScript and Node.js
 
+**1. Create a New Node.js Project**
 
-    Start by creating a new directory for your project and initializing it:
+Start by creating a new directory for your project and initializing it:
 
-    ```bash
-    mkdir brand-style-guide-generator && cd brand-style-guide-generator
-    npm init -y
-    ```
+```bash theme={null}
+mkdir brand-style-guide-generator && cd brand-style-guide-generator
+npm init -y
+```
 
-    Update your `package.json` to use ES modules:
+Update your `package.json` to use ES modules:
 
-    ```json package.json
-    {
-      "name": "brand-style-guide-generator",
-      "version": "1.0.0",
-      "type": "module",
-      "scripts": {
-        "start": "npx tsx index.ts"
-      }
+```json package.json theme={null}
+{
+  "name": "brand-style-guide-generator",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "start": "npx tsx index.ts"
+  }
+}
+```
+
+**2. Install Dependencies**
+
+Install the required packages for web scraping and PDF generation:
+
+```bash theme={null}
+npm i firecrawl pdfkit
+npm i -D typescript tsx @types/node @types/pdfkit
+```
+
+These packages provide:
+
+* `firecrawl`: Firecrawl SDK for extracting brand identity from websites
+* `pdfkit`: PDF document generation library
+* `tsx`: TypeScript execution for Node.js
+
+**3. Build the Brand Style Guide Generator**
+
+Create the main application file at `index.ts`. This script extracts brand identity from a URL and generates a professional PDF style guide.
+
+```typescript index.ts theme={null}
+import { Firecrawl } from "firecrawl";
+import PDFDocument from "pdfkit";
+import fs from "fs";
+
+const API_KEY = "fc-YOUR-API-KEY";
+const URL = "https://firecrawl.dev";
+
+async function main() {
+  const fc = new Firecrawl({ apiKey: API_KEY });
+  const { branding: b } = (await fc.scrape(URL, { formats: ["branding"] })) as any;
+
+  const doc = new PDFDocument({ size: "A4", margin: 50 });
+  doc.pipe(fs.createWriteStream("brand-style-guide.pdf"));
+
+  // Fetch logo (PNG/JPG only)
+  let logoImg: Buffer | null = null;
+  try {
+    const logoUrl = b.images?.favicon || b.images?.ogImage;
+    if (logoUrl?.match(/\.(png|jpg|jpeg)$/i)) {
+      const res = await fetch(logoUrl);
+      logoImg = Buffer.from(await res.arrayBuffer());
     }
-    ```
+  } catch {}
 
+  // Header with logo
+  doc.rect(0, 0, 595, 120).fill(b.colors?.primary || "#333");
+  const titleX = logoImg ? 130 : 50;
+  if (logoImg) doc.image(logoImg, 50, 30, { height: 60 });
+  doc.fontSize(36).fillColor("#fff").text("Brand Style Guide", titleX, 38);
+  doc.fontSize(14).text(URL, titleX, 80);
 
-    Install the required packages for web scraping and PDF generation:
+  // Colors
+  doc.fontSize(18).fillColor("#333").text("Colors", 50, 160);
+  const colors = Object.entries(b.colors || {}).filter(([, v]) => typeof v === "string" && (v as string).startsWith("#"));
+  colors.forEach(([k, v], i) => {
+    const x = 50 + i * 100;
+    doc.rect(x, 195, 80, 80).fill(v as string);
+    doc.fontSize(10).fillColor("#333").text(k, x, 282, { width: 80, align: "center" });
+    doc.fontSize(9).fillColor("#888").text(v as string, x, 296, { width: 80, align: "center" });
+  });
 
-    ```bash
-    npm i firecrawl pdfkit
-    npm i -D typescript tsx @types/node @types/pdfkit
-    ```
+  // Typography
+  doc.fontSize(18).fillColor("#333").text("Typography", 50, 340);
+  doc.fontSize(13).fillColor("#444");
+  doc.text(`Primary Font: ${b.typography?.fontFamilies?.primary || "—"}`, 50, 370);
+  doc.text(`Heading Font: ${b.typography?.fontFamilies?.heading || "—"}`, 50, 392);
+  doc.fontSize(12).fillColor("#666").text("Font Sizes:", 50, 422);
+  Object.entries(b.typography?.fontSizes || {}).forEach(([k, v], i) => {
+    doc.text(`${k.toUpperCase()}: ${v}`, 70, 445 + i * 22);
+  });
 
-    These packages provide:
+  // Spacing & Theme
+  doc.fontSize(18).fillColor("#333").text("Spacing & Theme", 320, 340);
+  doc.fontSize(13).fillColor("#444");
+  doc.text(`Base Unit: ${b.spacing?.baseUnit}px`, 320, 370);
+  doc.text(`Border Radius: ${b.spacing?.borderRadius}`, 320, 392);
+  doc.text(`Color Scheme: ${b.colorScheme}`, 320, 414);
 
-    * `firecrawl`: Firecrawl SDK for extracting brand identity from websites
-    * `pdfkit`: PDF document generation library
-    * `tsx`: TypeScript execution for Node.js
+  doc.end();
+  console.log("Generated: brand-style-guide.pdf");
+}
 
+main();
+```
 
-    Create the main application file at `index.ts`. This script extracts brand identity from a URL and generates a professional PDF style guide.
+> [!NOTE]
+>
+> For this simple project, the API key is placed directly in the code. If you plan to push this to GitHub or share it with others, move the key to a `.env` file and use `process.env.FIRECRAWL_API_KEY` instead.
 
-    ```typescript index.ts
-    import { Firecrawl } from "firecrawl";
-    import PDFDocument from "pdfkit";
-    import fs from "fs";
+Replace `fc-YOUR-API-KEY` with your Firecrawl API key from [firecrawl.dev](https://firecrawl.dev).
 
-    const API_KEY = "fc-YOUR-API-KEY";
-    const URL = "https://firecrawl.dev";
+### Understanding the Code
 
-    async function main() {
-      const fc = new Firecrawl({ apiKey: API_KEY });
-      const { branding: b } = (await fc.scrape(URL, { formats: ["branding"] })) as any;
+**Key Components:**
 
-      const doc = new PDFDocument({ size: "A4", margin: 50 });
-      doc.pipe(fs.createWriteStream("brand-style-guide.pdf"));
+* **Firecrawl Branding Format**: The `branding` format extracts comprehensive brand identity including colors, typography, spacing, and images
+* **PDFKit Document**: Creates a professional A4 PDF with proper margins and sections
+* **Color Swatches**: Renders visual color blocks with hex values and semantic names
+* **Typography Display**: Shows font families and sizes in an organized layout
+* **Spacing & Theme**: Documents the design system's spacing units and color scheme
 
-      // Fetch logo (PNG/JPG only)
-      let logoImg: Buffer | null = null;
-      try {
-        const logoUrl = b.images?.favicon || b.images?.ogImage;
-        if (logoUrl?.match(/\.(png|jpg|jpeg)$/i)) {
-          const res = await fetch(logoUrl);
-          logoImg = Buffer.from(await res.arrayBuffer());
-        }
-      } catch {}
+**4. Run the Generator**
 
-      // Header with logo
-      doc.rect(0, 0, 595, 120).fill(b.colors?.primary || "#333");
-      const titleX = logoImg ? 130 : 50;
-      if (logoImg) doc.image(logoImg, 50, 30, { height: 60 });
-      doc.fontSize(36).fillColor("#fff").text("Brand Style Guide", titleX, 38);
-      doc.fontSize(14).text(URL, titleX, 80);
+Run the script to generate a brand style guide:
 
-      // Colors
-      doc.fontSize(18).fillColor("#333").text("Colors", 50, 160);
-      const colors = Object.entries(b.colors || {}).filter(([, v]) => typeof v === "string" && (v as string).startsWith("#"));
-      colors.forEach(([k, v], i) => {
-        const x = 50 + i * 100;
-        doc.rect(x, 195, 80, 80).fill(v as string);
-        doc.fontSize(10).fillColor("#333").text(k, x, 282, { width: 80, align: "center" });
-        doc.fontSize(9).fillColor("#888").text(v as string, x, 296, { width: 80, align: "center" });
-      });
+```bash theme={null}
+npm start
+```
 
-      // Typography
-      doc.fontSize(18).fillColor("#333").text("Typography", 50, 340);
-      doc.fontSize(13).fillColor("#444");
-      doc.text(`Primary Font: ${b.typography?.fontFamilies?.primary || "—"}`, 50, 370);
-      doc.text(`Heading Font: ${b.typography?.fontFamilies?.heading || "—"}`, 50, 392);
-      doc.fontSize(12).fillColor("#666").text("Font Sizes:", 50, 422);
-      Object.entries(b.typography?.fontSizes || {}).forEach(([k, v], i) => {
-        doc.text(`${k.toUpperCase()}: ${v}`, 70, 445 + i * 22);
-      });
+The script will:
 
-      // Spacing & Theme
-      doc.fontSize(18).fillColor("#333").text("Spacing & Theme", 320, 340);
-      doc.fontSize(13).fillColor("#444");
-      doc.text(`Base Unit: ${b.spacing?.baseUnit}px`, 320, 370);
-      doc.text(`Border Radius: ${b.spacing?.borderRadius}`, 320, 392);
-      doc.text(`Color Scheme: ${b.colorScheme}`, 320, 414);
+1. Extract the brand identity from the target URL using Firecrawl's branding format
+2. Generate a PDF named `brand-style-guide.pdf`
+3. Save it in your project directory
 
-      doc.end();
-      console.log("Generated: brand-style-guide.pdf");
-    }
-
-    main();
-    ```
-
-
-      For this simple project, the API key is placed directly in the code. If you plan to push this to GitHub or share it with others, move the key to a `.env` file and use `process.env.FIRECRAWL_API_KEY` instead.
-
-
-    Replace `fc-YOUR-API-KEY` with your Firecrawl API key from [firecrawl.dev](https://firecrawl.dev).
-
-    ### Understanding the Code
-
-    **Key Components:**
-
-    * **Firecrawl Branding Format**: The `branding` format extracts comprehensive brand identity including colors, typography, spacing, and images
-    * **PDFKit Document**: Creates a professional A4 PDF with proper margins and sections
-    * **Color Swatches**: Renders visual color blocks with hex values and semantic names
-    * **Typography Display**: Shows font families and sizes in an organized layout
-    * **Spacing & Theme**: Documents the design system's spacing units and color scheme
-
-
-    Run the script to generate a brand style guide:
-
-    ```bash
-    npm start
-    ```
-
-    The script will:
-
-    1. Extract the brand identity from the target URL using Firecrawl's branding format
-    2. Generate a PDF named `brand-style-guide.pdf`
-    3. Save it in your project directory
-
-    To generate a style guide for a different website, simply change the `URL` constant in `index.ts`.
-
+To generate a style guide for a different website, simply change the `URL` constant in `index.ts`.
 
 ## How It Works
 
@@ -185,7 +188,7 @@ A Node.js application that takes any website URL, extracts its complete brand id
 
 ### Branding Profile Structure
 
-The [branding format](https://docs.firecrawl.dev/features/scrape#%2Fscrape-with-branding-endpoint) returns detailed brand information:
+The [branding format](https://docs.firecrawl.dev/features/scrape.md#%2Fscrape-with-branding-endpoint) returns detailed brand information:
 
 ```typescript theme={null}
 {
@@ -243,7 +246,7 @@ The PDF includes:
 * Professional layout with clear hierarchy
 * Metadata footer with generation date
 
-<img src="https://mintcdn.com/firecrawl/cdt2w_aIKa5KajZT/images/guides/cookbooks/branding-format/website-to-brand-style-guide-comparison.png?fit=max&auto=format&n=cdt2w_aIKa5KajZT&q=85&s=90153b3c2c920eceb8cd454eb266f9d0" alt="Side-by-side comparison of original website and generated brand style guide PDF" width="3834" height="1982" data-path="images/guides/cookbooks/branding-format/website-to-brand-style-guide-comparison.png" />
+![Side-by-side comparison of original website and generated brand style guide PDF](https://mintcdn.com/firecrawl/cdt2w_aIKa5KajZT/images/guides/cookbooks/branding-format/website-to-brand-style-guide-comparison.png?fit=max\&auto=format\&n=cdt2w_aIKa5KajZT\&q=85\&s=90153b3c2c920eceb8cd454eb266f9d0)
 
 ## Customization Ideas
 
@@ -319,17 +322,21 @@ const textColor = isDarkMode ? "#fff" : "#333";
 
 ## Related Resources
 
+> [card] [Branding Format Documentation](https://docs.firecrawl.dev/features/scrape.md#extract-brand-identity)
+>
+> Learn more about the branding format and all available properties you can extract.
 
-    Learn more about the branding format and all available properties you can extract.
+> [card] [Firecrawl Scrape API](https://docs.firecrawl.dev/api-reference/endpoint/scrape.md)
+>
+> Complete API reference for the scrape endpoint with all format options.
 
+> [card] [PDFKit Documentation](http://pdfkit.org/)
+>
+> Learn more about PDFKit for advanced PDF customization options.
 
-    Complete API reference for the scrape endpoint with all format options.
-
-
-    Learn more about PDFKit for advanced PDF customization options.
-
-
-    Process multiple URLs efficiently with batch scraping.
+> [card] [Batch Scrape Guide](https://docs.firecrawl.dev/features/batch-scrape.md)
+>
+> Process multiple URLs efficiently with batch scraping.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -10,6 +10,10 @@
 
 Add Firecrawl's keyless Search, Scrape, and Parse tools to [Google Gemini CLI](https://github.com/google-gemini/gemini-cli) through the hosted MCP server.
 
+> [!NOTE]
+>
+> Gemini CLI was replaced by Antigravity CLI for unpaid-tier and Google One users on June 18, 2026. If you use Antigravity CLI, follow the [Antigravity setup](https://docs.firecrawl.dev/quickstarts/antigravity.md) instead.
+
 ## Quick setup
 
 Add this to `~/.gemini/settings.json` or your project's `.gemini/settings.json`:
@@ -18,7 +22,8 @@ Add this to `~/.gemini/settings.json` or your project's `.gemini/settings.json`:
 {
   "mcpServers": {
     "firecrawl": {
-      "httpUrl": "https://mcp.firecrawl.dev/v2/mcp"
+      "type": "http",
+      "url": "https://mcp.firecrawl.dev/v2/mcp"
     }
   }
 }
@@ -26,7 +31,7 @@ Add this to `~/.gemini/settings.json` or your project's `.gemini/settings.json`:
 
 Restart Gemini CLI, run `/mcp list`, and confirm that `firecrawl_search`, `firecrawl_scrape`, and `firecrawl_parse` are available.
 
-Keyless access has limits shared by users on the same public IP. Sign in from an interactive client with [For Humans](/mcp-server/oauth), or [add an API key](/mcp-server/keyless#add-an-api-key) for unattended use.
+Keyless access has limits shared by users on the same public IP. Sign in from an interactive client with [For Humans](https://docs.firecrawl.dev/mcp-server/oauth.md), or [add an API key](https://docs.firecrawl.dev/mcp-server/keyless.md#add-an-api-key) for unattended use.
 
 ## Try it
 

@@ -6,9 +6,9 @@
 
 # OpenAI
 
-> Use Firecrawl with OpenAI for web scraping + AI workflows
+> Use Firecrawl with OpenAI to give AI workflows live web context
 
-Integrate Firecrawl with OpenAI to build AI applications powered by web data.
+Use Firecrawl with the OpenAI SDK to give your AI applications clean context from the web: pass Search and Scrape results to Responses and Chat Completions calls, or connect Firecrawl as an MCP server.
 
 ## Setup
 
@@ -45,7 +45,7 @@ console.log('Scraped content length:', scrapeResult.markdown?.length);
 
 // Summarize with OpenAI model
 const completion = await openai.chat.completions.create({
-    model: 'gpt-5-nano',
+    model: 'gpt-5.6-luna',
     messages: [
         { role: 'user', content: `Summarize: ${scrapeResult.markdown}` }
     ]
@@ -80,7 +80,7 @@ const tools = [{
 }];
 
 const response = await openai.chat.completions.create({
-    model: 'gpt-5-nano',
+    model: 'gpt-5.6-luna',
     messages: [{
         role: 'user',
         content: 'What is Firecrawl? Visit firecrawl.dev and tell me about it.'
@@ -103,7 +103,7 @@ if (message?.tool_calls && message.tool_calls.length > 0) {
 
             // Send the scraped content back to the model for final response
             const finalResponse = await openai.chat.completions.create({
-                model: 'gpt-5-nano',
+                model: 'gpt-5.6-luna',
                 messages: [
                     {
                         role: 'user',
@@ -153,7 +153,7 @@ const CompanyInfoSchema = z.object({
 });
 
 const response = await openai.chat.completions.create({
-    model: 'gpt-5-nano',
+    model: 'gpt-5.6-luna',
     messages: [
         {
             role: 'system',
@@ -201,7 +201,7 @@ console.log('Search results:', searchResult.web?.length, 'pages found');
 
 // Analyze and summarize the key features
 const analysis = await openai.chat.completions.create({
-    model: 'gpt-5-nano',
+    model: 'gpt-5.6-luna',
     messages: [{
         role: 'user',
         content: `Summarize the key features: ${JSON.stringify(searchResult)}`
@@ -221,7 +221,7 @@ import OpenAI from 'openai';
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 const response = await openai.responses.create({
-    model: 'gpt-5-nano',
+    model: 'gpt-5.6-luna',
     tools: [
         {
             type: 'mcp',

@@ -4,7 +4,7 @@
 title: Handling Events
 description: Register handlers for mentions, messages, reactions, member joins, and platform-specific events.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/getting-started

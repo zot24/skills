@@ -9,11 +9,11 @@
 This section documents all available API endpoints in the Honcho Server. Each
 endpoint provides CRUD operations for our core primitives. For information
 about these primitives, see
-[Architecture](/docs/v3/documentation/core-concepts/architecture).
+[Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md).
 
-
-  We strongly recommend using our official SDKs instead of calling these APIs directly. The SDKs provide better error handling, type safety, and developer experience.
-
+> [!WARNING]
+>
+> We strongly recommend using our official SDKs instead of calling these APIs directly. The SDKs provide better error handling, type safety, and developer experience.
 
 ## Recommended approach
 

@@ -16,7 +16,7 @@
 ## Install the SDK
 
 ```bash theme={null}
-pip install firecrawl-py
+pip install firecrawl
 ```
 
 Add your API key to your Django settings or environment:
@@ -152,17 +152,21 @@ python manage.py scrape https://example.com
 
 ## Next steps
 
+> [card] [Scrape docs](https://docs.firecrawl.dev/features/scrape.md)
+>
+> All scrape options including formats, actions, and proxies
 
-    All scrape options including formats, actions, and proxies
+> [card] [Search docs](https://docs.firecrawl.dev/features/search.md)
+>
+> Search the web and get full page content
 
+> [card] [Interact docs](https://docs.firecrawl.dev/features/interact.md)
+>
+> Click, fill forms, and extract dynamic content
 
-    Search the web and get full page content
-
-
-    Click, fill forms, and extract dynamic content
-
-
-    Full SDK reference with crawl, map, async, and more
+> [card] [Python SDK reference](https://docs.firecrawl.dev/sdks/python.md)
+>
+> Full SDK reference with crawl, map, async, and more
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -51,16 +51,16 @@ Examples: `"US"`, `"DE"`, `"FR"`, `"JP"`, `"UK"`, `"CA"`.
 
 Filter search results by specific categories using the `categories` parameter:
 
-* **`research`**: Restrict web search to academic and research websites (arxiv.org, nature.com, pubmed.ncbi.nlm.nih.gov, and similar). Changes on 2026-11-16 to search the [Research Index](/features/research) and return paper records, see the warning below
+* **`research`**: Restrict web search to academic and research websites (arxiv.org, nature.com, pubmed.ncbi.nlm.nih.gov, and similar). Changes on 2026-11-16 to search the [Research Index](https://docs.firecrawl.dev/features/research.md) and return paper records, see the warning below
 * **`pdf`**: Search for PDFs
-* **`developer`**: Search the [Developer Index](/features/developer) — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites
-* **`gov`**: Search the [Firecrawl Government Index](/features/gov) — statutes, regulations, codes, court opinions, and other government publications. Cannot be combined with other categories
+* **`developer`**: Search the [Developer Index](https://docs.firecrawl.dev/features/developer.md) — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites
+* **`gov`**: Search the [Firecrawl Government Index](https://docs.firecrawl.dev/features/gov.md) — statutes, regulations, codes, court opinions, and other government publications. Cannot be combined with other categories and takes no filters; use [`/search/gov`](https://docs.firecrawl.dev/api-reference/endpoint/gov-search#filters) to filter
 
-
-  **The `research` category changes on 2026-11-16.** It will search the [Research Index](/features/research) (PubMed, bioRxiv, medRxiv, arXiv) instead of filtering web results to 14 academic websites. Results will move from `data.web` to `data.research` and come back as paper records: `paperId`, `primaryId`, `ids`, `title`, `abstract`, `score`. Until then every response that uses it carries a `warnings` entry.
-
-  If you want paper records, update your parsing before that date or call [`GET /search/research/papers`](/api-reference/endpoint/research-search-papers) today. If you want web pages from academic sites, switch to [`includeDomains`](#domain-filters).
-
+> [!WARNING]
+>
+> **The `research` category changes on 2026-11-16.** It will search the [Research Index](https://docs.firecrawl.dev/features/research.md) (PubMed, bioRxiv, medRxiv, arXiv) instead of filtering web results to 14 academic websites. Results will move from `data.web` to `data.research` and come back as paper records: `paperId`, `primaryId`, `ids`, `title`, `abstract`, `score`. Until then every response that uses it carries a `warnings` entry.
+>
+> If you want paper records, update your parsing before that date or call [`GET /search/research/papers`](https://docs.firecrawl.dev/api-reference/endpoint/research-search-papers) today. If you want web pages from academic sites, switch to [`includeDomains`](#domain-filters).
 
 ### Example Usage
 
@@ -126,7 +126,7 @@ Each result includes a `category` field indicating its source:
 
 ## Time-Based Search
 
-Use the `tbs` parameter to filter results by time periods, including custom date ranges. See the [Search Feature documentation](https://docs.firecrawl.dev/features/search#time-based-search) for detailed examples and supported formats.
+Use the `tbs` parameter to filter results by time periods, including custom date ranges. See the [Search Feature documentation](https://docs.firecrawl.dev/features/search.md#time-based-search) for detailed examples and supported formats.
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
 
@@ -238,7 +238,7 @@ paths:
                     Requires the team's Alexandria access to be enabled (403
                     otherwise).
                   default:
-                    - web
+                    - type: web
                 domainTools:
                   type: boolean
                   description: >-
@@ -1638,7 +1638,7 @@ components:
         formats require specific options to be set. Example: `['markdown', {
         type: 'json', schema: {...} }]`.
       default:
-        - markdown
+        - type: markdown
     RedactPIIOptions:
       type: object
       description: Tuning options for PII redaction.

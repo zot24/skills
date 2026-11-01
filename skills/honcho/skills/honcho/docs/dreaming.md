@@ -8,9 +8,9 @@
 
 > How Honcho continuously improves memory through autonomous consolidation
 
-
-  Dreaming is an experimental feature under active development. The scheduling heuristics, specialist behavior, and configuration options described here are subject to change as we iterate on the approach.
-
+> [!WARNING]
+>
+> Dreaming is an experimental feature under active development. The scheduling heuristics, specialist behavior, and configuration options described here are subject to change as we iterate on the approach.
 
 Honcho's reasoning system extracts conclusions from every message as it arrives. Over time, this produces a large body of knowledge--some of which is redundant, outdated, or missing higher-order patterns that only become visible across many interactions. **Dreaming** is the process that addresses this: an autonomous, periodic consolidation cycle that refines the peer representation by reasoning over existing conclusions.
 
@@ -62,21 +62,19 @@ Once the idle timeout expires without interruption, the dream task is enqueued f
 
 You can also trigger a dream explicitly via the API:
 
-<CodeGroup>
-  ```python Python
-  honcho.workspaces.schedule_dream(
-      observer="user-peer-name",
-      observed="user-peer-name",
-  )
-  ```
+```python Python theme={null}
+honcho.workspaces.schedule_dream(
+    observer="user-peer-name",
+    observed="user-peer-name",
+)
+```
 
-  ```typescript TypeScript
-  await honcho.workspaces.scheduleDream({
-      observer: "user-peer-name",
-      observed: "user-peer-name",
-  });
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+await honcho.workspaces.scheduleDream({
+    observer: "user-peer-name",
+    observed: "user-peer-name",
+});
+```
 
 Manual dreams bypass the threshold and cooldown checks, but are still subject to deduplication--if a dream is already pending or in progress for the same peer representation, the request is a no-op.
 
@@ -100,47 +98,49 @@ The system includes several safeguards to prevent wasted work:
 
 Dreams can be enabled or disabled at the workspace or session level:
 
-<CodeGroup>
-  ```python Python
-  # Disable dreams for a workspace
-  honcho.set_configuration({
-      "dream": {"enabled": False}
-  })
+```python Python theme={null}
+# Disable dreams for a workspace
+honcho.set_configuration({
+    "dream": {"enabled": False}
+})
 
-  # Disable dreams for a specific session
-  session = honcho.session("my-session", config={
-      "dream": {"enabled": False}
-  })
-  ```
+# Disable dreams for a specific session
+session = honcho.session("my-session", config={
+    "dream": {"enabled": False}
+})
+```
 
-  ```typescript TypeScript
-  // Disable dreams for a workspace
-  await honcho.setConfiguration({
-      dream: { enabled: false }
-  });
+```typescript TypeScript theme={null}
+// Disable dreams for a workspace
+await honcho.setConfiguration({
+    dream: { enabled: false }
+});
 
-  // Disable dreams for a specific session
-  const session = await honcho.session("my-session", {
-      config: {
-          dream: { enabled: false }
-      }
-  });
-  ```
-</CodeGroup>
+// Disable dreams for a specific session
+const session = await honcho.session("my-session", {
+    config: {
+        dream: { enabled: false }
+    }
+});
+```
 
 Dreaming is automatically disabled if reasoning itself is disabled, since there would be no conclusions to consolidate.
 
+> [card] [Reasoning](https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md)
+>
+> Learn how Honcho reasons over messages to produce conclusions
 
-    Learn how Honcho reasons over messages to produce conclusions
+> [card] [Configuration](https://honcho.dev/docs/v3/documentation/features/advanced/reasoning-configuration.md)
+>
+> Full configuration reference for reasoning, summaries, and dreams
 
+> [card] [Queue Status](https://honcho.dev/docs/v3/documentation/features/advanced/queue-status.md)
+>
+> Monitor dream tasks alongside other background processing
 
-    Full configuration reference for reasoning, summaries, and dreams
-
-
-    Monitor dream tasks alongside other background processing
-
-
-    API reference for manually triggering dreams
+> [card] [Schedule Dream API](https://honcho.dev/docs/v3/api-reference/endpoint/workspaces/schedule-dream.md)
+>
+> API reference for manually triggering dreams
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

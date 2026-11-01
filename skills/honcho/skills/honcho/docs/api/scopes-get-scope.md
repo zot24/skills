@@ -26,7 +26,7 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.3.0
+  version: 3.5.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -82,6 +82,14 @@ components:
           type: string
           format: date-time
           title: Created At
+        session_count:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Session Count
+          description: >-
+            Number of sessions that are active members of this scope. Only
+            returned by the scope list when `include_session_count` is true.
       type: object
       required:
         - id

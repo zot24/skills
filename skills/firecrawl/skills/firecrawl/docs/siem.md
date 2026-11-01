@@ -12,9 +12,9 @@ SIEM Audit Logging streams a structured activity event to your organization's SI
 
 Delivery is server-side and out-of-band: events are batched and pushed from Firecrawl's infrastructure, so nothing changes about your API requests and a slow or unavailable destination never delays a scrape.
 
-
-  SIEM Audit Logging is an enterprise feature and is gated per organization. Contact your Firecrawl account team to have it enabled for your account.
-
+> [!NOTE]
+>
+> SIEM Audit Logging is an enterprise feature and is gated per organization. Contact your Firecrawl account team to have it enabled for your account.
 
 ## Supported destinations
 
@@ -34,7 +34,7 @@ Each row captures:
 * **Job grouping** — a request identifier shared by every fetch of one API request, so a whole crawl reconstructs as one job in your queries.
 * **Your correlation IDs** — metadata your systems attach to requests is echoed on the row, so events line up with your own ticket or session identifiers.
 
-When [Threat Protection](/features/threat-protection) is active, rows also carry the decision context: the rule that decided, the classifier consulted, the threat categories involved, and — for Zscaler-classified URLs — a security-alert flag. Only these normalized fields are exported; raw classifier responses never leave Firecrawl.
+When [Threat Protection](https://docs.firecrawl.dev/features/threat-protection.md) is active, rows also carry the decision context: the rule that decided, the classifier consulted, the threat categories involved, and — for Zscaler-classified URLs — a security-alert flag. Only these normalized fields are exported; raw classifier responses never leave Firecrawl.
 
 ## Setting it up
 
@@ -68,7 +68,7 @@ The client secret is write-only: it is encrypted at rest, never shown again, and
 
 * SIEM Audit Logging adds no credit charges.
 * Events describe request metadata and outcomes — scraped page *content* is never sent to your SIEM.
-* Teams with [Zero Data Retention](/features/scrape#zero-data-retention-zdr) can use SIEM Audit Logging; events are flagged with `zero_data_retention: true`.
+* Teams with [Zero Data Retention](https://docs.firecrawl.dev/features/scrape.md#zero-data-retention-zdr) can use SIEM Audit Logging; events are flagged with `zero_data_retention: true`.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

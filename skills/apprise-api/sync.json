@@ -224,6 +224,12 @@
       "target": "skills/apprise-api/docs/qa-mobile-qr-password.md",
       "type": "raw",
       "freshness_days": 14
+    },
+    {
+      "url": "https://raw.githubusercontent.com/caronc/apprise-docs/master/locales/en/api/privacy.md",
+      "target": "skills/apprise-api/docs/api-privacy.md",
+      "type": "raw",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache"

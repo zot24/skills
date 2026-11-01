@@ -56,6 +56,7 @@ The Tailscale feature on GL.iNet routers, available since firmware v4.2, allows 
 
 Supported Models
 
+- GL-MT6000 (Fortify)
 - GL-BE14000 (Flint 4)
 - GL-BE10000 (Slate 7 Pro)
 - GL-MG1300 (Mango 2)
@@ -67,7 +68,7 @@ Supported Models
 - GL-BE3600 (Slate 7)
 - GL-X2000 (Spitz Plus)
 - GL-B3000 (Marble)
-- GL-MT6000 (Flint2)
+- GL-MT6000 (Flint 2)
 - GL-X3000 (Spitz AX)
 - GL-XE3000 (Puli AX)
 - GL-AX1800 (Flint)
@@ -369,7 +370,7 @@ Follow the steps below to configure a **custom exit node** on the GL‑BE9300.
 
     When IP Masquerading is enabled, subnet routes do not need to be configured in the Tailscale Admin console. LAN clients connected to the router can access the Tailscale network directly via the router's Tailscale virtual IP.
 
-    In this example, the GL-BE9300 (100.115.61.35) and GL-MG1300 (100.113.50.89) have Tailscale virtual IP. If a PC is connected to the GL‑BE9300, it can directly access the GL‑MG1300's web Admin Panel via the GL‑BE9300's Tailscale interface IP.
+    In this example, the GL-BE9300 (100.115.61.35) and GL-MG1300 (100.113.50.89) have Tailscale virtual IP addresses. If a PC is connected to the GL‑BE9300, it can directly access GL‑MG1300's web Admin Panel using GL‑BE9300's Tailscale interface IP as the source address.
 
     <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/test_ip_masquerading.png" class="glboxshadow" alt="test iP masquerading" />
 

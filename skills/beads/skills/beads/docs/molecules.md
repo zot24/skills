@@ -60,7 +60,7 @@ bd dep add <implement-id> <design-id>   # implement needs design
 bd dep add <test-id> <implement-id>     # test needs implement
 ```
 
-If the epic carries a size/effort label, see [Labels](/core-concepts/labels) for keeping it off the steps.
+If the epic carries a size/effort label, see [Labels](https://beads.gascity.com/core-concepts/labels.md) for keeping it off the steps.
 
 If an ad-hoc epic turns out to be worth repeating, extract a reusable formula
 from it with `bd mol distill <epic-id> <formula-name>`.
@@ -119,7 +119,7 @@ Only some dependency types block execution:
 | `blocks` | B can't start until A closes | Sequencing work |
 | `parent-child` | If the parent is blocked, children are blocked | Hierarchy (children parallel by default) |
 | `conditional-blocks` | B runs only if A fails | Error-handling paths |
-| `waits-for` | B waits for all of A's dynamic children | Fan-in gates — see [Gates](/workflows/gates) |
+| `waits-for` | B waits for all of A's dynamic children | Fan-in gates — see [Gates](https://beads.gascity.com/workflows/gates.md) |
 
 Non-blocking types (`related`, `discovered-from`, `replies-to`) link issues
 without affecting execution.
@@ -233,7 +233,7 @@ server, or one whose orchestrator manages molecules) leaves the root open:
 `bd close` prints a note naming it, and `bd close <root-id>` closes it.
 
 With `--json`, the step's entry reports the closed root, or why it stayed
-open — see the [JSON Output Schema Contract](/reference/json-schema).
+open — see the [JSON Output Schema Contract](https://beads.gascity.com/reference/json-schema.md).
 
 For cleanup of the beads themselves:
 
@@ -242,7 +242,7 @@ For cleanup of the beads themselves:
 * `bd mol burn <id>` deletes a molecule outright, no digest — for abandoned
   or test runs.
 
-See [Wisps](/workflows/wisps) for the ephemeral lifecycle these commands
+See [Wisps](https://beads.gascity.com/workflows/wisps.md) for the ephemeral lifecycle these commands
 usually serve.
 
 ## Bonding: Connecting Work Graphs
@@ -268,7 +268,7 @@ The command is polymorphic over its operands:
 
 Spawned issues follow the target's phase (persistent or ephemeral) by
 default. Override with `--pour` (force persistent) or `--ephemeral` (force
-ephemeral) — see [Wisps](/workflows/wisps).
+ephemeral) — see [Wisps](https://beads.gascity.com/workflows/wisps.md).
 
 ### Dynamic Bonding
 
@@ -346,9 +346,9 @@ bd ready --mol bd-xyz  # Shows next steps
 
 ## See Also
 
-* [Formulas](/workflows/formulas) - Creating templates
-* [Gates](/workflows/gates) - Async coordination
-* [Wisps](/workflows/wisps) - Ephemeral workflows
+* [Formulas](https://beads.gascity.com/workflows/formulas.md) - Creating templates
+* [Gates](https://beads.gascity.com/workflows/gates.md) - Async coordination
+* [Wisps](https://beads.gascity.com/workflows/wisps.md) - Ephemeral workflows
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

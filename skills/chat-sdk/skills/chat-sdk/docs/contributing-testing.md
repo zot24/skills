@@ -4,7 +4,7 @@
 title: Testing adapters
 description: Write unit tests, integration tests, and replay tests for community Chat SDK adapters.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/contributing/building

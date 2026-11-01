@@ -4,7 +4,7 @@
 
 ## Brazilian Portuguese
 
-- [Brazilian Portuguese / v2 (221 pages)](https://docs.firecrawl.dev/_llms/pt-br/v2.txt): Documentation for Brazilian Portuguese / v2.
+- [Brazilian Portuguese / v2 (247 pages)](https://docs.firecrawl.dev/_llms/pt-br/v2.txt): Documentation for Brazilian Portuguese / v2.
 
 ### v1
 
@@ -12,7 +12,7 @@
 
 ##### Primeiros passos
 
-- [Introdução](https://docs.firecrawl.dev/pt-BR/introduction.md): A API de dados da web para agentes de IA. Faça uma busca na web, faça scraping de qualquer página e interaja com ela por meio de uma única API.
+- [Introdução](https://docs.firecrawl.dev/pt-BR/introduction.md): A API de contexto para agentes de IA. Faça uma busca na web, faça scraping de qualquer página e interaja com ela por meio de uma única API.
 - [Primeiros passos](https://docs.firecrawl.dev/pt-BR/mcp-server.md): Configure o Firecrawl MCP com acesso sem chave, login na conta ou uma API key.
 - [Guia Avançado de Scraping](https://docs.firecrawl.dev/pt-BR/advanced-scraping-guide.md): Configure opções de scraping, ações do navegador, rastreamento, map e o endpoint do agente em toda a API do Firecrawl.
 
@@ -25,6 +25,7 @@
 ###### Empresarial
 
 - [Enterprise](https://docs.firecrawl.dev/pt-BR/enterprise.md): Planos Enterprise, segurança e recursos do Firecrawl em escala
+- [Visão geral de segurança](https://docs.firecrawl.dev/pt-BR/security.md): Como o Firecrawl protege seus dados: retenção zero de dados, DPA, SSO, controles de acesso e residência de dados, tudo em um só lugar para sua avaliação de segurança.
 - [SSO e SCIM](https://docs.firecrawl.dev/pt-BR/features/sso.md): Configure o login único (SSO) e a sincronização de diretório via SCIM para que sua equipe faça login pelo seu provider de identidade e o acesso dos usuários permaneça sincronizado com o seu diretório.
 - [Restrições de IP](https://docs.firecrawl.dev/pt-BR/features/ip-restrictions.md): Restrinja as chaves de API da sua equipe a uma lista de permissões de endereços IP ou intervalos CIDR, para que funcionem apenas em redes aprovadas. Aplicado no servidor.
 - [Restrições de chave](https://docs.firecrawl.dev/pt-BR/features/key-restrictions.md): Restrinja uma chave de API individual a endpoints e formatos de resultado específicos. Aplicado no servidor, sem possibilidade de uma requisição sobrescrever isso.
@@ -39,7 +40,7 @@
 
 ###### Raspagem
 
-- [Scraping](https://docs.firecrawl.dev/pt-BR/features/scrape.md): Transforme qualquer URL em dados limpos
+- [scraping](https://docs.firecrawl.dev/pt-BR/features/scrape.md): Transforme qualquer URL em Markdown limpo ou dados estruturados
 - [Raspagem mais rápida](https://docs.firecrawl.dev/pt-BR/features/fast-scraping.md): Acelere suas raspagens em 500% com o parâmetro maxAge
 - [Raspagem em lote](https://docs.firecrawl.dev/pt-BR/features/batch-scrape.md): Raspe várias URLs em uma única tarefa em lote
 - [Modo JSON - Resultado Estruturado](https://docs.firecrawl.dev/pt-BR/features/llm-extract.md): Extraia dados estruturados de páginas com LLMs
@@ -66,14 +67,14 @@
 
 ##### Oficial
 
-- [Python](https://docs.firecrawl.dev/pt-BR/sdks/python.md): O Firecrawl SDK Python é um encapsulador da Firecrawl API que ajuda você a transformar sites em Markdown com facilidade.
-- [Node](https://docs.firecrawl.dev/pt-BR/sdks/node.md): Faça scraping, rastreamento e extração de dados estruturados em sites usando o Firecrawl SDK de Node.
-- [Go](https://docs.firecrawl.dev/pt-BR/sdks/go.md): O SDK Go do Firecrawl é um wrapper da API do Firecrawl para ajudar você a transformar sites em markdown com facilidade.
-- [Java](https://docs.firecrawl.dev/pt-BR/sdks/java.md): O SDK Java do Firecrawl é um wrapper da API do Firecrawl para ajudar você a transformar sites em markdown com facilidade.
-- [Ruby](https://docs.firecrawl.dev/pt-BR/sdks/ruby.md): O SDK Ruby do Firecrawl é um wrapper da API do Firecrawl que ajuda você a converter sites em markdown com facilidade.
-- [Rust](https://docs.firecrawl.dev/pt-BR/sdks/rust.md): O SDK do Firecrawl para Rust é um wrapper da API do Firecrawl para ajudar você a converter sites em markdown com facilidade.
-- [.NET](https://docs.firecrawl.dev/pt-BR/sdks/dotnet.md): O SDK .NET do Firecrawl é um wrapper da API do Firecrawl para ajudar você a transformar sites em markdown com facilidade.
-- [PHP](https://docs.firecrawl.dev/pt-BR/sdks/php.md): O SDK PHP do Firecrawl é um wrapper da API do Firecrawl para ajudar você a converter websites em markdown com facilidade.
+- [Python](https://docs.firecrawl.dev/pt-BR/sdks/python.md): O SDK Python do Firecrawl é um encapsulador da Firecrawl API para pesquisar, fazer scraping e rastrear a web e obter Markdown limpo ou dados estruturados.
+- [Node](https://docs.firecrawl.dev/pt-BR/sdks/node.md): Faça buscas, scraping e rastreamento e interaja com a web usando o Firecrawl SDK de Node.
+- [Go](https://docs.firecrawl.dev/pt-BR/sdks/go.md): O SDK Go do Firecrawl é um wrapper da API do Firecrawl para pesquisar, fazer scraping e rastrear a web, obtendo Markdown limpo ou dados estruturados.
+- [Java](https://docs.firecrawl.dev/pt-BR/sdks/java.md): O SDK Java do Firecrawl é um wrapper da API do Firecrawl para fazer busca, scraping e rastreamento na web e obter Markdown limpo ou dados estruturados.
+- [Ruby](https://docs.firecrawl.dev/pt-BR/sdks/ruby.md): O SDK Ruby do Firecrawl é um wrapper da API do Firecrawl para fazer busca, scraping e rastreamento na web e obter Markdown limpo ou dados estruturados.
+- [Rust](https://docs.firecrawl.dev/pt-BR/sdks/rust.md): O SDK de Rust do Firecrawl é um wrapper da API do Firecrawl para fazer busca, scraping e rastreamento na web e obter Markdown limpo ou dados estruturados.
+- [.NET](https://docs.firecrawl.dev/pt-BR/sdks/dotnet.md): O SDK .NET do Firecrawl é um wrapper da API do Firecrawl para fazer busca, scraping e rastreamento na web e obter Markdown limpo ou dados estruturados.
+- [PHP](https://docs.firecrawl.dev/pt-BR/sdks/php.md): O SDK PHP do Firecrawl é um wrapper da API do Firecrawl para fazer busca, scraping e rastreamento na web e obter Markdown limpo ou dados estruturados.
 - [Elixir](https://docs.firecrawl.dev/pt-BR/sdks/elixir.md): O SDK Elixir do Firecrawl é um cliente gerado automaticamente para a API v2 do Firecrawl, desenvolvido com Req e NimbleOptions.
 
 ## OpenAPI Specs

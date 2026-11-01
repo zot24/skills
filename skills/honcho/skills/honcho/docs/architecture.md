@@ -8,7 +8,7 @@
 
 > Understanding Honcho's core concepts and data model.
 
-Honcho is memory infrastructure that continuously [*reasons*](/docs/v3/documentation/core-concepts/reasoning) about data to build rich representations of peers (users, agents, or any entity) over time. This document explains the data model, system components, and how data flows through Honcho.
+Honcho is memory infrastructure that continuously [*reasons*](https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md) about data to build rich representations of peers (users, agents, or any entity) over time. This document explains the data model, system components, and how data flows through Honcho.
 
 ## Data Model
 
@@ -33,7 +33,7 @@ Honcho has a hierarchical data model centered around the entities below.
 * A Peer can be in multiple Sessions and can send Messages in a Session
 * A Session can have many Peers and stores Messages sent by its Peers
 
-### <Icon icon="building" /> Workspaces
+### &#x20;Workspaces
 
 Workspaces are the top-level containers in Honcho. They provide complete isolation between different applications or environments, essentially serving as a namespace to keep different workloads separate. You might use separate workspaces for development, staging, and production environments, or to isolate different product lines. They also enable multi-tenant SaaS applications where each customer gets their own isolated workspace with complete data separation.
 
@@ -41,9 +41,9 @@ Authentication is issued at the workspace level, and configuration settings can 
 
 ***
 
-### <Icon icon="user" /> Peers
+### &#x20;Peers
 
-Peers are the most important entity in Honcho--everything revolves around building and maintaining their [*representations*](/docs/v3/documentation/core-concepts/representation). A peer represents any individual user, agent, or entity in a workspace. Treating humans and agents the same way lets you build arbitrary combinations for multi-agent or group chat scenarios.
+Peers are the most important entity in Honcho--everything revolves around building and maintaining their [*representations*](https://honcho.dev/docs/v3/documentation/core-concepts/representation.md). A peer represents any individual user, agent, or entity in a workspace. Treating humans and agents the same way lets you build arbitrary combinations for multi-agent or group chat scenarios.
 
 Each peer has a unique identifier within a workspace and is a container for reasoning across all their sessions. This cross-session context means conclusions drawn about a peer in one session can inform interactions in completely different sessions. Peers can be configured to control whether Honcho reasons about them.
 
@@ -51,7 +51,7 @@ You can use peers for any entity that persists over time--individual users in ch
 
 ***
 
-### <Icon icon="message" /> Sessions
+### &#x20;Sessions
 
 Sessions represent interaction threads or contexts between peers. A session can involve multiple peers and provides temporal boundaries for when a set of interactions starts and ends. This lets you confine context and memory to specific interactions while still maintaining longer-term peer representations that span sessions.
 
@@ -59,11 +59,11 @@ Use sessions for things like support tickets, meeting transcripts, learning sess
 
 Session-level configuration gives you fine-grained control over perspective-taking behavior. You can configure whether a peer should form representations of other peers in the session, and whether other peers should form representations of them.
 
-Sessions are also the unit of visibility: when one peer's history spans contexts that shouldn't inform each other, you can group sessions into named [scopes](/docs/v3/documentation/features/advanced/scopes) that bound recall to just those sessions.
+Sessions are also the unit of visibility: when one peer's history spans contexts that shouldn't inform each other, you can group sessions into named [scopes](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md) that bound recall to just those sessions.
 
 ***
 
-### <Icon icon="envelope" /> Messages
+### &#x20;Messages
 
 Messages are the fundamental units of interaction within sessions. While they typically represent back-and-forth communication between peers, you can also use messages to ingest any information that provides context--emails, documents, files, user actions, system notifications, or rich media content.
 
@@ -77,7 +77,7 @@ When you create messages, they're immediately written to PostgreSQL and reasonin
 
 When you need context from Honcho, you query through the "Chat" endpoint or "Get Context" endpoint. Honcho retrieves relevant conclusions from vector storage along with recent messages, then assembles everything into coherent context ready to inject into agent prompts.
 
-<img src="https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/architecture.png?fit=max&auto=format&n=Pwe1D9IEDkAtnMKn&q=85&s=8be3896689d78b60a46c501529d32267" alt="Honcho Architecture" width="1203" height="845" data-path="images/architecture.png" />
+![Honcho Architecture](https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/architecture.png?fit=max\&auto=format\&n=Pwe1D9IEDkAtnMKn\&q=85\&s=8be3896689d78b60a46c501529d32267)
 
 The diagram above shows how agents write messages to Honcho, which triggers reasoning that updates peer representations. Agents can then query representations to get additional context for their next response. Black arrows represent read/write of regular data (messages, storage), while red arrows represent read/write of reasoned-over data (logic, peer representations).
 
@@ -85,7 +85,7 @@ The diagram above shows how agents write messages to Honcho, which triggers reas
 
 Honcho runs as two cooperating processes: an **API server** that handles requests and enqueues background work, and a **worker** that consumes that work off the queue. This split is what keeps the write path fast--your request never waits on an LLM call.
 
-<img src="https://mintcdn.com/plasticlabs/qjcsnDqFA7-efarp/images/honcho-system-diagram.png?fit=max&auto=format&n=qjcsnDqFA7-efarp&q=85&s=163754c1a0038feeea6a6d6f8a35d5a1" alt="Honcho Detailed Internals" width="6034" height="5088" data-path="images/honcho-system-diagram.png" />
+![Honcho Detailed Internals](https://mintcdn.com/plasticlabs/qjcsnDqFA7-efarp/images/honcho-system-diagram.png?fit=max\&auto=format\&n=qjcsnDqFA7-efarp\&q=85\&s=163754c1a0038feeea6a6d6f8a35d5a1)
 
 **Write path (synchronous).** A message is stored and a reasoning task is enqueued in the same request; the API returns immediately. Nothing about the reasoning that follows blocks the caller.
 
@@ -95,7 +95,7 @@ Honcho runs as two cooperating processes: an **API server** that handles request
 
 **Query path (Dialectic).** A `chat()` call spawns a Dialectic agent that answers your question by exploring memory--searching conclusions semantically, pulling supporting messages, and tracing a conclusion back to the premises it was drawn from--before synthesizing a grounded answer. This all happens inline during the request, since answering well is worth the latency that write-path reasoning is designed to avoid.
 
-The same agent runs in two shapes. `peer.chat()` is anchored to one (observer, observed) pair and prefetches the conclusions relevant to the query, so it can often answer from that context alone. `honcho.chat()` has no anchor peer: it prefetches workspace stats and the most active peers' cards as a routing aid, is required to search before answering, and then reads memory pair by pair with `[observer->observed]` attribution. See [Workspace Chat](/docs/v3/documentation/features/chat#workspace-chat).
+The same agent runs in two shapes. `peer.chat()` is anchored to one (observer, observed) pair and prefetches the conclusions relevant to the query, so it can often answer from that context alone. `honcho.chat()` has no anchor peer: it prefetches workspace stats and the most active peers' cards as a routing aid, is required to search before answering, and then reads memory pair by pair with `[observer->observed]` attribution. See [Workspace Chat](https://honcho.dev/docs/v3/documentation/features/chat.md#workspace-chat).
 
 ## Configuration & Extensibility
 
@@ -107,17 +107,21 @@ Honcho's architecture follows a few core principles. Everything revolves around 
 
 ## Next Steps
 
+> [card] [Get an API Key](https://app.honcho.dev)
+>
+> Sign up for the Honcho platform and start building
 
-    Sign up for the Honcho platform and start building
+> [card] [Quickstart](https://honcho.dev/docs/v3/documentation/introduction/quickstart.md)
+>
+> Get started with your first integration
 
+> [card] [Reasoning](https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md)
+>
+> Learn how Honcho reasons about messages to build memory
 
-    Get started with your first integration
-
-
-    Learn how Honcho reasons about messages to build memory
-
-
-    Understand what peer representations are and how they work
+> [card] [Peer Representations](https://honcho.dev/docs/v3/documentation/core-concepts/representation.md)
+>
+> Understand what peer representations are and how they work
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

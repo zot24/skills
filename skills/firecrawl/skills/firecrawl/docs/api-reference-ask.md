@@ -57,7 +57,7 @@ curl -X POST https://api.firecrawl.dev/v2/support/ask \
 | `401` | Missing or invalid bearer token |
 | `504` | Hit 60s hard budget — partial envelope returned |
 
-For the feature guide with integration examples, see the [Ask feature documentation](/features/ask).
+For the feature guide with integration examples, see the [Ask feature documentation](https://docs.firecrawl.dev/features/ask.md).
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
 

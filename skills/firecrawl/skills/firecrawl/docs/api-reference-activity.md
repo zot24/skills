@@ -21,10 +21,10 @@ Lists your recent API activity from the last 24 hours. Use this to discover job 
 
 | Operation | API path | Docs page |
 | - | - | - |
-| Team activity | `GET /v2/team/activity` | [`activity`](/api-reference/endpoint/activity) |
-| Credit usage | `GET /v2/team/credit-usage` | [`credit-usage`](/api-reference/endpoint/credit-usage) |
-| Credit usage (historical) | `GET /v2/team/credit-usage/historical` | [`credit-usage-historical`](/api-reference/endpoint/credit-usage-historical) |
-| Queue status | `GET /v2/team/queue-status` | [`queue-status`](/api-reference/endpoint/queue-status) |
+| Team activity | `GET /v2/team/activity` | [`activity`](https://docs.firecrawl.dev/api-reference/endpoint/activity) |
+| Credit usage | `GET /v2/team/credit-usage` | [`credit-usage`](https://docs.firecrawl.dev/api-reference/endpoint/credit-usage) |
+| Credit usage (historical) | `GET /v2/team/credit-usage/historical` | [`credit-usage-historical`](https://docs.firecrawl.dev/api-reference/endpoint/credit-usage-historical) |
+| Queue status | `GET /v2/team/queue-status` | [`queue-status`](https://docs.firecrawl.dev/api-reference/endpoint/queue-status) |
 
 
 ## OpenAPI

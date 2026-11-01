@@ -4,7 +4,7 @@
 title: Overview
 description: AI utilities that ship with Chat SDK, including agent tools, message conversion, and supporting types.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: overview
 ---
 
@@ -29,7 +29,7 @@ pnpm add ai zod
 | ----------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [AI SDK Tools](/docs/ai/ai-sdk-tools)     | `createChatTools` and standalone tool factories that let an agent post messages, send DMs, react, edit, delete, and manage subscriptions across every adapter your `Chat` instance has registered. Write tools and `getUser` require approval by default, and presets limit which tools the agent gets. |
 | [`toAiMessages`](/docs/ai/to-ai-messages) | Convert Chat SDK [`Message[]`](/docs/api/message) into the `{ role, content }[]` shape expected by AI SDK calls. Handles role mapping, attachments, links, sorting, and optional per-message transforms.                                                                                                |
-| [TanStack AI](/docs/ai/tanstack-ai)       | `toTanStackMessages` and `createTanStackTools` from `chat/ai/tanstack`: the same history conversion and tools, shaped for `chat()` from `@tanstack/ai`. No runtime dependency on `@tanstack/ai`.                                                                                                        |
+| [TanStack AI](/docs/ai/tanstack-ai)       | `toTanStackMessages` and `createTanStackTools` from `chat/ai/tanstack`: the same history conversion and tools, shaped for `chat()` from `@tanstack/ai`, plus serving a TanStack AI browser chat through the Web adapter. No runtime dependency on `@tanstack/ai`.                                       |
 | [Types](/docs/ai/types)                   | Reference for the types exported from `chat/ai`: agent message shapes, tool option contracts, presets, approval config, and the binding type that ties tools to your `Chat` instance.                                                                                                                   |
 
 ## Typical flow

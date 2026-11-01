@@ -4,7 +4,7 @@
 title: Overlapping Messages
 description: Control how overlapping messages on the same thread are handled, with the burst, queue, debounce, drop, and concurrent strategies.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/handling-events

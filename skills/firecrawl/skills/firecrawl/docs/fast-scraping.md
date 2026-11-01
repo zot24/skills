@@ -41,44 +41,42 @@ Get your results **up to 500% faster** when you don’t need the absolute freshe
 
 Add `maxAge` to your scrape request. Values are in milliseconds (e.g., `3600000` = 1 hour).
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR_API_KEY",
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR_API_KEY",
+)
 
-  # Use cached data if it's less than 1 hour old (3600000 ms)
-  # This can be 500% faster than a fresh scrape!
-  scrape_result = firecrawl.scrape(
-      'https://firecrawl.dev',
-      formats=['markdown'],
-      max_age=3600000  # 1 hour in milliseconds
-  )
+# Use cached data if it's less than 1 hour old (3600000 ms)
+# This can be 500% faster than a fresh scrape!
+scrape_result = firecrawl.scrape(
+    'https://firecrawl.dev',
+    formats=['markdown'],
+    max_age=3600000  # 1 hour in milliseconds
+)
 
-  print(scrape_result.markdown)
-  ```
+print(scrape_result.markdown)
+```
 
-  ```javascript JavaScript
-  import { Firecrawl } from 'firecrawl';
+```javascript JavaScript theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR_API_KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR_API_KEY",
+});
 
-  // Use cached data if it's less than 1 hour old (3600000 ms)
-  // This can be 500% faster than a fresh scrape!
-  const scrapeResult = await firecrawl.scrape('https://firecrawl.dev', {
-    formats: ['markdown'],
-    maxAge: 3600000 // 1 hour in milliseconds
-  });
+// Use cached data if it's less than 1 hour old (3600000 ms)
+// This can be 500% faster than a fresh scrape!
+const scrapeResult = await firecrawl.scrape('https://firecrawl.dev', {
+  formats: ['markdown'],
+  maxAge: 3600000 // 1 hour in milliseconds
+});
 
-  console.log(scrapeResult.markdown);
-  ```
-</CodeGroup>
+console.log(scrapeResult.markdown);
+```
 
 ## Common maxAge values
 
@@ -123,62 +121,60 @@ You can verify cache behavior by checking `metadata.cacheState` in the response 
 
 The same speed benefits apply when crawling multiple pages. Use `maxAge` within `scrapeOptions` to get cached results for pages we’ve seen recently.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from firecrawl.v2.types import ScrapeOptions
+```python Python theme={null}
+from firecrawl import Firecrawl
+from firecrawl.v2.types import ScrapeOptions
 
-  firecrawl = Firecrawl(api_key="fc-YOUR_API_KEY")
+firecrawl = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  # Crawl with cached scraping - 500% faster for pages we've seen recently
-  crawl_result = firecrawl.crawl(
-      'https://firecrawl.dev',
-      limit=100,
-      scrape_options=ScrapeOptions(
-          formats=['markdown'],
-          max_age=3600000  # Use cached data if less than 1 hour old
-      )
-  )
+# Crawl with cached scraping - 500% faster for pages we've seen recently
+crawl_result = firecrawl.crawl(
+    'https://firecrawl.dev',
+    limit=100,
+    scrape_options=ScrapeOptions(
+        formats=['markdown'],
+        max_age=3600000  # Use cached data if less than 1 hour old
+    )
+)
 
-  for page in crawl_result.data:
-      print(f"URL: {page.metadata.source_url}")
-      print(f"Content: {page.markdown[:200]}...")
-  ```
+for page in crawl_result.data:
+    print(f"URL: {page.metadata.source_url}")
+    print(f"Content: {page.markdown[:200]}...")
+```
 
-  ```javascript JavaScript
-  import { Firecrawl } from 'firecrawl';
+```javascript JavaScript theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  // Crawl with cached scraping - 500% faster for pages we've seen recently
-  const crawlResult = await firecrawl.crawl('https://firecrawl.dev', {
-    limit: 100,
-    scrapeOptions: {
-      formats: ['markdown'],
-      maxAge: 3600000 // Use cached data if less than 1 hour old
+// Crawl with cached scraping - 500% faster for pages we've seen recently
+const crawlResult = await firecrawl.crawl('https://firecrawl.dev', {
+  limit: 100,
+  scrapeOptions: {
+    formats: ['markdown'],
+    maxAge: 3600000 // Use cached data if less than 1 hour old
+  }
+});
+
+crawlResult.data.forEach(page => {
+  console.log(`URL: ${page.metadata.sourceURL}`);
+  console.log(`Content: ${page.markdown.substring(0, 200)}...`);
+});
+```
+
+```bash cURL theme={null}
+curl -X POST https://api.firecrawl.dev/v2/crawl \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: Bearer fc-YOUR_API_KEY' \
+  -d '{
+    "url": "https://firecrawl.dev",
+    "limit": 100,
+    "scrapeOptions": {
+      "formats": ["markdown"],
+      "maxAge": 3600000
     }
-  });
-
-  crawlResult.data.forEach(page => {
-    console.log(`URL: ${page.metadata.sourceURL}`);
-    console.log(`Content: ${page.markdown.substring(0, 200)}...`);
-  });
-  ```
-
-  ```bash cURL
-  curl -X POST https://api.firecrawl.dev/v2/crawl \
-    -H 'Content-Type: application/json' \
-    -H 'Authorization: Bearer fc-YOUR_API_KEY' \
-    -d '{
-      "url": "https://firecrawl.dev",
-      "limit": 100,
-      "scrapeOptions": {
-        "formats": ["markdown"],
-        "maxAge": 3600000
-      }
-    }'
-  ```
-</CodeGroup>
+  }'
+```
 
 When crawling with `maxAge`, each page in your crawl will benefit from the 500% speed improvement if we have recent cached data for that page.
 

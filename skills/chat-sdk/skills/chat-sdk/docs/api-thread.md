@@ -4,7 +4,7 @@
 title: Thread
 description: Represents a conversation thread with methods for posting, subscribing, and state management.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: reference
 related:
   - /docs/threads-messages-channels

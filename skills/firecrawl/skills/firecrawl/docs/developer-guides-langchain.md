@@ -6,14 +6,14 @@
 
 # LangChain
 
-> Use Firecrawl with LangChain for web scraping + AI workflows
+> Use Firecrawl with LangChain to give AI workflows live web context
 
-Integrate Firecrawl with LangChain to build AI applications powered by web data.
+Integrate Firecrawl with LangChain to build AI applications with live web context.
 
 ## Setup
 
 ```bash theme={null}
-npm install @langchain/openai firecrawl 
+npm install firecrawl @langchain/openai @langchain/core zod
 ```
 
 Create `.env` file:
@@ -36,7 +36,7 @@ import { HumanMessage } from '@langchain/core/messages';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const chat = new ChatOpenAI({
-    model: 'gpt-5-nano',
+    model: 'gpt-5.6-luna',
     apiKey: process.env.OPENAI_API_KEY
 });
 
@@ -65,7 +65,7 @@ import { StringOutputParser } from '@langchain/core/output_parsers';
 
 const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 const model = new ChatOpenAI({
-    model: 'gpt-5-nano',
+    model: 'gpt-5.6-luna',
     apiKey: process.env.OPENAI_API_KEY
 });
 
@@ -121,7 +121,7 @@ const scrapeWebsiteTool = new DynamicStructuredTool({
 });
 
 const model = new ChatOpenAI({
-    model: 'gpt-5-nano',
+    model: 'gpt-5.6-luna',
     apiKey: process.env.OPENAI_API_KEY
 }).bindTools([scrapeWebsiteTool]);
 
@@ -156,7 +156,7 @@ const CompanyInfoSchema = z.object({
 });
 
 const model = new ChatOpenAI({
-    model: 'gpt-5-nano',
+    model: 'gpt-5.6-luna',
     apiKey: process.env.OPENAI_API_KEY
 }).withStructuredOutput(CompanyInfoSchema);
 
@@ -174,7 +174,7 @@ const companyInfo = await model.invoke([
 console.log('Extracted company info:', companyInfo);
 ```
 
-For more examples, check the [LangChain documentation](https://js.langchain.com/docs).
+For more examples, check the [LangChain documentation](https://docs.langchain.com/oss/javascript/langchain/overview).
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -8,15 +8,13 @@
 
 > Self-host Firecrawl with Docker Compose, verify a local scrape, understand open-source limits, and prepare the stack for production.
 
-<span id="self-hosting-firecrawl" />
-
 Self-host Firecrawl with Docker Compose when you need source or infrastructure control. This guide pins release `v2.11.162`, starts the API at `http://localhost:3002`, and verifies a successful `POST /v2/scrape` response with Markdown.
 
-
-  This trusted-network quickstart disables API authentication and is not a
-  production architecture. It starts without durable storage, TLS, high
-  availability, or every Firecrawl Cloud capability.
-
+> [!WARNING]
+>
+> This trusted-network quickstart disables API authentication and is not a
+> production architecture. It starts without durable storage, TLS, high
+> availability, or every Firecrawl Cloud capability.
 
 ## Choose self-hosting or Firecrawl Cloud
 
@@ -26,7 +24,7 @@ Self-host Firecrawl with Docker Compose when you need source or infrastructure c
 * **You are comfortable operating the stack.** You will own upgrades, security, storage, monitoring, and recovery.
 * **You want to validate Firecrawl against your environment.** Get the baseline working here, then design the controls in [Before production](#before-production).
 
-Choose [Firecrawl Cloud](https://firecrawl.dev) when you want to start scraping without running infrastructure. See [Open Source vs Cloud](/contributing/open-source-or-cloud) for the capability differences.
+Choose [Firecrawl Cloud](https://firecrawl.dev) when you want to start scraping without running infrastructure. See [Open Source vs Cloud](https://docs.firecrawl.dev/contributing/open-source-or-cloud.md) for the capability differences.
 
 **Our recommendation:** self-host when source access or infrastructure control is worth the operational work. If you want the fastest supported path to production, start with Firecrawl Cloud.
 
@@ -87,11 +85,11 @@ EOF
 
 Replace the PostgreSQL password before starting the stack, and do not commit `.env`. Keep `POSTGRES_DB=postgres` for `v2.11.162` because the bundled `pg_cron` configuration targets that database. Compose passes these values to both the API and PostgreSQL service.
 
-
-  `apps/api/.env.example` is for API development, not a drop-in Compose file.
-  This first run disables database authentication, so requests do not need an
-  API key or `Authorization` header.
-
+> [!NOTE]
+>
+> `apps/api/.env.example` is for API development, not a drop-in Compose file.
+> This first run disables database authentication, so requests do not need an
+> API key or `Authorization` header.
 
 Leave `NUQ_BACKEND` and `BULL_AUTH_KEY` unset. You will use the PostgreSQL queue without running the queue administration UI—fewer moving parts for the first scrape.
 
@@ -125,11 +123,11 @@ Expected response:
 {"status":"ok"}
 ```
 
-
-  This is a heartbeat, not an end-to-end test. It does not check Redis,
-  PostgreSQL, RabbitMQ, Playwright, workers, or outbound network access. Run the
-  scrape below before treating the deployment as usable.
-
+> [!WARNING]
+>
+> This is a heartbeat, not an end-to-end test. It does not check Redis,
+> PostgreSQL, RabbitMQ, Playwright, workers, or outbound network access. Run the
+> scrape below before treating the deployment as usable.
 
 ### Run a functional smoke test
 
@@ -181,7 +179,7 @@ Your first scrape works. Add the next capability because you need it, not becaus
 | Screenshots or page actions | Not available in the default stack. Fetch and Playwright both report no support; both require Fire-engine. |
 | Agent, Browser, interact, feedback, or specialized product, menu, audio, and video formats | Use Firecrawl Cloud, or verify the external service requirements for the specific capability. |
 
-For the broader product comparison, see [Open Source vs Cloud](/contributing/open-source-or-cloud). For release-specific configuration, use the pinned [`docker-compose.yaml`](https://github.com/firecrawl/firecrawl/blob/v2.11.162/docker-compose.yaml) as the companion source.
+For the broader product comparison, see [Open Source vs Cloud](https://docs.firecrawl.dev/contributing/open-source-or-cloud.md). For release-specific configuration, use the pinned [`docker-compose.yaml`](https://github.com/firecrawl/firecrawl/blob/v2.11.162/docker-compose.yaml) as the companion source.
 
 ## Before production
 
@@ -192,6 +190,7 @@ Compose gets you to first success. Production needs a few explicit choices befor
 * **If you have availability or capacity requirements,** set uptime targets, monitoring, resource sizing, scaling triggers, and upgrade and rollback procedures. The Compose limits are not verified minimum requirements.
 * **If data location or compliance matters,** map requests to target websites and every optional AI, proxy, or parsing provider before enabling them.
 * **If secrets must be managed centrally,** move the database password out of `.env` and into your platform's secret-management system.
+* **If you enable admin routes with `BULL_AUTH_KEY`,** call them under `/admin/ops/` with an `Authorization: Bearer` header, set `BULL_AUTH_KEY_PREVIOUS` while callers move to a new key, and set `BULL_AUTH_KEY_PATH_ROUTES=false` once nothing uses the `/admin/<key>/...` paths. To reach the queue UI, metrics, and diagnostic routes without a key, set `ADMIN_INTERNAL_PORT` and keep that port private. See [`SELF_HOST.md`](https://github.com/firecrawl/firecrawl/blob/main/SELF_HOST.md#admin-routes) for the full list.
 
 These are infrastructure decisions. No single `.env` switch makes the stack production-ready.
 
@@ -199,10 +198,10 @@ These are infrastructure decisions. No single `.env` switch makes the stack prod
 
 * **Still evaluating?** Keep the API on a trusted network and run `docker compose down` when you are finished.
 * **Adding an open-source capability?** Use [Self-hosted feature support](#self-hosted-feature-support) to find the required provider or service, then test that path on its own.
-* **Changing Firecrawl code?** Switch to [Contributor Setup](/contributing/guide) for the development environment.
-* **Connecting a client?** Point the [Firecrawl CLI](/sdks/cli#connect-the-cli-to-self-hosted-firecrawl) or [local MCP server](/mcp-server/local#connect-mcp-to-self-hosted-firecrawl) at your verified API URL.
+* **Changing Firecrawl code?** Switch to [Contributor Setup](https://docs.firecrawl.dev/contributing/guide.md) for the development environment.
+* **Connecting a client?** Point the [Firecrawl CLI](https://docs.firecrawl.dev/sdks/cli.md#connect-the-cli-to-self-hosted-firecrawl) or [local MCP server](https://docs.firecrawl.dev/mcp-server/local#connect-mcp-to-self-hosted-firecrawl) at your verified API URL.
 * **Moving to Kubernetes?** Start with the versioned Kubernetes or Helm references linked from [`SELF_HOST.md`](https://github.com/firecrawl/firecrawl/blob/main/SELF_HOST.md), then make the production decisions above explicit for your platform.
-* **Want managed infrastructure or Cloud-only capabilities?** Compare [Open Source vs Cloud](/contributing/open-source-or-cloud).
+* **Want managed infrastructure or Cloud-only capabilities?** Compare [Open Source vs Cloud](https://docs.firecrawl.dev/contributing/open-source-or-cloud.md).
 * **Going to production?** Complete every decision in [Before production](#before-production) before exposing the API.
 
 ## Troubleshooting

@@ -8,7 +8,7 @@
 
 > Full-document update. Unspecified fields reset to defaults. Enterprise feature, team admins only.
 
-Full-document update of your organization's [threat protection](/features/threat-protection) policy. Unspecified fields reset to defaults. Team admins only.
+Full-document update of your organization's [threat protection](https://docs.firecrawl.dev/features/threat-protection.md) policy. Unspecified fields reset to defaults. Team admins only.
 
 
 ## OpenAPI

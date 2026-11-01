@@ -988,7 +988,7 @@ components:
         formats require specific options to be set. Example: `['markdown', {
         type: 'json', schema: {...} }]`.
       default:
-        - markdown
+        - type: markdown
     RedactPIIOptions:
       type: object
       description: Tuning options for PII redaction.

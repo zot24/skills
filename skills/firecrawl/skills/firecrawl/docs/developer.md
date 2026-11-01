@@ -15,20 +15,20 @@ Firecrawl Developer is an index built for coding agents. It covers issues, merge
 * Trace an API contract back to the pull request that changed it
 * Recover the discussion behind an error message
 
-
-  To give your agent access to the Developer Index, we strongly recommend using our [CLI](/sdks/cli) or [MCP](/mcp-server), combined with our [**dedicated developer skill**](https://github.com/firecrawl/cli/tree/main/skills/firecrawl-developer-index), which you can install with:
-
-  ```bash
-  npx -y firecrawl-cli@latest setup developer-index
-  ```
-
+> [!NOTE]
+>
+> To give your agent access to the Developer Index, we strongly recommend using our [CLI](https://docs.firecrawl.dev/sdks/cli.md) or [MCP](https://docs.firecrawl.dev/mcp-server.md), combined with our [**dedicated developer skill**](https://github.com/firecrawl/cli/tree/main/skills/firecrawl-developer-index), which you can install with:
+>
+> ```bash
+> npx -y firecrawl-cli@latest setup developer-index
+> ```
 
 ## Endpoints
 
 | Task | Endpoint |
 | - | - |
-| Search the developer index | [`GET` or `POST /search/developer`](/api-reference/endpoint/developer-search) |
-| Add developer results to a web search | [`POST /search`](/api-reference/endpoint/search) with `categories: ["developer"]` |
+| Search the developer index | [`GET` or `POST /search/developer`](https://docs.firecrawl.dev/api-reference/endpoint/developer-search) |
+| Add developer results to a web search | [`POST /search`](https://docs.firecrawl.dev/api-reference/endpoint/search) with `categories: ["developer"]` |
 
 ## Search the developer index
 
@@ -36,16 +36,14 @@ Send a natural-language question and get back ranked developer results with the 
 
 A developer search costs 2 credits per 10 results, rounded up (1–10 results = 2 credits, 11–20 = 4 credits, and so on). No API key is needed to get started; add one for higher rate limits.
 
-<CodeGroup>
-  ```bash cURL
-  # No API key needed to get started; add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s "https://api.firecrawl.dev/v2/search/developer?query=how%20do%20I%20configure%20retries&k=10"
-  ```
+```bash cURL theme={null}
+# No API key needed to get started; add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s "https://api.firecrawl.dev/v2/search/developer?query=how%20do%20I%20configure%20retries&k=10"
+```
 
-  ```bash CLI
-  firecrawl developer "how do I configure retries" --limit 10
-  ```
-</CodeGroup>
+```bash CLI theme={null}
+firecrawl developer "how do I configure retries" --limit 10
+```
 
 `POST` is available on the same path, and is the easier form when you want to pass array filters as JSON:
 
@@ -62,7 +60,7 @@ curl -X POST https://api.firecrawl.dev/v2/search/developer \
 
 Each result carries a stable `id` such as `issue:owner/repo#123`, a `url`, and its matched `passages` in markdown, so tables and code blocks survive. The artifact kind is encoded in the `id` prefix: `doc:`, `issue:`, `pull_request:`, or `readme:`. `title` is frequently absent on `doc` results, where the source page carries no usable title, so fall back to `url` rather than assuming the field is present.
 
-When you scope a search with `sources` or `repos`, the response echoes them back with an `indexed` flag per entry, so you can distinguish an id that is not in the index from a query that simply found nothing. See the [developer search reference](/api-reference/endpoint/developer-search) for the echo shape.
+When you scope a search with `sources` or `repos`, the response echoes them back with an `indexed` flag per entry, so you can distinguish an id that is not in the index from a query that simply found nothing. See the [developer search reference](https://docs.firecrawl.dev/api-reference/endpoint/developer-search.md) for the echo shape.
 
 Optional filters narrow the search:
 
@@ -72,74 +70,73 @@ Optional filters narrow the search:
 * `skills` set to `only` limits the search to indexed agent-skill files
 * `language`, `topic`, `license`, `min_stars`, `max_stars`, `archived`, and `fork` filter on repository attributes, such as `language=Rust`, `topic=async`, or `license=MIT`
 
-Those seven filters describe a code repository, so sending one without a `sources` scope returns no `doc` results. Read [how the repository filters scope a search](/api-reference/endpoint/developer-search#how-the-repository-filters-scope-a-search) before you send one.
+Those seven filters describe a code repository, so sending one without a `sources` scope returns no `doc` results. Read [how the repository filters scope a search](https://docs.firecrawl.dev/api-reference/endpoint/developer-search.md#how-the-repository-filters-scope-a-search) before you send one.
 
-See the [developer search reference](/api-reference/endpoint/developer-search) for every filter's type and bounds, how `repos` and `sources` scope a search, and the full response schema.
+See the [developer search reference](https://docs.firecrawl.dev/api-reference/endpoint/developer-search.md) for every filter's type and bounds, how `repos` and `sources` scope a search, and the full response schema.
 
-
-  The Python and Node SDKs reach the Developer Index through the `developer` category shown below. They do not expose a dedicated method for this endpoint, so call it over HTTP, through the [CLI](/sdks/cli), or through [MCP](/mcp-server).
-
+> [!NOTE]
+>
+> The Python and Node SDKs reach the Developer Index through the `developer` category shown below. They do not expose a dedicated method for this endpoint, so call it over HTTP, through the [CLI](https://docs.firecrawl.dev/sdks/cli.md), or through [MCP](https://docs.firecrawl.dev/mcp-server.md).
 
 ## Add developer results to a web search
 
 Pass `developer` as the only entry in the `categories` array on `/search`. The response returns developer results in the standard `web` group, each tagged `category: "developer"`. The `developer` category cannot be combined with other categories.
 
-No API key is needed to get started — `/search` accepts keyless requests, and the `developer` category comes with it, subject to the [keyless allowance](/rate-limits#keyless-no-api-key). Send a key for higher rate limits.
+No API key is needed to get started — `/search` accepts keyless requests, and the `developer` category comes with it, subject to the [keyless allowance](https://docs.firecrawl.dev/rate-limits.md#keyless-no-api-key). Send a key for higher rate limits.
 
-<CodeGroup>
-  ```bash cURL
-  # No API key needed to get started; add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -X POST https://api.firecrawl.dev/v2/search \
-    -H "Content-Type: application/json" \
-    -d '{
-      "query": "how do I configure retries",
-      "categories": ["developer"],
-      "limit": 10
-    }'
-  ```
+```bash cURL theme={null}
+# No API key needed to get started; add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -X POST https://api.firecrawl.dev/v2/search \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "how do I configure retries",
+    "categories": ["developer"],
+    "limit": 10
+  }'
+```
 
-  ```bash CLI
-  firecrawl search "how do I configure retries" --categories developer --limit 10
-  ```
+```bash CLI theme={null}
+firecrawl search "how do I configure retries" --categories developer --limit 10
+```
 
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  result = firecrawl.search(
-      "how do I configure retries",
-      categories=["developer"],
-      limit=10,
-  )
-  for item in result.web or []:
-      print(item.url, item.title)
-  ```
+result = firecrawl.search(
+    "how do I configure retries",
+    categories=["developer"],
+    limit=10,
+)
+for item in result.web or []:
+    print(item.url, item.title)
+```
 
-  ```js Node
-  import { Firecrawl } from "firecrawl";
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started; add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started; add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  const result = await firecrawl.search("how do I configure retries", {
-    categories: ["developer"],
-    limit: 10,
-  });
-  for (const item of result.web ?? []) {
-    console.log(item.url, item.title);
-  }
-  ```
-</CodeGroup>
+const result = await firecrawl.search("how do I configure retries", {
+  categories: ["developer"],
+  limit: 10,
+});
+for (const item of result.web ?? []) {
+  console.log(item.url, item.title);
+}
+```
 
 Developer results carry `url`, `title`, `description`, and `position`, the same shape as a web result, plus `category: "developer"`. SDK users read them from `result.web`.
 
 This surface returns the web result shape, not the ranked developer shape. For the matched passages and the index filters, use the [developer search endpoint](#search-the-developer-index).
 
-
-  The hosted [MCP server](/mcp-server) exposes both surfaces, and neither writes anything. See [MCP tools](/mcp-server/tools) for `firecrawl_developer_search`, for developer results through `firecrawl_search`, and for which of the two the keyless tool surface carries.
+> [!NOTE]
+>
+> The hosted [MCP server](https://docs.firecrawl.dev/mcp-server.md) exposes both surfaces, and neither writes anything. See [MCP tools](https://docs.firecrawl.dev/mcp-server/tools) for `firecrawl_developer_search`, for developer results through `firecrawl_search`, and for which of the two the keyless tool surface carries.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

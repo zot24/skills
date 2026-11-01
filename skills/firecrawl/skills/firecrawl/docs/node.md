@@ -6,9 +6,9 @@
 
 # Node
 
-> Scrape, crawl, and extract structured data from websites using the Firecrawl Node SDK.
+> Search, scrape, crawl, and interact with the web using the Firecrawl Node SDK.
 
-Scrape single pages, crawl entire sites, and map URLs from your Node.js application. The SDK handles pagination, retries, and async job polling so you can focus on working with the returned data.
+Search the web, scrape pages, crawl entire sites, and map URLs from your Node.js application, with clean context for AI agents. The SDK handles pagination, retries, and async job polling so you can focus on working with the returned data.
 
 ## Installation
 
@@ -30,16 +30,17 @@ const firecrawl = new Firecrawl({
 1. Get an API key from [firecrawl.dev](https://firecrawl.dev)
 2. Set the API key as an environment variable named `FIRECRAWL_API_KEY` or pass it as a parameter to the `Firecrawl` class.
 
+> [!NOTE]
+>
+> **No API key?** You can construct `Firecrawl` without a key and use `scrape`, `search`, and `interact` on the keyless free tier (rate-limited per IP — see [Rate Limits](https://docs.firecrawl.dev/rate-limits.md#keyless-no-api-key)). All other methods require a key.
 
-  **No API key?** You can construct `Firecrawl` without a key and use `scrape`, `search`, and `interact` on the keyless free tier (rate-limited per IP — see [Rate Limits](/rate-limits#keyless-no-api-key)). All other methods require a key.
-
-
-Here's an example of how to use the SDK with error handling:
+Here's an example of how to use the SDK:
 
 ```js Node theme={null}
 import { Firecrawl } from 'firecrawl';
 
-const firecrawl = new Firecrawl({apiKey: "fc-YOUR_API_KEY"});
+// Reads FIRECRAWL_API_KEY from the environment, or pass { apiKey: "fc-..." }
+const firecrawl = new Firecrawl();
 
 // Scrape a website
 const scrapeResponse = await firecrawl.scrape('https://firecrawl.dev', {
@@ -58,6 +59,10 @@ const crawlResponse = await firecrawl.crawl('https://firecrawl.dev', {
 
 console.log(crawlResponse)
 ```
+
+> [!NOTE]
+>
+> The examples use ES modules and top-level `await`. Save them as `.mjs`, or set `"type": "module"` in your `package.json`. In a CommonJS project, use `const { Firecrawl } = require('firecrawl');` and call the SDK inside an `async` function.
 
 ### Scraping a URL
 
@@ -122,7 +127,7 @@ console.log(id);
 
 ### Checking Crawl Status
 
-Check whether a crawl is still running, completed, or failed with the `checkCrawlStatus` method. Pass the job ID returned by `startCrawl`.
+Check whether a crawl is still running, completed, or failed with the `getCrawlStatus` method. Pass the job ID returned by `startCrawl`.
 
 ```js Node theme={null}
 const status = await firecrawl.getCrawlStatus("<crawl-id>");
@@ -192,23 +197,23 @@ if (started.id) {
 }
 ```
 
-A run that reaches `maxCredits` returns `status: "failed"` with `stopReason: "credit_limit_reached"`, and may include a best-effort `partial` and `partialSchemaValid` instead of `data`. See [Handling credit-limit stops](/features/agent#handling-credit-limit-stops) for how to use it and continue the thread with `threadId`.
+A run that reaches `maxCredits` returns `status: "failed"` with `stopReason: "credit_limit_reached"`, and may include a best-effort `partial` and `partialSchemaValid` instead of `data`. See [Handling credit-limit stops](https://docs.firecrawl.dev/features/agent.md#handling-credit-limit-stops) for how to use it and continue the thread with `threadId`.
 
-Every run also records an execution trace and output snapshots, which you can read with `getAgentTrace` and `getAgentSnapshot`. See [Agent](/features/agent) for the event schema and the full parameter list.
+Every run also records an execution trace and output snapshots, which you can read with `getAgentTrace` and `getAgentSnapshot`. See [Agent](https://docs.firecrawl.dev/features/agent.md) for the event schema and the full parameter list.
 
 ### Alexandria Data Tools
 
-[Alexandria](/features/alexandria) is the Firecrawl catalogue of third-party data providers. Use `findTools` to browse providers and read tool contracts for free. Then run a tool with `scrape` and an `alexandria` request instead of a URL.
+[Alexandria](https://docs.firecrawl.dev/features/alexandria.md) is the Firecrawl catalogue of third-party data providers. Use `findTools` to browse providers and read tool contracts for free. Then run a tool with `scrape` and an `alexandria` request instead of a URL.
 
 ```js Node theme={null}
-const catalogue = await firecrawl.findTools({ providers: ["particle"], limit: 2 });
+const catalogue = await firecrawl.findTools({ providers: ["arxiv-org"], limit: 2 });
 console.log(catalogue.items);
 
 const result = await firecrawl.scrape({
   alexandria: {
-    provider: "particle",
-    capability: "podcasts/episodes/search",
-    options: { semantic_search: "AI agents", limit: 2 },
+    provider: "arxiv-org",
+    capability: "papers/search_papers",
+    options: { query: "AI agents", max_results: 2 },
   },
 });
 
@@ -230,7 +235,7 @@ import { Firecrawl } from 'firecrawl';
 const firecrawl = new Firecrawl({ apiKey: 'fc-YOUR-API-KEY' });
 
 // Start a crawl and then watch it
-const { id } = await firecrawl.startCrawl('https://mendable.ai', {
+const { id } = await firecrawl.startCrawl('https://firecrawl.dev', {
   excludePaths: ['blog/*'],
   limit: 5,
 });
@@ -297,7 +302,7 @@ Use the waiter method `batchScrape`, or start a job and page manually.
 
 ##### Simple batch scrape (auto-pagination, default)
 
-* See the default flow in [Batch Scrape](/features/batch-scrape).
+* See the default flow in [Batch Scrape](https://docs.firecrawl.dev/features/batch-scrape.md).
 
 ##### Manual batch scrape with pagination control (single page)
 

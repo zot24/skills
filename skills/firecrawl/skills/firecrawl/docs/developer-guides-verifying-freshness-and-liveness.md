@@ -38,7 +38,7 @@ Keep caching on by default. Pay the `maxAge: 0` latency cost only for the reads 
 
 `metadata.cacheState` is returned when Firecrawl considered its cache for the request, so it is a useful check while you tune `maxAge`. It is not part of a `maxAge: 0` response, because that request skips the cache altogether.
 
-For caching mechanics, common `maxAge` values, cache-hit matching rules, and the request options that bypass caching automatically, see [Faster Scraping](/features/fast-scraping).
+For caching mechanics, common `maxAge` values, cache-hit matching rules, and the request options that bypass caching automatically, see [Faster Scraping](https://docs.firecrawl.dev/features/fast-scraping.md).
 
 ### Where `maxAge` Applies
 
@@ -77,76 +77,74 @@ Before an action that depends on current state, treat scrape output as **evidenc
 
 Skip the cache, then collect the rendered content and response metadata for your application's own validation rules. The scrape supplies evidence; it does not decide the domain-specific state.
 
-<CodeGroup>
-  ```python Python
-  import os
+```python Python theme={null}
+import os
 
-  from firecrawl import Firecrawl
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key=os.environ["FIRECRAWL_API_KEY"])
+firecrawl = Firecrawl(api_key=os.environ["FIRECRAWL_API_KEY"])
 
-  def collect_current_page_evidence(url: str) -> dict:
-      # max_age=0 skips Firecrawl's cache for this request.
-      doc = firecrawl.scrape(url, formats=["markdown"], max_age=0)
+def collect_current_page_evidence(url: str) -> dict:
+    # max_age=0 skips Firecrawl's cache for this request.
+    doc = firecrawl.scrape(url, formats=["markdown"], max_age=0)
 
-      metadata = doc.metadata
-      requested_url = (metadata.source_url if metadata else None) or url
-      response_url = metadata.url if metadata else None
-
-      return {
-          "markdown": doc.markdown or "",
-          "status_code": metadata.status_code if metadata else None,
-          "requested_url": requested_url,
-          "response_url": response_url,
-          "possible_redirect": bool(response_url and response_url != requested_url),
-      }
-
-
-  evidence = collect_current_page_evidence("https://example.com/resource")
-  # Apply source-specific content, status, API, or identifier checks here.
-  # If they are inconclusive, keep the state unknown.
-  ```
-
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-
-  const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
-
-  async function collectCurrentPageEvidence(url) {
-    // maxAge: 0 skips Firecrawl's cache for this request.
-    const doc = await firecrawl.scrape(url, {
-      formats: ["markdown"],
-      maxAge: 0,
-    });
-
-    const requestedURL = doc.metadata?.sourceURL ?? url;
-    const responseURL = doc.metadata?.url;
+    metadata = doc.metadata
+    requested_url = (metadata.source_url if metadata else None) or url
+    response_url = metadata.url if metadata else None
 
     return {
-      markdown: doc.markdown ?? "",
-      statusCode: doc.metadata?.statusCode,
-      requestedURL,
-      responseURL,
-      possibleRedirect: Boolean(responseURL && responseURL !== requestedURL),
-    };
-  }
+        "markdown": doc.markdown or "",
+        "status_code": metadata.status_code if metadata else None,
+        "requested_url": requested_url,
+        "response_url": response_url,
+        "possible_redirect": bool(response_url and response_url != requested_url),
+    }
 
-  const evidence = await collectCurrentPageEvidence("https://example.com/resource");
-  // Apply source-specific content, status, API, or identifier checks here.
-  // If they are inconclusive, keep the state unknown.
-  ```
 
-  ```bash cURL
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://example.com/resource",
-      "formats": ["markdown"],
-      "maxAge": 0
-    }'
-  ```
-</CodeGroup>
+evidence = collect_current_page_evidence("https://example.com/resource")
+# Apply source-specific content, status, API, or identifier checks here.
+# If they are inconclusive, keep the state unknown.
+```
+
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
+
+const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
+
+async function collectCurrentPageEvidence(url) {
+  // maxAge: 0 skips Firecrawl's cache for this request.
+  const doc = await firecrawl.scrape(url, {
+    formats: ["markdown"],
+    maxAge: 0,
+  });
+
+  const requestedURL = doc.metadata?.sourceURL ?? url;
+  const responseURL = doc.metadata?.url;
+
+  return {
+    markdown: doc.markdown ?? "",
+    statusCode: doc.metadata?.statusCode,
+    requestedURL,
+    responseURL,
+    possibleRedirect: Boolean(responseURL && responseURL !== requestedURL),
+  };
+}
+
+const evidence = await collectCurrentPageEvidence("https://example.com/resource");
+// Apply source-specific content, status, API, or identifier checks here.
+// If they are inconclusive, keep the state unknown.
+```
+
+```bash cURL theme={null}
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com/resource",
+    "formats": ["markdown"],
+    "maxAge": 0
+  }'
+```
 
 The important boundary is after collection: Firecrawl supplies page evidence; your application interprets that evidence using source-specific rules. If those rules are inconclusive, keep the state `unknown`.
 
@@ -180,9 +178,9 @@ The important boundary is after collection: Firecrawl supplies page evidence; yo
 
 ## Further Reading
 
-* [Scrape](/features/scrape)
-* [Faster Scraping](/features/fast-scraping)
-* [Choosing the Data Extractor](/developer-guides/usage-guides/choosing-the-data-extractor)
+* [Scrape](https://docs.firecrawl.dev/features/scrape.md)
+* [Faster Scraping](https://docs.firecrawl.dev/features/fast-scraping.md)
+* [Choosing the Data Extractor](https://docs.firecrawl.dev/developer-guides/usage-guides/choosing-the-data-extractor.md)
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

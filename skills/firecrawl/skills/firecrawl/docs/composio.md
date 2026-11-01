@@ -8,15 +8,15 @@
 
 > Use Firecrawl tools inside Composio agent workflows
 
-
-  **Official Composio docs:** [docs.composio.dev/toolkits/firecrawl](https://docs.composio.dev/toolkits/firecrawl)
-
-  Connect Firecrawl to agents and apps through Composio toolkits
-
+> [!NOTE]
+>
+> **Official Composio docs:** [docs.composio.dev/toolkits/firecrawl](https://docs.composio.dev/toolkits/firecrawl)
+>
+> Connect Firecrawl to agents and apps through Composio toolkits
 
 ## Overview
 
-Composio exposes Firecrawl as a toolkit so your agents can search, scrape, crawl, map, and extract without custom API wiring. The toolkit authenticates with a Firecrawl API key.
+Composio exposes Firecrawl as a toolkit so your agents can search, scrape, crawl, map, and run Agent jobs without custom API wiring. The toolkit authenticates with a Firecrawl API key.
 
 ## Quick start
 
@@ -33,7 +33,7 @@ Composio exposes Firecrawl as a toolkit so your agents can search, scrape, crawl
 | **Batch scrape** | Pull many URLs in one job |
 | **Crawl** | Gather multi-page site data |
 | **Map** | List a site's URLs before deciding what to pull |
-| **Extract** | Return structured fields instead of raw text |
+| **Agent** | Gather structured fields from a prompt instead of raw text |
 
 ## Resources
 

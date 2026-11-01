@@ -4,7 +4,7 @@
 
 ## Chinese
 
-- [Chinese / v2 (221 pages)](https://docs.firecrawl.dev/_llms/zh/v2.txt): Documentation for Chinese / v2.
+- [Chinese / v2 (247 pages)](https://docs.firecrawl.dev/_llms/zh/v2.txt): Documentation for Chinese / v2.
 
 ### v1
 
@@ -12,7 +12,7 @@
 
 ##### 快速开始
 
-- [介绍](https://docs.firecrawl.dev/zh/introduction.md): 面向 AI 代理的网页数据 API。通过一个 API 即可进行网页搜索、抓取任意页面并与之交互。
+- [介绍](https://docs.firecrawl.dev/zh/introduction.md): 面向 AI 代理的上下文 API。通过一个 API 即可进行网页搜索、抓取任意页面并与之交互。
 - [开始使用](https://docs.firecrawl.dev/zh/mcp-server.md): 通过免密钥访问、账户登录或 API 密钥设置 Firecrawl MCP。
 - [高级抓取指南](https://docs.firecrawl.dev/zh/advanced-scraping-guide.md): 通过 Firecrawl 的完整 API 接口配置抓取选项、浏览器 actions、爬取、映射以及 代理 端点。
 
@@ -24,7 +24,8 @@
 
 ###### 企业版
 
-- [Enterprise](https://docs.firecrawl.dev/zh/enterprise.md): 适用于 Firecrawl 大规模使用场景的 Enterprise 计划、安全性和功能
+- [Enterprise](https://docs.firecrawl.dev/zh/enterprise.md): 适用于 Firecrawl 大规模使用场景的 Enterprise 方案、安全性和功能
+- [安全概览](https://docs.firecrawl.dev/zh/security.md): Firecrawl 如何保护您的数据：零数据保留、DPA、SSO、访问控制和数据驻留，集中汇总，便于您开展安全审查。
 - [SSO 与 SCIM](https://docs.firecrawl.dev/zh/features/sso.md): 设置单点登录（SSO）和 SCIM 名录同步，让团队成员通过您的身份提供商登录，并使用户访问权限与名录保持同步。
 - [IP 限制](https://docs.firecrawl.dev/zh/features/ip-restrictions.md): 将你团队的 API 密钥限制为仅可从已批准的 IP 地址或 CIDR 范围允许列表所在网络使用。由服务器端强制执行。
 - [密钥限制](https://docs.firecrawl.dev/zh/features/key-restrictions.md): 将单个 API 密钥限制为只能使用特定的输出格式和端点。限制在服务器端强制执行，请求无法覆盖。
@@ -39,7 +40,7 @@
 
 ###### 抓取
 
-- [抓取](https://docs.firecrawl.dev/zh/features/scrape.md): 将任意 URL 转换为干净的数据
+- [抓取](https://docs.firecrawl.dev/zh/features/scrape.md): 将任意 URL 转换为干净的 Markdown 或结构化数据
 - [更快的抓取](https://docs.firecrawl.dev/zh/features/fast-scraping.md): 使用 maxAge（缓存）参数将抓取速度提升 500%
 - [批量抓取](https://docs.firecrawl.dev/zh/features/batch-scrape.md): 通过单个批处理作业抓取多个 URL
 - [JSON 模式 - 结构化结果](https://docs.firecrawl.dev/zh/features/llm-extract.md): 通过 LLMs 从页面提取结构化数据
@@ -66,14 +67,14 @@
 
 ##### 官方
 
-- [Python](https://docs.firecrawl.dev/zh/sdks/python.md): Firecrawl Python SDK 是 Firecrawl API 的封装，帮助你轻松将网站转换为 Markdown。
-- [Node](https://docs.firecrawl.dev/zh/sdks/node.md): 使用 Firecrawl Node SDK，从网站抓取、爬取并提取结构化数据。
-- [Go](https://docs.firecrawl.dev/zh/sdks/go.md): Firecrawl Go SDK 是对 Firecrawl API 的封装，可帮助你轻松将网站转换为 Markdown。
-- [Java](https://docs.firecrawl.dev/zh/sdks/java.md): Firecrawl Java SDK 是对 Firecrawl API 的封装，帮助你轻松将网站转换为 Markdown。
-- [Ruby](https://docs.firecrawl.dev/zh/sdks/ruby.md): Firecrawl Ruby SDK 是对 Firecrawl API 的封装，帮助你轻松将网站转换为 Markdown。
-- [Rust](https://docs.firecrawl.dev/zh/sdks/rust.md): Firecrawl Rust SDK 是对 Firecrawl API 的封装，可帮助你轻松将网站转换为 Markdown。
-- [.NET](https://docs.firecrawl.dev/zh/sdks/dotnet.md): Firecrawl .NET SDK 是对 Firecrawl API 的封装，帮助你轻松将网站转换为 Markdown。
-- [PHP](https://docs.firecrawl.dev/zh/sdks/php.md): Firecrawl PHP SDK 是对 Firecrawl API 的封装，可帮助你轻松将网站转换为 markdown。
+- [Python](https://docs.firecrawl.dev/zh/sdks/python.md): Firecrawl Python SDK 是 Firecrawl API 的封装，可用于搜索、抓取和爬取网页，获取干净的 Markdown 或结构化数据。
+- [Node](https://docs.firecrawl.dev/zh/sdks/node.md): 使用 Firecrawl Node SDK 搜索、抓取、爬取网页并与之交互。
+- [Go](https://docs.firecrawl.dev/zh/sdks/go.md): Firecrawl Go SDK 是对 Firecrawl API 的封装，可用于搜索、抓取和爬取网页，并获取干净的 Markdown 或结构化数据。
+- [Java](https://docs.firecrawl.dev/zh/sdks/java.md): Firecrawl Java SDK 是对 Firecrawl API 的封装，用于搜索、抓取和爬取网页，并获取干净的 Markdown 或结构化数据。
+- [Ruby](https://docs.firecrawl.dev/zh/sdks/ruby.md): Firecrawl Ruby SDK 是对 Firecrawl API 的封装，可用于搜索、抓取和爬取网页，并获取干净的 Markdown 或结构化数据。
+- [Rust](https://docs.firecrawl.dev/zh/sdks/rust.md): Firecrawl Rust SDK 是对 Firecrawl API 的封装，可用于搜索、抓取和爬取网页，并获取干净的 Markdown 或结构化数据。
+- [.NET](https://docs.firecrawl.dev/zh/sdks/dotnet.md): Firecrawl .NET SDK 是对 Firecrawl API 的封装，可用于搜索、抓取和爬取网页，并获取干净的 Markdown 或结构化数据。
+- [PHP](https://docs.firecrawl.dev/zh/sdks/php.md): Firecrawl PHP SDK 是对 Firecrawl API 的封装，可用于搜索、抓取和爬取网页，并获取干净的 Markdown 或结构化数据。
 - [Elixir](https://docs.firecrawl.dev/zh/sdks/elixir.md): Firecrawl Elixir SDK 是 Firecrawl API v2 的自动生成客户端，基于 Req 和 NimbleOptions 构建。
 
 ## OpenAPI Specs

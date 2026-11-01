@@ -10,7 +10,7 @@
 
 Use endpoint feedback to tell Firecrawl whether a completed job result was useful, partial, or bad. This is for endpoint-level output quality on jobs such as `scrape`, `parse`, `map`, and `search`.
 
-The generic feedback schema can carry search-style fields too, but [Search Feedback](/api-reference/endpoint/search-feedback) is the preferred search-specific entry point because it is scoped to a search job ID and highlights valuable sources, missing content, query suggestions, and refund behavior.
+The generic feedback schema can carry search-style fields too, but [Search Feedback](https://docs.firecrawl.dev/api-reference/endpoint/search-feedback.md) is the preferred search-specific entry point because it is scoped to a search job ID and highlights valuable sources, missing content, query suggestions, and refund behavior.
 
 ### Example Request
 
@@ -107,8 +107,8 @@ components:
         - type: object
           description: >-
             Submit feedback for a v2 job. Include at least one substantive
-            signal such as issues, note, valuableSources, missingContent,
-            querySuggestions, url, or pageNumbers.
+            signal such as issues, note, valuableSources, valuableResults for
+            search, missingContent, querySuggestions, url, or pageNumbers.
           properties:
             endpoint:
               type: string
@@ -215,9 +215,9 @@ components:
     SearchFeedbackRequest:
       type: object
       description: >-
-        For 'good', include valuableSources. For 'partial', include
-        valuableSources or missingContent. For 'bad', include missingContent or
-        querySuggestions.
+        For 'good', include valuableSources or valuableResults. For 'partial',
+        include valuableSources, valuableResults, or missingContent. For 'bad',
+        include missingContent or querySuggestions.
       properties:
         rating:
           type: string
@@ -239,6 +239,36 @@ components:
                 maxLength: 1000
             required:
               - url
+        valuableResults:
+          type: array
+          maxItems: 50
+          description: >-
+            Results that were useful, each addressed by the `data` group it
+            appears in and its 1-indexed position within that group. Results are
+            returned grouped (`data.web`, `data.images`, `data.news`) and each
+            group is numbered from 1 independently, so `source` is required.
+            List every useful result; unlisted results are treated as not
+            useful. Positions beyond what the group actually returned are
+            ignored.
+          items:
+            type: object
+            properties:
+              source:
+                type: string
+                enum:
+                  - web
+                  - images
+                  - news
+              position:
+                type: integer
+                minimum: 1
+                maximum: 100
+              reason:
+                type: string
+                maxLength: 1000
+            required:
+              - source
+              - position
         missingContent:
           type: array
           maxItems: 20

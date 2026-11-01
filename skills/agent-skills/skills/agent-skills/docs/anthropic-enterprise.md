@@ -6,7 +6,7 @@ url: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/enterpris
 description: Governance, security review, evaluation, and organizational guidance for deploying Agent Skills at enterprise scale.
 ---
 
-This guide is for enterprise admins and architects who need to govern Agent Skills across an organization. It covers how to vet, evaluate, deploy, and manage Skills at scale. For authoring guidance, see [best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices). For architecture details, see the [Skills overview](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview).
+This guide is for enterprise admins and architects who need to govern Agent Skills across an organization. It covers how to vet, evaluate, deploy, and manage Skills at scale. For authoring guidance, see [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices). For architecture details, see [Agent Skills](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/overview).
 
 ## Security review and vetting
 
@@ -22,35 +22,47 @@ Evaluate each Skill against these risk indicators before approving deployment:
 | Risk indicator           | What to look for                                                                                     | Concern level                                           |
 | ------------------------ | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------- |
 | Code execution           | Scripts in the Skill directory (`*.py`, `*.sh`, `*.js`)                                              | High: scripts run with full environment access          |
-| Instruction manipulation | Directives to ignore safety rules, hide actions from users, or alter Claude's behavior conditionally | High: can bypass security controls                      |
+| Instruction manipulation | Directives to ignore safety rules, hide actions from users, or alter Claude’s behavior conditionally | High: can bypass security controls                      |
 | MCP server references    | Instructions referencing MCP tools (`ServerName:tool_name`)                                          | High: extends access beyond the Skill itself            |
 | Network access patterns  | URLs, API endpoints, `fetch`, `curl`, or `requests` calls                                            | High: potential data exfiltration vector                |
 | Hardcoded credentials    | API keys, tokens, or passwords in Skill files or scripts                                             | High: secrets exposed in Git history and context window |
-| Filesystem access scope  | Paths outside the Skill directory, broad glob patterns, path traversal (`../`)                       | Medium: may access unintended data                      |
-| Tool invocations         | Instructions directing Claude to use bash, file operations, or other tools                           | Medium: review what operations are performed            |
+| Filesystem access scope  | Paths outside the Skill directory, broad glob patterns, path traversal (`../`)                       | Medium: might access unintended data                    |
+| Tool calls               | Instructions directing Claude to use bash, file operations, or other tools                           | Medium: review what operations are performed            |
 
 ### Review checklist
 
 Before deploying any Skill from a third party or internal contributor, complete these steps:
 
-1. **Read all Skill directory content.** Review SKILL.md, all referenced markdown files, and any bundled scripts or resources.
-2. **Verify script behavior matches stated purpose.** Run scripts in a sandboxed environment and confirm outputs align with the Skill's description.
+1. **Read all Skill directory content.** Review `SKILL.md`, all referenced markdown files, and any bundled scripts or resources.
+2. **Verify script behavior matches stated purpose.** Run scripts in a sandboxed environment and confirm outputs align with the Skill’s description.
 3. **Check for adversarial instructions.** Look for directives that tell Claude to ignore safety rules, hide actions from users, exfiltrate data through responses, or alter behavior based on specific inputs.
 4. **Check for external URL fetches or network calls.** Search scripts and instructions for network access patterns (`http`, `requests.get`, `urllib`, `curl`, `fetch`).
 5. **Verify no hardcoded credentials.** Check for API keys, tokens, or passwords in Skill files. Credentials should use environment variables or secure credential stores, never appear in Skill content.
-6. **Identify tools and commands the Skill instructs Claude to invoke.** List all bash commands, file operations, and tool references. Consider the combined risk when a Skill uses both file-read and network tools together.
+6. **Identify tools and commands the Skill instructs Claude to run.** List all bash commands, file operations, and tool references. Consider the combined risk when a Skill uses both file-read and network tools together.
 7. **Confirm redirect destinations.** If the Skill references external URLs, verify they point to expected domains.
-8. **Verify no data exfiltration patterns.** Look for instructions that read sensitive data and then write, send, or encode it for external transmission, including through Claude's conversational responses.
+8. **Verify no data exfiltration patterns.** Look for instructions that read sensitive data and then write, send, or encode it for external transmission, including through Claude’s conversational responses.
 
 
-  Never deploy Skills from untrusted sources without a full audit. A malicious Skill can direct Claude to execute arbitrary code, access sensitive files, or transmit data externally. Treat Skill installation with the same rigor as installing software on production systems.
+  Never deploy Skills from untrusted sources without a full audit. A malicious Skill can direct Claude to run arbitrary code, access sensitive files, or transmit data externally. Treat Skill installation with the same rigor as installing software on production systems.
 
 
 ### Skill content scanning
 
-Claude Enterprise organizations can turn on automated security scanning for custom Skills in claude.ai and Claude Cowork. After you turn on **Skill and plugin security scanning** at [claude.ai > Organization settings > Skills](https://claude.ai/admin-settings/skills), Skills that members then upload or edit in claude.ai or Cowork are scanned for signs of malicious behavior, such as hidden code execution, sending your data to an outside service, or instructions that tamper with Claude's safeguards. A Skill that fails the scan, or whose scan hasn't finished, is blocked from use. A Skill that passes with a warning stays usable behind a caution notice. If scanning is available to your organization, turn it on. It complements, but doesn't replace, the [review checklist](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/enterprise#review-checklist).
+Claude Enterprise organizations can turn on automated security scanning for custom Skills in claude.ai and Claude Cowork. The setting is **Skill and plugin security scanning** at [claude.ai > Organization settings > Skills](https://claude.ai/admin-settings/skills).
 
-Scanning doesn't cover the Claude API. Skills you upload through the Skills API (`/v1/skills`), including from the Claude Console, aren't scanned, so for API deployments, rely on the review checklist and [version pinning](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/enterprise#versioning-strategy). Scanning also doesn't apply to Skills that were already in your organization when you turned it on, or to organizations with certain data handling configurations, such as customer-managed encryption keys (CMEK), zero data retention (ZDR), or HIPAA readiness. For setup steps, exclusions, and result types, see [Get started with skill and plugin scanning](https://support.claude.com/en/articles/15927065-get-started-with-skill-and-plugin-scanning) in the Claude Help Center.
+After you turn on the setting, scanning applies to Skills that members then upload or edit in claude.ai or Cowork. Each scan checks for signs of malicious behavior. These signs include hidden code execution, transfer of your data to an outside service, and instructions that tamper with Claude’s safeguards.
+
+Whether a Skill is usable depends on its scan:
+
+* A Skill that fails the scan is blocked from use.
+* A Skill whose scan hasn’t completed is blocked from use.
+* A Skill that passes with a warning stays usable behind a caution notice.
+
+Organization owners can allow some Skills that failed the scan. So can members whose [custom role](https://platform.claude.com/docs/en/manage-claude/user-management#custom-roles) can manage **Libraries**.
+
+If scanning is available to your organization, turn it on. Scanning complements, but doesn’t replace, the [review checklist](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/enterprise#review-checklist).
+
+Scanning doesn’t cover the Claude API. Skills you upload through the Skills API (`/v1/skills`), including from the Claude Console, aren’t scanned, so for API deployments, rely on the review checklist and [version pinning](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/enterprise#versioning-strategy). Scanning also doesn’t apply to Skills that were already in your organization when you turned it on, or to organizations with certain data handling configurations, such as customer-managed encryption keys (CMEK), zero data retention (ZDR), or HIPAA readiness. For setup steps, exclusions, and result types, see [Get started with skill and plugin scanning](https://support.claude.com/en/articles/15927065-get-started-with-skill-and-plugin-scanning) in the Claude Help Center.
 
 ## Evaluating Skills before deployment
 
@@ -63,22 +75,22 @@ Establish approval gates for these dimensions before deploying any Skill:
 | Dimension             | What it measures                                                                    | Example failure                                                                            |
 | --------------------- | ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
 | Triggering accuracy   | Does the Skill activate for the right queries and stay inactive for unrelated ones? | Skill triggers on every spreadsheet mention, even when the user just wants to discuss data |
-| Isolation behavior    | Does the Skill work correctly on its own?                                           | Skill references files that don't exist in its directory                                   |
-| Coexistence           | Does adding this Skill degrade other Skills?                                        | New Skill's description is too broad, stealing triggers from existing Skills               |
-| Instruction following | Does Claude follow the Skill's instructions accurately?                             | Claude skips validation steps or uses wrong libraries                                      |
+| Isolation behavior    | Does the Skill work correctly on its own?                                           | Skill references files that don’t exist in its directory                                   |
+| Coexistence           | Does adding this Skill degrade other Skills?                                        | New Skill’s description is too broad, stealing triggers from existing Skills               |
+| Instruction following | Does Claude follow the Skill’s instructions accurately?                             | Claude skips validation steps or uses wrong libraries                                      |
 | Output quality        | Does the Skill produce correct, useful results?                                     | Generated reports have formatting errors or missing data                                   |
 
 ### Evaluation requirements
 
-Require Skill authors to submit evaluation suites with 3–5 representative queries per Skill, covering cases where the Skill should trigger, should not trigger, and ambiguous edge cases. Require testing across the models your organization uses (Haiku, Sonnet, Opus), because Skill effectiveness varies by model.
+Require Skill authors to submit evaluation suites with 3–5 representative queries for each Skill, covering cases where the Skill should trigger, cases where it should not trigger, and ambiguous edge cases. Require testing across the models your organization uses (Haiku, Sonnet, Opus), because Skill effectiveness varies by model.
 
-For detailed guidance on building evaluations, see [evaluation and iteration](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#evaluation-and-iteration) in best practices. For general evaluation methodology, see [develop test cases](https://platform.claude.com/docs/en/test-and-evaluate/develop-tests).
+For detailed guidance on building evaluations, see [evaluation and iteration](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices#evaluation-and-iteration) in Skill authoring best practices. For general evaluation methodology, see [Define success criteria and build evaluations](https://platform.claude.com/docs/en/test-and-evaluate/develop-tests).
 
 ### Using evaluations for lifecycle decisions
 
 Evaluation results signal when to act:
 
-* **Declining trigger accuracy:** Update the Skill's description or instructions
+* **Declining trigger accuracy:** Update the Skill’s description or instructions
 * **Coexistence conflicts:** Consolidate overlapping Skills or narrow descriptions
 * **Consistently low output quality:** Rewrite instructions or add validation steps
 * **Persistent failures across updates:** Deprecate the Skill
@@ -86,7 +98,7 @@ Evaluation results signal when to act:
 ## Skill lifecycle management
 
 
-    Identify workflows that are repetitive, error-prone, or require specialized knowledge. Map these to organizational roles and determine which are candidates for Skills.
+    Identify workflows that are repetitive or error-prone, or that require specialized knowledge. Map these to organizational roles and determine which are candidates for Skills.
 
 
     Ensure the Skill author follows [best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices). Require a security review using the [review checklist](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/enterprise#review-checklist). Require an evaluation suite before approval. Establish separation of duties: Skill authors should not be their own reviewers.
@@ -95,7 +107,7 @@ Evaluation results signal when to act:
     Require evaluations in isolation (Skill alone) and alongside existing Skills (coexistence testing). Verify triggering accuracy, output quality, and absence of regressions across your active Skill set before approving for production.
 
 
-    Upload through the Skills API for workspace-wide access. See [Using Skills with the API](https://platform.claude.com/docs/en/build-with-claude/skills-guide) for upload and version management. Document the Skill in your internal registry with purpose, owner, and version.
+    Upload through the Skills API for workspace-wide access. See [Using Agent Skills with the API](https://platform.claude.com/docs/en/build-with-claude/skills-guide) for upload and version management. Document the Skill in your internal registry with purpose, owner, and version.
 
 
     Track usage patterns and collect feedback from users. Rerun evaluations periodically to detect drift or regressions as workflows and models evolve. Usage analytics are not currently available through the Skills API. Implement application-level logging to track which Skills are included in requests.
@@ -108,16 +120,16 @@ Evaluation results signal when to act:
 
 ### Recall limits
 
-As a general guideline, limit the number of Skills loaded simultaneously to maintain reliable recall accuracy. Each Skill's metadata (name and description) competes for attention in the system prompt. With too many Skills active, Claude may fail to select the right Skill or miss relevant ones entirely. Use your evaluation suite to measure recall accuracy as you add Skills, and stop adding when performance degrades.
+As a general guideline, limit the number of Skills loaded simultaneously to maintain reliable recall accuracy. Each Skill’s metadata (name and description) competes for attention in the system prompt. With too many Skills active, Claude might fail to select the right Skill or miss relevant ones entirely. Use your evaluation suite to measure recall accuracy as you add Skills, and stop adding when performance degrades.
 
-Note that API requests support a maximum of 20 Skills for each request (see [Using Skills with the API](https://platform.claude.com/docs/en/build-with-claude/skills-guide)). If a role requires more Skills than a single request supports, consider consolidating narrow Skills into broader ones or routing requests to different Skill sets based on task type.
+Note that API requests support a maximum of 20 Skills for each request (see [Using Agent Skills with the API](https://platform.claude.com/docs/en/build-with-claude/skills-guide)). If a role requires more Skills than a single request supports, consider consolidating narrow Skills into broader ones or routing requests to different Skill sets based on task type.
 
 ### Start specific, consolidate later
 
 Encourage teams to start with narrow, workflow-specific Skills rather than broad, multipurpose ones. As patterns emerge across your organization, consolidate related Skills into role-based bundles.
 
 
-  Use evaluations to decide when to consolidate. Merge narrow Skills into a broader one only when the consolidated Skill's evaluations confirm equivalent performance to the individual Skills it replaces.
+  Use evaluations to decide when to consolidate. Merge narrow Skills into a broader one only when the consolidated Skill’s evaluations confirm equivalent performance to the individual Skills it replaces.
 
 
 **Example progression:**
@@ -139,23 +151,23 @@ Maintain an internal registry for each Skill with:
 
 ### Role-based bundles
 
-Group Skills by organizational role to keep each user's active Skill set focused:
+Group Skills by organizational role to keep each user’s active Skill set focused:
 
 * **Sales team:** CRM operations, pipeline reporting, proposal generation
 * **Engineering:** Code review, deployment workflows, incident response
 * **Finance:** Report generation, data validation, audit preparation
 
-Each role-based bundle should contain only the Skills relevant to that role's daily workflows.
+Each role-based bundle should contain only the Skills relevant to that role’s daily workflows.
 
 ## Distribution and version control
 
 ### Source control
 
-Store Skill directories in Git for history tracking, code review through pull requests, and rollback capability. Each Skill directory (containing SKILL.md and any bundled files) maps naturally to a Git-tracked folder.
+Store Skill directories in Git for history tracking, code review through pull requests, and rollback capability. Each Skill directory (containing `SKILL.md` and any bundled files) maps naturally to a Git-tracked folder.
 
 ### API-based distribution
 
-The Skills API provides workspace-scoped distribution. Skills uploaded through the API are available to all workspace members. See [Using Skills with the API](https://platform.claude.com/docs/en/build-with-claude/skills-guide) for upload, versioning, and management endpoints.
+The Skills API provides workspace-scoped distribution. Skills uploaded through the API are available to all workspace members. See [Using Agent Skills with the API](https://platform.claude.com/docs/en/build-with-claude/skills-guide) for upload, versioning, and management endpoints.
 
 ### Versioning strategy
 

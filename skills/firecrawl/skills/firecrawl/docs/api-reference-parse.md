@@ -6,7 +6,7 @@
 
 # Parse
 
-Upload a local or non-public document and convert it into clean, LLM-ready data. `/parse` accepts file bytes via `multipart/form-data` and returns Markdown, JSON, HTML, links, images, or a summary — with reading order and tables preserved.
+Upload a local or non-public document and convert it into clean, LLM-ready context. `/parse` accepts file bytes via `multipart/form-data` and returns Markdown, JSON, HTML, links, images, or a summary — with reading order and tables preserved.
 
 * Turn PDF, Word, Excel, PowerPoint, OpenDocument, EPUB, CSV, HTML, and more into Markdown or structured JSON
 * Up to **5x faster** parsing via a Rust-based engine
@@ -15,15 +15,16 @@ Upload a local or non-public document and convert it into clean, LLM-ready data.
 
 ## When to use `/parse`
 
-Use `/parse` when the source document is **a local file** or **not publicly accessible by URL**. If you have a public URL that points to a document, prefer [`/scrape`](/api-reference/endpoint/scrape) — it auto-detects the file type from the extension or content type and parses it the same way.
+Use `/parse` when the source document is **a local file** or **not publicly accessible by URL**. If you have a public URL that points to a document, prefer [`/scrape`](https://docs.firecrawl.dev/api-reference/endpoint/scrape) — it auto-detects the file type from the extension or content type and parses it the same way.
 
 | Source | Endpoint |
 | - | - |
-| Public URL to a document (e.g. `https://example.com/report.pdf`) | [`POST /scrape`](/api-reference/endpoint/scrape) |
+| Public URL to a document (e.g. `https://example.com/report.pdf`) | [`POST /scrape`](https://docs.firecrawl.dev/api-reference/endpoint/scrape) |
 | Local file or non-public bytes (PDF, DOCX, XLSX, HTML, …) | `POST /parse` (this endpoint) |
 
-
-  **Using Firecrawl through MCP?** Use `firecrawl_parse` for local files. Local MCP can read the file directly when configured with `FIRECRAWL_API_URL`. Remote hosted MCP returns a short-lived upload command first, then parses the returned `uploadRef`. Public document URLs should still use `/scrape`.
+> [!TIP]
+>
+> **Using Firecrawl through MCP?** Use `firecrawl_parse` for local files. Local MCP can read the file directly when configured with `FIRECRAWL_API_URL`. Remote hosted MCP returns a short-lived upload command first, then parses the returned `uploadRef`. Public document URLs should still use `/scrape`.
 
 
 ## OpenAPI
@@ -230,7 +231,7 @@ components:
                   - type
                 additionalProperties: false
           default:
-            - pdf
+            - type: pdf
         skipTlsVerification:
           type: boolean
           description: Skip TLS certificate verification when making requests.
@@ -279,7 +280,10 @@ components:
         integration:
           type: string
           nullable: true
-          description: Optional integration identifier.
+          description: >-
+            Optional integration identifier. When omitted, a valid
+            `X-Integration` request header is used instead; the body value takes
+            precedence.
         auditMetadata:
           $ref: '#/components/schemas/AuditMetadata'
         zeroDataRetention:
@@ -562,12 +566,13 @@ components:
                     Description extracted from the page, can be a string or
                     array of strings
                 language:
-                  oneOf:
+                  anyOf:
                     - type: string
+                      nullable: true
                     - type: array
                       items:
                         type: string
-                  nullable: true
+                      nullable: true
                   description: >-
                     Language extracted from the page, can be a string or array
                     of strings
@@ -1276,7 +1281,7 @@ components:
         Output formats supported for `/parse` uploads. Browser-rendering formats
         and change tracking are not supported.
       default:
-        - markdown
+        - type: markdown
     RedactPIIOptions:
       type: object
       description: Tuning options for PII redaction.

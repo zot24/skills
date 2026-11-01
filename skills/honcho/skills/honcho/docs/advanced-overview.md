@@ -12,22 +12,22 @@ Advanced features give you fine-grained control over Honcho's behavior and imple
 
 ## Reasoning & Memory
 
-* [Configuration](/docs/v3/documentation/features/advanced/reasoning-configuration) - Configure reasoning models and behavior
-* [Summarizer](/docs/v3/documentation/features/advanced/summarizer) - Automatic session summarization
-* [Peer Card](/docs/v3/documentation/features/advanced/peer-card) - Quick-reference profile of stable biographical facts about a peer
-* [Directional Representations](/docs/v3/documentation/features/advanced/directional-representations) - How peers build separate representations of each other
-* [Scopes](/docs/v3/documentation/features/advanced/scopes) - Named sets of sessions that act as visibility boundaries for recall
-* [Dreaming](/docs/v3/documentation/features/advanced/dreaming) - Autonomous memory consolidation and self-improvement
-* [Queue Status](/docs/v3/documentation/features/advanced/queue-status) - Monitor background processing and reasoning tasks
+* [Configuration](https://honcho.dev/docs/v3/documentation/features/advanced/reasoning-configuration.md) - Configure reasoning models and behavior
+* [Summarizer](https://honcho.dev/docs/v3/documentation/features/advanced/summarizer.md) - Automatic session summarization
+* [Peer Card](https://honcho.dev/docs/v3/documentation/features/advanced/peer-card.md) - Quick-reference profile of stable biographical facts about a peer
+* [Directional Representations](https://honcho.dev/docs/v3/documentation/features/advanced/directional-representations.md) - How peers build separate representations of each other
+* [Scopes](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md) - Named sets of sessions that act as visibility boundaries for recall
+* [Dreaming](https://honcho.dev/docs/v3/documentation/features/advanced/dreaming.md) - Autonomous memory consolidation and self-improvement
+* [Queue Status](https://honcho.dev/docs/v3/documentation/features/advanced/queue-status.md) - Monitor background processing and reasoning tasks
 
 ## Querying & Data
 
-* [Search](/docs/v3/documentation/features/advanced/search) - Search across peers, sessions, and messages
-* [Workspace Chat](/docs/v3/documentation/features/chat#workspace-chat) - Ask a question across every peer in a workspace
-* [Filters](/docs/v3/documentation/features/advanced/using-filters) - Filter queries with advanced parameters
-* [Streaming Responses](/docs/v3/documentation/features/advanced/streaming-response) - Stream dialectic responses in real-time
-* [File Uploads](/docs/v3/documentation/features/advanced/file-uploads) - Ingest files into peer memory
-* [Deleting Data](/docs/v3/documentation/features/advanced/deleting-data) - Delete sessions, workspaces, and conclusions
+* [Search](https://honcho.dev/docs/v3/documentation/features/advanced/search.md) - Search across peers, sessions, and messages
+* [Workspace Chat](https://honcho.dev/docs/v3/documentation/features/chat.md#workspace-chat) - Ask a question across every peer in a workspace
+* [Filters](https://honcho.dev/docs/v3/documentation/features/advanced/using-filters.md) - Filter queries with advanced parameters
+* [Streaming Responses](https://honcho.dev/docs/v3/documentation/features/advanced/streaming-response.md) - Stream dialectic responses in real-time
+* [File Uploads](https://honcho.dev/docs/v3/documentation/features/advanced/file-uploads.md) - Ingest files into peer memory
+* [Deleting Data](https://honcho.dev/docs/v3/documentation/features/advanced/deleting-data.md) - Delete sessions, workspaces, and conclusions
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

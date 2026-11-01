@@ -4,7 +4,7 @@
 title: Platform Adapters
 description: Platform adapters connect your bot to messaging platforms such as Slack, Teams, and Google Chat.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: overview
 prerequisites:
   - /docs/getting-started

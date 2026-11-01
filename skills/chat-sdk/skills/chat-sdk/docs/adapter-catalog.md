@@ -4,7 +4,7 @@
 title: Adapter Catalog
 description: "Use @chat-adapter/catalog to list Chat SDK adapters, check their capabilities, and read setup requirements without importing adapter packages."
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: reference
 prerequisites:
   - /docs/adapters

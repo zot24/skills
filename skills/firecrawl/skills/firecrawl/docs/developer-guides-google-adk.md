@@ -8,7 +8,7 @@
 
 > Integrate Firecrawl with Google's ADK using MCP for advanced agent workflows
 
-Integrate Firecrawl with Google's Agent Development Kit (ADK) to build powerful AI agents with web scraping capabilities through the Model Context Protocol (MCP).
+Connect Google's Agent Development Kit (ADK) to Firecrawl through the Model Context Protocol (MCP) so your agents can search, scrape, crawl, and map the web for clean context.
 
 ## Overview
 
@@ -18,76 +18,75 @@ Firecrawl provides an MCP server that seamlessly integrates with Google's ADK, e
 
 * Efficient web scraping, crawling, and content discovery from any website
 * Advanced search capabilities and intelligent content extraction
-* Deep research
+* Autonomous web research with the Firecrawl agent
+* Browser interaction, file parsing, and change monitoring
 * Flexible deployment (cloud-based or self-hosted)
 * Optimized for modern web environments with streamable HTTP support
 
 ## Prerequisites
 
 * Obtain an API key for Firecrawl from [firecrawl.dev](https://firecrawl.dev)
-* Install Google ADK
+* Install Google ADK with MCP support: `pip install "google-adk[mcp]"`
 
 ## Setup
 
-<CodeGroup>
-  ```python Remote MCP Server
-  import os
+```python Remote MCP Server theme={null}
+import os
 
-  from google.adk.agents.llm_agent import Agent
-  from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPServerParams
-  from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
+from google.adk.agents.llm_agent import Agent
+from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams
+from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
 
-  FIRECRAWL_API_KEY = os.environ["FIRECRAWL_API_KEY"]
+FIRECRAWL_API_KEY = os.environ["FIRECRAWL_API_KEY"]
 
-  root_agent = Agent(
-      model="gemini-2.5-pro",
-      name="firecrawl_agent",
-      description='A helpful assistant for scraping websites with Firecrawl',
-      instruction='Help the user search for website content',
-      tools=[
-          MCPToolset(
-              connection_params=StreamableHTTPServerParams(
-                  url="https://mcp.firecrawl.dev/v2/mcp",
-                  headers={"Authorization": f"Bearer {FIRECRAWL_API_KEY}"},
-              ),
-          )
-      ],
-  )
-  ```
+root_agent = Agent(
+    model="gemini-3.8-flash",
+    name="firecrawl_agent",
+    description='A helpful assistant for scraping websites with Firecrawl',
+    instruction='Help the user search for website content',
+    tools=[
+        MCPToolset(
+            connection_params=StreamableHTTPConnectionParams(
+                url="https://mcp.firecrawl.dev/v2/mcp",
+                headers={"Authorization": f"Bearer {FIRECRAWL_API_KEY}"},
+            ),
+        )
+    ],
+)
+```
 
-  ```python Local MCP Server
-  import os
+```python Local MCP Server theme={null}
+import os
 
-  from google.adk.agents.llm_agent import Agent
-  from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
-  from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
-  from mcp import StdioServerParameters
+from google.adk.agents.llm_agent import Agent
+from google.adk.tools.mcp_tool.mcp_session_manager import StdioConnectionParams
+from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
+from mcp import StdioServerParameters
 
-  root_agent = Agent(
-      model='gemini-2.5-pro',
-      name='firecrawl_agent',
-      description='A helpful assistant for scraping websites with Firecrawl',
-      instruction='Help the user search for website content',
-      tools=[
-          MCPToolset(
-              connection_params=StdioConnectionParams(
-                  server_params = StdioServerParameters(
-                      command='npx',
-                      args=[
-                          "-y",
-                          "firecrawl-mcp@3.23.7",
-                      ],
-                      env={
-                          "FIRECRAWL_API_KEY": os.environ["FIRECRAWL_API_KEY"],
-                      }
-                  ),
-                  timeout=30,
-              ),
-          )
-      ],
-  )
-  ```
-</CodeGroup>
+root_agent = Agent(
+    model='gemini-3.8-flash',
+    name='firecrawl_agent',
+    description='A helpful assistant for scraping websites with Firecrawl',
+    instruction='Help the user search for website content',
+    tools=[
+        MCPToolset(
+            connection_params=StdioConnectionParams(
+                server_params = StdioServerParameters(
+                    command='npx',
+                    args=[
+                        "-y",
+                        "firecrawl-mcp@3.33.4",
+                    ],
+                    env={
+                        "FIRECRAWL_API_KEY": os.environ["FIRECRAWL_API_KEY"],
+                    }
+                ),
+                timeout=30,
+            ),
+        )
+    ],
+)
+```
 
 Set `FIRECRAWL_API_KEY` in the environment that starts ADK. Do not put its value in agent prompts, source control, or the MCP URL. The local MCP package requires Node.js 22 or newer.
 
@@ -95,19 +94,25 @@ Set `FIRECRAWL_API_KEY` in the environment that starts ADK. Do not put its value
 
 | Tool | Name | Description |
 | - | - | - |
-| Scrape Tool | `firecrawl_scrape` | Scrape content from a single URL with advanced options |
+| Scrape Tool | `firecrawl_scrape` | Scrape content from a single URL, or extract structured data with a JSON format |
 | Map Tool | `firecrawl_map` | Map a website to discover all indexed URLs on the site |
 | Search Tool | `firecrawl_search` | Search the web and optionally extract content from search results |
-| Crawl Tool | `firecrawl_crawl` | Start an asynchronous crawl with advanced options |
+| Crawl Tool | `firecrawl_crawl` | Crawl a site or section and return its pages |
 | Check Crawl Status | `firecrawl_check_crawl_status` | Check the status of a crawl job |
+| Parse Tool | `firecrawl_parse` | Extract content from a PDF, document, spreadsheet, or HTML file |
+| Agent Tools | `firecrawl_agent`, `firecrawl_agent_status` | Run autonomous research across multiple sources and check the job |
+| Interact Tools | `firecrawl_interact`, `firecrawl_interact_stop` | Click, fill forms, and navigate a live page, then release the session |
+| Monitor Tools | `firecrawl_monitor_*` | Create and run recurring checks with webhook or email notifications |
+
+See [MCP tools](https://docs.firecrawl.dev/mcp-server/tools) for the full list.
 
 ## Configuration
 
-### Required Configuration
+### Authentication
 
 **FIRECRAWL\_API\_KEY**: Your Firecrawl API key
 
-* Required when using cloud API (default)
+* Optional with the cloud API (default): without a key, scrape and search run keyless within free limits; other tools and higher limits need a key
 * Optional when using self-hosted instance with FIRECRAWL\_API\_URL
 
 ### Optional Configuration
@@ -121,15 +126,19 @@ Set `FIRECRAWL_API_KEY` in the environment that starts ADK. Do not put its value
 ## Example: Web Research Agent
 
 ```python theme={null}
+import asyncio
+import os
+
 from google.adk.agents.llm_agent import Agent
-from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPServerParams
+from google.adk.runners import InMemoryRunner
+from google.adk.tools.mcp_tool.mcp_session_manager import StreamableHTTPConnectionParams
 from google.adk.tools.mcp_tool.mcp_toolset import MCPToolset
 
-FIRECRAWL_API_KEY = "YOUR-API-KEY"
+FIRECRAWL_API_KEY = os.environ["FIRECRAWL_API_KEY"]
 
 # Create a research agent
 research_agent = Agent(
-    model="gemini-2.5-pro",
+    model="gemini-3.8-flash",
     name="research_agent",
     description='An AI agent that researches topics by scraping and analyzing web content',
     instruction='''You are a research assistant. When given a topic or question:
@@ -139,7 +148,7 @@ research_agent = Agent(
     4. Provide comprehensive, well-sourced answers''',
     tools=[
         MCPToolset(
-            connection_params=StreamableHTTPServerParams(
+            connection_params=StreamableHTTPConnectionParams(
                 url="https://mcp.firecrawl.dev/v2/mcp",
                 headers={"Authorization": f"Bearer {FIRECRAWL_API_KEY}"},
             ),
@@ -147,9 +156,13 @@ research_agent = Agent(
     ],
 )
 
-# Use the agent
-response = research_agent.run("What are the latest features in Python 3.13?")
-print(response)
+# Run the agent and print its replies
+async def main():
+    runner = InMemoryRunner(agent=research_agent)
+    await runner.run_debug("What are the latest features in Python 3.13?")
+    await runner.close()
+
+asyncio.run(main())
 ```
 
 ## Best Practices
@@ -170,14 +183,17 @@ print(response)
 
 ## Related Resources
 
+> [card] [Comprehensive Guide to Building AI Agents Using Google Agent Development Kit (ADK) and Firecrawl](https://www.firecrawl.dev/blog/google-adk-multi-agent-tutorial)
+>
+> Learn how to build powerful multi-agent AI systems using Google's ADK framework with Firecrawl for web scraping capabilities.
 
-    Learn how to build powerful multi-agent AI systems using Google's ADK framework with Firecrawl for web scraping capabilities.
+> [card] [MCP Server Documentation](https://docs.firecrawl.dev/mcp-server.md)
+>
+> Learn more about Firecrawl's Model Context Protocol (MCP) server integration and capabilities.
 
-
-    Learn more about Firecrawl's Model Context Protocol (MCP) server integration and capabilities.
-
-
-    Explore the official Google Agent Development Kit documentation for comprehensive guides and API references.
+> [card] [Google ADK Official Documentation](https://adk.dev/)
+>
+> Explore the official Google Agent Development Kit documentation for comprehensive guides and API references.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

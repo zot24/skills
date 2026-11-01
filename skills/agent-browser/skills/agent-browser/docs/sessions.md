@@ -77,6 +77,8 @@ agent-browser --session agent2 --cdp 9222 --pin-tab open https://site-b.com
 
 With `--pin-tab`, a session whose bound tab was closed gets a `tab_gone` error instead of silently acting on another session's tab; run `tab new <url>` or pick a tab from `tab list` to recover. JSON output includes `"code": "tab_gone"`, `data.targetId`, and optional sanitized `data.lastUrl`. Batch output uses `result` for the same recovery object. The flag is sticky per session; pass `--no-pin-tab` to turn it off again. See <a href="/cdp-mode" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">CDP Mode</a> for details.
 
+Another session cannot take a pinned tab with `tab <ref>` while the pinning session is running (`tab_locked`), and an explicit `close` releases the pin.
+
 ## <a href="#chrome-profile-reuse" class="peer" data-card="">Chrome profile reuse</a>
 
 The simplest way to reuse your existing login state: pass a Chrome profile name to `--profile`. agent-browser copies the profile to a temp directory (read-only snapshot) and launches Chrome with your existing cookies and sessions.
@@ -172,6 +174,8 @@ agent-browser open https://app.example.com/dashboard
 ```
 
 
+Saved localStorage and sessionStorage are written through Chrome DevTools, not page JavaScript, and only while the page is on the saved origin. If an origin redirects elsewhere or fails to load, its storage is skipped, the rest still loads, and `state load` lists it under `skippedOrigins`. For `--state` and `--restore` at launch, `session info` lists it under `restoreSkippedOrigins`.
+
 Combine with `--session <id> --restore` so the imported auth auto-persists across restarts:
 
 
@@ -208,7 +212,9 @@ When `--restore` or another restore key is configured, state is saved when the b
 
 ### <a href="#restore-key-rules" class="peer" data-card="">Restore key rules</a>
 
-Session and restore names must contain only alphanumeric characters, hyphens, and underscores. Use `agent-browser session id` to generate a valid key:
+Session and restore names accept Unicode letters and numbers, hyphens, and underscores only. For example, `café-東京_7` is valid, while `my session` is rejected because it contains a space.
+
+Use `agent-browser session id` to generate a valid key:
 
 
 ``` m-0

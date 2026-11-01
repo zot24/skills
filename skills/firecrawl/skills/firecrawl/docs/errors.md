@@ -10,7 +10,9 @@
 
 Every Firecrawl error response uses the same JSON shape. Look up the `error` value (or HTTP status) in the table below to find the cause, remedy, and whether the request is safe to retry.
 
-This catalog covers the errors most agents and clients will encounter. It is non-exhaustive — if you receive an error not listed here, please [open an issue](https://github.com/firecrawl/firecrawl/issues) so we can document it.
+> [!NOTE]
+>
+> This catalog covers the errors most agents and clients will encounter. It is non-exhaustive — if you receive an error not listed here, please [open an issue](https://github.com/firecrawl/firecrawl/issues) so we can document it.
 
 ## Error response shape
 
@@ -37,22 +39,22 @@ All non-2xx responses return JSON with a top-level `success: false` and a string
 | 400 | `Bad Request` / validation message | Request body failed schema validation (missing or invalid fields). | Fix the request payload using the endpoint reference. Check `details` for fields. | No |
 | 400 | `Invalid URL` | The `url` field is missing, malformed, or uses an unsupported scheme. | Pass an absolute `http(s)://` URL. | No |
 | 400 | `THIRD_PARTY_DATA_UNSUPPORTED_URL` | The URL belongs to a site that a third-party data provider serves, but the provider only serves a record's own page (such as a profile page), not the sub-pages under it. The response has this value in `code`. | Scrape the record's own page instead of a sub-page or listing under it. | No |
-| 400 | `THIRD_PARTY_DATA_UNSUPPORTED_OPTION` | Only a third-party data provider may serve this URL (such as a LinkedIn profile), and the request sets an option the provider can't honor: `actions`, `profile`, `minAge`, `zeroDataRetention`, `lockdown`, `redactPII`, or an unsupported format such as `screenshot` or `branding`. `error` names the option. The response has this value in `code`. | Send the request without that option. If your team's policy enforces zero data retention, these URLs can't be served. See [Provider-routed URLs](/features/scrape#provider-routed-urls). | No |
+| 400 | `THIRD_PARTY_DATA_UNSUPPORTED_OPTION` | Only a third-party data provider may serve this URL (such as a LinkedIn profile), and the request sets an option the provider can't honor: `actions`, `profile`, `minAge`, `zeroDataRetention`, `lockdown`, `redactPII`, or an unsupported format such as `screenshot` or `branding`. `error` names the option. The response has this value in `code`. | Send the request without that option. If your team's policy enforces zero data retention, these URLs can't be served. See [Provider-routed URLs](https://docs.firecrawl.dev/features/scrape.md#provider-routed-urls). | No |
 | 401 | `Unauthorized: Invalid token` | API key is missing, malformed, or revoked. | Send `Authorization: Bearer fc-...` with a valid key from the [dashboard](https://www.firecrawl.dev/app/api-keys). | No |
 | 402 | `Payment Required: Insufficient credits` | Plan credits are exhausted or billing is not configured. | Turn on pay-as-you-go, or upgrade your plan. | No |
 | 403 | `Forbidden` | Key lacks permission for this endpoint or feature. | Use a key with the required scope, or upgrade the plan that gates this feature. | No |
-| 403 | `SCRAPE_PROMPT_INJECTION_DETECTED` | The `checkPromptInjection` option detected a prompt injection attempt in the scraped page content, so the scrape was aborted. | Inspect the page content manually. If it is a false positive, retry without `checkPromptInjection`. See [Prompt injection detection](/features/llm-extract#prompt-injection-detection). | No |
-| 403 | `THIRD_PARTY_DATA_NOT_ENABLED` | The third-party data provider for this URL is not enabled for your organization, for example because an org admin turned it off. The response has this value in `code`. | Ask an org admin to turn the provider on from its [Alexandria](/features/alexandria) page, or remove it from your enrichment providers. | After it is enabled |
-| 403 | `THIRD_PARTY_DATA_ENRICHMENT_NOT_ENABLED` | The URL is a LinkedIn profile or company page, but enrichment is off for that kind of profile, or none of your saved enrichment providers can serve it. The response has this value in `code`, and `error` links to the enrichment settings. | Ask an org admin to turn on enrichment and choose providers in the enrichment settings. See [Provider-routed URLs](/features/scrape#provider-routed-urls). | After setup |
+| 403 | `SCRAPE_PROMPT_INJECTION_DETECTED` | The `checkPromptInjection` option detected a prompt injection attempt in the scraped page content, so the scrape was aborted. | Inspect the page content manually. If it is a false positive, retry without `checkPromptInjection`. See [Prompt injection detection](https://docs.firecrawl.dev/features/llm-extract.md#prompt-injection-detection). | No |
+| 403 | `THIRD_PARTY_DATA_NOT_ENABLED` | The third-party data provider for this URL is not enabled for your organization, for example because an org admin turned it off. The response has this value in `code`. | Ask an org admin to turn the provider on from its [Alexandria](https://docs.firecrawl.dev/features/alexandria.md) page, or remove it from your enrichment providers. | After it is enabled |
+| 403 | `THIRD_PARTY_DATA_ENRICHMENT_NOT_ENABLED` | The URL is a LinkedIn profile or company page, but enrichment is off for that kind of profile, or none of your saved enrichment providers can serve it. The response has this value in `code`, and `error` links to the enrichment settings. | Ask an org admin to turn on enrichment and choose providers in the enrichment settings. See [Provider-routed URLs](https://docs.firecrawl.dev/features/scrape.md#provider-routed-urls). | After setup |
 | 403 | `We apologize for the inconvenience but we do not support this site...` / `UNSUPPORTED_SITE` | Firecrawl does not scrape this site, and no third-party data provider serves the URL. Some responses also have `UNSUPPORTED_SITE` in `code`. | Use a different source for this data. Enterprise customers can contact sales about the site. | No |
-| 403 | `THIRD_PARTY_DATA_TERMS_REQUIRED` | An [Alexandria](/features/alexandria) provider needs your organization to accept its terms before the request can run. The provider did not run. The response has this value in `code`, and includes `requiresAction.url`. | Send `requiresAction.url` to an org admin, who reviews and accepts the terms there. Agents must not accept terms on their own. After acceptance, send the same request again. | After acceptance |
+| 403 | `THIRD_PARTY_DATA_TERMS_REQUIRED` | An [Alexandria](https://docs.firecrawl.dev/features/alexandria.md) provider needs your organization to accept its terms before the request can run. The provider did not run. The response has this value in `code`, and includes `requiresAction.url`. | Send `requiresAction.url` to an org admin, who reviews and accepts the terms there. Agents must not accept terms on their own. After acceptance, send the same request again. | After acceptance |
 | 404 | `Not Found` | The job ID, resource, or endpoint path does not exist. | Verify the resource ID and endpoint URL. | No |
 | 404 | `THIRD_PARTY_DATA_NOT_FOUND` | The URL is served by third-party data providers, and none of them has a record for it. With several enrichment providers, every one was tried. A provider with no record charges nothing. The response has this value in `code`. | Check the URL points to an existing profile or company page. Adding more enrichment providers can raise coverage. | No |
 | 408 | `Request Timeout` | The page took longer than the request `timeout` to load. | Increase `timeout`, simplify actions, or use `fastMode`. | Yes, with backoff |
 | 409 | `Conflict` | Resource is in a state that prevents the operation (e.g. already deleted). | Re-fetch state and reconcile before retrying. | No |
 | 413 | `Payload Too Large` | Request body exceeded the maximum allowed size. | Reduce the payload (e.g. shorter schema, fewer URLs per batch). | No |
 | 422 | `Unprocessable Entity` / extraction schema error | Schema is invalid JSON Schema, or the model could not produce a conforming result. | Validate the schema; loosen required fields; try a different `model`. | Sometimes |
-| 429 | `Rate limit exceeded` | Too many requests for your plan's per-minute limit. | Back off and retry after `Retry-After` seconds. See [Rate Limits](/rate-limits). | Yes, with backoff |
+| 429 | `Rate limit exceeded` | Too many requests for your plan's per-minute limit. | Back off and retry after `Retry-After` seconds. See [Rate Limits](https://docs.firecrawl.dev/rate-limits.md). | Yes, with backoff |
 | 429 | `Concurrency limit reached` | Concurrent browser limit for your plan reached. | Wait for in-flight jobs to finish, lower concurrency, or upgrade your plan. | Yes, with backoff |
 | 500 | `Internal Server Error` | Unhandled server-side failure. | Retry with exponential backoff. If it persists, contact support with the request ID. | Yes, with backoff |
 | 502 | `Bad Gateway` | Upstream proxy or worker returned an invalid response. | Retry with backoff. | Yes, with backoff |
@@ -63,22 +65,24 @@ For 429 responses, Firecrawl includes a `Retry-After` header (in seconds) when a
 
 ## Agent
 
-Errors specific to [`/agent`](/features/agent) and its status, trace, snapshot, and cancel endpoints. The trace and snapshot endpoints relay their upstream error body unchanged, so those two can answer with a body that omits the `success` field described above; match on the HTTP status and the `error` string.
+Errors specific to [`/agent`](https://docs.firecrawl.dev/features/agent) and its status, trace, snapshot, and cancel endpoints. The trace and snapshot endpoints relay their upstream error body unchanged, so those two can answer with a body that omits the `success` field described above; match on the HTTP status and the `error` string.
 
 | HTTP | `error` (typical message) | Cause | Remedy | Retryable |
 | - | - | - | - | - |
 | 400 | `Invalid job ID format. Job ID must be a valid UUID.` | The `jobId` path segment is not a UUID. | Pass the `id` returned by `POST /v2/agent`. | No |
-| 400 | `Invalid snapshot ID` | The `snapshotId` path segment is malformed. | Use a `snapshotId` taken from an `artifact.updated` [trace event](/api-reference/endpoint/agent-trace). | No |
+| 400 | `Invalid snapshot ID` | The `snapshotId` path segment is malformed. | Use a `snapshotId` taken from an `artifact.updated` [trace event](https://docs.firecrawl.dev/api-reference/endpoint/agent-trace.md). | No |
 | 400 | `Trace is only available for Spark 2 extracts` | The job predates Spark 2, which is what records traces. | Nothing to do for that job. Every new run executes on `spark-2` and has a trace. | No |
 | 400 | `Snapshots are only available for Spark 2 extracts` | The job predates Spark 2, which is what records snapshots. | Nothing to do for that job. Every new run executes on `spark-2` and has snapshots. | No |
-| 400 | `Your team has zero data retention enabled. This is not supported on extract.` | Agent runs cannot be served for a team with zero data retention forced on. | Contact [support@firecrawl.com](mailto:support@firecrawl.com) to unblock the feature for your team. | No |
+| 400 | `Zero Data Retention (ZDR) for agent runs requires both scrape ZDR and search ZDR to be enabled for your team.` (`code: "zdr_not_enabled"`) | The request sets `zeroDataRetention: true`, or the team has ZDR forced on, but the team does not have both Scrape ZDR and Search ZDR enabled. | Contact [support@firecrawl.com](mailto:support@firecrawl.com) to enable it. See [Agent ZDR](https://docs.firecrawl.dev/features/agent.md#zero-data-retention-zdr). | No |
+| 400 | `Agent threads are not supported with zero data retention.` (`code: "zdr_threads_unsupported"`) | A ZDR run sets `threadId`. | Remove `threadId` to start a new run. | No |
 | 404 | `Agent job not found` | The job ID does not exist, or belongs to another team. | Check the job ID, and use a key from the team that started the run. | No |
-| 404 | `Snapshot not found` | No snapshot with that ID belongs to this job. | Re-fetch the trace and use a current `snapshotId` from an `artifact.updated` [trace event](/api-reference/endpoint/agent-trace). | No |
+| 404 | `Snapshot not found` | No snapshot with that ID belongs to this job. | Re-fetch the trace and use a current `snapshotId` from an `artifact.updated` [trace event](https://docs.firecrawl.dev/api-reference/endpoint/agent-trace.md). | No |
 | 409 | `Agent already finished` | Cancel was called on a run that had already reached a terminal state. | Poll `GET /v2/agent/{jobId}` for the outcome instead. | No |
 | 409 | `Agent is already cancelled` | Cancel was called on a run that was already cancelling. | Poll `GET /v2/agent/{jobId}`. A cancelled run reports `failed` with a cancellation message. | No |
+| 410 | `code: "zdr_expired"` | The run used Zero Data Retention and its result was deleted after the 24-hour retrieval window. | Nothing to do for that run. Retrieve ZDR results within 24 hours. | No |
 | 500 | `Failed to passthrough agent request.` | The agent service rejected the job at submission. | Retry with backoff. If it persists, contact support with the request ID. | Yes, with backoff |
 
-A run that hits its `maxCredits` limit does not return an HTTP error. It finishes as a failed job. Poll the status endpoint and you get `status: "failed"` with `stopReason: "credit_limit_reached"`, a credit-limit error message, no `data`, and `creditsUsed: 0`, since failed runs are not billed. The response may also include a best-effort `partial`. Check `stopReason` rather than matching the error text, and see [Handling credit-limit stops](/features/agent#handling-credit-limit-stops) for how to use a partial and continue the run. In the trace, the same outcome appears as a `run.finished` event with `outcome: "credit_limit_reached"`.
+A run that hits its `maxCredits` limit does not return an HTTP error. It finishes as a failed job. Poll the status endpoint and you get `status: "failed"` with `stopReason: "credit_limit_reached"`, a credit-limit error message, no `data`, and `creditsUsed: 0`, since failed runs are not billed. The response may also include a best-effort `partial`. Check `stopReason` rather than matching the error text, and see [Handling credit-limit stops](https://docs.firecrawl.dev/features/agent.md#handling-credit-limit-stops) for how to use a partial and continue the run. In the trace, the same outcome appears as a `run.finished` event with `outcome: "credit_limit_reached"`.
 
 ### Trace error codes
 
@@ -96,68 +100,66 @@ Terminal and `error.occurred` trace events carry a structured `error` object who
 
 Treat the **Retryable** column as authoritative; do not infer from the HTTP status alone. The pattern below uses exponential backoff with jitter and respects `Retry-After` on 429.
 
-<CodeGroup>
-  ```python Python
-  import time
-  import random
-  import requests
+```python Python theme={null}
+import time
+import random
+import requests
 
-  RETRYABLE_STATUSES = {408, 429, 500, 502, 503, 504}
+RETRYABLE_STATUSES = {408, 429, 500, 502, 503, 504}
 
-  def request_with_retry(method, url, headers=None, json=None, max_attempts=5):
-      for attempt in range(max_attempts):
-          resp = requests.request(method, url, headers=headers, json=json)
-          if resp.status_code < 400 or resp.status_code not in RETRYABLE_STATUSES:
-              return resp
-          # Honor Retry-After when present, otherwise exponential backoff with jitter.
-          retry_after = resp.headers.get("Retry-After")
-          delay = float(retry_after) if retry_after else min(2 ** attempt, 30) + random.random()
-          time.sleep(delay)
-      return resp
-  ```
+def request_with_retry(method, url, headers=None, json=None, max_attempts=5):
+    for attempt in range(max_attempts):
+        resp = requests.request(method, url, headers=headers, json=json)
+        if resp.status_code < 400 or resp.status_code not in RETRYABLE_STATUSES:
+            return resp
+        # Honor Retry-After when present, otherwise exponential backoff with jitter.
+        retry_after = resp.headers.get("Retry-After")
+        delay = float(retry_after) if retry_after else min(2 ** attempt, 30) + random.random()
+        time.sleep(delay)
+    return resp
+```
 
-  ```js Node
-  const RETRYABLE_STATUSES = new Set([408, 429, 500, 502, 503, 504]);
+```js Node theme={null}
+const RETRYABLE_STATUSES = new Set([408, 429, 500, 502, 503, 504]);
 
-  async function requestWithRetry(url, init = {}, maxAttempts = 5) {
-    for (let attempt = 0; attempt < maxAttempts; attempt++) {
-      const resp = await fetch(url, init);
-      if (resp.ok || !RETRYABLE_STATUSES.has(resp.status)) return resp;
-      // Honor Retry-After when present, otherwise exponential backoff with jitter.
-      const retryAfter = resp.headers.get('Retry-After');
-      const delayMs = retryAfter
-        ? Number(retryAfter) * 1000
-        : Math.min(2 ** attempt, 30) * 1000 + Math.random() * 1000;
-      await new Promise((r) => setTimeout(r, delayMs));
-    }
+async function requestWithRetry(url, init = {}, maxAttempts = 5) {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const resp = await fetch(url, init);
+    if (resp.ok || !RETRYABLE_STATUSES.has(resp.status)) return resp;
+    // Honor Retry-After when present, otherwise exponential backoff with jitter.
+    const retryAfter = resp.headers.get('Retry-After');
+    const delayMs = retryAfter
+      ? Number(retryAfter) * 1000
+      : Math.min(2 ** attempt, 30) * 1000 + Math.random() * 1000;
+    await new Promise((r) => setTimeout(r, delayMs));
   }
-  ```
+}
+```
 
-  ```bash cURL
-  # Simple shell loop with exponential backoff for retryable statuses.
-  attempt=0
-  max=5
-  until response=$(curl -sS -w "\n%{http_code}" -X POST "https://api.firecrawl.dev/v2/scrape" \
-      -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-      -H "Content-Type: application/json" \
-      -d '{"url":"https://example.com"}'); do
-    status=$(printf '%s' "$response" | tail -n1)
-    case "$status" in
-      408|429|500|502|503|504)
-        attempt=$((attempt+1))
-        [ "$attempt" -ge "$max" ] && break
-        sleep $((2 ** attempt))
-        ;;
-      *) break ;;
-    esac
-  done
-  echo "$response"
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+# Simple shell loop with exponential backoff for retryable statuses.
+attempt=0
+max=5
+until response=$(curl -sS -w "\n%{http_code}" -X POST "https://api.firecrawl.dev/v2/scrape" \
+    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{"url":"https://example.com"}'); do
+  status=$(printf '%s' "$response" | tail -n1)
+  case "$status" in
+    408|429|500|502|503|504)
+      attempt=$((attempt+1))
+      [ "$attempt" -ge "$max" ] && break
+      sleep $((2 ** attempt))
+      ;;
+    *) break ;;
+  esac
+done
+echo "$response"
+```
 
 ## 429 responses
 
-429 responses are the most common retryable error. Per-plan rate limits and concurrency limits are documented in [Rate Limits](/rate-limits). Always honor the `Retry-After` header when present rather than retrying immediately.
+429 responses are the most common retryable error. Per-plan rate limits and concurrency limits are documented in [Rate Limits](https://docs.firecrawl.dev/rate-limits.md). Always honor the `Retry-After` header when present rather than retrying immediately.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

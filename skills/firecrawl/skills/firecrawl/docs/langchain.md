@@ -8,11 +8,11 @@
 
 > Use Firecrawl in LangChain as a document loader or as agent tools.
 
-
-  **Official package:** [`langchain-firecrawl`](https://pypi.org/project/langchain-firecrawl/) · [source](https://github.com/firecrawl/langchain-firecrawl)
-
-  Scrape, crawl, map, extract, and search from LangChain, as a document loader or as agent tools
-
+> [!NOTE]
+>
+> **Official package:** [`langchain-firecrawl`](https://pypi.org/project/langchain-firecrawl/) · [source](https://github.com/firecrawl/langchain-firecrawl)
+>
+> Scrape, crawl, map, extract, and search from LangChain, as a document loader or as agent tools
 
 ## Install
 
@@ -71,29 +71,30 @@ print(search.invoke({"query": "best web scraping libraries", "limit": 5}))
 
 ## LangChain JS
 
-The JavaScript loader ships in `@langchain/community` and takes the Firecrawl JS SDK as a peer dependency:
+The `FireCrawlLoader` in `@langchain/community` still calls v1 SDK methods, so it fails with the current Firecrawl JS SDK. Until it's updated, call the [Firecrawl Node SDK](https://docs.firecrawl.dev/sdks/node.md) directly and wrap the results in LangChain `Document`s:
 
 ```bash theme={null}
-npm install @langchain/community @mendable/firecrawl-js
+npm install firecrawl @langchain/core
 ```
 
 ```typescript theme={null}
-import { FireCrawlLoader } from "@langchain/community/document_loaders/web/firecrawl";
+import Firecrawl from "firecrawl";
+import { Document } from "@langchain/core/documents";
 
-const loader = new FireCrawlLoader({
-  url: "https://firecrawl.dev",
-  apiKey: process.env.FIRECRAWL_API_KEY, // defaults to FIRECRAWL_API_KEY
-  mode: "scrape", // "scrape" for a single page, "crawl" for subpages
-});
+const firecrawl = new Firecrawl(); // reads FIRECRAWL_API_KEY
 
-const docs = await loader.load();
+const crawl = await firecrawl.crawl("https://firecrawl.dev", { limit: 5 });
+
+const docs = crawl.data.map(
+  (page) => new Document({ pageContent: page.markdown ?? "", metadata: page.metadata ?? {} })
+);
 ```
 
 ## Resources
 
 * [`langchain-firecrawl` on PyPI](https://pypi.org/project/langchain-firecrawl/)
-* [Firecrawl scrape](/features/scrape) and [crawl](/features/crawl) docs
-* [Firecrawl Python SDK](/sdks/python) and [Node SDK](/sdks/node)
+* [Firecrawl scrape](https://docs.firecrawl.dev/features/scrape.md) and [crawl](https://docs.firecrawl.dev/features/crawl.md) docs
+* [Firecrawl Python SDK](https://docs.firecrawl.dev/sdks/python.md) and [Node SDK](https://docs.firecrawl.dev/sdks/node.md)
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

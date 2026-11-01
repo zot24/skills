@@ -4,7 +4,7 @@
 title: Threads, Messages, and Channels
 description: Work with threads, messages, and channels across platforms.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/usage

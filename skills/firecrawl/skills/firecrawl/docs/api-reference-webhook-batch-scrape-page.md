@@ -8,7 +8,7 @@
 
 > Webhook event sent for each URL scraped during a batch scrape job.
 
-For payload examples, configuration, and retry behavior, see [Webhook Event Types](/webhooks/events#batch_scrapepage) and [Webhook Overview](/webhooks/overview).
+For payload examples, configuration, and retry behavior, see [Webhook Event Types](https://docs.firecrawl.dev/webhooks/events.md#batch_scrapepage) and [Webhook Overview](https://docs.firecrawl.dev/webhooks/overview.md).
 
 
 ## OpenAPI

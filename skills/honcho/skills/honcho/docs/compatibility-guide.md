@@ -12,26 +12,30 @@ This guide helps you match the right SDK version to your Honcho API version. New
 
 ## Current Versions
 
+> [card] TypeScript SDK
+>
+> **Latest:** v2.8.0
+>
+> ```bash
+> npm install @honcho-ai/sdk
+> ```
 
-    **Latest:** v2.6.0
-
-    ```bash
-    npm install @honcho-ai/sdk
-    ```
-
-
-    **Latest:** v2.6.0
-
-    ```bash
-    pip install honcho-ai
-    ```
-
+> [card] Python SDK
+>
+> **Latest:** v2.8.0
+>
+> ```bash
+> pip install honcho-ai
+> ```
 
 ## Version Compatibility Table
 
 | Honcho API Version | TypeScript SDK | Python SDK |
 | - | - | - |
-| v3.3.0 (Current) | v2.6.0 | v2.6.0 |
+| v3.5.0 (Current) | v2.8.0 | v2.8.0 |
+| v3.4.1 | v2.7.0 | v2.7.0 |
+| v3.4.0 | v2.7.0 | v2.7.0 |
+| v3.3.0 | v2.6.0 | v2.6.0 |
 | v3.2.2 | v2.5.1 | v2.5.1 |
 | v3.2.1 | v2.5.1 | v2.5.1 |
 | v3.2.0 | v2.5.0 | v2.5.0 |

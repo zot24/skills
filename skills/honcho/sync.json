@@ -1502,6 +1502,24 @@
       "target": "skills/honcho/docs/guides/kilo.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/guides/integrations/cursor.md",
+      "target": "skills/honcho/docs/guides/cursor.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/guides/integrations/grok-bot.md",
+      "target": "skills/honcho/docs/guides/grok-bot.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/guides/integrations/pi.md",
+      "target": "skills/honcho/docs/guides/pi.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

@@ -102,23 +102,27 @@ aws lambda create-function \
   --timeout 60
 ```
 
-
-  Set the Lambda timeout to at least 30 seconds. Scraping dynamic pages and interact sessions can take longer than the default 3-second timeout.
-
+> [!NOTE]
+>
+> Set the Lambda timeout to at least 30 seconds. Scraping dynamic pages and interact sessions can take longer than the default 3-second timeout.
 
 ## Next steps
 
+> [card] [Search docs](https://docs.firecrawl.dev/features/search.md)
+>
+> Search the web and get full page content
 
-    Search the web and get full page content
+> [card] [Scrape docs](https://docs.firecrawl.dev/features/scrape.md)
+>
+> All scrape options including formats, actions, and proxies
 
+> [card] [Interact docs](https://docs.firecrawl.dev/features/interact.md)
+>
+> Click, fill forms, and extract dynamic content
 
-    All scrape options including formats, actions, and proxies
-
-
-    Click, fill forms, and extract dynamic content
-
-
-    Full SDK reference with crawl, map, batch scrape, and more
+> [card] [Node SDK reference](https://docs.firecrawl.dev/sdks/node.md)
+>
+> Full SDK reference with crawl, map, batch scrape, and more
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

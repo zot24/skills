@@ -10,15 +10,13 @@
 
 ## Install
 
-<CodeGroup>
-  ```bash uv (recommended)
-  uv tool install honcho-cli
-  ```
+```bash uv (recommended) theme={null}
+uv tool install honcho-cli
+```
 
-  ```bash uvx (ephemeral)
-  uvx honcho-cli
-  ```
-</CodeGroup>
+```bash uvx (ephemeral) theme={null}
+uvx honcho-cli
+```
 
 This only installs the `honcho` command. It does not start a server. Use `honcho start --setup` (Docker + an LLM provider key) when you want a local stack.
 
@@ -57,7 +55,7 @@ honcho stop            # keep data
 honcho stop --wipe     # also delete volumes
 ```
 
-To **develop the server** (live reload, from-source image), see [Local Environment Setup](/docs/v3/contributing/self-hosting).
+To **develop the server** (live reload, from-source image), see [Local Environment Setup](https://honcho.dev/docs/v3/contributing/self-hosting.md).
 
 ## Configuration
 
@@ -91,11 +89,11 @@ and are stored under `oauth` without deleting a shared `apiKey`.
 }
 ```
 
-
-  Per-command targeting (workspace / peer / session) is handled via `-w` / `-p` / `-s`
-  flags or `HONCHO_*` env vars. **Not** persisted as CLI defaults. This is
-  deliberate: every invocation is explicit about what it operates on.
-
+> [!NOTE]
+>
+> Per-command targeting (workspace / peer / session) is handled via `-w` / `-p` / `-s`
+> flags or `HONCHO_*` env vars. **Not** persisted as CLI defaults. This is
+> deliberate: every invocation is explicit about what it operates on.
 
 ### Runtime overrides
 
@@ -157,130 +155,139 @@ CI pipelines and agent runtimes can branch on these without parsing stderr.
 
 List, search, create, and delete peer conclusions (Honcho's memory atoms).
 
+> [accordion] create
+>
+> Create a conclusion.
+>
+> ```bash
+> honcho conclusion create <content>
+> ```
+>
+> **content** `string` *required*
+>
+> **--observer** `string`
+>
+> Observer peer ID.
+>
+> **--observed** `string`
+>
+> Observed peer ID.
+>
+> **--session** `string`
+>
+> Session context. Short alias: `-s`.
 
-    Create a conclusion.
+> [accordion] delete
+>
+> Delete a conclusion.
+>
+> ```bash
+> honcho conclusion delete <conclusion_id>
+> ```
+>
+> **conclusion\_id** `string` *required*
+>
+> **--observer** `string`
+>
+> Observer peer ID.
+>
+> **--observed** `string`
+>
+> Observed peer ID.
+>
+> **--yes** `boolean`
+>
+> Skip confirmation. Short alias: `-y`.
 
-    ```bash
-    honcho conclusion create <content>
-    ```
+> [accordion] derived
+>
+> List the conclusions derived FROM a conclusion.
+>
+> Walks the reasoning tree upward (premise -> conclusion); `conclusion get`
+> on a conclusion's source\_ids walks it downward. Worth checking before
+> deleting or correcting a fact.
+>
+> ```bash
+> honcho conclusion derived <conclusion_id>
+> ```
+>
+> **conclusion\_id** `string` *required*
+>
+> **--limit** `number` (default: 10)
+>
+> Max results.
 
-    <ParamField path="content" type="string" required />
+> [accordion] get
+>
+> Fetch conclusions by ID, from anywhere in the workspace.
+>
+> Pass a conclusion's source\_ids to see the premises it was derived from,
+> and repeat to walk a reasoning chain down to the explicit facts it rests
+> on. IDs that no longer exist are reported rather than failing the command.
+>
+> ```bash
+> honcho conclusion get <conclusion_ids>
+> ```
+>
+> **conclusion\_ids** `string` *required*
 
-    <ParamField path="--observer" type="string">
-      Observer peer ID.
-    </ParamField>
+> [accordion] list
+>
+> List conclusions.
+>
+> ```bash
+> honcho conclusion list
+> ```
+>
+> **--observer** `string`
+>
+> Observer peer ID.
+>
+> **--observed** `string`
+>
+> Observed peer ID.
+>
+> **--limit** `number` (default: 10)
+>
+> Max results.
+>
+> **--level** `string`
+>
+> Only this reasoning level: explicit, deductive, inductive, contradiction.
+>
+> **--derived-from** `string`
+>
+> Only conclusions derived from this conclusion ID.
+>
+> **--cites** `string`
+>
+> Only explicit conclusions that cite this message ID as evidence.
 
-    <ParamField path="--observed" type="string">
-      Observed peer ID.
-    </ParamField>
-
-    <ParamField path="--session" type="string">
-      Session context. Short alias: `-s`.
-    </ParamField>
-
-
-    Delete a conclusion.
-
-    ```bash
-    honcho conclusion delete <conclusion_id>
-    ```
-
-    <ParamField path="conclusion_id" type="string" required />
-
-    <ParamField path="--observer" type="string">
-      Observer peer ID.
-    </ParamField>
-
-    <ParamField path="--observed" type="string">
-      Observed peer ID.
-    </ParamField>
-
-    <ParamField path="--yes" type="boolean">
-      Skip confirmation. Short alias: `-y`.
-    </ParamField>
-
-
-    List the conclusions derived FROM a conclusion.
-
-    Walks the reasoning tree upward (premise -> conclusion); `conclusion get`
-    on a conclusion's source\_ids walks it downward. Worth checking before
-    deleting or correcting a fact.
-
-    ```bash
-    honcho conclusion derived <conclusion_id>
-    ```
-
-    <ParamField path="conclusion_id" type="string" required />
-
-    <ParamField path="--limit" type="number" default="10">
-      Max results.
-    </ParamField>
-
-
-    Fetch conclusions by ID, from anywhere in the workspace.
-
-    Pass a conclusion's source\_ids to see the premises it was derived from,
-    and repeat to walk a reasoning chain down to the explicit facts it rests
-    on. IDs that no longer exist are reported rather than failing the command.
-
-    ```bash
-    honcho conclusion get <conclusion_ids>
-    ```
-
-    <ParamField path="conclusion_ids" type="string" required />
-
-
-    List conclusions.
-
-    ```bash
-    honcho conclusion list
-    ```
-
-    <ParamField path="--observer" type="string">
-      Observer peer ID.
-    </ParamField>
-
-    <ParamField path="--observed" type="string">
-      Observed peer ID.
-    </ParamField>
-
-    <ParamField path="--limit" type="number" default="10">
-      Max results.
-    </ParamField>
-
-    <ParamField path="--level" type="string">
-      Only this reasoning level: explicit, deductive, inductive, contradiction.
-    </ParamField>
-
-    <ParamField path="--derived-from" type="string">
-      Only conclusions derived from this conclusion ID.
-    </ParamField>
-
-
-    Semantic search over conclusions.
-
-    ```bash
-    honcho conclusion search <query>
-    ```
-
-    <ParamField path="query" type="string" required />
-
-    <ParamField path="--observer" type="string">
-      Observer peer ID.
-    </ParamField>
-
-    <ParamField path="--observed" type="string">
-      Observed peer ID.
-    </ParamField>
-
-    <ParamField path="--top-k" type="number" default="10">
-      Max results.
-    </ParamField>
-
-    <ParamField path="--level" type="string">
-      Only this reasoning level: explicit, deductive, inductive, contradiction.
-    </ParamField>
-
+> [accordion] search
+>
+> Semantic search over conclusions.
+>
+> ```bash
+> honcho conclusion search <query>
+> ```
+>
+> **query** `string` *required*
+>
+> **--observer** `string`
+>
+> Observer peer ID.
+>
+> **--observed** `string`
+>
+> Observed peer ID.
+>
+> **--top-k** `number` (default: 10)
+>
+> Max results.
+>
+> **--level** `string`
+>
+> Only this reasoning level: explicit, deductive, inductive, contradiction.
 
 ## honcho config
 
@@ -318,512 +325,559 @@ or HONCHO\_\* env vars — never persisted.
 honcho init
 ```
 
-<ParamField path="--api-key" type="string">
-  API key (admin JWT).
-</ParamField>
+**--api-key** `string`
 
-<ParamField path="--base-url" type="string">
-  Honcho API URL (e.g. [https://api.honcho.dev](https://api.honcho.dev), [http://localhost:8000](http://localhost:8000)).
-</ParamField>
+API key (admin JWT).
+
+**--base-url** `string`
+
+Honcho API URL (e.g. [https://api.honcho.dev](https://api.honcho.dev), [http://localhost:8000](http://localhost:8000)).
+
+## honcho install
+
+Find the AI agents on this machine and add Honcho to them.
+
+Claude Code, Hermes, OpenClaw and Pi get their Honcho plugin, and Codex the
+Honcho MCP server and skill, each through the agent's own commands and the
+API key in \~/.honcho/config.json. Other agents link to their setup guide.
+
+```bash theme={null}
+honcho install [<targets>]
+```
+
+**targets** `string`
+
+**--list** `boolean`
+
+Only show what was found; install nothing.
 
 ## honcho message
 
 List, create, and get messages within a session.
 
+> [accordion] create
+>
+> Create a message in a session.
+>
+> ```bash
+> honcho message create <content>
+> ```
+>
+> **content** `string` *required*
+>
+> **--peer** `string` *required*
+>
+> Peer ID of the message sender. Short alias: `-p`.
+>
+> **--metadata** `string`
+>
+> JSON metadata to associate with the message.
+>
+> **--session** `string`
+>
+> Session ID. Short alias: `-s`.
 
-    Create a message in a session.
+> [accordion] get
+>
+> Get a single message by ID.
+>
+> ```bash
+> honcho message get <message_id>
+> ```
+>
+> **message\_id** `string` *required*
+>
+> **--session** `string`
+>
+> Session ID. Short alias: `-s`.
 
-    ```bash
-    honcho message create <content>
-    ```
-
-    <ParamField path="content" type="string" required />
-
-    <ParamField path="--peer" type="string" required>
-      Peer ID of the message sender. Short alias: `-p`.
-    </ParamField>
-
-    <ParamField path="--metadata" type="string">
-      JSON metadata to associate with the message.
-    </ParamField>
-
-    <ParamField path="--session" type="string">
-      Session ID. Short alias: `-s`.
-    </ParamField>
-
-
-    Get a single message by ID.
-
-    ```bash
-    honcho message get <message_id>
-    ```
-
-    <ParamField path="message_id" type="string" required />
-
-    <ParamField path="--session" type="string">
-      Session ID. Short alias: `-s`.
-    </ParamField>
-
-
-    List messages in a session. Scoped to a peer with -p.
-
-    ```bash
-    honcho message list [<session_id>]
-    ```
-
-    <ParamField path="session_id" type="string" />
-
-    <ParamField path="--last" type="number" default="20">
-      Number of recent messages.
-    </ParamField>
-
-    <ParamField path="--reverse" type="boolean">
-      Show oldest first (default is newest first).
-    </ParamField>
-
-    <ParamField path="--brief" type="boolean">
-      Show only IDs, peer, token count, and created\_at (no content).
-    </ParamField>
-
-    <ParamField path="--peer" type="string">
-      Filter by peer ID. Short alias: `-p`.
-    </ParamField>
-
+> [accordion] list
+>
+> List messages in a session. Scoped to a peer with -p.
+>
+> ```bash
+> honcho message list [<session_id>]
+> ```
+>
+> **session\_id** `string`
+>
+> **--last** `number` (default: 20)
+>
+> Number of recent messages.
+>
+> **--reverse** `boolean`
+>
+> Show oldest first (default is newest first).
+>
+> **--brief** `boolean`
+>
+> Show only IDs, peer, token count, and created\_at (no content).
+>
+> **--peer** `string`
+>
+> Filter by peer ID. Short alias: `-p`.
 
 ## honcho peer
 
 List, create, chat with, search, and manage peers and their representations.
 
+> [accordion] card
+>
+> Get raw peer card content.
+>
+> ```bash
+> honcho peer card [<peer_id>]
+> ```
+>
+> **peer\_id** `string`
+>
+> **--target** `string`
+>
+> Target peer for relationship card.
 
-    Get raw peer card content.
+> [accordion] chat
+>
+> Query the dialectic about a peer.
+>
+> ```bash
+> honcho peer chat <query>
+> ```
+>
+> **query** `string` *required*
+>
+> **--target** `string`
+>
+> Target peer for perspective.
+>
+> **--reasoning** `string`
+>
+> Reasoning level: minimal, low, medium, high, max. Short alias: `-r`.
+>
+> **--scope** `string`
+>
+> Recall only from this scope. Repeat or comma-separate for several (explicit conclusions only). Excludes -s and --sessions.
+>
+> **--sessions** `string`
+>
+> Recall only from these session IDs (repeat or comma-separate); explicit conclusions only. Excludes -s and --scope.
+>
+> **--evidence** `boolean`
+>
+> Also report what the answer was built from: the conclusions and messages read and the tools called.
 
-    ```bash
-    honcho peer card [<peer_id>]
-    ```
+> [accordion] create
+>
+> Create or get a peer.
+>
+> ```bash
+> honcho peer create <peer_id>
+> ```
+>
+> **peer\_id** `string` *required*
+>
+> **--observe-me** `boolean`
+>
+> Whether Honcho will form a representation of this peer. Negate with `--no-observe-me`.
+>
+> **--metadata** `string`
+>
+> JSON metadata to associate with the peer.
 
-    <ParamField path="peer_id" type="string" />
+> [accordion] get-metadata
+>
+> Get metadata for a peer.
+>
+> ```bash
+> honcho peer get-metadata [<peer_id>]
+> ```
+>
+> **peer\_id** `string`
 
-    <ParamField path="--target" type="string">
-      Target peer for relationship card.
-    </ParamField>
+> [accordion] inspect
+>
+> Inspect a peer: card, session count, recent conclusions.
+>
+> ```bash
+> honcho peer inspect [<peer_id>]
+> ```
+>
+> **peer\_id** `string`
 
+> [accordion] list
+>
+> List all peers in the workspace.
+>
+> ```bash
+> honcho peer list
+> ```
 
-    Query the dialectic about a peer.
+> [accordion] representation
+>
+> Get the formatted representation for a peer.
+>
+> ```bash
+> honcho peer representation [<peer_id>]
+> ```
+>
+> **peer\_id** `string`
+>
+> **--target** `string`
+>
+> Target peer to get representation about.
+>
+> **--search-query** `string`
+>
+> Semantic search query to filter conclusions.
+>
+> **--max-conclusions** `number`
+>
+> Maximum number of conclusions to include.
 
-    ```bash
-    honcho peer chat <query>
-    ```
+> [accordion] search
+>
+> Search a peer's messages.
+>
+> ```bash
+> honcho peer search <query>
+> ```
+>
+> **query** `string` *required*
+>
+> **--limit** `number` (default: 10)
+>
+> Max results.
 
-    <ParamField path="query" type="string" required />
-
-    <ParamField path="--target" type="string">
-      Target peer for perspective.
-    </ParamField>
-
-    <ParamField path="--reasoning" type="string">
-      Reasoning level: minimal, low, medium, high, max. Short alias: `-r`.
-    </ParamField>
-
-    <ParamField path="--scope" type="string">
-      Recall only from this scope. Repeat or comma-separate for several (explicit conclusions only). Excludes -s and --sessions.
-    </ParamField>
-
-    <ParamField path="--sessions" type="string">
-      Recall only from these session IDs (repeat or comma-separate); explicit conclusions only. Excludes -s and --scope.
-    </ParamField>
-
-    <ParamField path="--evidence" type="boolean">
-      Also report what the answer was built from: the conclusions and messages read and the tools called.
-    </ParamField>
-
-
-    Create or get a peer.
-
-    ```bash
-    honcho peer create <peer_id>
-    ```
-
-    <ParamField path="peer_id" type="string" required />
-
-    <ParamField path="--observe-me" type="boolean">
-      Whether Honcho will form a representation of this peer. Negate with `--no-observe-me`.
-    </ParamField>
-
-    <ParamField path="--metadata" type="string">
-      JSON metadata to associate with the peer.
-    </ParamField>
-
-
-    Get metadata for a peer.
-
-    ```bash
-    honcho peer get-metadata [<peer_id>]
-    ```
-
-    <ParamField path="peer_id" type="string" />
-
-
-    Inspect a peer: card, session count, recent conclusions.
-
-    ```bash
-    honcho peer inspect [<peer_id>]
-    ```
-
-    <ParamField path="peer_id" type="string" />
-
-
-    List all peers in the workspace.
-
-    ```bash
-    honcho peer list
-    ```
-
-
-    Get the formatted representation for a peer.
-
-    ```bash
-    honcho peer representation [<peer_id>]
-    ```
-
-    <ParamField path="peer_id" type="string" />
-
-    <ParamField path="--target" type="string">
-      Target peer to get representation about.
-    </ParamField>
-
-    <ParamField path="--search-query" type="string">
-      Semantic search query to filter conclusions.
-    </ParamField>
-
-    <ParamField path="--max-conclusions" type="number">
-      Maximum number of conclusions to include.
-    </ParamField>
-
-
-    Search a peer's messages.
-
-    ```bash
-    honcho peer search <query>
-    ```
-
-    <ParamField path="query" type="string" required />
-
-    <ParamField path="--limit" type="number" default="10">
-      Max results.
-    </ParamField>
-
-
-    Set metadata for a peer.
-
-    ```bash
-    honcho peer set-metadata <metadata>
-    ```
-
-    <ParamField path="metadata" type="string" required />
-
-    <ParamField path="--peer" type="string">
-      Peer ID (uses default if omitted). Short alias: `-p`.
-    </ParamField>
-
+> [accordion] set-metadata
+>
+> Set metadata for a peer.
+>
+> ```bash
+> honcho peer set-metadata <metadata>
+> ```
+>
+> **metadata** `string` *required*
+>
+> **--peer** `string`
+>
+> Peer ID (uses default if omitted). Short alias: `-p`.
 
 ## honcho scope
 
 List, create, inspect, and manage scopes — named session sets that bound recall.
 
+> [accordion] add-sessions
+>
+> Add existing sessions to a scope. History is backfilled asynchronously — poll `honcho scope status`.
+>
+> ```bash
+> honcho scope add-sessions <name> <session_ids>
+> ```
+>
+> **name** `string` *required*
+>
+> **session\_ids** `string` *required*
 
-    Add existing sessions to a scope. History is backfilled asynchronously — poll `honcho scope status`.
+> [accordion] create
+>
+> Create or get a scope, optionally adding sessions to it.
+>
+> ```bash
+> honcho scope create <name>
+> ```
+>
+> **name** `string` *required*
+>
+> **--sessions** `string`
+>
+> Sessions to add (repeat or comma-separate). History backfills asynchronously; see `honcho scope status`.
+>
+> **--metadata** `string`
+>
+> JSON metadata to associate with the scope.
 
-    ```bash
-    honcho scope add-sessions <name> <session_ids>
-    ```
+> [accordion] inspect
+>
+> Inspect a scope: metadata, member sessions, and backfill state.
+>
+> ```bash
+> honcho scope inspect <name>
+> ```
+>
+> **name** `string` *required*
 
-    <ParamField path="name" type="string" required />
+> [accordion] list
+>
+> List scopes in the workspace.
+>
+> ```bash
+> honcho scope list
+> ```
 
-    <ParamField path="session_ids" type="string" required />
+> [accordion] remove-session
+>
+> Remove a session from a scope. Its conclusions are reconciled out asynchronously.
+>
+> ```bash
+> honcho scope remove-session <name> <session_id>
+> ```
+>
+> **name** `string` *required*
+>
+> **session\_id** `string` *required*
 
+> [accordion] sessions
+>
+> List the sessions that are members of a scope (longest-standing first).
+>
+> ```bash
+> honcho scope sessions <name>
+> ```
+>
+> **name** `string` *required*
 
-    Create or get a scope, optionally adding sessions to it.
-
-    ```bash
-    honcho scope create <name>
-    ```
-
-    <ParamField path="name" type="string" required />
-
-    <ParamField path="--sessions" type="string">
-      Sessions to add (repeat or comma-separate). History backfills asynchronously; see `honcho scope status`.
-    </ParamField>
-
-    <ParamField path="--metadata" type="string">
-      JSON metadata to associate with the scope.
-    </ParamField>
-
-
-    Inspect a scope: metadata, member sessions, and backfill state.
-
-    ```bash
-    honcho scope inspect <name>
-    ```
-
-    <ParamField path="name" type="string" required />
-
-
-    List scopes in the workspace.
-
-    ```bash
-    honcho scope list
-    ```
-
-
-    Remove a session from a scope. Its conclusions are reconciled out asynchronously.
-
-    ```bash
-    honcho scope remove-session <name> <session_id>
-    ```
-
-    <ParamField path="name" type="string" required />
-
-    <ParamField path="session_id" type="string" required />
-
-
-    List the sessions that are members of a scope (longest-standing first).
-
-    ```bash
-    honcho scope sessions <name>
-    ```
-
-    <ParamField path="name" type="string" required />
-
-
-    Per-session backfill state. Recall through the scope is complete once nothing is pending.
-
-    ```bash
-    honcho scope status <name>
-    ```
-
-    <ParamField path="name" type="string" required />
-
+> [accordion] status
+>
+> Per-session backfill state. Recall through the scope is complete once nothing is pending.
+>
+> ```bash
+> honcho scope status <name>
+> ```
+>
+> **name** `string` *required*
 
 ## honcho session
 
 List, inspect, view, create, delete, and manage conversation sessions and their peers.
 
-
-    Add peers to a session.
-
-    ```bash
-    honcho session add-peers <session_id> <peer_ids>
-    ```
-
-    <ParamField path="session_id" type="string" required />
-
-    <ParamField path="peer_ids" type="string" required />
-
-
-    Get session context (what an agent would see).
-
-    ```bash
-    honcho session context [<session_id>]
-    ```
-
-    <ParamField path="session_id" type="string" />
-
-    <ParamField path="--tokens" type="number">
-      Token budget.
-    </ParamField>
-
-    <ParamField path="--summary" type="boolean" default="true">
-      Include summary. Negate with `--no-summary`.
-    </ParamField>
-
-
-    Create or get a session.
-
-    ```bash
-    honcho session create <session_id>
-    ```
-
-    <ParamField path="session_id" type="string" required />
-
-    <ParamField path="--peers" type="string">
-      Comma-separated peer IDs to add to the session.
-    </ParamField>
-
-    <ParamField path="--metadata" type="string">
-      JSON metadata to associate with the session.
-    </ParamField>
-
-
-    Delete a session and all its data. Destructive — requires --yes or interactive confirm.
-
-    ```bash
-    honcho session delete [<session_id>]
-    ```
-
-    <ParamField path="session_id" type="string" />
-
-    <ParamField path="--yes" type="boolean">
-      Skip confirmation. Short alias: `-y`.
-    </ParamField>
-
-
-    Get metadata for a session.
-
-    ```bash
-    honcho session get-metadata [<session_id>]
-    ```
-
-    <ParamField path="session_id" type="string" />
-
-
-    Inspect a session: peers, message count, summaries, config.
-
-    ```bash
-    honcho session inspect [<session_id>]
-    ```
-
-    <ParamField path="session_id" type="string" />
-
-
-    List sessions in the workspace.
-
-    ```bash
-    honcho session list
-    ```
-
-    <ParamField path="--peer" type="string">
-      Filter by peer. Short alias: `-p`.
-    </ParamField>
-
-
-    List peers in a session.
-
-    ```bash
-    honcho session peers [<session_id>]
-    ```
-
-    <ParamField path="session_id" type="string" />
-
-
-    Remove peers from a session.
-
-    ```bash
-    honcho session remove-peers <session_id> <peer_ids>
-    ```
-
-    <ParamField path="session_id" type="string" required />
-
-    <ParamField path="peer_ids" type="string" required />
-
-
-    Get the representation of a peer within a session.
-
-    ```bash
-    honcho session representation <peer_id> [<session_id>]
-    ```
-
-    <ParamField path="peer_id" type="string" required />
-
-    <ParamField path="session_id" type="string" />
-
-    <ParamField path="--target" type="string">
-      Target peer (what peer\_id knows about target).
-    </ParamField>
-
-    <ParamField path="--search-query" type="string">
-      Semantic search query to filter conclusions.
-    </ParamField>
-
-    <ParamField path="--max-conclusions" type="number">
-      Maximum number of conclusions to include.
-    </ParamField>
-
-
-    Search messages in a session.
-
-    ```bash
-    honcho session search <query> [<session_id>]
-    ```
-
-    <ParamField path="query" type="string" required />
-
-    <ParamField path="session_id" type="string" />
-
-    <ParamField path="--limit" type="number" default="10">
-      Max results.
-    </ParamField>
-
-
-    Set metadata for a session.
-
-    ```bash
-    honcho session set-metadata [<session_id>]
-    ```
-
-    <ParamField path="session_id" type="string" />
-
-    <ParamField path="--data" type="string" required>
-      JSON metadata to set (e.g. '\{"key": "value"}'). Short alias: `-d`.
-    </ParamField>
-
-
-    Get session summaries (short + long).
-
-    ```bash
-    honcho session summaries [<session_id>]
-    ```
-
-    <ParamField path="session_id" type="string" />
-
-
-    View a session transcript as a chat log.
-
-    Modes (pick one):
-
-    * default / --last N: tail of the conversation (most recent N)
-    * \--page N \[--size M]: page through the full transcript
-    * \--all: every message
-
-    Paging follows the requested order: --page 1 starts at the oldest message,
-    or the newest with --reverse.
-
-    Human mode prints a row-delimited table. JSON mode emits the message list
-    (same shape as message list).
-
-    ```bash
-    honcho session view [<session_id>]
-    ```
-
-    <ParamField path="session_id" type="string" />
-
-    <ParamField path="--last" type="number">
-      Show only the N most recent messages (default when no --page/--all: 50).
-    </ParamField>
-
-    <ParamField path="--page" type="number">
-      1-indexed page of the full transcript. Use for page 2+.
-    </ParamField>
-
-    <ParamField path="--size" type="number">
-      Messages per page; requires --page (1-100, default: 50).
-    </ParamField>
-
-    <ParamField path="--all" type="boolean">
-      Show the full transcript (every page).
-    </ParamField>
-
-    <ParamField path="--reverse" type="boolean">
-      Newest first (default is chronological: oldest at top).
-    </ParamField>
-
-    <ParamField path="--ids" type="boolean">
-      Include message IDs in the transcript.
-    </ParamField>
-
-    <ParamField path="--peer" type="string">
-      Filter by peer ID. Short alias: `-p`.
-    </ParamField>
-
+> [accordion] add-peers
+>
+> Add peers to a session.
+>
+> ```bash
+> honcho session add-peers <session_id> <peer_ids>
+> ```
+>
+> **session\_id** `string` *required*
+>
+> **peer\_ids** `string` *required*
+
+> [accordion] context
+>
+> Get session context (what an agent would see).
+>
+> ```bash
+> honcho session context [<session_id>]
+> ```
+>
+> **session\_id** `string`
+>
+> **--tokens** `number`
+>
+> Token budget.
+>
+> **--summary** `boolean` (default: true)
+>
+> Include summary. Negate with `--no-summary`.
+
+> [accordion] create
+>
+> Create or get a session.
+>
+> ```bash
+> honcho session create <session_id>
+> ```
+>
+> **session\_id** `string` *required*
+>
+> **--peers** `string`
+>
+> Comma-separated peer IDs to add to the session.
+>
+> **--metadata** `string`
+>
+> JSON metadata to associate with the session.
+
+> [accordion] delete
+>
+> Delete a session and all its data. Destructive — requires --yes or interactive confirm.
+>
+> ```bash
+> honcho session delete [<session_id>]
+> ```
+>
+> **session\_id** `string`
+>
+> **--yes** `boolean`
+>
+> Skip confirmation. Short alias: `-y`.
+
+> [accordion] get-metadata
+>
+> Get metadata for a session.
+>
+> ```bash
+> honcho session get-metadata [<session_id>]
+> ```
+>
+> **session\_id** `string`
+
+> [accordion] inspect
+>
+> Inspect a session: peers, message count, summaries, config.
+>
+> ```bash
+> honcho session inspect [<session_id>]
+> ```
+>
+> **session\_id** `string`
+
+> [accordion] list
+>
+> List sessions in the workspace.
+>
+> ```bash
+> honcho session list
+> ```
+>
+> **--peer** `string`
+>
+> Filter by peer. Short alias: `-p`.
+
+> [accordion] peers
+>
+> List peers in a session.
+>
+> ```bash
+> honcho session peers [<session_id>]
+> ```
+>
+> **session\_id** `string`
+
+> [accordion] remove-peers
+>
+> Remove peers from a session.
+>
+> ```bash
+> honcho session remove-peers <session_id> <peer_ids>
+> ```
+>
+> **session\_id** `string` *required*
+>
+> **peer\_ids** `string` *required*
+
+> [accordion] representation
+>
+> Get the representation of a peer within a session.
+>
+> ```bash
+> honcho session representation <peer_id> [<session_id>]
+> ```
+>
+> **peer\_id** `string` *required*
+>
+> **session\_id** `string`
+>
+> **--target** `string`
+>
+> Target peer (what peer\_id knows about target).
+>
+> **--search-query** `string`
+>
+> Semantic search query to filter conclusions.
+>
+> **--max-conclusions** `number`
+>
+> Maximum number of conclusions to include.
+
+> [accordion] search
+>
+> Search messages in a session.
+>
+> ```bash
+> honcho session search <query> [<session_id>]
+> ```
+>
+> **query** `string` *required*
+>
+> **session\_id** `string`
+>
+> **--limit** `number` (default: 10)
+>
+> Max results.
+
+> [accordion] set-metadata
+>
+> Set metadata for a session.
+>
+> ```bash
+> honcho session set-metadata [<session_id>]
+> ```
+>
+> **session\_id** `string`
+>
+> **--data** `string` *required*
+>
+> JSON metadata to set (e.g. '\{"key": "value"}'). Short alias: `-d`.
+
+> [accordion] summaries
+>
+> Get session summaries (short + long).
+>
+> ```bash
+> honcho session summaries [<session_id>]
+> ```
+>
+> **session\_id** `string`
+
+> [accordion] view
+>
+> View a session transcript as a chat log.
+>
+> Modes (pick one):
+>
+> * default / --last N: tail of the conversation (most recent N)
+> * \--page N \[--size M]: page through the full transcript
+> * \--all: every message
+>
+> Paging follows the requested order: --page 1 starts at the oldest message,
+> or the newest with --reverse.
+>
+> Human mode prints a row-delimited table. JSON mode emits the message list
+> (same shape as message list).
+>
+> ```bash
+> honcho session view [<session_id>]
+> ```
+>
+> **session\_id** `string`
+>
+> **--last** `number`
+>
+> Show only the N most recent messages (default when no --page/--all: 50).
+>
+> **--page** `number`
+>
+> 1-indexed page of the full transcript. Use for page 2+.
+>
+> **--size** `number`
+>
+> Messages per page; requires --page (1-100, default: 50).
+>
+> **--all** `boolean`
+>
+> Show the full transcript (every page).
+>
+> **--reverse** `boolean`
+>
+> Newest first (default is chronological: oldest at top).
+>
+> **--ids** `boolean`
+>
+> Include message IDs in the transcript.
+>
+> **--peer** `string`
+>
+> Filter by peer ID. Short alias: `-p`.
 
 ## honcho start
 
@@ -837,33 +891,33 @@ configured server URL — pass HONCHO\_BASE\_URL to talk to this stack.
 honcho start
 ```
 
-<ParamField path="--profile" type="string" default="local">
-  Local stack profile name.
-</ParamField>
+**--profile** `string` (default: local)
 
-<ParamField path="--api-port" type="string">
-  Host port for the API.
-</ParamField>
+Local stack profile name.
 
-<ParamField path="--db-port" type="string">
-  Host port for Postgres.
-</ParamField>
+**--api-port** `string`
 
-<ParamField path="--redis-port" type="string">
-  Host port for Redis.
-</ParamField>
+Host port for the API.
 
-<ParamField path="--setup" type="string">
-  Interactive config wizard: basic (provider/model) or advanced (embeddings, deriver, dialectic, dreams, flush).
-</ParamField>
+**--db-port** `string`
 
-<ParamField path="--image" type="string">
-  Honcho image to pull and pin by digest (default: ghcr.io/plastic-labs/honcho:latest).
-</ParamField>
+Host port for Postgres.
 
-<ParamField path="--timeout" type="string" default="180">
-  Seconds to wait for /health after compose up.
-</ParamField>
+**--redis-port** `string`
+
+Host port for Redis.
+
+**--setup** `string`
+
+Interactive config wizard: basic (provider/model) or advanced (embeddings, deriver, dialectic, dreams, flush).
+
+**--image** `string`
+
+Honcho image to pull and pin by digest (default: ghcr.io/plastic-labs/honcho:latest).
+
+**--timeout** `string` (default: 180)
+
+Seconds to wait for /health after compose up.
 
 ## honcho status
 
@@ -875,9 +929,9 @@ With no `--profile`, lists every stack under `~/.honcho/profiles/`.
 honcho status
 ```
 
-<ParamField path="--profile" type="string">
-  Limit to this profile. Omit to show every local stack.
-</ParamField>
+**--profile** `string`
+
+Limit to this profile. Omit to show every local stack.
 
 ## honcho stop
 
@@ -887,123 +941,130 @@ Stop the local stack started by `honcho start`. Keeps data unless --wipe.
 honcho stop
 ```
 
-<ParamField path="--profile" type="string" default="local">
-  Local stack profile name.
-</ParamField>
+**--profile** `string` (default: local)
 
-<ParamField path="--wipe" type="boolean">
-  Also delete volumes (Postgres data).
-</ParamField>
+Local stack profile name.
+
+**--wipe** `boolean`
+
+Also delete volumes (Postgres data).
 
 ## honcho workspace
 
 List, create, inspect, chat, delete, and search workspaces.
 
+> [accordion] chat
+>
+> Query the dialectic across all peers in the workspace.
+>
+> ```bash
+> honcho workspace chat <query>
+> ```
+>
+> **query** `string` *required*
+>
+> **--reasoning** `string`
+>
+> Reasoning level: minimal, low, medium, high, max. Short alias: `-r`.
+>
+> **--scope** `string`
+>
+> Recall only from this scope. Repeat or comma-separate for several (explicit conclusions only). Excludes -s.
+>
+> **--evidence** `boolean`
+>
+> Also report what the answer was built from: the conclusions and messages read and the tools called.
 
-    Query the dialectic across all peers in the workspace.
+> [accordion] create
+>
+> Create or get a workspace.
+>
+> ```bash
+> honcho workspace create <workspace_id>
+> ```
+>
+> **workspace\_id** `string` *required*
+>
+> **--metadata** `string`
+>
+> JSON metadata to associate with the workspace.
 
-    ```bash
-    honcho workspace chat <query>
-    ```
+> [accordion] delete
+>
+> Delete a workspace. Use --dry-run first to see what will be deleted.
+>
+> Requires --yes to skip confirmation, or will prompt interactively.
+> If sessions exist, requires --cascade to delete them first.
+>
+> ```bash
+> honcho workspace delete <workspace_id>
+> ```
+>
+> **workspace\_id** `string` *required*
+>
+> **--yes** `boolean`
+>
+> Skip confirmation prompt (for scripted/agent use). Short alias: `-y`.
+>
+> **--cascade** `boolean`
+>
+> Delete all sessions before deleting the workspace.
+>
+> **--dry-run** `boolean`
+>
+> Show what would be deleted without deleting.
 
-    <ParamField path="query" type="string" required />
+> [accordion] inspect
+>
+> Inspect a workspace: peers, sessions, config.
+>
+> ```bash
+> honcho workspace inspect [<workspace_id>]
+> ```
+>
+> **workspace\_id** `string`
 
-    <ParamField path="--reasoning" type="string">
-      Reasoning level: minimal, low, medium, high, max. Short alias: `-r`.
-    </ParamField>
+> [accordion] list
+>
+> List all accessible workspaces.
+>
+> ```bash
+> honcho workspace list
+> ```
 
-    <ParamField path="--scope" type="string">
-      Recall only from this scope. Repeat or comma-separate for several (explicit conclusions only). Excludes -s.
-    </ParamField>
+> [accordion] queue-status
+>
+> Get queue processing status.
+>
+> ```bash
+> honcho workspace queue-status
+> ```
+>
+> **--observer** `string`
+>
+> Filter by observer peer.
+>
+> **--sender** `string`
+>
+> Filter by sender peer.
 
-    <ParamField path="--evidence" type="boolean">
-      Also report what the answer was built from: the conclusions and messages read and the tools called.
-    </ParamField>
+> [accordion] search
+>
+> Search messages across workspace.
+>
+> ```bash
+> honcho workspace search <query>
+> ```
+>
+> **query** `string` *required*
+>
+> **--limit** `number` (default: 10)
+>
+> Max results.
 
-
-    Create or get a workspace.
-
-    ```bash
-    honcho workspace create <workspace_id>
-    ```
-
-    <ParamField path="workspace_id" type="string" required />
-
-    <ParamField path="--metadata" type="string">
-      JSON metadata to associate with the workspace.
-    </ParamField>
-
-
-    Delete a workspace. Use --dry-run first to see what will be deleted.
-
-    Requires --yes to skip confirmation, or will prompt interactively.
-    If sessions exist, requires --cascade to delete them first.
-
-    ```bash
-    honcho workspace delete <workspace_id>
-    ```
-
-    <ParamField path="workspace_id" type="string" required />
-
-    <ParamField path="--yes" type="boolean">
-      Skip confirmation prompt (for scripted/agent use). Short alias: `-y`.
-    </ParamField>
-
-    <ParamField path="--cascade" type="boolean">
-      Delete all sessions before deleting the workspace.
-    </ParamField>
-
-    <ParamField path="--dry-run" type="boolean">
-      Show what would be deleted without deleting.
-    </ParamField>
-
-
-    Inspect a workspace: peers, sessions, config.
-
-    ```bash
-    honcho workspace inspect [<workspace_id>]
-    ```
-
-    <ParamField path="workspace_id" type="string" />
-
-
-    List all accessible workspaces.
-
-    ```bash
-    honcho workspace list
-    ```
-
-
-    Get queue processing status.
-
-    ```bash
-    honcho workspace queue-status
-    ```
-
-    <ParamField path="--observer" type="string">
-      Filter by observer peer.
-    </ParamField>
-
-    <ParamField path="--sender" type="string">
-      Filter by sender peer.
-    </ParamField>
-
-
-    Search messages across workspace.
-
-    ```bash
-    honcho workspace search <query>
-    ```
-
-    <ParamField path="query" type="string" required />
-
-    <ParamField path="--limit" type="number" default="10">
-      Max results.
-    </ParamField>
-
-
-  `honcho peer chat` covers peer chat only. [Workspace chat](/docs/v3/documentation/features/chat#workspace-chat) has no CLI command yet; use the API or SDKs.
-
+> [!NOTE]
+>
+> `honcho peer chat` covers peer chat only. [Workspace chat](https://honcho.dev/docs/v3/documentation/features/chat.md#workspace-chat) has no CLI command yet; use the API or SDKs.
 
 ## Workflows
 
@@ -1011,35 +1072,39 @@ List, create, inspect, chat, delete, and search workspaces.
 
 When you pick up a workspace and need to orient — start broad, narrow to the peer and session you care about.
 
+**1. Survey the workspace**
 
-    ```bash
-    honcho workspace inspect --json
-    honcho peer list --json
-    ```
+```bash theme={null}
+honcho workspace inspect --json
+honcho peer list --json
+```
 
+**2. Inspect a specific peer**
 
-    ```bash
-    honcho peer inspect <peer_id> --json
-    honcho peer card <peer_id> --json
-    ```
+```bash theme={null}
+honcho peer inspect <peer_id> --json
+honcho peer card <peer_id> --json
+```
 
+**3. Review the peer's memory**
 
-    ```bash
-    honcho conclusion list --observer <peer_id> --json
-    honcho conclusion search "topic" --observer <peer_id> --json
-    ```
+```bash theme={null}
+honcho conclusion list --observer <peer_id> --json
+honcho conclusion search "topic" --observer <peer_id> --json
+```
 
+**4. Debug a session**
 
-    ```bash
-    honcho session inspect <session_id> --json
-    honcho session view <session_id> --last 20
-    honcho session context <session_id> --json
-    honcho session summaries <session_id> --json
-    ```
+```bash theme={null}
+honcho session inspect <session_id> --json
+honcho session view <session_id> --last 20
+honcho session context <session_id> --json
+honcho session summaries <session_id> --json
+```
 
-
-  `honcho session context` shows exactly what an agent would receive at inference time — check it before `honcho peer chat` if a response surprises you. `honcho session view` shows the raw transcript that context was built from; it prints content verbatim, so tag-delimited and multi-line messages appear exactly as stored.
-
+> [!TIP]
+>
+> `honcho session context` shows exactly what an agent would receive at inference time — check it before `honcho peer chat` if a response surprises you. `honcho session view` shows the raw transcript that context was built from; it prints content verbatim, so tag-delimited and multi-line messages appear exactly as stored.
 
 ### A peer isn't learning
 

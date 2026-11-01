@@ -10,32 +10,30 @@
 
 Integrate Honcho with CrewAI to build agents that maintain memory across sessions. This guide uses CrewAI's unified `Memory` API with Honcho as a custom storage backend.
 
-
-  The full code is available on [GitHub](https://github.com/plastic-labs/honcho/tree/main/examples/crewai) with examples in [Python](https://github.com/plastic-labs/honcho/tree/main/examples/crewai/python/examples).
-
+> [!NOTE]
+>
+> The full code is available on [GitHub](https://github.com/plastic-labs/honcho/tree/main/examples/crewai) with examples in [Python](https://github.com/plastic-labs/honcho/tree/main/examples/crewai/python/examples).
 
 ## What We're Building
 
 * **CrewAI** orchestrates agents, tasks, and memory recall.
 * **Honcho** persists CrewAI memory records and exposes additional context, search, and reasoning tools.
 
-
-  CrewAI currently supports Python `>=3.10,<3.14`; use one of those interpreters when installing this integration.
-
+> [!NOTE]
+>
+> CrewAI currently supports Python `>=3.10,<3.14`; use one of those interpreters when installing this integration.
 
 ## Setup
 
 Install the packages:
 
-<CodeGroup>
-  ```bash Python (uv)
-  uv add honcho-crewai crewai python-dotenv
-  ```
+```bash Python (uv) theme={null}
+uv add honcho-crewai crewai python-dotenv
+```
 
-  ```bash Python (pip)
-  pip install honcho-crewai crewai python-dotenv
-  ```
-</CodeGroup>
+```bash Python (pip) theme={null}
+pip install honcho-crewai crewai python-dotenv
+```
 
 Set your model provider keys and Honcho configuration:
 
@@ -105,9 +103,9 @@ result = crew.kickoff()
 print(result.raw)
 ```
 
-
-  `HonchoStorage` is still available as a compatibility adapter for older CrewAI `ExternalMemory` integrations, but new projects should use `HonchoMemoryStorage`.
-
+> [!NOTE]
+>
+> `HonchoStorage` is still available as a compatibility adapter for older CrewAI `ExternalMemory` integrations, but new projects should use `HonchoMemoryStorage`.
 
 ## CrewAI Tool Integration
 
@@ -187,17 +185,21 @@ You can combine both: unified memory for baseline context, tools for targeted re
 
 ## Related Resources
 
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Understand Honcho's peer-based model and core primitives
 
-    Understand Honcho's peer-based model and core primitives
+> [card] [Get Context](https://honcho.dev/docs/v3/documentation/features/get-context.md)
+>
+> Learn about retrieving and formatting conversation context
 
+> [card] [Chat API](https://honcho.dev/docs/v3/documentation/features/chat.md)
+>
+> Query peer representations for deeper understanding
 
-    Learn about retrieving and formatting conversation context
-
-
-    Query peer representations for deeper understanding
-
-
-    Build stateful agents with LangGraph and Honcho
+> [card] [LangGraph Integration](https://honcho.dev/docs/v3/guides/integrations/langgraph.md)
+>
+> Build stateful agents with LangGraph and Honcho
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -44,7 +44,7 @@ gl-inet/docs4.x
 
 Log in to the web Admin Panel and go to **INTERNET**.
 
-The top half features a diagram showing the Internet status, and the bottom half lists four or five Internet access methods (availability varies by model).
+The top half features a diagram showing the Internet status, and the bottom half lists up to four Internet access methods (availability varies by model).
 
 ## Status Diagram<a href="#status-diagram" class="headerlink" title="Permanent link">¶</a>
 

@@ -11,41 +11,39 @@
 The most basic building block of Honcho's data model is the `Message` object.
 A `Message` is sent by a `Peer` and saved in a `Session`
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  honcho = Honcho()
+honcho = Honcho()
 
-  peer = honcho.peer("sample-peer")
+peer = honcho.peer("sample-peer")
 
-  session = honcho.session("sample-session")
+session = honcho.session("sample-session")
 
-  message = peer.message("Hello, world!")
+message = peer.message("Hello, world!")
 
-  session.add_messages([message])
-  ```
+session.add_messages([message])
+```
 
-  ```typescript TypeScript
-  import { Honcho } from '@honcho-ai/sdk';
+```typescript TypeScript theme={null}
+import { Honcho } from '@honcho-ai/sdk';
 
-  const honcho = new Honcho({});
+const honcho = new Honcho({});
 
-  const peer = await honcho.peer('sample-peer');
+const peer = await honcho.peer('sample-peer');
 
-  const session = await honcho.session('sample-session');
+const session = await honcho.session('sample-session');
 
-  const message = peer.message('Hello, world!');
+const message = peer.message('Hello, world!');
 
-  await session.addMessages([message]);
-  ```
-</CodeGroup>
+await session.addMessages([message]);
+```
 
 Once a `Message` is saved in Honcho, it will kick off a background task that
 looks at the new data to generate insights about the `Peer` that sent the `Message`
 
 This is the default behavior of Honcho and can be turned off by [configuring the
-Peer or Session](/docs/v3/documentation/features/advanced/reasoning-configuration)
+Peer or Session](https://honcho.dev/docs/v3/documentation/features/advanced/reasoning-configuration.md)
 
 This pattern of having a Peer, Session, and Messages is highly flexible and
 works for many different use cases and agent setups. Some use cases may only

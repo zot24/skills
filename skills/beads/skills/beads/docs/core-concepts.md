@@ -32,7 +32,7 @@ workable next.
 
 A **bead** is one tracked unit of work: a hash ID (`bd-a1b2`), a title, a
 type (`bug`, `task`, `feature`, `epic`, `chore`, and friends — see
-[`bd types`](/cli-reference/types)), a priority (`0` critical → `4` backlog),
+[`bd types`](https://beads.gascity.com/cli-reference/types)), a priority (`0` critical → `4` backlog),
 and a status moving `open` → `in_progress` → `closed`. "Bead" and "issue"
 name the same thing; the CLI says issue, the product says bead.
 
@@ -47,9 +47,9 @@ agents may work on:
 | `related` | soft association | no |
 
 Workflow steps add two more blocking types (`conditional-blocks`,
-`waits-for`) — see [Molecules](/workflows/molecules). Richer knowledge-graph
+`waits-for`) — see [Molecules](https://beads.gascity.com/workflows/molecules.md). Richer knowledge-graph
 edges (`relates-to`, `duplicates`, `supersedes`, `replies-to`) are covered in
-[Graph Links](/core-concepts/graph-links).
+[Graph Links](https://beads.gascity.com/core-concepts/graph-links.md).
 
 ## Ready work — what `bd ready` computes
 
@@ -89,8 +89,8 @@ creator, and creation time, plus a collision nonce), not sequence numbers. Two a
 branches) creating beads at the same time cannot mint the same ID, so merges
 never renumber work. The hash length extends automatically on collision and
 scales with database size — see
-[Hash IDs](/core-concepts/hash-ids) and
-[Adaptive ID Length](/core-concepts/adaptive-ids).
+[Hash IDs](https://beads.gascity.com/core-concepts/hash-ids.md) and
+[Adaptive ID Length](https://beads.gascity.com/core-concepts/adaptive-ids.md).
 
 ## Workflows — formula → proto → molecule
 
@@ -105,15 +105,15 @@ flowchart LR
 ```
 
 * A **formula** is the source: a TOML/JSON file defining a DAG of steps —
-  see [Formulas](/workflows/formulas).
+  see [Formulas](https://beads.gascity.com/workflows/formulas.md).
 * Cooking compiles it into a **proto**: a template epic with
   `{{variables}}`, not yet live work.
 * Pouring instantiates a **molecule**: real beads whose steps flow through
-  `bd ready` like any other work — see [Molecules](/workflows/molecules).
+  `bd ready` like any other work — see [Molecules](https://beads.gascity.com/workflows/molecules.md).
 * A **wisp** is the same instantiation with an ephemeral lifecycle — gone at
-  the next `bd purge` — see [Wisps](/workflows/wisps).
+  the next `bd purge` — see [Wisps](https://beads.gascity.com/workflows/wisps.md).
 * A **gate** parks a step until something external happens: a human sign-off,
-  a timer, or a GitHub run or PR — see [Gates](/workflows/gates).
+  a timer, or a GitHub run or PR — see [Gates](https://beads.gascity.com/workflows/gates.md).
 
 ## Sync — how work moves between machines
 
@@ -140,9 +140,9 @@ flowchart LR
 
 `.beads/issues.jsonl` is a passive export for viewers and interchange — it
 is not the database, not the sync protocol, and not a backup. The full model
-(and its anti-patterns) is in [Sync Concepts](/core-concepts/sync-concepts);
+(and its anti-patterns) is in [Sync Concepts](https://beads.gascity.com/core-concepts/sync-concepts.md);
 **federation** — peer-to-peer sharing across repos and organizations — is in
-[Federation](/multi-agent/federation).
+[Federation](https://beads.gascity.com/multi-agent/federation.md).
 
 ## Storage modes
 
@@ -153,18 +153,18 @@ is not the database, not the sync protocol, and not a backup. The full model
 
 Embedded runs Dolt in-process and is right for almost everyone; server mode
 connects to an external `dolt sql-server` for multi-writer setups — see the
-[Dolt backend](/architecture/dolt) and the
-[architecture overview](/architecture/index).
+[Dolt backend](https://beads.gascity.com/architecture/dolt.md) and the
+[architecture overview](https://beads.gascity.com/architecture/index.md).
 
 ## Where to go next
 
-* [Quick Start](/getting-started/quickstart) — install, create, claim, and
+* [Quick Start](https://beads.gascity.com/getting-started/quickstart.md) — install, create, claim, and
   close your first beads.
-* [Issues & Dependencies](/core-concepts/issues) — field-level detail on
+* [Issues & Dependencies](https://beads.gascity.com/core-concepts/issues.md) — field-level detail on
   beads and their relationships.
-* [Workflows](/workflows/index) — molecules, formulas, gates, and wisps in
+* [Workflows](https://beads.gascity.com/workflows/index.md) — molecules, formulas, gates, and wisps in
   depth.
-* [Multi-Agent](/multi-agent/index) — routing, coordination, and federation
+* [Multi-Agent](https://beads.gascity.com/multi-agent/index.md) — routing, coordination, and federation
   for fleets of agents.
 
 

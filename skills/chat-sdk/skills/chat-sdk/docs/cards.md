@@ -4,7 +4,7 @@
 title: Cards
 description: Send rich interactive cards with buttons, fields, and images across all platforms.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/usage

@@ -27,9 +27,9 @@ Give Codex long-term memory that survives context resets, session restarts, and 
 
 Your key lives in **`~/.honcho/config.json`** — the single config file every Honcho integration reads. codex-honcho takes the key straight from there.
 
-
-  **Already have your key in `~/.honcho/config.json`?** If another Honcho integration already wrote it there, there's nothing to do — skip to Step 3 and `install` picks it up automatically.
-
+> [!NOTE]
+>
+> **Already have your key in `~/.honcho/config.json`?** If another Honcho integration already wrote it there, there's nothing to do — skip to Step 3 and `install` picks it up automatically.
 
 **First time?** Create it with the Honcho CLI:
 
@@ -197,11 +197,13 @@ The clone path runs the TypeScript source directly and so requires **[bun](https
 
 ## Next Steps
 
+> [card] [GitHub Repository](https://github.com/plastic-labs/codex-honcho)
+>
+> Source code, issues, and README.
 
-    Source code, issues, and README.
-
-
-    Learn about peers, sessions, and dialectic reasoning.
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Learn about peers, sessions, and dialectic reasoning.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

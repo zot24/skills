@@ -10,107 +10,105 @@
 
 **Picking the right tool.** Agent is right when you **don't know the URLs** or need autonomous navigation across the web.
 
-* For **a single known URL**, [JSON mode on `/scrape`](/features/llm-extract) is cheaper and synchronous.
-* Full comparison: [Choosing the Data Extractor](/developer-guides/usage-guides/choosing-the-data-extractor).
+* For **a single known URL**, [JSON mode on `/scrape`](https://docs.firecrawl.dev/features/llm-extract) is cheaper and synchronous.
+* Full comparison: [Choosing the Data Extractor](https://docs.firecrawl.dev/developer-guides/usage-guides/choosing-the-data-extractor.md).
 
 Firecrawl `/agent` is a magic API that searches, navigates, and gathers data from the widest range of websites, finding data in hard-to-reach places and uncovering data in ways no other API can. It accomplishes in a few minutes what would take a human many hours — end-to-end data collection, without scripts or manual work.
 Whether you need one data point or entire datasets at scale, Firecrawl `/agent` works to get your data.
 
 **Think of `/agent` as deep research for data, wherever it is!**
 
-Agent builds on everything great about `/extract` and takes it further:
+Agent replaces the legacy `/extract` endpoint and takes it further:
 
 * **No URLs Required**: Just describe what you need via `prompt` parameter. URLs are optional
 * **Deep Web Search**: Autonomously searches and navigates deep into sites to find your data
 * **Reliable and Accurate**: Works with a wide variety of queries and use cases
 * **Faster**: Processes multiple sources in parallel for quicker results
 
-
-  Test the agent in the interactive playground — no code required.
-
+> [card] [Try it in the Playground](https://www.firecrawl.dev/agent)
+>
+> Test the agent in the interactive playground — no code required.
 
 ## Using `/agent`
 
 The only required parameter is `prompt`. Simply describe what data you want to extract. For structured output, provide a JSON schema. The SDKs support Pydantic (Python) and Zod (Node) for type-safe schema definitions:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from pydantic import BaseModel, Field
-  from typing import List, Optional
+```python Python theme={null}
+from firecrawl import Firecrawl
+from pydantic import BaseModel, Field
+from typing import List, Optional
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  class Founder(BaseModel):
-      name: str = Field(description="Full name of the founder")
-      role: Optional[str] = Field(None, description="Role or position")
-      background: Optional[str] = Field(None, description="Professional background")
+class Founder(BaseModel):
+    name: str = Field(description="Full name of the founder")
+    role: Optional[str] = Field(None, description="Role or position")
+    background: Optional[str] = Field(None, description="Professional background")
 
-  class FoundersSchema(BaseModel):
-      founders: List[Founder] = Field(description="List of founders")
+class FoundersSchema(BaseModel):
+    founders: List[Founder] = Field(description="List of founders")
 
-  result = app.agent(
-      prompt="Find the founders of Firecrawl",
-      schema=FoundersSchema,
-      model="spark-2",
-      max_credits=100
-  )
+result = app.agent(
+    prompt="Find the founders of Firecrawl",
+    schema=FoundersSchema,
+    model="spark-2",
+    max_credits=100
+)
 
-  print(result.data)
-  ```
+print(result.data)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
-  import { z } from 'zod';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
+import { z } from 'zod';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  const result = await firecrawl.agent({
-    prompt: "Find the founders of Firecrawl",
-    schema: z.object({
-      founders: z.array(z.object({
-        name: z.string().describe("Full name of the founder"),
-        role: z.string().describe("Role or position").optional(),
-        background: z.string().describe("Professional background").optional()
-      })).describe("List of founders")
-    }),
-    model: "spark-2",
-    maxCredits: 100
-  });
+const result = await firecrawl.agent({
+  prompt: "Find the founders of Firecrawl",
+  schema: z.object({
+    founders: z.array(z.object({
+      name: z.string().describe("Full name of the founder"),
+      role: z.string().describe("Role or position").optional(),
+      background: z.string().describe("Professional background").optional()
+    })).describe("List of founders")
+  }),
+  model: "spark-2",
+  maxCredits: 100
+});
 
-  console.log(result.data);
-  ```
+console.log(result.data);
+```
 
-  ```bash cURL
-  curl -X POST "https://api.firecrawl.dev/v2/agent" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "prompt": "Find the founders of Firecrawl",
-      "model": "spark-2",
-      "maxCredits": 100,
-      "schema": {
-        "type": "object",
-        "properties": {
-          "founders": {
-            "type": "array",
-            "description": "List of founders",
-            "items": {
-              "type": "object",
-              "properties": {
-                "name": { "type": "string", "description": "Full name" },
-                "role": { "type": "string", "description": "Role or position" },
-                "background": { "type": "string", "description": "Professional background" }
-              },
-              "required": ["name"]
-            }
+```bash cURL theme={null}
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Find the founders of Firecrawl",
+    "model": "spark-2",
+    "maxCredits": 100,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "founders": {
+          "type": "array",
+          "description": "List of founders",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "Full name" },
+              "role": { "type": "string", "description": "Role or position" },
+              "background": { "type": "string", "description": "Professional background" }
+            },
+            "required": ["name"]
           }
-        },
-        "required": ["founders"]
-      }
-    }'
-  ```
-</CodeGroup>
+        }
+      },
+      "required": ["founders"]
+    }
+  }'
+```
 
 ### Response
 
@@ -146,46 +144,140 @@ The only required parameter is `prompt`. Simply describe what data you want to e
 
 You can optionally provide URLs to focus the agent on specific pages:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  result = app.agent(
-      urls=["https://docs.firecrawl.dev", "https://firecrawl.dev/pricing"],
-      prompt="Compare the features and pricing information from these pages"
-  )
+result = app.agent(
+    urls=["https://docs.firecrawl.dev", "https://firecrawl.dev/pricing"],
+    prompt="Compare the features and pricing information from these pages"
+)
 
-  print(result.data)
-  ```
+print(result.data)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  const result = await firecrawl.agent({
-    urls: ["https://docs.firecrawl.dev", "https://firecrawl.dev/pricing"],
-    prompt: "Compare the features and pricing information from these pages"
-  });
+const result = await firecrawl.agent({
+  urls: ["https://docs.firecrawl.dev", "https://firecrawl.dev/pricing"],
+  prompt: "Compare the features and pricing information from these pages"
+});
 
-  console.log(result.data);
-  ```
+console.log(result.data);
+```
 
-  ```bash cURL
-  curl -X POST "https://api.firecrawl.dev/v2/agent" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "urls": [
-        "https://docs.firecrawl.dev",
-        "https://firecrawl.dev/pricing"
-      ],
-      "prompt": "Compare the features and pricing information from these pages"
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "urls": [
+      "https://docs.firecrawl.dev",
+      "https://firecrawl.dev/pricing"
+    ],
+    "prompt": "Compare the features and pricing information from these pages"
+  }'
+```
+
+## Choosing a location
+
+The agent browses from the US by default. To see the web as it looks from another country, for example local prices, availability or region-specific pages, pass `location` with an ISO 3166-1 alpha-2 country code:
+
+```python Python theme={null}
+from firecrawl import Firecrawl
+
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+result = app.agent(
+    prompt="Find the current price of the Nintendo Switch 2 at major German retailers",
+    location={"country": "DE"}
+)
+
+print(result.data)
+```
+
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+const result = await firecrawl.agent({
+  prompt: "Find the current price of the Nintendo Switch 2 at major German retailers",
+  location: { country: "DE" }
+});
+
+console.log(result.data);
+```
+
+```bash cURL theme={null}
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Find the current price of the Nintendo Switch 2 at major German retailers",
+    "location": { "country": "DE" }
+  }'
+```
+
+The country is fixed for the whole run. Every scrape, batch scrape and browser session the agent and its subagents make goes out from that country, and the agent cannot switch to another one, even if a site serves different content elsewhere. Follow-up turns on the same `threadId` keep the country unless they send their own `location`.
+
+Searches are localized to the country, so results are the ones a searcher there would see, but searching does not change where requests come from. Pages the agent opens from those results are fetched from the chosen country.
+
+`location` only accepts `country`. `languages` and special values such as `us-generic` and `us-whitelist` are rejected with a `400`.
+
+## Safe search
+
+Set `safe` to `true` to filter explicit content from every web search the agent makes during the run, including searches by its subagents. It is the same SafeSearch filter as `safe` on [`/search`](https://docs.firecrawl.dev/features/search#safe-search). When omitted, searches are unfiltered, exactly as before.
+
+```python Python theme={null}
+from firecrawl import Firecrawl
+
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
+
+# Needs an SDK release with safe support (pending)
+result = app.agent(
+    prompt="Find age-appropriate science museums in Chicago",
+    safe=True
+)
+
+print(result.data)
+```
+
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+
+// Needs an SDK release with safe support (pending)
+const result = await firecrawl.agent({
+  prompt: "Find age-appropriate science museums in Chicago",
+  safe: true
+});
+
+console.log(result.data);
+```
+
+```bash cURL theme={null}
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Find age-appropriate science museums in Chicago",
+    "safe": true
+  }'
+```
+
+> [!NOTE]
+>
+> The Python and Node SDK examples need an SDK release with `safe` support, which is pending. Until then, send `safe` through the API directly.
+
+`GET /v2/agent/{jobId}` and the run list show `safe: true` for runs that set it. Follow-up turns on the same `threadId` keep the setting, and `safe: false` turns it off.
+
+`safe` only filters search results. Pages the agent scrapes or opens in a browser are not filtered, and neither are results from Alexandria data providers. On [ZDR](#zero-data-retention-zdr) runs, filtering relies on the search provider's own SafeSearch.
 
 ## Job Status and Completion
 
@@ -193,55 +285,55 @@ Agent jobs run asynchronously. When you submit a job, you'll receive a Job ID th
 
 * **Default method**: `agent()` waits and returns final results
 * **Start then poll**: Use `start_agent` (Python) or `startAgent` (Node) to get a Job ID immediately, then poll with `get_agent_status` / `getAgentStatus`
-* **Push instead of poll**: Pass a `webhook` when you start the job to receive [agent events](/webhooks/events#agent-events) as the run progresses and finishes
+* **Push instead of poll**: Pass a `webhook` when you start the job to receive [agent events](https://docs.firecrawl.dev/webhooks/events.md#agent-events) as the run progresses and finishes
 
-Job results are available via the API for 24 hours after completion. After this period, you can still view your agent history and results in the [activity logs](https://www.firecrawl.dev/app/logs).
+> [!NOTE]
+>
+> Job results are available via the API for 24 hours after completion. After this period, you can still view your agent history and results in the [activity logs](https://www.firecrawl.dev/app/logs).
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  # Start an agent job
-  agent_job = app.start_agent(
-      prompt="Find the founders of Firecrawl"
-  )
+# Start an agent job
+agent_job = app.start_agent(
+    prompt="Find the founders of Firecrawl"
+)
 
-  # Check the status
-  status = app.get_agent_status(agent_job.id)
+# Check the status
+status = app.get_agent_status(agent_job.id)
 
-  print(status)
-  # Example output:
-  # status='completed'
-  # success=True
-  # data={ ... }
-  # expires_at=datetime.datetime(...)
-  # credits_used=15
-  ```
+print(status)
+# Example output:
+# status='completed'
+# success=True
+# data={ ... }
+# expires_at=datetime.datetime(...)
+# credits_used=15
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  // Start an agent job
-  const started = await firecrawl.startAgent({
-    prompt: "Find the founders of Firecrawl"
-  });
+// Start an agent job
+const started = await firecrawl.startAgent({
+  prompt: "Find the founders of Firecrawl"
+});
 
-  // Check the status
-  if (started.id) {
-    const status = await firecrawl.getAgentStatus(started.id);
-    console.log(status.status, status.data);
-  }
-  ```
+// Check the status
+if (started.id) {
+  const status = await firecrawl.getAgentStatus(started.id);
+  console.log(status.status, status.data);
+}
+```
 
-  ```bash cURL
-  curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY"
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+```
 
 ### Possible States
 
@@ -251,9 +343,9 @@ Job results are available via the API for 24 hours after completion. After this 
 | `completed` | Extraction finished successfully |
 | `failed` | An error occurred during extraction, the run reached its `maxCredits` limit (see [Handling credit-limit stops](#handling-credit-limit-stops)), or the job was cancelled (cancelled jobs report `failed` with a cancellation error message) |
 
-
-  **Cancellation is cooperative.** When you call the cancel endpoint, the request is registered immediately, but any step already in flight (an LLM reasoning step, a tool call, or a browser action) runs to a clean stopping point before the job stops. Credits can continue to accrue during that short window, so the final `creditsUsed` may be higher than the value reported at the moment you clicked cancel. A cancelled job reports status `failed` when polled and emits an `agent.cancelled` webhook event.
-
+> [!NOTE]
+>
+> **Cancellation is cooperative.** When you call the cancel endpoint, the request is registered immediately, but any step already in flight (an LLM reasoning step, a tool call, or a browser action) runs to a clean stopping point before the job stops. Credits can continue to accrue during that short window, so the final `creditsUsed` may be higher than the value reported at the moment you clicked cancel. A cancelled job reports status `failed` when polled and emits an `agent.cancelled` webhook event.
 
 #### Pending Example
 
@@ -307,111 +399,109 @@ A run that reaches its `maxCredits` limit stops and reports `status: "failed"`. 
 
 These fields only appear once a run has failed. While a run is `processing`, the status response never includes a partial.
 
-
-  Use `partial` with care. It is incomplete, so don't store it as a finished result, and check `partialSchemaValid` before you parse it with your schema. Not every credit stop returns a `partial`, so handle runs that have only `stopReason`.
-
+> [!WARNING]
+>
+> Use `partial` with care. It is incomplete, so don't store it as a finished result, and check `partialSchemaValid` before you parse it with your schema. Not every credit stop returns a `partial`, so handle runs that have only `stopReason`.
 
 To finish the work, continue the run's thread with a follow-up prompt. The previous `partial` is restored for the agent and labelled incomplete, so the follow-up continues from it instead of starting over. A follow-up inherits the previous turn's `schema` and `urls` but not `maxCredits`, so set a budget for it.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from pydantic import BaseModel
-  from typing import List
+```python Python theme={null}
+from firecrawl import Firecrawl
+from pydantic import BaseModel
+from typing import List
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  class Company(BaseModel):
-      name: str
-      website: str
+class Company(BaseModel):
+    name: str
+    website: str
 
-  class CompaniesSchema(BaseModel):
-      companies: List[Company]
+class CompaniesSchema(BaseModel):
+    companies: List[Company]
 
-  result = app.agent(
-      prompt="Find every company in the YC W24 batch that builds developer tools",
-      schema=CompaniesSchema,
-      max_credits=100
-  )
+result = app.agent(
+    prompt="Find every company in the YC W24 batch that builds developer tools",
+    schema=CompaniesSchema,
+    max_credits=100
+)
 
-  if result.status == "completed":
-      print(result.data)
-  elif result.status == "failed" and result.stop_reason == "credit_limit_reached":
-      # `data` is never set on a failed run. `partial` is best-effort and may be missing.
-      if result.partial is not None:
-          if result.partial_schema_valid is not True:
-              print("The partial result does not match the schema yet.")
-          print(result.message, result.partial)
+if result.status == "completed":
+    print(result.data)
+elif result.status == "failed" and result.stop_reason == "credit_limit_reached":
+    # `data` is never set on a failed run. `partial` is best-effort and may be missing.
+    if result.partial is not None:
+        if result.partial_schema_valid is not True:
+            print("The partial result does not match the schema yet.")
+        print(result.message, result.partial)
 
-      # Continue the same thread. The agent picks up from the incomplete result.
-      # The follow-up inherits the schema but not max_credits, so set a budget.
-      follow_up = app.agent(
-          thread_id=result.thread_id,
-          prompt="Continue and finish the list.",
-          max_credits=200
-      )
-      print(follow_up.status, follow_up.data)
-  else:
-      print(result.error)
-  ```
+    # Continue the same thread. The agent picks up from the incomplete result.
+    # The follow-up inherits the schema but not max_credits, so set a budget.
+    follow_up = app.agent(
+        thread_id=result.thread_id,
+        prompt="Continue and finish the list.",
+        max_credits=200
+    )
+    print(follow_up.status, follow_up.data)
+else:
+    print(result.error)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
-  import { z } from 'zod';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
+import { z } from 'zod';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  const result = await firecrawl.agent({
-    prompt: "Find every company in the YC W24 batch that builds developer tools",
-    schema: z.object({
-      companies: z.array(z.object({
-        name: z.string(),
-        website: z.string()
-      }))
-    }),
-    maxCredits: 100
-  });
+const result = await firecrawl.agent({
+  prompt: "Find every company in the YC W24 batch that builds developer tools",
+  schema: z.object({
+    companies: z.array(z.object({
+      name: z.string(),
+      website: z.string()
+    }))
+  }),
+  maxCredits: 100
+});
 
-  if (result.status === "completed") {
-    console.log(result.data);
-  } else if (result.status === "failed" && result.stopReason === "credit_limit_reached") {
-    // `data` is never set on a failed run. `partial` is best-effort and may be missing.
-    if (result.partial !== undefined) {
-      if (result.partialSchemaValid !== true) {
-        console.warn("The partial result does not match the schema yet.");
-      }
-      console.log(result.message, result.partial);
+if (result.status === "completed") {
+  console.log(result.data);
+} else if (result.status === "failed" && result.stopReason === "credit_limit_reached") {
+  // `data` is never set on a failed run. `partial` is best-effort and may be missing.
+  if (result.partial !== undefined) {
+    if (result.partialSchemaValid !== true) {
+      console.warn("The partial result does not match the schema yet.");
     }
-
-    // Continue the same thread. The agent picks up from the incomplete result.
-    // The follow-up inherits the schema but not maxCredits, so set a budget.
-    const followUp = await firecrawl.agent({
-      threadId: result.threadId,
-      prompt: "Continue and finish the list.",
-      maxCredits: 200
-    });
-    console.log(followUp.status, followUp.data);
-  } else {
-    console.error(result.error);
+    console.log(result.message, result.partial);
   }
-  ```
 
-  ```bash cURL
-  # 1. Poll the run. A credit stop reports "status": "failed" with "stopReason": "credit_limit_reached".
-  curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+  // Continue the same thread. The agent picks up from the incomplete result.
+  // The follow-up inherits the schema but not maxCredits, so set a budget.
+  const followUp = await firecrawl.agent({
+    threadId: result.threadId,
+    prompt: "Continue and finish the list.",
+    maxCredits: 200
+  });
+  console.log(followUp.status, followUp.data);
+} else {
+  console.error(result.error);
+}
+```
 
-  # 2. Continue the same thread to finish the work.
-  curl -X POST "https://api.firecrawl.dev/v2/agent" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "threadId": "<threadId from the failed run>",
-      "prompt": "Continue and finish the list.",
-      "maxCredits": 200
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+# 1. Poll the run. A credit stop reports "status": "failed" with "stopReason": "credit_limit_reached".
+curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+
+# 2. Continue the same thread to finish the work.
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "threadId": "<threadId from the failed run>",
+    "prompt": "Continue and finish the list.",
+    "maxCredits": 200
+  }'
+```
 
 #### Credit-limit Example
 
@@ -438,7 +528,7 @@ To finish the work, continue the run's thread with a follow-up prompt. The previ
 
 When you read a thread with `GET /v2/agent/threads/{threadId}?includeData=true` (`getAgentThread` in Node, `get_agent_thread` in Python), a run that ended with a partial has `status: "credit_limit_reached"` and reports `partial`, `partialSchemaValid` and `stopReason` instead of `data`.
 
-If you started the run with a `webhook`, the [`agent.failed`](/webhooks/events#agentfailed) event carries the same `stopReason`, and `partial`, `partialSchemaValid` and `message` when they are available.
+If you started the run with a `webhook`, the [`agent.failed`](https://docs.firecrawl.dev/webhooks/events#agentfailed) event carries the same `stopReason`, and `partial`, `partialSchemaValid` and `message` when they are available.
 
 ## Listing agent runs
 
@@ -446,52 +536,50 @@ If you started the run with a `webhook`, the [`agent.failed`](/webhooks/events#a
 
 Results are paginated in fixed pages of 20 runs. When more pages exist, the response includes a `next` URL; pass its `before` timestamp to fetch the next page. The SDK methods do not auto-paginate, so you stay in control of how far back to go.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  # List your most recent agent runs
-  page = app.list_agents()
+# List your most recent agent runs
+page = app.list_agents()
 
-  for run in page.agents:
-      print(run.id, run.status, run.target_hint)
+for run in page.agents:
+    print(run.id, run.status, run.target_hint)
 
-  # Fetch the next page using the cursor from `next`
-  if page.next:
-      before = int(page.next.split("before=")[-1])
-      older = app.list_agents(before=before)
-  ```
+# Fetch the next page using the cursor from `next`
+if page.next:
+    before = int(page.next.split("before=")[-1])
+    older = app.list_agents(before=before)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  // List your most recent agent runs
-  const page = await firecrawl.listAgents();
+// List your most recent agent runs
+const page = await firecrawl.listAgents();
 
-  for (const run of page.agents ?? []) {
-    console.log(run.id, run.status, run.targetHint);
-  }
+for (const run of page.agents ?? []) {
+  console.log(run.id, run.status, run.targetHint);
+}
 
-  // Fetch the next page using the cursor from `next`
-  if (page.next) {
-    const before = Number(new URL(page.next).searchParams.get("before"));
-    const older = await firecrawl.listAgents({ before });
-  }
-  ```
+// Fetch the next page using the cursor from `next`
+if (page.next) {
+  const before = Number(new URL(page.next).searchParams.get("before"));
+  const older = await firecrawl.listAgents({ before });
+}
+```
 
-  ```bash cURL
-  curl -X GET "https://api.firecrawl.dev/v2/agent" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+```bash cURL theme={null}
+curl -X GET "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
 
-  # Fetch the next page (unix ms timestamp from the previous page's `next` URL)
-  curl -X GET "https://api.firecrawl.dev/v2/agent?before=1756600000000" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY"
-  ```
-</CodeGroup>
+# Fetch the next page (unix ms timestamp from the previous page's `next` URL)
+curl -X GET "https://api.firecrawl.dev/v2/agent?before=1756600000000" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+```
 
 ## Following a run in progress
 
@@ -500,213 +588,209 @@ Agent doesn't hold a streamed connection open. There's no server-sent event stre
 | Surface | What you get | Best for |
 | - | - | - |
 | Trace polling | Full detail: every event the run has emitted so far, including tool calls, reasoning summaries, progress phases, and artifact changes | Building your own progress UI, or debugging what a run actually did |
-| Webhooks | Push delivery, coarse-grained: the five agent lifecycle events (`agent.started`, `agent.action`, `agent.completed`, `agent.failed`, `agent.cancelled`). See [webhook events](/webhooks/events) | Reacting to a run finishing without holding a poll loop open |
+| Webhooks | Push delivery, coarse-grained: the five agent lifecycle events (`agent.started`, `agent.action`, `agent.completed`, `agent.failed`, `agent.cancelled`). See [webhook events](https://docs.firecrawl.dev/webhooks/events.md) | Reacting to a run finishing without holding a poll loop open |
 | Live view | A human-watchable view of the agent's browser. Request the trace with `?liveView=true` and each entry in `activeBrowserSessions` carries a `liveViewUrl` | Watching a run navigate in real time |
 
 When you order trace events yourself, group them by `agent.id` first: `producerSequence` is monotonic per emitting agent, so a single global sort interleaves an orchestrator's events with its subagents' incorrectly. Events can also land for a moment after the terminal `run.finished` event, so keep polling through a short tail window before you render the final state.
 
-<CodeGroup>
-  ```python Python
-  import time
-  from collections import defaultdict
+```python Python theme={null}
+import time
+from collections import defaultdict
 
-  from firecrawl import Firecrawl
+from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  agent_job = app.start_agent(prompt="Find the founders of Firecrawl")
-  seen = set()
-  finished = False
-  quiet_polls = 0
+agent_job = app.start_agent(prompt="Find the founders of Firecrawl")
+seen = set()
+finished = False
+quiet_polls = 0
 
-  while True:
-      trace = app.get_agent_trace(agent_job.id)
+while True:
+    trace = app.get_agent_trace(agent_job.id)
 
-      # producer_sequence is monotonic per emitting agent, so group first.
-      by_agent = defaultdict(list)
-      for event in trace.events or []:
-          by_agent[event.agent.id].append(event)
+    # producer_sequence is monotonic per emitting agent, so group first.
+    by_agent = defaultdict(list)
+    for event in trace.events or []:
+        by_agent[event.agent.id].append(event)
 
-      new_events = 0
-      for agent_id, events in by_agent.items():
-          for event in sorted(events, key=lambda e: e.producer_sequence):
-              if event.event_id not in seen:
-                  seen.add(event.event_id)
-                  new_events += 1
-                  print(agent_id, event.producer_sequence, event.type)
+    new_events = 0
+    for agent_id, events in by_agent.items():
+        for event in sorted(events, key=lambda e: e.producer_sequence):
+            if event.event_id not in seen:
+                seen.add(event.event_id)
+                new_events += 1
+                print(agent_id, event.producer_sequence, event.type)
 
-      if not finished:
-          finished = app.get_agent_status(agent_job.id).status != "processing"
-      elif new_events:
-          quiet_polls = 0
-      else:
-          # Tail window: events can land for a moment after the run finishes.
-          quiet_polls += 1
-          if quiet_polls == 3:
-              break
+    if not finished:
+        finished = app.get_agent_status(agent_job.id).status != "processing"
+    elif new_events:
+        quiet_polls = 0
+    else:
+        # Tail window: events can land for a moment after the run finishes.
+        quiet_polls += 1
+        if quiet_polls == 3:
+            break
 
-      time.sleep(5)
-  ```
+    time.sleep(5)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  const started = await firecrawl.startAgent({ prompt: "Find the founders of Firecrawl" });
-  const seen = new Set();
-  let finished = false;
-  let quietPolls = 0;
+const started = await firecrawl.startAgent({ prompt: "Find the founders of Firecrawl" });
+const seen = new Set();
+let finished = false;
+let quietPolls = 0;
 
-  for (;;) {
-    const trace = await firecrawl.getAgentTrace(started.id);
+for (;;) {
+  const trace = await firecrawl.getAgentTrace(started.id);
 
-    // producerSequence is monotonic per emitting agent, so group first.
-    const byAgent = new Map();
-    for (const event of trace.events ?? []) {
-      const bucket = byAgent.get(event.agent.id) ?? [];
-      bucket.push(event);
-      byAgent.set(event.agent.id, bucket);
-    }
-
-    let newEvents = 0;
-    for (const [agentId, events] of byAgent) {
-      for (const event of events.sort((a, b) => a.producerSequence - b.producerSequence)) {
-        if (seen.has(event.eventId)) continue;
-        seen.add(event.eventId);
-        newEvents++;
-        console.log(agentId, event.producerSequence, event.type);
-      }
-    }
-
-    if (!finished) {
-      finished = (await firecrawl.getAgentStatus(started.id)).status !== "processing";
-    } else if (newEvents) {
-      quietPolls = 0;
-    } else {
-      // Tail window: events can land for a moment after the run finishes.
-      if (++quietPolls === 3) break;
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+  // producerSequence is monotonic per emitting agent, so group first.
+  const byAgent = new Map();
+  for (const event of trace.events ?? []) {
+    const bucket = byAgent.get(event.agent.id) ?? [];
+    bucket.push(event);
+    byAgent.set(event.agent.id, bucket);
   }
-  ```
 
-  ```bash cURL
-  # Print only the events you haven't seen yet, and keep polling through a short
-  # tail window after the run finishes.
-  tmp=$(mktemp -d)
-  trap 'rm -rf "$tmp"' EXIT
-  : > "$tmp/seen.txt"
-  finished=0
-  quiet=0
+  let newEvents = 0;
+  for (const [agentId, events] of byAgent) {
+    for (const event of events.sort((a, b) => a.producerSequence - b.producerSequence)) {
+      if (seen.has(event.eventId)) continue;
+      seen.add(event.eventId);
+      newEvents++;
+      console.log(agentId, event.producerSequence, event.type);
+    }
+  }
 
-  while [ "$quiet" -lt 3 ]; do
-    curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID/trace" \
-      -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    | jq -r '.events | group_by(.agent.id)[] | sort_by(.producerSequence)[]
-             | "\(.eventId) \(.agent.id) \(.producerSequence) \(.type)"' > "$tmp/poll.txt"
+  if (!finished) {
+    finished = (await firecrawl.getAgentStatus(started.id)).status !== "processing";
+  } else if (newEvents) {
+    quietPolls = 0;
+  } else {
+    // Tail window: events can land for a moment after the run finishes.
+    if (++quietPolls === 3) break;
+  }
 
-    new=$(grep -vxF -f "$tmp/seen.txt" "$tmp/poll.txt")
-    [ -n "$new" ] && echo "$new"
-    cp "$tmp/poll.txt" "$tmp/seen.txt"
+  await new Promise((resolve) => setTimeout(resolve, 5000));
+}
+```
 
-    if [ "$finished" = 0 ]; then
-      status=$(curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID" \
-        -H "Authorization: Bearer $FIRECRAWL_API_KEY" | jq -r '.status')
-      [ "$status" = "processing" ] || finished=1
-    elif [ -n "$new" ]; then
-      quiet=0
-    else
-      quiet=$((quiet + 1))
-    fi
+```bash cURL theme={null}
+# Print only the events you haven't seen yet, and keep polling through a short
+# tail window after the run finishes.
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+: > "$tmp/seen.txt"
+finished=0
+quiet=0
 
-    sleep 5
-  done
-  ```
-</CodeGroup>
+while [ "$quiet" -lt 3 ]; do
+  curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID/trace" \
+    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  | jq -r '.events | group_by(.agent.id)[] | sort_by(.producerSequence)[]
+           | "\(.eventId) \(.agent.id) \(.producerSequence) \(.type)"' > "$tmp/poll.txt"
+
+  new=$(grep -vxF -f "$tmp/seen.txt" "$tmp/poll.txt")
+  [ -n "$new" ] && echo "$new"
+  cp "$tmp/poll.txt" "$tmp/seen.txt"
+
+  if [ "$finished" = 0 ]; then
+    status=$(curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID" \
+      -H "Authorization: Bearer $FIRECRAWL_API_KEY" | jq -r '.status')
+    [ "$status" = "processing" ] || finished=1
+  elif [ -n "$new" ]; then
+    quiet=0
+  else
+    quiet=$((quiet + 1))
+  fi
+
+  sleep 5
+done
+```
 
 ## Execution Traces and Snapshots
 
 Every run records a canonical execution trace — ordered events covering tool calls, reasoning summaries, progress updates, browser sessions, and output artifact changes. Fetch it to debug a run or power a live progress UI:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  # Execution trace of a run: ordered events (tool calls, reasoning, artifacts)
-  trace = app.get_agent_trace("JOB_ID")
+# Execution trace of a run: ordered events (tool calls, reasoning, artifacts)
+trace = app.get_agent_trace("JOB_ID")
 
-  for event in trace.events or []:
-      print(event.type)
+for event in trace.events or []:
+    print(event.type)
 
-  # Include currently active browser sessions while the run is in flight
-  live = app.get_agent_trace("JOB_ID", live_view=True)
-  for session in live.active_browser_sessions or []:
-      print(session.live_view_url)
-  ```
+# Include currently active browser sessions while the run is in flight
+live = app.get_agent_trace("JOB_ID", live_view=True)
+for session in live.active_browser_sessions or []:
+    print(session.live_view_url)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  // Execution trace of a run: ordered events (tool calls, reasoning, artifacts)
-  const trace = await firecrawl.getAgentTrace("JOB_ID");
+// Execution trace of a run: ordered events (tool calls, reasoning, artifacts)
+const trace = await firecrawl.getAgentTrace("JOB_ID");
 
-  for (const event of trace.events ?? []) {
-    console.log(event.type);
-  }
+for (const event of trace.events ?? []) {
+  console.log(event.type);
+}
 
-  // Include currently active browser sessions while the run is in flight
-  const live = await firecrawl.getAgentTrace("JOB_ID", { liveView: true });
-  console.log(live.activeBrowserSessions);
-  ```
+// Include currently active browser sessions while the run is in flight
+const live = await firecrawl.getAgentTrace("JOB_ID", { liveView: true });
+console.log(live.activeBrowserSessions);
+```
 
-  ```bash cURL
-  curl "https://api.firecrawl.dev/v2/agent/JOB_ID/trace" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+```bash cURL theme={null}
+curl "https://api.firecrawl.dev/v2/agent/JOB_ID/trace" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
 
-  # Include currently active browser sessions while the run is in flight
-  curl "https://api.firecrawl.dev/v2/agent/JOB_ID/trace?liveView=true" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY"
-  ```
-</CodeGroup>
+# Include currently active browser sessions while the run is in flight
+curl "https://api.firecrawl.dev/v2/agent/JOB_ID/trace?liveView=true" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+```
 
 `artifact.updated` trace events reference the agent's working output by `snapshotId`. Fetch the full content of a snapshot with the snapshots endpoint:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  # artifact.updated trace events reference snapshot content by snapshotId
-  snapshot = app.get_agent_snapshot("JOB_ID", "SNAPSHOT_ID")
+# artifact.updated trace events reference snapshot content by snapshotId
+snapshot = app.get_agent_snapshot("JOB_ID", "SNAPSHOT_ID")
 
-  print(snapshot.snapshot)
-  ```
+print(snapshot.snapshot)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  // artifact.updated trace events reference snapshot content by snapshotId
-  const snapshot = await firecrawl.getAgentSnapshot("JOB_ID", "SNAPSHOT_ID");
+// artifact.updated trace events reference snapshot content by snapshotId
+const snapshot = await firecrawl.getAgentSnapshot("JOB_ID", "SNAPSHOT_ID");
 
-  console.log(snapshot.snapshot);
-  ```
+console.log(snapshot.snapshot);
+```
 
-  ```bash cURL
-  curl "https://api.firecrawl.dev/v2/agent/JOB_ID/snapshots/SNAPSHOT_ID" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY"
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl "https://api.firecrawl.dev/v2/agent/JOB_ID/snapshots/SNAPSHOT_ID" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+```
 
-Traces and snapshots are recorded on Spark 2 runs, which is every new run; jobs started on Spark 1 models before their retirement do not have them. See the [trace](/api-reference/endpoint/agent-trace) and [snapshot](/api-reference/endpoint/agent-snapshot) API references for the full event schema, and the [Agent errors](/api-reference/errors#agent) catalog for the failures these endpoints return.
+> [!NOTE]
+>
+> Traces and snapshots are recorded on Spark 2 runs, which is every new run; jobs started on Spark 1 models before their retirement do not have them. See the [trace](https://docs.firecrawl.dev/api-reference/endpoint/agent-trace.md) and [snapshot](https://docs.firecrawl.dev/api-reference/endpoint/agent-snapshot.md) API references for the full event schema, and the [Agent errors](https://docs.firecrawl.dev/api-reference/errors.md#agent) catalog for the failures these endpoints return.
 
 ## Getting the agent's source data
 
@@ -714,77 +798,75 @@ A run writes its working output to artifacts as it goes, and you can retrieve th
 
 To pull the page content a run produced, fetch the trace, keep the `artifact.updated` events whose `kind` you want, then fetch each snapshot:
 
-<CodeGroup>
-  ```python Python
-  import json
+```python Python theme={null}
+import json
 
-  from firecrawl import Firecrawl
+from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  trace = app.get_agent_trace("JOB_ID")
+trace = app.get_agent_trace("JOB_ID")
 
-  for event in trace.events or []:
-      if event.type != "artifact.updated":
-          continue
+for event in trace.events or []:
+    if event.type != "artifact.updated":
+        continue
 
-      kind = event.artifact.kind
-      if kind not in ("markdown", "html", "json"):
-          continue
+    kind = event.artifact.kind
+    if kind not in ("markdown", "html", "json"):
+        continue
 
-      snapshot = app.get_agent_snapshot("JOB_ID", event.artifact.snapshot_id)
+    snapshot = app.get_agent_snapshot("JOB_ID", event.artifact.snapshot_id)
 
-      # markdown, html, and text snapshots are the content itself.
-      # json snapshots are JSON-encoded, so decode those.
-      content = json.loads(snapshot.snapshot) if kind == "json" else snapshot.snapshot
+    # markdown, html, and text snapshots are the content itself.
+    # json snapshots are JSON-encoded, so decode those.
+    content = json.loads(snapshot.snapshot) if kind == "json" else snapshot.snapshot
 
-      print(kind, event.artifact.path, content)
-  ```
+    print(kind, event.artifact.path, content)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  const trace = await firecrawl.getAgentTrace("JOB_ID");
+const trace = await firecrawl.getAgentTrace("JOB_ID");
 
-  for (const event of trace.events ?? []) {
-    if (event.type !== "artifact.updated") continue;
+for (const event of trace.events ?? []) {
+  if (event.type !== "artifact.updated") continue;
 
-    const kind = event.artifact.kind;
-    if (!["markdown", "html", "json"].includes(kind)) continue;
+  const kind = event.artifact.kind;
+  if (!["markdown", "html", "json"].includes(kind)) continue;
 
-    const snapshot = await firecrawl.getAgentSnapshot("JOB_ID", event.artifact.snapshotId);
+  const snapshot = await firecrawl.getAgentSnapshot("JOB_ID", event.artifact.snapshotId);
 
-    // markdown, html, and text snapshots are the content itself.
-    // json snapshots are JSON-encoded, so decode those.
-    const content = kind === "json" ? JSON.parse(snapshot.snapshot) : snapshot.snapshot;
+  // markdown, html, and text snapshots are the content itself.
+  // json snapshots are JSON-encoded, so decode those.
+  const content = kind === "json" ? JSON.parse(snapshot.snapshot) : snapshot.snapshot;
 
-    console.log(kind, event.artifact.path, content);
-  }
-  ```
+  console.log(kind, event.artifact.path, content);
+}
+```
 
-  ```bash cURL
-  # Fetch every markdown, html, or json artifact the run wrote.
-  curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID/trace" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-  | jq -r '.events[]
-           | select(.type == "artifact.updated")
-           | select(.artifact.kind == "markdown" or .artifact.kind == "html" or .artifact.kind == "json")
-           | "\(.artifact.kind) \(.artifact.snapshotId)"' \
-  | while read -r kind snapshot_id; do
-      body=$(curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID/snapshots/$snapshot_id" \
-        -H "Authorization: Bearer $FIRECRAWL_API_KEY")
+```bash cURL theme={null}
+# Fetch every markdown, html, or json artifact the run wrote.
+curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID/trace" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+| jq -r '.events[]
+         | select(.type == "artifact.updated")
+         | select(.artifact.kind == "markdown" or .artifact.kind == "html" or .artifact.kind == "json")
+         | "\(.artifact.kind) \(.artifact.snapshotId)"' \
+| while read -r kind snapshot_id; do
+    body=$(curl -s "https://api.firecrawl.dev/v2/agent/JOB_ID/snapshots/$snapshot_id" \
+      -H "Authorization: Bearer $FIRECRAWL_API_KEY")
 
-      # markdown and html snapshots are the content itself; json is JSON-encoded.
-      if [ "$kind" = "json" ]; then
-        printf '%s' "$body" | jq -r '.snapshot | fromjson'
-      else
-        printf '%s' "$body" | jq -r '.snapshot'
-      fi
-    done
-  ```
-</CodeGroup>
+    # markdown and html snapshots are the content itself; json is JSON-encoded.
+    if [ "$kind" = "json" ]; then
+      printf '%s' "$body" | jq -r '.snapshot | fromjson'
+    else
+      printf '%s' "$body" | jq -r '.snapshot'
+    fi
+  done
+```
 
 Two things worth knowing before you build on this:
 
@@ -799,9 +881,9 @@ You can share agent runs directly from the Agent playground. Shared links are pu
 
 Firecrawl Agent runs on **Spark 2** — cheaper and faster than the earlier Spark 1 models, at comparable accuracy. It is the default: every run executes on `spark-2`, whether or not you set the `model` parameter.
 
-
-  **Spark 1 models are deprecated.** The Spark 1 model names remain accepted for backwards compatibility, but requests that use them route to `spark-2`.
-
+> [!NOTE]
+>
+> **Spark 1 models are deprecated.** The Spark 1 model names remain accepted for backwards compatibility, but requests that use them route to `spark-2`.
 
 ### Spark 2
 
@@ -818,110 +900,106 @@ Firecrawl Agent runs on **Spark 2** — cheaper and faster than the earlier Spar
 
 The `model` parameter is optional — every request runs `spark-2`:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  # Spark 2 is the default — every run executes on it
-  result = app.agent(
-      prompt="Find the pricing of Firecrawl",
-      model="spark-2"
-  )
+# Spark 2 is the default — every run executes on it
+result = app.agent(
+    prompt="Find the pricing of Firecrawl",
+    model="spark-2"
+)
 
-  # Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
+# Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
 
-  print(result.data)
-  ```
+print(result.data)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  // Spark 2 is the default — every run executes on it
-  const result = await firecrawl.agent({
-    prompt: "Find the pricing of Firecrawl",
-    model: "spark-2"
-  });
+// Spark 2 is the default — every run executes on it
+const result = await firecrawl.agent({
+  prompt: "Find the pricing of Firecrawl",
+  model: "spark-2"
+});
 
-  // Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
+// Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
 
-  console.log(result.data);
-  ```
+console.log(result.data);
+```
 
-  ```bash cURL
-  # Spark 2 is the default — every run executes on it
-  curl -X POST "https://api.firecrawl.dev/v2/agent" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "prompt": "Find the pricing of Firecrawl",
-      "model": "spark-2"
-    }'
+```bash cURL theme={null}
+# Spark 2 is the default — every run executes on it
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Find the pricing of Firecrawl",
+    "model": "spark-2"
+  }'
 
-  # Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
-  ```
-</CodeGroup>
+# Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
+```
 
 ## Use your connected Alexandria tools
 
-Agent can call your team's [Alexandria](/features/alexandria) data providers during a run, alongside the web. The [playground](https://www.firecrawl.dev/app/agent) turns them on for you. From the API and the SDKs, a run uses the web only until you send an `exchange` object, so a request without one never uses your providers.
+Agent can call your team's [Alexandria](https://docs.firecrawl.dev/features/alexandria.md) data providers during a run, alongside the web. The [playground](https://www.firecrawl.dev/app/agent) turns them on for you. From the API and the SDKs, a run uses the web only until you send an `exchange` object, so a request without one never uses your providers.
 
 Send `exchange` with `enabled: true` to let the agent use every provider your team can use, or pin up to five with `toolkits`:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  result = app.agent(
-      prompt="Find recent podcast episodes about AI agents and who appeared on them",
-      exchange={
-          "enabled": True,
-          # Up to 5 provider slugs. Leave out to let the agent use every provider.
-          "toolkits": ["particle"],
-      },
-  )
+result = app.agent(
+    prompt="Find recent podcast episodes about AI agents and who appeared on them",
+    exchange={
+        "enabled": True,
+        # Up to 5 provider slugs. Leave out to let the agent use every provider.
+        "toolkits": ["particle"],
+    },
+)
 
-  print(result.data)
-  if result.exchange:
-      print(result.exchange.paid_calls, result.exchange.credits_used)
-  ```
+print(result.data)
+if result.exchange:
+    print(result.exchange.paid_calls, result.exchange.credits_used)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  const result = await firecrawl.agent({
-    prompt: "Find recent podcast episodes about AI agents and who appeared on them",
-    exchange: {
-      enabled: true,
-      // Up to 5 provider slugs. Leave out to let the agent use every provider.
-      toolkits: ["particle"]
+const result = await firecrawl.agent({
+  prompt: "Find recent podcast episodes about AI agents and who appeared on them",
+  exchange: {
+    enabled: true,
+    // Up to 5 provider slugs. Leave out to let the agent use every provider.
+    toolkits: ["particle"]
+  }
+});
+
+console.log(result.data);
+console.log(result.exchange?.paidCalls, result.exchange?.creditsUsed);
+```
+
+```bash cURL theme={null}
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Find recent podcast episodes about AI agents and who appeared on them",
+    "exchange": {
+      "enabled": true,
+      "toolkits": ["particle"]
     }
-  });
-
-  console.log(result.data);
-  console.log(result.exchange?.paidCalls, result.exchange?.creditsUsed);
-  ```
-
-  ```bash cURL
-  curl -X POST "https://api.firecrawl.dev/v2/agent" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "prompt": "Find recent podcast episodes about AI agents and who appeared on them",
-      "exchange": {
-        "enabled": true,
-        "toolkits": ["particle"]
-      }
-    }'
-  ```
-</CodeGroup>
+  }'
+```
 
 | Field | What it does |
 | - | - |
@@ -947,106 +1025,104 @@ With `requireApproval: true`, the agent stops before its first paid provider cal
 
 Send `requireApproval: true` again on the answering turn to keep later paid calls waiting for approval. Both turns need `mode: "chat"`.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  # requireApproval needs chat mode on every request that sends it.
-  first = app.agent(
-      prompt="Find the head of engineering at Firecrawl and a verified work email",
-      mode="chat",
-      exchange={"enabled": True, "toolkits": ["apollo"], "requireApproval": True},
-  )
+# requireApproval needs chat mode on every request that sends it.
+first = app.agent(
+    prompt="Find the head of engineering at Firecrawl and a verified work email",
+    mode="chat",
+    exchange={"enabled": True, "toolkits": ["apollo"], "requireApproval": True},
+)
 
-  approval = first.pending_approval
-  if approval is None or approval.is_terms:
-      print(first.data or first.message)
-  else:
-      for call in approval.calls or []:
-          print(call.provider, call.capability, call.credits_estimate)
+approval = first.pending_approval
+if approval is None or approval.is_terms:
+    print(first.data or first.message)
+else:
+    for call in approval.calls or []:
+        print(call.provider, call.capability, call.credits_estimate)
 
-      # Answer on the next turn of the same thread. Sending requireApproval again
-      # keeps later paid calls waiting for approval too.
-      result = app.agent(
-          thread_id=first.thread_id,
-          prompt="Approved, go ahead.",
-          mode="chat",
-          exchange={"requireApproval": True, "approve": {"approvalId": approval.id}},
-          # To refuse instead: exchange={"decline": {"approvalId": approval.id}}
-      )
-      print(result.data or result.message)
-  ```
+    # Answer on the next turn of the same thread. Sending requireApproval again
+    # keeps later paid calls waiting for approval too.
+    result = app.agent(
+        thread_id=first.thread_id,
+        prompt="Approved, go ahead.",
+        mode="chat",
+        exchange={"requireApproval": True, "approve": {"approvalId": approval.id}},
+        # To refuse instead: exchange={"decline": {"approvalId": approval.id}}
+    )
+    print(result.data or result.message)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  // requireApproval needs chat mode on every request that sends it.
-  const first = await firecrawl.agent({
-    prompt: "Find the head of engineering at Firecrawl and a verified work email",
-    mode: "chat",
-    exchange: { enabled: true, toolkits: ["apollo"], requireApproval: true }
-  });
+// requireApproval needs chat mode on every request that sends it.
+const first = await firecrawl.agent({
+  prompt: "Find the head of engineering at Firecrawl and a verified work email",
+  mode: "chat",
+  exchange: { enabled: true, toolkits: ["apollo"], requireApproval: true }
+});
 
-  const approval = first.pendingApproval;
-  if (!approval || approval.kind === "terms") {
-    console.log(first.data ?? first.message);
-  } else {
-    for (const call of approval.calls) {
-      console.log(call.provider, call.capability, call.creditsEstimate);
-    }
-
-    // Answer on the next turn of the same thread. Sending requireApproval again
-    // keeps later paid calls waiting for approval too.
-    const result = await firecrawl.agent({
-      threadId: first.threadId,
-      prompt: "Approved, go ahead.",
-      mode: "chat",
-      exchange: { requireApproval: true, approve: { approvalId: approval.id } }
-      // To refuse instead: exchange: { decline: { approvalId: approval.id } }
-    });
-    console.log(result.data ?? result.message);
+const approval = first.pendingApproval;
+if (!approval || approval.kind === "terms") {
+  console.log(first.data ?? first.message);
+} else {
+  for (const call of approval.calls) {
+    console.log(call.provider, call.capability, call.creditsEstimate);
   }
-  ```
 
-  ```bash cURL
-  # 1. Start a run that asks before any paid provider call.
-  curl -X POST "https://api.firecrawl.dev/v2/agent" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "prompt": "Find the head of engineering at Firecrawl and a verified work email",
-      "mode": "chat",
-      "exchange": { "enabled": true, "toolkits": ["apollo"], "requireApproval": true }
-    }'
+  // Answer on the next turn of the same thread. Sending requireApproval again
+  // keeps later paid calls waiting for approval too.
+  const result = await firecrawl.agent({
+    threadId: first.threadId,
+    prompt: "Approved, go ahead.",
+    mode: "chat",
+    exchange: { requireApproval: true, approve: { approvalId: approval.id } }
+    // To refuse instead: exchange: { decline: { approvalId: approval.id } }
+  });
+  console.log(result.data ?? result.message);
+}
+```
 
-  # 2. Poll the run. When it ends with a pendingApproval, read its id and calls.
-  curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+```bash cURL theme={null}
+# 1. Start a run that asks before any paid provider call.
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Find the head of engineering at Firecrawl and a verified work email",
+    "mode": "chat",
+    "exchange": { "enabled": true, "toolkits": ["apollo"], "requireApproval": true }
+  }'
 
-  # 3. Approve on the next turn of the same thread, or send
-  #    "decline": { "approvalId": "<pendingApproval.id>" } instead.
-  curl -X POST "https://api.firecrawl.dev/v2/agent" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "threadId": "<threadId from the first run>",
-      "prompt": "Approved, go ahead.",
-      "mode": "chat",
-      "exchange": {
-        "requireApproval": true,
-        "approve": { "approvalId": "<pendingApproval.id>" }
-      }
-    }'
-  ```
-</CodeGroup>
+# 2. Poll the run. When it ends with a pendingApproval, read its id and calls.
+curl -X GET "https://api.firecrawl.dev/v2/agent/<jobId>" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY"
+
+# 3. Approve on the next turn of the same thread, or send
+#    "decline": { "approvalId": "<pendingApproval.id>" } instead.
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "threadId": "<threadId from the first run>",
+    "prompt": "Approved, go ahead.",
+    "mode": "chat",
+    "exchange": {
+      "requireApproval": true,
+      "approve": { "approvalId": "<pendingApproval.id>" }
+    }
+  }'
+```
 
 ## Data providers that need terms
 
-When a run uses [Alexandria](/features/alexandria) data providers, it only calls the ones whose data terms your team has accepted. A provider whose terms you haven't accepted is never called, whatever `exchange.onTermsRequired` is set to. The run carries on with the providers it can use, and the status response reports what it skipped.
+When a run uses [Alexandria](https://docs.firecrawl.dev/features/alexandria.md) data providers, it only calls the ones whose data terms your team has accepted. A provider whose terms you haven't accepted is never called, whatever `exchange.onTermsRequired` is set to. The run carries on with the providers it can use, and the status response reports what it skipped.
 
 There is no auto-accept mode. Accepting a provider's terms always needs a person to agree to them, either in the [dashboard](https://www.firecrawl.dev/app/settings?tab=data-sources) or through a `terms/accept` call your application makes after its user has explicitly agreed. If you build an agent on top of Firecrawl, it must ask its user before calling `terms/accept`. A request for data isn't consent to a provider's terms.
 
@@ -1119,7 +1195,7 @@ These fields are on the `exchange` object of `GET /v2/agent/{id}`:
 
 In `ask` mode:
 
-1. Show your user the terms. Run the provider's `show` call through [`/v2/scrape`](/features/alexandria) with `alexandria`.
+1. Show your user the terms. Run the provider's `show` call through [`/v2/scrape`](https://docs.firecrawl.dev/features/alexandria) with `alexandria`.
 2. Only if the user explicitly agrees, run its `accept` call the same way. If `accept.options.digest` is `null`, use the digest `terms/show` returned:
 
 ```bash theme={null}
@@ -1154,6 +1230,38 @@ To go on without the provider, continue with `exchange.decline: { "approvalId": 
 
 In `skip` mode there's no pending approval to answer. After the terms are accepted, start a new run (or a new turn of the thread) and the provider is available.
 
+## Zero Data Retention (ZDR)
+
+Agent supports Zero Data Retention (ZDR) for teams with strict data handling requirements. In a ZDR run, Firecrawl does not keep the prompt, the result or the content of the agent's steps in logs or storage. Only billing and status metadata is kept.
+
+To enable ZDR, set `zeroDataRetention: true` in your request:
+
+```bash cURL theme={null}
+curl -X POST https://api.firecrawl.dev/v2/agent \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -d '{
+    "prompt": "Find the pricing plans of firecrawl.dev",
+    "zeroDataRetention": true
+  }'
+```
+
+If your team has ZDR forced on, every agent run uses ZDR, whether or not the request sets `zeroDataRetention`.
+
+An agent run scrapes and searches the web, so ZDR for Agent needs both [Scrape ZDR](https://docs.firecrawl.dev/features/scrape.md#zero-data-retention-zdr) and [Search ZDR](https://docs.firecrawl.dev/features/search.md#zero-data-retention-zdr) enabled for your team. Otherwise the request returns a `400` with `code: "zdr_not_enabled"`. Contact [support@firecrawl.com](mailto:support@firecrawl.com) to enable it. ZDR is available on Enterprise plans. Visit [firecrawl.dev/enterprise](https://www.firecrawl.dev/enterprise) to get started.
+
+The result of a ZDR run is kept for 24 hours so you can retrieve it, then deleted. After that, `GET /v2/agent/{jobId}` returns a `410` with `code: "zdr_expired"`.
+
+> [!NOTE]
+>
+> * Follow-up turns are not available with ZDR. A ZDR request that sets `threadId` returns a `400` with `code: "zdr_threads_unsupported"`.
+> * With `exchange`, a ZDR run only uses [Alexandria data provider](#use-your-connected-alexandria-tools) capabilities that support ZDR.
+> * The dashboard does not record the steps of a ZDR run, and ZDR runs cannot be shared.
+
+### ZDR pricing
+
+In a ZDR run, AI credits are billed at 2×. Scrapes and searches the agent makes during the run are billed at their ZDR rates: scrapes add **1 credit per page** (see [Scrape ZDR](https://docs.firecrawl.dev/features/scrape.md#zero-data-retention-zdr)), and searches cost **10 credits per 10 results** (see [Search ZDR](https://docs.firecrawl.dev/features/search.md#end-to-end-zdr)). Alexandria provider calls are billed at the provider's ZDR price, passed through as is. The 2× applies only to AI credits, not to provider calls.
+
 ## Parameters
 
 | Parameter | Type | Required | Description |
@@ -1164,9 +1272,13 @@ In `skip` mode there's no pending approval to answer. After the terms are accept
 | `urls` | array | No | Optional list of URLs to focus the extraction |
 | `schema` | object | No | Optional JSON schema for structured output |
 | `strictConstrainToURLs` | boolean | No | If `true`, the agent only visits the URLs provided in the `urls` array |
-| `webhook` | object | No | Webhook to receive agent lifecycle events (`agent.started`, `agent.action`, `agent.completed`, `agent.failed`, `agent.cancelled`). See the [webhook payloads](/api-reference/endpoint/webhook-agent-started) |
+| `webhook` | object | No | Webhook to receive agent lifecycle events (`agent.started`, `agent.action`, `agent.completed`, `agent.failed`, `agent.cancelled`). See the [webhook payloads](https://docs.firecrawl.dev/api-reference/endpoint/webhook-agent-started.md) |
 | `maxCredits` | number | No | Maximum number of credits to spend on this agent task. Defaults to **2,500** if not set. The dashboard supports values up to **2,500**; for higher limits, set `maxCredits` via the API (values above 2,500 are always treated as paid requests). If the limit is reached, the job fails with `stopReason: "credit_limit_reached"` and **no `data` is returned**. The response may include a best-effort `partial`; see [Handling credit-limit stops](#handling-credit-limit-stops). Failed runs are not billed: credits used for AI reasoning are never charged on failure, any credits used for tool calls during the run (scraping, search, mapping, etc.) are refunded, and the response reports `creditsUsed: 0`. |
-| `threadId` | string | No | Continue an existing thread: the `threadId` an earlier run returned. Left-out `urls`, `schema`, `effort`, `mode` and `exchange` settings carry over from the previous turn |
+| `location` | object | No | `{ country }`: the proxy country for every request the agent makes. The agent cannot change it. See [Choosing a location](#choosing-a-location) |
+| `location.country` | string | No | ISO 3166-1 alpha-2 country code, case-insensitive (e.g. `DE`). Special values such as `us-generic` and `us-whitelist` are rejected |
+| `safe` | boolean | No | When `true`, every web search in the run filters explicit content (SafeSearch). Scraped and browsed pages are not filtered. See [Safe search](#safe-search) |
+| `zeroDataRetention` | boolean | No | Run the agent with [Zero Data Retention](#zero-data-retention-zdr). Requires Scrape ZDR and Search ZDR to be enabled for your team. Defaults to `false`, unless your team has ZDR forced on |
+| `threadId` | string | No | Continue an existing thread: the `threadId` an earlier run returned. Left-out `urls`, `schema`, `effort`, `mode`, `location`, `safe` and `exchange` settings carry over from the previous turn |
 | `mode` | string | No | `extract` (default) returns the full structured result in `data` every turn. `chat` lets a follow-up that asks for no new data get a short reply in `message`. Required for `exchange.requireApproval` |
 | `exchange` | object | No | Lets the agent call your team's Alexandria data providers. Without it the run uses the web only. See [Use your connected Alexandria tools](#use-your-connected-alexandria-tools) |
 | `exchange.enabled` | boolean | No | Lets the agent call providers. Defaults to `true` once `exchange` is sent |
@@ -1177,9 +1289,9 @@ In `skip` mode there's no pending approval to answer. After the terms are accept
 | `exchange.decline` | object | No | `{ approvalId }`: declines the previous turn's `pendingApproval`. Needs `threadId` |
 | `exchange.onTermsRequired` | string | No | What to do when an Alexandria data provider the agent would use needs terms your team has not accepted: `skip` (default) or `ask`. See [Data providers that need terms](#data-providers-that-need-terms) |
 
-## Agent vs Extract: What's Improved
+## Agent vs legacy /extract: What's Improved
 
-| Feature | Agent (New) | Extract |
+| Feature | Agent | Legacy /extract |
 | - | - | - |
 | URLs Required | No | Yes |
 | Speed | Faster | Standard |
@@ -1202,7 +1314,7 @@ Upload your CSV, then add output columns using the "+" button in the grid header
 
 ## Troubleshooting with Ask
 
-If your agent jobs fail or return unexpected results, use the [Ask API](/features/ask) for agentic debugging. Describe the issue and get back a verified answer with fix parameters you can apply directly:
+If your agent jobs fail or return unexpected results, use the [Ask API](https://docs.firecrawl.dev/features/ask.md) for agentic debugging. Describe the issue and get back a verified answer with fix parameters you can apply directly:
 
 ```bash theme={null}
 curl -X POST https://api.firecrawl.dev/v2/support/ask \
@@ -1213,11 +1325,11 @@ curl -X POST https://api.firecrawl.dev/v2/support/ask \
   }'
 ```
 
-See the [Ask documentation](/features/ask) for full details and integration examples.
+See the [Ask documentation](https://docs.firecrawl.dev/features/ask.md) for full details and integration examples.
 
 ## API Reference
 
-Check out the [Agent API Reference](/api-reference/endpoint/agent) for more details.
+Check out the [Agent API Reference](https://docs.firecrawl.dev/api-reference/endpoint/agent.md) for more details.
 
 Have feedback or need help? Email [help@firecrawl.com](mailto:help@firecrawl.com).
 
@@ -1234,9 +1346,9 @@ Agent pricing is **dynamic and credit-based**:
 * **Transparent usage** shows you exactly how many credits each request consumed
 * **Credit conversion** automatically converts agent credit usage to credits for easy billing
 
-
-  Credit usage varies based on the complexity of your prompt, the amount of data processed, and the structure of the output requested. As a rough guide, most agent runs consume **a few hundred credits**, though simpler single-page tasks may use less and complex multi-domain research may use more.
-
+> [!NOTE]
+>
+> Credit usage varies based on the complexity of your prompt, the amount of data processed, and the structure of the output requested. As a rough guide, most agent runs consume **a few hundred credits**, though simpler single-page tasks may use less and complex multi-domain research may use more.
 
 ### Parallel Agents Pricing
 

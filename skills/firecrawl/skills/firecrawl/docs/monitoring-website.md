@@ -10,97 +10,95 @@
 
 Website monitoring watches a whole site instead of a fixed list of URLs. Each check runs a crawl for the target `url`, scrapes every discovered page, and reconciles the result against the last retained snapshot. That catches added, changed, and removed pages, not just edits to pages you already named. It's the right choice for docs sites, blogs, changelogs, help centers, and competitor sites.
 
-This page covers the `crawl` target. Scheduling, goals and judging, change tracking, notifications, and pricing are shared across all monitor types. See the [Monitoring overview](/features/monitoring).
+This page covers the `crawl` target. Scheduling, goals and judging, change tracking, notifications, and pricing are shared across all monitor types. See the [Monitoring overview](https://docs.firecrawl.dev/features/monitoring.md).
 
 ## Create a website monitor
 
 Create a monitor with a `crawl` target to diff every page discovered by a crawl on each check:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  monitor = firecrawl.create_monitor(
-      name="Docs monitor",
-      schedule={"cron": "7-59/15 * * * *", "timezone": "UTC"},
-      goal="Notify me when docs pages add, remove, or materially change API behavior",
-      targets=[
-          {
-              "type": "crawl",
-              "url": "https://example.com/docs",
-              "crawlOptions": {
-                  "limit": 100,
-                  "maxDiscoveryDepth": 3,
-              },
-          }
-      ],
-      webhook={
-          "url": "https://example.com/webhooks/firecrawl",
-          "events": ["monitor.page", "monitor.check.completed"],
-      },
-  )
-
-  print(monitor.id)
-  ```
-
-  ```js Node
-  import Firecrawl from "@mendable/firecrawl-js";
-
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
-
-  const monitor = await firecrawl.createMonitor({
-    name: "Docs monitor",
-    schedule: { cron: "7-59/15 * * * *", timezone: "UTC" },
-    webhook: {
-      url: "https://example.com/webhooks/firecrawl",
-      events: ["monitor.page", "monitor.check.completed"],
-    },
-    goal: "Notify me when docs pages add, remove, or materially change API behavior",
-    targets: [
-      {
-        type: "crawl",
-        url: "https://example.com/docs",
-        crawlOptions: {
-          limit: 100,
-          maxDiscoveryDepth: 3,
-        },
-      },
-    ],
-  });
-
-  console.log(monitor.id);
-  ```
-
-  ```bash cURL
-  curl -s -X POST "https://api.firecrawl.dev/v2/monitor" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "name": "Docs monitor",
-      "schedule": {
-        "cron": "7-59/15 * * * *",
-        "timezone": "UTC"
-      },
-      "webhook": {
-        "url": "https://example.com/webhooks/firecrawl",
-        "events": ["monitor.page", "monitor.check.completed"]
-      },
-      "goal": "Notify me when docs pages add, remove, or materially change API behavior",
-      "targets": [
+monitor = firecrawl.create_monitor(
+    name="Docs monitor",
+    schedule={"cron": "7-59/15 * * * *", "timezone": "UTC"},
+    goal="Notify me when docs pages add, remove, or materially change API behavior",
+    targets=[
         {
-          "type": "crawl",
-          "url": "https://example.com/docs",
-          "crawlOptions": {
-            "limit": 100,
-            "maxDiscoveryDepth": 3
-          }
+            "type": "crawl",
+            "url": "https://example.com/docs",
+            "crawlOptions": {
+                "limit": 100,
+                "maxDiscoveryDepth": 3,
+            },
         }
-      ]
-    }'
-  ```
-</CodeGroup>
+    ],
+    webhook={
+        "url": "https://example.com/webhooks/firecrawl",
+        "events": ["monitor.page", "monitor.check.completed"],
+    },
+)
+
+print(monitor.id)
+```
+
+```js Node theme={null}
+import Firecrawl from "firecrawl";
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+
+const monitor = await firecrawl.createMonitor({
+  name: "Docs monitor",
+  schedule: { cron: "7-59/15 * * * *", timezone: "UTC" },
+  webhook: {
+    url: "https://example.com/webhooks/firecrawl",
+    events: ["monitor.page", "monitor.check.completed"],
+  },
+  goal: "Notify me when docs pages add, remove, or materially change API behavior",
+  targets: [
+    {
+      type: "crawl",
+      url: "https://example.com/docs",
+      crawlOptions: {
+        limit: 100,
+        maxDiscoveryDepth: 3,
+      },
+    },
+  ],
+});
+
+console.log(monitor.id);
+```
+
+```bash cURL theme={null}
+curl -s -X POST "https://api.firecrawl.dev/v2/monitor" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Docs monitor",
+    "schedule": {
+      "cron": "7-59/15 * * * *",
+      "timezone": "UTC"
+    },
+    "webhook": {
+      "url": "https://example.com/webhooks/firecrawl",
+      "events": ["monitor.page", "monitor.check.completed"]
+    },
+    "goal": "Notify me when docs pages add, remove, or materially change API behavior",
+    "targets": [
+      {
+        "type": "crawl",
+        "url": "https://example.com/docs",
+        "crawlOptions": {
+          "limit": 100,
+          "maxDiscoveryDepth": 3
+        }
+      }
+    ]
+  }'
+```
 
 ## Crawl target
 
@@ -140,15 +138,15 @@ A crawl check reconciles every discovered page against the previous check and re
 * `removed`: A page from the previous check was no longer discovered.
 * `error`: The page could not be checked.
 
-To alert on specific structured fields across the crawled pages, add a `changeTracking` format to `scrapeOptions`. See [Change tracking](/features/monitoring#change-tracking).
+To alert on specific structured fields across the crawled pages, add a `changeTracking` format to `scrapeOptions`. See [Change tracking](https://docs.firecrawl.dev/features/monitoring.md#change-tracking).
 
 ## Shared configuration
 
-* [Schedules](/features/monitoring#schedules): cron or natural-language cadence, minimum 5 minutes.
-* [Goals and judging](/features/monitoring#goals-and-judging): alert only on meaningful changes.
-* [Notifications](/features/monitoring#notifications): webhook and email delivery.
-* [Check results](/features/monitoring#check-results): inspect each check and its per-page diffs.
-* [Pricing](/features/monitoring#pricing): 1 credit per discovered page per check, plus optional judging.
+* [Schedules](https://docs.firecrawl.dev/features/monitoring.md#schedules): cron or natural-language cadence, minimum 5 minutes.
+* [Goals and judging](https://docs.firecrawl.dev/features/monitoring.md#goals-and-judging): alert only on meaningful changes.
+* [Notifications](https://docs.firecrawl.dev/features/monitoring.md#notifications): webhook and email delivery.
+* [Check results](https://docs.firecrawl.dev/features/monitoring.md#check-results): inspect each check and its per-page diffs.
+* [Pricing](https://docs.firecrawl.dev/features/monitoring.md#pricing): 1 credit per discovered page per check, plus optional judging.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

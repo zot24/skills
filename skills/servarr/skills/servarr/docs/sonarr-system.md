@@ -305,6 +305,8 @@ If you no longer use this download client, disable it in Sonarr to prevent the e
 
 #### <a href="#missing-root-folder" class="toc-anchor">¶</a> Missing Root Folder
 
+- If your entire root folder is gone (say, because of a disk failure), Sonarr will not update your series to show those files as missing. This is protection for you against a loose cable or other issues that can be corrected. If everything is *really* gone, place any file or folder in the empty root folder, and Sonarr will update your system to properly reflect missing files. This is because it then knows your root folder is actually empty, and it's not just temporarily gone.
+
 - A root folder is added to Sonarr and does not exist or is not accessible.
 
 - This check only evaluates the root folders your existing series use, so it fires when a Series is looking for a root folder but that root folder is no longer available. An import list pointed at a missing root folder is a separate check; see [Import List Missing Root Folder](#import-list-missing-root-folder).

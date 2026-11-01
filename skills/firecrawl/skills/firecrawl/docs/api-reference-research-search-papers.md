@@ -8,7 +8,7 @@
 
 Search papers by topic, method, benchmark, author, or category. Results include canonical `paperId`, preferred `primaryId`, source ids, title, abstract, score, and optional ranking signals.
 
-For a workflow overview, see the [Research Index guide](/features/research).
+For a workflow overview, see the [Research Index guide](https://docs.firecrawl.dev/features/research.md).
 
 
 ## OpenAPI

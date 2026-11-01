@@ -50,7 +50,7 @@ APP_SECRET = "random string"
 ### CLIENT_IP_HEADER<a href="#client_ip_header" class="heading-anchor" aria-label="Permalink to “CLIENT_IP_HEADER”">#</a>
 
 
-HTTP header to check for the client's IP address. This is useful when you're behind a proxy that uses non-standard headers.
+HTTP header to check for the client's IP address. This is useful when you're behind a proxy that uses non-standard headers. If you're behind multiple proxies, see [TRUSTED_PROXIES](#trusted_proxies).
 
 
 ``` code-block
@@ -156,6 +156,17 @@ ENABLE_TEST_CONSOLE = 1
 ```
 
 
+### ERRORS_PER_MINUTE<a href="#errors_per_minute" class="heading-anchor" aria-label="Permalink to “ERRORS_PER_MINUTE”">#</a>
+
+
+The maximum number of [error tracking](/docs/error-tracking) requests accepted per website per minute. Requests over the limit return `429` and the tracker pauses capture. Retries count toward the limit. Accepts `1` to `100000`. Defaults to `120`.
+
+
+``` code-block
+ERRORS_PER_MINUTE = 120
+```
+
+
 ### FAVICON_URL<a href="#favicon_url" class="heading-anchor" aria-label="Permalink to “FAVICON_URL”">#</a>
 
 
@@ -190,7 +201,7 @@ GEO_DATABASE_URL = "https://example.com/GeoLite2-City.mmdb"
 ### HOSTNAME / PORT<a href="#hostname--port" class="heading-anchor" aria-label="Permalink to “HOSTNAME / PORT”">#</a>
 
 
-If you are running on an environment which requires you to bind to a specific hostname or port, such as Heroku, you can add these variables and start your app with `pnpm run start-env` instead of `pnpm start`.
+If you are running on an environment which requires you to bind to a specific hostname or port, such as Heroku, you can add these variables and start your app with `pnpm run start:env` instead of `pnpm start`.
 
 
 ``` code-block
@@ -301,6 +312,23 @@ The `.js` extension is not required. The value can also be any path you choose, 
 TRACKER_SCRIPT_NAME = "custom-script-name.js"
 ```
 
+
+### TRUSTED_PROXIES<a href="#trusted_proxies" class="heading-anchor" aria-label="Permalink to “TRUSTED_PROXIES”">#</a>
+
+
+A comma-delimited list of IP addresses and CIDR ranges of the proxies and load balancers in front of Umami. Set this when requests pass through more than one proxy and Umami records an internal address (like `10.0.0.8`) instead of the visitor's IP.
+
+When set, Umami reads `X-Forwarded-For` and `Forwarded` from right to left, skips trusted proxies, and uses the first address that isn't one. Headers such as `X-Real-IP` that contain a trusted proxy address are skipped in favor of the next header.
+
+You can also use the presets `loopback`, `linklocal` and `private` (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`).
+
+
+``` code-block
+TRUSTED_PROXIES = "10.0.0.0/8, 172.16.0.0/12"
+```
+
+
+Only list addresses that belong to your own proxies. If your visitors also use private addresses, such as on an internal network, list the specific proxy addresses rather than using `private`, otherwise those visitors will be skipped.
 
 ### TWO_FACTOR_ENCRYPTION_KEY<a href="#two_factor_encryption_key" class="heading-anchor" aria-label="Permalink to “TWO_FACTOR_ENCRYPTION_KEY”">#</a>
 

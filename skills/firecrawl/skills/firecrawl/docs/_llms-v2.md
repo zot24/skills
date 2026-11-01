@@ -4,7 +4,7 @@
 
 ## v2
 
-- [English / v2 / Documentation (133 pages)](https://docs.firecrawl.dev/_llms/en/v2/documentation.txt): Documentation for English / v2 / Documentation.
+- [English / v2 / Documentation (137 pages)](https://docs.firecrawl.dev/_llms/en/v2/documentation.txt): Documentation for English / v2 / Documentation.
 
 ### SDKs
 
@@ -14,14 +14,14 @@
 
 #### Official
 
-- [Python](https://docs.firecrawl.dev/sdks/python.md): Firecrawl Python SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
-- [Node](https://docs.firecrawl.dev/sdks/node.md): Scrape, crawl, and extract structured data from websites using the Firecrawl Node SDK.
-- [Go](https://docs.firecrawl.dev/sdks/go.md): Firecrawl Go SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
-- [Java](https://docs.firecrawl.dev/sdks/java.md): Firecrawl Java SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
-- [Ruby](https://docs.firecrawl.dev/sdks/ruby.md): Firecrawl Ruby SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
-- [Rust](https://docs.firecrawl.dev/sdks/rust.md): Firecrawl Rust SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
-- [.NET](https://docs.firecrawl.dev/sdks/dotnet.md): Firecrawl .NET SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
-- [PHP](https://docs.firecrawl.dev/sdks/php.md): Firecrawl PHP SDK is a wrapper around the Firecrawl API to help you easily turn websites into markdown.
+- [Python](https://docs.firecrawl.dev/sdks/python.md): Firecrawl Python SDK is a wrapper around the Firecrawl API to search, scrape, and crawl the web and get clean Markdown or structured data.
+- [Node](https://docs.firecrawl.dev/sdks/node.md): Search, scrape, crawl, and interact with the web using the Firecrawl Node SDK.
+- [Go](https://docs.firecrawl.dev/sdks/go.md): Firecrawl Go SDK is a wrapper around the Firecrawl API to search, scrape, and crawl the web and get clean Markdown or structured data.
+- [Java](https://docs.firecrawl.dev/sdks/java.md): Firecrawl Java SDK is a wrapper around the Firecrawl API to search, scrape, and crawl the web and get clean Markdown or structured data.
+- [Ruby](https://docs.firecrawl.dev/sdks/ruby.md): Firecrawl Ruby SDK is a wrapper around the Firecrawl API to search, scrape, and crawl the web and get clean Markdown or structured data.
+- [Rust](https://docs.firecrawl.dev/sdks/rust.md): Firecrawl Rust SDK is a wrapper around the Firecrawl API to search, scrape, and crawl the web and get clean Markdown or structured data.
+- [.NET](https://docs.firecrawl.dev/sdks/dotnet.md): Firecrawl .NET SDK is a wrapper around the Firecrawl API to search, scrape, and crawl the web and get clean Markdown or structured data.
+- [PHP](https://docs.firecrawl.dev/sdks/php.md): Firecrawl PHP SDK is a wrapper around the Firecrawl API to search, scrape, and crawl the web and get clean Markdown or structured data.
 - [Elixir](https://docs.firecrawl.dev/sdks/elixir.md): Firecrawl Elixir SDK is an auto-generated client for the Firecrawl API v2, built with Req and NimbleOptions.
 - [CLI](https://docs.firecrawl.dev/sdks/cli.md): Firecrawl skills are an easy way for AI agents such as Codex, Claude Code, Cursor, and OpenCode to use Firecrawl through the CLI.
 
@@ -155,6 +155,11 @@
 
 - [Firecrawl for Platforms](https://docs.firecrawl.dev/firecrawl-for-platforms.md): API reference for platforms that create and manage Firecrawl API keys for their users
 
+#### Authentication
+
+- [Authentication](https://docs.firecrawl.dev/authentication.md): Choose between API keys, hosted MCP and OAuth for calling Firecrawl
+- [OAuth for apps](https://docs.firecrawl.dev/oauth.md): Let users connect their own Firecrawl account to your app with OAuth instead of pasting an API key
+
 ### Build with AI
 
 #### Getting Started
@@ -179,30 +184,58 @@
 
 - [OpenClaw](https://docs.firecrawl.dev/quickstarts/openclaw.md): Use Firecrawl with OpenClaw to give your agents web scraping, search, and browser automation capabilities.
 - [Firecrawl in Claude & Claude Code](https://docs.firecrawl.dev/quickstarts/claude-code.md): Search the web and read pages from Claude or your Claude Code session.
+- [Firecrawl in Claude Desktop and Cowork](https://docs.firecrawl.dev/quickstarts/claude-desktop.md): Connect Firecrawl once and use it in Claude Desktop chat, Cowork, and the Code tab.
 - [MCP Web Search & Scrape in Cursor](https://docs.firecrawl.dev/quickstarts/cursor.md): Add web scraping and search to Cursor in 2 minutes
 - [MCP Web Search & Scrape in OpenCode](https://docs.firecrawl.dev/quickstarts/opencode.md): Add Firecrawl web scraping and search to OpenCode
 - [MCP Web Search & Scrape in Codex CLI](https://docs.firecrawl.dev/quickstarts/codex-cli.md): Add Firecrawl web scraping and search to OpenAI Codex CLI
+- [MCP Web Search & Scrape in Grok Build](https://docs.firecrawl.dev/quickstarts/grok-build.md): Add Firecrawl web scraping and search to xAI Grok Build
+- [MCP Web Search & Scrape in GitHub Copilot](https://docs.firecrawl.dev/quickstarts/github-copilot.md): Add Firecrawl web scraping and search to GitHub Copilot CLI, Copilot in VS Code and the Copilot coding agent
+- [MCP Web Search & Scrape in JetBrains AI Assistant](https://docs.firecrawl.dev/quickstarts/jetbrains-ai-assistant.md): Add Firecrawl web search and scraping to JetBrains AI Assistant
+- [MCP Web Search & Scrape in Visual Studio](https://docs.firecrawl.dev/quickstarts/visual-studio.md): Add Firecrawl web search and scraping to GitHub Copilot agent mode in Visual Studio
+- [MCP Web Search & Scrape in Amazon Q Developer](https://docs.firecrawl.dev/quickstarts/amazon-q-developer.md): Add Firecrawl web search and scraping to Amazon Q Developer in your IDE
+- [MCP Web Search & Scrape in Kiro](https://docs.firecrawl.dev/quickstarts/kiro.md): Add Firecrawl web search and scraping to the Kiro IDE and Kiro CLI
+- [MCP Web Search & Scrape in Goose](https://docs.firecrawl.dev/quickstarts/goose.md): Add Firecrawl web search and scraping to Goose
+- [MCP Web Search & Scrape in Warp](https://docs.firecrawl.dev/quickstarts/warp.md): Add Firecrawl web search and scraping to Warp agents
+- [MCP Web Search & Scrape in Qwen Code](https://docs.firecrawl.dev/quickstarts/qwen-code.md): Add Firecrawl web search and scraping to Qwen Code
+- [MCP Web Search & Scrape in Rovo Dev CLI](https://docs.firecrawl.dev/quickstarts/rovo-dev-cli.md): Add Firecrawl web search and scraping to Atlassian Rovo Dev CLI
+- [MCP Web Search & Scrape in Qodo](https://docs.firecrawl.dev/quickstarts/qodo.md): Add Firecrawl web search and scraping to Qodo Command
+- [MCP Web Search & Scrape in Crush](https://docs.firecrawl.dev/quickstarts/crush.md): Add Firecrawl web search and scraping to Crush
+- [MCP Web Search & Scrape in Zencoder](https://docs.firecrawl.dev/quickstarts/zencoder.md): Add Firecrawl web search and scraping to the Zencoder IDE plugin
+- [MCP Web Search & Scrape with OpenAI Agents](https://docs.firecrawl.dev/quickstarts/openai-responses-api.md): Give OpenAI models Firecrawl web search and scraping through the Responses API MCP tool
 - [OpenRouter](https://docs.firecrawl.dev/quickstarts/openrouter.md): Use Firecrawl as a tool with any model served by OpenRouter.
-- [MCP Web Search & Scrape in Amp](https://docs.firecrawl.dev/quickstarts/amp.md): Add Firecrawl web scraping and search to Sourcegraph Amp
-- [MCP Web Search & Scrape in Windsurf](https://docs.firecrawl.dev/quickstarts/windsurf.md): Add web scraping and search to Windsurf in 2 minutes
+- [MCP Web Search & Scrape in Amp](https://docs.firecrawl.dev/quickstarts/amp.md): Add Firecrawl web scraping and search to Amp
+- [MCP Web Search & Scrape in Windsurf (Devin Desktop)](https://docs.firecrawl.dev/quickstarts/windsurf.md): Add web scraping and search to Windsurf, now Devin Desktop, in 2 minutes
 - [MCP Web Search & Scrape in Antigravity](https://docs.firecrawl.dev/quickstarts/antigravity.md): Add Firecrawl web scraping and search to Google Antigravity
 - [MCP Web Search & Scrape in Gemini CLI](https://docs.firecrawl.dev/quickstarts/gemini-cli.md): Add Firecrawl web scraping and search to Google Gemini CLI
+- [MCP Web Search & Scrape in Pi](https://docs.firecrawl.dev/quickstarts/pi.md): Add Firecrawl web scraping and search to the Pi coding agent
+- [MCP Web Search & Scrape in Kimi Code](https://docs.firecrawl.dev/quickstarts/kimi-code.md): Add Firecrawl web scraping and search to Kimi Code CLI
+- [MCP Web Search & Scrape in Cherry Studio](https://docs.firecrawl.dev/quickstarts/cherry-studio.md): Add Firecrawl web scraping and search to Cherry Studio in 2 minutes
+- [MCP Web Search & Scrape in LM Studio](https://docs.firecrawl.dev/quickstarts/lm-studio.md): Add Firecrawl web scraping and search to LM Studio's MCP host
+- [MCP Web Search & Scrape in WorkBuddy](https://docs.firecrawl.dev/quickstarts/workbuddy.md): Add Firecrawl web scraping and search to Tencent WorkBuddy
 - [Nous Research](https://docs.firecrawl.dev/quickstarts/nous-research.md): Use Firecrawl as a tool with Nous Research Hermes models.
 - [AutoGen](https://docs.firecrawl.dev/quickstarts/autogen.md): Use Firecrawl as a tool inside Microsoft AutoGen multi-agent conversations.
 
+#### MCP Clients and Gateways
+
+- [MCP Web Search & Scrape in the Vercel AI SDK](https://docs.firecrawl.dev/quickstarts/ai-sdk-mcp.md): Connect the Vercel AI SDK MCP client to Firecrawl's hosted MCP server for web search and scraping
+- [MCP Web Search & Scrape in MCPorter](https://docs.firecrawl.dev/quickstarts/mcporter.md): Add Firecrawl web scraping and search to MCPorter, the TypeScript MCP runtime and CLI
+- [MCP Web Search & Scrape in Executor](https://docs.firecrawl.dev/quickstarts/executor.md): Add Firecrawl web scraping and search to Executor, the agent connector gateway
+- [MCP Web Search & Scrape in Cloudflare MCP Server Portals](https://docs.firecrawl.dev/quickstarts/cloudflare-mcp-portals.md): Add Firecrawl web scraping and search to a Cloudflare One MCP server portal
+
 #### LLM SDKs and Frameworks
 
-- [OpenAI](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/openai.md): Use Firecrawl with OpenAI for web scraping + AI workflows
-- [Anthropic](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/anthropic.md): Use Firecrawl with Claude for web scraping + AI workflows
-- [Gemini](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/gemini.md): Use Firecrawl with Google's Gemini AI for web scraping + AI workflows
+- [OpenAI](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/openai.md): Use Firecrawl with OpenAI to give AI workflows live web context
+- [Anthropic](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/anthropic.md): Use Firecrawl with Claude to give AI workflows live web context
+- [Gemini](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/gemini.md): Use Firecrawl with Google's Gemini AI to give AI workflows live web context
 - [Agent Development Kit (ADK)](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/google-adk.md): Integrate Firecrawl with Google's ADK using MCP for advanced agent workflows
+- [Ground Gemini on Vertex AI with Firecrawl search](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/vertex-ai-grounding.md): Deploy a small Cloud Run adapter so Gemini on Vertex AI can ground its answers in Firecrawl search results
 - [Vercel AI SDK](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/vercel-ai-sdk.md): Firecrawl tools for Vercel AI SDK. Web scraping, search, interact, and crawling for AI applications.
-- [LangChain](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/langchain.md): Use Firecrawl with LangChain for web scraping + AI workflows
+- [LangChain](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/langchain.md): Use Firecrawl with LangChain to give AI workflows live web context
 - [LangGraph](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/langgraph.md): Integrate Firecrawl with LangGraph for building agent workflows
 - [LlamaIndex](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/llamaindex.md): Use Firecrawl with LlamaIndex for RAG applications
 - [Mastra](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/mastra.md): Use Firecrawl with Mastra for building AI workflows
 - [ElevenAgents](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/elevenagents.md): Give ElevenLabs voice and chat agents real-time web access with Firecrawl
-- [Jev](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/jev.md): Use Firecrawl with TypeSafe's Jev to make fast, structured decisions on web data
+- [Jev](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/jev.md): Use Firecrawl to search and scrape the web for clean context, then ask TypeSafe's Jev structured questions about it to make fast decisions
 
 #### Agentic Debugging
 

@@ -115,6 +115,10 @@ Click the gear icon in the upper right corner.
 
 - **IP Masquerading**: If enabled, the source IP addresses of LAN clients will be rewritten to the router's VPN tunnel IP. Disable this only for Site-to-Site setups where the remote peer knows your LAN subnets.
 
+  As shown below, if IP masquerading is enabled, when the Laptop (192.168.10.200) on the travel LAN sends traffic across the tunnel to the home NAS (192.168.8.100), the travel router rewrites the source IP from `192.168.10.200` to the VPN client's tunnel address `10.1.0.2`, so the server side sees that traffic originated from the client instead of the client's local LAN.
+
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/vpn_dashboard/4.8/ip_masquerading.png" class="glboxshadow" alt="ip masquerading" />
+
 - **MTU**: Short for Maximum Transmission Unit. The MTU value you set for the tunnel will override the value defined in the configuration file.
 
 ### Policy Mode<a href="#policy-mode" class="headerlink" title="Permanent link">¶</a>
@@ -237,7 +241,7 @@ In this tunnel, you can customize the tunnel rule by setting three factors:
 
     - **Use VPN**: If selected, traffic matching this rule will be routed to the selected destinations through VPN.
 
-      To begin with, you need to configure your router as a VPN client. Use the [VPN Setup Wizard](#vpn-setup-wizard) to quickly complete the configuration, or navigate to OpenVPN Client / WireGuard Client in the left sidebar to configure manually.
+      To begin with, you need to configure your router as a VPN client. Use the [VPN Setup Wizard](#setup-wizard) to quickly complete the configuration, or navigate to OpenVPN Client / WireGuard Client in the left sidebar to configure manually.
 
       Once you set the router as a VPN client, select a VPN configuration file for this tunnel, and click **Apply**.
 
@@ -253,7 +257,7 @@ In the following example, the Primary Tunnel rule is: All clients use the VPN to
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/vpn_dashboard/4.8/connected-policy-mode.jpg" class="glboxshadow" alt="connected policy mode" />
 
-**Note**: For security, please go to [All Other Traffic](#all-other-traffic) and [Tunnel Options](#tunnel-options) to check other settings before enabling the tunnels.
+**Note**: For security, please go to [All Other Traffic](#all-other-traffic) and [Tunnel Options](#tunnel-options_1) to check other settings before enabling the tunnels.
 
 #### Add Tunnel<a href="#add-tunnel" class="headerlink" title="Permanent link">¶</a>
 
@@ -273,7 +277,7 @@ You can add more tunnels if needed. Up to 5 tunnels can be created (including th
 
 Customize the tunnel rules by setting the traffic source, destinations and routing method. Please refer to the [Primary Tunnel](#primary-tunnel).
 
-**Note**: For security, please go to [All Other Traffic](#all-other-traffic) and [Tunnel Options](#tunnel-options) to check other settings before enabling the tunnels.
+**Note**: For security, please go to [All Other Traffic](#all-other-traffic) and [Tunnel Options](#tunnel-options_1) to check other settings before enabling the tunnels.
 
 #### All Other Traffic<a href="#all-other-traffic" class="headerlink" title="Permanent link">¶</a>
 
@@ -334,6 +338,10 @@ Click the gear icon next to a tunnel name and select **Options**.
 - **Allow Remote Access the LAN Subnet**: If enabled, remote access to this router and its LAN devices via VPN will be allowed. The VPN server must advertise a route to the LAN subnet of this router.
 
 - **IP Masquerading**: If enabled, the source IP addresses of LAN clients will be rewritten to the router's VPN tunnel IP. Disable this only for Site-to-Site setups where the remote peer knows your LAN subnets.
+
+  As shown below, if IP masquerading is enabled, when the Laptop (192.168.10.200) on the travel LAN sends traffic across the tunnel to the home NAS (192.168.8.100), the travel router rewrites the source IP from `192.168.10.200` to the VPN client's tunnel address `10.1.0.2`, so the server side sees that traffic originated from the client instead of the client's local LAN.
+
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/vpn_dashboard/4.8/ip_masquerading.png" class="glboxshadow" alt="ip masquerading" />
 
 - **MTU**: Short for Maximum Transmission Unit. The MTU value you set for the tunnel will override the value defined in the configuration file.
 

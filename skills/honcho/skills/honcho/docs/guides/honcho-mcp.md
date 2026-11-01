@@ -50,7 +50,9 @@ uv sync
 }
 ```
 
-You probably will need to put the full path to the uv executable in the command field. You can get this by running `which uv` on MacOS/Linux or `where uv` on Windows.
+> [!WARNING]
+>
+> You probably will need to put the full path to the uv executable in the command field. You can get this by running `which uv` on MacOS/Linux or `where uv` on Windows.
 
 6. Restart the Claude Desktop app. Upon relaunch it should start Honcho and the tools should be available!
 
@@ -60,7 +62,11 @@ Just note that, by default, the MCP server is set up to use the Honcho Demo serv
 
 Finally, Claude needs instructions on how to use Honcho. The Desktop app doesn't allow you to add system prompts directly, but you can create a project and paste these [instructions](https://github.com/plastic-labs/honcho-mcp/blob/main/instructions.txt) into the "Project Instructions" field.
 
-Be sure to update the \<app\_name> and \<user\_name> variables in the instructions.txt file.
+
+\> \[!NOTE]
+\>
+\> Be sure to update the \<app\_name> and \<user\_name> variables in the instructions.txt file.
+
 
 Claude should then query for insights before responding and write your messages to storage! If you come up with more creative ways to get Claude to manage its own memory with Honcho, feel free to [let us know](https://discord.gg/honcho) or make a PR on this [repo](https://github.com/plastic-labs/honcho-mcp/tree/main)!
 

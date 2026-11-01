@@ -8,9 +8,9 @@
 
 > Complete reference for configuring Honcho providers, features, and infrastructure
 
-
-  Most users only need the setup from the [Self-Hosting Guide](./self-hosting#llm-setup). This page is the full reference for customizing providers, tuning features, and hardening your deployment.
-
+> [!NOTE]
+>
+> Most users only need the setup from the [Self-Hosting Guide](https://honcho.dev/docs/v3/contributing/self-hosting.md#llm-setup). This page is the full reference for customizing providers, tuning features, and hardening your deployment.
 
 Honcho loads configuration in this priority order (highest wins):
 
@@ -36,11 +36,11 @@ All config values map to environment variables:
 
 ## LLM Configuration
 
-The [Self-Hosting Guide](./self-hosting#llm-setup) covers the basic setup: either the built-in OpenAI defaults or one OpenAI-compatible endpoint/model for all features. This section covers recommended model tiers, using multiple providers, and per-feature tuning.
+The [Self-Hosting Guide](https://honcho.dev/docs/v3/contributing/self-hosting.md#llm-setup) covers the basic setup: either the built-in OpenAI defaults or one OpenAI-compatible endpoint/model for all features. This section covers recommended model tiers, using multiple providers, and per-feature tuning.
 
-
-  All Honcho agents (deriver, dialectic, dream) require tool calling. Your models must support the OpenAI tool calling format.
-
+> [!NOTE]
+>
+> All Honcho agents (deriver, dialectic, dream) require tool calling. Your models must support the OpenAI tool calling format.
 
 ### Choosing Models
 
@@ -64,11 +64,11 @@ You can mix providers freely — for example, use Gemini for the deriver and Cla
 
 For OpenAI-compatible proxies (OpenRouter, vLLM, Ollama, etc.), use `transport = "openai"` and set `MODEL_CONFIG__OVERRIDES__BASE_URL` on each feature to point at your endpoint.
 
-
-  Some OpenAI-compatible providers don't support OpenAI Structured Outputs (`json_schema`). Set `DERIVER_MODEL_CONFIG__STRUCTURED_OUTPUT_MODE=json_object` to request loose JSON mode and inject the schema into the prompt instead.
-
-  This setting only applies to the **deriver** on the **`openai`** transport — it is the only feature that uses structured output. The dialectic, summarizer, and dreamer don't request structured output, so the setting has no effect there, and the anthropic/gemini transports reject it.
-
+> [!NOTE]
+>
+> Some OpenAI-compatible providers don't support OpenAI Structured Outputs (`json_schema`). Set `DERIVER_MODEL_CONFIG__STRUCTURED_OUTPUT_MODE=json_object` to request loose JSON mode and inject the schema into the prompt instead.
+>
+> This setting only applies to the **deriver** on the **`openai`** transport — it is the only feature that uses structured output. The dialectic, summarizer, and dreamer don't request structured output, so the setting has no effect there, and the anthropic/gemini transports reject it.
 
 ### Tiered Model Setup
 
@@ -218,6 +218,27 @@ chat paths keep tighter defaults.
   normal retry/fallback chain before the caller sees an error, so the
   observed latency is several multiples of the timeout.
 
+#### Extended thinking with forced tools and schemas
+
+Anthropic models reject extended thinking alongside a forced tool choice. `thinking_tool_choice_conflict` decides what Honcho does when a request would combine them:
+
+* **`throw`**: raise a validation error before the request is sent
+* **`override_thinking`**: drop thinking for that call
+* **`override_tool`**: keep thinking and relax the tool use instead
+
+```bash theme={null}
+DIALECTIC_LEVELS__medium__MODEL_CONFIG__OVERRIDES__PROVIDER_PARAMS__THINKING_TOOL_CHOICE_CONFLICT=override_thinking
+```
+
+Any other value fails config load at startup, so a typo never reaches a request.
+
+How each transport applies it:
+
+* **Anthropic** checks forced tool choices (`any` or a named tool) when `thinking_budget_tokens` is set. Unset means `throw`. `override_tool` relaxes the tool choice to `auto`.
+* **OpenAI** is for Anthropic models behind an OpenAI-compatible proxy, which may turn a `json_schema` response format into a tool the model must call. So the check covers structured-output requests as well as forced tool choices, whenever the request asks for thinking (`thinking_effort`, `thinking_budget_tokens`, or an `extra_body` `reasoning_effort`, `reasoning` or `thinking` that isn't disabled). Unset means no check, because OpenAI's own reasoning models accept these combinations, so set it only on configs that reach Anthropic models. `override_thinking` removes `reasoning_effort` and those `extra_body` keys. `override_tool` relaxes a forced tool choice to `auto` and requests a schema as `json_object` with the schema in the prompt.
+
+Without a policy, a proxy may resolve the schema case itself by leaving the schema tool optional, so the model can answer in prose and the structured-output parse fails.
+
 #### Transport passthrough keys
 
 Three keys inside `provider_params` are recognized as request-level escape hatches and forwarded to the underlying transport. Where a transport actually validates and merges one of these keys, its value must be a mapping — a non-mapping value raises a configuration error (see the per-transport behavior below; a key a transport ignores is not validated):
@@ -330,7 +351,7 @@ uv run python scripts/configure_embeddings.py --yes       # apply
 
 Existing deployments at 1536 with `text-embedding-3-small` need no action — step 3 detects matching dims and skips.
 
-The script refuses to ALTER tables that already contain non-null embeddings. To switch dim or model on a populated deployment, stand up a new deployment at the new configuration and migrate data out of band; there is no in-place re-embedding affordance. See [Changing Embeddings](./changing-embeddings) for the destroy + rebuild recipe and the same-dim model-swap caveat.
+The script refuses to ALTER tables that already contain non-null embeddings. To switch dim or model on a populated deployment, stand up a new deployment at the new configuration and migrate data out of band; there is no in-place re-embedding affordance. See [Changing Embeddings](https://honcho.dev/docs/v3/contributing/changing-embeddings.md) for the destroy + rebuild recipe and the same-dim model-swap caveat.
 
 External vector stores (Turbopuffer, LanceDB) do not need bootstrap setup. Namespaces are per-workspace and lazy-created on first write at whatever dim the embedding client returns. Use `--report` to inventory the existing namespaces against the configured dim:
 
@@ -356,7 +377,10 @@ The Dialectic API provides theory-of-mind informed responses. It uses a tiered r
 # Global dialectic settings
 DIALECTIC_MAX_OUTPUT_TOKENS=8192
 DIALECTIC_MAX_INPUT_TOKENS=100000
+DIALECTIC_MAX_QUERY_LENGTH=10000  # Peer chat query limit, in characters
 DIALECTIC_SESSION_HISTORY_MAX_TOKENS=4096
+DIALECTIC_BUDGET_ENABLED=false  # budget line at levels with 3+ tool iterations
+DIALECTIC_BRIEF_ENABLED=false  # memory layout, counts, and dreamer map notes
 ```
 
 **Per-Level Configuration:**
@@ -481,6 +505,7 @@ SUMMARY_MODEL_CONFIG__TRANSPORT=openai
 SUMMARY_MODEL_CONFIG__MODEL=gpt-5.4-mini
 SUMMARY_MAX_TOKENS_SHORT=1500
 SUMMARY_MAX_TOKENS_LONG=6000
+SUMMARY_MAX_INPUT_TOKENS=100000
 # SUMMARY_MODEL_CONFIG__THINKING_EFFORT=minimal
 # SUMMARY_MODEL_CONFIG__THINKING_BUDGET_TOKENS=1024
 SUMMARY_MESSAGES_PER_SHORT_SUMMARY=20
@@ -488,6 +513,8 @@ SUMMARY_MESSAGES_PER_LONG_SUMMARY=60
 ```
 
 `SUMMARY_MAX_TOKENS_SHORT` / `SUMMARY_MAX_TOKENS_LONG` are the output caps for each summary call. The prompt asks for about 60% of the cap as a soft target, so a summary has room to finish instead of being cut off. If you set `SUMMARY_MODEL_CONFIG__MAX_OUTPUT_TOKENS`, it acts as a ceiling: startup fails if either summary cap is larger than it.
+
+`SUMMARY_MAX_INPUT_TOKENS` caps the whole summary prompt: instructions, previous summary and messages. The messages in a summary are chosen by count (`SUMMARY_MESSAGES_PER_*`), so long messages can add up to more than the model accepts. When they do, the oldest messages are left out of that summary, with a warning in the log, and a single message larger than the budget on its own is clipped. Keep it below the context window of the summary model and of its fallback. It must be at least twice the larger of `SUMMARY_MAX_TOKENS_SHORT` and `SUMMARY_MAX_TOKENS_LONG`, because the previous summary is always sent in full and messages need room beside it.
 
 **Dream Processing:**
 
@@ -499,7 +526,16 @@ DREAM_DOCUMENT_THRESHOLD=50
 DREAM_IDLE_TIMEOUT_MINUTES=60
 DREAM_MIN_HOURS_BETWEEN_DREAMS=8
 DREAM_ENABLED_TYPES=["omni"]
-DREAM_MAX_TOOL_ITERATIONS=20
+DREAM_MAX_TOOL_ITERATIONS=20  # card-refresh dreams only
+DREAM_DEDUCTION_MAX_TOOL_ITERATIONS=12
+DREAM_INDUCTION_MAX_TOOL_ITERATIONS=10
+DREAM_BRIEF_ENABLED=false  # memory layout, counts and the since-last-dream list
+DREAM_BRIEF_MAX_NEW_CONCLUSIONS=50
+DREAM_BRIEF_MAX_NEW_CONCLUSION_TOKENS=8000
+DREAM_BUDGET_ENABLED=false  # budget line + write window for deduction/induction
+DREAM_NOTES_MODE=off  # working notes between dreams: off | shadow | on
+DREAM_NOTES_MAX_TOKENS=3000
+# DREAM_WRITE_WINDOW_ITERATIONS=2  # default: 15% of each specialist's limit
 
 # Specialist model configs (each is independent)
 DREAM_DEDUCTION_MODEL_CONFIG__TRANSPORT=openai
@@ -512,18 +548,18 @@ DREAM_INDUCTION_MODEL_CONFIG__MODEL=gpt-5.4-mini
 
 Optional subsystem for identifying unusual observations during dreaming:
 
-
-  Four of the seven tree types — `kdtree` (the default), `balltree`, `graph` and
-  `prototype` — require scikit-learn, which ships behind the optional `surprisal`
-  extra rather than as a base dependency (it pulls in scipy, \~200MB installed on
-  Linux, for a subsystem that is disabled by default). Install it with
-  `uv sync --extra surprisal`. The default Docker image does **not** include it,
-  so enabling surprisal in a container requires adding the extra to the
-  `uv sync` line in the Dockerfile.
-
-  `rptree`, `covertree` and `lsh` need only numpy and work out of the box. With
-  `DREAM_SURPRISAL__ENABLED=false` (the default) none of this applies.
-
+> [!WARNING]
+>
+> Four of the seven tree types — `kdtree` (the default), `balltree`, `graph` and
+> `prototype` — require scikit-learn, which ships behind the optional `surprisal`
+> extra rather than as a base dependency (it pulls in scipy, \~200MB installed on
+> Linux, for a subsystem that is disabled by default). Install it with
+> `uv sync --extra surprisal`. The default Docker image does **not** include it,
+> so enabling surprisal in a container requires adding the extra to the
+> `uv sync` line in the Dockerfile.
+>
+> `rptree`, `covertree` and `lsh` need only numpy and work out of the box. With
+> `DREAM_SURPRISAL__ENABLED=false` (the default) none of this applies.
 
 ```bash theme={null}
 DREAM_SURPRISAL__ENABLED=false
@@ -555,12 +591,24 @@ NAMESPACE=honcho
 **Optional Integrations:**
 
 ```bash theme={null}
+TELEMETRY_ENABLED=true  # required for Langfuse
 LANGFUSE_HOST=https://cloud.langfuse.com
 LANGFUSE_PUBLIC_KEY=your-langfuse-public-key
+LANGFUSE_SECRET_KEY=your-langfuse-secret-key
 COLLECT_METRICS_LOCAL=false
 LOCAL_METRICS_FILE=metrics.jsonl
 REASONING_TRACES_FILE=traces.jsonl
 ```
+
+Langfuse traces are exported from the same LLM call stream as
+[CloudEvents telemetry](#cloudevents-telemetry), so the exporter only starts
+when `TELEMETRY_ENABLED=true`. With telemetry off, Langfuse keys are ignored.
+`TELEMETRY_ENDPOINT` is not required: without it, Langfuse still gets traces
+and no CloudEvents are sent.
+
+Honcho uses Langfuse Python SDK v5, which requires Langfuse Cloud or a
+self-hosted Langfuse server at v4.59.0 or later. A self-hosted Langfuse v3
+server does not accept its traces.
 
 ### Database
 
@@ -717,7 +765,7 @@ before interruption. `trace.content` remains at schema version 1.
 | `run_id`, `trace_id`, `span_id`, `parent_span_id`, `iteration`, `step_seq` | Run and call correlation. Single-call operations can have a null iteration and step zero. |
 | `observers`, `observed`, `peer_name`, `agent_type`, `track_name` | LLM producer identity. `observers` lists every observer the call writes to, including single-observer agents, so batched derivation is not a special case. |
 | `source_message_ids`, `queue_item_ids` | Public message IDs and internal queue IDs associated with the LLM operation. Summary message IDs cover its current input window; these fields do not enumerate retrieved tool context or history compressed into an earlier summary. |
-| `duration_ms`, `outcome`, `error_class`, `attempt`, `retry_attempts`, `is_final_attempt` | Execution diagnostics for both LLM and embedding calls. `is_final_attempt` means the configured retry budget is exhausted, so an earlier successful attempt can have `false`. |
+| `duration_ms`, `outcome`, `error_class`, `attempt`, `retry_attempts`, `is_final_attempt` | Execution diagnostics for both LLM and embedding calls. `is_final_attempt` means the configured retry budget is exhausted, so an earlier successful attempt can have `false`, and so can a failed attempt that ends the call early because the provider rejected the request and no fallback is configured. |
 | `was_stream`, `was_fallback`, `effective_max_output_tokens` | LLM execution mode, selected fallback, and effective output limit. |
 | `system_prompt_ref`, `system_prompt_refs`, `output_reasoning_ref` | References into `trace.content` for the system prompt and normalized provider reasoning details. `system_prompt_refs` lists each system message as the provider saw it; `system_prompt_ref` is a single ref for the whole system prompt — the lone message when there is one, otherwise their concatenation shipped under its own hash. |
 | `custom_instructions_ref` | Reference into `trace.content` for the operator-written custom instructions added to this call's prompt (role `__custom_instructions__`, `honcho_authored=false`). Unset when no instructions applied. Unlike the system prompt that embeds them, this record is tenant-visible. |
@@ -822,6 +870,7 @@ model = "gpt-5.4-mini"
 ENABLED = true
 MAX_TOKENS_SHORT = 1500
 MAX_TOKENS_LONG = 6000
+MAX_INPUT_TOKENS = 100000
 
 [summary.model_config]
 transport = "openai"

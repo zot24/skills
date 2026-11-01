@@ -8,12 +8,16 @@
 
 > Use Firecrawl as a tool inside Microsoft AutoGen multi-agent conversations.
 
-Integrate Firecrawl with [Microsoft AutoGen](https://github.com/microsoft/autogen) to give multi-agent conversations live web search, scrape, and crawl tools.
+Integrate Firecrawl, the context API for AI agents, with [Microsoft AutoGen](https://github.com/microsoft/autogen) to give multi-agent conversations live web search and scrape tools. Microsoft has archived AutoGen, so start new projects on [Microsoft Agent Framework](https://learn.microsoft.com/en-us/agent-framework/migration-guide/from-autogen/).
+
+> [!NOTE]
+>
+> Microsoft has archived AutoGen and no longer maintains it. For new projects, Microsoft recommends [Microsoft Agent Framework](https://github.com/microsoft/agent-framework), and existing projects can follow the [migration guide](https://learn.microsoft.com/en-us/agent-framework/migration-guide/from-autogen/). The Firecrawl functions below are plain Python, so you can reuse them as tools there.
 
 ## Setup
 
 ```bash theme={null}
-pip install -U "autogen-agentchat" "autogen-ext[openai]" firecrawl-py
+pip install -U "autogen-agentchat" "autogen-ext[openai]" firecrawl
 ```
 
 Set your keys:
@@ -29,13 +33,12 @@ This example wraps Firecrawl's `scrape` and `search` as AutoGen function tools, 
 
 ```python theme={null}
 import asyncio
-import os
-from firecrawl import FirecrawlApp
+from firecrawl import Firecrawl
 from autogen_agentchat.agents import AssistantAgent
 from autogen_agentchat.ui import Console
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 
-firecrawl = FirecrawlApp(api_key=os.environ["FIRECRAWL_API_KEY"])
+firecrawl = Firecrawl()
 
 
 def scrape_url(url: str) -> str:
@@ -89,15 +92,14 @@ Hand Firecrawl output from a researcher agent to a writer agent in a round-robin
 
 ```python theme={null}
 import asyncio
-import os
-from firecrawl import FirecrawlApp
+from firecrawl import Firecrawl
 from autogen_agentchat.agents import AssistantAgent
 from autogen_agentchat.conditions import MaxMessageTermination
 from autogen_agentchat.teams import RoundRobinGroupChat
 from autogen_agentchat.ui import Console
 from autogen_ext.models.openai import OpenAIChatCompletionClient
 
-firecrawl = FirecrawlApp(api_key=os.environ["FIRECRAWL_API_KEY"])
+firecrawl = Firecrawl()
 
 
 def scrape_url(url: str) -> str:
@@ -143,7 +145,7 @@ if __name__ == "__main__":
 
 ## Notes
 
-* Firecrawl's Python SDK is synchronous; AutoGen will call your wrappers inside its event loop without issues for small workloads. For heavy concurrent scraping, move calls off the main thread or use [batch scrape](/features/batch-scrape).
+* These examples use the synchronous `Firecrawl` client, which works inside AutoGen's event loop for small workloads. For heavy concurrent scraping, use `AsyncFirecrawl` with `async def` tools, or use [batch scrape](https://docs.firecrawl.dev/features/batch-scrape.md).
 * Replace `OpenAIChatCompletionClient` with any AutoGen-supported model client (Azure OpenAI, Anthropic via `autogen-ext`, Ollama, etc.). Firecrawl is model-agnostic.
 * See the [AutoGen docs](https://microsoft.github.io/autogen/) for agent patterns beyond round-robin (selector, swarm, nested teams).
 

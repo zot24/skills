@@ -19,6 +19,7 @@ Cron jobs can:
 
 - schedule one-shot or recurring tasks
 - pause, resume, edit, trigger, and remove jobs
+- stop a run that is already in flight, without touching the job's schedule
 - attach zero, one, or multiple skills to a job
 - deliver results back to the origin chat, local files, or configured platform targets
 - run in fresh agent sessions with the normal static tool list
@@ -199,6 +200,36 @@ When `workdir` is set:
 Each agent run binds its `workdir` to that run's unique task identity. Workdir jobs therefore use the normal parallel pool without mutating process-global terminal state or leaking paths between concurrent runs. Set `cron.max_parallel_jobs` if you want to limit total cron concurrency.
 
 
+## Per-job timezone<a href="#per-job-timezone" class="hash-link" aria-label="Direct link to Per-job timezone" translate="no" title="Direct link to Per-job timezone">​</a>
+
+By default a job's cron expression is read in your profile's timezone (`timezone:` in `config.yaml`). A job can pin its own zone instead, so one profile can serve several markets:
+
+
+``` prism-code
+hermes cron create "0 9 * * 1-5" --timezone Asia/Hong_Kong "HK market open brief"
+hermes cron create "0 9 * * 1-5" --timezone America/New_York "US market open brief"
+```
+
+
+- The expression is the pinned zone's **wall clock**: `0 9 * * *` fires at 09:00 in that zone, and stays at 09:00 across that zone's DST changes.
+- Omit it (or pass `--timezone ""` on edit) to inherit the profile timezone. A job without the field behaves exactly as before.
+- An offset-less one-shot timestamp (`2026-06-01T09:00:00`) is also read in the job's zone; a timestamp that carries its own offset is already an instant.
+- Changing the zone recomputes `next_run_at` immediately, so the next fire happens at the new zone's wall clock.
+- An `interval` job has a fixed duration and no wall clock, so a pin has no effect on it.
+
+## Catch-up window<a href="#catch-up-window" class="hash-link" aria-label="Direct link to Catch-up window" translate="no" title="Direct link to Catch-up window">​</a>
+
+A missed cron occurrence is run late only inside a catch-up window: half the job's period, clamped to 2 minutes–2 hours. `--grace-minutes` overrides that per job (0–1440):
+
+
+``` prism-code
+hermes cron edit market-open --grace-minutes 0    # never catch up: skip a missed occurrence
+hermes cron edit market-open --grace-minutes 180  # run up to 3h late
+```
+
+
+`0` means never catch up; `--grace-minutes ""` restores the computed window. It only applies to cron expressions — `once` and `interval` schedules have no missed wall clock to catch up on.
+
 ## Editing jobs<a href="#editing-jobs" class="hash-link" aria-label="Direct link to Editing jobs" translate="no" title="Direct link to Editing jobs">​</a>
 
 You do not need to delete and recreate jobs just to change them.
@@ -263,6 +294,7 @@ hermes cron list
 hermes cron pause <job_id_or_name>
 hermes cron resume <job_id_or_name>
 hermes cron run <job_id_or_name>
+hermes cron cancel <job_id_or_name>
 hermes cron remove <job_id_or_name>
 hermes cron edit <job_id_or_name> [...flags]
 hermes cron status
@@ -274,16 +306,39 @@ What they do:
 
 - `pause` — keep the job but stop scheduling it
 - `resume` — re-enable the job. A recurring job whose slot came due while it was paused keeps that slot due, so the next tick fires one catch-up run (or logs the skip when `cron.catch_up_missed: false`) instead of silently jumping to the next occurrence; otherwise the next future run is computed
-- `run` — trigger the job on the next scheduler tick
+- `run` — trigger the job on the next scheduler tick. A manual run is an extra fire: the scheduled run still happens and the `repeat` count is not spent, so test-firing an `in 30m` reminder keeps the real one (a run once the slot is already due is that scheduled run)
+- `cancel` — stop the job's **current** run (see [Stopping a run in flight](#stopping-a-run-in-flight))
 - `remove` — delete it entirely
 - `edit` — modify schedule, prompt, delivery, etc.
 - `tick` — run one scheduler pass and exit (for a system crontab or other external scheduler). **The gateway must be running:** agent jobs execute inside the gateway, and a tick never starts one. With no gateway up, agent jobs are skipped with a logged reason (`hermes cron list` shows it) and fire on the next tick after `hermes gateway start`; their schedule is not advanced or penalised. `no_agent` script jobs still run from a bare tick.
 
-**Name-based lookup.** All four mutating verbs (`pause`, `resume`, `run`, `remove`, `edit`) plus the agent's `cronjob_manage` tool now accept a job **name** (case-insensitive) in place of the hex ID. The agent and CLI both prefer an exact ID match if one exists; ambiguous name matches (multiple jobs sharing the same name) are refused with the full list of candidate IDs so you can pick one explicitly. Names are not unique, so this guard is load-bearing — it prevents silently mutating the wrong job when two share a name.
+**Name-based lookup.** The mutating verbs (`pause`, `resume`, `run`, `cancel`, `remove`, `edit`) plus the agent's `cronjob_manage` tool now accept a job **name** (case-insensitive) in place of the hex ID. The agent and CLI both prefer an exact ID match if one exists; ambiguous name matches (multiple jobs sharing the same name) are refused with the full list of candidate IDs so you can pick one explicitly. Names are not unique, so this guard is load-bearing — it prevents silently mutating the wrong job when two share a name.
 
 ### Pausing everything: `hermes pause`<a href="#pausing-everything-hermes-pause" class="hash-link" aria-label="Direct link to pausing-everything-hermes-pause" translate="no" title="Direct link to pausing-everything-hermes-pause">​</a>
 
 `hermes pause [--reason ...]` is the global emergency stop (`hermes resume` lifts it). While it is engaged no scheduled cron fire starts, whichever door it arrives through: the built-in ticker skips its dispatch, the managed-cron (hosted scheduler) fire webhook answers `503` with `Retry-After: 60` so the scheduler redelivers the fire after you resume, and the [misfire catch-up](#misfire-catch-up) sweep stays idle instead of force-firing everything that was held back. Runs already in flight are never killed, and nothing is lost: due work catches up on the first tick or sweep after `hermes resume`. Explicit manual runs (`hermes cron run`, the dashboard's Trigger button) are an operator override and still execute while paused.
+
+### Stopping a run in flight: `hermes cron cancel`<a href="#stopping-a-run-in-flight-hermes-cron-cancel" class="hash-link" aria-label="Direct link to stopping-a-run-in-flight-hermes-cron-cancel" translate="no" title="Direct link to stopping-a-run-in-flight-hermes-cron-cancel">​</a>
+
+`pause` only suppresses future fires — a run that is already executing keeps going until it finishes or hits a timeout. When a run is wedged (a script blocked on network I/O, an agent turn that will not end), stop just that run:
+
+
+``` prism-code
+hermes cron cancel <job_id_or_name>
+hermes cron cancel <job_id_or_name> --reason "wedged on the staging API"
+```
+
+
+The schedule is untouched: the job stays enabled and its next fire happens as planned. What changes is the current run.
+
+- **Script jobs** (`--script`, including [no-agent mode](#no-agent-mode-script-only-jobs)) get the whole process tree terminated — `SIGTERM` to the script's process group, escalating to `SIGKILL` after a grace period, and backgrounded grandchildren included. This is the same teardown a script timeout already performs, so nothing new is left running behind the job.
+- **Agent jobs** have the in-flight turn interrupted at its next checkpoint.
+
+The cancel is a *request*, not a kill: it is recorded against that run's execution id and picked up at the run's next cancel check (well under a second for a script). The run then books a `cancelled` row with its reason, so `hermes cron runs <job_id>` shows why it stopped instead of an unexplained timeout or a bare failure. A cancelled run sends no failure notice and does not count toward the job's failure streak. The same stop is available as `POST /api/cron/jobs/{id}/cancel`, as the agent's `cronjob_manage` action `cancel`, and in the Desktop: a job with a run in flight shows **Stop** in its header (it reads **Stopping…** until the run has booked its `cancelled` row, then a *Run cancelled* toast confirms it).
+
+**Removing a job stops its live run.** `hermes cron remove` (and the dashboard/Desktop delete or the agent's `remove` action) cancels a run that is in flight, booked `cancelled` with the reason "job removed while running", instead of letting it keep spending tokens on a result nothing will keep.
+
+Cancelling a job with nothing running is a safe no-op that says so, and a cancel that arrives after the run has already finished changes nothing. A cancel cannot undo side effects the run already performed — it stops the run, it does not roll it back.
 
 ### Creating a job paused (safe canary)<a href="#creating-a-job-paused-safe-canary" class="hash-link" aria-label="Direct link to Creating a job paused (safe canary)" translate="no" title="Direct link to Creating a job paused (safe canary)">​</a>
 
@@ -930,7 +985,20 @@ cron:
 ```
 
 
-Or run `hermes config set cron.catch_up_missed false`. With this opt-out, a recurring job later than its existing grace window (half its period, clamped to 120 seconds–2 hours) is re-anchored to its next future occurrence without firing now. The skip is logged. Jobs inside grace and explicit manual triggers still run normally; if the next occurrence cannot be computed, the existing run-once fallback is preserved. This does not change one-shot expiry, resume behavior, or the hosted-provider sweep below. There is no per-job override.
+Or run `hermes config set cron.catch_up_missed false`. With this opt-out, a recurring job later than its existing grace window (half its period, clamped to 120 seconds–2 hours) is re-anchored to its next future occurrence without firing now. The skip is logged. Jobs inside grace and explicit manual triggers still run normally; if the next occurrence cannot be computed, the existing run-once fallback is preserved. This does not change resume behavior or the hosted-provider sweep below.
+
+**Per job.** A job can override the default with `catch_up`:
+
+
+``` prism-code
+hermes cron create "0 7 * * 1-5" "Morning brief" --catch-up off   # a stale brief is useless: skip
+hermes cron edit <job> --catch-up on                                # always run once on return
+```
+
+
+(`cronjob_manage` takes `catch_up: true|false`; the Desktop job editor has the same choice as **Missed runs**: *Use the default*, *Run once when back*, *Skip them*.) Without it, recurring jobs skip a miss past an explicit `--grace-minutes` and otherwise follow `cron.catch_up_missed`; one-shots keep their 120-second grace: a reminder missed by more than that is dropped. A one-shot with `--catch-up on` instead fires once, late, when the scheduler is back. `--catch-up on` also beats `--grace-minutes`: the grace sets when a run counts as missed, and the job still runs once for it.
+
+**Missed runs are visible.** Every slot the scheduler passes over is booked as one `missed ×N` row in the execution ledger: `missed ×3 (skipped, catch-up off; next run …)` for a skip, and `missed ×2 (collapsed into one catch-up run)` beside the one run that caught up for three slots. The rows show in `hermes cron runs <job>` and in the dashboard/Desktop run history.
 
 ### Misfire catch-up<a href="#misfire-catch-up" class="hash-link" aria-label="Direct link to Misfire catch-up" translate="no" title="Direct link to Misfire catch-up">​</a>
 
@@ -1267,6 +1335,8 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
   - <a href="#single-skill" class="table-of-contents__link toc-highlight">Single skill</a>
   - <a href="#multiple-skills" class="table-of-contents__link toc-highlight">Multiple skills</a>
 - <a href="#running-a-job-inside-a-project-directory" class="table-of-contents__link toc-highlight">Running a job inside a project directory</a>
+- <a href="#per-job-timezone" class="table-of-contents__link toc-highlight">Per-job timezone</a>
+- <a href="#catch-up-window" class="table-of-contents__link toc-highlight">Catch-up window</a>
 - <a href="#editing-jobs" class="table-of-contents__link toc-highlight">Editing jobs</a>
   - <a href="#chat" class="table-of-contents__link toc-highlight">Chat</a>
   - <a href="#standalone-cli" class="table-of-contents__link toc-highlight">Standalone CLI</a>
@@ -1274,6 +1344,7 @@ Scheduled task prompts are scanned for prompt-injection and credential-exfiltrat
   - <a href="#chat-1" class="table-of-contents__link toc-highlight">Chat</a>
   - <a href="#standalone-cli-1" class="table-of-contents__link toc-highlight">Standalone CLI</a>
   - <a href="#pausing-everything-hermes-pause" class="table-of-contents__link toc-highlight">Pausing everything: <code>hermes pause</code></a>
+  - <a href="#stopping-a-run-in-flight-hermes-cron-cancel" class="table-of-contents__link toc-highlight">Stopping a run in flight: <code>hermes cron cancel</code></a>
   - <a href="#creating-a-job-paused-safe-canary" class="table-of-contents__link toc-highlight">Creating a job paused (safe canary)</a>
 - <a href="#agent-managed-scheduling-cron-jobs-that-manage-cron-jobs" class="table-of-contents__link toc-highlight">Agent-managed scheduling (cron jobs that manage cron jobs)</a>
 - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How it works</a>

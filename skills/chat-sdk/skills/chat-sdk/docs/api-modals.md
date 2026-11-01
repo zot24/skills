@@ -4,7 +4,7 @@
 title: Modals
 description: Modal form components for collecting user input.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: reference
 related:
   - /docs/modals

@@ -4,7 +4,7 @@
 title: Message
 description: Normalized message format with text, AST, author, and metadata.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: reference
 related:
   - /docs/handling-events
@@ -35,7 +35,7 @@ import { Message } from "chat";
 | `replyTo`     | `Message \| undefined`            | The normalized message this message replies to, when provided by the adapter.                                                                                                                                       |
 | `links`       | `LinkPreview[]`                   | Links found in the message, with optional preview metadata.                                                                                                                                                         |
 | `isMention`   | `boolean \| undefined`            | The adapter's mention decision. \`true\` and \`false\` are final; \`undefined\` makes Chat SDK match \`@username\` in \`text\`. A direct message with no \`onDirectMessage\` handler registered is always \`true\`. |
-| `subject`     | `Promise<MessageSubject \| null>` | Resolves the parent resource (issue, PR, or Notion page) this message is about. Returns null on chat platforms. See \[Message Subject]\(/docs/subject).                                                             |
+| `subject`     | `Promise<MessageSubject \| null>` | Resolves the parent resource (issue, PR, merge request, or Notion page) this message is about. Returns null on chat platforms. See \[Message Subject]\(/docs/subject).                                              |
 
 ## Author
 
@@ -112,18 +112,18 @@ Links found in incoming messages are extracted and exposed as `LinkPreview` obje
 
 Returned by `message.subject` on platforms with parent resources. See [Message Subject](/docs/subject) for usage.
 
-| Property      | Type                                        | Description                                              |
-| ------------- | ------------------------------------------- | -------------------------------------------------------- |
-| `type`        | `string`                                    | Resource kind, e.g. "issue", "pull\_request", or "page". |
-| `id`          | `string`                                    | Resource identifier (e.g. "ENG-123" or "42").            |
-| `title`       | `string \| undefined`                       | Resource title.                                          |
-| `description` | `string \| undefined`                       | Full description/body in markdown.                       |
-| `status`      | `string \| undefined`                       | Current status (e.g. "In Progress", "open").             |
-| `url`         | `string \| undefined`                       | Web URL to the resource.                                 |
-| `author`      | `{ id: string; name: string } \| undefined` | Resource creator.                                        |
-| `assignee`    | `{ id: string; name: string } \| undefined` | Current assignee.                                        |
-| `labels`      | `string[] \| undefined`                     | Labels/tags.                                             |
-| `raw`         | `unknown`                                   | Full platform API response.                              |
+| Property      | Type                                        | Description                                                                |
+| ------------- | ------------------------------------------- | -------------------------------------------------------------------------- |
+| `type`        | `string`                                    | Resource kind, e.g. "issue", "pull\_request", "merge\_request", or "page". |
+| `id`          | `string`                                    | Resource identifier (e.g. "ENG-123" or "42").                              |
+| `title`       | `string \| undefined`                       | Resource title.                                                            |
+| `description` | `string \| undefined`                       | Full description/body in markdown.                                         |
+| `status`      | `string \| undefined`                       | Current status (e.g. "In Progress", "open").                               |
+| `url`         | `string \| undefined`                       | Web URL to the resource.                                                   |
+| `author`      | `{ id: string; name: string } \| undefined` | Resource creator.                                                          |
+| `assignee`    | `{ id: string; name: string } \| undefined` | Current assignee.                                                          |
+| `labels`      | `string[] \| undefined`                     | Labels/tags.                                                               |
+| `raw`         | `unknown`                                   | Full platform API response.                                                |
 
 ## Serialization
 

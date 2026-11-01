@@ -4,7 +4,7 @@
 title: Cards
 description: Rich card components for cross-platform interactive messages.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: reference
 related:
   - /docs/cards

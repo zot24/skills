@@ -49,7 +49,7 @@ curl -X DELETE "https://api.firecrawl.dev/v2/scrape/550e8400-e29b-41d4-a716-4466
 | `403` | Session belongs to a different team |
 | `404` | No browser session found for this scrape job |
 
-For detailed usage with examples, see the [Interact feature guide](/features/interact).
+For detailed usage with examples, see the [Interact feature guide](https://docs.firecrawl.dev/features/interact.md).
 
 
 ## OpenAPI

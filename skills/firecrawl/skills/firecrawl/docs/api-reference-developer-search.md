@@ -33,25 +33,23 @@ A request that sends one of these filters and no `sources` scope therefore gets 
 
 To keep documentation results, drop the repository filters. You can also scope the documentation half with `sources`, then read the `sources` echo in the response to confirm the id is indexed.
 
-<CodeGroup>
-  ```bash cURL
-  # No API key needed to get started; add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s "https://api.firecrawl.dev/v2/search/developer?query=how%20do%20I%20configure%20retries&k=10&language=Rust&license=MIT"
-  ```
+```bash cURL theme={null}
+# No API key needed to get started; add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s "https://api.firecrawl.dev/v2/search/developer?query=how%20do%20I%20configure%20retries&k=10&language=Rust&license=MIT"
+```
 
-  ```bash cURL (POST)
-  curl -X POST https://api.firecrawl.dev/v2/search/developer \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "query": "how do I configure retries",
-      "k": 10,
-      "types": ["issue", "pull_request"],
-      "language": "Rust",
-      "license": "MIT"
-    }'
-  ```
-</CodeGroup>
+```bash cURL (POST) theme={null}
+curl -X POST https://api.firecrawl.dev/v2/search/developer \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "how do I configure retries",
+    "k": 10,
+    "types": ["issue", "pull_request"],
+    "language": "Rust",
+    "license": "MIT"
+  }'
+```
 
 ## Which values `sources` accepts
 
@@ -88,7 +86,7 @@ To confirm an id resolves, pass it and read the `sources` array the response add
 }
 ```
 
-For a workflow overview, see the [Developer Index guide](/features/developer).
+For a workflow overview, see the [Developer Index guide](https://docs.firecrawl.dev/features/developer.md).
 
 
 ## OpenAPI

@@ -10,9 +10,9 @@
 
 Single sign-on (SSO) lets your team sign in to Firecrawl through the identity provider your organization already manages, using SAML or OIDC. SCIM directory sync builds on SSO: users and groups in your directory are provisioned into, updated in, and removed from your Firecrawl teams automatically.
 
-
-  SSO and SCIM are enterprise features and are enabled per organization. See [Enterprise features](/enterprise) for the rest of the enterprise plan.
-
+> [!NOTE]
+>
+> SSO and SCIM are enterprise features and are enabled per organization. See [Enterprise features](https://docs.firecrawl.dev/enterprise.md) for the rest of the enterprise plan.
 
 ## SSO
 
@@ -24,15 +24,17 @@ Single sign-on (SSO) lets your team sign in to Firecrawl through the identity pr
 
 ### Setup
 
+**1. Ask Firecrawl to enable SSO**
 
-    Your IT admin contacts Firecrawl support at [help@firecrawl.dev](mailto:help@firecrawl.dev) and asks to enable SSO for your organization. Firecrawl turns it on and sends setup instructions to the IT contact you name.
+Your IT admin contacts Firecrawl support at [help@firecrawl.dev](mailto:help@firecrawl.dev) and asks to enable SSO for your organization. Firecrawl turns it on and sends setup instructions to the IT contact you name.
 
+**2. Configure your identity provider**
 
-    Firecrawl uses WorkOS for SSO. Your IT admin completes setup in the WorkOS invitation, where they configure your identity provider.
+Firecrawl uses WorkOS for SSO. Your IT admin completes setup in the WorkOS invitation, where they configure your identity provider.
 
+**3. Sign in with SSO**
 
-    When setup is done, team members sign in from the [Firecrawl sign-in page](https://www.firecrawl.dev/app) using your organization's SSO.
-
+When setup is done, team members sign in from the [Firecrawl sign-in page](https://www.firecrawl.dev/app) using your organization's SSO.
 
 ## SCIM directory sync
 
@@ -46,18 +48,21 @@ SCIM directory sync (user provisioning) connects a directory in your identity pr
 
 ### Setup
 
+**1. Ask Firecrawl to set up directory sync**
 
-    Contact Firecrawl support at [help@firecrawl.dev](mailto:help@firecrawl.dev) and ask to enable directory sync. Your IT admin connects your identity provider's SCIM app through WorkOS, and you receive the WorkOS directory ID for the connection (it looks like `directory_01...`).
+Contact Firecrawl support at [help@firecrawl.dev](mailto:help@firecrawl.dev) and ask to enable directory sync. Your IT admin connects your identity provider's SCIM app through WorkOS, and you receive the WorkOS directory ID for the connection (it looks like `directory_01...`).
 
+**2. Bind the directory to a team**
 
-    In the dashboard, open [Enterprise Controls → User Provisioning (SCIM)](https://www.firecrawl.dev/app/enterprise-controls?tab=scim). Under **Directory → team bindings**, select the team users should be provisioned into and click **Add binding**. One organization can bind several directories, each to a different team.
+In the dashboard, open [Enterprise Controls → User Provisioning (SCIM)](https://www.firecrawl.dev/app/enterprise-controls?tab=scim). Under **Directory → team bindings**, select the team users should be provisioned into and click **Add binding**. One organization can bind several directories, each to a different team.
 
+**3. Link the directory and enable provisioning**
 
-    On the binding, paste the **WorkOS directory ID** and save it, then turn on **Enable user provisioning**. Directory events are only processed while provisioning is enabled.
+On the binding, paste the **WorkOS directory ID** and save it, then turn on **Enable user provisioning**. Directory events are only processed while provisioning is enabled.
 
+**4. Map groups to roles**
 
-    Groups pushed from your identity provider appear under **Push groups**. For each group, choose a **Role** (`member` or `admin`) and, optionally, a **Team** other than the binding team. Groups left as `unmapped` grant no role. If a user is in several mapped groups, they get the highest role.
-
+Groups pushed from your identity provider appear under **Push groups**. For each group, choose a **Role** (`member` or `admin`) and, optionally, a **Team** other than the binding team. Groups left as `unmapped` grant no role. If a user is in several mapped groups, they get the highest role.
 
 If users or groups that already existed in your directory are missing, open the binding's actions menu and click **Sync from WorkOS** to pull in users, groups, and memberships.
 
