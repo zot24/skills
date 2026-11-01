@@ -8,9 +8,9 @@
 
 > Install Firecrawl from the Vercel Marketplace, attach it to a project, and use the injected FIRECRAWL_API_KEY in your Vercel app.
 
-Firecrawl is available as a native [Vercel Marketplace integration](https://vercel.com/marketplace/firecrawl). Installing it provisions Firecrawl for your Vercel project and adds `FIRECRAWL_API_KEY` to the project's environment variables automatically.
+Firecrawl, the context API for AI agents, is available as a native [Vercel Marketplace integration](https://vercel.com/marketplace/firecrawl). Installing it provisions Firecrawl for your Vercel project and adds `FIRECRAWL_API_KEY` to the project's environment variables automatically.
 
-Use this guide when you want Firecrawl billing, API key setup, and project configuration to happen through Vercel.
+Use this guide to search, scrape, and interact with the web from Vercel, with billing and setup handled through Vercel.
 
 ## What the integration does
 
@@ -21,14 +21,14 @@ When you install Firecrawl from the Vercel Marketplace, Vercel connects Firecraw
 * Keeps Firecrawl billing on your Vercel invoice
 * Lets you open Firecrawl from Vercel after the integration is connected
 
-
-  If you already have a Firecrawl API key and want to configure Vercel manually, use the [Vercel Functions quickstart](/quickstarts/vercel-functions) instead.
-
+> [!NOTE]
+>
+> If you already have a Firecrawl API key and want to configure Vercel manually, use the [Vercel Functions quickstart](https://docs.firecrawl.dev/quickstarts/vercel-functions.md) instead.
 
 ## Install from Vercel
 
 1. Open the [Firecrawl listing on the Vercel Marketplace](https://vercel.com/marketplace/firecrawl).
-2. Click **Connect Account**.
+2. Click **Install**.
 3. Choose the Firecrawl plan you want to use.
 4. Select the Vercel project that should receive the environment variable.
 5. Finish the installation flow.
@@ -135,13 +135,13 @@ export async function POST() {
 }
 ```
 
-
-  Longer interactions can exceed short serverless timeouts. For production workflows that may take longer, run the work in a background job or use Firecrawl's async APIs with webhooks.
-
+> [!NOTE]
+>
+> Longer interactions can exceed short serverless timeouts. For production workflows that may take longer, run the work in a background job or use Firecrawl's async APIs with webhooks.
 
 ## Use Firecrawl with the Vercel AI SDK
 
-If you are building an agent with the [Vercel AI SDK](/developer-guides/llm-sdks-and-frameworks/vercel-ai-sdk), install the Firecrawl AI SDK tools:
+If you are building an agent with the [Vercel AI SDK](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/vercel-ai-sdk.md), install the Firecrawl AI SDK tools:
 
 ```bash theme={null}
 npm install firecrawl-aisdk ai
@@ -149,17 +149,20 @@ npm install firecrawl-aisdk ai
 
 Then pass Firecrawl tools to your model. The Marketplace-installed `FIRECRAWL_API_KEY` is read from the environment.
 
-
-  The example below uses the Vercel AI Gateway model string format. Configure your AI SDK model provider or AI Gateway credentials separately.
-
+> [!NOTE]
+>
+> The example below uses the Vercel AI Gateway model string format. Configure your AI SDK model provider or AI Gateway credentials separately.
 
 ```typescript theme={null}
 import { generateText, stepCountIs } from "ai";
 import { FirecrawlTools } from "firecrawl-aisdk";
 
+const { systemPrompt, ...tools } = FirecrawlTools();
+
 const { text } = await generateText({
   model: "anthropic/claude-sonnet-5.5",
-  tools: FirecrawlTools(),
+  system: systemPrompt,
+  tools,
   stopWhen: stepCountIs(20),
   prompt: "Search for recent Vercel AI SDK examples, scrape the best sources, and summarize them.",
 });
@@ -169,17 +172,21 @@ console.log(text);
 
 ## Next steps
 
+> [card] [Vercel Functions quickstart](https://docs.firecrawl.dev/quickstarts/vercel-functions.md)
+>
+> Use Firecrawl in Vercel Functions with manual environment setup
 
-    Use Firecrawl in Vercel Functions with manual environment setup
+> [card] [Vercel AI SDK guide](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/vercel-ai-sdk.md)
+>
+> Add Firecrawl tools to Vercel AI SDK agents
 
+> [card] [Scrape docs](https://docs.firecrawl.dev/features/scrape.md)
+>
+> Convert webpages into Markdown, JSON, screenshots, and more
 
-    Add Firecrawl tools to Vercel AI SDK agents
-
-
-    Convert webpages into Markdown, JSON, screenshots, and more
-
-
-    Search the web and get page content from results
+> [card] [Search docs](https://docs.firecrawl.dev/features/search.md)
+>
+> Search the web and get page content from results
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

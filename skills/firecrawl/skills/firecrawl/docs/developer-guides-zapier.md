@@ -8,143 +8,149 @@
 
 > Official tutorials and Zapier integration templates for Firecrawl automation
 
-
-  **Official Zapier Integration:** [zapier.com/apps/firecrawl/integrations](https://zapier.com/apps/firecrawl/integrations)
-
-  Connect with 9,000+ apps • No-code automation • Pre-built Zap templates • Cloud-based
-
+> [!NOTE]
+>
+> **Official Zapier Integration:** [zapier.com/apps/firecrawl/integrations](https://zapier.com/apps/firecrawl/integrations)
+>
+> Connect with 9,000+ apps • No-code automation • Pre-built Zap templates • Cloud-based
 
 ## Official Blog Post
 
-
-  Real-world case study: How Zapier integrated Firecrawl into Zapier Chatbots in a single afternoon.
-
+> [card] [How Zapier uses Firecrawl](https://www.firecrawl.dev/blog/how-zapier-uses-firecrawl-to-power-chatbots)
+>
+> Real-world case study: How Zapier integrated Firecrawl into Zapier Chatbots in a single afternoon.
 
 ## Popular Integrations
 
-
-    ### Google Sheets
-
-    → [View Integration](https://zapier.com/apps/google-sheets/integrations/firecrawl)
-
-    Track competitor data, centralize marketing insights, and automate data collection.
-
-    **Best For:** Business owners, marketing teams
-
-    ***
-
-    ### Airtable
-
-    → [View Integration](https://zapier.com/apps/airtable/integrations/firecrawl)
-
-    Build lead generation databases and content aggregation systems with structured storage.
-
-    **Best For:** Sales teams, project managers
-
-    ***
-
-    ### Zapier Tables
-
-    → [View Integration](https://zapier.com/apps/zapier-tables/integrations/firecrawl)
-
-    No-code database automation for employee onboarding and centralized lead management.
-
-    **Best For:** HR teams, operations
-
-
-    ### Slack
-
-    → [View Integration](https://zapier.com/apps/slack/integrations/firecrawl)
-
-    Get website change notifications, competitor monitoring alerts, and market intelligence updates.
-
-    **Best For:** Marketing teams, product managers
-
-    ***
-
-    ### Telegram
-
-    → [View Integration](https://zapier.com/apps/telegram/integrations/firecrawl)
-
-    Instant price alerts, breaking news notifications, and real-time monitoring.
-
-    **Best For:** Traders, news enthusiasts
-
-
-    ### HubSpot
-
-    → [View Integration](https://zapier.com/apps/hubspot/integrations/firecrawl)
-
-    Contact enrichment, lead scoring with web data, and marketing automation.
-
-    **Best For:** Marketing ops, sales ops
-
-    ***
-
-    ### Pipedrive
-
-    → [View Integration](https://zapier.com/apps/pipedrive/integrations/firecrawl)
-
-    Lead enrichment from websites and competitor intelligence tracking.
-
-    **Best For:** Sales teams, account executives
-
-    ***
-
-    ### Attio
-
-    → [View Integration](https://zapier.com/apps/attio/integrations/firecrawl)
-
-    Modern CRM data enrichment and relationship intelligence.
-
-    **Best For:** Modern sales teams
-
-
-    ### Google Docs
-
-    → [View Integration](https://zapier.com/apps/google-docs/integrations/firecrawl)
-
-    Automated report generation, research documentation, and content aggregation.
-
-    **Best For:** Researchers, content creators
-
-    ***
-
-    ### Notion
-
-    → [View Integration](https://zapier.com/apps/notion/integrations/firecrawl)
-
-    Knowledge base updates, research library building, and content curation.
-
-    **Best For:** Product teams, researchers
-
-
-    ### Schedule by Zapier
-
-    → [View Integration](https://zapier.com/apps/schedule/integrations/firecrawl)
-
-    Run hourly, daily, weekly, or monthly scraping automatically.
-
-    ***
-
-    ### Zapier Interfaces
-
-    → [View Integration](https://zapier.com/apps/interfaces/integrations/firecrawl)
-
-    Build custom internal tools with form-based scraping and team dashboards.
-
-    **Best For:** Operations teams
-
-    ***
-
-    ### Zapier Chatbots
-
-    → [View Integration](https://zapier.com/apps/zapier-chatbots/integrations/firecrawl)
-
-    AI chatbots with live web knowledge for customer support and lead generation.
-
-    Official Zapier product uses Firecrawl internally
-
+> [accordion] Data Storage & Databases
+>
+> ### Google Sheets
+>
+> → [View Integration](https://zapier.com/apps/google-sheets/integrations/firecrawl)
+>
+> Track competitor data, centralize marketing insights, and automate data collection.
+>
+> **Best For:** Business owners, marketing teams
+>
+> ***
+>
+> ### Airtable
+>
+> → [View Integration](https://zapier.com/apps/airtable/integrations/firecrawl)
+>
+> Build lead generation databases and content aggregation systems with structured storage.
+>
+> **Best For:** Sales teams, project managers
+>
+> ***
+>
+> ### Zapier Tables
+>
+> → [View Integration](https://zapier.com/apps/zapier-tables/integrations/firecrawl)
+>
+> No-code database automation for employee onboarding and centralized lead management.
+>
+> **Best For:** HR teams, operations
+
+> [accordion] Communication & Notifications
+>
+> ### Slack
+>
+> → [View Integration](https://zapier.com/apps/slack/integrations/firecrawl)
+>
+> Get website change notifications, competitor monitoring alerts, and market intelligence updates.
+>
+> **Best For:** Marketing teams, product managers
+>
+> ***
+>
+> ### Telegram
+>
+> → [View Integration](https://zapier.com/apps/telegram/integrations/firecrawl)
+>
+> Instant price alerts, breaking news notifications, and real-time monitoring.
+>
+> **Best For:** Traders, news enthusiasts
+
+> [accordion] CRM & Sales
+>
+> ### HubSpot
+>
+> → [View Integration](https://zapier.com/apps/hubspot/integrations/firecrawl)
+>
+> Contact enrichment, lead scoring with web data, and marketing automation.
+>
+> **Best For:** Marketing ops, sales ops
+>
+> ***
+>
+> ### Pipedrive
+>
+> → [View Integration](https://zapier.com/apps/pipedrive/integrations/firecrawl)
+>
+> Lead enrichment from websites and competitor intelligence tracking.
+>
+> **Best For:** Sales teams, account executives
+>
+> ***
+>
+> ### Attio
+>
+> → [View Integration](https://zapier.com/apps/attio/integrations/firecrawl)
+>
+> Modern CRM data enrichment and relationship intelligence.
+>
+> **Best For:** Modern sales teams
+
+> [accordion] Productivity & Documentation
+>
+> ### Google Docs
+>
+> → [View Integration](https://zapier.com/apps/google-docs/integrations/firecrawl)
+>
+> Automated report generation, research documentation, and content aggregation.
+>
+> **Best For:** Researchers, content creators
+>
+> ***
+>
+> ### Notion
+>
+> → [View Integration](https://zapier.com/apps/notion/integrations/firecrawl)
+>
+> Knowledge base updates, research library building, and content curation.
+>
+> **Best For:** Product teams, researchers
+
+> [accordion] Zapier Native Tools
+>
+> ### Schedule by Zapier
+>
+> → [View Integration](https://zapier.com/apps/schedule/integrations/firecrawl)
+>
+> Run hourly, daily, weekly, or monthly scraping automatically.
+>
+> ***
+>
+> ### Zapier Interfaces
+>
+> → [View Integration](https://zapier.com/apps/interfaces/integrations/firecrawl)
+>
+> Build custom internal tools with form-based scraping and team dashboards.
+>
+> **Best For:** Operations teams
+>
+> ***
+>
+> ### Zapier Chatbots
+>
+> → [View Integration](https://zapier.com/apps/zapier-chatbots/integrations/firecrawl)
+>
+> AI chatbots with live web knowledge for customer support and lead generation.
+>
+> > [!NOTE]
+> >
+> > Official Zapier product uses Firecrawl internally
 
 ## Firecrawl Actions
 
@@ -155,51 +161,59 @@
 | **/Extract Data** | AI-powered extraction with custom schemas |
 | **/Search Data** | Research automation with search + scrape |
 | **/Map Data** | SEO analysis and site structure mapping |
+| **Run Agent** | Gather data from the web with a prompt, optional URLs and schema, and a credit cap |
+| **Get Data From /Crawl**, **Get Data From /Extract**, **Get Agent Status** | Read the results of an earlier crawl, extract, or agent job |
+| **Cancel Agent** | Stop a running agent job |
 
 ## Quick Reference
 
+> [card] Getting Started
+>
+> 1. Sign up at [firecrawl.dev](https://firecrawl.dev)
+> 2. Get your API key
+> 3. Create a Zap in Zapier
+> 4. Connect Firecrawl with your API key
+> 5. Choose your workflow and activate
 
-    1. Sign up at [firecrawl.dev](https://firecrawl.dev)
-    2. Get your API key
-    3. Create a Zap in Zapier
-    4. Connect Firecrawl with your API key
-    5. Choose your workflow and activate
-
-
-    * Use `/Scrape Page` for single pages (faster)
-    * Schedule strategically (hourly/daily/weekly)
-    * Test in Firecrawl playground first
-    * Add error handling for failed scrapes
-    * Use filters to prevent unnecessary runs
-
+> [card] Best Practices
+>
+> * Use `/Scrape Page` for single pages (faster)
+> * Schedule strategically (hourly/daily/weekly)
+> * Test in Firecrawl playground first
+> * Add error handling for failed scrapes
+> * Use filters to prevent unnecessary runs
 
 ## Industry Use Cases
 
+> [accordion] E-commerce
+>
+> * Price monitoring across competitors
+> * Product availability tracking
+> * Review aggregation
 
-    * Price monitoring across competitors
-    * Product availability tracking
-    * Review aggregation
+> [accordion] Real Estate
+>
+> * Listing aggregation
+> * Market trend analysis
+> * Property data collection
 
+> [accordion] Marketing
+>
+> * Competitor content tracking
+> * SEO monitoring
+> * Backlink analysis
 
-    * Listing aggregation
-    * Market trend analysis
-    * Property data collection
+> [accordion] Finance
+>
+> * Market data collection
+> * News aggregation
+> * Regulatory filing monitoring
 
-
-    * Competitor content tracking
-    * SEO monitoring
-    * Backlink analysis
-
-
-    * Market data collection
-    * News aggregation
-    * Regulatory filing monitoring
-
-
-    * Job posting aggregation
-    * Company research automation
-    * Candidate information enrichment
-
+> [accordion] Recruitment
+>
+> * Job posting aggregation
+> * Company research automation
+> * Candidate information enrichment
 
 ## Zapier vs n8n
 
@@ -210,8 +224,9 @@
 | **Integrations** | 9,000+ apps | 1,000+ apps and services |
 | **Best For** | Quick automation, non-technical users | Custom logic, developers |
 
-
-  **Pro Tip:** Start with Zapier's pre-built templates and customize as needed. Perfect for quick, no-code automation!
+> [!TIP]
+>
+> **Pro Tip:** Start with Zapier's pre-built templates and customize as needed. Perfect for quick, no-code automation!
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

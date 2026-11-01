@@ -84,8 +84,8 @@ iex (irm https://hermes-agent.nousresearch.com/install.ps1)
 
 本文档的机器可读入口：
 
-- **<a href="/docs/zh-Hans/assets/files/llms-e6bd1315357ae1c483e3d1dfa84297db.txt" target="_blank"><code>/llms.txt</code></a>** — 每个文档页面的精选索引，附简短描述。约 17 KB，可安全加载到 LLM 上下文中。
-- **<a href="/docs/zh-Hans/assets/files/llms-full-66f7d2e0d8af2f0ab57e03d9644bb4ba.txt" target="_blank"><code>/llms-full.txt</code></a>** — 所有文档页面拼接为单一 markdown 文件，支持一次性摄取。约 1.8 MB。
+- **<a href="/docs/zh-Hans/assets/files/llms-9e48b8df5e4dc82813fc0eb03dbcd46e.txt" target="_blank"><code>/llms.txt</code></a>** — 每个文档页面的精选索引，附简短描述。约 17 KB，可安全加载到 LLM 上下文中。
+- **<a href="/docs/zh-Hans/assets/files/llms-full-5b9f479179e5beeb68c8ebf65c60e8f9.txt" target="_blank"><code>/llms-full.txt</code></a>** — 所有文档页面拼接为单一 markdown 文件，支持一次性摄取。约 1.8 MB。
 
 两个文件同样可通过 `/docs/llms.txt` 和 `/docs/llms-full.txt` 访问。每次部署时全新生成。
 

@@ -8,8 +8,8 @@
 
 > Turn documents — PDFs, Word, Excel, PowerPoint, and more — into clean markdown, per-page content, layout blocks, and structured JSON
 
-Parse converts documents into clean, LLM-ready data. Upload a file to
-[`/parse`](/api-reference/endpoint/parse) — or point [`/scrape`](/features/scrape)
+Parse converts documents into clean, LLM-ready context. Upload a file to
+[`/parse`](https://docs.firecrawl.dev/api-reference/endpoint/parse) — or point [`/scrape`](https://docs.firecrawl.dev/features/scrape)
 at a public document URL — and get back markdown, per-page content, typed
 layout blocks, or structured JSON.
 
@@ -19,50 +19,48 @@ layout blocks, or structured JSON.
 * **Any common format**: PDF, Word, Excel, PowerPoint, OpenDocument, EPUB, CSV, HTML
 * **Zero Data Retention** support
 
-Not sure whether you want Parse or [Scrape](/features/scrape)? This walks through the differences:
+Not sure whether you want Parse or [Scrape](https://docs.firecrawl.dev/features/scrape.md)? This walks through the differences:
 
-<iframe src="https://www.youtube.com/embed/119uEEBQRrA" title="Firecrawl Parse vs Scrape Explained in 5 Minutes" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen loading="lazy" style={{ width: '100%', aspectRatio: '16 / 9', height: 'auto', borderRadius: '0.5rem' }} />
+[Firecrawl Parse vs Scrape Explained in 5 Minutes](https://www.youtube.com/embed/119uEEBQRrA)
 
 ## Quickstart
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  doc = firecrawl.parse("./report.pdf")
+doc = firecrawl.parse("./report.pdf")
 
-  print(doc.markdown)
-  ```
+print(doc.markdown)
+```
 
-  ```javascript Node
-  import { Firecrawl } from "firecrawl";
-  import fs from "node:fs";
+```javascript Node theme={null}
+import { Firecrawl } from "firecrawl";
+import fs from "node:fs";
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
-  const doc = await firecrawl.parse({
-    data: fs.readFileSync("./report.pdf"),
-    filename: "report.pdf",
-  });
+const doc = await firecrawl.parse({
+  data: fs.readFileSync("./report.pdf"),
+  filename: "report.pdf",
+});
 
-  console.log(doc.markdown);
-  ```
+console.log(doc.markdown);
+```
 
-  ```bash cURL
-  curl -X POST https://api.firecrawl.dev/v2/parse \
-    -H 'Authorization: Bearer YOUR_API_KEY' \
-    -F 'file=@./report.pdf' \
-    -F 'options={"formats":["markdown"]};type=application/json'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -X POST https://api.firecrawl.dev/v2/parse \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -F 'file=@./report.pdf' \
+  -F 'options={"formats":["markdown"]};type=application/json'
+```
 
-
-  Have a **public document URL** instead of a file? [`/scrape`](/features/scrape)
-  detects the file type and parses it identically — same options, same output:
-  `firecrawl.scrape("https://example.com/report.pdf")`.
-
+> [!NOTE]
+>
+> Have a **public document URL** instead of a file? [`/scrape`](https://docs.firecrawl.dev/features/scrape)
+> detects the file type and parses it identically — same options, same output:
+> `firecrawl.scrape("https://example.com/report.pdf")`.
 
 ## Response
 
@@ -83,13 +81,13 @@ SDKs return the document object directly. cURL returns the JSON payload.
 }
 ```
 
-
-  `numPages` is the number of pages actually parsed; `totalPages` is the document's
-  true page count. They match unless `maxPages` truncated the result — e.g. parsing
-  a 100-page PDF with `maxPages: 10` returns `numPages: 10` and `totalPages: 100`, so
-  `totalPages > numPages` tells you the output was truncated. `totalPages` is omitted
-  when the page count can't be determined.
-
+> [!NOTE]
+>
+> `numPages` is the number of pages actually parsed; `totalPages` is the document's
+> true page count. They match unless `maxPages` truncated the result — e.g. parsing
+> a 100-page PDF with `maxPages: 10` returns `numPages: 10` and `totalPages: 100`, so
+> `totalPages > numPages` tells you the output was truncated. `totalPages` is omitted
+> when the page count can't be determined.
 
 Beyond the document markdown, three outputs cover the cases where a single
 markdown string isn't enough: [per-page markdown](#per-page-markdown-pdf) and
@@ -105,45 +103,43 @@ carries a `pages` array with the physical per-page markdown — useful when you
 need to know which page content came from, or to process pages independently.
 No additional cost.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from firecrawl.v2.types import ScrapeOptions
+```python Python theme={null}
+from firecrawl import Firecrawl
+from firecrawl.v2.types import ScrapeOptions
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  doc = firecrawl.parse(
-      "./report.pdf",
-      options=ScrapeOptions(parsers=[{"type": "pdf", "pages": True}]),
-  )
+doc = firecrawl.parse(
+    "./report.pdf",
+    options=ScrapeOptions(parsers=[{"type": "pdf", "pages": True}]),
+)
 
-  for page in doc.pages:
-      print(page.page_number, page.markdown[:80])
-  ```
+for page in doc.pages:
+    print(page.page_number, page.markdown[:80])
+```
 
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-  import fs from "node:fs";
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
+import fs from "node:fs";
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
-  const doc = await firecrawl.parse(
-    { data: fs.readFileSync("./report.pdf"), filename: "report.pdf" },
-    { parsers: [{ type: "pdf", pages: true }] },
-  );
+const doc = await firecrawl.parse(
+  { data: fs.readFileSync("./report.pdf"), filename: "report.pdf" },
+  { parsers: [{ type: "pdf", pages: true }] },
+);
 
-  for (const page of doc.pages) {
-    console.log(page.pageNumber, page.markdown.slice(0, 80));
-  }
-  ```
+for (const page of doc.pages) {
+  console.log(page.pageNumber, page.markdown.slice(0, 80));
+}
+```
 
-  ```bash cURL
-  curl -X POST https://api.firecrawl.dev/v2/parse \
-    -H 'Authorization: Bearer YOUR_API_KEY' \
-    -F 'file=@./report.pdf' \
-    -F 'options={"parsers":[{"type":"pdf","pages":true}]};type=application/json'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -X POST https://api.firecrawl.dev/v2/parse \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -F 'file=@./report.pdf' \
+  -F 'options={"parsers":[{"type":"pdf","pages":true}]};type=application/json'
+```
 
 ```json theme={null}
 "pages": [
@@ -173,64 +169,62 @@ any downstream pipeline that only handles a markdown string keeps per-page
 attribution. The comments are invisible when the markdown is rendered and
 trivial to split on (`<!-- page N -->`, 1-based). No additional cost.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from firecrawl.v2.types import ScrapeOptions
+```python Python theme={null}
+from firecrawl import Firecrawl
+from firecrawl.v2.types import ScrapeOptions
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  doc = firecrawl.parse(
-      "./report.pdf",
-      options=ScrapeOptions(parsers=[{"type": "pdf", "page_markers": True}]),
-  )
+doc = firecrawl.parse(
+    "./report.pdf",
+    options=ScrapeOptions(parsers=[{"type": "pdf", "page_markers": True}]),
+)
 
-  print(doc.markdown)
-  # ...end of page 1
-  #
-  # ---
-  #
-  # <!-- page 2 -->
-  #
-  # start of page 2...
-  ```
+print(doc.markdown)
+# ...end of page 1
+#
+# ---
+#
+# <!-- page 2 -->
+#
+# start of page 2...
+```
 
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-  import fs from "node:fs";
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
+import fs from "node:fs";
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
-  const doc = await firecrawl.parse(
-    { data: fs.readFileSync("./report.pdf"), filename: "report.pdf" },
-    { parsers: [{ type: "pdf", pageMarkers: true }] },
-  );
+const doc = await firecrawl.parse(
+  { data: fs.readFileSync("./report.pdf"), filename: "report.pdf" },
+  { parsers: [{ type: "pdf", pageMarkers: true }] },
+);
 
-  console.log(doc.markdown);
-  // ...end of page 1
-  //
-  // ---
-  //
-  // <!-- page 2 -->
-  //
-  // start of page 2...
-  ```
+console.log(doc.markdown);
+// ...end of page 1
+//
+// ---
+//
+// <!-- page 2 -->
+//
+// start of page 2...
+```
 
-  ```bash cURL
-  curl -X POST https://api.firecrawl.dev/v2/parse \
-    -H 'Authorization: Bearer YOUR_API_KEY' \
-    -F 'file=@./report.pdf' \
-    -F 'options={"parsers":[{"type":"pdf","pageMarkers":true}]};type=application/json'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -X POST https://api.firecrawl.dev/v2/parse \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -F 'file=@./report.pdf' \
+  -F 'options={"parsers":[{"type":"pdf","pageMarkers":true}]};type=application/json'
+```
 
-
-  Markers appear **between** pages only — there is no leading marker for page 1.
-  Numbering may skip a page when the parser merges content across a page break
-  (a table or sentence continuing onto the next page leaves no boundary to
-  mark). Use [`pages: true`](#per-page-markdown-pdf) when you need every
-  physical page separately; the two options compose.
-
+> [!NOTE]
+>
+> Markers appear **between** pages only — there is no leading marker for page 1.
+> Numbering may skip a page when the parser merges content across a page break
+> (a table or sentence continuing onto the next page leaves no boundary to
+> mark). Use [`pages: true`](#per-page-markdown-pdf) when you need every
+> physical page separately; the two options compose.
 
 ## Layout blocks (PDF)
 
@@ -240,52 +234,50 @@ engine detected, with geometry and provenance. This is the structured
 counterpart to the markdown — use it for citation grounding, highlight
 overlays, or auditing what a document contains. No additional cost.
 
-<Frame caption="Every block the engine detects, typed and positioned — the same regions that become the markdown.">
-  <img src="https://mintcdn.com/firecrawl/R7Gun29e7Chcnw4n/images/pdf-blocks-overlay.png?fit=max&auto=format&n=R7Gun29e7Chcnw4n&q=85&s=34c27770fe5b82bfca1c0786b357b102" alt="A parsed PDF page with colored bounding boxes overlaid on each detected layout block: title, text, section headers, table, figure, caption, page footer, and page number" width="1100" height="1423" data-path="images/pdf-blocks-overlay.png" />
-</Frame>
+![A parsed PDF page with colored bounding boxes overlaid on each detected layout block: title, text, section headers, table, figure, caption, page footer, and page number](https://mintcdn.com/firecrawl/R7Gun29e7Chcnw4n/images/pdf-blocks-overlay.png?fit=max\&auto=format\&n=R7Gun29e7Chcnw4n\&q=85\&s=34c27770fe5b82bfca1c0786b357b102)
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from firecrawl.v2.types import ScrapeOptions
+Every block the engine detects, typed and positioned — the same regions that become the markdown.
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+```python Python theme={null}
+from firecrawl import Firecrawl
+from firecrawl.v2.types import ScrapeOptions
 
-  doc = firecrawl.parse(
-      "./report.pdf",
-      options=ScrapeOptions(parsers=[{"type": "pdf", "blocks": True}]),
-  )
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  for page in doc.blocks:
-      for block in page.items:
-          print(page.page_number, block.type, block.bbox)
-  ```
+doc = firecrawl.parse(
+    "./report.pdf",
+    options=ScrapeOptions(parsers=[{"type": "pdf", "blocks": True}]),
+)
 
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-  import fs from "node:fs";
+for page in doc.blocks:
+    for block in page.items:
+        print(page.page_number, block.type, block.bbox)
+```
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
+import fs from "node:fs";
 
-  const doc = await firecrawl.parse(
-    { data: fs.readFileSync("./report.pdf"), filename: "report.pdf" },
-    { parsers: [{ type: "pdf", blocks: true }] },
-  );
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
-  for (const page of doc.blocks) {
-    for (const block of page.items) {
-      console.log(page.pageNumber, block.type, block.bbox);
-    }
+const doc = await firecrawl.parse(
+  { data: fs.readFileSync("./report.pdf"), filename: "report.pdf" },
+  { parsers: [{ type: "pdf", blocks: true }] },
+);
+
+for (const page of doc.blocks) {
+  for (const block of page.items) {
+    console.log(page.pageNumber, block.type, block.bbox);
   }
-  ```
+}
+```
 
-  ```bash cURL
-  curl -X POST https://api.firecrawl.dev/v2/parse \
-    -H 'Authorization: Bearer YOUR_API_KEY' \
-    -F 'file=@./report.pdf' \
-    -F 'options={"parsers":[{"type":"pdf","blocks":true}]};type=application/json'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -X POST https://api.firecrawl.dev/v2/parse \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -F 'file=@./report.pdf' \
+  -F 'options={"parsers":[{"type":"pdf","blocks":true}]};type=application/json'
+```
 
 ```json theme={null}
 "blocks": [
@@ -333,86 +325,82 @@ quoted text in the markdown, find the block whose span covers that offset,
 and you have the page number and bounding box — without ever asking a
 language model for coordinates.
 
-<CodeGroup>
-  ```python Python
-  def ground(doc, quote: str):
-      start = doc["markdown"].find(quote)
-      for page in doc["blocks"]:
-          for block in page["items"]:
-              span = block["markdownSpan"]
-              if span and span[0] <= start < span[1]:
-                  return page["pageNumber"], block["bbox"]
-  ```
+```python Python theme={null}
+def ground(doc, quote: str):
+    start = doc["markdown"].find(quote)
+    for page in doc["blocks"]:
+        for block in page["items"]:
+            span = block["markdownSpan"]
+            if span and span[0] <= start < span[1]:
+                return page["pageNumber"], block["bbox"]
+```
 
-  ```js Node
-  function ground(doc, quote) {
-    const start = doc.markdown.indexOf(quote);
-    for (const page of doc.blocks) {
-      for (const block of page.items) {
-        const span = block.markdownSpan;
-        if (span && span[0] <= start && start < span[1]) {
-          return { pageNumber: page.pageNumber, bbox: block.bbox };
-        }
+```js Node theme={null}
+function ground(doc, quote) {
+  const start = doc.markdown.indexOf(quote);
+  for (const page of doc.blocks) {
+    for (const block of page.items) {
+      const span = block.markdownSpan;
+      if (span && span[0] <= start && start < span[1]) {
+        return { pageNumber: page.pageNumber, bbox: block.bbox };
       }
     }
   }
-  ```
-</CodeGroup>
+}
+```
 
 ## Structured JSON output
 
 Pass a JSON schema or prompt to extract structured data directly from the document:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from firecrawl.v2.types import ScrapeOptions
-  from pydantic import BaseModel
+```python Python theme={null}
+from firecrawl import Firecrawl
+from firecrawl.v2.types import ScrapeOptions
+from pydantic import BaseModel
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  class Invoice(BaseModel):
-      vendor: str
-      total: float
+class Invoice(BaseModel):
+    vendor: str
+    total: float
 
-  doc = firecrawl.parse(
-      "./invoice.pdf",
-      options=ScrapeOptions(formats=[{
-          "type": "json",
-          "schema": Invoice.model_json_schema(),
-      }]),
-  )
+doc = firecrawl.parse(
+    "./invoice.pdf",
+    options=ScrapeOptions(formats=[{
+        "type": "json",
+        "schema": Invoice.model_json_schema(),
+    }]),
+)
 
-  print(doc.json)
-  ```
+print(doc.json)
+```
 
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-  import fs from "node:fs";
-  import { z } from "zod";
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
+import fs from "node:fs";
+import { z } from "zod";
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
-  const schema = z.object({
-    vendor: z.string(),
-    total: z.number(),
-  });
+const schema = z.object({
+  vendor: z.string(),
+  total: z.number(),
+});
 
-  const doc = await firecrawl.parse(
-    { data: fs.readFileSync("./invoice.pdf"), filename: "invoice.pdf" },
-    { formats: [{ type: "json", schema }] },
-  );
+const doc = await firecrawl.parse(
+  { data: fs.readFileSync("./invoice.pdf"), filename: "invoice.pdf" },
+  { formats: [{ type: "json", schema }] },
+);
 
-  console.log(doc.json);
-  ```
+console.log(doc.json);
+```
 
-  ```bash cURL
-  curl -X POST https://api.firecrawl.dev/v2/parse \
-    -H 'Authorization: Bearer YOUR_API_KEY' \
-    -F 'file=@./invoice.pdf' \
-    -F 'options={"formats":[{"type":"json","schema":{"type":"object","properties":{"total":{"type":"number"},"vendor":{"type":"string"}}}}]};type=application/json'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -X POST https://api.firecrawl.dev/v2/parse \
+  -H 'Authorization: Bearer YOUR_API_KEY' \
+  -F 'file=@./invoice.pdf' \
+  -F 'options={"formats":[{"type":"json","schema":{"type":"object","properties":{"total":{"type":"number"},"vendor":{"type":"string"}}}}]};type=application/json'
+```
 
 ## PDF options
 
@@ -459,9 +447,9 @@ Passing `parsers: []` skips parsing entirely and returns the PDF as base64
 **Extensions:** `.html`, `.htm`, `.xhtml`, `.pdf`, `.docx`, `.doc`, `.docm`, `.odt`, `.ods`, `.odp`, `.rtf`, `.xlsx`, `.xls`, `.xlsm`, `.xlsb`, `.pptx`, `.ppt`, `.pptm`, `.epub`, `.csv`.
 
 To read the list programmatically, with MIME types, call
-[`GET /v2/parse/formats`](/api-reference/endpoint/parse-formats).
+[`GET /v2/parse/formats`](https://docs.firecrawl.dev/api-reference/endpoint/parse-formats).
 
-See [Document Parsing](/features/document-parsing) for how each format is
+See [Document Parsing](https://docs.firecrawl.dev/features/document-parsing.md) for how each format is
 converted.
 
 ## Request reference
@@ -476,12 +464,13 @@ optional `options` JSON part. `options` accepts a subset of scrape options:
 * `timeout`: Request timeout in milliseconds. Defaults to `30000`, max `300000`.
 * `parsers`: File-parser controls — see [PDF options](#pdf-options).
 
+> [!NOTE]
+>
+> `/parse` does not support browser-only options like `actions`, `waitFor`, `location`, `mobile`, or change tracking.
 
-  `/parse` does not support browser-only options like `actions`, `waitFor`, `location`, `mobile`, or change tracking.
-
-
-  **Using Firecrawl through MCP?** Use `firecrawl_parse` for local files. Local MCP can read the file directly when configured with `FIRECRAWL_API_URL`. Remote hosted MCP returns a short-lived upload command first, then parses the returned `uploadRef`. Public document URLs should still use `/scrape`.
-
+> [!TIP]
+>
+> **Using Firecrawl through MCP?** Use `firecrawl_parse` for local files. Local MCP can read the file directly when configured with `FIRECRAWL_API_URL`. Remote hosted MCP returns a short-lived upload command first, then parses the returned `uploadRef`. Public document URLs should still use `/scrape`.
 
 ## Considerations
 

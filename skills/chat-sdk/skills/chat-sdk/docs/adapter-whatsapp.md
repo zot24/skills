@@ -101,14 +101,14 @@ export async function POST(request: Request) {
 
 ### Environment variables
 
-| Variable                   | Required | Description                                                  |
-| -------------------------- | -------- | ------------------------------------------------------------ |
-| `WHATSAPP_ACCESS_TOKEN`    | Yes      | Meta access token, ideally a System User Token in production |
-| `WHATSAPP_APP_SECRET`      | Yes      | App secret used to verify webhook signatures                 |
-| `WHATSAPP_PHONE_NUMBER_ID` | Yes      | Phone number ID the bot sends from                           |
-| `WHATSAPP_VERIFY_TOKEN`    | Yes      | Your chosen secret for the webhook verification handshake    |
-| `WHATSAPP_BOT_USERNAME`    | No       | Bot username. Defaults to `whatsapp-bot`                     |
-| `WHATSAPP_API_URL`         | No       | Meta Graph API base URL override                             |
+| Variable                   | Required | Description                                                             |
+| -------------------------- | -------- | ----------------------------------------------------------------------- |
+| `WHATSAPP_ACCESS_TOKEN`    | Yes      | Meta access token, ideally a System User Token in production            |
+| `WHATSAPP_APP_SECRET`      | Yes      | App secret used to verify webhook signatures                            |
+| `WHATSAPP_PHONE_NUMBER_ID` | Yes      | Default phone number ID. Thread replies use the number in the thread id |
+| `WHATSAPP_VERIFY_TOKEN`    | Yes      | Your chosen secret for the webhook verification handshake               |
+| `WHATSAPP_BOT_USERNAME`    | No       | Bot username. Defaults to `whatsapp-bot`                                |
+| `WHATSAPP_API_URL`         | No       | Meta Graph API base URL override                                        |
 
 ## Webhooks
 
@@ -116,6 +116,15 @@ The route handles two kinds of request from Meta:
 
 * GET verification handshake: Meta sends a `hub.verify_token` challenge that must match `WHATSAPP_VERIFY_TOKEN`.
 * POST event delivery: incoming messages, reactions, and interactive responses, signed with `X-Hub-Signature-256` and verified against `WHATSAPP_APP_SECRET`.
+
+## Message formatting
+
+Pass `{ markdown: text }` to convert standard Markdown to WhatsApp formatting:
+`**bold**` becomes `*bold*`, `_italic_` stays `_italic_`, and `~~strike~~` becomes
+`~strike~`. Literal text such as `(~80 % easy)` is sent as written, and code
+content and intentional backslashes are preserved. WhatsApp has no escape syntax,
+so when escaped text like `\_word\_` or a line starting with `\>` would otherwise
+turn into formatting, the adapter keeps the backslash and it shows in the message.
 
 ## Interactive messages
 
@@ -283,6 +292,8 @@ whatsapp:{phoneNumberId}:{userWaId}
 Example: `whatsapp:1234567890:15551234567`.
 
 `phoneNumberId` is the bot's phone number ID. The final segment is the adapter's canonical user identifier. It may contain a phone number, a BSUID such as `US.13491208655302741918`, or a previously observed identifier retained for thread continuity.
+
+Replies, reactions, read receipts, typing indicators, and media uploads for a thread go out from that `phoneNumberId`. `openDM` still uses the configured number, because that call has no inbound thread yet.
 
 ## Limitations
 

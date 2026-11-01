@@ -10,11 +10,11 @@
 
 Honcho's search functionality allows you to find relevant messages and conversations across different scopes - from entire workspaces down to specific peers or sessions.
 
+> [!NOTE]
+>
+> Search is hybrid: it combines full-text (keyword) matching with semantic (vector) similarity. Keyword matches are available the instant a message is created. Semantic matches depend on the message's embedding, which is generated in the background, so a freshly created message may take a few seconds to surface in semantic results. If you need to assert on semantic results immediately after writing (for example in tests), wait briefly or poll.
 
-  Search is hybrid: it combines full-text (keyword) matching with semantic (vector) similarity. Keyword matches are available the instant a message is created. Semantic matches depend on the message's embedding, which is generated in the background, so a freshly created message may take a few seconds to surface in semantic results. If you need to assert on semantic results immediately after writing (for example in tests), wait briefly or poll.
-
-
-Search returns the messages themselves. When you want a synthesized answer across the workspace rather than a result list, use [workspace chat](/docs/v3/documentation/features/chat#workspace-chat).
+Search returns the messages themselves. When you want a synthesized answer across the workspace rather than a result list, use [workspace chat](https://honcho.dev/docs/v3/documentation/features/chat.md#workspace-chat).
 
 ## Search Scopes
 
@@ -22,120 +22,112 @@ Search returns the messages themselves. When you want a synthesized answer acros
 
 Search across all content in your workspace - sessions, peers, and messages:
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  # Initialize client
-  honcho = Honcho()
+# Initialize client
+honcho = Honcho()
 
-  # Search across entire workspace
-  results = honcho.search("budget planning")
+# Search across entire workspace
+results = honcho.search("budget planning")
 
-  # Iterate through all results
-  for result in results:
-      print(f"Found: {result}")
-  ```
+# Iterate through all results
+for result in results:
+    print(f"Found: {result}")
+```
 
-  ```typescript TypeScript
-  import { Honcho } from "@honcho-ai/sdk";
+```typescript TypeScript theme={null}
+import { Honcho } from "@honcho-ai/sdk";
 
-  (async () => {
-      // Initialize client
-      const honcho = new Honcho({});
+(async () => {
+    // Initialize client
+    const honcho = new Honcho({});
 
-      // Search across entire workspace
-      const results = await honcho.search("budget planning");
+    // Search across entire workspace
+    const results = await honcho.search("budget planning");
 
-      // Iterate through all results
-      for (const result of results) {
-        console.log(`Found: ${result}`);
-      }
-  })();
-  ```
-</CodeGroup>
+    // Iterate through all results
+    for (const result of results) {
+      console.log(`Found: ${result}`);
+    }
+})();
+```
 
 Pass `scope` on workspace search to restrict matches to that
-[scope](/docs/v3/documentation/features/advanced/scopes)'s member sessions. A scope
+[scope](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md)'s member sessions. A scope
 with no members returns nothing.
 
-<CodeGroup>
-  ```python Python
-  results = honcho.search("budget planning", scope="therapy")
-  ```
+```python Python theme={null}
+results = honcho.search("budget planning", scope="therapy")
+```
 
-  ```typescript TypeScript
-  const results = await honcho.search("budget planning", { scope: "therapy" });
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+const results = await honcho.search("budget planning", { scope: "therapy" });
+```
 
 ### Session Search
 
 Search within a specific session's conversation history:
 
-<CodeGroup>
-  ```python Python
-  # Create or get a session
-  session = honcho.session("team-meeting-jan")
+```python Python theme={null}
+# Create or get a session
+session = honcho.session("team-meeting-jan")
 
-  # Search within this session only
-  results = session.search("action items")
+# Search within this session only
+results = session.search("action items")
 
-  # Process results
-  for result in results:
-      print(f"Session result: {result}")
-  ```
+# Process results
+for result in results:
+    print(f"Session result: {result}")
+```
 
-  ```typescript TypeScript
-  (async () => {
-      // Create or get a session
-      const session = await honcho.session("team-meeting-jan");
+```typescript TypeScript theme={null}
+(async () => {
+    // Create or get a session
+    const session = await honcho.session("team-meeting-jan");
 
-      // Search within this session only
-      const results = await session.search("action items");
+    // Search within this session only
+    const results = await session.search("action items");
 
-      // Process results
-      for (const result of results) {
-        console.log(`Session result: ${result}`);
-      }
-  })();
-  ```
-</CodeGroup>
+    // Process results
+    for (const result of results) {
+      console.log(`Session result: ${result}`);
+    }
+})();
+```
 
 ### Peer Search
 
 Search across all content associated with a specific peer:
 
-<CodeGroup>
-  ```python Python
-  # Create or get a peer
-  alice = honcho.peer("alice")
+```python Python theme={null}
+# Create or get a peer
+alice = honcho.peer("alice")
 
-  # Search across all of Alice's messages and interactions
-  results = alice.search("programming")
+# Search across all of Alice's messages and interactions
+results = alice.search("programming")
 
-  # View results
-  for result in results:
-      print(f"Alice's content: {result}")
-  ```
+# View results
+for result in results:
+    print(f"Alice's content: {result}")
+```
 
-  ```typescript TypeScript
-  import { Message } from "@honcho-ai/sdk";
+```typescript TypeScript theme={null}
+import { Message } from "@honcho-ai/sdk";
 
-  (async () => {
-      // Create or get a peer
-      const alice = await honcho.peer("alice");
+(async () => {
+    // Create or get a peer
+    const alice = await honcho.peer("alice");
 
-      // Search across all of Alice's messages and interactions
-      const results: Message[] = await alice.search("programming");
+    // Search across all of Alice's messages and interactions
+    const results: Message[] = await alice.search("programming");
 
-      // View results
-      for (const result of results) {
-        console.log(`Alice's content: ${result.content}`);
-      }
-  })();
-  ```
-</CodeGroup>
+    // View results
+    for (const result of results) {
+      console.log(`Alice's content: ${result.content}`);
+    }
+})();
+```
 
 ## Filters and Limits
 
@@ -143,37 +135,33 @@ Search across all content associated with a specific peer:
 
 You can specify the number of results you want to return by passing the `limit` parameter to the search method. The default is 10 results, with a maximum of 100.
 
-<CodeGroup>
-  ```python Python
-  results = honcho.search("budget planning", limit=20)
-  ```
+```python Python theme={null}
+results = honcho.search("budget planning", limit=20)
+```
 
-  ```typescript TypeScript
-  (async () => {
-      const results = await honcho.search("budget planning", { limit: 20 });
-  })();
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+(async () => {
+    const results = await honcho.search("budget planning", { limit: 20 });
+})();
+```
 
 ### Get messages from a Peer in a specific Session
 
 Combine Peer-level search with a `session_id` filter to get messages from a Peer in a specific Session.
 
-<CodeGroup>
-  ```python Python
-  my_peer = honcho.peer("my-peer")
-  my_session = honcho.session("team-meeting-jan")
-  results = my_peer.search("budget planning", filters={"session_id": my_session.id})
-  ```
+```python Python theme={null}
+my_peer = honcho.peer("my-peer")
+my_session = honcho.session("team-meeting-jan")
+results = my_peer.search("budget planning", filters={"session_id": my_session.id})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      const myPeer = await honcho.peer("my-peer");
-      const mySession = await honcho.session("team-meeting-jan");
-      const results = await myPeer.search("budget planning", { filters: { session_id: mySession.id } });
-  })();
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+(async () => {
+    const myPeer = await honcho.peer("my-peer");
+    const mySession = await honcho.session("team-meeting-jan");
+    const results = await myPeer.search("budget planning", { filters: { session_id: mySession.id } });
+})();
+```
 
 Search returns an object containing an `items` array of message objects:
 
@@ -196,68 +184,62 @@ Search returns an object containing an `items` array of message objects:
 
 ### Filter results by time range
 
-<CodeGroup>
-  ```python Python
-  results = honcho.search("budget planning", filters={"created_at": {"gte": "2024-01-01", "lte": "2024-01-31"}})
-  ```
+```python Python theme={null}
+results = honcho.search("budget planning", filters={"created_at": {"gte": "2024-01-01", "lte": "2024-01-31"}})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      const results = await honcho.search("budget planning", { filters: { created_at: { gte: "2024-01-01", lte: "2024-01-31" } } });
-  })();
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+(async () => {
+    const results = await honcho.search("budget planning", { filters: { created_at: { gte: "2024-01-01", lte: "2024-01-31" } } });
+})();
+```
 
 ### Filter results by metadata
 
-<CodeGroup>
-  ```python Python
-  results = honcho.search("budget planning", filters={"metadata": {"key": "value"}})
-  ```
+```python Python theme={null}
+results = honcho.search("budget planning", filters={"metadata": {"key": "value"}})
+```
 
-  ```typescript TypeScript
-  (async () => {
-      const results = await honcho.search("budget planning", { filters: { metadata: { key: "value" } } });
-  })();
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+(async () => {
+    const results = await honcho.search("budget planning", { filters: { metadata: { key: "value" } } });
+})();
+```
 
 ### Best Practices
 
 ### Handle Empty Results Gracefully
 
-<CodeGroup>
-  ```python Python
-  # Always check for empty results
-  results = honcho.search("very specific query")
-  result_list = list(results)
+```python Python theme={null}
+# Always check for empty results
+results = honcho.search("very specific query")
+result_list = list(results)
 
-  if result_list:
-      print(f"Found {len(result_list)} results")
-      for result in result_list:
-          print(f"- {result}")
-  else:
-      print("No results found - try a broader search")
-  ```
+if result_list:
+    print(f"Found {len(result_list)} results")
+    for result in result_list:
+        print(f"- {result}")
+else:
+    print("No results found - try a broader search")
+```
 
-  ```typescript TypeScript
-  import { Message } from "@honcho-ai/sdk";
+```typescript TypeScript theme={null}
+import { Message } from "@honcho-ai/sdk";
 
-  (async () => {
-      // Always check for empty results
-      const results: Message[] = await honcho.search("very specific query");
+(async () => {
+    // Always check for empty results
+    const results: Message[] = await honcho.search("very specific query");
 
-      if (results.length > 0) {
-        console.log(`Found ${results.length} results`);
-        for (const result of results) {
-          console.log(`- ${result.content}`);
-        }
-      } else {
-        console.log("No results found - try a broader search");
+    if (results.length > 0) {
+      console.log(`Found ${results.length} results`);
+      for (const result of results) {
+        console.log(`- ${result.content}`);
       }
-  })();
-  ```
-</CodeGroup>
+    } else {
+      console.log("No results found - try a broader search");
+    }
+})();
+```
 
 ## Conclusion
 

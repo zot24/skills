@@ -10,14 +10,16 @@
 
 **Picking the right tool.** JSON mode (this page) is right when you have **one URL** and want fields from that single page.
 
-* For **anything beyond one URL** — multiple URLs, URL patterns, or agentic discovery — see [Agent](/features/agent).
-* Full comparison: [Choosing the Data Extractor](/developer-guides/usage-guides/choosing-the-data-extractor).
+* For **anything beyond one URL** — multiple URLs, URL patterns, or agentic discovery — see [Agent](https://docs.firecrawl.dev/features/agent.md).
+* Full comparison: [Choosing the Data Extractor](https://docs.firecrawl.dev/developer-guides/usage-guides/choosing-the-data-extractor.md).
 
+> [!NOTE]
+>
+> **v2 API Change:** JSON schema extraction is fully supported in v2, but the API format has changed. In v2, the schema is embedded directly inside the format object as `formats: [{type: "json", schema: {...}}]`. The v1 `jsonOptions` parameter no longer exists in v2.
 
-  **v2 API Change:** JSON schema extraction is fully supported in v2, but the API format has changed. In v2, the schema is embedded directly inside the format object as `formats: [{type: "json", schema: {...}}]`. The v1 `jsonOptions` parameter no longer exists in v2.
-
-
-For schema validation failures and other extraction errors, see [Errors](/api-reference/errors) — extraction-specific issues typically surface as `400` or `422` responses.
+> [!NOTE]
+>
+> For schema validation failures and other extraction errors, see [Errors](https://docs.firecrawl.dev/api-reference/errors.md) — extraction-specific issues typically surface as `400` or `422` responses.
 
 ## Scrape and extract structured data with Firecrawl
 
@@ -28,7 +30,7 @@ Firecrawl uses AI to get structured data from web pages in 3 steps:
 
 2. **Make the Request:**
    Send your URL and schema to our scrape endpoint using JSON mode. See how here:
-   [Scrape Endpoint Documentation](https://docs.firecrawl.dev/api-reference/endpoint/scrape)
+   [Scrape Endpoint Documentation](https://docs.firecrawl.dev/api-reference/endpoint/scrape.md)
 
 3. **Get Your Data:**
    Get back clean, structured data matching your schema that you can use right away.
@@ -41,97 +43,95 @@ This makes getting web data in the format you need quick and easy.
 
 Used to extract structured data from scraped pages.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from pydantic import BaseModel
+```python Python theme={null}
+from firecrawl import Firecrawl
+from pydantic import BaseModel
 
-  app = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+app = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  class CompanyInfo(BaseModel):
-      company_mission: str
-      supports_sso: bool
-      is_open_source: bool
-      is_in_yc: bool
+class CompanyInfo(BaseModel):
+    company_mission: str
+    supports_sso: bool
+    is_open_source: bool
+    is_in_yc: bool
 
-  result = app.scrape(
-      'https://firecrawl.dev',
-      formats=[{
-        "type": "json",
-        "schema": CompanyInfo.model_json_schema()
-      }],
-      only_main_content=False,
-      timeout=120000
-  )
-
-  print(result)
-  ```
-
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-  import { z } from "zod";
-
-  const app = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR_API_KEY",
-  });
-
-  // Define schema to extract contents into
-  const schema = z.object({
-    company_mission: z.string(),
-    supports_sso: z.boolean(),
-    is_open_source: z.boolean(),
-    is_in_yc: z.boolean()
-  });
-
-  const result = await app.scrape("https://firecrawl.dev", {
-    formats: [{
-      type: "json",
-      schema: schema
+result = app.scrape(
+    'https://firecrawl.dev',
+    formats=[{
+      "type": "json",
+      "schema": CompanyInfo.model_json_schema()
     }],
-  });
+    only_main_content=False,
+    timeout=120000
+)
 
-  console.log(result);
-  ```
+print(result)
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
-  curl -X POST https://api.firecrawl.dev/v2/scrape \
-      -H 'Content-Type: application/json' \
-      -d '{
-        "url": "https://firecrawl.dev",
-        "formats": [ {
-          "type": "json",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "company_mission": {
-                        "type": "string"
-              },
-              "supports_sso": {
-                        "type": "boolean"
-              },
-              "is_open_source": {
-                        "type": "boolean"
-              },
-              "is_in_yc": {
-                        "type": "boolean"
-              }
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
+import { z } from "zod";
+
+const app = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR_API_KEY",
+});
+
+// Define schema to extract contents into
+const schema = z.object({
+  company_mission: z.string(),
+  supports_sso: z.boolean(),
+  is_open_source: z.boolean(),
+  is_in_yc: z.boolean()
+});
+
+const result = await app.scrape("https://firecrawl.dev", {
+  formats: [{
+    type: "json",
+    schema: schema
+  }],
+});
+
+console.log(result);
+```
+
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+    -H 'Content-Type: application/json' \
+    -d '{
+      "url": "https://firecrawl.dev",
+      "formats": [ {
+        "type": "json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "company_mission": {
+                      "type": "string"
             },
-            "required": [
-              "company_mission",
-              "supports_sso",
-              "is_open_source",
-              "is_in_yc"
-            ]
-          }
-        } ]
-      }'
-  ```
-</CodeGroup>
+            "supports_sso": {
+                      "type": "boolean"
+            },
+            "is_open_source": {
+                      "type": "boolean"
+            },
+            "is_in_yc": {
+                      "type": "boolean"
+            }
+          },
+          "required": [
+            "company_mission",
+            "supports_sso",
+            "is_open_source",
+            "is_in_yc"
+          ]
+        }
+      } ]
+    }'
+```
 
 Output:
 
@@ -165,59 +165,57 @@ Output:
 
 You can also extract without a schema by just passing a `prompt` to the endpoint. The llm chooses the structure of the data.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  app = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+app = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  result = app.scrape(
-      'https://firecrawl.dev',
-      formats=[{
+result = app.scrape(
+    'https://firecrawl.dev',
+    formats=[{
+      "type": "json",
+      "prompt": "Extract the company mission from the page."
+    }],
+    only_main_content=False,
+    timeout=120000
+)
+
+print(result)
+```
+
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
+
+const app = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR_API_KEY",
+});
+
+const result = await app.scrape("https://firecrawl.dev", {
+  formats: [{
+    type: "json",
+    prompt: "Extract the company mission from the page."
+  }]
+});
+
+console.log(result);
+```
+
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+    -H 'Content-Type: application/json' \
+    -d '{
+      "url": "https://firecrawl.dev",
+      "formats": [{
         "type": "json",
         "prompt": "Extract the company mission from the page."
-      }],
-      only_main_content=False,
-      timeout=120000
-  )
-
-  print(result)
-  ```
-
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-
-  const app = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR_API_KEY",
-  });
-
-  const result = await app.scrape("https://firecrawl.dev", {
-    formats: [{
-      type: "json",
-      prompt: "Extract the company mission from the page."
-    }]
-  });
-
-  console.log(result);
-  ```
-
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
-  curl -X POST https://api.firecrawl.dev/v2/scrape \
-      -H 'Content-Type: application/json' \
-      -d '{
-        "url": "https://firecrawl.dev",
-        "formats": [{
-          "type": "json",
-          "prompt": "Extract the company mission from the page."
-        }]
-      }'
-  ```
-</CodeGroup>
+      }]
+    }'
+```
 
 Output:
 
@@ -248,94 +246,92 @@ Output:
 
 Here's a comprehensive example extracting structured company information from a website:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from pydantic import BaseModel
+```python Python theme={null}
+from firecrawl import Firecrawl
+from pydantic import BaseModel
 
-  app = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+app = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  class CompanyInfo(BaseModel):
-      company_mission: str
-      supports_sso: bool
-      is_open_source: bool
-      is_in_yc: bool
+class CompanyInfo(BaseModel):
+    company_mission: str
+    supports_sso: bool
+    is_open_source: bool
+    is_in_yc: bool
 
-  result = app.scrape(
-      'https://firecrawl.dev/',
-      formats=[{
-          "type": "json",
-          "schema": CompanyInfo.model_json_schema()
-      }]
-  )
-
-  print(result)
-  ```
-
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-  import { z } from "zod";
-
-  const app = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR_API_KEY",
-  });
-
-  const companyInfoSchema = z.object({
-    company_mission: z.string(),
-    supports_sso: z.boolean(),
-    is_open_source: z.boolean(),
-    is_in_yc: z.boolean()
-  });
-
-  const result = await app.scrape("https://firecrawl.dev/", {
-    formats: [{
-      type: "json",
-      schema: companyInfoSchema
+result = app.scrape(
+    'https://firecrawl.dev/',
+    formats=[{
+        "type": "json",
+        "schema": CompanyInfo.model_json_schema()
     }]
-  });
+)
 
-  console.log(result);
-  ```
+print(result)
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
-  curl -X POST https://api.firecrawl.dev/v2/scrape \
-      -H 'Content-Type: application/json' \
-      -d '{
-        "url": "https://firecrawl.dev/",
-        "formats": [{
-          "type": "json",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "company_mission": {
-                "type": "string"
-              },
-              "supports_sso": {
-                "type": "boolean"
-              },
-              "is_open_source": {
-                "type": "boolean"
-              },
-              "is_in_yc": {
-                "type": "boolean"
-              }
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
+import { z } from "zod";
+
+const app = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR_API_KEY",
+});
+
+const companyInfoSchema = z.object({
+  company_mission: z.string(),
+  supports_sso: z.boolean(),
+  is_open_source: z.boolean(),
+  is_in_yc: z.boolean()
+});
+
+const result = await app.scrape("https://firecrawl.dev/", {
+  formats: [{
+    type: "json",
+    schema: companyInfoSchema
+  }]
+});
+
+console.log(result);
+```
+
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+    -H 'Content-Type: application/json' \
+    -d '{
+      "url": "https://firecrawl.dev/",
+      "formats": [{
+        "type": "json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "company_mission": {
+              "type": "string"
             },
-            "required": [
-              "company_mission",
-              "supports_sso",
-              "is_open_source",
-              "is_in_yc"
-            ]
-          }
-        }]
-      }'
-  ```
-</CodeGroup>
+            "supports_sso": {
+              "type": "boolean"
+            },
+            "is_open_source": {
+              "type": "boolean"
+            },
+            "is_in_yc": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "company_mission",
+            "supports_sso",
+            "is_open_source",
+            "is_in_yc"
+          ]
+        }
+      }]
+    }'
+```
 
 Output:
 
@@ -344,7 +340,7 @@ Output:
   "success": true,
   "data": {
     "json": {
-      "company_mission": "Turn websites into LLM-ready data",
+      "company_mission": "The context API for AI agents",
       "supports_sso": true,
       "is_open_source": true,
       "is_in_yc": true
@@ -393,9 +389,9 @@ How it works:
 
 The option also works on batch scrape, and in `scrapeOptions` for crawl, search and monitors. Setting `checkPromptInjection` on the `json` format object still works but is deprecated. In v1, the option is `jsonOptions.checkPromptInjection`. The SDKs expose it as `checkPromptInjection` (JS) and `check_prompt_injection` (Python).
 
-
-  **HTML attributes are not available in JSON extraction.** JSON extraction works on the markdown conversion of the page, which only preserves visible text content. HTML attributes (e.g., `data-id`, custom attributes on elements) are stripped during conversion and the LLM cannot see them. If you need to extract HTML attribute values, use `rawHtml` format and parse attributes client-side, or use an `executeJavascript` action to inject attribute values into visible text before extraction.
-
+> [!NOTE]
+>
+> **HTML attributes are not available in JSON extraction.** JSON extraction works on the markdown conversion of the page, which only preserves visible text content. HTML attributes (e.g., `data-id`, custom attributes on elements) are stripped during conversion and the LLM cannot see them. If you need to extract HTML attribute values, use `rawHtml` format and parse attributes client-side, or use an `executeJavascript` action to inject attribute values into visible text before extraction.
 
 ## Tips for consistent extraction
 

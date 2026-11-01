@@ -10,15 +10,15 @@
 
 Add Firecrawl to Claude.ai with the native Firecrawl connector. You do not need to add a custom connector or paste a server URL.
 
-
-  Looking for Claude Code setup? See the [Claude Code guide](/quickstarts/claude-code) instead.
-
+> [!NOTE]
+>
+> Looking for Claude Code setup? See the [Claude Code guide](https://docs.firecrawl.dev/quickstarts/claude-code.md) instead.
 
 ## Add to Claude
 
-
-  Open the Firecrawl connector in Claude.ai and connect it.
-
+> [card] [Add to Claude](https://claude.ai/directory/connectors/firecrawl)
+>
+> Open the Firecrawl connector in Claude.ai and connect it.
 
 1. Open the [Firecrawl connector in Claude.ai](https://claude.ai/directory/connectors/firecrawl).
 2. Connect Firecrawl. When Claude opens Firecrawl in your browser, sign in, choose a team, and approve access.
@@ -42,7 +42,7 @@ Scrape firecrawl.dev and tell me what it does
 
 ## More
 
-See [For Humans](/mcp-server/oauth) for sign-in setup in other clients, or [For Agents](/mcp-server/keyless) to start keyless.
+See [For Humans](https://docs.firecrawl.dev/mcp-server/oauth.md) for sign-in setup in other clients, or [For Agents](https://docs.firecrawl.dev/mcp-server/keyless.md) to start keyless.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

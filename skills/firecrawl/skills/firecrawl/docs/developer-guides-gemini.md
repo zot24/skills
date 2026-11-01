@@ -6,9 +6,9 @@
 
 # Gemini
 
-> Use Firecrawl with Google's Gemini AI for web scraping + AI workflows
+> Use Firecrawl with Google's Gemini AI to give AI workflows live web context
 
-Integrate Firecrawl with Google's Gemini for AI applications powered by web data.
+Use Firecrawl with Google's Gemini to give your AI application clean context from the web. Scrape pages to Markdown, then pass the content to Gemini for summaries, analysis, and structured extraction.
 
 ## Setup
 
@@ -43,7 +43,7 @@ const scrapeResult = await firecrawl.scrape('https://firecrawl.dev', {
 console.log('Scraped content length:', scrapeResult.markdown?.length);
 
 const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3.8-flash',
     contents: `Summarize: ${scrapeResult.markdown}`,
 });
 
@@ -68,7 +68,7 @@ const scrapeResult = await firecrawl.scrape('https://news.ycombinator.com/', {
 console.log('Scraped content length:', scrapeResult.markdown?.length);
 
 const chat = ai.chats.create({
-    model: 'gemini-2.5-flash'
+    model: 'gemini-3.8-flash'
 });
 
 // Ask for the top 3 stories on Hacker News
@@ -102,7 +102,7 @@ const scrapeResult = await firecrawl.scrape('https://stripe.com', {
 console.log('Scraped content length:', scrapeResult.markdown?.length);
 
 const response = await ai.models.generateContent({
-    model: 'gemini-2.5-flash',
+    model: 'gemini-3.8-flash',
     contents: `Extract company information: ${scrapeResult.markdown}`,
     config: {
         responseMimeType: 'application/json',

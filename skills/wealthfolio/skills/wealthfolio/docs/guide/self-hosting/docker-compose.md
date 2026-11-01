@@ -74,7 +74,7 @@
 #### Connect
 
 
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
+<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
 
 
 Docs
@@ -90,7 +90,7 @@ Run Wealthfolio with a compose.yml that bundles restart policies, env files, dir
 
 ------------------------------------------------------------------------
 
-Last updated October 14, 2026
+Last updated October 31, 2026
 
 
 If you already manage your homelab with Compose, this is the path you want. The Wealthfolio repo ships a production-ready `compose.yml` for direct browser access, plus an optional `compose.proxy.yml` override for same-network reverse proxy setups.
@@ -174,6 +174,40 @@ Start with both files:
 ``` mb-4
 docker compose --env-file .env -f compose.yml -f compose.override.yml up -d
 ```
+
+## OIDC with a private CA
+
+If your identity provider uses a private CA, configure <a href="/docs/guide/self-hosting/configuration/#wf_oidc_ca_file" class="font-medium underline underline-offset-4"><code>WF_OIDC_CA_FILE</code></a> and mount its PEM bundle read-only. This is optional; existing installations need no additional file or mount.
+
+Create the host bundle first. Save the following as `compose.oidc-ca.yml` alongside `compose.yml`, replacing the source with your existing file’s absolute host path:
+
+``` mb-4
+services:
+  wealthfolio:
+    environment:
+      WF_OIDC_CA_FILE: /certs/internal-ca.pem
+    volumes:
+      - type: bind
+        source: /protected/internal-ca.pem
+        target: /certs/internal-ca.pem
+        read_only: true
+        bind:
+          create_host_path: false
+```
+
+Add the overlay to your normal Compose command, preserving your environment file and **all existing `-f` files**. Explicit `-f` arguments disable automatic loading of `compose.override.yml`; include it explicitly if your installation uses it, along with any proxy overlays. For an installation using only the base configuration:
+
+``` mb-4
+docker compose --env-file .env -f compose.yml -f compose.oidc-ca.yml up -d
+```
+
+If you use the installation override from the previous section, keep it:
+
+``` mb-4
+docker compose --env-file .env -f compose.yml -f compose.override.yml -f compose.oidc-ca.yml up -d
+```
+
+The existing data volume remains mounted. Ensure the CA file is readable by the container’s configured runtime user (UID/GID `1000:1000` by default), while only trusted administrators can change it or its parent directory. Recreate the service after adding the setting, and restart it after replacing the bundle. Missing or invalid certificates prevent startup when OIDC is enabled.
 
 ## Inspect & manage
 
@@ -295,6 +329,7 @@ On This Page
 - <a href="#create-your-env" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Create your .env</a>
 - <a href="#start-it" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Start it</a>
   - <a href="#installation-directory" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Installation directory</a>
+- <a href="#oidc-with-a-private-ca" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">OIDC with a private CA</a>
 - <a href="#inspect--manage" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Inspect &amp; manage</a>
 - <a href="#reverse-proxy-integration" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Reverse proxy integration</a>
   - <a href="#traefik-labels" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Traefik labels</a>

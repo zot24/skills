@@ -8,7 +8,7 @@
 
 > Webhook event sent when all URLs in a batch scrape have been processed.
 
-For payload examples, configuration, and retry behavior, see [Webhook Event Types](/webhooks/events#batch_scrapecompleted) and [Webhook Overview](/webhooks/overview).
+For payload examples, configuration, and retry behavior, see [Webhook Event Types](https://docs.firecrawl.dev/webhooks/events.md#batch_scrapecompleted) and [Webhook Overview](https://docs.firecrawl.dev/webhooks/overview.md).
 
 
 ## OpenAPI

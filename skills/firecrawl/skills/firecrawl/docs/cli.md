@@ -8,7 +8,7 @@
 
 > Firecrawl skills are an easy way for AI agents such as Codex, Claude Code, Cursor, and OpenCode to use Firecrawl through the CLI.
 
-Search, scrape, interact, crawl, map, and run agent jobs directly from the terminal. The Firecrawl CLI works standalone or with skills that AI coding agents like Codex, Claude Code, Cursor, and OpenCode can discover and use automatically.
+Search, scrape, parse, crawl, map, interact, run agent jobs, and monitor changes directly from the terminal. The Firecrawl CLI is the context API for AI agents on the command line: it works standalone, or with skills that AI coding agents like Codex, Claude Code, Cursor, Hermes Agent, and OpenCode can discover and use automatically.
 
 ## Installation
 
@@ -21,9 +21,9 @@ npx -y firecrawl-cli@latest init --all --browser
 * `--all` skips agent selection and initializes every detected agent
 * `--browser` opens the browser for Firecrawl authentication automatically
 
-
-  After installing the skills, restart your agent for it to discover them.
-
+> [!NOTE]
+>
+> After installing the skills, restart your agent for it to discover them.
 
 You can also manually install the Firecrawl CLI globally using npm:
 
@@ -36,9 +36,9 @@ npm install -g firecrawl-cli
 
 Before using the CLI, you need to authenticate with your Firecrawl API key.
 
-
-  **Some CLI commands work without logging in.** With no API key configured, supported commands fall back to the keyless free tier — free, but rate-limited per IP. See [Rate Limits](/rate-limits#keyless-no-api-key) for the current keyless command list and caveats. [Sign up for a free key](https://firecrawl.dev) for 1,000 credits and higher limits; the CLI uses it automatically once configured.
-
+> [!NOTE]
+>
+> **Some CLI commands work without logging in.** With no API key configured, supported commands fall back to the keyless free tier — free, but rate-limited per IP. See [Rate Limits](https://docs.firecrawl.dev/rate-limits.md#keyless-no-api-key) for the current keyless command list and caveats. [Sign up for a free key](https://firecrawl.dev) for 1,000 credits and higher limits; the CLI uses it automatically once configured.
 
 ### Login
 
@@ -72,7 +72,7 @@ firecrawl logout
 
 ### Connect the CLI to self-hosted Firecrawl
 
-First, get one scrape working with the [self-hosting guide](/contributing/self-host). Then point the CLI at that API with `--api-url` or `FIRECRAWL_API_URL`:
+First, get one scrape working with the [self-hosting guide](https://docs.firecrawl.dev/contributing/self-host.md). Then point the CLI at that API with `--api-url` or `FIRECRAWL_API_URL`:
 
 ```bash CLI theme={null}
 # Use a local Firecrawl instance (no API key required)
@@ -88,13 +88,13 @@ firecrawl config --api-url http://localhost:3002
 
 When you use a custom API URL instead of `https://api.firecrawl.dev`, the CLI skips Firecrawl Cloud API-key authentication. That matches the trusted-network quickstart, where `USE_DB_AUTHENTICATION=false`.
 
+> [!WARNING]
+>
+> Keep an unauthenticated API on a trusted network. If you add an authentication
+> proxy or another access-control layer, verify that the CLI can send the
+> credentials that layer requires before depending on this path.
 
-  Keep an unauthenticated API on a trusted network. If you add an authentication
-  proxy or another access-control layer, verify that the CLI can send the
-  credentials that layer requires before depending on this path.
-
-
-The CLI can call only the capabilities enabled in your deployment. Check [self-hosted feature support](/contributing/self-host#self-hosted-feature-support) before using Cloud-only or provider-dependent commands.
+The CLI can call only the capabilities enabled in your deployment. Check [self-hosted feature support](https://docs.firecrawl.dev/contributing/self-host.md#self-hosted-feature-support) before using Cloud-only or provider-dependent commands.
 
 ### Check Status
 
@@ -119,19 +119,19 @@ Output when ready:
 
 ## Commands
 
-
-  The hidden `firecrawl browser` command is deprecated for agent workflows. Use `firecrawl scrape <url>` first, then `firecrawl interact ...` with the resulting scrape session.
-
+> [!NOTE]
+>
+> The hidden `firecrawl browser` command is deprecated for agent workflows. Use `firecrawl scrape <url>` first, then `firecrawl interact ...` with the resulting scrape session.
 
 ### Scrape
 
 Scrape a single URL and extract its content in various formats.
 
-
-  Use `--only-main-content` to get clean output without navigation, footers, and
-  ads. This is recommended for most use cases where you want just the article or
-  main page content.
-
+> [!TIP]
+>
+> Use `--only-main-content` to get clean output without navigation, footers, and
+> ads. This is recommended for most use cases where you want just the article or
+> main page content.
 
 ```bash CLI theme={null}
 # Scrape a URL (default: markdown output)
@@ -229,7 +229,7 @@ firecrawl https://example.com --timing
 | `--json` | | Force JSON output even with single format |
 | `--pretty` | | Pretty print JSON output |
 | `--timing` | | Show request timing and other useful information |
-| `--alexandria <tool>` | | Run an [Alexandria](/features/alexandria) tool, given as `provider/capability`, instead of scraping a URL. Repeat to run more than one tool |
+| `--alexandria <tool>` | | Run an [Alexandria](https://docs.firecrawl.dev/features/alexandria.md) tool, given as `provider/capability`, instead of scraping a URL. Repeat to run more than one tool |
 | `--options <json>` | | JSON input for each Alexandria tool, in the same order |
 | `--request-id <id>` | | Request ID for an Alexandria run. Use the same ID to recover the same run |
 | `--domain-tools` | | Also return Alexandria tools that match the scraped URL. The tools do not run |
@@ -304,7 +304,7 @@ firecrawl search "firecrawl" --pretty -o results.json
 
 ### Alexandria
 
-Find and run data tools from [Alexandria](/features/alexandria), the Firecrawl catalogue of third-party data providers. Discovery is free. A tool run costs the price listed on the tool.
+Find and run data tools from [Alexandria](https://docs.firecrawl.dev/features/alexandria.md), the Firecrawl catalogue of third-party data providers. Discovery is free. A tool run costs the price listed on the tool.
 
 ```bash CLI theme={null}
 # Find tools for a task (tools only, no web results)
@@ -331,14 +331,7 @@ When a provider returns `THIRD_PARTY_DATA_TERMS_REQUIRED`, read its terms first:
 firecrawl alexandria terms show particle --pretty
 ```
 
-To accept, give the exact version and digest that you reviewed. Acceptance applies to the organization of your API key:
-
-```bash CLI theme={null}
-firecrawl alexandria terms accept particle \
-  --terms-version '<reviewed-version>' --digest '<reviewed-sha256>' --confirm
-```
-
-An agent must not accept terms on its own. It must show the terms to the user, get explicit approval, and wait. An org admin can also accept terms at [Data sources settings](https://www.firecrawl.dev/app/settings?tab=data-sources). After acceptance, run the original command again.
+An org admin accepts terms at the link in the error or at [Data sources settings](https://www.firecrawl.dev/app/settings?tab=data-sources). The CLI cannot accept terms. After acceptance, run the original command again.
 
 Use `firecrawl alexandria feedback` to report issues or request capabilities, within 20 minutes of your last Alexandria search, discovery, or execution. Each submission refunds 1 credit, up to 10 credits per website and 100 credits per team each UTC day. Run `firecrawl alexandria feedback --help` for options.
 
@@ -346,7 +339,7 @@ Use `firecrawl alexandria feedback` to report issues or request capabilities, wi
 
 ### Developer
 
-Search the [Developer Index](/features/developer) — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites.
+Search the [Developer Index](https://docs.firecrawl.dev/features/developer.md) — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites.
 
 ```bash CLI theme={null}
 firecrawl developer "how do I configure retries" --limit 10
@@ -366,7 +359,7 @@ firecrawl developer "how do I configure retries" --limit 10
 
 ### Government
 
-Search the [Firecrawl Government Index](/features/gov) — statutes, regulations, codes, court opinions, and other government publications from US federal, state, and local government sources.
+Search the [Firecrawl Government Index](https://docs.firecrawl.dev/features/gov.md) — statutes, regulations, codes, court opinions, and other government publications from US federal, state, and local government sources.
 
 ```bash CLI theme={null}
 firecrawl gov "food labeling requirements for allergens" --limit 10
@@ -380,6 +373,13 @@ firecrawl gov "food labeling requirements for allergens" --limit 10
 | `--json` | Output as compact JSON |
 | `--pretty` | Pretty print JSON output |
 | `--output <path>` | Save output to file |
+| `--jurisdiction <code>` | Keep one jurisdiction: `us` or `us-` plus a state or territory code, such as `us-ca` |
+| `--court <id>` | Keep one court, by CourtListener court id, such as `scotus` |
+| `--court-type <type>` | Keep one type of court, such as `federal-appellate` or `state-supreme` |
+| `--cites <citation>` | Keep pages that cite one law or case, such as `"42 U.S.C. § 1983"` |
+| `--domain <domain>` | Keep pages from one site, such as `irs.gov` |
+
+Filters keep only pages the index has labeled, so a filtered search can leave out relevant pages, and no results does not mean none exist.
 
 ***
 

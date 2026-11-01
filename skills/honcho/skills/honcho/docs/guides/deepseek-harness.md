@@ -22,9 +22,9 @@ It is a native [Cordis](https://github.com/cordiverse/cordis) plugin, not a hook
 
 ### Step 2: Install the Plugin
 
-
-  This plugin requires a running [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness). Plugins install into a named profile, so pick the one you actually run — `web`, `headless`, `acp`, or your own.
-
+> [!NOTE]
+>
+> This plugin requires a running [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness). Plugins install into a named profile, so pick the one you actually run — `web`, `headless`, `acp`, or your own.
 
 ```bash theme={null}
 dsh plugin --profile <name> add @honcho-ai/dsh-honcho
@@ -52,9 +52,9 @@ Put your key and name in `~/.honcho/config.json`:
 
 Start `dsh` and run `/honcho`. You'll see your peer, workspace, session, and sync status, plus a link to the session in the Honcho dashboard.
 
-
-  In the `dsh` web client, `/honcho` output renders in the collapsed command panel rather than inline in the transcript. Expand the panel to read it.
-
+> [!WARNING]
+>
+> In the `dsh` web client, `/honcho` output renders in the collapsed command panel rather than inline in the transcript. Expand the panel to read it.
 
 ## What You Get
 
@@ -118,9 +118,9 @@ Configuration lives in `~/.honcho/config.json`, shared with the other Honcho hos
 }
 ```
 
-
-  Unsupported or renamed keys are reported at startup rather than silently ignored, so a stale config tells you what it is no longer doing.
-
+> [!NOTE]
+>
+> Unsupported or renamed keys are reported at startup rather than silently ignored, so a stale config tells you what it is no longer doing.
 
 ### Injection Components
 
@@ -147,9 +147,9 @@ To get the representation without the peer card (or vice versa), name it in `ses
 | `per-session` | `<peer>-chat-<id>` | A clean slate every restart |
 | `global` | `<peer>` | One memory for everything |
 
-
-  Prefer the wider scopes. The background Deriver needs a single session to accumulate enough material before it can reason well. `git-branch` splits a project's memory per branch, and `per-session` discards it on every restart.
-
+> [!WARNING]
+>
+> Prefer the wider scopes. The background Deriver needs a single session to accumulate enough material before it can reason well. `git-branch` splits a project's memory per branch, and `per-session` discards it on every restart.
 
 ### Sharing Memory With Other Integrations
 
@@ -190,11 +190,13 @@ Set `injection.tools` to `false` to inject memory without exposing tools.
 
 ## Next Steps
 
+> [card] [GitHub Repository](https://github.com/plastic-labs/dsh-honcho)
+>
+> Source code, issues, and README.
 
-    Source code, issues, and README.
-
-
-    Learn about peers, sessions, and dialectic reasoning.
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Learn about peers, sessions, and dialectic reasoning.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

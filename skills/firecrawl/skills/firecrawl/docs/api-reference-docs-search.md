@@ -53,7 +53,7 @@ curl -X POST https://api.firecrawl.dev/v2/support/docs-search \
 | `usage` | object | Token consumption (`inputTokens`, `outputTokens`, `totalTokens`) |
 | `durationMs` | integer | Total execution time in milliseconds |
 
-For the full feature guide, see the [Ask feature documentation](/features/ask).
+For the full feature guide, see the [Ask feature documentation](https://docs.firecrawl.dev/features/ask.md).
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
 

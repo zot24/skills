@@ -4,7 +4,7 @@
 title: CLI
 description: Scaffold a Chat SDK bot app with a single command.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 related:
   - /docs
   - /docs/getting-started
@@ -16,17 +16,25 @@ related:
 
 ## Quick start
 
+**npm**
+
 ```bash
 npm create chat-sdk@latest my-bot
 ```
+
+**pnpm**
 
 ```bash
 pnpm create chat-sdk@latest my-bot
 ```
 
+**yarn**
+
 ```bash
 yarn create chat-sdk my-bot
 ```
+
+**bun**
 
 ```bash
 bunx create-chat-sdk@latest my-bot

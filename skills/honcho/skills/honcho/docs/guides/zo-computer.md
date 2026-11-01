@@ -10,9 +10,9 @@
 
 [Zo Computer](https://zo.computer) is a cloud AI platform where users build reusable workflows called skills. The Honcho memory skill gives any Zo workflow persistent memory — saving conversations, answering questions about past interactions, and injecting context into LLM prompts.
 
-
-  The full source code is available on [GitHub](https://github.com/plastic-labs/honcho/tree/main/examples/zo) with working tests and Zo marketplace submission instructions.
-
+> [!NOTE]
+>
+> The full source code is available on [GitHub](https://github.com/plastic-labs/honcho/tree/main/examples/zo) with working tests and Zo marketplace submission instructions.
 
 ## What It Does
 
@@ -121,17 +121,21 @@ To submit the skill to the [Zo Skills Registry](https://github.com/zocomputer/sk
 
 ## Next Steps
 
+> [card] [Source Code](https://github.com/plastic-labs/honcho/tree/main/examples/zo)
+>
+> Full source, tests, and SKILL.md for the Zo integration
 
-    Full source, tests, and SKILL.md for the Zo integration
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Understand peers, sessions, and how memory works
 
+> [card] [Chat API](https://honcho.dev/docs/v3/documentation/features/chat.md)
+>
+> Learn more about querying peer memory with the Dialectic API
 
-    Understand peers, sessions, and how memory works
-
-
-    Learn more about querying peer memory with the Dialectic API
-
-
-    Details on retrieving and formatting conversation context
+> [card] [Get Context](https://honcho.dev/docs/v3/documentation/features/get-context.md)
+>
+> Details on retrieving and formatting conversation context
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

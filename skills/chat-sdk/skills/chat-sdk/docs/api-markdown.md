@@ -4,7 +4,7 @@
 title: Markdown
 description: AST builder functions and utilities for programmatic message formatting.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: reference
 related:
   - /docs/posting-messages
@@ -160,6 +160,20 @@ Convert an mdast AST back to a markdown string.
 ```typescript
 const md = stringifyMarkdown(ast); // "**Hello** world"
 ```
+
+Pass `handlers` in the options to customize how individual mdast node types are
+serialized, for example when rendering a platform-specific Markdown dialect:
+
+```typescript
+const md = stringifyMarkdown(ast, {
+  handlers: {
+    text: (node) => node.value,
+  },
+});
+```
+
+Custom handlers replace the default serializer for those node types, so they are
+responsible for any escaping required by the destination format.
 
 ### toPlainText
 

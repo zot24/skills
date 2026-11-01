@@ -26,11 +26,11 @@ There is no equivalent check for the model. The pgvector column does not record 
 
 That last point is a real footgun:
 
-
-  Changing `EMBEDDING_MODEL_CONFIG__MODEL` to a different model at the **same dimension** (for example `text-embedding-3-small@1536` → `text-embedding-3-large` truncated to 1536) will silently succeed. New writes will use the new model; existing rows still hold vectors from the old model; recall quality will degrade with no startup or runtime warning.
-
-  Treat model identity as a contract you own. If you need to change it, follow the destroy + rebuild path below.
-
+> [!WARNING]
+>
+> Changing `EMBEDDING_MODEL_CONFIG__MODEL` to a different model at the **same dimension** (for example `text-embedding-3-small@1536` → `text-embedding-3-large` truncated to 1536) will silently succeed. New writes will use the new model; existing rows still hold vectors from the old model; recall quality will degrade with no startup or runtime warning.
+>
+> Treat model identity as a contract you own. If you need to change it, follow the destroy + rebuild path below.
 
 ## Recipe: changing dim or model
 

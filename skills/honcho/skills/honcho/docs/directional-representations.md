@@ -70,7 +70,7 @@ With `observe_others=true` enabled on Alice:
 * **Alice's representation of Charlie** only includes Session 2 (she heard Charlie's claim about Bob lying)
 * **Honcho's representation of Alice** reasons over both sessions
 
-<img src="https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/observe_config.png?fit=max&auto=format&n=Pwe1D9IEDkAtnMKn&q=85&s=3ce6039ba1ff8c8b760e2f2d507999fa" alt="" width="1687" height="1916" data-path="images/observe_config.png" />
+![](https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/observe_config.png?fit=max\&auto=format\&n=Pwe1D9IEDkAtnMKn\&q=85\&s=3ce6039ba1ff8c8b760e2f2d507999fa)
 
 ## Querying with Target
 
@@ -84,117 +84,113 @@ The `target` parameter controls which representation you retrieve:
 
 ### Code Examples
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
-  from honcho.api_types import SessionPeerConfig
+```python Python theme={null}
+from honcho import Honcho
+from honcho.api_types import SessionPeerConfig
 
-  honcho = Honcho()
-  session = honcho.session("game-session")
+honcho = Honcho()
+session = honcho.session("game-session")
 
-  alice = honcho.peer("alice")
-  bob = honcho.peer("bob")
-  charlie = honcho.peer("charlie")
+alice = honcho.peer("alice")
+bob = honcho.peer("bob")
+charlie = honcho.peer("charlie")
 
-  # Add peers to session
-  session.add_peers([alice, bob, charlie])
+# Add peers to session
+session.add_peers([alice, bob, charlie])
 
-  # Enable Alice to form representations of others
-  session.set_peer_configuration(alice, SessionPeerConfig(observe_others=True))
+# Enable Alice to form representations of others
+session.set_peer_configuration(alice, SessionPeerConfig(observe_others=True))
 
-  # Add messages
-  session.add_messages([
-      bob.message("I had pancakes for breakfast."),
-      charlie.message("I prefer waffles.")
-  ])
+# Add messages
+session.add_messages([
+    bob.message("I had pancakes for breakfast."),
+    charlie.message("I prefer waffles.")
+])
 
-  # Different sessions with different participants
-  session2 = honcho.session("game-session-2")
-  session2.add_peers([alice, charlie])
-  session2.set_peer_configuration(alice, SessionPeerConfig(observe_others=True))
+# Different sessions with different participants
+session2 = honcho.session("game-session-2")
+session2.add_peers([alice, charlie])
+session2.set_peer_configuration(alice, SessionPeerConfig(observe_others=True))
 
-  session2.add_messages([
-      charlie.message("I didn't have breakfast. I lied to Bob.")
-  ])
+session2.add_messages([
+    charlie.message("I didn't have breakfast. I lied to Bob.")
+])
 
-  # Retrieve conclusions from different perspectives
-  honcho_view = session.representation("alice")  # Across all sessions
-  bob_view = session.representation("alice", target="bob")  # Alice's view of Bob
-  charlie_view = session2.representation("alice", target="charlie")  # Alice's view of Charlie
-  ```
+# Retrieve conclusions from different perspectives
+honcho_view = session.representation("alice")  # Across all sessions
+bob_view = session.representation("alice", target="bob")  # Alice's view of Bob
+charlie_view = session2.representation("alice", target="charlie")  # Alice's view of Charlie
+```
 
-  ```typescript TypeScript
-  import { Honcho } from "@honcho-ai/sdk";
+```typescript TypeScript theme={null}
+import { Honcho } from "@honcho-ai/sdk";
 
-  const honcho = new Honcho({});
-  const session = await honcho.session("game-session");
+const honcho = new Honcho({});
+const session = await honcho.session("game-session");
 
-  const alice = await honcho.peer("alice");
-  const bob = await honcho.peer("bob");
-  const charlie = await honcho.peer("charlie");
+const alice = await honcho.peer("alice");
+const bob = await honcho.peer("bob");
+const charlie = await honcho.peer("charlie");
 
-  await session.addPeers([alice, bob, charlie]);
+await session.addPeers([alice, bob, charlie]);
 
-  await session.setPeerConfiguration(alice, { observeOthers: true });
+await session.setPeerConfiguration(alice, { observeOthers: true });
 
-  await session.addMessages([
-      bob.message("I had pancakes for breakfast."),
-      charlie.message("I prefer waffles.")
-  ]);
+await session.addMessages([
+    bob.message("I had pancakes for breakfast."),
+    charlie.message("I prefer waffles.")
+]);
 
-  const session2 = await honcho.session("game-session-2");
-  await session2.addPeers([alice, charlie]);
-  await session2.setPeerConfiguration(alice, { observeOthers: true });
+const session2 = await honcho.session("game-session-2");
+await session2.addPeers([alice, charlie]);
+await session2.setPeerConfiguration(alice, { observeOthers: true });
 
-  await session2.addMessages([
-      charlie.message("I didn't have breakfast. I lied to Bob.")
-  ]);
+await session2.addMessages([
+    charlie.message("I didn't have breakfast. I lied to Bob.")
+]);
 
-  // Retrieve conclusions from different perspectives
-  const honchoView = await session.representation("alice");  // Across all sessions
-  const bobView = await session.representation("alice", { target: "bob" });  // Alice's view of Bob
-  const charlieView = await session2.representation("alice", { target: "charlie" });  // Alice's view of Charlie
-  ```
-</CodeGroup>
+// Retrieve conclusions from different perspectives
+const honchoView = await session.representation("alice");  // Across all sessions
+const bobView = await session.representation("alice", { target: "bob" });  // Alice's view of Bob
+const charlieView = await session2.representation("alice", { target: "charlie" });  // Alice's view of Charlie
+```
 
 ### Chat Endpoint with Target
 
 The `target` parameter also works with the chat endpoint:
 
-<CodeGroup>
-  ```python Python
-  # Query using conclusions from Honcho's representation (across all sessions)
-  honcho_answer = alice.chat(
-      "What did Bob say about breakfast?",
-      session=session.id
-  )
+```python Python theme={null}
+# Query using conclusions from Honcho's representation (across all sessions)
+honcho_answer = alice.chat(
+    "What did Bob say about breakfast?",
+    session=session.id
+)
 
-  # Query using conclusions from Alice's representation of Bob (from Alice's sessions only)
-  alice_answer = alice.chat(
-      "What did Bob say about breakfast?",
-      session=session.id,
-      target="bob"
-  )
-  ```
+# Query using conclusions from Alice's representation of Bob (from Alice's sessions only)
+alice_answer = alice.chat(
+    "What did Bob say about breakfast?",
+    session=session.id,
+    target="bob"
+)
+```
 
-  ```typescript TypeScript
-  // Query using conclusions from Honcho's representation (across all sessions)
-  const honchoAnswer = await alice.chat(
-      "What did Bob say about breakfast?",
-      { session: session.id }
-  );
+```typescript TypeScript theme={null}
+// Query using conclusions from Honcho's representation (across all sessions)
+const honchoAnswer = await alice.chat(
+    "What did Bob say about breakfast?",
+    { session: session.id }
+);
 
-  // Query using conclusions from Alice's representation of Bob (from Alice's sessions only)
-  const aliceAnswer = await alice.chat(
-      "What did Bob say about breakfast?",
-      { session: session.id, target: "bob" }
-  );
-  ```
-</CodeGroup>
+// Query using conclusions from Alice's representation of Bob (from Alice's sessions only)
+const aliceAnswer = await alice.chat(
+    "What did Bob say about breakfast?",
+    { session: session.id, target: "bob" }
+);
+```
 
-
-  The `target` parameter only returns meaningful results if the observer peer has `observe_others=true` and has actually participated in sessions with the observed peer. Otherwise, the representation will be empty or non-existent.
-
+> [!NOTE]
+>
+> The `target` parameter only returns meaningful results if the observer peer has `observe_others=true` and has actually participated in sessions with the observed peer. Otherwise, the representation will be empty or non-existent.
 
 ## When to Use Directional Representations
 
@@ -211,16 +207,16 @@ The `target` parameter also works with the chat endpoint:
 2. **Centralized knowledge systems**: All agents should share the same understanding
 3. **Simple chatbots**: No multi-agent interaction or information segmentation needed
 
-
-  Most applications don't need directional representations. Start with the default Honcho-observes-all behavior and only enable `observe_others` when you need information segmentation between agents.
-
+> [!NOTE]
+>
+> Most applications don't need directional representations. Start with the default Honcho-observes-all behavior and only enable `observe_others` when you need information segmentation between agents.
 
 ## Architecture: How It's Stored
 
 Under the hood, Honcho stores representations as (observer, observed) pairs in internal collections:
 
 * **Collection**: A unique (observer, observed, workspace) tuple containing documents
-* **Documents**: Individual conclusions and artifacts (deductive, inductive, abductive conclusions, summaries, peer cards) with per-session filtering
+* **Documents**: Individual conclusions and artifacts (deductive, inductive, and contradiction conclusions, summaries, peer cards) with per-session filtering
 
 When you retrieve with `target`, Honcho fetches documents from the specific (observer, observed) collection. When you retrieve without `target`, it fetches from the (peer, peer) collection—the peer's self-representation.
 
@@ -232,7 +228,7 @@ This architecture enables:
 
 ## Semantic Search Parameters
 
-Both `representation()` and `chat()` support semantic filtering to retrieve a subset of relevant conclusions. You can optionally filter by session — pass `session` to restrict to a single session, or use the REST-only [session allowlist](/docs/v3/documentation/features/advanced/using-filters#scoping-recall-to-sessions) to restrict to a set of sessions:
+Both `representation()` and `chat()` support semantic filtering to retrieve a subset of relevant conclusions. You can optionally filter by session — pass `session` to restrict to a single session, or use the REST-only [session allowlist](https://honcho.dev/docs/v3/documentation/features/advanced/using-filters.md#scoping-recall-to-sessions) to restrict to a set of sessions:
 
 | Parameter | Type | Description |
 | - | - | - |
@@ -242,27 +238,25 @@ Both `representation()` and `chat()` support semantic filtering to retrieve a su
 | `include_most_frequent` | `bool` | Include most frequent conclusions |
 | `max_conclusions` | `int` | Cap on total conclusions returned (1–100) |
 
-<CodeGroup>
-  ```python Python
-  # Retrieve conclusions about billing from Alice's representation of Bob
-  alice_view_billing = session.representation(
-      "alice",
-      target="bob",
-      search_query="billing issues",
-      search_top_k=10,
-      include_most_frequent=True
-  )
-  ```
+```python Python theme={null}
+# Retrieve conclusions about billing from Alice's representation of Bob
+alice_view_billing = session.representation(
+    "alice",
+    target="bob",
+    search_query="billing issues",
+    search_top_k=10,
+    include_most_frequent=True
+)
+```
 
-  ```typescript TypeScript
-  const aliceViewBilling = await session.representation("alice", {
-      target: "bob",
-      searchQuery: "billing issues",
-      searchTopK: 10,
-      includeMostFrequent: true
-  });
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+const aliceViewBilling = await session.representation("alice", {
+    target: "bob",
+    searchQuery: "billing issues",
+    searchTopK: 10,
+    includeMostFrequent: true
+});
+```
 
 ## When Representations Update
 
@@ -284,11 +278,13 @@ This means:
 * Peer C will only begin observing new messages sent after they join the session.
 * Similarly, if a peer leaves a session, they stop being included as an observer for any messages sent after their departure.
 
+> [!WARNING]
+>
+> There is no retroactive reasoning. If your application needs an observer peer to reason about prior conversation history, add the peer to the session **before** messages are sent. Alternatively, use `peer.chat()` to include conversation history in the agent's context whether or not those messages were previously reasoned over.
 
-  There is no retroactive reasoning. If your application needs an observer peer to reason about prior conversation history, add the peer to the session **before** messages are sent. Alternatively, use `peer.chat()` to include conversation history in the agent's context whether or not those messages were previously reasoned over.
-
-
-  Conclusions are cached for fast retrieval. Use `representation()` to retrieve stored conclusions for dashboards and analytics. Use `peer.chat()` when you need query-specific reasoning with natural language.
+> [!NOTE]
+>
+> Conclusions are cached for fast retrieval. Use `representation()` to retrieve stored conclusions for dashboards and analytics. Use `peer.chat()` when you need query-specific reasoning with natural language.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

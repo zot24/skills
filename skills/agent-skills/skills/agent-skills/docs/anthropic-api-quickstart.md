@@ -6,17 +6,17 @@ url: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/quickstar
 description: Learn how to use Agent Skills to create documents with the Claude API in under 10 minutes.
 ---
 
-This tutorial shows you how to use Agent Skills to create a PowerPoint presentation. You'll learn how to enable Skills, make a request, and access the generated file.
+This tutorial shows you how to use Agent Skills to create a PowerPoint presentation. You’ll learn how to enable Skills, make a request, and access the generated file.
 
 ## Prerequisites
 
-* A [Claude API key](https://platform.claude.com/settings/keys) or a logged-in [ant CLI](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/authentication)
+* A [Claude API key](https://platform.claude.com/settings/keys) from the Claude Console, or a logged-in [ant CLI](https://platform.claude.com/docs/en/cli-sdks-libraries/cli/authentication)
 * A [client SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) for your language, or `curl` and `jq`
 * Basic familiarity with making API requests
 
 ## Agent Skills overview
 
-Pre-built Agent Skills extend Claude's capabilities with specialized expertise for tasks such as creating documents, analyzing data, and processing files. Anthropic provides the following pre-built Agent Skills in the API:
+Pre-built Agent Skills extend Claude’s capabilities with specialized expertise for tasks such as creating documents, analyzing data, and processing files. Anthropic provides the following pre-built Agent Skills in the API:
 
 * **PowerPoint (pptx):** Create and edit presentations
 * **Excel (xlsx):** Create and analyze spreadsheets
@@ -29,7 +29,7 @@ Pre-built Agent Skills extend Claude's capabilities with specialized expertise f
 
 ## Step 1: List available Skills
 
-First, check what Skills are available. Use the Skills API to list all Anthropic-managed Skills. Each language tab is an excerpt from one continuous script, with any imports and client setup at the top:
+First, check what Skills are available. Use the Skills API to list all Anthropic-managed Skills. The example is an excerpt from one continuous script, with any imports and client setup at the top:
 
 <CodeGroup>
   ```bash cURL
@@ -88,7 +88,9 @@ First, check what Skills are available. Use the Skills API to list all Anthropic
   ```java Java
   // List Anthropic-managed Skills
   SkillListPage skills = client.skills().list(
-      SkillListParams.builder().source("anthropic").build()
+      SkillListParams.builder()
+          .source("anthropic")
+          .build()
   );
 
   for (Skill skill : skills.data()) {
@@ -117,7 +119,7 @@ First, check what Skills are available. Use the Skills API to list all Anthropic
 
 You see the following Skills: `pptx`, `xlsx`, `docx`, and `pdf`.
 
-This API returns each Skill's metadata: its name and description. Claude loads this metadata at startup to determine which Skills are available. This is the first level of **progressive disclosure**, where Claude discovers Skills without loading their full instructions yet.
+This API returns each Skill’s metadata: its name and description. Claude loads this metadata at startup to determine which Skills are available. This is the first level of **progressive disclosure**, where Claude discovers Skills without loading their full instructions yet.
 
 ## Step 2: Create a presentation
 
@@ -131,19 +133,17 @@ Use the PowerPoint Skill to create a presentation about renewable energy. Specif
       -H "content-type: application/json" \
       -H "x-api-key: $ANTHROPIC_API_KEY" \
       -H "anthropic-version: 2023-06-01" \
-      -d @- <<'EOF'
-  {
-    "model": "claude-opus-5-5",
-    "max_tokens": 16000,
-    "container": {
-      "skills": [{"type": "anthropic", "skill_id": "pptx", "version": "latest"}]
-    },
-    "messages": [
-      {"role": "user", "content": "Create a presentation about renewable energy with 5 slides"}
-    ],
-    "tools": [{"type": "code_execution_20260521", "name": "code_execution"}]
-  }
-  EOF
+      -d '{
+        "model": "claude-opus-5-5",
+        "max_tokens": 16000,
+        "container": {
+          "skills": [{"type": "anthropic", "skill_id": "pptx", "version": "latest"}]
+        },
+        "messages": [
+          {"role": "user", "content": "Create a presentation about renewable energy with 5 slides"}
+        ],
+        "tools": [{"type": "code_execution_20260521", "name": "code_execution"}]
+      }'
   )
   ```
 
@@ -193,20 +193,18 @@ Use the PowerPoint Skill to create a presentation about renewable energy. Specif
     model: "claude-opus-5-5",
     max_tokens: 16000,
     container: {
-      skills: [{ type: "anthropic", skill_id: "pptx", version: "latest" }],
+      skills: [{ type: "anthropic", skill_id: "pptx", version: "latest" }]
     },
     messages: [
       {
         role: "user",
-        content: "Create a presentation about renewable energy with 5 slides",
-      },
+        content: "Create a presentation about renewable energy with 5 slides"
+      }
     ],
-    tools: [{ type: "code_execution_20260521", name: "code_execution" }],
+    tools: [{ type: "code_execution_20260521", name: "code_execution" }]
   });
 
-  console.log(
-    `stop_reason=${response.stop_reason}, blocks=${response.content.length}`,
-  );
+  console.log(`stop_reason=${response.stop_reason}, blocks=${response.content.length}`);
   ```
 
   ```csharp C#
@@ -229,9 +227,8 @@ Use the PowerPoint Skill to create a presentation about renewable energy. Specif
       },
       Messages =
       [
-          new MessageParam
+          new UserMessageParam
           {
-              Role = Role.User,
               Content = "Create a presentation about renewable energy with 5 slides",
           },
       ],
@@ -344,7 +341,7 @@ Use the PowerPoint Skill to create a presentation about renewable energy. Specif
 
 The request includes the following parts:
 
-* **`model`:** A [model that supports the code execution tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool#compatibility)
+* **`model`:** A [model that supports the code execution tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool#availability-feature-support)
 * **`container.skills`:** Specifies which Skills Claude can use
 * **`type: "anthropic"`:** Indicates this is an Anthropic-managed Skill
 * **`skill_id: "pptx"`:** The PowerPoint Skill identifier
@@ -355,7 +352,7 @@ The request includes the following parts:
   The examples use the `code_execution_20260521` tool version, and the Step 3 code parses the result types that current tool versions return. Skills also work with older [code execution tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool) versions such as `code_execution_20250825`: any current code execution tool version satisfies the Skills requirement. If you use a different version, use the tool `type` listed on the code execution tool page.
 
 
-When you make this request, Claude automatically matches your task to the relevant Skill. Because you asked for a presentation, Claude determines the PowerPoint Skill is relevant and loads its full instructions: the second level of progressive disclosure. Then Claude runs the Skill's code to create your presentation.
+When you make this request, Claude automatically matches your task to the relevant Skill. Because you asked for a presentation, Claude determines the PowerPoint Skill is relevant and loads its full instructions: the second level of progressive disclosure. Then Claude runs the Skill’s code to create your presentation.
 
 ## Step 3: Download the created file
 
@@ -378,12 +375,10 @@ The presentation was created in the code execution container and saved as a file
 
   if [[ -n "$file_id" ]]; then
     # Download the file and save it
-    output_path="${TMPDIR:-/tmp}/renewable_energy.pptx"
     curl --fail-with-body -sS "https://api.anthropic.com/v1/files/$file_id/content" \
       -H "x-api-key: $ANTHROPIC_API_KEY" \
       -H "anthropic-version: 2023-06-01" \
-      -o "$output_path"
-    echo "Presentation saved to $output_path"
+      -o "${TMPDIR:-/tmp}/renewable_energy.pptx"
   fi
   ```
 
@@ -403,9 +398,9 @@ The presentation was created in the code execution container and saved as a file
 
   if [[ -n "$file_id" ]]; then
     # Download the file and save it
-    output_path="${TMPDIR:-/tmp}/renewable_energy.pptx"
-    ant files download --file-id "$file_id" --output "$output_path"
-    echo "Presentation saved to $output_path"
+    ant files download \
+      --file-id "$file_id" \
+      --output "${TMPDIR:-/tmp}/renewable_energy.pptx"
   fi
   ```
 
@@ -695,9 +690,8 @@ Try these variations:
           },
           Messages =
           [
-              new MessageParam
+              new UserMessageParam
               {
-                  Role = Role.User,
                   Content = "Create a quarterly sales tracking spreadsheet with sample data",
               },
           ],
@@ -888,9 +882,8 @@ Try these variations:
           },
           Messages =
           [
-              new MessageParam
+              new UserMessageParam
               {
-                  Role = Role.User,
                   Content = "Write a 2-page report on the benefits of renewable energy",
               },
           ],
@@ -1079,14 +1072,7 @@ Try these variations:
                   },
               ],
           },
-          Messages =
-          [
-              new MessageParam
-              {
-                  Role = Role.User,
-                  Content = "Generate a PDF invoice template",
-              },
-          ],
+          Messages = [new UserMessageParam { Content = "Generate a PDF invoice template" }],
           Tools = [new CodeExecutionTool20260521()],
       }
   );
@@ -1187,7 +1173,7 @@ Try these variations:
     Learn how to write effective Skills that Claude can discover and use successfully.
 
 
-    Learn how to use Agent Skills to extend Claude's capabilities through the API.
+    Learn how to use Agent Skills to extend Claude’s capabilities through the API.
 
 
     Upload your own Skills for specialized tasks.

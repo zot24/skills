@@ -6,25 +6,27 @@
 
 # Scrape
 
-> Turn any url into clean data
+> Turn any URL into clean Markdown or structured data
 
-Firecrawl converts web pages into markdown, ideal for LLM applications.
+Scrape turns any URL into clean Markdown or structured data for AI agents, including JS-heavy pages and dynamic apps.
 
 * It manages complexities: proxies, caching, rate limits, js-blocked content
 * Handles dynamic content: dynamic websites, js-rendered sites, PDFs, images
 * Outputs clean markdown, structured data, screenshots or html.
 
-For details, see the [Scrape Endpoint API Reference](https://docs.firecrawl.dev/api-reference/endpoint/scrape).
+For details, see the [Scrape Endpoint API Reference](https://docs.firecrawl.dev/api-reference/endpoint/scrape.md).
 
+> [card] [Try it in the Playground](https://www.firecrawl.dev/playground?endpoint=scrape)
+>
+> Test scraping in the interactive playground — no code required.
 
-  Test scraping in the interactive playground — no code required.
+Scraping a document at a URL, or parsing one from disk? This walks through when to use Scrape and when to use [Parse](https://docs.firecrawl.dev/features/parse.md):
 
+[Firecrawl Parse vs Scrape Explained in 5 Minutes](https://www.youtube.com/embed/119uEEBQRrA)
 
-Scraping a document at a URL, or parsing one from disk? This walks through when to use Scrape and when to use [Parse](/features/parse):
-
-<iframe src="https://www.youtube.com/embed/119uEEBQRrA" title="Firecrawl Parse vs Scrape Explained in 5 Minutes" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen loading="lazy" style={{ width: '100%', aspectRatio: '16 / 9', height: 'auto', borderRadius: '0.5rem' }} />
-
-If a request fails, see [Errors](/api-reference/errors) for the full catalog of error codes, causes, remedies, and retry guidance.
+> [!NOTE]
+>
+> If a request fails, see [Errors](https://docs.firecrawl.dev/api-reference/errors.md) for the full catalog of error codes, causes, remedies, and retry guidance.
 
 ## Scraping a URL with Firecrawl
 
@@ -34,99 +36,96 @@ Used to scrape a URL and get its content.
 
 ### Installation
 
-<CodeGroup>
-  ```python Python
-  # pip install firecrawl-py
+```python Python theme={null}
+# pip install firecrawl
 
-  from firecrawl import Firecrawl
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
-  ```
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
+```
 
-  ```js Node
-  // npm install firecrawl
+```js Node theme={null}
+// npm install firecrawl
 
-  import { Firecrawl } from 'firecrawl';
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
-  ```
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
+```
 
-  ```bash CLI
-  # Install globally with npm
-  npm install -g firecrawl
+```bash CLI theme={null}
+# Install globally with npm
+npm install -g firecrawl
 
-  # Authenticate (one-time setup)
-  firecrawl login
-  ```
-</CodeGroup>
+# Authenticate (one-time setup)
+firecrawl login
+```
 
 ### Usage
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  # Scrape a website:
-  doc = firecrawl.scrape("https://firecrawl.dev", formats=["markdown", "html"])
-  print(doc)
-  ```
+# Scrape a website:
+doc = firecrawl.scrape("https://firecrawl.dev", formats=["markdown", "html"])
+print(doc)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  // Scrape a website:
-  const doc = await firecrawl.scrape('https://firecrawl.dev', { formats: ['markdown', 'html'] });
-  console.log(doc);
-  ```
+// Scrape a website:
+const doc = await firecrawl.scrape('https://firecrawl.dev', { formats: ['markdown', 'html'] });
+console.log(doc);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://firecrawl.dev",
-      "formats": ["markdown", "html"]
-    }'
-  ```
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://firecrawl.dev",
+    "formats": ["markdown", "html"]
+  }'
+```
 
-  ```bash CLI
-  # Scrape a URL and get markdown
-  firecrawl https://firecrawl.dev
+```bash CLI theme={null}
+# Scrape a URL and get markdown
+firecrawl https://firecrawl.dev
 
-  # With multiple formats (returns JSON)
-  firecrawl https://firecrawl.dev --format markdown,html,links --pretty
-  ```
-</CodeGroup>
+# With multiple formats (returns JSON)
+firecrawl https://firecrawl.dev --format markdown,html,links --pretty
+```
 
-For more details about the parameters, refer to the [API Reference](https://docs.firecrawl.dev/api-reference/endpoint/scrape).
+For more details about the parameters, refer to the [API Reference](https://docs.firecrawl.dev/api-reference/endpoint/scrape.md).
 
+> [!TIP]
+>
+> **PDFs and documents:** `/scrape` auto-detects PDFs, DOCX, and other document types from URLs. Pass a PDF URL the same way you would any webpage -- Firecrawl parses it and returns clean markdown. For local files that are not accessible by URL, use [`/parse`](https://docs.firecrawl.dev/features/parse) instead.
+>
+> ```python Python
+> doc = firecrawl.scrape("https://example.com/report.pdf", formats=["markdown"])
+> print(doc.markdown)
+> ```
 
-  **PDFs and documents:** `/scrape` auto-detects PDFs, DOCX, and other document types from URLs. Pass a PDF URL the same way you would any webpage -- Firecrawl parses it and returns clean markdown. For local files that are not accessible by URL, use [`/parse`](/features/parse) instead.
-
-  ```python Python
-  doc = firecrawl.scrape("https://example.com/report.pdf", formats=["markdown"])
-  print(doc.markdown)
-  ```
-
-
-  Each scrape consumes 1 credit. Additional credits apply for certain options: JSON mode costs 4 additional credits per page, question and highlights formats cost 4 additional credits per page per format, PII redaction costs 4 additional credits per page, PDF parsing costs 1 credit per PDF page, and audio or video extraction costs 4 additional credits per page.
-
+> [!NOTE]
+>
+> Each scrape consumes 1 credit. Additional credits apply for certain options: JSON mode costs 4 additional credits per page, question and highlights formats cost 4 additional credits per page per format, PII redaction costs 4 additional credits per page, PDF parsing costs 1 credit per PDF page, and audio or video extraction costs 4 additional credits per page.
 
 ### Response
 
@@ -145,7 +144,7 @@ SDKs will return the data object directly. cURL will return the payload exactly 
       "keywords": "Firecrawl,Markdown,Data,Mendable,Langchain",
       "robots": "follow, index",
       "ogTitle": "Firecrawl",
-      "ogDescription": "Turn any website into LLM-ready data.",
+      "ogDescription": "The API to search, scrape, and interact with the web at scale.",
       "ogUrl": "https://www.firecrawl.dev/",
       "ogImage": "https://www.firecrawl.dev/og.png?123",
       "ogLocaleAlternate": [],
@@ -198,101 +197,99 @@ The `rawBase64` format returns the original HTTP response body, encoded as Base6
 
 Used to extract structured data from scraped pages.
 
+> [!TIP]
+>
+> Extracting products? For product pages, the [`product` format](#extract-product-data) returns structured product fields (title, price, availability, variants) deterministically — no LLM call and no schema to define. Reach for `json` when you need custom fields or non-product pages.
 
-  Extracting products? For product pages, the [`product` format](#extract-product-data) returns structured product fields (title, price, availability, variants) deterministically — no LLM call and no schema to define. Reach for `json` when you need custom fields or non-product pages.
+```python Python theme={null}
+from firecrawl import Firecrawl
+from pydantic import BaseModel
 
+app = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from pydantic import BaseModel
+class CompanyInfo(BaseModel):
+    company_mission: str
+    supports_sso: bool
+    is_open_source: bool
+    is_in_yc: bool
 
-  app = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
-
-  class CompanyInfo(BaseModel):
-      company_mission: str
-      supports_sso: bool
-      is_open_source: bool
-      is_in_yc: bool
-
-  result = app.scrape(
-      'https://firecrawl.dev',
-      formats=[{
-        "type": "json",
-        "schema": CompanyInfo.model_json_schema()
-      }],
-      only_main_content=False,
-      timeout=120000
-  )
-
-  print(result)
-  ```
-
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-  import { z } from "zod";
-
-  const app = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR_API_KEY",
-  });
-
-  // Define schema to extract contents into
-  const schema = z.object({
-    company_mission: z.string(),
-    supports_sso: z.boolean(),
-    is_open_source: z.boolean(),
-    is_in_yc: z.boolean()
-  });
-
-  const result = await app.scrape("https://firecrawl.dev", {
-    formats: [{
-      type: "json",
-      schema: schema
+result = app.scrape(
+    'https://firecrawl.dev',
+    formats=[{
+      "type": "json",
+      "schema": CompanyInfo.model_json_schema()
     }],
-  });
+    only_main_content=False,
+    timeout=120000
+)
 
-  console.log(result);
-  ```
+print(result)
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
-  curl -X POST https://api.firecrawl.dev/v2/scrape \
-      -H 'Content-Type: application/json' \
-      -d '{
-        "url": "https://firecrawl.dev",
-        "formats": [ {
-          "type": "json",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "company_mission": {
-                        "type": "string"
-              },
-              "supports_sso": {
-                        "type": "boolean"
-              },
-              "is_open_source": {
-                        "type": "boolean"
-              },
-              "is_in_yc": {
-                        "type": "boolean"
-              }
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
+import { z } from "zod";
+
+const app = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR_API_KEY",
+});
+
+// Define schema to extract contents into
+const schema = z.object({
+  company_mission: z.string(),
+  supports_sso: z.boolean(),
+  is_open_source: z.boolean(),
+  is_in_yc: z.boolean()
+});
+
+const result = await app.scrape("https://firecrawl.dev", {
+  formats: [{
+    type: "json",
+    schema: schema
+  }],
+});
+
+console.log(result);
+```
+
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+    -H 'Content-Type: application/json' \
+    -d '{
+      "url": "https://firecrawl.dev",
+      "formats": [ {
+        "type": "json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "company_mission": {
+                      "type": "string"
             },
-            "required": [
-              "company_mission",
-              "supports_sso",
-              "is_open_source",
-              "is_in_yc"
-            ]
-          }
-        } ]
-      }'
-  ```
-</CodeGroup>
+            "supports_sso": {
+                      "type": "boolean"
+            },
+            "is_open_source": {
+                      "type": "boolean"
+            },
+            "is_in_yc": {
+                      "type": "boolean"
+            }
+          },
+          "required": [
+            "company_mission",
+            "supports_sso",
+            "is_open_source",
+            "is_in_yc"
+          ]
+        }
+      } ]
+    }'
+```
 
 Output:
 
@@ -326,59 +323,57 @@ Output:
 
 You can now extract without a schema by just passing a `prompt` to the endpoint. The llm chooses the structure of the data.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  app = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+app = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  result = app.scrape(
-      'https://firecrawl.dev',
-      formats=[{
+result = app.scrape(
+    'https://firecrawl.dev',
+    formats=[{
+      "type": "json",
+      "prompt": "Extract the company mission from the page."
+    }],
+    only_main_content=False,
+    timeout=120000
+)
+
+print(result)
+```
+
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
+
+const app = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR_API_KEY",
+});
+
+const result = await app.scrape("https://firecrawl.dev", {
+  formats: [{
+    type: "json",
+    prompt: "Extract the company mission from the page."
+  }]
+});
+
+console.log(result);
+```
+
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+    -H 'Content-Type: application/json' \
+    -d '{
+      "url": "https://firecrawl.dev",
+      "formats": [{
         "type": "json",
         "prompt": "Extract the company mission from the page."
-      }],
-      only_main_content=False,
-      timeout=120000
-  )
-
-  print(result)
-  ```
-
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-
-  const app = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR_API_KEY",
-  });
-
-  const result = await app.scrape("https://firecrawl.dev", {
-    formats: [{
-      type: "json",
-      prompt: "Extract the company mission from the page."
-    }]
-  });
-
-  console.log(result);
-  ```
-
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
-  curl -X POST https://api.firecrawl.dev/v2/scrape \
-      -H 'Content-Type: application/json' \
-      -d '{
-        "url": "https://firecrawl.dev",
-        "formats": [{
-          "type": "json",
-          "prompt": "Extract the company mission from the page."
-        }]
-      }'
-  ```
-</CodeGroup>
+      }]
+    }'
+```
 
 Output:
 
@@ -418,48 +413,46 @@ When using the `json` format, pass an object inside `formats` with the following
 
 The branding format extracts comprehensive brand identity information from a webpage, including colors, fonts, typography, spacing, UI components, and more. This is useful for design system analysis, brand monitoring, or building tools that need to understand a website's visual identity.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key='fc-YOUR_API_KEY',
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key='fc-YOUR_API_KEY',
+)
 
-  result = firecrawl.scrape(
-      url='https://firecrawl.dev',
-      formats=['branding']
-  )
+result = firecrawl.scrape(
+    url='https://firecrawl.dev',
+    formats=['branding']
+)
 
-  print(result['branding'])
-  ```
+print(result['branding'])
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  const result = await firecrawl.scrape('https://firecrawl.dev', {
-      formats: ['branding']
-  });
+const result = await firecrawl.scrape('https://firecrawl.dev', {
+    formats: ['branding']
+});
 
-  console.log(result.branding);
-  ```
+console.log(result.branding);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://firecrawl.dev",
-      "formats": ["branding"]
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://firecrawl.dev",
+    "formats": ["branding"]
+  }'
+```
 
 ### Response
 
@@ -566,52 +559,50 @@ The `branding` object contains the following properties:
 
 You can combine the branding format with other formats to get comprehensive page data:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key='fc-YOUR_API_KEY',
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key='fc-YOUR_API_KEY',
+)
 
-  result = firecrawl.scrape(
-      url='https://firecrawl.dev',
-      formats=['markdown', 'branding', 'screenshot']
-  )
+result = firecrawl.scrape(
+    url='https://firecrawl.dev',
+    formats=['markdown', 'branding', 'screenshot']
+)
 
-  print(result['markdown'])
-  print(result['branding'])
-  print(result['screenshot'])
-  ```
+print(result['markdown'])
+print(result['branding'])
+print(result['screenshot'])
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  const result = await firecrawl.scrape('https://firecrawl.dev', {
-      formats: ['markdown', 'branding', 'screenshot']
-  });
+const result = await firecrawl.scrape('https://firecrawl.dev', {
+    formats: ['markdown', 'branding', 'screenshot']
+});
 
-  console.log(result.markdown);
-  console.log(result.branding);
-  console.log(result.screenshot);
-  ```
+console.log(result.markdown);
+console.log(result.branding);
+console.log(result.screenshot);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://firecrawl.dev",
-      "formats": ["markdown", "branding", "screenshot"]
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://firecrawl.dev",
+    "formats": ["markdown", "branding", "screenshot"]
+  }'
+```
 
 ## Extract product data
 
@@ -621,48 +612,46 @@ It returns a `product` object with title, brand, category, description, and vari
 
 ### /scrape (with product) endpoint
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key='fc-YOUR_API_KEY',
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key='fc-YOUR_API_KEY',
+)
 
-  result = firecrawl.scrape(
-      url='https://example.com/products/wireless-headphones',
-      formats=['product']
-  )
+result = firecrawl.scrape(
+    url='https://example.com/products/wireless-headphones',
+    formats=['product']
+)
 
-  print(result['product'])
-  ```
+print(result['product'])
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  const result = await firecrawl.scrape('https://example.com/products/wireless-headphones', {
-      formats: ['product']
-  });
+const result = await firecrawl.scrape('https://example.com/products/wireless-headphones', {
+    formats: ['product']
+});
 
-  console.log(result.product);
-  ```
+console.log(result.product);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://example.com/products/wireless-headphones",
-      "formats": ["product"]
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com/products/wireless-headphones",
+    "formats": ["product"]
+  }'
+```
 
 ### Response
 
@@ -742,165 +731,158 @@ The `product` object contains the following properties:
 
 The product format extracts the product deterministically from on-page structured data — no LLM is involved. It merges multiple sources by priority: **JSON-LD > schema.org microdata > RDFa > embedded state (`__NEXT_DATA__`/Nuxt/Apollo/Redux/Remix) > AliExpress `runParams` > GA4 `dataLayer` > OpenGraph/`<meta>`**. The merge is identity-aware, so fields from different products are never combined. Currency is reported only when the page sources it.
 
+> [!NOTE]
+>
+> Product extraction is fail-closed: ambiguous pages yield no product, and weaker sources such as OpenGraph only contribute when a price is present. On a page with no extractable product, the response omits the `product` object and adds a `warning` (e.g. "No product found...").
 
-  Product extraction is fail-closed: ambiguous pages yield no product, and weaker sources such as OpenGraph only contribute when a price is present. On a page with no extractable product, the response omits the `product` object and adds a `warning` (e.g. "No product found...").
-
-
-  **Self-hosting:** the `product` format is backed by a dedicated product-extraction service. On Firecrawl Cloud it works out of the box. If you self-host, set `PRODUCT_EXTRACTION_SERVICE_URL` to point at that service — when it is unset, requesting the `product` format returns a warning and no product (the same pattern the audio/video formats use for their service).
-
+> [!NOTE]
+>
+> **Self-hosting:** the `product` format is backed by a dedicated product-extraction service. On Firecrawl Cloud it works out of the box. If you self-host, set `PRODUCT_EXTRACTION_SERVICE_URL` to point at that service — when it is unset, requesting the `product` format returns a warning and no product (the same pattern the audio/video formats use for their service).
 
 ### Combining with other formats
 
 You can combine the product format with other formats to get comprehensive page data:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key='fc-YOUR_API_KEY',
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key='fc-YOUR_API_KEY',
+)
 
-  result = firecrawl.scrape(
-      url='https://example.com/products/wireless-headphones',
-      formats=['markdown', 'product']
-  )
+result = firecrawl.scrape(
+    url='https://example.com/products/wireless-headphones',
+    formats=['markdown', 'product']
+)
 
-  print(result['markdown'])
-  print(result['product'])
-  ```
+print(result['markdown'])
+print(result['product'])
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  const result = await firecrawl.scrape('https://example.com/products/wireless-headphones', {
-      formats: ['markdown', 'product']
-  });
+const result = await firecrawl.scrape('https://example.com/products/wireless-headphones', {
+    formats: ['markdown', 'product']
+});
 
-  console.log(result.markdown);
-  console.log(result.product);
-  ```
+console.log(result.markdown);
+console.log(result.product);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://example.com/products/wireless-headphones",
-      "formats": ["markdown", "product"]
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com/products/wireless-headphones",
+    "formats": ["markdown", "product"]
+  }'
+```
 
 ## Audio extraction
 
 The `audio` format extracts audio from supported websites (e.g. YouTube) as MP3 files and returns a signed Google Cloud Storage URL. This is useful for building audio processing pipelines, transcription services, or podcast tools.
 
+> [!NOTE]
+>
+> Audio extraction costs 5 credits per page (1 base + 4 additional).
 
-  Audio extraction costs 5 credits per page (1 base + 4 additional).
+```python Python theme={null}
+from firecrawl import Firecrawl
 
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+doc = firecrawl.scrape("https://www.youtube.com/watch?v=dQw4w9WgXcQ", formats=["audio"])
+print(doc.audio)  # Signed GCS URL to the MP3 file
+```
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  doc = firecrawl.scrape("https://www.youtube.com/watch?v=dQw4w9WgXcQ", formats=["audio"])
-  print(doc.audio)  # Signed GCS URL to the MP3 file
-  ```
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+const doc = await firecrawl.scrape('https://www.youtube.com/watch?v=dQw4w9WgXcQ', {
+  formats: ['audio']
+});
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+console.log(doc.audio); // Signed GCS URL to the MP3 file
+```
 
-  const doc = await firecrawl.scrape('https://www.youtube.com/watch?v=dQw4w9WgXcQ', {
-    formats: ['audio']
-  });
-
-  console.log(doc.audio); // Signed GCS URL to the MP3 file
-  ```
-
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "formats": ["audio"]
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "formats": ["audio"]
+  }'
+```
 
 ## Video extraction
 
 The `video` format extracts best-quality video from supported websites (e.g. YouTube) and returns a signed Google Cloud Storage URL. This is useful for building video processing pipelines, moderation tools, or media archiving workflows.
 
+> [!NOTE]
+>
+> Video extraction costs 5 credits per page (1 base + 4 additional).
 
-  Video extraction costs 5 credits per page (1 base + 4 additional).
+```python Python theme={null}
+from firecrawl import Firecrawl
 
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+doc = firecrawl.scrape("https://www.youtube.com/watch?v=dQw4w9WgXcQ", formats=["video"])
+print(doc.video)  # Signed GCS URL to the video file
+```
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  doc = firecrawl.scrape("https://www.youtube.com/watch?v=dQw4w9WgXcQ", formats=["video"])
-  print(doc.video)  # Signed GCS URL to the video file
-  ```
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+const doc = await firecrawl.scrape('https://www.youtube.com/watch?v=dQw4w9WgXcQ', {
+  formats: ['video']
+});
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+console.log(doc.video); // Signed GCS URL to the video file
+```
 
-  const doc = await firecrawl.scrape('https://www.youtube.com/watch?v=dQw4w9WgXcQ', {
-    formats: ['video']
-  });
-
-  console.log(doc.video); // Signed GCS URL to the video file
-  ```
-
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      "formats": ["video"]
-    }'
-  ```
-</CodeGroup>
-
-<span id="question-format" />
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "formats": ["video"]
+  }'
+```
 
 ## Question format
 
 Use the `question` format to ask a natural-language question about the page. Firecrawl returns the answer in the response's `answer` field.
 
-
-  The `question` format costs 5 credits per page (1 base + 4 additional for the LLM call).
-
+> [!NOTE]
+>
+> The `question` format costs 5 credits per page (1 base + 4 additional for the LLM call).
 
 Options inside the format object:
 
@@ -908,61 +890,57 @@ Options inside the format object:
 
 You can combine `question` with other formats — for example, request `markdown` and `question` together to get page content and an answer in a single call.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  doc = firecrawl.scrape(
-      "https://firecrawl.dev",
-      formats=[{"type": "question", "question": "What is Firecrawl?"}],
-  )
-  print(doc.answer)
-  ```
+doc = firecrawl.scrape(
+    "https://firecrawl.dev",
+    formats=[{"type": "question", "question": "What is Firecrawl?"}],
+)
+print(doc.answer)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  const doc = await firecrawl.scrape('https://firecrawl.dev', {
-    formats: [{ type: 'question', question: 'What is Firecrawl?' }],
-  });
+const doc = await firecrawl.scrape('https://firecrawl.dev', {
+  formats: [{ type: 'question', question: 'What is Firecrawl?' }],
+});
 
-  console.log(doc.answer);
-  ```
+console.log(doc.answer);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://firecrawl.dev",
-      "formats": [
-        { "type": "question", "question": "What is Firecrawl?" }
-      ]
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://firecrawl.dev",
+    "formats": [
+      { "type": "question", "question": "What is Firecrawl?" }
+    ]
+  }'
+```
 
 The `question` format is also available in `/search` via `scrapeOptions`, which runs the same extraction across each search result.
-
-<span id="highlights-format" />
 
 ## Highlights format
 
 Use the `highlights` format to find relevant source text from the page. Firecrawl returns the selected text in the response's `highlights` field.
 
-
-  The `highlights` format costs 5 credits per page (1 base + 4 additional for the LLM call).
-
+> [!NOTE]
+>
+> The `highlights` format costs 5 credits per page (1 base + 4 additional for the LLM call).
 
 Options inside the format object:
 
@@ -970,49 +948,47 @@ Options inside the format object:
 
 You can combine `highlights` with other formats — for example, request `markdown` and `highlights` together to get page content and source text in a single call.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  doc = firecrawl.scrape(
-      "https://firecrawl.dev",
-      formats=[{"type": "highlights", "query": "What is Firecrawl?"}],
-  )
-  print(doc.highlights)
-  ```
+doc = firecrawl.scrape(
+    "https://firecrawl.dev",
+    formats=[{"type": "highlights", "query": "What is Firecrawl?"}],
+)
+print(doc.highlights)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  const doc = await firecrawl.scrape('https://firecrawl.dev', {
-    formats: [{ type: 'highlights', query: 'What is Firecrawl?' }],
-  });
+const doc = await firecrawl.scrape('https://firecrawl.dev', {
+  formats: [{ type: 'highlights', query: 'What is Firecrawl?' }],
+});
 
-  console.log(doc.highlights);
-  ```
+console.log(doc.highlights);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://firecrawl.dev",
-      "formats": [
-        { "type": "highlights", "query": "What is Firecrawl?" }
-      ]
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://firecrawl.dev",
+    "formats": [
+      { "type": "highlights", "query": "What is Firecrawl?" }
+    ]
+  }'
+```
 
 The `highlights` format is also available in `/search` via `scrapeOptions`, which runs the same extraction across each search result.
 
@@ -1020,22 +996,22 @@ The `highlights` format is also available in `/search` via `scrapeOptions`, whic
 
 Set `redactPII: true` to redact personally identifiable information from returned markdown. The `markdown` field contains the redacted result.
 
-See [PII Redaction](/features/pii-redaction) for SDK, cURL, CLI, and MCP examples.
+See [PII Redaction](https://docs.firecrawl.dev/features/pii-redaction.md) for SDK, cURL, CLI, and MCP examples.
 
 ## Interacting with the page with Actions
 
 Firecrawl allows you to perform various actions on a web page before scraping its content. This is particularly useful for interacting with dynamic content, navigating through pages, or accessing content that requires user interaction.
 
-
-  **We recommend [Interact](/features/interact) over actions: our newer, more powerful way to interact with scraped pages.**
-
-  Interact runs as a stateful browser session that stays alive across calls, so you can drive a page turn-by-turn with either:
-
-  * **Natural language** for flexible, non-deterministic flows. e.g. *“search for ‘wireless headphones’, filter to 4+ stars under \$200, and return the results”*.
-  * **Playwright or agent-browser code** for deterministic steps. e.g. `await page.click('#export')`.
-
-  Interact also supports profiles, persistent sessions, and a live embeddable browser view (with an interactive mode where end users can drive the browser themselves).
-
+> [!TIP]
+>
+> **We recommend [Interact](https://docs.firecrawl.dev/features/interact.md) over actions: our newer, more powerful way to interact with scraped pages.**
+>
+> Interact runs as a stateful browser session that stays alive across calls, so you can drive a page turn-by-turn with either:
+>
+> * **Natural language** for flexible, non-deterministic flows. e.g. *“search for ‘wireless headphones’, filter to 4+ stars under \$200, and return the results”*.
+> * **Playwright or agent-browser code** for deterministic steps. e.g. `await page.click('#export')`.
+>
+> Interact also supports profiles, persistent sessions, and a live embeddable browser view (with an interactive mode where end users can drive the browser themselves).
 
 Here is an example of how to use actions to navigate to google.com, search for Firecrawl, click on the first result, and take a screenshot.
 
@@ -1043,113 +1019,109 @@ It is important to almost always use the `wait` action before/after executing ot
 
 ### Example
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  doc = firecrawl.scrape(
-      url="https://example.com/login",
-      formats=["markdown"],
-      actions=[
-          {"type": "write", "text": "john@example.com"},
-          {"type": "press", "key": "Tab"},
-          {"type": "write", "text": "secret"},
-          {"type": "click", "selector": 'button[type="submit"]'},
-          {"type": "wait", "milliseconds": 1500},
-          {"type": "screenshot", "full_page": True},
-      ],
-  )
-
-  print(doc.markdown, doc.screenshot)
-  ```
-
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
-
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
-
-  const doc = await firecrawl.scrape('https://example.com/login', {
-    formats: ['markdown'],
-    actions: [
-      { type: 'write', text: 'john@example.com' },
-      { type: 'press', key: 'Tab' },
-      { type: 'write', text: 'secret' },
-      { type: 'click', selector: 'button[type="submit"]' },
-      { type: 'wait', milliseconds: 1500 },
-      { type: 'screenshot', fullPage: true },
+doc = firecrawl.scrape(
+    url="https://example.com/login",
+    formats=["markdown"],
+    actions=[
+        {"type": "write", "text": "john@example.com"},
+        {"type": "press", "key": "Tab"},
+        {"type": "write", "text": "secret"},
+        {"type": "click", "selector": 'button[type="submit"]'},
+        {"type": "wait", "milliseconds": 1500},
+        {"type": "screenshot", "full_page": True},
     ],
-  });
+)
 
-  console.log(doc.markdown, doc.screenshot);
-  ```
+print(doc.markdown, doc.screenshot)
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
-  curl -X POST https://api.firecrawl.dev/v2/scrape \
-      -H 'Content-Type: application/json' \
-      -d '{
-        "url": "https://example.com/login",
-        "formats": ["markdown"],
-        "actions": [
-          { "type": "write", "text": "john@example.com" },
-          { "type": "press", "key": "Tab" },
-          { "type": "write", "text": "secret" },
-          { "type": "click", "selector": "button[type=\"submit\"]" },
-          { "type": "wait", "milliseconds": 1500 },
-          { "type": "screenshot", "fullPage": true },
-        ],
-    }'
-  ```
-</CodeGroup>
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
+
+const doc = await firecrawl.scrape('https://example.com/login', {
+  formats: ['markdown'],
+  actions: [
+    { type: 'write', text: 'john@example.com' },
+    { type: 'press', key: 'Tab' },
+    { type: 'write', text: 'secret' },
+    { type: 'click', selector: 'button[type="submit"]' },
+    { type: 'wait', milliseconds: 1500 },
+    { type: 'screenshot', fullPage: true },
+  ],
+});
+
+console.log(doc.markdown, doc.screenshot);
+```
+
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+    -H 'Content-Type: application/json' \
+    -d '{
+      "url": "https://example.com/login",
+      "formats": ["markdown"],
+      "actions": [
+        { "type": "write", "text": "john@example.com" },
+        { "type": "press", "key": "Tab" },
+        { "type": "write", "text": "secret" },
+        { "type": "click", "selector": "button[type=\"submit\"]" },
+        { "type": "wait", "milliseconds": 1500 },
+        { "type": "screenshot", "fullPage": true },
+      ],
+  }'
+```
 
 ### Output
 
-<CodeGroup>
-  ```json JSON
-  {
-    "success": true,
-    "data": {
-      "markdown": "Our first Launch Week is over! [See the recap 🚀](blog/firecrawl-launch-week-1-recap)...",
-      "actions": {
-        "screenshots": [
-          "https://alttmdsdujxrfnakrkyi.supabase.co/storage/v1/object/public/media/screenshot-75ef2d87-31e0-4349-a478-fb432a29e241.png"
-        ],
-        "scrapes": [
-          {
-            "url": "https://www.firecrawl.dev/",
-            "html": "<html><body><h1>Firecrawl</h1></body></html>"
-          }
-        ]
-      },
-      "metadata": {
-        "title": "Home - Firecrawl",
-        "description": "Firecrawl crawls and converts any website into clean markdown.",
-        "language": "en",
-        "keywords": "Firecrawl,Markdown,Data,Mendable,Langchain",
-        "robots": "follow, index",
-        "ogTitle": "Firecrawl",
-        "ogDescription": "Turn any website into LLM-ready data.",
-        "ogUrl": "https://www.firecrawl.dev/",
-        "ogImage": "https://www.firecrawl.dev/og.png?123",
-        "ogLocaleAlternate": [],
-        "ogSiteName": "Firecrawl",
-        "sourceURL": "http://google.com",
-        "statusCode": 200
-      }
+```json JSON theme={null}
+{
+  "success": true,
+  "data": {
+    "markdown": "Our first Launch Week is over! [See the recap 🚀](blog/firecrawl-launch-week-1-recap)...",
+    "actions": {
+      "screenshots": [
+        "https://alttmdsdujxrfnakrkyi.supabase.co/storage/v1/object/public/media/screenshot-75ef2d87-31e0-4349-a478-fb432a29e241.png"
+      ],
+      "scrapes": [
+        {
+          "url": "https://www.firecrawl.dev/",
+          "html": "<html><body><h1>Firecrawl</h1></body></html>"
+        }
+      ]
+    },
+    "metadata": {
+      "title": "Home - Firecrawl",
+      "description": "Firecrawl crawls and converts any website into clean markdown.",
+      "language": "en",
+      "keywords": "Firecrawl,Markdown,Data,Mendable,Langchain",
+      "robots": "follow, index",
+      "ogTitle": "Firecrawl",
+      "ogDescription": "The API to search, scrape, and interact with the web at scale.",
+      "ogUrl": "https://www.firecrawl.dev/",
+      "ogImage": "https://www.firecrawl.dev/og.png?123",
+      "ogLocaleAlternate": [],
+      "ogSiteName": "Firecrawl",
+      "sourceURL": "http://google.com",
+      "statusCode": 200
     }
   }
-  ```
-</CodeGroup>
+}
+```
 
-For workflows that require richer browser control after scraping, such as authenticated sessions, multi-step navigation, or a live view of the page, we recommend [Interact](/features/interact) over extending the actions array.
+For workflows that require richer browser control after scraping, such as authenticated sessions, multi-step navigation, or a live view of the page, we recommend [Interact](https://docs.firecrawl.dev/features/interact.md) over extending the actions array.
 
 ## Location and Language
 
@@ -1166,55 +1138,53 @@ To use the location and language settings, include the `location` object in your
 * `country`: ISO 3166-1 alpha-2 country code (e.g., 'US', 'AU', 'DE', 'JP'). Defaults to 'US'.
 * `languages`: An array of preferred languages and locales for the request in order of priority. Defaults to the language of the specified location.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  doc = firecrawl.scrape('https://example.com',
-      formats=['markdown'],
-      location={
-          'country': 'US',
-          'languages': ['en']
-      }
-  )
+doc = firecrawl.scrape('https://example.com',
+    formats=['markdown'],
+    location={
+        'country': 'US',
+        'languages': ['en']
+    }
+)
 
-  print(doc)
-  ```
+print(doc)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR-API-KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR-API-KEY",
+});
 
-  const doc = await firecrawl.scrape('https://example.com', {
-    formats: ['markdown'],
-    location: { country: 'US', languages: ['en'] },
-  });
+const doc = await firecrawl.scrape('https://example.com', {
+  formats: ['markdown'],
+  location: { country: 'US', languages: ['en'] },
+});
 
-  console.log(doc.metadata);
-  ```
+console.log(doc.metadata);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-  curl -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://example.com",
-      "formats": ["markdown"],
-      "location": { "country": "US", "languages": ["en"] }
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
+curl -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com",
+    "formats": ["markdown"],
+    "location": { "country": "US", "languages": ["en"] }
+  }'
+```
 
-For more details about supported locations, refer to the [Proxies documentation](/features/proxies).
+For more details about supported locations, refer to the [Proxies documentation](https://docs.firecrawl.dev/features/proxies.md).
 
 ## Caching and maxAge
 
@@ -1230,135 +1200,129 @@ To make requests faster, Firecrawl serves results from cache by default when a r
 
 Example (force fresh content):
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  firecrawl = Firecrawl(api_key='fc-YOUR_API_KEY')
+```python Python theme={null}
+from firecrawl import Firecrawl
+firecrawl = Firecrawl(api_key='fc-YOUR_API_KEY')
 
-  doc = firecrawl.scrape(url='https://example.com', max_age=0, formats=['markdown'])
-  print(doc)
-  ```
+doc = firecrawl.scrape(url='https://example.com', max_age=0, formats=['markdown'])
+print(doc)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
-  const doc = await firecrawl.scrape('https://example.com', { maxAge: 0, formats: ['markdown'] });
-  console.log(doc);
-  ```
+const doc = await firecrawl.scrape('https://example.com', { maxAge: 0, formats: ['markdown'] });
+console.log(doc);
+```
 
-  ```bash cURL
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://example.com",
-      "maxAge": 0,
-      "formats": ["markdown"]
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com",
+    "maxAge": 0,
+    "formats": ["markdown"]
+  }'
+```
 
 Example (use a 10-minute cache window):
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  firecrawl = Firecrawl(api_key='fc-YOUR_API_KEY')
+```python Python theme={null}
+from firecrawl import Firecrawl
+firecrawl = Firecrawl(api_key='fc-YOUR_API_KEY')
 
-  doc = firecrawl.scrape(url='https://example.com', max_age=600000, formats=['markdown', 'html'])
-  print(doc)
-  ```
+doc = firecrawl.scrape(url='https://example.com', max_age=600000, formats=['markdown', 'html'])
+print(doc)
+```
 
-  ```js Node
+```js Node theme={null}
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
-  const doc = await firecrawl.scrape('https://example.com', { maxAge: 600000, formats: ['markdown', 'html'] });
-  console.log(doc);
-  ```
+const doc = await firecrawl.scrape('https://example.com', { maxAge: 600000, formats: ['markdown', 'html'] });
+console.log(doc);
+```
 
-  ```bash cURL
-  curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "url": "https://example.com",
-      "maxAge": 600000,
-      "formats": ["markdown", "html"]
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "url": "https://example.com",
+    "maxAge": 600000,
+    "formats": ["markdown", "html"]
+  }'
+```
 
 ### Freshness and item status
 
 `maxAge` controls whether Firecrawl may return a cached copy; it does not tell you whether the state represented by a page is current. When freshness matters, use `maxAge: 0` to skip the cache, then inspect the returned content and any redirect or source-specific status signals. A successful response alone is not proof of current state.
 
-See [Verifying Freshness and Liveness](/developer-guides/usage-guides/verifying-freshness-and-liveness) for a checklist and examples.
+See [Verifying Freshness and Liveness](https://docs.firecrawl.dev/developer-guides/usage-guides/verifying-freshness-and-liveness.md) for a checklist and examples.
 
 ## Alexandria data tools
 
-Scrape can also run a data tool from [Alexandria](/features/alexandria), the Firecrawl catalogue of third-party data providers. Send an `alexandria` object with `provider`, `capability`, and `options` instead of a `url`. Get these values from [Search](/features/search#alexandria-tools) or [Find Tools](/features/alexandria#find-tools).
+Scrape can also run a data tool from [Alexandria](https://docs.firecrawl.dev/features/alexandria.md), the Firecrawl catalogue of third-party data providers. Send an `alexandria` object with `provider`, `capability`, and `options` instead of a `url`. Get these values from [Search](https://docs.firecrawl.dev/features/search.md#alexandria-tools) or [Find Tools](https://docs.firecrawl.dev/features/alexandria.md#find-tools).
 
-<CodeGroup>
-  ```python Python
-  result = firecrawl.scrape(
-      alexandria={
-          "provider": "particle",
-          "capability": "podcasts/episodes/search",
-          "options": {"semantic_search": "AI agents", "limit": 2},
-      },
-  )
-
-  print(result.alexandria[0].data)
-  ```
-
-  ```js Node
-  const result = await firecrawl.scrape({
-    alexandria: {
-      provider: "particle",
-      capability: "podcasts/episodes/search",
-      options: { semantic_search: "AI agents", limit: 2 },
-    },
-  });
-
-  console.log(result.alexandria[0].data);
-  ```
-
-  ```bash cURL
-  curl -X POST https://api.firecrawl.dev/v2/scrape \
-    -H "Content-Type: application/json" \
-    -H "Authorization: Bearer fc-YOUR_API_KEY" \
-    -d '{
-      "alexandria": {
+```python Python theme={null}
+result = firecrawl.scrape(
+    alexandria={
         "provider": "particle",
         "capability": "podcasts/episodes/search",
-        "options": { "semantic_search": "AI agents", "limit": 2 }
-      }
-    }'
-  ```
-</CodeGroup>
+        "options": {"semantic_search": "AI agents", "limit": 2},
+    },
+)
+
+print(result.alexandria[0].data)
+```
+
+```js Node theme={null}
+const result = await firecrawl.scrape({
+  alexandria: {
+    provider: "particle",
+    capability: "podcasts/episodes/search",
+    options: { semantic_search: "AI agents", limit: 2 },
+  },
+});
+
+console.log(result.alexandria[0].data);
+```
+
+```bash cURL theme={null}
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer fc-YOUR_API_KEY" \
+  -d '{
+    "alexandria": {
+      "provider": "particle",
+      "capability": "podcasts/episodes/search",
+      "options": { "semantic_search": "AI agents", "limit": 2 }
+    }
+  }'
+```
 
 * The response has one item for each call in `data.alexandria`. Each item has `data` or an `error`. Examine each item, because one call can fail when the request succeeds.
 * Send an array of up to 10 calls to run them in one request. You cannot use `alexandria` together with `url` or other scrape options.
 * Each call costs the price listed on its tool. `data.creditsCost` shows the total.
 * To retry, send the same `x-request-id` header with the same body. A completed request replays its result and does not run again. Without this header, a retry is a new charge. This replay applies to `alexandria` calls only. A URL scrape that a third-party data provider serves (for example, a LinkedIn URL) is charged on every request, so a retry pays the full cost of its provider steps again: 30 credits when Apollo is first in your order and has the record.
-* Some providers need an org admin to accept their terms first. Then the request fails with [`THIRD_PARTY_DATA_TERMS_REQUIRED`](/api-reference/errors).
+* Some providers need an org admin to accept their terms first. Then the request fails with [`THIRD_PARTY_DATA_TERMS_REQUIRED`](https://docs.firecrawl.dev/api-reference/errors).
 
-To find tools for the page that you scrape, add `domainTools: true` to an ordinary URL scrape. Matching tools come back in `data.tools`. See [Alexandria](/features/alexandria#pricing-and-access) for pricing and access.
+To find tools for the page that you scrape, add `domainTools: true` to an ordinary URL scrape. Matching tools come back in `data.tools`. See [Alexandria](https://docs.firecrawl.dev/features/alexandria.md#pricing-and-access) for pricing and access.
 
 ## Provider-routed URLs
 
 Firecrawl doesn't scrape LinkedIn. Instead, a scrape of a LinkedIn person profile (`linkedin.com/in/<handle>`) or company page (`linkedin.com/company/<slug>`) is answered by third-party data providers. Country and mobile subdomains such as `uk.linkedin.com` and `m.linkedin.com` route the same way. The response is an ordinary scrape document: `markdown` holds the provider's record, and [`data.metadata.provider`](#response-metadata-and-status-codes) names the provider that served it. Batch scrape routes these URLs the same way.
 
-* **Setup**: an org admin turns on enrichment and chooses providers, in order, in the dashboard's enrichment settings. Some providers also need their terms accepted first ([`THIRD_PARTY_DATA_TERMS_REQUIRED`](/api-reference/errors)).
+* **Setup**: an org admin turns on enrichment and chooses providers, in order, in the dashboard's enrichment settings. Some providers also need their terms accepted first ([`THIRD_PARTY_DATA_TERMS_REQUIRED`](https://docs.firecrawl.dev/api-reference/errors)).
 * **First match wins**: providers are tried in the saved order. The first one that returns a record answers the request, and the rest don't run. A provider with no record for the URL passes to the next one. When none has a record, the request fails with `THIRD_PARTY_DATA_NOT_FOUND` (404).
 * **Only the page itself**: a profile or company root page is served, not the pages under it. A company's `/company/<slug>/about` page is served as the company record. Other sub-pages such as `/in/<handle>/details/experience` or `/company/<slug>/jobs` fail with `THIRD_PARTY_DATA_UNSUPPORTED_URL` (400).
 * **Options that turn routing off**: these URLs can't be served with `actions`, `profile`, `minAge`, `zeroDataRetention`, `lockdown`, `redactPII`, or any format other than `markdown`, `html`, `rawHtml`, `links`, `images`, `json`, `summary`, `question`, `highlights` and `query`. Such a request fails with `THIRD_PARTY_DATA_UNSUPPORTED_OPTION` (400), and `error` names the option. Remove it and send the request again. If your team's policy enforces zero data retention, these URLs can't be served. Page rendering options such as `headers`, `waitFor`, `mobile`, `location`, `proxy`, `includeTags` and `excludeTags` are ignored for these URLs.
-* **Billing**: the request costs the sum of the credits its provider steps charged (`metadata.provider.creditsCost`, broken down in `steps`), in place of the 1-credit scrape base. A provider with no record charges nothing, so a request normally costs the price of the provider that matched. Format surcharges such as `json` still apply. Every request is charged, because `x-request-id` doesn't replay URL scrapes. See [Billing](/billing#provider-routed-urls) for prices.
+* **Billing**: the request costs the sum of the credits its provider steps charged (`metadata.provider.creditsCost`, broken down in `steps`), in place of the 1-credit scrape base. A provider with no record charges nothing, so a request normally costs the price of the provider that matched. Format surcharges such as `json` still apply. Every request is charged, because `x-request-id` doesn't replay URL scrapes. See [Billing](https://docs.firecrawl.dev/billing.md#provider-routed-urls) for prices.
 
-If enrichment is off, or none of the saved providers can serve the URL, the request fails with `THIRD_PARTY_DATA_ENRICHMENT_NOT_ENABLED` (403). See [Errors](/api-reference/errors) for every code.
+If enrichment is off, or none of the saved providers can serve the URL, the request fails with `THIRD_PARTY_DATA_ENRICHMENT_NOT_ENABLED` (403). See [Errors](https://docs.firecrawl.dev/api-reference/errors.md) for every code.
 
 ## Batch scraping multiple URLs
 
@@ -1372,43 +1336,41 @@ The sdk provides 2 methods, synchronous and asynchronous. The synchronous method
 
 ### Usage
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  job = firecrawl.batch_scrape([
-      "https://firecrawl.dev",
-      "https://docs.firecrawl.dev",
-  ], formats=["markdown"], poll_interval=2, wait_timeout=120)
+job = firecrawl.batch_scrape([
+    "https://firecrawl.dev",
+    "https://docs.firecrawl.dev",
+], formats=["markdown"], poll_interval=2, wait_timeout=120)
 
-  print(job)
-  ```
+print(job)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
-  const job = await firecrawl.batchScrape([
-    'https://firecrawl.dev',
-    'https://docs.firecrawl.dev',
-  ], { options: { formats: ['markdown'] }, pollInterval: 2, timeout: 120 });
+const job = await firecrawl.batchScrape([
+  'https://firecrawl.dev',
+  'https://docs.firecrawl.dev',
+], { options: { formats: ['markdown'] }, pollInterval: 2, timeout: 120 });
 
-  console.log(job);
-  ```
+console.log(job);
+```
 
-  ```bash cURL
-  curl -s -X POST "https://api.firecrawl.dev/v2/batch/scrape" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "urls": ["https://firecrawl.dev", "https://docs.firecrawl.dev"],
-      "formats": ["markdown"]
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -s -X POST "https://api.firecrawl.dev/v2/batch/scrape" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "urls": ["https://firecrawl.dev", "https://docs.firecrawl.dev"],
+    "formats": ["markdown"]
+  }'
+```
 
 ### Response
 
@@ -1458,7 +1420,7 @@ You can then use the job ID to check the status of the batch scrape by calling t
 
 For complex websites, Firecrawl offers enhanced mode that provides better success rates while maintaining privacy.
 
-Learn more about [Enhanced Mode](/features/enhanced-mode).
+Learn more about [Enhanced Mode](https://docs.firecrawl.dev/features/enhanced-mode.md).
 
 ## Zero Data Retention (ZDR)
 
@@ -1481,9 +1443,9 @@ ZDR is available on Enterprise plans and must be enabled for your team. Visit [f
 
 ZDR adds **1 additional credit per page** on top of the base scrape cost.
 
-
-  Screenshots are not available in ZDR mode. Because screenshots require uploading to persistent storage, they are incompatible with the ZDR guarantee. Requests that include both `zeroDataRetention: true` and a `screenshot` format will return an error.
-
+> [!NOTE]
+>
+> Screenshots are not available in ZDR mode. Because screenshots require uploading to persistent storage, they are incompatible with the ZDR guarantee. Requests that include both `zeroDataRetention: true` and a `screenshot` format will return an error.
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
 

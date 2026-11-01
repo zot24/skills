@@ -107,23 +107,27 @@ curl -X POST https://your-project.vercel.app/api/search \
   -d '{"query": "firecrawl web scraping"}'
 ```
 
-
-  Vercel Functions have a default timeout of 10 seconds on the Hobby plan and 60 seconds on Pro. For large crawl jobs, use the Firecrawl async API with webhooks instead.
-
+> [!NOTE]
+>
+> Vercel Functions have a default timeout of 10 seconds on the Hobby plan and 60 seconds on Pro. For large crawl jobs, use the Firecrawl async API with webhooks instead.
 
 ## Next steps
 
+> [card] [Search docs](https://docs.firecrawl.dev/features/search.md)
+>
+> Search the web and get full page content
 
-    Search the web and get full page content
+> [card] [Scrape docs](https://docs.firecrawl.dev/features/scrape.md)
+>
+> All scrape options including formats, actions, and proxies
 
+> [card] [Interact docs](https://docs.firecrawl.dev/features/interact.md)
+>
+> Click, fill forms, and extract dynamic content
 
-    All scrape options including formats, actions, and proxies
-
-
-    Click, fill forms, and extract dynamic content
-
-
-    Full SDK reference with crawl, map, batch scrape, and more
+> [card] [Node SDK reference](https://docs.firecrawl.dev/sdks/node.md)
+>
+> Full SDK reference with crawl, map, batch scrape, and more
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

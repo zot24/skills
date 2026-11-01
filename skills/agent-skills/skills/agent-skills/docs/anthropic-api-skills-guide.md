@@ -6,13 +6,13 @@ url: https://platform.claude.com/docs/en/build-with-claude/skills-guide
 description: Learn how to use Agent Skills to extend Claude's capabilities through the API.
 ---
 
-Agent Skills extend Claude's capabilities through organized folders of instructions, scripts, and resources. This guide shows you how to use both pre-built and custom Skills with the Claude API.
+Agent Skills extend Claude’s capabilities through organized folders of instructions, scripts, and resources. This guide shows you how to use both pre-built and custom Skills with the Claude API.
 
 
   For complete API reference including request/response schemas and all parameters, see:
 
-  * [Skill Management API Reference](https://platform.claude.com/docs/en/api/skills/list) - CRUD operations for Skills
-  * [Skill Versions API Reference](https://platform.claude.com/docs/en/api/skills/versions/list) - Version management
+  * [Skill management API reference](https://platform.claude.com/docs/en/api/skills/list) - CRUD operations for Skills
+  * [Skill versions API reference](https://platform.claude.com/docs/en/api/skills/versions/list) - Version management
 
 
   To learn how zero data retention (ZDR) applies to this feature, see [API and data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention).
@@ -33,7 +33,7 @@ Agent Skills extend Claude's capabilities through organized folders of instructi
   For a detailed look at the architecture and real-world applications of Agent Skills, read the engineering blog post: [Equipping agents for the real world with Agent Skills](https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills).
 
 
-Skills integrate with the Messages API through the [code execution tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool). Whether using pre-built Skills managed by Anthropic or custom Skills you've uploaded, the integration shape is identical: both require code execution and use the same `container` structure.
+Skills integrate with the Messages API through the [code execution tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool). Whether using pre-built Skills managed by Anthropic or custom Skills you’ve uploaded, the integration shape is identical: both require code execution and use the same `container` structure.
 
 ### Using Skills
 
@@ -49,7 +49,7 @@ You can use Skills from two sources:
 | **Management**     | Pre-built and maintained by Anthropic      | Upload and manage through the [Skills API](https://platform.claude.com/docs/en/api/skills/create) |
 | **Availability**   | Available to all users                     | Private to your workspace                                                                         |
 
-Both skill sources are returned by the [List Skills endpoint](https://platform.claude.com/docs/en/api/skills/list) (use the `source` parameter to filter). The integration shape and execution environment are identical. The only difference is where the Skills come from and how they're managed.
+Both skill sources are returned by the [List Skills endpoint](https://platform.claude.com/docs/en/api/skills/list) (use the `source` parameter to filter). The integration shape and execution environment are identical. The only difference is where the Skills come from and how they’re managed.
 
 ### Prerequisites
 
@@ -58,7 +58,7 @@ To use Skills, you need:
 1. **Claude API key** from the [Claude Console](https://platform.claude.com/settings/keys)
 2. **[Code execution tool](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool)** enabled in your requests
 
-Skills require the code execution tool, so use a model from its [model compatibility list](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool#compatibility).
+Skills require the code execution tool, so use a model listed in its [API support section](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool#availability-feature-support).
 
 ***
 
@@ -168,7 +168,7 @@ The structure is identical for both Anthropic and custom Skills. Specify the req
 
   var parameters = new MessageCreateParams
   {
-      Model = "claude-opus-5-5",
+      Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
       Container = new ContainerParams
       {
@@ -182,7 +182,7 @@ The structure is identical for both Anthropic and custom Skills. Specify the req
               },
           ],
       },
-      Messages = [new() { Role = Role.User, Content = "Create a presentation about renewable energy" }],
+      Messages = [new UserMessageParam { Content = "Create a presentation about renewable energy" }],
       Tools = [new CodeExecutionTool20250825()],
   };
 
@@ -194,7 +194,7 @@ The structure is identical for both Anthropic and custom Skills. Specify the req
   client := anthropic.NewClient()
 
   response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     "claude-opus-5-5",
+  	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 4096,
   	Container: anthropic.MessageCreateParamsContainerUnion{
   		OfContainers: &anthropic.ContainerParams{
@@ -255,7 +255,7 @@ The structure is identical for both Anthropic and custom Skills. Specify the req
       messages: [
           ['role' => 'user', 'content' => 'Create a presentation about renewable energy']
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       container: [
           'skills' => [
               [
@@ -277,7 +277,7 @@ The structure is identical for both Anthropic and custom Skills. Specify the req
   client = Anthropic::Client.new
 
   message = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 4096,
     container: {
       skills: [
@@ -314,81 +314,14 @@ To provide input files for Skills to work on, [upload them with the Files API](h
 
 **Example: creating and downloading an Excel file**
 
-<CodeGroup>
-  ```bash cURL
-  # Step 1: Use a Skill to create a file
-  RESPONSE=$(curl https://api.anthropic.com/v1/messages \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
-    -H "content-type: application/json" \
-    -d '{
-      "model": "claude-opus-5-5",
-      "max_tokens": 4096,
-      "container": {
-        "skills": [
-          {"type": "anthropic", "skill_id": "xlsx", "version": "latest"}
-        ]
-      },
-      "messages": [{
-        "role": "user",
-        "content": "Create an Excel file with a simple budget spreadsheet"
-      }],
-      "tools": [{
-        "type": "code_execution_20250825",
-        "name": "code_execution"
-      }]
-    }')
+<CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
 
-  # Step 2: Extract file_id from response (using jq)
-  FILE_ID=$(echo "$RESPONSE" | jq -r '.content[] | select(.type=="bash_code_execution_tool_result") | .content | select(.type=="bash_code_execution_result") | .content[] | select(.file_id) | .file_id')
-
-  # Step 3: Get filename from metadata
-  FILENAME=$(curl "https://api.anthropic.com/v1/files/$FILE_ID" \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" | jq -r '.filename')
-
-  # Step 4: Download the file using Files API
-  curl "https://api.anthropic.com/v1/files/$FILE_ID/content" \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
-    --output "$FILENAME"
-
-  echo "Downloaded: $FILENAME"
-  ```
-
-  ```bash CLI
-  # Step 1: Use the xlsx Skill to create a file
-  # Step 2: Extract file_id from the response with --transform (GJSON path)
-  FILE_ID=$(ant messages create \
-    --transform 'content.#.content.content.#.file_id|@flatten|0' \
-    --raw-output <<'YAML'
-  model: claude-opus-5-5
-  max_tokens: 4096
-  container:
-    skills:
-      - type: anthropic
-        skill_id: xlsx
-        version: latest
-  messages:
-    - role: user
-      content: Create an Excel file with a simple budget spreadsheet
-  tools:
-    - type: code_execution_20250825
-      name: code_execution
-  YAML
-  )
-
-  # Step 3: Get the filename from file metadata
-  FILENAME=$(ant files retrieve-metadata \
-    --file-id "$FILE_ID" \
-    --transform filename \
-    --raw-output)
-
-  # Step 4: Download the file using Files API
-  ant files download --file-id "$FILE_ID" --output "$FILENAME" > /dev/null
-
-  printf 'Downloaded: %s\n' "$FILENAME"
-  ```
+  <CodeGroupItem language="CLI">
+    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
 
   ```python Python
   client = anthropic.Anthropic()
@@ -483,7 +416,7 @@ To provide input files for Skills to work on, [upload them with the Files API](h
   // Step 1: Use a Skill to create a file
   var parameters = new MessageCreateParams
   {
-      Model = "claude-opus-5-5",
+      Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
       Container = new ContainerParams
       {
@@ -497,7 +430,7 @@ To provide input files for Skills to work on, [upload them with the Files API](h
               },
           ],
       },
-      Messages = [new() { Role = Role.User, Content = "Create an Excel file with a simple budget spreadsheet" }],
+      Messages = [new UserMessageParam { Content = "Create an Excel file with a simple budget spreadsheet" }],
       Tools = [new CodeExecutionTool20250825()],
   };
 
@@ -535,7 +468,7 @@ To provide input files for Skills to work on, [upload them with the Files API](h
 
   	// Step 1: Use a Skill to create a file
   	response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  		Model:     "claude-opus-5-5",
+  		Model:     anthropic.ModelClaudeOpus5_5,
   		MaxTokens: 4096,
   		Container: anthropic.MessageCreateParamsContainerUnion{
   			OfContainers: &anthropic.ContainerParams{
@@ -681,7 +614,8 @@ To provide input files for Skills to work on, [upload them with the Files API](h
   );
 
   // Step 2: Extract file IDs from the response
-  function extractFileIds($response) {
+  function extractFileIds($response)
+  {
       $fileIds = [];
       foreach ($response->content as $item) {
           if ($item->type === 'bash_code_execution_tool_result') {
@@ -777,16 +711,13 @@ To provide input files for Skills to work on, [upload them with the Files API](h
 
   ```bash CLI
   # Get file metadata
-  ant files retrieve-metadata \
-    --file-id "$FILE_ID" \
-    --transform '{filename,size_bytes}' \
-    --format yaml
+  ant files retrieve-metadata --file-id "$FILE_ID"
 
   # List all files
-  ant files list --transform '{filename,created_at}' --format yaml
+  ant files list
 
   # Delete a file
-  ant files delete --file-id "$FILE_ID" >/dev/null
+  ant files delete --file-id "$FILE_ID"
   ```
 
   ```python Python
@@ -932,53 +863,16 @@ To provide input files for Skills to work on, [upload them with the Files API](h
 
 ### Multi-turn conversations
 
-The response's `container` object carries the container's `id` and `expires_at` timestamp (see [Container reuse](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool#container-reuse) for lifetime details). Reuse the same container across multiple messages by specifying the container ID:
+The response’s `container` object carries the container’s `id` and `expires_at` timestamp (see [Container reuse](https://platform.claude.com/docs/en/agents-and-tools/tool-use/code-execution-tool#container-reuse) for lifetime details). Reuse the same container across multiple messages by specifying the container ID:
 
-<CodeGroup>
-  ```bash cURL
-  # Multi-turn container reuse doesn't translate well to a one-off shell
-  # command; one of the SDK options would be a better fit. Capture
-  # container.id from the first response, then pass it in the next request as
-  # "container": {"id": "...", "skills": [...]} with the conversation history.
-  ```
+<CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    Multi-turn container reuse needs more logic than a single shell command, so use the Claude SDK for it. To build the requests yourself, capture `container.id` from the first response. Then pass it in the next request as `"container": {"id": "...", "skills": [...]}`, together with the conversation history.
+  </CodeGroupItem>
 
-  ```bash CLI
-  # First request creates container
-  CONTAINER_ID=$(ant messages create \
-    --transform container.id \
-    --raw-output <<'YAML'
-  model: claude-opus-5-5
-  max_tokens: 4096
-  container:
-    skills:
-      - {type: anthropic, skill_id: xlsx, version: latest}
-  messages:
-    - role: user
-      content: Create a sample sales dataset and analyze it
-  tools:
-    - {type: code_execution_20250825, name: code_execution}
-  YAML
-  )
-
-  # Continue conversation with same container
-  ant messages create <<YAML
-  model: claude-opus-5-5
-  max_tokens: 4096
-  container:
-    id: $CONTAINER_ID  # Reuse container
-    skills:
-      - {type: anthropic, skill_id: xlsx, version: latest}
-  messages:
-    - role: user
-      content: Create a sample sales dataset and analyze it
-    - role: assistant
-      content: []  # the assistant's text from the first response
-    - role: user
-      content: What was the total revenue?
-  tools:
-    - {type: code_execution_20250825, name: code_execution}
-  YAML
-  ```
+  <CodeGroupItem language="CLI">
+    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
 
   ```python Python
   client = anthropic.Anthropic()
@@ -1067,7 +961,7 @@ The response's `container` object carries the container's `id` and `expires_at` 
   // First request with a Skill
   var parameters1 = new MessageCreateParams
   {
-      Model = "claude-opus-5-5",
+      Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
       Container = new ContainerParams
       {
@@ -1081,7 +975,7 @@ The response's `container` object carries the container's `id` and `expires_at` 
               },
           ],
       },
-      Messages = [new() { Role = Role.User, Content = "Create a sample sales dataset and analyze it" }],
+      Messages = [new UserMessageParam { Content = "Create a sample sales dataset and analyze it" }],
       Tools = [new CodeExecutionTool20250825()],
   };
 
@@ -1096,7 +990,7 @@ The response's `container` object carries the container's `id` and `expires_at` 
 
   var parameters2 = new MessageCreateParams
   {
-      Model = "claude-opus-5-5",
+      Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
       Container = new ContainerParams
       {
@@ -1113,9 +1007,9 @@ The response's `container` object carries the container's `id` and `expires_at` 
       },
       Messages =
       [
-          new() { Role = Role.User, Content = "Create a sample sales dataset and analyze it" },
-          new() { Role = Role.Assistant, Content = assistantText },
-          new() { Role = Role.User, Content = "What was the total revenue?" },
+          new UserMessageParam { Content = "Create a sample sales dataset and analyze it" },
+          new AssistantMessageParam { Content = assistantText },
+          new UserMessageParam { Content = "What was the total revenue?" },
       ],
       Tools = [new CodeExecutionTool20250825()],
   };
@@ -1128,7 +1022,7 @@ The response's `container` object carries the container's `id` and `expires_at` 
   client := anthropic.NewClient()
 
   response1, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     "claude-opus-5-5",
+  	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 4096,
   	Container: anthropic.MessageCreateParamsContainerUnion{
   		OfContainers: &anthropic.ContainerParams{
@@ -1162,7 +1056,7 @@ The response's `container` object carries the container's `id` and `expires_at` 
   assistantText := strings.Join(textParts, "\n")
 
   response2, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     "claude-opus-5-5",
+  	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 4096,
   	Container: anthropic.MessageCreateParamsContainerUnion{
   		OfContainers: &anthropic.ContainerParams{
@@ -1178,10 +1072,7 @@ The response's `container` object carries the container's `id` and `expires_at` 
   	},
   	Messages: []anthropic.MessageParam{
   		anthropic.NewUserMessage(anthropic.NewTextBlock("Create a sample sales dataset and analyze it")),
-  		{
-  			Role:    anthropic.MessageParamRoleAssistant,
-  			Content: []anthropic.ContentBlockParamUnion{anthropic.NewTextBlock(assistantText)},
-  		},
+  		anthropic.NewAssistantMessage(anthropic.NewTextBlock(assistantText)),
   		anthropic.NewUserMessage(anthropic.NewTextBlock("What was the total revenue?")),
   	},
   	Tools: []anthropic.ToolUnionParam{
@@ -1341,106 +1232,16 @@ The response's `container` object carries the container's `id` and `expires_at` 
 
 ### Long-running operations
 
-Skills may perform operations that require multiple turns. Handle `pause_turn` stop reasons:
+Skills might perform operations that require multiple turns. Handle `pause_turn` stop reasons:
 
-<CodeGroup>
-  ```bash cURL
-  # Initial request
-  RESPONSE=$(curl https://api.anthropic.com/v1/messages \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
-    -H "content-type: application/json" \
-    -d '{
-      "model": "claude-opus-5-5",
-      "max_tokens": 4096,
-      "container": {
-        "skills": [
-          {
-            "type": "custom",
-            "skill_id": "skill_01AbCdEfGhIjKlMnOpQrStUv",
-            "version": "latest"
-          }
-        ]
-      },
-      "messages": [{
-        "role": "user",
-        "content": "Generate and process a large sample dataset"
-      }],
-      "tools": [{
-        "type": "code_execution_20250825",
-        "name": "code_execution"
-      }]
-    }')
+<CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
 
-  # If stop_reason is "pause_turn", continue in the same container, appending
-  # the prior response's content array to messages as the assistant turn.
-  # Repeat this continuation request until stop_reason is no longer "pause_turn".
-  STOP_REASON=$(echo "$RESPONSE" | jq -r '.stop_reason')
-  CONTAINER_ID=$(echo "$RESPONSE" | jq -r '.container.id')
-
-  RESPONSE=$(curl https://api.anthropic.com/v1/messages \
-    -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
-    -H "content-type: application/json" \
-    -d "{
-      \"model\": \"claude-opus-5-5\",
-      \"max_tokens\": 4096,
-      \"container\": {
-        \"id\": \"$CONTAINER_ID\",
-        \"skills\": [{
-          \"type\": \"custom\",
-          \"skill_id\": \"skill_01AbCdEfGhIjKlMnOpQrStUv\",
-          \"version\": \"latest\"
-        }]
-      },
-      \"messages\": [],
-      \"tools\": [{
-        \"type\": \"code_execution_20250825\",
-        \"name\": \"code_execution\"
-      }]
-    }")
-  ```
-
-  ```bash CLI
-  RESP=$(mktemp)
-
-  # Initial request: capture the full JSON response to a temp file
-  ant messages create > "$RESP" <<'YAML'
-  model: claude-opus-5-5
-  max_tokens: 4096
-  container:
-    skills:
-      - type: custom
-        skill_id: skill_01AbCdEfGhIjKlMnOpQrStUv
-        version: latest
-  messages:
-    - role: user
-      content: Generate and process a large sample dataset
-  tools:
-    - type: code_execution_20250825
-      name: code_execution
-  YAML
-
-  # If stop_reason is "pause_turn", continue in the same container,
-  # appending the prior response's content array to messages as the
-  # assistant turn. Repeat until stop_reason is no longer "pause_turn".
-  CONTAINER_ID=$(jq -r '.container.id' "$RESP")
-
-  ant messages create > "$RESP" <<YAML
-  model: claude-opus-5-5
-  max_tokens: 4096
-  container:
-    id: $CONTAINER_ID
-    skills:
-      - type: custom
-        skill_id: skill_01AbCdEfGhIjKlMnOpQrStUv
-        version: latest
-  messages: [] # replace with conversation history + prior assistant content
-  tools:
-    - type: code_execution_20250825
-      name: code_execution
-  YAML
-  ```
+  <CodeGroupItem language="CLI">
+    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
 
   ```python Python
   client = anthropic.Anthropic()
@@ -1537,7 +1338,7 @@ Skills may perform operations that require multiple turns. Handle `pause_turn` s
 
   List<MessageParam> messages =
   [
-      new() { Role = Role.User, Content = "Generate and process a large sample dataset" },
+      new UserMessageParam { Content = "Generate and process a large sample dataset" },
   ];
 
   var maxRetries = 10;
@@ -1548,7 +1349,7 @@ Skills may perform operations that require multiple turns. Handle `pause_turn` s
   {
       var parameters = new MessageCreateParams
       {
-          Model = "claude-opus-5-5",
+          Model = Model.ClaudeOpus5_5,
           MaxTokens = 4096,
           Container = containerId is null
               ? new ContainerParams
@@ -1592,7 +1393,7 @@ Skills may perform operations that require multiple turns. Handle `pause_turn` s
       var assistantContent = JsonSerializer.SerializeToElement(
           response.Content.Select(block => block.Json).ToArray()
       );
-      messages.Add(new() { Role = Role.Assistant, Content = new MessageParamContent(assistantContent) });
+      messages.Add(new AssistantMessageParam { Content = new MessageContentParam(assistantContent) });
   }
   ```
 
@@ -1605,7 +1406,7 @@ Skills may perform operations that require multiple turns. Handle `pause_turn` s
   maxRetries := 10
 
   response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     "claude-opus-5-5",
+  	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 4096,
   	Container: anthropic.MessageCreateParamsContainerUnion{
   		OfContainers: &anthropic.ContainerParams{
@@ -1635,7 +1436,7 @@ Skills may perform operations that require multiple turns. Handle `pause_turn` s
   	messages = append(messages, response.ToParam())
 
   	response, err = client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  		Model:     "claude-opus-5-5",
+  		Model:     anthropic.ModelClaudeOpus5_5,
   		MaxTokens: 4096,
   		Container: anthropic.MessageCreateParamsContainerUnion{
   			OfContainers: &anthropic.ContainerParams{
@@ -1672,12 +1473,7 @@ Skills may perform operations that require multiple turns. Handle `pause_turn` s
       AnthropicClient client = AnthropicOkHttpClient.fromEnv();
 
       List<MessageParam> messages = new ArrayList<>();
-      messages.add(
-          MessageParam.builder()
-              .role(MessageParam.Role.USER)
-              .content("Generate and process a large sample dataset")
-              .build()
-      );
+      messages.add(MessageParam.ofUser("Generate and process a large sample dataset"));
       int maxRetries = 10;
 
       Message response = client.messages().create(
@@ -1822,7 +1618,7 @@ Skills may perform operations that require multiple turns. Handle `pause_turn` s
 </CodeGroup>
 
 
-  The response may include a `pause_turn` stop reason, which indicates that the API paused a long-running Skill operation. You can provide the response back as-is in a subsequent request to let Claude continue its turn, or modify the content if you want to interrupt the conversation and provide additional guidance.
+  The response might include a `pause_turn` stop reason, which indicates that the API paused a long-running Skill operation. You can provide the response back as-is in a subsequent request to let Claude continue its turn, or modify the content if you want to interrupt the conversation and provide additional guidance.
 
 
 ### Using multiple Skills
@@ -1961,7 +1757,7 @@ Combine multiple Skills in a single request to handle complex workflows:
 
   var parameters = new MessageCreateParams
   {
-      Model = "claude-opus-5-5",
+      Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
       Container = new ContainerParams
       {
@@ -1987,7 +1783,7 @@ Combine multiple Skills in a single request to handle complex workflows:
               },
           ],
       },
-      Messages = [new() { Role = Role.User, Content = "Analyze sales data and create a presentation" }],
+      Messages = [new UserMessageParam { Content = "Analyze sales data and create a presentation" }],
       Tools = [new CodeExecutionTool20250825()],
   };
 
@@ -1999,7 +1795,7 @@ Combine multiple Skills in a single request to handle complex workflows:
   client := anthropic.NewClient()
 
   response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     "claude-opus-5-5",
+  	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 4096,
   	Container: anthropic.MessageCreateParamsContainerUnion{
   		OfContainers: &anthropic.ContainerParams{
@@ -2151,18 +1947,18 @@ Combine multiple Skills in a single request to handle complex workflows:
 ## Managing custom Skills
 
 
-  **Custom Skills are accessible to your entire workspace, not scoped to an end user, conversation, or session.** Any API key with access to a workspace can read, invoke, and delete every custom Skill uploaded to that workspace. Every service account, and every user whose organization role allows API access, can use the Default Workspace in addition to any workspace you add them to, so keep Skills that must stay separate in their own [workspace](https://platform.claude.com/docs/en/manage-claude/workspaces#api-keys-and-resource-scoping) and access them only with keys scoped to that workspace.
+  **Custom Skills are accessible to your entire workspace, not scoped to an end user, conversation, or session.** Any API key with access to a workspace can read, use, and delete every custom Skill uploaded to that workspace. Every service account, and every user whose organization role allows API access, can use the Default Workspace in addition to any workspace you add them to. For that reason, keep Skills that must stay separate in their own workspace and access them only with [keys scoped to that workspace](https://platform.claude.com/docs/en/manage-claude/workspaces#api-keys-and-resource-scoping).
 
-  If you are building a multi-tenant platform on the Skills API, create a separate [workspace](https://platform.claude.com/docs/en/manage-claude/workspaces) for each tenant. The workspace is the isolation boundary for custom Skills, so a workspace per tenant gives each tenant's Skills hard isolation from every other tenant. Each organization can have up to 100 workspaces by default (see [How workspaces work](https://platform.claude.com/docs/en/manage-claude/workspaces#how-workspaces-work)); if you need more for tenant isolation, contact your account team.
+  If you are building a multitenant platform on the Skills API, create a separate [workspace](https://platform.claude.com/docs/en/manage-claude/workspaces) for each tenant. The workspace is the isolation boundary for custom Skills, so a workspace for each tenant gives that tenant’s Skills hard isolation from every other tenant. Each organization can have up to 100 workspaces by default (see [How workspaces work](https://platform.claude.com/docs/en/manage-claude/workspaces#how-workspaces-work)); if you need more for tenant isolation, contact your account team.
 
 
 ### Creating a Skill
 
 A Skill bundle is a directory containing a `SKILL.md` file at the top level with `name` and `description` YAML frontmatter, plus any supporting scripts or resources. See [Get started with Agent Skills in the API](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/quickstart) to author one, and the **Requirements** list following the examples for the full constraints.
 
-Upload your custom Skill to make it available in your workspace. You can upload a zip archive or individual file objects. The Python SDK also provides a `files_from_dir` helper that accepts a directory path, and the CLI's `ant apply` uploads the directory itself.
+Upload your custom Skill to make it available in your workspace. You can upload a zip archive or individual file objects. The Python SDK also provides a `files_from_dir` helper that accepts a directory path, and the CLI’s `ant apply` uploads the directory itself.
 
-Files are identified by the filename you attach (the `;filename=` suffix in the cURL example and the filename arguments in the SDK examples). For the walkthrough's skill, create a zip with `zip -r financial_skill.zip financial_skill/` and substitute it for the `example_skill.zip` placeholder in the zip-upload options.
+Files are identified by the file name you attach (the `;filename=` suffix in the cURL example and the file name arguments in the SDK examples). For the walkthrough’s skill, create a zip with `zip -r financial_skill.zip financial_skill/` and substitute it for the `example_skill.zip` placeholder in the zip-upload options.
 
 <CodeGroup defaultLanguage="CLI">
   ```bash cURL
@@ -2273,7 +2069,7 @@ Files are identified by the filename you attach (the `;filename=` suffix in the 
 
   var skill = await client.Skills.Create(parameters);
 
-  // Option 2: Using individual files (path-qualified filenames preserve the Skill's directory layout)
+  // Option 2: Using individual files (path-qualified file names preserve the Skill's directory layout)
   var parameters2 = new SkillCreateParams
   {
       Files =
@@ -2363,7 +2159,7 @@ Files are identified by the filename you attach (the `;filename=` suffix in the 
 
       Skill skill = client.skills().create(params);
 
-      // Option 2: Using individual files (path-qualified filenames preserve the Skill's directory layout)
+      // Option 2: Using individual files (path-qualified file names preserve the Skill's directory layout)
       SkillCreateParams params2 = SkillCreateParams.builder()
           .addFile(MultipartField.<InputStream>builder()
               .value(Files.newInputStream(Path.of("financial_skill/SKILL.md")))
@@ -2459,10 +2255,10 @@ Files are identified by the filename you attach (the `;filename=` suffix in the 
 
 * YAML frontmatter requirements:
 
-  * `name`: Maximum 64 characters, lowercase letters/numbers/hyphens only, no XML tags, no reserved words ("anthropic", "claude")
-  * `description`: Maximum 1024 characters, non-empty, no XML tags
+  * `name`: Maximum 64 characters, lowercase letters/numbers/hyphens only, no XML tags, no reserved words (`anthropic`, `claude`)
+  * `description`: Maximum 1,024 characters, non-empty, no XML tags
 
-For complete request/response schemas, see the [Create Skill API reference](https://platform.claude.com/docs/en/api/skills/create).
+For complete request/response schemas, see the [Create Skill](https://platform.claude.com/docs/en/api/skills/create) API reference.
 
 ### Listing Skills
 
@@ -2709,7 +2505,7 @@ Get details about a specific Skill:
 
 ### Deleting a Skill
 
-Deleting a Skill also removes all of its versions.
+Deleting a Skill also deletes all of its versions.
 
 <CodeGroup>
   ```bash cURL
@@ -2719,7 +2515,7 @@ Deleting a Skill also removes all of its versions.
   ```
 
   ```bash CLI
-  ant skills delete --skill-id skill_01AbCdEfGhIjKlMnOpQrStUv >/dev/null
+  ant skills delete --skill-id skill_01AbCdEfGhIjKlMnOpQrStUv
   ```
 
   ```python Python
@@ -2790,37 +2586,35 @@ Skills support versioning to manage updates safely:
 * Use `"latest"` to always get the most recent version
 * Create new versions when updating Skill files
 
-A new version is a complete snapshot, not a delta: upload the Skill's full file set each time. Files you omit are not carried over, and the `name` in the new version's `SKILL.md` must match the Skill's existing name. The following examples re-upload the complete `financial_skill/` bundle from [Creating a Skill](https://platform.claude.com/docs/en/build-with-claude/skills-guide#creating-a-skill).
+A new version is a complete snapshot, not a delta: upload the Skill’s full file set each time. Files you omit are not carried over, and the `name` in the new version’s `SKILL.md` must match the Skill’s existing name. The following examples re-upload the complete `financial_skill/` bundle from [Creating a Skill](https://platform.claude.com/docs/en/build-with-claude/skills-guide#creating-a-skill).
 
 <CodeGroup>
   ```bash cURL
   # Create a new version
-  NEW_VERSION=$(curl -X POST "https://api.anthropic.com/v1/skills/skill_01AbCdEfGhIjKlMnOpQrStUv/versions" \
+  curl -X POST "https://api.anthropic.com/v1/skills/skill_01AbCdEfGhIjKlMnOpQrStUv/versions" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
     -H "anthropic-version: 2023-06-01" \
     -F "files[]=@financial_skill/SKILL.md;filename=financial_skill/SKILL.md" \
-    -F "files[]=@financial_skill/analyze.py;filename=financial_skill/analyze.py")
+    -F "files[]=@financial_skill/analyze.py;filename=financial_skill/analyze.py"
 
-  VERSION_ID=$(echo "$NEW_VERSION" | jq -r '.id')
-
-  # Use specific version
+  # Use a specific version: the ID from the create response
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
     -H "anthropic-version: 2023-06-01" \
     -H "content-type: application/json" \
-    -d "{
-      \"model\": \"claude-opus-5-5\",
-      \"max_tokens\": 4096,
-      \"container\": {
-        \"skills\": [{
-          \"type\": \"custom\",
-          \"skill_id\": \"skill_01AbCdEfGhIjKlMnOpQrStUv\",
-          \"version\": \"$VERSION_ID\"
+    -d '{
+      "model": "claude-opus-5-5",
+      "max_tokens": 4096,
+      "container": {
+        "skills": [{
+          "type": "custom",
+          "skill_id": "skill_01AbCdEfGhIjKlMnOpQrStUv",
+          "version": "'"$VERSION_ID"'"
         }]
       },
-      \"messages\": [{\"role\": \"user\", \"content\": \"Use updated Skill\"}],
-      \"tools\": [{\"type\": \"code_execution_20250825\", \"name\": \"code_execution\"}]
-    }"
+      "messages": [{"role": "user", "content": "Use updated Skill"}],
+      "tools": [{"type": "code_execution_20250825", "name": "code_execution"}]
+    }'
 
   # Use latest version
   curl https://api.anthropic.com/v1/messages \
@@ -2844,13 +2638,11 @@ A new version is a complete snapshot, not a delta: upload the Skill's full file 
 
   ```bash CLI
   # Create a new version
-  VERSION_ID=$(ant skills:versions create \
+  ant skills:versions create \
     --skill-id skill_01AbCdEfGhIjKlMnOpQrStUv \
-    --file financial_skill.zip \
-    --transform id \
-    --raw-output)
+    --file financial_skill.zip
 
-  # Use specific version
+  # Use a specific version: the ID from the create response
   ant messages create <<YAML
   model: claude-opus-5-5
   max_tokens: 4096
@@ -3006,7 +2798,7 @@ A new version is a complete snapshot, not a delta: upload the Skill's full file 
   // Use specific version
   var specificVersionParams = new MessageCreateParams
   {
-      Model = "claude-opus-5-5",
+      Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
       Container = new ContainerParams
       {
@@ -3020,7 +2812,7 @@ A new version is a complete snapshot, not a delta: upload the Skill's full file 
               },
           ],
       },
-      Messages = [new() { Role = Role.User, Content = "Use updated Skill" }],
+      Messages = [new UserMessageParam { Content = "Use updated Skill" }],
       Tools = [new CodeExecutionTool20250825()],
   };
 
@@ -3030,7 +2822,7 @@ A new version is a complete snapshot, not a delta: upload the Skill's full file 
   // Use latest version
   var latestVersionParams = new MessageCreateParams
   {
-      Model = "claude-opus-5-5",
+      Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
       Container = new ContainerParams
       {
@@ -3044,7 +2836,7 @@ A new version is a complete snapshot, not a delta: upload the Skill's full file 
               },
           ],
       },
-      Messages = [new() { Role = Role.User, Content = "Use latest Skill version" }],
+      Messages = [new UserMessageParam { Content = "Use latest Skill version" }],
       Tools = [new CodeExecutionTool20250825()],
   };
 
@@ -3083,7 +2875,7 @@ A new version is a complete snapshot, not a delta: upload the Skill's full file 
 
   // Use specific version
   response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     "claude-opus-5-5",
+  	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 4096,
   	Container: anthropic.MessageCreateParamsContainerUnion{
   		OfContainers: &anthropic.ContainerParams{
@@ -3110,7 +2902,7 @@ A new version is a complete snapshot, not a delta: upload the Skill's full file 
 
   // Use latest version
   latestResponse, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     "claude-opus-5-5",
+  	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 4096,
   	Container: anthropic.MessageCreateParamsContainerUnion{
   		OfContainers: &anthropic.ContainerParams{
@@ -3279,7 +3071,7 @@ A new version is a complete snapshot, not a delta: upload the Skill's full file 
 
   # Use specific version
   response = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 4096,
     container: {
       skills: [{
@@ -3295,7 +3087,7 @@ A new version is a complete snapshot, not a delta: upload the Skill's full file 
 
   # Use latest version
   latest_response = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 4096,
     container: {
       skills: [{
@@ -3319,8 +3111,8 @@ See the [Create Skill Version API reference](https://platform.claude.com/docs/en
 
 When you specify Skills in a container:
 
-1. **Metadata discovery:** Claude sees metadata for each Skill (name, description) in the system prompt.
-2. **File loading:** Skill files are copied into the container at `/skills/{skill-name}/`. The directory is the Skill's name (`pptx` for an Anthropic Skill, the `SKILL.md` `name` for a custom Skill), not its `skill_01...` ID.
+1. **Metadata discovery:** Claude receives metadata for each Skill (name, description) in the system prompt.
+2. **File loading:** Skill files are copied into the container at `/skills/{skill-name}/`. The directory is the Skill’s name (`pptx` for an Anthropic Skill, the `SKILL.md` `name` for a custom Skill), not its `skill_01...` ID.
 3. **Automatic use:** Claude automatically loads and uses Skills when relevant to your request.
 4. **Composition:** Multiple Skills compose together for complex workflows.
 
@@ -3464,7 +3256,7 @@ Combine Excel and custom DCF analysis Skills. First, create the custom DCF analy
   ```
 </CodeGroup>
 
-Then use it with the Excel Skill to create a financial model. Pass the ID of the Skill you created as the custom Skill's `skill_id`:
+Then use it with the Excel Skill to create a financial model. Pass the ID of the Skill you created as the custom Skill’s `skill_id`:
 
 <CodeGroup>
   ```bash cURL
@@ -3584,7 +3376,7 @@ Then use it with the Excel Skill to create a financial model. Pass the ID of the
   // Use with Excel to create financial model
   var parameters = new MessageCreateParams
   {
-      Model = "claude-opus-5-5",
+      Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
       Container = new ContainerParams
       {
@@ -3604,7 +3396,7 @@ Then use it with the Excel Skill to create a financial model. Pass the ID of the
               },
           ],
       },
-      Messages = [new() { Role = Role.User, Content = "Build a DCF valuation model for a SaaS company" }],
+      Messages = [new UserMessageParam { Content = "Build a DCF valuation model for a SaaS company" }],
       Tools = [new CodeExecutionTool20250825()],
   };
 
@@ -3620,7 +3412,7 @@ Then use it with the Excel Skill to create a financial model. Pass the ID of the
 
   // Use with Excel to create financial model
   response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     "claude-opus-5-5",
+  	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 4096,
   	Container: anthropic.MessageCreateParamsContainerUnion{
   		OfContainers: &anthropic.ContainerParams{
@@ -3746,14 +3538,14 @@ Then use it with the Excel Skill to create a financial model. Pass the ID of the
 
 ### Request limits
 
-* **Maximum Skills per request:** 20
+* **Maximum Skills for each request:** 20
 
 * **Maximum Skill upload size:** 30 MB (all files combined, uncompressed)
 
 * **YAML frontmatter requirements:**
 
-  * `name`: Maximum 64 characters, lowercase letters/numbers/hyphens only, no XML tags, no reserved words ("anthropic", "claude")
-  * `description`: Maximum 1024 characters, non-empty, no XML tags
+  * `name`: Maximum 64 characters, lowercase letters/numbers/hyphens only, no XML tags, no reserved words (`anthropic`, `claude`)
+  * `description`: Maximum 1,024 characters, non-empty, no XML tags
 
 ### Environment constraints
 
@@ -3787,7 +3579,7 @@ Combine Skills when tasks involve multiple document types or domains:
 
 The SDK tabs in this section show the `container` value to include in a Messages request. The cURL and CLI tabs show the full request.
 
-**For production:** pin a specific version, so Skill updates never change your deployed behavior. If you omit `version` or set it to `"latest"`, requests use the newest version of the Skill, so a version uploaded by anyone in the [workspace](https://platform.claude.com/docs/en/build-with-claude/skills-guide#workspace-scoped-access) immediately changes what your production agents run. The version ID comes from the create-version response in [Versioning](https://platform.claude.com/docs/en/build-with-claude/skills-guide#versioning) or from the [List Skill Versions API](https://platform.claude.com/docs/en/api/skills/versions/list). The ID is always a string, so quote it in JSON or YAML even when it looks numeric.
+**For production:** pin a specific version, so Skill updates never change your deployed behavior. If you omit `version` or set it to `"latest"`, requests use the newest version of the Skill, so a version uploaded by [anyone in the workspace](https://platform.claude.com/docs/en/build-with-claude/skills-guide#workspace-scoped-access) immediately changes what your production agents run. The version ID comes from the create-version response in [Versioning](https://platform.claude.com/docs/en/build-with-claude/skills-guide#versioning) or from the [List Skill Versions API](https://platform.claude.com/docs/en/api/skills/versions/list). The ID is always a string, so quote it in JSON or YAML even when it looks numeric.
 
 <CodeGroup>
   ```bash cURL
@@ -4092,7 +3884,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
       "tools": [{"type": "code_execution_20250825", "name": "code_execution"}]
     }'
 
-  # Changing the Skills list ([xlsx] vs [xlsx, pptx]) changes the prefix: a cache miss, while an identical list is a cache hit
+  # Changing the Skills list ([xlsx] versus [xlsx, pptx]) changes the prefix: a cache miss, whereas an identical list is a cache hit
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
     -H "anthropic-version: 2023-06-01" \
@@ -4129,7 +3921,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
       name: code_execution
   YAML
 
-  # Changing the Skills list ([xlsx] vs [xlsx, pptx]) changes the prefix: a cache miss, while an identical list is a cache hit
+  # Changing the Skills list ([xlsx] versus [xlsx, pptx]) changes the prefix: a cache miss, whereas an identical list is a cache hit
   ant messages create <<'YAML'
   model: claude-opus-5-5
   max_tokens: 4096
@@ -4164,7 +3956,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
       tools=[{"type": "code_execution_20250825", "name": "code_execution"}],
   )
 
-  # Changing the Skills list ([xlsx] vs [xlsx, pptx]) changes the prefix: a cache miss, while an identical list is a cache hit
+  # Changing the Skills list ([xlsx] versus [xlsx, pptx]) changes the prefix: a cache miss, whereas an identical list is a cache hit
   response2 = client.messages.create(
       model="claude-opus-5-5",
       max_tokens=4096,
@@ -4197,7 +3989,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
     tools: [{ type: "code_execution_20250825", name: "code_execution" }]
   });
 
-  // Changing the Skills list ([xlsx] vs [xlsx, pptx]) changes the prefix: a cache miss, while an identical list is a cache hit
+  // Changing the Skills list ([xlsx] versus [xlsx, pptx]) changes the prefix: a cache miss, whereas an identical list is a cache hit
   const response2 = await client.messages.create({
     model: "claude-opus-5-5",
     max_tokens: 4096,
@@ -4218,7 +4010,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
   // Skills render into the system prompt in a fixed, cache-friendly order
   var parameters1 = new MessageCreateParams
   {
-      Model = "claude-opus-5-5",
+      Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
       Container = new ContainerParams
       {
@@ -4232,17 +4024,17 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
               },
           ],
       },
-      Messages = [new() { Role = Role.User, Content = "Analyze sales data" }],
+      Messages = [new UserMessageParam { Content = "Analyze sales data" }],
       Tools = [new CodeExecutionTool20250825()],
   };
 
   var response1 = await client.Messages.Create(parameters1);
   Console.WriteLine(response1);
 
-  // Different Skill set ([xlsx] vs [xlsx, pptx]) = a different prefix: a cache miss (an identical set is a cache hit)
+  // Changing the Skills list ([xlsx] versus [xlsx, pptx]) changes the prefix: a cache miss, whereas an identical list is a cache hit
   var parameters2 = new MessageCreateParams
   {
-      Model = "claude-opus-5-5",
+      Model = Model.ClaudeOpus5_5,
       MaxTokens = 4096,
       Container = new ContainerParams
       {
@@ -4262,7 +4054,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
               },
           ],
       },
-      Messages = [new() { Role = Role.User, Content = "Create a presentation" }],
+      Messages = [new UserMessageParam { Content = "Create a presentation" }],
       Tools = [new CodeExecutionTool20250825()],
   };
 
@@ -4275,7 +4067,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
 
   // Skills render into the system prompt in a fixed, cache-friendly order
   response1, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     "claude-opus-5-5",
+  	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 4096,
   	Container: anthropic.MessageCreateParamsContainerUnion{
   		OfContainers: &anthropic.ContainerParams{
@@ -4300,9 +4092,9 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
   }
   fmt.Println(response1)
 
-  // Changing the Skills list ([xlsx] vs [xlsx, pptx]) changes the prefix: a cache miss, while an identical list is a cache hit
+  // Changing the Skills list ([xlsx] versus [xlsx, pptx]) changes the prefix: a cache miss, whereas an identical list is a cache hit
   response2, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     "claude-opus-5-5",
+  	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 4096,
   	Container: anthropic.MessageCreateParamsContainerUnion{
   		OfContainers: &anthropic.ContainerParams{
@@ -4361,7 +4153,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
       Message response1 = client.messages().create(params1);
       System.out.println(response1);
 
-      // Changing the Skills list ([xlsx] vs [xlsx, pptx]) changes the prefix: a cache miss, while an identical list is a cache hit
+      // Changing the Skills list ([xlsx] versus [xlsx, pptx]) changes the prefix: a cache miss, whereas an identical list is a cache hit
       MessageCreateParams params2 = MessageCreateParams.builder()
           .model(Model.CLAUDE_OPUS_5_5)
           .maxTokens(4096L)
@@ -4397,7 +4189,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
       messages: [
           ['role' => 'user', 'content' => 'Analyze sales data']
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       container: [
           'skills' => [
               ['type' => 'anthropic', 'skillID' => 'xlsx', 'version' => 'latest']
@@ -4409,13 +4201,13 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
   );
   echo $response1;
 
-  // Changing the Skills list ([xlsx] vs [xlsx, pptx]) changes the prefix: a cache miss, while an identical list is a cache hit
+  // Changing the Skills list ([xlsx] versus [xlsx, pptx]) changes the prefix: a cache miss, whereas an identical list is a cache hit
   $response2 = $client->messages->create(
       maxTokens: 4096,
       messages: [
           ['role' => 'user', 'content' => 'Create a presentation']
       ],
-      model: 'claude-opus-5-5',
+      model: Model::CLAUDE_OPUS_5_5,
       container: [
           'skills' => [
               ['type' => 'anthropic', 'skillID' => 'xlsx', 'version' => 'latest'],
@@ -4434,7 +4226,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
 
   # Skills render into the system prompt in a fixed, cache-friendly order
   response1 = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 4096,
     container: {
       skills: [{ type: "anthropic", skill_id: "xlsx", version: "latest" }]
@@ -4444,9 +4236,9 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
   )
   puts response1
 
-  # Changing the Skills list ([xlsx] vs [xlsx, pptx]) changes the prefix: a cache miss, while an identical list is a cache hit
+  # Changing the Skills list ([xlsx] versus [xlsx, pptx]) changes the prefix: a cache miss, whereas an identical list is a cache hit
   response2 = client.messages.create(
-    model: "claude-opus-5-5",
+    model: Anthropic::Model::CLAUDE_OPUS_5_5,
     max_tokens: 4096,
     container: {
       skills: [
@@ -4461,51 +4253,20 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
   ```
 </CodeGroup>
 
-For best caching performance, keep your Skills list, including its order, consistent across requests. Pinning custom Skill versions also helps: with `"latest"`, publishing a new version can invalidate the cached prefix if it changes the Skill's description.
+For best caching performance, keep your Skills list, including its order, consistent across requests. Pinning custom Skill versions also helps: with `"latest"`, publishing a new version can invalidate the cached prefix if it changes the Skill’s description.
 
 ### Error handling
 
 Handle Skill-related errors gracefully:
 
-<CodeGroup>
-  ```bash cURL
-  # This error-handling flow doesn't translate well to a one-off shell
-  # command; one of the SDK options would be a better fit. A failing request
-  # returns HTTP 400 with an error JSON whose .error.message names the
-  # Skill problem.
-  ```
+<CodeGroup exclude="shell:cURL, shell:CLI">
+  <CodeGroupItem language="cURL">
+    This error-handling flow needs more logic than a single shell command, so use the Claude SDK for it. A request that fails because of a Skill problem returns HTTP 400. The `error.message` field in the JSON response body describes the problem.
+  </CodeGroupItem>
 
-  ```bash CLI
-  if ! RESULT=$(ant messages create \
-    --transform-error error.message \
-    --format-error yaml 2>&1 <<'YAML'
-  model: claude-opus-5-5
-  max_tokens: 4096
-  container:
-    skills:
-      - type: custom
-        skill_id: skill_01AbCdEfGhIjKlMnOpQrStUv
-        version: latest
-  messages:
-    - role: user
-      content: Process data
-  tools:
-    - type: code_execution_20250825
-      name: code_execution
-  YAML
-  ); then
-    case "$RESULT" in
-      *skill*)
-        printf 'Skill error: %s\n' "$RESULT"
-        # Handle skill-specific errors
-        ;;
-      *)
-        printf '%s\n' "$RESULT" >&2
-        exit 1
-        ;;
-    esac
-  fi
-  ```
+  <CodeGroupItem language="CLI">
+    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+  </CodeGroupItem>
 
   ```python Python
   client = anthropic.Anthropic()
@@ -4569,7 +4330,7 @@ Handle Skill-related errors gracefully:
   {
       var parameters = new MessageCreateParams
       {
-          Model = "claude-opus-5-5",
+          Model = Model.ClaudeOpus5_5,
           MaxTokens = 4096,
           Container = new ContainerParams
           {
@@ -4583,7 +4344,7 @@ Handle Skill-related errors gracefully:
                   },
               ],
           },
-          Messages = [new() { Role = Role.User, Content = "Process data" }],
+          Messages = [new UserMessageParam { Content = "Process data" }],
           Tools = [new CodeExecutionTool20250825()],
       };
 
@@ -4600,7 +4361,7 @@ Handle Skill-related errors gracefully:
   client := anthropic.NewClient()
 
   response, err := client.Messages.New(context.TODO(), anthropic.MessageNewParams{
-  	Model:     "claude-opus-5-5",
+  	Model:     anthropic.ModelClaudeOpus5_5,
   	MaxTokens: 4096,
   	Container: anthropic.MessageCreateParamsContainerUnion{
   		OfContainers: &anthropic.ContainerParams{
@@ -4698,7 +4459,7 @@ Handle Skill-related errors gracefully:
       echo $message;
   } catch (BadRequestException $e) {
       if (str_contains($e->getMessage(), 'skill')) {
-          echo "Skill error: " . $e->getMessage();
+          echo 'Skill error: ' . $e->getMessage();
       } else {
           throw $e;
       }
@@ -4750,30 +4511,30 @@ The Skills API is out of beta and needs no beta header. Migrating off `skills-20
 | List responses                  | `{ data, has_more, next_page }`                                                 | `{ data, next_page }`; `limit` from 1 to 1,000 (default 20)                                                                                       |
 | Versions list order             | Oldest first                                                                    | Newest first, default `limit` 20. Page cursors from one shape are not valid on the other.                                                         |
 | Deleting a Skill                | Returns a 400 error while any version exists                                    | Deletes the Skill and all of its versions                                                                                                         |
-| Deleting a Skill's only version | Allowed, leaving a Skill with no versions                                       | Returns a 400 error; upload a replacement version first, or delete the Skill                                                                      |
+| Deleting a Skill’s only version | Allowed, leaving a Skill with no versions                                       | Returns a 400 error; upload a replacement version first, or delete the Skill                                                                      |
 | Upload layout                   | Files must sit inside a top-level directory whose name matches the Skill `name` | `SKILL.md` may sit at the root of the upload; stored paths are the same either way                                                                |
 | Response types                  | `CreateSkillResponse`, `GetSkillResponse`, and one type per operation           | `Skill`, `SkillVersion`, `DeletedSkill`, `DeletedSkillVersion`                                                                                    |
 
 To migrate:
 
-1. **Remove the beta header.** Drop `anthropic-beta: skills-2025-10-02` from your requests. In the SDKs, call `client.skills` instead of `client.beta.skills`; keeping `client.beta.skills` works only on the [SDK releases that no longer send the header](https://platform.claude.com/docs/en/build-with-claude/skills-guide#sdk-beta-namespace). Earlier releases send it from `client.beta.skills` even with no `betas` argument.
-2. **Rename fields** in your code: `display_title` to `display_name`, `latest_version` to `latest_version_id`, and read `source.type` instead of comparing `source` to a string.
-3. **Use version IDs.** Wherever you stored an epoch-microsecond version, store the version's `id` instead, or use `latest`. Skill references in Messages requests accept a version ID, `latest`, or (for Anthropic Skills) the catalog version.
-4. **Review delete calls.** `DELETE /v1/skills/{skill_id}` now removes every version with the Skill. If you relied on the beta's refusal as a safeguard, add your own check.
+1. **Remove the beta header.** Drop `anthropic-beta: skills-2025-10-02` from your requests. With the SDK, call `client.skills` (csharp, go: `client.Skills`; java: `client.skills()`; php: `$client->skills`) instead of `client.beta.skills` (csharp, go: `client.Beta.Skills`; java: `client.beta().skills()`; php: `$client->beta->skills`); keeping `client.beta.skills` (csharp, go: `client.Beta.Skills`; java: `client.beta().skills()`; php: `$client->beta->skills`) works only on the [SDK releases that no longer send the header](https://platform.claude.com/docs/en/build-with-claude/skills-guide#sdk-beta-namespace). Earlier releases send it from `client.beta.skills` (csharp, go: `client.Beta.Skills`; java: `client.beta().skills()`; php: `$client->beta->skills`) even when you pass no beta names.
+2. **Rename fields** in your code: `display_title` to `display_name` and `latest_version` to `latest_version_id`. Read `source.type` instead of comparing `source` to a string.
+3. **Use version IDs.** Wherever you stored an epoch-microsecond version, store the version’s `id` instead, or use `latest`. Skill references in Messages requests accept a version ID, `latest`, or (for Anthropic Skills) the catalog version.
+4. **Review delete calls.** `DELETE /v1/skills/{skill_id}` now deletes every version with the Skill. If you relied on the beta’s refusal as a safeguard, add your own check.
 
 
-  After migrating, `client.skills.delete(skill_id)` and `client.beta.skills.delete(skill_id)` delete the Skill together with all of its versions in one call.
+  After migrating, deleting a Skill through `client.skills` (csharp, go: `client.Skills`; java: `client.skills()`; php: `$client->skills`) or `client.beta.skills` (csharp, go: `client.Beta.Skills`; java: `client.beta().skills()`; php: `$client->beta->skills`) also deletes all of its versions in one call.
 
 
 A Skill whose versions were all deleted under the beta has no current version to return: `GET /v1/skills/{skill_id}` returns a 400 error and the Skill is omitted from list responses until you upload a version to it. You can still delete it.
 
 ### SDK beta namespace
 
-Starting with Python SDK 1.2.0, TypeScript SDK 0.122.0, Go SDK 1.68.0, Java SDK 2.59.0, Ruby SDK 1.67.0, and C# SDK 12.44.0, `client.beta.skills` no longer sends `skills-2025-10-02` and returns the same shapes as `client.skills`, with `Beta`-prefixed type names (`BetaSkill`, `BetaSkillVersion`, `BetaDeletedSkill`, `BetaDeletedSkillVersion`). It accepts a `betas` argument for Skills features that are still in beta. In the beta Messages types, the container Skill reference type is renamed from `BetaSkill` to `BetaContainerSkill` (same fields: `type`, `skill_id`, `version`); `BetaSkill` now names the Skill resource, matching `Skill` and `ContainerSkill` in the non-beta types. Earlier SDK releases are typed to the beta shapes; if you depend on those types, stay on an earlier release until you migrate.
+Starting with Python SDK 1.2.0, TypeScript SDK 0.122.0, Go SDK 1.68.0, Java SDK 2.59.0, PHP SDK 0.45.0, Ruby SDK 1.67.0, and C# SDK 12.44.0, `client.beta.skills` (csharp, go: `client.Beta.Skills`; java: `client.beta().skills()`; php: `$client->beta->skills`) no longer sends `skills-2025-10-02` and returns the same shapes as `client.skills` (csharp, go: `client.Skills`; java: `client.skills()`; php: `$client->skills`), with beta type names (`BetaSkill`, `BetaSkillVersion` (php: `SkillVersion`), `BetaDeletedSkill`, `BetaDeletedSkillVersion` (php: `DeletedSkillVersion`)). It takes beta names through `betas` (csharp, go: `Betas`; java: `.addBeta()`) for Skills features that are in beta. In the beta Messages types, the container Skill reference type is renamed from `BetaSkill` to `BetaContainerSkill` (same fields: `type`, `skill_id`, `version`); `BetaSkill` now names the Skill resource, matching `Skill` and `ContainerSkill` in the non-beta types. Earlier SDK releases are typed to the beta shapes; if you depend on those types, stay on an earlier release until you migrate.
 
 ## Data retention
 
-Agent Skills are not covered by ZDR arrangements. Skill definitions and execution data are retained according to Anthropic's standard data retention policy.
+Agent Skills are not covered by ZDR arrangements. Skill definitions and execution data are retained according to Anthropic’s standard data retention policy.
 
 For ZDR eligibility across all features, see [API and data retention](https://platform.claude.com/docs/en/manage-claude/api-and-data-retention).
 
@@ -4790,6 +4551,6 @@ If your organization has the [Compliance API](https://platform.claude.com/docs/e
     Learn how to write effective Skills that Claude can discover and use successfully.
 
 
-    Run Python and bash code in a sandboxed container to analyze data, generate files, and iterate on solutions.
+    Run Python and Bash code in a sandboxed container to analyze data, generate files, and iterate on solutions.
 
 

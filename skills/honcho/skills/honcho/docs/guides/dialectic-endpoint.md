@@ -22,77 +22,71 @@ This chat interface is exposed via the `chat` endpoint. It accepts a string or a
 
 ## Prerequisites
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  honcho = Honcho()
+honcho = Honcho()
 
-  # Create or get an existing App
-  app = honcho.apps.get_or_create(name="demo-app")
+# Create or get an existing App
+app = honcho.apps.get_or_create(name="demo-app")
 
-  # create or get user
-  user = honcho.apps.users.get_or_create(app_id=app.id, name="demo-user")
+# create or get user
+user = honcho.apps.users.get_or_create(app_id=app.id, name="demo-user")
 
-  # create a new session
-  session = honcho.apps.users.session.create(app_id=app.id, user_id=user.id)
+# create a new session
+session = honcho.apps.users.session.create(app_id=app.id, user_id=user.id)
 
-  # (assuming some messages have been written to Honcho for the deriver to use)
-  ```
+# (assuming some messages have been written to Honcho for the deriver to use)
+```
 
-  ```javascript NodeJS
-  import Honcho from 'honcho-ai';
+```javascript NodeJS theme={null}
+import Honcho from 'honcho-ai';
 
-  const honcho = new Honcho(); // defaults to demo server
+const honcho = new Honcho(); // defaults to demo server
 
-  // Create or get an existing App
-  const app = await honcho.apps.getOrCreate('demo-app');
+// Create or get an existing App
+const app = await honcho.apps.getOrCreate('demo-app');
 
-  // create or get user
-  const user = await honcho.apps.users.getOrCreate(app.id, 'demo-user');
+// create or get user
+const user = await honcho.apps.users.getOrCreate(app.id, 'demo-user');
 
-  // create a new session (need to send empty body because it's a POST request)
-  const session = await honcho.apps.users.sessions.create(app.id, user.id, {});
+// create a new session (need to send empty body because it's a POST request)
+const session = await honcho.apps.users.sessions.create(app.id, user.id, {});
 
-  // (assuming some messages have been written to Honcho for the deriver to use)
-  ```
-</CodeGroup>
+// (assuming some messages have been written to Honcho for the deriver to use)
+```
 
 ## Static Dialectic Call
 
-<CodeGroup>
-  ```python Python
-  query = "What is the user's favorite way of completing the task?"
-  answer = honcho.apps.users.session.chat(app_id=app.id, user_id=user.id, session_id=session.id, queries=query)
-  ```
+```python Python theme={null}
+query = "What is the user's favorite way of completing the task?"
+answer = honcho.apps.users.session.chat(app_id=app.id, user_id=user.id, session_id=session.id, queries=query)
+```
 
-  ```javascript NodeJS
-  const query = 'What is the user's favorite way of completing the task?'
-  const DialecticResponse = await honcho.apps.users.sessions.chat(app.id, user.id, session.id, {
-      queries: query,
-  });
-  ```
-</CodeGroup>
+```javascript NodeJS theme={null}
+const query = 'What is the user's favorite way of completing the task?'
+const DialecticResponse = await honcho.apps.users.sessions.chat(app.id, user.id, session.id, {
+    queries: query,
+});
+```
 
 ## Streaming Dialectic Call
 
-<CodeGroup>
-  ```python Python
-  with honcho.apps.users.sessions.with_streaming_response.stream(
-          app_id=app.id,
-          user_id=user.id,
-          session_id=session.id,
-          queries="What do we know about the user",
-      ) as response:
-          print(response)
-          for line in response.iter_text():
-              print(line)
-              time.sleep(0.025)
-  ```
+```python Python theme={null}
+with honcho.apps.users.sessions.with_streaming_response.stream(
+        app_id=app.id,
+        user_id=user.id,
+        session_id=session.id,
+        queries="What do we know about the user",
+    ) as response:
+        print(response)
+        for line in response.iter_text():
+            print(line)
+            time.sleep(0.025)
+```
 
-  ```javascript NodeJS
-  ```
-</CodeGroup>
+```javascript NodeJS theme={null}
+```
 
 We've designed the Dialectic endpoint to be infinitely flexible. We wrote an incomplete list of ideas on how to use it on our blog [here](https://blog.plasticlabs.ai/blog/Introducing-Honcho's-Dialectic-API#how-it-works).
 

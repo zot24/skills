@@ -6,9 +6,9 @@
 
 # Get Crawl Status
 
-
-  `total` counts completed, active, queued, and backlogged pages and excludes failed ones, so `completed == total` on a finished crawl does not mean every discovered page succeeded. Pair the counters with [Get Crawl Errors](/api-reference/endpoint/crawl-get-errors) to see pages that were attempted but not returned, and see [Execution and result accounting](/features/crawl#execution-and-result-accounting) for how to read them together and when to stop paging with `next`.
-
+> [!NOTE]
+>
+> `total` counts completed, active, queued, and backlogged pages and excludes failed ones, so `completed == total` on a finished crawl does not mean every discovered page succeeded. Pair the counters with [Get Crawl Errors](https://docs.firecrawl.dev/api-reference/endpoint/crawl-get-errors.md) to see pages that were attempted but not returned, and see [Execution and result accounting](https://docs.firecrawl.dev/features/crawl.md#execution-and-result-accounting) for how to read them together and when to stop paging with `next`.
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
 
@@ -303,12 +303,13 @@ components:
                       Description extracted from the page, can be a string or
                       array of strings
                   language:
-                    oneOf:
+                    anyOf:
                       - type: string
+                        nullable: true
                       - type: array
                         items:
                           type: string
-                    nullable: true
+                        nullable: true
                     description: >-
                       Language extracted from the page, can be a string or array
                       of strings

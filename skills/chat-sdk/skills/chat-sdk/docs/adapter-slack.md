@@ -236,11 +236,13 @@ await slackAdapter.withBotToken(
     const thread = bot.thread("slack:C12345:1234567890.123456");
     await thread.post("Hello from a cron job!");
   },
-  { installationId: teamId }
+  { installationId: teamId, botUserId: install.botUserId }
 );
 ```
 
 `withBotToken` uses `AsyncLocalStorage`, so concurrent calls with different tokens stay isolated. In multi-workspace deployments, pass `installationId` so per-user caches are scoped to that installation and don't bleed across tenants. `installationId` is the key the installation was stored under: the `team_id`, or the `enterprise_id` for org-wide installs.
+
+Also pass the installation's `botUserId`. A multi-workspace adapter has no fixed bot user ID, so without it `slackAdapter.botUserId` is `undefined` inside the callback and the bot's own messages, such as those returned by `fetchMessages`, have `author.isMe` set to `false`.
 
 Message deduplication, locks, queues, concurrency limits, and turn cancellation are scoped to the resolved installation. An org-wide installation shares one scope across its workspaces, because a single token covers all of them. Two installations in the same Slack Connect channel use separate queues and cannot cancel each other's turns. Public thread IDs stay unchanged, and channel members still include external users. This does not establish that recipients are trusted or isolate subscription, thread state, or history keys.
 
@@ -641,6 +643,12 @@ await thread.post(
 
 Charts that violate Slack's constraints (50-character title, 12 segments/series, 20 categories, 20-character labels, one data point per category, at most 2 charts per message) fall back to a text rendering of the data instead of being rejected by the Slack API.
 
+## Incoming message formatting
+
+Bulleted and numbered lists created in Slack's composer become nested mdast `list` nodes in `message.formatted`. In `message.text`, list items are separated by newlines without bullet markers. Literal list text such as `---` and `[x]` stays literal, and paragraphs in subsequent rich text blocks stay outside the list.
+
+If a message with a list contains unsupported rich text elements, such as a `message_mention`, the adapter uses Slack's `event.text` fallback for the body. This preserves the fallback's content, but list structure is unavailable for those messages.
+
 ## Inbound attachments
 
 Incoming file attachments expose a lazy `fetchData()`. Downloads go through a guarded fetcher that limits responses to 25 MB, times out after 30 seconds, and, with the default transport, refuses private and internal addresses (including after redirects). The bot token is sent only to trusted Slack origins and never follows a redirect to another host. Set `fileTransport` to route downloads through a proxy, or override `createFileTransport()` in a subclass. A custom transport takes over the destination-address policy, so see [Egress proxies](#egress-proxies) for what it must enforce.
@@ -819,6 +827,20 @@ Interaction payloads expose convenience fields from Slack's raw payload:
 
 * `block_actions` includes `actions`, `messageBlocks`, `messagePromptBlock`, `messagePromptText`, `messageTs`, `triggerId`, `responseUrl`, `user`, and `continuation`
 * `view_submission` includes `callbackId`, `privateMetadata`, `values`, `responseUrls`, and `user`
+
+#### Mention detection
+
+Slack sends an `app_mention` event for the bot's `<@U…>` token anywhere in a message's `text`, including inside inline code or a code block, so the event type alone does not show that a user addressed the bot. `isBotMention` makes the same decision the adapter uses for `message.isMention`: a mention outside code invokes the bot, and a reference only inside code does not.
+
+```typescript
+import { isBotMention } from "@chat-adapter/slack/webhook";
+
+if (payload.kind === "app_mention" && !isBotMention(payload.raw, botUserId)) {
+  return new Response(null, { status: 200 });
+}
+```
+
+Pass the payload's `raw` event and the bot's own user ID, which [`auth.test`](https://docs.slack.dev/reference/methods/auth.test) returns as `user_id`; any other value throws a `TypeError`. For a `message_changed` event, pass its `message`, which holds the edited content. The function is also exported from `@chat-adapter/slack`. It implements the [`isBotMention` contract](/docs/contributing/building#isbotmention) for adapters.
 
 ### Formatting
 
@@ -1066,7 +1088,7 @@ For freeform answers, use `buildSlackFreeformView` with `openSlackView`, then re
 The low-level Slack subpaths are designed to avoid the full runtime import graph:
 
 * no `chat` import
-* no `@chat-adapter/shared` import
+* no `@chat-adapter/shared` import, except its runtime-free `@chat-adapter/shared/mentions` subpath in `@chat-adapter/slack/webhook`
 * no `@slack/web-api` import
 * no `@slack/socket-mode` import
 

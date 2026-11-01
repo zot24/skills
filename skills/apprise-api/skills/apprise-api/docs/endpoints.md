@@ -57,8 +57,8 @@ Send notifications without using persistent storage.
 
 **Payload Parameters:**
 
-- `urls`: (Required) One or more URLs to send to.
-- `body`: (Required) The message body.
+- `urls`: (Optional) One or more URLs to send to. When omitted, a request with an `X-Apprise-Config-ID` header sends through that saved configuration instead (only its untagged URLs unless a tag is given). Otherwise `APPRISE_STATELESS_URLS` is used.
+- `body`: The message body. Required unless an attachment is sent.
 - `title`: (Optional) The message title.
 - `type`: (Optional) Message type: `info` (default), `success`, `warning`, `failure`.
 - `format`: (Optional) Input format: `text`, `markdown`, or `html`. If omitted entirely, automatic format conversion is skipped unless the server sets `APPRISE_DEFAULT_FORMAT`. Sending it blank or `null` also forces pass-through, even over that server default. Message limits, overflow handling, and service-safe packaging still apply.
@@ -71,6 +71,35 @@ With authentication enabled, an administrator may call `/notify` directly. A con
 When using `Content-Type: application/json`, the payload must be a JSON object.
 Other valid JSON roots, such as arrays, strings, numbers, booleans, and `null`,
 are rejected with HTTP `400`.
+
+### Request Formats
+
+`/notify/` and `/notify/{KEY}` read the request body according to its `Content-Type`:
+
+| Content-Type                        | How the body is read                               |
+| :---------------------------------- | :------------------------------------------------- |
+| `application/json`                  | A JSON object holding the payload parameters above |
+| `application/x-www-form-urlencoded` | Form fields with the same names                    |
+| `multipart/form-data`               | Form fields, plus file uploads in `attach`         |
+| `text/plain`                        | The whole body is the message, sent as text        |
+| `text/html`                         | The whole body is the message, sent as HTML        |
+| `text/markdown`                     | The whole body is the message, sent as Markdown    |
+| Anything else, or none              | Read as form fields, as in earlier releases        |
+
+A plain text body is decoded with the `charset` in its `Content-Type` (UTF-8 by default). `?format=` overrides the format its `Content-Type` sets. Payload mapping (`?:field=`) does not apply to a raw text body.
+
+### Notification Headers
+
+These headers work with every supported request format on both notification endpoints:
+
+| Header               | Sets                                               | Example                |
+| :------------------- | :------------------------------------------------- | :--------------------- |
+| `X-Apprise-Title`    | The title                                          | `Deployment Status`    |
+| `X-Apprise-Type`     | The type                                           | `success`              |
+| `X-Apprise-Tag`      | The tag expression                                 | `devops, admin`        |
+| `X-Apprise-Template` | Template values, as URL-encoded `name=value` pairs | `api_key=abc&room=ops` |
+
+A header is used only when the payload leaves that field out, and it wins over the query string. See [Field Priority](/api/usage/#field-priority) for the full order, and [Examples](/api/usage/#examples) for each way of sending.
 
 ## Attachments
 
@@ -91,13 +120,13 @@ Filename resolution follows this priority order:
 3. Fallback: `attachment.001`, `attachment.002`, ... when no name can be determined.
 
 ```text
-# Filename resolved from URL path: photo.jpg
+# Saved as photo.jpg (taken from the URL path)
 https://example.com/images/photo.jpg
 
-# Filename resolved from URL path: abc123
+# Saved as abc123 (taken from the URL path)
 https://example.com/thumbnails/abc123
 
-# Filename forced via ?name=: thumbnail.jpg
+# Saved as thumbnail.jpg (set by ?name=)
 https://example.com/thumbnails/abc123?name=thumbnail.jpg
 ```
 
@@ -126,7 +155,7 @@ All endpoints in this section are unavailable when `APPRISE_STATEFUL_MODE=disabl
 | `/del/{KEY}`       | `POST`   | Removes a configuration, in one of two ways. Called by an administrator, it removes the content and the configuration's login. Called with the configuration's own login, it only clears the content and keeps the login.                                                                                                                                                    |
 | `/move/{KEY}`      | `POST`   | Moves a configuration to a new Config ID. Payload: `to` (required).                                                                                                                                                                                                                                                                                                          |
 | `/get/{KEY}`       | `POST`   | Returns a configuration. Alias: `/cfg/{KEY}`.                                                                                                                                                                                                                                                                                                                                |
-| `/notify/{KEY}`    | `POST`   | Sends through the saved configuration. Accepts an optional `template` object (or `template[name]` form fields) for configurations using `${NAME}`. `locked` and `public` require a specific tag; `disabled` is administrator-only.                                                                                                                                           |
+| `/notify/{KEY}`    | `POST`   | Sends through the saved configuration. Accepts the same [request formats](#request-formats) and [headers](#notification-headers) as `/notify/`, plus an optional `template` object (or `template[name]` form fields) for configurations using `${NAME}`. `locked` and `public` require a specific tag; `disabled` is administrator-only.                                     |
 | `/json/urls/{KEY}` | `GET`    | Returns saved URLs and tags. Each URL lists its template names. With `privacy=0`, each name carries its configuration default (or `null`). With `privacy=1`, URL secrets are hidden and every name is `null`. Server environment values are never returned. With `APPRISE_CONFIG_LOCK=yes`, global administrator credentials are required and every template name is `null`. |
 | `/status/{KEY}`    | `GET`    | Returns status after authentication. `config_lock` reports whether this caller may view configuration content.                                                                                                                                                                                                                                                               |
 | `/qr/{KEY}`        | `GET`    | Returns the password-safe `apprise://` or `apprises://` URL used to add the configuration to Apprise Mobile.                                                                                                                                                                                                                                                                 |

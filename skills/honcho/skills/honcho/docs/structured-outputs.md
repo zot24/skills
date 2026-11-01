@@ -8,194 +8,186 @@
 
 > Get chat endpoint answers as typed, machine-readable JSON
 
-By default, the [chat endpoint](/docs/v3/documentation/features/chat) returns a free-form natural language answer. When your application needs machine-readable output, parsing that string yourself can be fragile and model-dependent. In this case you can use structured Dialectic outputs: pass a schema with your query, and the answer is guaranteed to conform to it. The agent still runs its full reasoning loop and only the final synthesized answer is formatted to your schema.
+By default, the [chat endpoint](https://honcho.dev/docs/v3/documentation/features/chat.md) returns a free-form natural language answer. When your application needs machine-readable output, parsing that string yourself can be fragile and model-dependent. In this case you can use structured Dialectic outputs: pass a schema with your query, and the answer is guaranteed to conform to it. The agent still runs its full reasoning loop and only the final synthesized answer is formatted to your schema.
 
 ## Basic Usage
 
 Pass a Pydantic model (Python) or Zod schema (TypeScript) as `response_format`, and the SDK returns a parsed, typed instance:
 
-<CodeGroup>
-  ```python Python
-  from typing import Literal
-  from pydantic import BaseModel, Field
-  from honcho import Honcho
+```python Python theme={null}
+from typing import Literal
+from pydantic import BaseModel, Field
+from honcho import Honcho
 
-  class FoodPreference(BaseModel):
-      food: str
-      sentiment: Literal["loves", "likes", "neutral", "dislikes", "hates"]
-      confidence: float = Field(description="0-1, how certain the evidence is")
+class FoodPreference(BaseModel):
+    food: str
+    sentiment: Literal["loves", "likes", "neutral", "dislikes", "hates"]
+    confidence: float = Field(description="0-1, how certain the evidence is")
 
-  class FoodPreferences(BaseModel):
-      preferences: list[FoodPreference]
-      summary: str
+class FoodPreferences(BaseModel):
+    preferences: list[FoodPreference]
+    summary: str
 
-  honcho = Honcho()
-  peer = honcho.peer("user-123")
+honcho = Honcho()
+peer = honcho.peer("user-123")
 
-  result = peer.chat(
-      "What are this user's top 3 food preferences?",
-      response_format=FoodPreferences,
-  )
-
-  # result is a FoodPreferences instance (or None if no relevant information)
-  if result:
-      for pref in result.preferences:
-          print(f"{pref.food}: {pref.sentiment} ({pref.confidence})")
-  ```
-
-  ```typescript TypeScript
-  import { z } from 'zod';
-  import { Honcho } from '@honcho-ai/sdk';
-
-  const FoodPreferences = z.object({
-    preferences: z.array(z.object({
-      food: z.string(),
-      sentiment: z.enum(["loves", "likes", "neutral", "dislikes", "hates"]),
-      confidence: z.number(),
-    })),
-    summary: z.string(),
-  });
-
-  const honcho = new Honcho({});
-  const peer = await honcho.peer("user-123");
-
-  const result = await peer.chat(
+result = peer.chat(
     "What are this user's top 3 food preferences?",
-    { responseFormat: FoodPreferences },
-  );
+    response_format=FoodPreferences,
+)
 
-  // result is typed as z.infer<typeof FoodPreferences> (or null)
-  if (result) {
-    console.log(result.summary);
-  }
-  ```
-</CodeGroup>
+# result is a FoodPreferences instance (or None if no relevant information)
+if result:
+    for pref in result.preferences:
+        print(f"{pref.food}: {pref.sentiment} ({pref.confidence})")
+```
+
+```typescript TypeScript theme={null}
+import { z } from 'zod';
+import { Honcho } from '@honcho-ai/sdk';
+
+const FoodPreferences = z.object({
+  preferences: z.array(z.object({
+    food: z.string(),
+    sentiment: z.enum(["loves", "likes", "neutral", "dislikes", "hates"]),
+    confidence: z.number(),
+  })),
+  summary: z.string(),
+});
+
+const honcho = new Honcho({});
+const peer = await honcho.peer("user-123");
+
+const result = await peer.chat(
+  "What are this user's top 3 food preferences?",
+  { responseFormat: FoodPreferences },
+);
+
+// result is typed as z.infer<typeof FoodPreferences> (or null)
+if (result) {
+  console.log(result.summary);
+}
+```
 
 ## Using a Raw JSON Schema
 
 You can also pass a plain JSON Schema object instead of a Pydantic/Zod schema. In that case the SDK returns the answer as a JSON **string** and leaves parsing to you. This is also the shape the REST API accepts directly:
 
-<CodeGroup>
-  ```python Python
-  result = peer.chat(
-      "What are this user's food preferences?",
-      response_format={
-          "type": "object",
-          "properties": {
-              "foods": {"type": "array", "items": {"type": "string"}},
-          },
-          "required": ["foods"],
-      },
-  )
-  # result is a JSON string, e.g. '{"foods": ["dark roast coffee", "sushi"]}'
-  ```
-
-  ```bash cURL
-  curl -X POST "$HONCHO_URL/v3/workspaces/my-app/peers/user-123/chat" \
-    -H "Authorization: Bearer $HONCHO_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "query": "What are this user'\''s food preferences?",
-      "response_format": {
+```python Python theme={null}
+result = peer.chat(
+    "What are this user's food preferences?",
+    response_format={
         "type": "object",
         "properties": {
-          "foods": { "type": "array", "items": { "type": "string" } }
+            "foods": {"type": "array", "items": {"type": "string"}},
         },
-        "required": ["foods"]
-      }
-    }'
-  ```
-</CodeGroup>
+        "required": ["foods"],
+    },
+)
+# result is a JSON string, e.g. '{"foods": ["dark roast coffee", "sushi"]}'
+```
+
+```bash cURL theme={null}
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/peers/user-123/chat" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "What are this user'\''s food preferences?",
+    "response_format": {
+      "type": "object",
+      "properties": {
+        "foods": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["foods"]
+    }
+  }'
+```
 
 At the API level, `content` in the response is always a string. When `response_format` is set, it is a JSON-encoded object conforming to your schema.
 
 ## Workspace Chat
 
-`response_format` is accepted on [workspace chat](/docs/v3/documentation/features/chat#workspace-chat) too. The Python client parses a Pydantic model for you; the TypeScript client takes a JSON Schema object and returns the JSON string.
+`response_format` is accepted on [workspace chat](https://honcho.dev/docs/v3/documentation/features/chat.md#workspace-chat) too. The Python client parses a Pydantic model for you; the TypeScript client takes a JSON Schema object and returns the JSON string.
 
-<CodeGroup>
-  ```python Python
-  class Theme(BaseModel):
-      name: str
-      peers: list[str]
+```python Python theme={null}
+class Theme(BaseModel):
+    name: str
+    peers: list[str]
 
-  class Themes(BaseModel):
-      themes: list[Theme]
+class Themes(BaseModel):
+    themes: list[Theme]
 
-  result = honcho.chat("What themes recur across peers?", response_format=Themes)
-  # result is a Themes instance (or None)
-  ```
+result = honcho.chat("What themes recur across peers?", response_format=Themes)
+# result is a Themes instance (or None)
+```
 
-  ```typescript TypeScript
-  const raw = await honcho.chat("What themes recur across peers?", {
-    responseFormat: {
-      type: "object",
-      properties: {
-        themes: {
-          type: "array",
-          items: {
-            type: "object",
-            properties: { name: { type: "string" }, peers: { type: "array", items: { type: "string" } } },
-            required: ["name", "peers"],
-          },
+```typescript TypeScript theme={null}
+const raw = await honcho.chat("What themes recur across peers?", {
+  responseFormat: {
+    type: "object",
+    properties: {
+      themes: {
+        type: "array",
+        items: {
+          type: "object",
+          properties: { name: { type: "string" }, peers: { type: "array", items: { type: "string" } } },
+          required: ["name", "peers"],
         },
       },
-      required: ["themes"],
     },
-  });
-  const result = raw ? JSON.parse(raw) : null;
-  ```
+    required: ["themes"],
+  },
+});
+const result = raw ? JSON.parse(raw) : null;
+```
 
-  ```bash cURL
-  curl -X POST "$HONCHO_URL/v3/workspaces/my-app/chat" \
-    -H "Authorization: Bearer $HONCHO_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "query": "What themes recur across peers?",
-      "response_format": {
-        "type": "object",
-        "properties": {
-          "themes": { "type": "array", "items": { "type": "string" } }
-        },
-        "required": ["themes"]
-      }
-    }'
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/chat" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "What themes recur across peers?",
+    "response_format": {
+      "type": "object",
+      "properties": {
+        "themes": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": ["themes"]
+    }
+  }'
+```
 
 ## Streaming
 
-`response_format` works with streaming. The stream emits the JSON answer incrementally as raw text chunks; the accumulated text is a valid JSON string once the stream completes. To enable streaming the SDKs cannot parse streamed responses for you, you parse the final string yourself:
+`response_format` works with streaming. The stream emits the JSON answer as raw text chunks (usually one); the accumulated text is a valid JSON string once the stream completes. To enable streaming the SDKs cannot parse streamed responses for you, you parse the final string yourself:
 
-<CodeGroup>
-  ```python Python
-  response_stream = peer.chat(
-      "What are this user's food preferences?",
-      stream=True,
-      response_format=FoodPreferences,
-  )
-
-  chunks = []
-  for chunk in response_stream.iter_text():
-      chunks.append(chunk)
-
-  result = FoodPreferences.model_validate_json("".join(chunks))
-  ```
-
-  ```typescript TypeScript
-  const responseStream = await peer.chat(
+```python Python theme={null}
+response_stream = peer.chat(
     "What are this user's food preferences?",
-    { stream: true, responseFormat: FoodPreferences },
-  );
+    stream=True,
+    response_format=FoodPreferences,
+)
 
-  let text = "";
-  for await (const chunk of responseStream.iter_text()) {
-    text += chunk;
-  }
+chunks = []
+for chunk in response_stream.iter_text():
+    chunks.append(chunk)
 
-  const result = FoodPreferences.parse(JSON.parse(text));
-  ```
-</CodeGroup>
+result = FoodPreferences.model_validate_json("".join(chunks))
+```
+
+```typescript TypeScript theme={null}
+const responseStream = await peer.chat(
+  "What are this user's food preferences?",
+  { stream: true, responseFormat: FoodPreferences },
+);
+
+let text = "";
+for await (const chunk of responseStream.iter_text()) {
+  text += chunk;
+}
+
+const result = FoodPreferences.parse(JSON.parse(text));
+```
 
 ## Supported Schema Subset
 
@@ -221,12 +213,13 @@ The root of the schema must be `"type": "object"`.
 
 Schemas may nest at most 20 levels deep and contain at most 500 total nodes.
 
+> [!NOTE]
+>
+> Constraint keywords like `minItems`, `maxLength`, `minimum`, `pattern`, and `format` are passed through to the model as hints but are **not enforced server-side**. If you need hard guarantees on these, validate the returned object in your application.
 
-  Constraint keywords like `minItems`, `maxLength`, `minimum`, `pattern`, and `format` are passed through to the model as hints but are **not enforced server-side**. If you need hard guarantees on these, validate the returned object in your application.
-
-
-  **Recursive schemas are not supported.** A self-referential Pydantic model (`Node.children: list[Node]`) or a recursive Zod schema (`z.lazy(...)`) produces a recursive `$ref`, which is rejected with a 422 naming the cycle. Restructure recursive shapes as explicit nesting with a fixed depth.
-
+> [!NOTE]
+>
+> **Recursive schemas are not supported.** A self-referential Pydantic model (`Node.children: list[Node]`) or a recursive Zod schema (`z.lazy(...)`) produces a recursive `$ref`, which is rejected with a 422 naming the cycle. Restructure recursive shapes as explicit nesting with a fixed depth.
 
 ## Optional Fields and Unions
 

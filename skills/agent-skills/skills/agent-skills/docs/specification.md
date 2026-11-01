@@ -36,29 +36,29 @@ The `SKILL.md` file must contain YAML frontmatter followed by Markdown content.
 | `metadata` | No | Arbitrary key-value mapping for additional metadata (a map from string keys to string values). |
 | `allowed-tools` | No | Space-separated string of pre-approved tools the skill may use. (Experimental) |
 
-
-  **Minimal example:**
-
-  ```markdown SKILL.md
-  ---
-  name: skill-name
-  description: A description of what this skill does and when to use it.
-  ---
-  ```
-
-  **Example with optional fields:**
-
-  ```markdown SKILL.md
-  ---
-  name: pdf-processing
-  description: Extract PDF text, fill forms, merge files. Use when handling PDFs.
-  license: Apache-2.0
-  metadata:
-    author: example-org
-    version: "1.0"
-  ---
-  ```
-
+> [card]
+>
+> **Minimal example:**
+>
+> ```markdown SKILL.md
+> ---
+> name: skill-name
+> description: A description of what this skill does and when to use it.
+> ---
+> ```
+>
+> **Example with optional fields:**
+>
+> ```markdown SKILL.md
+> ---
+> name: pdf-processing
+> description: Extract PDF text, fill forms, merge files. Use when handling PDFs.
+> license: Apache-2.0
+> metadata:
+>   author: example-org
+>   version: "1.0"
+> ---
+> ```
 
 #### `name` field
 
@@ -70,35 +70,35 @@ The required `name` field:
 * Must not contain consecutive hyphens (`--`)
 * Must match the parent directory name
 
-
-  **Valid examples:**
-
-  ```yaml
-  name: pdf-processing
-  ```
-
-  ```yaml
-  name: data-analysis
-  ```
-
-  ```yaml
-  name: code-review
-  ```
-
-  **Invalid examples:**
-
-  ```yaml
-  name: PDF-Processing  # uppercase not allowed
-  ```
-
-  ```yaml
-  name: -pdf  # cannot start with hyphen
-  ```
-
-  ```yaml
-  name: pdf--processing  # consecutive hyphens not allowed
-  ```
-
+> [card]
+>
+> **Valid examples:**
+>
+> ```yaml
+> name: pdf-processing
+> ```
+>
+> ```yaml
+> name: data-analysis
+> ```
+>
+> ```yaml
+> name: code-review
+> ```
+>
+> **Invalid examples:**
+>
+> ```yaml
+> name: PDF-Processing  # uppercase not allowed
+> ```
+>
+> ```yaml
+> name: -pdf  # cannot start with hyphen
+> ```
+>
+> ```yaml
+> name: pdf--processing  # consecutive hyphens not allowed
+> ```
 
 #### `description` field
 
@@ -108,19 +108,19 @@ The required `description` field:
 * Should describe both what the skill does and when to use it
 * Should include specific keywords that help agents identify relevant tasks
 
-
-  **Good example:**
-
-  ```yaml
-  description: Extracts text and tables from PDF files, fills PDF forms, and merges multiple PDFs. Use when working with PDF documents or when the user mentions PDFs, forms, or document extraction.
-  ```
-
-  **Poor example:**
-
-  ```yaml
-  description: Helps with PDFs.
-  ```
-
+> [card]
+>
+> **Good example:**
+>
+> ```yaml
+> description: Extracts text and tables from PDF files, fills PDF forms, and merges multiple PDFs. Use when working with PDF documents or when the user mentions PDFs, forms, or document extraction.
+> ```
+>
+> **Poor example:**
+>
+> ```yaml
+> description: Helps with PDFs.
+> ```
 
 #### `license` field
 
@@ -129,13 +129,13 @@ The optional `license` field:
 * Specifies the license applied to the skill
 * We recommend keeping it short (either the name of a license or the name of a bundled license file)
 
-
-  **Example:**
-
-  ```yaml
-  license: Proprietary. LICENSE.txt has complete terms
-  ```
-
+> [card]
+>
+> **Example:**
+>
+> ```yaml
+> license: Proprietary. LICENSE.txt has complete terms
+> ```
 
 #### `compatibility` field
 
@@ -145,24 +145,25 @@ The optional `compatibility` field:
 * Should only be included if your skill has specific environment requirements
 * Can indicate intended product, required system packages, network access needs, etc.
 
+> [card]
+>
+> **Examples:**
+>
+> ```yaml
+> compatibility: Designed for Claude Code (or similar products)
+> ```
+>
+> ```yaml
+> compatibility: Requires git, docker, jq, and access to the internet
+> ```
+>
+> ```yaml
+> compatibility: Requires Python 3.14+ and uv
+> ```
 
-  **Examples:**
-
-  ```yaml
-  compatibility: Designed for Claude Code (or similar products)
-  ```
-
-  ```yaml
-  compatibility: Requires git, docker, jq, and access to the internet
-  ```
-
-  ```yaml
-  compatibility: Requires Python 3.14+ and uv
-  ```
-
-
-  Most skills do not need the `compatibility` field.
-
+> [!NOTE]
+>
+> Most skills do not need the `compatibility` field.
 
 #### `metadata` field
 
@@ -172,15 +173,15 @@ The optional `metadata` field:
 * Clients can use this to store additional properties not defined by the Agent Skills spec
 * We recommend making your key names reasonably unique to avoid accidental conflicts
 
-
-  **Example:**
-
-  ```yaml
-  metadata:
-    author: example-org
-    version: "1.0"
-  ```
-
+> [card]
+>
+> **Example:**
+>
+> ```yaml
+> metadata:
+>   author: example-org
+>   version: "1.0"
+> ```
 
 #### `allowed-tools` field
 
@@ -189,13 +190,13 @@ The optional `allowed-tools` field:
 * A space-separated string of tools that are pre-approved to run
 * Experimental. Support for this field may vary between agent implementations
 
-
-  **Example:**
-
-  ```yaml
-  allowed-tools: Bash(git:*) Bash(jq:*) Read
-  ```
-
+> [card]
+>
+> **Example:**
+>
+> ```yaml
+> allowed-tools: Bash(git:*) Bash(jq:*) Read
+> ```
 
 ### Body content
 

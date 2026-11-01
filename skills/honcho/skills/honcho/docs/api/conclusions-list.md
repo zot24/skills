@@ -29,7 +29,7 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.3.0
+  version: 3.5.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -72,6 +72,7 @@ paths:
           required: false
           schema:
             type: integer
+            maximum: 2147483647
             minimum: 1
             description: Page number (offset mode)
             default: 1
@@ -271,6 +272,18 @@ components:
             'deductive', supporting sources for 'inductive', conflicting
             conclusions for 'contradiction'. Empty for 'explicit' conclusions,
             which derive from messages rather than from other conclusions.
+        source_message_ids:
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
+          title: Source Message Ids
+          description: >-
+            IDs of the messages the deriver cited as evidence for an 'explicit'
+            conclusion, in citation order. Evidence may include messages from
+            peers other than the observed one. None for derived levels and for
+            conclusions written before citations were recorded.
         times_derived:
           type: integer
           title: Times Derived

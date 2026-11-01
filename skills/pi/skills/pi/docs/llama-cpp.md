@@ -23,9 +23,31 @@ On this page
 # Local Models with llama.cpp
 
 
-Pi supports the [llama.cpp](https://github.com/ggml-org/llama.cpp) router server. The router discovers multiple GGUF models and loads or unloads them on demand.
+Pi supports the [llama.cpp](https://llama.app) router server. The router discovers multiple GGUF models and loads or unloads them on demand.
 
-Use a current llama.cpp build with router support. Follow the [build instructions](https://github.com/ggml-org/llama.cpp/blob/master/docs/build.md) or install a [prebuilt release](https://github.com/ggml-org/llama.cpp/releases) for your platform.
+
+## Install llama.cpp
+
+<a href="#install-llamacpp" class="heading-anchor" aria-label="Permalink: Install llama.cpp" data-copy="" data-copy-text="https://pi.dev/docs/latest/llama-cpp#install-llamacpp"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Install llama.cpp with the [official installer](https://llama.app/docs/installation):
+
+
+``` shiki
+curl -LsSf https://llama.app/install.sh | sh
+```
+
+
+Verify the installation:
+
+
+``` shiki
+llama cli --version
+```
+
+
+See [llama.app](https://llama.app) for other installation methods, including package managers and building from source.
 
 
 ## Start the router
@@ -33,28 +55,25 @@ Use a current llama.cpp build with router support. Follow the [build instruction
 <a href="#start-the-router" class="heading-anchor" aria-label="Permalink: Start the router" data-copy="" data-copy-text="https://pi.dev/docs/latest/llama-cpp#start-the-router"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Start `llama-server` without `--model` or `-m`. Passing a model starts single-model mode instead of router mode.
+Start `llama serve` without `--model`, `-m`, or `-hf`. Passing a model starts single-model mode instead of router mode. See the [llama.cpp server guide](https://llama.app/docs/serve#serving-multiple-models-router-mode) for router configuration.
 
 
 ``` shiki
-llama-server \
-  --models-dir ~/models \
+llama serve \
   --no-models-autoload \
-  --jinja \
   --host 127.0.0.1 \
   --port 8080 \
-  -ngl 999 \
+  -ngl all \
   -c 32768
 ```
 
 
 Important options:
 
-- `--models-dir ~/models` discovers local GGUF files.
 - `--no-models-autoload` keeps loading explicit through `/llama`.
 - `--jinja` enables compatible chat templates and tool calling.
-- `-ngl 999` offloads as many layers as possible to the GPU.
-- `-c 32768` sets the context window for each loaded model. Omit it to use the model's native context, which may require substantially more memory.
+- `-ngl all` offloads all layers to the GPU. Omit it to use automatic GPU offloading.
+- `-c 32768` sets the context size in tokens. Use `-c 0` for the model's full context window, which may require substantially more memory. Context is shared across parallel server slots.
 
 A single-file model can sit directly in the model directory. Put multimodal and multi-shard models in separate subdirectories:
 
@@ -72,7 +91,7 @@ A single-file model can sit directly in the model directory. Put multimodal and 
 ```
 
 
-Restart the router after manually adding files. For per-model context sizes and other options, use [llama.cpp model presets](https://github.com/ggml-org/llama.cpp/blob/master/tools/server/README.md#model-presets). For settings tuned to a specific NVIDIA GPU and model, see [Run Pi with NVIDIA RTX and llama.cpp](/docs/latest/nvidia-rtx-llama-cpp).
+Restart the router after manually adding files. The router also supports cached models and preset files via `--models-preset`, as described in the [server guide](https://llama.app/docs/serve#serving-multiple-models-router-mode).
 
 
 ## Configure Pi
@@ -102,7 +121,7 @@ pi
 ```
 
 
-If the server uses an API key, start `llama-server` with the matching `--api-key` value. Keep `--host 127.0.0.1` for local-only access.
+If the server uses an API key, start `llama serve` with the matching `--api-key` value. Keep `--host 127.0.0.1` for local-only access.
 
 
 ## Manage models

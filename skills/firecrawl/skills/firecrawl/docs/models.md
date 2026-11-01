@@ -16,9 +16,9 @@ Firecrawl Agent runs on **Spark 2**, the default and only model. It is cheaper a
 | - | - | - |
 | `spark-2` | **Default** | Lowest cost, fastest run time, handles simple lookups through multi-domain research |
 
-
-  **Spark 1 models are deprecated.** The `spark-1-pro` and `spark-1-mini` names remain accepted for backwards compatibility, but every request — with or without the `model` parameter — executes on `spark-2`.
-
+> [!NOTE]
+>
+> **Spark 1 models are deprecated.** The `spark-1-pro` and `spark-1-mini` names remain accepted for backwards compatibility, but every request — with or without the `model` parameter — executes on `spark-2`.
 
 ## Spark 2
 
@@ -35,52 +35,50 @@ Firecrawl Agent runs on **Spark 2**, the default and only model. It is cheaper a
 
 The `model` parameter is optional — every request runs `spark-2`:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  # Spark 2 is the default — every run executes on it
-  result = app.agent(
-      prompt="Find the pricing of Firecrawl",
-      model="spark-2"
-  )
+# Spark 2 is the default — every run executes on it
+result = app.agent(
+    prompt="Find the pricing of Firecrawl",
+    model="spark-2"
+)
 
-  # Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
+# Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
 
-  print(result.data)
-  ```
+print(result.data)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  // Spark 2 is the default — every run executes on it
-  const result = await firecrawl.agent({
-    prompt: "Find the pricing of Firecrawl",
-    model: "spark-2"
-  });
+// Spark 2 is the default — every run executes on it
+const result = await firecrawl.agent({
+  prompt: "Find the pricing of Firecrawl",
+  model: "spark-2"
+});
 
-  // Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
+// Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
 
-  console.log(result.data);
-  ```
+console.log(result.data);
+```
 
-  ```bash cURL
-  # Spark 2 is the default — every run executes on it
-  curl -X POST "https://api.firecrawl.dev/v2/agent" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "prompt": "Find the pricing of Firecrawl",
-      "model": "spark-2"
-    }'
+```bash cURL theme={null}
+# Spark 2 is the default — every run executes on it
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Find the pricing of Firecrawl",
+    "model": "spark-2"
+  }'
 
-  # Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
-  ```
-</CodeGroup>
+# Deprecated: Spark 1 model names are still accepted, but route to "spark-2".
+```
 
 ## Pricing by Model
 
@@ -88,13 +86,13 @@ All models use dynamic, credit-based pricing that scales with task complexity:
 
 * **Spark 2**: Uses substantially fewer credits than the retired Spark 1 models for equivalent tasks
 
-
-  Credit usage varies based on prompt complexity, data processed, and output structure — regardless of model selected.
-
+> [!NOTE]
+>
+> Credit usage varies based on prompt complexity, data processed, and output structure — regardless of model selected.
 
 ## API Reference
 
-See the [Agent API Reference](/api-reference/endpoint/agent) for complete parameter documentation.
+See the [Agent API Reference](https://docs.firecrawl.dev/api-reference/endpoint/agent.md) for complete parameter documentation.
 
 Have questions about which model to use? Email [help@firecrawl.com](mailto:help@firecrawl.com).
 

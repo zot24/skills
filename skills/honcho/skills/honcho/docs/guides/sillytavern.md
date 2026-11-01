@@ -8,6 +8,10 @@
 
 > Add persistent, personalized memory to SillyTavern AI characters with Honcho
 
+> [!WARNING]
+>
+> This extension is no longer maintained. [plastic-labs/sillytavern-honcho](https://github.com/plastic-labs/sillytavern-honcho) was archived on September 11, 2026, gets no further fixes or updates, and has no replacement. The install steps below still install its last version.
+
 Give your SillyTavern characters long-term memory. Honcho remembers who you are, what you've talked about, and how to talk to you -- across sessions, characters, and restarts.
 
 The extension has two parts: a **client extension** (browser) that hooks into SillyTavern events, and a **server plugin** (Node.js) that proxies requests to the Honcho API.
@@ -49,9 +53,9 @@ The Windows installer does steps 1–3 (using a directory junction via `mklink /
 
 ### Step 2: Restart SillyTavern
 
-
-  **Restart is required.** SillyTavern loads server plugins at startup only. After running `install.sh`, stop SillyTavern (⌃C) and start it again. You'll need to restart again whenever `plugin/index.js` changes. Client-side (browser) updates pick up on a hard refresh — no restart needed for those.
-
+> [!NOTE]
+>
+> **Restart is required.** SillyTavern loads server plugins at startup only. After running `install.sh`, stop SillyTavern (⌃C) and start it again. You'll need to restart again whenever `plugin/index.js` changes. Client-side (browser) updates pick up on a hard refresh — no restart needed for those.
 
 ### Step 3: Configure
 
@@ -79,9 +83,9 @@ The **enrichment mode** controls what layers on top of the base context:
 
 Both the context and reasoning layers use stale-while-revalidate with a configurable cadence ("Refresh every N turns" and "Reason every N turns"). After the first turn of a session, there is zero added latency.
 
-
-  **Context only** mode relies on `session.context()`, which is session-scoped — it returns empty output until the session has enough messages for Honcho to derive a representation and summary. For fresh sessions or peers with little history, Reasoning mode is a better default: it queries `peer.chat()` across all of the peer's history, not just the current session.
-
+> [!NOTE]
+>
+> **Context only** mode relies on `session.context()`, which is session-scoped — it returns empty output until the session has enough messages for Honcho to derive a representation and summary. For fresh sessions or peers with little history, Reasoning mode is a better default: it queries `peer.chat()` across all of the peer's history, not just the current session.
 
 ### Tool Call Mode
 
@@ -184,17 +188,21 @@ Nested form (multiple tools sharing the file):
 
 ## Next Steps
 
+> [card] [Install SillyTavern](https://docs.sillytavern.app/installation/)
+>
+> New to SillyTavern? Start here — install guide for macOS, Linux, Windows, Docker.
 
-    New to SillyTavern? Start here — install guide for macOS, Linux, Windows, Docker.
+> [card] [Agent Skill for Setup](https://github.com/plastic-labs/sillytavern-honcho/blob/main/skills/setup/SKILL.md)
+>
+> Agent-assisted install — idempotent, structural patches, end-to-end verification.
 
+> [card] [GitHub Repository](https://github.com/plastic-labs/sillytavern-honcho)
+>
+> Source code and install scripts. Archived and read-only.
 
-    Agent-assisted install — idempotent, structural patches, end-to-end verification.
-
-
-    Source code, issues, and install scripts.
-
-
-    Learn about peers, sessions, and dialectic reasoning.
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Learn about peers, sessions, and dialectic reasoning.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

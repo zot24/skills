@@ -4,21 +4,23 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Honcho Overview: AI memory for agents
+# What is Honcho? Open-source memory for AI agents
 
-> Honcho is open-source AI memory for agents: persistent, reasoning-based memory of users and other peers across sessions, tools and models.
+> Honcho is open-source memory for AI agents. It reasons over conversations to model each user and works with any model or framework. Self-host or use Honcho Cloud.
 
 Honcho is an open source memory library with a managed service for building stateful agents. Use it with any model, framework, or architecture. It enables agents to build and maintain state about any entity--users, agents, groups, ideas, and more. And because it's a continual learning system, it understands entities that change over time. Using Honcho as your memory system will earn your agents higher retention, more trust, and help you build data moats to out-compete incumbents.
 
+> [!NOTE]
+>
+> Honcho has defined the Pareto Frontier of Agent Memory. Watch the [video](https://x.com/honchodotdev/status/2002090546521911703?s=20), check out our [evals page](https://honcho.dev/evals/), and read the [blog post](https://blog.plasticlabs.ai/research/Benchmarking-Honcho) for more detail.
 
-  Honcho has defined the Pareto Frontier of Agent Memory. Watch the [video](https://x.com/honchodotdev/status/2002090546521911703?s=20), check out our [evals page](https://honcho.dev/evals/), and read the [blog post](https://blog.plasticlabs.ai/research/Benchmarking-Honcho) for more detail.
+> [card] [Get an API Key](https://app.honcho.dev)
+>
+> Sign up and start building with Honcho
 
-
-    Sign up and start building with Honcho
-
-
-    Build your first stateful agent in minutes
-
+> [card] [Quickstart](https://honcho.dev/docs/v3/documentation/introduction/quickstart.md)
+>
+> Build your first stateful agent in minutes
 
 ## Why Use Honcho?
 
@@ -42,9 +44,9 @@ Break free from this cycle. Honcho is a general solution to context engineering,
 
 ## How Honcho Works
 
-
-  Honcho is a memory system that reasons. Read more on the approach [here](https://blog.plasticlabs.ai/blog/Memory-as-Reasoning).
-
+> [!NOTE]
+>
+> Honcho is a memory system that reasons. Read more on the approach [here](https://blog.plasticlabs.ai/blog/Memory-as-Reasoning).
 
 Honcho has four storage primitives that work together:
 
@@ -68,9 +70,9 @@ Honcho has four storage primitives that work together:
 * **Sessions** - Interaction threads between peers with temporal boundaries
 * **Messages** - Units of data that trigger reasoning (conversations, events, activity, documents, and more)
 
-When you write messages to Honcho, they're stored and processed in the background. Custom reasoning models perform formal logical [*reasoning*](/docs/v3/documentation/core-concepts/reasoning) to generate conclusions about each peer. These conclusions are stored as [*representations*](/docs/v3/documentation/core-concepts/representation) that you can query to provide rich context for your agents.
+When you write messages to Honcho, they're stored and processed in the background. Custom reasoning models perform formal logical [*reasoning*](https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md) to generate conclusions about each peer. These conclusions are stored as [*representations*](https://honcho.dev/docs/v3/documentation/core-concepts/representation.md) that you can query to provide rich context for your agents.
 
-<img src="https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/architecture.png?fit=max&auto=format&n=Pwe1D9IEDkAtnMKn&q=85&s=8be3896689d78b60a46c501529d32267" alt="Honcho Architecture" width="1203" height="845" data-path="images/architecture.png" />
+![Honcho Architecture](https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/architecture.png?fit=max\&auto=format\&n=Pwe1D9IEDkAtnMKn\&q=85\&s=8be3896689d78b60a46c501529d32267)
 
 The diagram above shows the flow: agents write messages to Honcho, which triggers reasoning that updates what's stored in representations. Developers (or agents) can then query to get additional context for their next response.
 
@@ -88,20 +90,25 @@ We're just scratching the surface. Dive into the quickstart to see Honcho in act
 
 Welcome to Honcho. We're excited to have you at the frontier of AI with us 🫡.
 
+> [card] [Get an API Key](https://app.honcho.dev)
+>
+> Sign up for the Honcho platform and get your API key
 
-    Sign up for the Honcho platform and get your API key
+> [card] [Quickstart](https://honcho.dev/docs/v3/documentation/introduction/quickstart.md)
+>
+> Build your first stateful agent in minutes
 
+> [card] [CLI](https://honcho.dev/docs/v3/documentation/reference/cli.md)
+>
+> Inspect a deployment, or `honcho start --setup` a local stack
 
-    Build your first stateful agent in minutes
+> [card] [Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Deep dive into how Honcho's primitives fit together
 
-
-    Inspect a deployment, or `honcho start --setup` a local stack
-
-
-    Deep dive into how Honcho's primitives fit together
-
-
-    Learn how Honcho reasons about data to build memory
+> [card] [Reasoning](https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md)
+>
+> Learn how Honcho reasons about data to build memory
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

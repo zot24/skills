@@ -6,9 +6,10 @@
 
 ### Primeiros passos
 
-- [Introdução](https://docs.firecrawl.dev/pt-BR/introduction.md): A API de dados da web para agentes de IA. Faça uma busca na web, faça scraping de qualquer página e interaja com ela por meio de uma única API.
+- [Introdução](https://docs.firecrawl.dev/pt-BR/introduction.md): A API de contexto para agentes de IA. Faça uma busca na web, faça scraping de qualquer página e interaja com ela por meio de uma única API.
 - [Firecrawl no ChatGPT e no Codex](https://docs.firecrawl.dev/pt-BR/integrations/chatgpt-codex.md): Faça buscas na web, leia páginas e trabalhe com dados da web em tempo real direto do ChatGPT e do Codex.
 - [Firecrawl no Claude e no Claude Code](https://docs.firecrawl.dev/pt-BR/quickstarts/claude-code.md): Faça buscas na web e leia páginas direto do Claude ou da sua sessão do Claude Code.
+- [Firecrawl no Claude Desktop e no Cowork](https://docs.firecrawl.dev/pt-BR/quickstarts/claude-desktop.md): Conecte o Firecrawl uma única vez e use-o no chat do Claude Desktop, no Cowork e na aba Code.
 - [Pesquisa e scraping na web com MCP no Cursor](https://docs.firecrawl.dev/pt-BR/quickstarts/cursor.md): Adicione scraping e pesquisa na web ao Cursor em 2 minutos
 - [CLI](https://docs.firecrawl.dev/pt-BR/sdks/cli.md): As skills do Firecrawl são uma forma simples de agentes de IA, como Codex, Claude Code, Cursor e OpenCode, usarem o Firecrawl via CLI.
 - [Guia Avançado de Scraping](https://docs.firecrawl.dev/pt-BR/advanced-scraping-guide.md): Configure opções de scraping, ações do navegador, rastreamento, map e o endpoint do agente em toda a API do Firecrawl.
@@ -29,6 +30,7 @@
 #### Enterprise
 
 - [Enterprise](https://docs.firecrawl.dev/pt-BR/enterprise.md): Planos Enterprise, segurança e recursos do Firecrawl em escala
+- [Visão geral de segurança](https://docs.firecrawl.dev/pt-BR/security.md): Como o Firecrawl protege seus dados: retenção zero de dados, DPA, SSO, controles de acesso e residência de dados, tudo em um só lugar para sua avaliação de segurança.
 - [SSO e SCIM](https://docs.firecrawl.dev/pt-BR/features/sso.md): Configure o login único (SSO) e a sincronização de diretório via SCIM para que sua equipe faça login pelo seu provider de identidade e o acesso dos usuários permaneça sincronizado com o seu diretório.
 - [Restrições de IP](https://docs.firecrawl.dev/pt-BR/features/ip-restrictions.md): Restrinja as chaves de API da sua equipe a uma lista de permissões de endereços IP ou intervalos CIDR, para que funcionem apenas em redes aprovadas. Aplicado no servidor.
 - [Restrições de chave](https://docs.firecrawl.dev/pt-BR/features/key-restrictions.md): Restrinja uma chave de API individual a endpoints e formatos de resultado específicos. Aplicado no servidor, sem possibilidade de uma requisição sobrescrever isso.
@@ -47,7 +49,7 @@
 
 #### Scraping
 
-- [Scraping](https://docs.firecrawl.dev/pt-BR/features/scrape.md): Transforme qualquer URL em dados limpos
+- [scraping](https://docs.firecrawl.dev/pt-BR/features/scrape.md): Transforme qualquer URL em Markdown limpo ou dados estruturados
 - [Raspagem mais rápida](https://docs.firecrawl.dev/pt-BR/features/fast-scraping.md): Acelere suas raspagens em 500% com o parâmetro maxAge
 - [Raspagem em lote](https://docs.firecrawl.dev/pt-BR/features/batch-scrape.md): Raspe várias URLs em uma única tarefa em lote
 - [Modo JSON - Resultado Estruturado](https://docs.firecrawl.dev/pt-BR/features/llm-extract.md): Extraia dados estruturados de páginas com LLMs
@@ -88,16 +90,16 @@
 
 - [Node.js](https://docs.firecrawl.dev/pt-BR/quickstarts/nodejs.md): Comece a usar o Firecrawl com Node.js. Faça scraping, realize buscas e interaja com dados da web usando o SDK oficial.
 - [Next.js](https://docs.firecrawl.dev/pt-BR/quickstarts/nextjs.md): Use o Firecrawl com Next.js para fazer scraping, buscar e interagir com dados da web em sua aplicação React.
-- [Express](https://docs.firecrawl.dev/pt-BR/quickstarts/express.md): Use o Firecrawl com Express para criar APIs de scraping e busca na web.
-- [NestJS](https://docs.firecrawl.dev/pt-BR/quickstarts/nestjs.md): Use o Firecrawl com NestJS para criar serviços estruturados de scraping e busca na web.
-- [Fastify](https://docs.firecrawl.dev/pt-BR/quickstarts/fastify.md): Use Firecrawl com Fastify para criar APIs de scraping da web e busca de alto desempenho.
-- [Hono](https://docs.firecrawl.dev/pt-BR/quickstarts/hono.md): Use o Firecrawl com Hono para criar APIs leves de scraping e busca na web que funcionam em qualquer lugar.
-- [Bun](https://docs.firecrawl.dev/pt-BR/quickstarts/bun.md): Use Firecrawl com Bun para criar servidores rápidos de scraping e busca na web.
+- [Express](https://docs.firecrawl.dev/pt-BR/quickstarts/express.md): Use o Firecrawl com Express para criar APIs que buscam, fazem scraping e interagem com a web.
+- [NestJS](https://docs.firecrawl.dev/pt-BR/quickstarts/nestjs.md): Use o Firecrawl com NestJS para criar serviços que pesquisam, fazem scraping e interagem com a web.
+- [Fastify](https://docs.firecrawl.dev/pt-BR/quickstarts/fastify.md): Use Firecrawl com Fastify para criar APIs de alto desempenho que fazem busca e scraping e interagem com a web.
+- [Hono](https://docs.firecrawl.dev/pt-BR/quickstarts/hono.md): Use o Firecrawl com Hono para criar APIs leves que fazem buscas, scraping e interagem com a web, e que funcionam em qualquer lugar.
+- [Bun](https://docs.firecrawl.dev/pt-BR/quickstarts/bun.md): Use Firecrawl com Bun para criar servidores rápidos que fazem busca e scraping e interagem com a web.
 - [Remix](https://docs.firecrawl.dev/pt-BR/quickstarts/remix.md): Use o Firecrawl com Remix para fazer scraping, realizar buscas e interagir com dados da web no seu app React full-stack.
 - [Nuxt](https://docs.firecrawl.dev/pt-BR/quickstarts/nuxt.md): Use o Firecrawl com Nuxt para fazer scraping, pesquisar e interagir com dados da web na sua aplicação Vue.
 - [SvelteKit](https://docs.firecrawl.dev/pt-BR/quickstarts/sveltekit.md): Use o Firecrawl com SvelteKit para fazer scraping, realizar buscas e interagir com dados da web na sua aplicação Svelte.
 - [Astro](https://docs.firecrawl.dev/pt-BR/quickstarts/astro.md): Use o Firecrawl com Astro para fazer scraping, realizar buscas e interagir com dados da web no seu site focado em conteúdo.
-- [Mastra](https://docs.firecrawl.dev/pt-BR/quickstarts/mastra.md): Integre o Firecrawl às ferramentas do Mastra para que seus agentes e fluxos de trabalho possam fazer buscas e scraping de dados da web em tempo real.
+- [Mastra](https://docs.firecrawl.dev/pt-BR/quickstarts/mastra.md): Integre o Firecrawl às ferramentas e aos agentes do Mastra para que eles possam fazer buscas, fazer scraping e interagir com páginas da web em tempo real.
 
 #### Serverless
 
@@ -133,7 +135,7 @@
 #### .NET
 
 - [.NET](https://docs.firecrawl.dev/pt-BR/quickstarts/dotnet.md): Comece a usar o Firecrawl com .NET. Faça scraping, buscas e interaja com dados da web usando a API REST.
-- [ASP.NET Core](https://docs.firecrawl.dev/pt-BR/quickstarts/aspnet-core.md): Use o Firecrawl com ASP.NET Core para realizar buscas, scraping e interagir com dados da web usando a API REST.
+- [ASP.NET Core](https://docs.firecrawl.dev/pt-BR/quickstarts/aspnet-core.md): Use o Firecrawl com ASP.NET Core para realizar buscas, scraping e interagir com a web usando a API REST.
 
 ### Guias para desenvolvedores
 
@@ -146,17 +148,18 @@
 
 #### SDKs e frameworks de LLM
 
-- [OpenAI](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/openai.md): Use o Firecrawl com o OpenAI para web scraping + fluxos de IA
-- [Anthropic](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/anthropic.md): Use o Firecrawl com o Claude para scraping da web + fluxos de IA
-- [Gemini](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/gemini.md): Use o Firecrawl com o Gemini, da Google, para web scraping e fluxos de trabalho de IA
+- [OpenAI](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/openai.md): Use o Firecrawl com o OpenAI para fornecer contexto da web em tempo real a fluxos de trabalho de IA
+- [Anthropic](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/anthropic.md): Use o Firecrawl com o Claude para fornecer contexto da web em tempo real aos fluxos de trabalho de IA
+- [Gemini](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/gemini.md): Use o Firecrawl com o Gemini, da Google, para fornecer contexto da web em tempo real aos fluxos de trabalho de IA
 - [Agent Development Kit (ADK)](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/google-adk.md): Integre o Firecrawl ao ADK do Google usando o MCP para fluxos de trabalho de agentes avançados
+- [Fundamente o Gemini no Vertex AI com a busca do Firecrawl](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/vertex-ai-grounding.md): Implante um pequeno adaptador no Cloud Run para que o Gemini no Vertex AI possa fundamentar suas respostas em resultados de busca do Firecrawl
 - [Vercel AI SDK](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/vercel-ai-sdk.md): Ferramentas Firecrawl para o Vercel AI SDK. Web scraping, busca, interagir e rastreamento para aplicações de IA.
-- [LangChain](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/langchain.md): Use o Firecrawl com o LangChain para web scraping e fluxos de IA
+- [LangChain](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/langchain.md): Use o Firecrawl com o LangChain para dar aos fluxos de trabalho de IA contexto da web em tempo real
 - [LangGraph](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/langgraph.md): Integre o Firecrawl ao LangGraph para criar fluxos de trabalho de agentes
 - [LlamaIndex](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/llamaindex.md): Use o Firecrawl com o LlamaIndex em aplicações de RAG
 - [Mastra](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/mastra.md): Use o Firecrawl com o Mastra para criar workflows de IA
 - [ElevenAgents](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/elevenagents.md): Dê aos agentes de voz e chat do ElevenLabs acesso à web em tempo real com o Firecrawl
-- [Jev](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/jev.md): Use o Firecrawl com o Jev da TypeSafe para tomar decisões rápidas e estruturadas com base em dados da web
+- [Jev](https://docs.firecrawl.dev/pt-BR/developer-guides/llm-sdks-and-frameworks/jev.md): Use o Firecrawl para fazer busca e scraping na web e obter um contexto limpo; depois, faça perguntas estruturadas sobre esse conteúdo ao Jev, da TypeSafe, para tomar decisões rápidas
 
 #### Guias práticos
 
@@ -181,9 +184,9 @@
 - [Zapier](https://docs.firecrawl.dev/pt-BR/integrations/zapier.md): Tutoriais oficiais e modelos de integração do Zapier para automação com o Firecrawl
 - [Make](https://docs.firecrawl.dev/pt-BR/integrations/make.md): Integração oficial e automação de fluxos de trabalho do Firecrawl para o Make
 - [n8n](https://docs.firecrawl.dev/pt-BR/integrations/n8n.md): Aprenda a usar o Firecrawl com o n8n para dar aos seus fluxos de trabalho de IA recursos de busca, scraping e interação com a web.
+- [Tines](https://docs.firecrawl.dev/pt-BR/integrations/tines.md): Chame busca, scraping, extração, map e rastreamento do Firecrawl a partir de stories do Tines com actions HTTP Request
 - [Pipedream](https://docs.firecrawl.dev/pt-BR/integrations/pipedream.md): Adicione etapas de scraping, rastreamento, busca, mapeamento e extração do Firecrawl aos fluxos de trabalho do Pipedream
 - [Composio](https://docs.firecrawl.dev/pt-BR/integrations/composio.md): Use as ferramentas do Firecrawl em fluxos de trabalho de agentes do Composio
-- [SourceSync.ai](https://docs.firecrawl.dev/pt-BR/integrations/sourcesyncai.md): O Firecrawl integra-se ao SourceSync.ai para recursos de raspagem da web.
 
 ### Webhooks
 
@@ -194,7 +197,7 @@
 
 ### Casos de uso
 
-- [Casos de uso](https://docs.firecrawl.dev/pt-BR/use-cases/overview.md): Transforme dados da web em recursos poderosos para seus aplicativos
+- [Casos de uso](https://docs.firecrawl.dev/pt-BR/use-cases/overview.md): Dê aos seus aplicativos e agentes de IA contexto da web em tempo real
 - [Plataformas de IA](https://docs.firecrawl.dev/pt-BR/use-cases/ai-platforms.md): Potencialize assistentes de IA e permita que clientes criem apps de IA
 - [Enriquecimento de Leads](https://docs.firecrawl.dev/pt-BR/use-cases/lead-enrichment.md): Extraia e filtre leads de sites para impulsionar seu pipeline de vendas
 - [Plataformas de SEO](https://docs.firecrawl.dev/pt-BR/use-cases/seo-platforms.md): Otimize sites para assistentes de IA e mecanismos de busca

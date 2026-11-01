@@ -38,9 +38,9 @@ source ~/.zshrc  # or ~/.bashrc
 
 ### Step 3: Install the Plugin
 
-
-  This plugin requires [Node.js](https://nodejs.org) on your PATH.
-
+> [!NOTE]
+>
+> This plugin requires [Node.js](https://nodejs.org) on your PATH.
 
 Open Claude Code and run:
 
@@ -425,9 +425,9 @@ Get an API key from [app.honcho.dev](https://app.honcho.dev).
 
 ### Step 2: Configure Claude Desktop
 
-
-  This requires [Node.js](https://nodejs.org). Claude Desktop or Claude Code can help you install it!
-
+> [!NOTE]
+>
+> This requires [Node.js](https://nodejs.org). Claude Desktop or Claude Code can help you install it!
 
 Navigate to Claude Desktop's custom MCP servers settings and add Honcho:
 
@@ -442,18 +442,19 @@ Navigate to Claude Desktop's custom MCP servers settings and add Honcho:
         "--header",
         "Authorization:${AUTH_HEADER}",
         "--header",
-        "X-Honcho-User-Name:${USER_NAME}"
+        "X-Honcho-Plugin:claude-desktop"
       ],
       "env": {
-        "AUTH_HEADER": "Bearer <your-honcho-key>",
-        "USER_NAME": "<your-name>"
+        "AUTH_HEADER": "Bearer <your-honcho-key>"
       }
     }
   }
 }
 ```
 
-**Optional customization** — You can also set a custom assistant name and workspace ID:
+Peers are set per tool call: every memory tool takes a `peer_id`, so tell Claude your name in the project instructions. The `X-Honcho-Plugin` header only labels this connection in usage attribution and is optional.
+
+**Optional customization** — pin a default workspace so tool calls can omit `workspace_id`:
 
 ```json theme={null}
 {
@@ -466,17 +467,13 @@ Navigate to Claude Desktop's custom MCP servers settings and add Honcho:
         "--header",
         "Authorization:${AUTH_HEADER}",
         "--header",
-        "X-Honcho-User-Name:${USER_NAME}",
-        "--header",
-        "X-Honcho-Assistant-Name:${ASSISTANT_NAME}",
+        "X-Honcho-Plugin:claude-desktop",
         "--header",
         "X-Honcho-Workspace-ID:${WORKSPACE_ID}"
       ],
       "env": {
         "AUTH_HEADER": "Bearer <your-honcho-key>",
-        "USER_NAME": "<your-name>",
-        "ASSISTANT_NAME": "<your-assistant-name>",
-        "WORKSPACE_ID": "<your-custom-workspace-id>"
+        "WORKSPACE_ID": "<your-workspace-id>"
       }
     }
   }
@@ -497,11 +494,13 @@ Claude will then query for insights before responding and write your messages to
 
 ## Next Steps
 
+> [card] [GitHub Repository](https://github.com/plastic-labs/claude-honcho)
+>
+> Source code, issues, and README.
 
-    Source code, issues, and README.
-
-
-    Learn about peers, sessions, and dialectic reasoning.
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Learn about peers, sessions, and dialectic reasoning.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

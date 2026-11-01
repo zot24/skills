@@ -12,9 +12,9 @@ Turn any e-commerce website into structured product data. Firecrawl extracts pri
 
 ## Start with a Template
 
-
-  Migrate product catalogs and e-commerce data between platforms
-
+> [card] [Firecrawl Migrator](https://github.com/firecrawl/firecrawl-migrator)
+>
+> Migrate product catalogs and e-commerce data between platforms
 
 ## What You Can Extract
 
@@ -25,40 +25,45 @@ Turn any e-commerce website into structured product data. Firecrawl extracts pri
 
 ## Use Cases in Action
 
+> [card]
+>
+> **Price Monitoring**
+>
+> Track competitor pricing across multiple e-commerce sites, receive alerts on price changes, and optimize your pricing strategy based on real-time market data.
 
-    **Price Monitoring**
-
-    Track competitor pricing across multiple e-commerce sites, receive alerts on price changes, and optimize your pricing strategy based on real-time market data.
-
-
-    **Catalog Migration**
-
-    Seamlessly migrate thousands of products between e-commerce platforms, preserving all product data, variants, images, and metadata.
-
+> [card]
+>
+> **Catalog Migration**
+>
+> Seamlessly migrate thousands of products between e-commerce platforms, preserving all product data, variants, images, and metadata.
 
 ## FAQs
 
+> [accordion] How can I track competitor pricing changes?
+>
+> Build a monitoring system using Firecrawl's API to extract prices at regular intervals. Compare extracted data over time to identify pricing trends, promotions, and competitive positioning.
 
-    Build a monitoring system using Firecrawl's API to extract prices at regular intervals. Compare extracted data over time to identify pricing trends, promotions, and competitive positioning.
+> [accordion] Can I extract product variants (size, color, etc.)?
+>
+> Yes, Firecrawl can extract all product variants including size, color, and other options. Structure the data with custom schemas to capture all variant information.
 
+> [accordion] How do I handle dynamic pricing or user-specific prices?
+>
+> For dynamic pricing, you can use Firecrawl's JavaScript rendering to capture prices after they load. For user-specific pricing, configure authentication headers in your requests.
 
-    Yes, Firecrawl can extract all product variants including size, color, and other options. Structure the data with custom schemas to capture all variant information.
+> [accordion] Can I extract data from different e-commerce platforms?
+>
+> Yes. Firecrawl can extract data from any publicly accessible e-commerce website. Users successfully extract from Shopify, WooCommerce, Magento, BigCommerce, and custom-built stores.
 
-
-    For dynamic pricing, you can use Firecrawl's JavaScript rendering to capture prices after they load. For user-specific pricing, configure authentication headers in your requests.
-
-
-    Yes. Firecrawl can extract data from any publicly accessible e-commerce website. Users successfully extract from Shopify, WooCommerce, Magento, BigCommerce, and custom-built stores.
-
-
-    Yes. Firecrawl can navigate through paginated product listings and handle infinite scroll mechanisms to extract complete product catalogs, ensuring no products are missed during extraction.
-
+> [accordion] Can Firecrawl handle pagination and infinite scroll?
+>
+> Yes. Firecrawl can navigate through paginated product listings and handle infinite scroll mechanisms to extract complete product catalogs, ensuring no products are missed during extraction.
 
 ## Related Use Cases
 
-* [Lead Enrichment](/use-cases/lead-enrichment) - Enrich B2B e-commerce leads
-* [Competitive Intelligence](/use-cases/competitive-intelligence) - Track competitor strategies
-* [Data Migration](/use-cases/data-migration) - Migrate between platforms
+* [Lead Enrichment](https://docs.firecrawl.dev/use-cases/lead-enrichment.md) - Enrich B2B e-commerce leads
+* [Competitive Intelligence](https://docs.firecrawl.dev/use-cases/competitive-intelligence.md) - Track competitor strategies
+* [Data Migration](https://docs.firecrawl.dev/use-cases/data-migration.md) - Migrate between platforms
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

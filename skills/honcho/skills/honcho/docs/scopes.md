@@ -51,12 +51,12 @@ graph TB
 * **An unscoped request still sees everything.** A scope constrains the requests
   that name it; it does not hide the sessions from requests that don't.
 
-
-  Passing a scope option with a workspace/admin key is cooperative filtering.
-  A named-scope key enforces the boundary on the server, even when the caller
-  omits the option. Existing admin, workspace, peer, and session keys keep their
-  authorization behavior; they do not need to be replaced.
-
+> [!WARNING]
+>
+> Passing a scope option with a workspace/admin key is cooperative filtering.
+> A named-scope key enforces the boundary on the server, even when the caller
+> omits the option. Existing admin, workspace, peer, and session keys keep their
+> authorization behavior; they do not need to be replaced.
 
 ## Named-scope API keys
 
@@ -81,7 +81,7 @@ uv run python scripts/generate_jwt.py --workspace company --scope support --expi
 ```
 
 These are core Honcho JWTs. Honcho Cloud's managed `hch-` keys require separate
-Groudon gateway support for named-scope grants; do not assume a core JWT can be
+gateway support for named-scope grants; do not assume a core JWT can be
 used at `api.honcho.dev` or that the managed key endpoint preserves `scope_id`.
 Use an instance running this core implementation directly until managed support
 is available. Upgrade **every** API replica before issuing scope keys. Older
@@ -200,102 +200,115 @@ answer = user.chat("What did they say?", scope=["therapy", "intake"])
 
 Reach for this when the set of sessions is decided per-request, or when you want
 a quick boundary without provisioning a scope. See
-[Scoping Recall to Sessions](/docs/v3/documentation/features/advanced/using-filters#scoping-recall-to-sessions)
+[Scoping Recall to Sessions](https://honcho.dev/docs/v3/documentation/features/advanced/using-filters.md#scoping-recall-to-sessions)
 for the full allowlist rules.
 
-
-  A list of scopes is the allowlist arm, not "several named scopes at once". It
-  gives you the union of their *sessions*, at explicit-only depth — it does not
-  give you the union of their reasoned views. If you need depth, query one scope.
-
+> [!NOTE]
+>
+> A list of scopes is the allowlist arm, not "several named scopes at once". It
+> gives you the union of their *sessions*, at explicit-only depth — it does not
+> give you the union of their reasoned views. If you need depth, query one scope.
 
 ## Creating a Scope and Managing Membership
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  honcho = Honcho(workspace_id="my-app")
+honcho = Honcho(workspace_id="my-app")
 
-  # Get or create — idempotent; passing metadata updates the existing scope
-  therapy = honcho.scope("therapy")
+# Get or create — idempotent; passing metadata updates the existing scope
+therapy = honcho.scope("therapy")
 
-  # Look up without creating — raises NotFoundError if the scope doesn't exist
-  existing = honcho.get_scope("therapy")
+# Look up without creating — raises NotFoundError if the scope doesn't exist
+existing = honcho.get_scope("therapy")
 
-  # Add existing sessions (max 100 per call)
-  therapy.add_sessions(["therapy-session-1", "therapy-session-2"])
+# Add existing sessions (max 100 per call)
+therapy.add_sessions(["therapy-session-1", "therapy-session-2"])
 
-  # Or attach at session creation — the scope is created if it doesn't exist
-  session = honcho.session("therapy-session-3", scopes=["therapy"])
+# Or attach at session creation — the scope is created if it doesn't exist
+session = honcho.session("therapy-session-3", scopes=["therapy"])
 
-  # Inspect
-  for s in therapy.sessions():
-      print(s.id)
+# Inspect
+for s in therapy.sessions():
+    print(s.id)
 
-  therapy.remove_session("therapy-session-1")
+therapy.remove_session("therapy-session-1")
 
-  for scope in honcho.scopes():
-      print(scope.id, scope.metadata)
-  ```
+# Or remove up to 100 at once — all-or-nothing if any session doesn't exist;
+# sessions that aren't members are ignored
+therapy.remove_sessions(["therapy-session-2", "therapy-session-3"])
 
-  ```typescript TypeScript
-  import { Honcho } from "@honcho-ai/sdk";
+for scope in honcho.scopes():
+    print(scope.id, scope.metadata)
+```
 
-  const honcho = new Honcho({ workspaceId: "my-app" });
+```typescript TypeScript theme={null}
+import { Honcho } from "@honcho-ai/sdk";
 
-  // Get or create — idempotent; passing metadata updates the existing scope
-  const therapy = await honcho.scope("therapy");
+const honcho = new Honcho({ workspaceId: "my-app" });
 
-  // Look up without creating — rejects with NotFoundError if the scope doesn't exist
-  const existing = await honcho.getScope("therapy");
+// Get or create — idempotent; passing metadata updates the existing scope
+const therapy = await honcho.scope("therapy");
 
-  // Add existing sessions (max 100 per call)
-  await therapy.addSessions(["therapy-session-1", "therapy-session-2"]);
+// Look up without creating — rejects with NotFoundError if the scope doesn't exist
+const existing = await honcho.getScope("therapy");
 
-  // Or attach at session creation — the scope is created if it doesn't exist
-  const session = await honcho.session("therapy-session-3", {
-    scopes: ["therapy"],
-  });
+// Add existing sessions (max 100 per call)
+await therapy.addSessions(["therapy-session-1", "therapy-session-2"]);
 
-  // Inspect
-  for await (const s of await therapy.sessions()) {
-    console.log(s.id);
-  }
+// Or attach at session creation — the scope is created if it doesn't exist
+const session = await honcho.session("therapy-session-3", {
+  scopes: ["therapy"],
+});
 
-  await therapy.removeSession("therapy-session-1");
+// Inspect
+for await (const s of await therapy.sessions()) {
+  console.log(s.id);
+}
 
-  for await (const scope of await honcho.scopes()) {
-    console.log(scope.id, scope.metadata);
-  }
-  ```
+await therapy.removeSession("therapy-session-1");
 
-  ```bash REST
-  # Get or create (201 created / 200 existing)
-  curl -X POST "$HONCHO_URL/v3/workspaces/my-app/scopes" \
-    -H "Authorization: Bearer $HONCHO_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{"id": "therapy"}'
+// Or remove up to 100 at once — all-or-nothing if any session doesn't exist;
+// sessions that aren't members are ignored
+await therapy.removeSessions(["therapy-session-2", "therapy-session-3"]);
 
-  # Look up without creating (404 if missing)
-  curl "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy" \
-    -H "Authorization: Bearer $HONCHO_API_KEY"
+for await (const scope of await honcho.scopes()) {
+  console.log(scope.id, scope.metadata);
+}
+```
 
-  # Add sessions
-  curl -X POST "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy/sessions" \
-    -H "Authorization: Bearer $HONCHO_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{"session_ids": ["therapy-session-1", "therapy-session-2"]}'
+```bash REST theme={null}
+# Get or create (201 created / 200 existing)
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/scopes" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"id": "therapy"}'
 
-  # List membership
-  curl -X POST "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy/sessions/list" \
-    -H "Authorization: Bearer $HONCHO_API_KEY"
+# Look up without creating (404 if missing)
+curl "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy" \
+  -H "Authorization: Bearer $HONCHO_API_KEY"
 
-  # Remove one session
-  curl -X DELETE "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy/sessions/therapy-session-1" \
-    -H "Authorization: Bearer $HONCHO_API_KEY"
-  ```
-</CodeGroup>
+# Add sessions
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy/sessions" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"session_ids": ["therapy-session-1", "therapy-session-2"]}'
+
+# List membership
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy/sessions/list" \
+  -H "Authorization: Bearer $HONCHO_API_KEY"
+
+# Remove one session
+curl -X DELETE "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy/sessions/therapy-session-1" \
+  -H "Authorization: Bearer $HONCHO_API_KEY"
+
+# Remove up to 100 sessions (404 and no change if any doesn't exist;
+# non-members are ignored)
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy/sessions/remove" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"session_ids": ["therapy-session-2", "therapy-session-3"]}'
+```
 
 Scope IDs are unprefixed, must match `^[a-zA-Z0-9_-]+$`, and are at most 506
 characters. Get-or-create is idempotent: if the scope already exists, the same
@@ -303,12 +316,95 @@ call returns it, and any `metadata` you pass is written onto it. When a lookup
 must not create a scope — resolving a user-supplied name, for example — use
 `get_scope` / `getScope` instead, which fails with a not-found error.
 
+### Searching and Counting Scopes
 
-  Every scopes route — and every read that passes `scope` — requires a
-  **workspace-level or admin key**. A scope's membership can exceed any single
-  peer's own session membership, so peer- and session-scoped keys are rejected
-  with `401`.
+The scope list can filter by name and report how many sessions each scope
+holds, so a client never has to load every scope or list each one's members:
 
+```python Python theme={null}
+# `id` matches the scope name (never the internal prefix)
+for scope in honcho.scopes({"id": {"icontains": "sup"}}, include_session_count=True):
+    print(scope.id, scope.session_count)
+```
+
+```typescript TypeScript theme={null}
+const scopes = await honcho.scopes({
+  filters: { id: { icontains: "sup" } },
+  includeSessionCount: true,
+});
+for await (const scope of scopes) {
+  console.log(scope.id, scope.sessionCount);
+}
+```
+
+```bash REST theme={null}
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/scopes/list?include_session_count=true" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"filters": {"id": {"icontains": "sup"}}}'
+```
+
+`session_count` counts the sessions `scopes/{id}/sessions/list` would return,
+and is omitted unless requested. The name filter takes the same operators as
+other list filters (`icontains`, `contains`, `in`, AND/OR/NOT), plus
+`created_at` and `metadata`; `total` counts the filtered scopes.
+
+> [!NOTE]
+>
+> Every scopes route — and every read that passes `scope` — requires a
+> **workspace-level or admin key**. A scope's membership can exceed any single
+> peer's own session membership, so peer- and session-scoped keys are rejected
+> with `401`.
+
+### Listing Membership From the Session Side
+
+The workspace session list can answer the reverse question — which scopes is
+this session in? — without listing every scope's members:
+
+```python Python theme={null}
+# Each listed session's `scopes` holds its scope names, sorted ([] for none)
+for s in honcho.sessions(include_scopes=True):
+    print(s.id, s.scopes)
+
+# Only the sessions in one scope, or only the sessions in no scope
+therapy_sessions = honcho.sessions(scope="therapy")
+unscoped = honcho.sessions(in_no_scope=True)
+```
+
+```typescript TypeScript theme={null}
+// Each listed session's `scopes` holds its scope names, sorted ([] for none)
+for await (const s of await honcho.sessions({ includeScopes: true })) {
+  console.log(s.id, s.scopes);
+}
+
+// Only the sessions in one scope, or only the sessions in no scope
+const therapySessions = await honcho.sessions({ scope: "therapy" });
+const unscoped = await honcho.sessions({ inNoScope: true });
+```
+
+```bash REST theme={null}
+# Each session in the page carries `scopes`: its active scope names, sorted
+# ([] for a session in no scope). Without the flag, sessions have no `scopes` key.
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/sessions/list?include_scopes=true" \
+  -H "Authorization: Bearer $HONCHO_API_KEY"
+
+# Only the sessions in one scope (404 if the scope doesn't exist)
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/sessions/list" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"scope": "therapy"}'
+
+# Only the sessions in no scope
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/sessions/list" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"in_no_scope": true}'
+```
+
+`scope` and `in_no_scope` are mutually exclusive, and both combine with
+`filters`, pagination and `include_scopes`. The page's `total` counts the
+filtered sessions, so `{"in_no_scope": true}` with `size=1` tells you how many
+sessions are in no scope.
 
 ## Membership Changes Copy, They Don't Re-Derive
 
@@ -327,27 +423,25 @@ subsequent dreams.
 Poll `status()` to tell "the scope hasn't caught up yet" apart from "the scope
 has caught up and there is genuinely nothing to recall":
 
-<CodeGroup>
-  ```python Python
-  therapy.add_sessions(["old-session-with-history"])
+```python Python theme={null}
+therapy.add_sessions(["old-session-with-history"])
 
-  status = therapy.status()
-  # {"old-session-with-history": {"state": "pending", "updated_at": "..."}}
-  # → later: {"state": "completed", "docs_copied": 42, "updated_at": "..."}
-  ```
+status = therapy.status()
+# {"old-session-with-history": {"state": "pending", "updated_at": "..."}}
+# → later: {"state": "completed", "docs_copied": 42, "updated_at": "..."}
+```
 
-  ```typescript TypeScript
-  await therapy.addSessions(["old-session-with-history"]);
+```typescript TypeScript theme={null}
+await therapy.addSessions(["old-session-with-history"]);
 
-  const status = await therapy.status();
-  // { "old-session-with-history": { state: "pending", updatedAt: "..." } }
-  ```
+const status = await therapy.status();
+// { "old-session-with-history": { state: "pending", updatedAt: "..." } }
+```
 
-  ```bash REST
-  curl "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy/status" \
-    -H "Authorization: Bearer $HONCHO_API_KEY"
-  ```
-</CodeGroup>
+```bash REST theme={null}
+curl "$HONCHO_URL/v3/workspaces/my-app/scopes/therapy/status" \
+  -H "Authorization: Bearer $HONCHO_API_KEY"
+```
 
 `state` is `pending`, `completed`, or `failed`; `docs_copied` appears once a
 backfill completes. Only sessions that have had a backfill enqueued appear, so an
@@ -359,53 +453,51 @@ empty result means none have — not that the scope is empty.
 
 | Surface | Accepts | Notes |
 | - | - | - |
-| [`peer.chat()`](/docs/v3/documentation/features/chat) | one scope or a list | Confines both conclusion recall and the messages the agent reads |
+| [`peer.chat()`](https://honcho.dev/docs/v3/documentation/features/chat) | one scope or a list | Confines both conclusion recall and the messages the agent reads |
 | `peer.representation()` | one scope or a list | Confines conclusion recall |
-| [`session.context()`](/docs/v3/documentation/features/get-context) | one scope only | Perspective source for `peer_target`'s representation and card. Requires `peer_target`; mutually exclusive with `peer_perspective` |
+| [`session.context()`](https://honcho.dev/docs/v3/documentation/features/get-context) | one scope only | Perspective source for `peer_target`'s representation and card. Requires `peer_target`; mutually exclusive with `peer_perspective` |
 | `honcho.search()` | one scope only | Restricts message search to the scope's member sessions |
-| [`honcho.chat()`](/docs/v3/documentation/features/chat#workspace-chat) | one scope or a list | Always the allowlist arm — even a single name. There is no observer to swap, and no `target` |
+| [`honcho.chat()`](https://honcho.dev/docs/v3/documentation/features/chat#workspace-chat) | one scope or a list | Always the allowlist arm — even a single name. There is no observer to swap, and no `target` |
 
-<CodeGroup>
-  ```python Python
-  # Chat — answered only from the therapy sessions
-  answer = user.chat("What is stressing them out?", scope="therapy")
+```python Python theme={null}
+# Chat — answered only from the therapy sessions
+answer = user.chat("What is stressing them out?", scope="therapy")
 
-  # Representation
-  rep = user.representation(scope="therapy")
+# Representation
+rep = user.representation(scope="therapy")
 
-  # Session context, using the scope as the perspective source
-  ctx = session.context(peer_target="user-123", scope="therapy")
+# Session context, using the scope as the perspective source
+ctx = session.context(peer_target="user-123", scope="therapy")
 
-  # Message search, restricted to the scope's sessions
-  messages = honcho.search("insomnia", scope="therapy")
-  ```
+# Message search, restricted to the scope's sessions
+messages = honcho.search("insomnia", scope="therapy")
+```
 
-  ```typescript TypeScript
-  // Chat — answered only from the therapy sessions
-  const answer = await user.chat("What is stressing them out?", {
-    scope: "therapy",
-  });
+```typescript TypeScript theme={null}
+// Chat — answered only from the therapy sessions
+const answer = await user.chat("What is stressing them out?", {
+  scope: "therapy",
+});
 
-  // Representation
-  const rep = await user.representation({ scope: "therapy" });
+// Representation
+const rep = await user.representation({ scope: "therapy" });
 
-  // Session context, using the scope as the perspective source
-  const ctx = await session.context({
-    peerTarget: "user-123",
-    scope: "therapy",
-  });
+// Session context, using the scope as the perspective source
+const ctx = await session.context({
+  peerTarget: "user-123",
+  scope: "therapy",
+});
 
-  // Message search, restricted to the scope's sessions
-  const messages = await honcho.search("insomnia", { scope: "therapy" });
-  ```
+// Message search, restricted to the scope's sessions
+const messages = await honcho.search("insomnia", { scope: "therapy" });
+```
 
-  ```bash REST
-  curl -X POST "$HONCHO_URL/v3/workspaces/my-app/peers/user-123/chat" \
-    -H "Authorization: Bearer $HONCHO_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{"query": "What is stressing them out?", "scope": "therapy"}'
-  ```
-</CodeGroup>
+```bash REST theme={null}
+curl -X POST "$HONCHO_URL/v3/workspaces/my-app/peers/user-123/chat" \
+  -H "Authorization: Bearer $HONCHO_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"query": "What is stressing them out?", "scope": "therapy"}'
+```
 
 ### Rules
 
@@ -416,7 +508,7 @@ contradiction is rejected with a `422` rather than silently widened, a scope
 with no member sessions recalls nothing, and an empty list (`scope=[]`) is
 rejected rather than treated as "no boundary". On workspace chat the same
 exclusion holds: pass `scope` or `session_id`, never both. Per-surface caps and error
-shapes are in the [API reference](/docs/v3/api-reference/endpoint/scopes/get-or-create-scope).
+shapes are in the [API reference](https://honcho.dev/docs/v3/api-reference/endpoint/scopes/get-or-create-scope.md).
 
 ## Provenance, Not Topic
 
@@ -426,13 +518,13 @@ If a user mentions a therapy detail in a billing session, that conclusion is
 formed from the billing session and lands in the `billing` scope. Querying
 `scope="therapy"` will not find it, and querying `scope="billing"` will.
 
-
-  Scopes give you provenance-based privacy, not topic-based privacy. If you need
-  "no clinical content in the billing assistant's answers" regardless of where it
-  was said, that is content classification and has to be enforced above Honcho —
-  by controlling what reaches which session in the first place, or by filtering
-  the answer.
-
+> [!WARNING]
+>
+> Scopes give you provenance-based privacy, not topic-based privacy. If you need
+> "no clinical content in the billing assistant's answers" regardless of where it
+> was said, that is content classification and has to be enforced above Honcho —
+> by controlling what reaches which session in the first place, or by filtering
+> the answer.
 
 Design accordingly: keep the session boundary aligned with the confidentiality
 boundary you actually care about, since that session boundary is the one scopes
@@ -472,7 +564,7 @@ and [`src/deriver/scope_backfill.py`](https://github.com/plastic-labs/honcho/blo
 | Sessions in a resolved allowlist | 1,000 |
 
 Full request and response shapes are in the
-[API reference](/docs/v3/api-reference/endpoint/scopes/get-or-create-scope).
+[API reference](https://honcho.dev/docs/v3/api-reference/endpoint/scopes/get-or-create-scope.md).
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

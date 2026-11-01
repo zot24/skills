@@ -14,53 +14,51 @@ PII redaction replaces personally identifiable information in returned markdown 
 
 Set `redactPII: true` on a scrape request. Firecrawl redacts the generated markdown and returns the redacted version in `markdown`. You do not need to pass `formats`; markdown is the default output.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR_API_KEY",
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR_API_KEY",
+)
 
-  doc = firecrawl.scrape(
-      "https://example.com/contact",
-      redact_pii=True,
-  )
+doc = firecrawl.scrape(
+    "https://example.com/contact",
+    redact_pii=True,
+)
 
-  print(doc.markdown)
-  ```
+print(doc.markdown)
+```
 
-  ```javascript JavaScript
-  import { Firecrawl } from 'firecrawl';
+```javascript JavaScript theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR_API_KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR_API_KEY",
+});
 
-  const doc = await firecrawl.scrape('https://example.com/contact', {
-    redactPII: true,
-  });
+const doc = await firecrawl.scrape('https://example.com/contact', {
+  redactPII: true,
+});
 
-  console.log(doc.markdown);
-  ```
+console.log(doc.markdown);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer fc-YOUR_API_KEY" for higher rate limits:
-  curl -X POST https://api.firecrawl.dev/v2/scrape \
-    -H 'Content-Type: application/json' \
-    -d '{
-      "url": "https://example.com/contact",
-      "redactPII": true
-    }'
-  ```
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer fc-YOUR_API_KEY" for higher rate limits:
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "https://example.com/contact",
+    "redactPII": true
+  }'
+```
 
-  ```bash CLI
-  # Return markdown with personally identifiable information redacted.
-  firecrawl https://example.com/contact --redact-pii
-  ```
-</CodeGroup>
+```bash CLI theme={null}
+# Return markdown with personally identifiable information redacted.
+firecrawl https://example.com/contact --redact-pii
+```
 
 ## Redaction options
 
@@ -82,9 +80,9 @@ For most requests, use `redactPII: true`. To tune redaction, pass an options obj
 | `entities` | `PERSON`, `EMAIL`, `PHONE`, `LOCATION`, `FINANCIAL`, `SECRET` | All entities | Limit redaction to specific entity buckets. |
 | `replaceStyle` | `tag`, `mask`, `remove` | `tag` | Replace spans with tags like `<EMAIL>`, mask them with `*`, or remove the characters entirely. |
 
-
-  The Firecrawl CLI and MCP server expose simple boolean redaction. Advanced options are available through the API and SDKs that expose the full `redactPII` options object.
-
+> [!NOTE]
+>
+> The Firecrawl CLI and MCP server expose simple boolean redaction. Advanced options are available through the API and SDKs that expose the full `redactPII` options object.
 
 ## Response
 
@@ -131,7 +129,7 @@ PII redaction is supported anywhere Firecrawl accepts scrape options:
 * **CLI** - pass `--redact-pii` to `firecrawl scrape`.
 * **MCP server** - include `"redactPII": true` in `firecrawl_scrape` tool arguments for simple boolean redaction.
 
-LinkedIn URLs that third-party data providers serve can't be redacted. A request that sets `redactPII` on one fails with `THIRD_PARTY_DATA_UNSUPPORTED_OPTION` (400). See [Provider-routed URLs](/features/scrape#provider-routed-urls).
+LinkedIn URLs that third-party data providers serve can't be redacted. A request that sets `redactPII` on one fails with `THIRD_PARTY_DATA_UNSUPPORTED_OPTION` (400). See [Provider-routed URLs](https://docs.firecrawl.dev/features/scrape.md#provider-routed-urls).
 
 > Are you an AI agent that needs a Firecrawl API key? See [firecrawl.dev/agent-onboarding/SKILL.md](https://www.firecrawl.dev/agent-onboarding/SKILL.md) for automated onboarding instructions.
 

@@ -244,6 +244,10 @@ az ad app permission add \
 az ad app permission admin-consent --id <appId>
 ```
 
+Channel history is returned in creation order. Pass the returned `nextCursor` unchanged to the next request to continue in the same direction. The cursor also keeps the message ID, so messages created at the same time are not skipped.
+
+Microsoft Graph lists channel posts by the latest activity in each reply chain and can't sort them by creation time, so every channel history request reads all of the channel's root posts, 50 per Graph request, before it returns a page. In channels with thousands of posts, each request makes many Graph calls and can be [throttled](https://learn.microsoft.com/en-us/graph/throttling).
+
 ## Receiving all messages
 
 By default, Teams bots only receive messages when directly @-mentioned. The RSC permissions above also enable receiving all messages in channels and group chats as a side effect.
@@ -423,6 +427,37 @@ Live incoming message authors include `email` when the Teams conversation member
 Incoming inline images and files are exposed through `message.attachments` with a lazy `fetchData()` method. The adapter authenticates connector-hosted inline attachments through the configured Teams bot client, while [Teams file download cards](https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/bots-filesv4) use their direct download URL without the bot token.
 
 Anonymous downloads require HTTPS URLs that resolve to public addresses; private and internal hosts are refused, including after redirects. Responses are limited to 25 MB and downloads time out after 30 seconds. Inline attachments served by the connector use bot authentication instead, including the Bot Framework Emulator's plain-HTTP loopback connector. To change the limits or route downloads through a proxy, override `createFetchDataFn()` in a subclass and call `downloadAttachment` from `@chat-adapter/shared` with your own options.
+
+### Files in group chats and channels
+
+Teams only delivers file attachments to bots in personal (1:1) chats. When a user attaches a file in a group chat or channel, the incoming activity contains the message text but no file, so `message.attachments` is empty. This is a [Teams platform limitation](https://learn.microsoft.com/en-us/microsoftteams/platform/bots/how-to/bots-filesv4).
+
+To read those files, fetch the message through Microsoft Graph with `fetchMessages`. Graph returns each shared file as an attachment whose `fetchData()` resolves the SharePoint or OneDrive file through Graph and downloads it with the same limits as other anonymous downloads:
+
+```typescript title="lib/bot.ts"
+import { isDM } from "@chat-adapter/teams";
+
+bot.onNewMention(async (thread, message) => {
+  let { attachments } = message;
+
+  if (thread.adapter.name === "teams" && !isDM(thread.id)) {
+    const { messages } = await thread.adapter.fetchMessages(thread.id, {
+      limit: 10,
+    });
+    const graphMessage = messages.find((m) => m.id === message.id);
+    attachments = graphMessage?.attachments ?? attachments;
+  }
+
+  for (const attachment of attachments) {
+    const data = await attachment.fetchData?.();
+    // ...
+  }
+});
+```
+
+This requires the [message history](#message-history) permissions for the conversation type, plus the `Files.ReadWrite.All` application permission with admin consent, which Microsoft Graph requires to [access shared files](https://learn.microsoft.com/en-us/graph/api/shares-get) from an app.
+
+`fetchData()` downloads the file with the app's tenant-wide `Files.ReadWrite.All` permission. It doesn't check whether the person who posted the message, or the person your bot replies to, can open the file, so only share file contents with people who should have access to them.
 
 ## Low-level APIs
 

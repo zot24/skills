@@ -29,6 +29,24 @@ bd dep add issue-2 --depends-on issue-1
 When issue-1 is open, issue-2 won't appear in `bd ready`. Once issue-1
 is closed, issue-2 unblocks automatically.
 
+To add dependencies while creating an issue, `bd create --deps` and the
+`### Dependencies` (or `### Deps`) section of a `bd create --file` batch take
+the same entries:
+
+* a bare id, `depends-on:id` or `blocked-by:id`: the new issue depends on id
+* `blocks:id`: id depends on the new issue
+* any other type from the table below, written `type:id`
+
+In a file, entries are separated by commas, spaces or newlines, so write no
+space after the colon:
+
+```markdown theme={null}
+## Ship the parser
+
+### Deps
+issue-1, depends-on:issue-2, blocks:issue-3, discovered-from:issue-4
+```
+
 ## Removing Dependencies
 
 ```bash theme={null}
@@ -332,11 +350,11 @@ bd ready                         # Only "Design" is ready
 
 ## See Also
 
-* [Quick Start](/getting-started/quickstart) — First steps with dependencies
-* [Molecules](/workflows/molecules) — Molecule workflows using gates and dependencies
-* [Agent Coordination](/multi-agent/coordination) — Cross-repo dependency patterns
-* [Dolt Backend for Beads](/architecture/dolt) — Dolt backend configuration
-* [CLI Reference](/cli-reference/index) — Full command reference
+* [Quick Start](https://beads.gascity.com/getting-started/quickstart.md) — First steps with dependencies
+* [Molecules](https://beads.gascity.com/workflows/molecules.md) — Molecule workflows using gates and dependencies
+* [Agent Coordination](https://beads.gascity.com/multi-agent/coordination.md) — Cross-repo dependency patterns
+* [Dolt Backend for Beads](https://beads.gascity.com/architecture/dolt.md) — Dolt backend configuration
+* [CLI Reference](https://beads.gascity.com/cli-reference/index.md) — Full command reference
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

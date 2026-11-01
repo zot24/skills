@@ -74,7 +74,7 @@
 #### Connect
 
 
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
+<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
 
 
 Docs
@@ -90,7 +90,7 @@ Every WF\_\* environment variable Wealthfolio understands, plus how to escape Ar
 
 ------------------------------------------------------------------------
 
-Last updated October 14, 2026
+Last updated October 31, 2026
 
 
 All Wealthfolio configuration is done through environment variables prefixed with `WF_`. This page is the source of truth. The platform-specific guides link back here for the details.
@@ -301,6 +301,22 @@ WF_OIDC_ALLOWED_SUBS=8f3b...,a91c...
 
 **Default:** `true`. Set to `false` to force local-only logout even when the IdP supports RP-Initiated Logout.
 
+### `WF_OIDC_CA_FILE`
+
+**Optional; unset by default.** Absolute path to a PEM bundle of extra trusted CA certificates for an identity provider using a private CA, such as step-ca or an internal PKI. Requires a server build containing <a href="https://github.com/wealthfolio/wealthfolio/pull/2253" class="font-medium underline underline-offset-4">#2253</a>; upgrade older pinned images or binaries before using this setting.
+
+``` mb-4
+WF_OIDC_CA_FILE=/certs/internal-ca.pem
+```
+
+For Docker, this is the path **inside the container**. Mount the existing host file read-only; setting the variable alone does not mount it. See the <a href="/docs/guide/self-hosting/docker-compose/#oidc-with-a-private-ca" class="font-medium underline underline-offset-4">Docker Compose example</a>, <a href="/docs/guide/self-hosting/unraid/#oidc-with-a-private-ca" class="font-medium underline underline-offset-4">Unraid instructions</a>, or <a href="/docs/guide/self-hosting/proxmox/#oidc-with-a-private-ca" class="font-medium underline underline-offset-4">native Proxmox instructions</a>.
+
+The bundle adds trust only to the OIDC client, including discovery, signing-key retrieval, token exchange, and metadata refresh. Bundled Mozilla roots remain trusted, and certificate and hostname validation remain enabled. The OIDC client ignores the system trust store and `SSL_CERT_FILE`. Other outbound clients are unaffected. Leaving the value unset or empty preserves existing behavior.
+
+Use only CA certificates you trust. The bundle contains public certificates, not private keys. Keep it and its parent directory administrator-controlled, and make it readable by the server’s runtime user. Browsers must separately trust the IdP certificate when following the SSO redirect.
+
+Certificates are loaded once at startup. Restart the server after replacing the bundle. When OIDC is enabled, an unreadable file, invalid certificate, or bundle without certificates prevents startup. If discovery still fails, check the issuing CA and the issuer hostname against the IdP certificate.
+
 ## Server
 
 ### `WF_LISTEN_ADDR`
@@ -416,6 +432,8 @@ WF_CORS_ALLOW_ORIGINS=https://wealthfolio.example.com
 # WF_OIDC_CLIENT_ID=wealthfolio
 # WF_OIDC_REDIRECT_URL=https://wealthfolio.example.com/api/v1/auth/oidc/callback
 # WF_OIDC_ALLOWED_EMAILS=you@example.com
+# Private-CA IdP only: mount this PEM bundle read-only inside the container.
+# WF_OIDC_CA_FILE=/certs/internal-ca.pem
 
 # Logging
 WF_LOG_FORMAT=text
@@ -455,6 +473,7 @@ On This Page
   - <a href="#wf_oidc_allow_any" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_OIDC_ALLOW_ANY</a>
   - <a href="#wf_oidc_post_logout_redirect_url" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_OIDC_POST_LOGOUT_REDIRECT_URL</a>
   - <a href="#wf_oidc_rp_logout" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_OIDC_RP_LOGOUT</a>
+  - <a href="#wf_oidc_ca_file" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_OIDC_CA_FILE</a>
 - <a href="#server" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Server</a>
   - <a href="#wf_listen_addr" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_LISTEN_ADDR</a>
   - <a href="#wf_data_dir" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">WF_DATA_DIR</a>

@@ -1,6 +1,5 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/abuse-enforcement-service/service-lib/rules/enforcement_post.yaml
 
-# mirrored from GrowthBook dynamic config; last sync 2026-08-25T16:15:48Z
 
 for_entity: post
 
@@ -30,9 +29,10 @@ rules:
       kind: skip
       reason: high_follower_count
 
+  # Prod uses a different credibility score threshold; this is a mock value to reduce gaming.
   - id: pagerank_skipped
     when: >
-      (cred.is_high || cred.score >= 50.0)
+      (cred.is_high || cred.score >= 12.34)
       && !score.skip_author_credibility_prechecks
     then:
       kind: skip
@@ -76,11 +76,6 @@ rules:
       kind: act_suspend_user
       perm: true
       policy: Cse
-
-  - id: act_requested_actions
-    when: "size(score.requested_actions) > 0"
-    then:
-      kind: act_requested_actions
 
   - id: post_no_actionable_label
     when: "true"

@@ -4,7 +4,7 @@
 title: List a vendor-official adapter
 description: "Qualify for the vendor-official tier and add your adapter to the Chat SDK docs, @chat-adapter/catalog, create-chat-sdk, and eve.dev/integrations."
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/contributing/building

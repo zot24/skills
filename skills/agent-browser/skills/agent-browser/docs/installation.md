@@ -37,6 +37,8 @@ agent-browser install  # Download Chrome from Chrome for Testing (first time)
 
 This is the fastest option -- commands run through the native Rust CLI directly with sub-millisecond parsing overhead.
 
+On macOS versions below 13, `agent-browser install` stops before downloading Chrome for Testing and prints instructions to update macOS or install Chrome manually. Update macOS to version 13 or later through **System Settings \> General \> Software Update**, or install Chrome from <a href="https://www.google.com/chrome/" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!" rel="noreferrer noopener" target="_blank">Google's Chrome download page</a>. This check applies when you run `agent-browser install`; the package installation commands above remain unchanged. If `sw_vers -productVersion` is unavailable, exits with an error, returns no version, or returns a malformed version, `agent-browser install` reports a detection error and stops before making a network request.
+
 ## <a href="#quick-start-no-install" class="peer" data-card="">Quick start (no install)</a>
 
 
@@ -110,6 +112,8 @@ agent-browser install --with-deps
 
 
 This exits nonzero if the package manager cannot install every required browser library.
+
+When run as root, this command calls the detected package manager directly. For non-root users, it uses `sudo`. If you are not root and `sudo` is unavailable, it reports that root privileges or `sudo` are required.
 
 ## <a href="#updating" class="peer" data-card="">Updating</a>
 

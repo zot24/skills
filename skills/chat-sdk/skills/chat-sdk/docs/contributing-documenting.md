@@ -4,7 +4,7 @@
 title: Documenting your adapter
 description: Write a README, configuration reference, and usage examples for your adapter.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/contributing/building

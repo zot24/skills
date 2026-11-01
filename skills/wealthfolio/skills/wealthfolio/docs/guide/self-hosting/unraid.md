@@ -74,7 +74,7 @@
 #### Connect
 
 
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
+<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
 
 
 Docs
@@ -90,7 +90,7 @@ Install Wealthfolio on Unraid via Community Apps, with the official template cov
 
 ------------------------------------------------------------------------
 
-Last updated October 14, 2026
+Last updated October 31, 2026
 
 
 Wealthfolio runs as a standard Docker container on Unraid, configured through Unraid’s Docker tab. The Community Apps (CA) template covers ports, volumes, and required env vars. You just fill in the secrets.
@@ -116,7 +116,7 @@ If you want to test a newer template before CA picks it up, or run a template Sq
 ``` mb-4
 mkdir -p /boot/config/plugins/dockerMan/templates-user
 curl -fsSL \
-  https://raw.githubusercontent.com/wealthfolio/wealthfolio/main/docs/self-host/unraid/template.xml \
+  https://raw.githubusercontent.com/wealthfolio/wealthfolio-unraid/main/templates/wealthfolio.xml \
   -o /boot/config/plugins/dockerMan/templates-user/my-wealthfolio.xml
 ```
 
@@ -147,6 +147,18 @@ Copy the entire output (starts with `$argon2id$v=19$...`) into the `WF_AUTH_PASS
 
 Unraid handles the `$` escaping for you, so paste the **raw** hash. Do not double the dollar signs like you would in a Compose `.env` file.
 
+
+## OIDC with a private CA
+
+For an IdP using a private CA, see <a href="/docs/guide/self-hosting/configuration/#wf_oidc_ca_file" class="font-medium underline underline-offset-4"><code>WF_OIDC_CA_FILE</code></a> for supported server builds and trust behavior. Leave this optional setting empty for ordinary installations.
+
+In **Docker → wealthfolio → Edit**:
+
+1.  Add a **Path** mapping from an existing host PEM CA bundle to `/certs/internal-ca.pem`, with access mode **Read Only**.
+2.  Set the advanced variable `WF_OIDC_CA_FILE` to `/certs/internal-ca.pem`. If an older installed template does not show it, add it as a **Variable**.
+3.  Make the bundle readable by the actual container user (`99:100` with the standard template). Keep it and its parent directory protected against unauthorized changes, then click **Apply** to recreate the container.
+
+The variable uses the container path, not the Unraid host path. Restart the container after replacing the bundle. A missing, unreadable, or invalid bundle prevents startup when OIDC is enabled. Browser trust for the IdP is configured separately.
 
 ## Permissions
 
@@ -214,6 +226,7 @@ On This Page
 - <a href="#manual-sideload-power-users" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Manual sideload (power users)</a>
 - <a href="#required-values" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Required values</a>
   - <a href="#generating-the-password-hash" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Generating the password hash</a>
+- <a href="#oidc-with-a-private-ca" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">OIDC with a private CA</a>
 - <a href="#permissions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Permissions</a>
 - <a href="#reverse-proxy-swag-npm-traefik" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Reverse proxy (SWAG, NPM, Traefik)</a>
 - <a href="#backups" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Backups</a>

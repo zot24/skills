@@ -26,11 +26,13 @@ The plugin hooks into Agent Zero's extension system. It syncs user and assistant
 
 ## Next Steps
 
+> [card] [Plugin Repository](https://github.com/alogotron/a0-plugin-honcho)
+>
+> Source code, installation, and full documentation.
 
-    Source code, installation, and full documentation.
-
-
-    Learn about peers, sessions, and dialectic reasoning.
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Learn about peers, sessions, and dialectic reasoning.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

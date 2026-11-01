@@ -12,9 +12,9 @@ Extract content, structure, and metadata from any website and transform it for i
 
 ## Start with a Template
 
-
-  Efficiently migrate data between platforms and systems
-
+> [card] [Firecrawl Migrator](https://github.com/firecrawl/firecrawl-migrator)
+>
+> Efficiently migrate data between platforms and systems
 
 ## How It Works
 
@@ -32,36 +32,41 @@ Point Firecrawl at your source website to crawl every page and return clean, str
 
 Users build migration tools with Firecrawl to extract data from various platforms:
 
+> [card] CMS Content Extraction
+>
+> Extract content from WordPress, Drupal, and Joomla sites or custom CMS platforms. Preserve content structure and metadata, then export for import into new systems like Contentful, Strapi, or Sanity.
 
-    Extract content from WordPress, Drupal, and Joomla sites or custom CMS platforms. Preserve content structure and metadata, then export for import into new systems like Contentful, Strapi, or Sanity.
-
-
-    Extract product catalogs from Magento and WooCommerce stores including inventory, pricing, descriptions, and specifications. Format data for import into Shopify, BigCommerce, or other platforms.
-
+> [card] E-commerce Data Extraction
+>
+> Extract product catalogs from Magento and WooCommerce stores including inventory, pricing, descriptions, and specifications. Format data for import into Shopify, BigCommerce, or other platforms.
 
 ## FAQs
 
+> [accordion] How do you handle large-scale migrations?
+>
+> Our infrastructure scales automatically to handle large migrations. We support incremental processing with batching and parallel extraction, allowing you to migrate millions of pages by breaking them into manageable chunks with progress tracking.
 
-    Our infrastructure scales automatically to handle large migrations. We support incremental processing with batching and parallel extraction, allowing you to migrate millions of pages by breaking them into manageable chunks with progress tracking.
+> [accordion] Can I preserve SEO value during migration?
+>
+> Yes! Extract all SEO metadata including URLs, titles, descriptions, and implement proper redirects. We help maintain your search rankings through the migration.
 
+> [accordion] What about media files and attachments?
+>
+> Firecrawl can extract and catalog all media files. You can download them for re-upload to your new platform or reference them directly if keeping the same CDN.
 
-    Yes! Extract all SEO metadata including URLs, titles, descriptions, and implement proper redirects. We help maintain your search rankings through the migration.
+> [accordion] How do I validate the migration?
+>
+> We provide detailed extraction reports and support comparison tools. You can verify content completeness, check broken links, and validate data integrity.
 
-
-    Firecrawl can extract and catalog all media files. You can download them for re-upload to your new platform or reference them directly if keeping the same CDN.
-
-
-    We provide detailed extraction reports and support comparison tools. You can verify content completeness, check broken links, and validate data integrity.
-
-
-    Yes, you can extract publicly visible user-generated content including comments, reviews, and forum posts. Private user data requires appropriate authentication and permissions.
-
+> [accordion] Can I migrate user-generated content and comments?
+>
+> Yes, you can extract publicly visible user-generated content including comments, reviews, and forum posts. Private user data requires appropriate authentication and permissions.
 
 ## Related Use Cases
 
-* [Product & E-commerce](/use-cases/product-ecommerce) - Catalog migrations
-* [Content Generation](/use-cases/content-generation) - Content transformation
-* [AI Platforms](/use-cases/ai-platforms) - Knowledge base migration
+* [Product & E-commerce](https://docs.firecrawl.dev/use-cases/product-ecommerce.md) - Catalog migrations
+* [Content Generation](https://docs.firecrawl.dev/use-cases/content-generation.md) - Content transformation
+* [AI Platforms](https://docs.firecrawl.dev/use-cases/ai-platforms.md) - Knowledge base migration
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

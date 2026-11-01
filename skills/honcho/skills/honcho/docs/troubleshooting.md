@@ -20,15 +20,15 @@ ValueError: Missing client for Deriver: google
 
 **Cause:** The server validates at startup that all configured LLM providers have API keys. If a provider is referenced in your configuration but the corresponding API key isn't set, the server refuses to start.
 
-**Fix:** Set the API keys for your configured providers. With default configuration, you need:
+**Fix:** Set the API keys for your configured providers. With the default configuration every feature, embeddings included, uses the `openai` transport, so one key is enough:
 
 ```bash theme={null}
-LLM_GEMINI_API_KEY=...    # Used by deriver, summary, dialectic minimal/low
-LLM_ANTHROPIC_API_KEY=... # Used by dialectic medium/high/max, dream
-LLM_OPENAI_API_KEY=...    # Used by embeddings (when EMBED_MESSAGES=true)
+LLM_OPENAI_API_KEY=...    # Or an OpenRouter/other OpenAI-compatible key with per-feature BASE_URL overrides
 ```
 
-See the [LLM Setup](/docs/v3/contributing/self-hosting#llm-setup) section for provider configuration. You can change which providers are used in your `.env` or `config.toml` (see [Configuration Guide](./configuration#llm-configuration)).
+You only need `LLM_ANTHROPIC_API_KEY` or `LLM_GEMINI_API_KEY` if you switch a feature's `MODEL_CONFIG__TRANSPORT` to `anthropic` or `gemini`.
+
+See the [LLM Setup](https://honcho.dev/docs/v3/contributing/self-hosting.md#llm-setup) section for provider configuration. You can change which providers are used in your `.env` or `config.toml` (see [Configuration Guide](https://honcho.dev/docs/v3/contributing/configuration.md#llm-configuration)).
 
 ### Server won't start: "JWT\_SECRET must be set"
 
@@ -108,7 +108,7 @@ Messages are stored but no observations, summaries, or representations are being
 
 2. **Deriver can't reach the database** — Check deriver logs for connection errors. The deriver uses the same `DB_CONNECTION_URI` as the API server.
 
-3. **Missing LLM API key for deriver provider** — By default the deriver uses Google Gemini (`LLM_GEMINI_API_KEY`). Check deriver logs for API errors.
+3. **Missing LLM API key for deriver provider** — By default the deriver uses the `openai` transport (`LLM_OPENAI_API_KEY`). Check deriver logs for API errors.
 
 4. **Processing backlog** — With `DERIVER_WORKERS=1` (default), high message volume can cause a backlog. Increase workers:
    ```bash
@@ -159,6 +159,20 @@ DERIVER_MODEL_CONFIG__STRUCTURED_OUTPUT_MODE=json_object
 ```
 
 This is a per-model-config setting on the OpenAI transport; set it on whichever features use the affected provider (e.g. `DREAM_DEDUCTION_MODEL_CONFIG__STRUCTURED_OUTPUT_MODE`).
+
+### Chat with `response_format` returns 422
+
+A chat request with a `response_format` returns `422` with `The model's answer did not match the requested response_format` when the final answer still isn't JSON matching the schema after retries. The usual cause is the same as above: a provider or proxy that accepts `json_schema` without enforcing it. For example, LiteLLM in front of Anthropic models emulates `json_schema` with a tool the model may decline to call, especially on the final answer of a tool loop.
+
+**Fix:** set `STRUCTURED_OUTPUT_MODE=json_object` on the affected dialectic levels:
+
+```bash theme={null}
+DIALECTIC_LEVELS__medium__MODEL_CONFIG__STRUCTURED_OUTPUT_MODE=json_object
+```
+
+This sets the level's primary model only. If its fallback model also goes through the same proxy, set `STRUCTURED_OUTPUT_MODE` on the fallback config too.
+
+Streaming chat requests (`stream=true`) don't validate the answer, so they never return this `422`: a non-JSON answer streams through with a `200`.
 
 ### Thinking budget errors with non-Anthropic providers
 
@@ -217,6 +231,7 @@ uv run alembic upgrade head
 ```sql theme={null}
 CREATE EXTENSION IF NOT EXISTS vector;
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
+CREATE EXTENSION IF NOT EXISTS btree_gin;
 ```
 
 The `IF NOT EXISTS` calls then short-circuit and the application role needs no extension privileges. This is the supported path for deployments where the platform, not the application, owns extension management.
@@ -232,6 +247,17 @@ You won't hit this with `docker compose` — the bundled stack connects as `post
 ```sql theme={null}
 CREATE EXTENSION IF NOT EXISTS pg_trgm;
 CREATE INDEX CONCURRENTLY ix_messages_content_trgm ON "<schema>".messages USING gin (content gin_trgm_ops);
+```
+
+### "btree\_gin is not installed; skipping ix\_queue\_pending\_observers"
+
+**Cause:** Migrations couldn't create the `btree_gin` extension, so they skipped the queue index that finds pending work fanning out to a peer within a workspace. Nothing reads it in normal operation; lookups that would use it fall back to other queue indexes.
+
+**Fix:** Install the extension as a privileged role, then create the index with the statement printed in the warning (the migration is already recorded as applied, so re-running migrations won't add it):
+
+```sql theme={null}
+CREATE EXTENSION IF NOT EXISTS btree_gin;
+CREATE INDEX CONCURRENTLY ix_queue_pending_observers ON "<schema>".queue USING gin (workspace_name, (payload -> 'observers')) WHERE processed = false AND (payload -> 'observers') IS NOT NULL;
 ```
 
 ### Migration waits a long time on "Building ix\_messages\_content\_trgm concurrently"
@@ -343,7 +369,7 @@ docker compose up -d
 
 ## CLI local stack (`honcho start`)
 
-The CLI local stack lives under `~/.honcho/profiles/` (default profile `local`) and uses the published image `ghcr.io/plastic-labs/honcho:latest`. Logs: `docker compose -p honcho-local logs`. Full flags: [CLI reference](/docs/v3/documentation/reference/cli#local-stack).
+The CLI local stack lives under `~/.honcho/profiles/` (default profile `local`) and uses the published image `ghcr.io/plastic-labs/honcho:latest`. Logs: `docker compose -p honcho-local logs`. Full flags: [CLI reference](https://honcho.dev/docs/v3/documentation/reference/cli.md#local-stack).
 
 ### `MISSING_LLM_KEY`
 
@@ -374,7 +400,7 @@ If your issue isn't covered here:
 * **Check the logs** — most issues are diagnosed from server or deriver logs (`docker compose logs` for from-source compose; `docker compose -p honcho-local logs` for `honcho start`)
 * **GitHub Issues** — [Report bugs](https://github.com/plastic-labs/honcho/issues)
 * **Discord** — [Join our community](https://discord.gg/plasticlabs)
-* **Configuration** — See the [Configuration Guide](./configuration) for all available settings
+* **Configuration** — See the [Configuration Guide](https://honcho.dev/docs/v3/contributing/configuration.md) for all available settings
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

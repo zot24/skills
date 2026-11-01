@@ -24,7 +24,7 @@ delete, no trash, and no restore.
 delete the sessions it participated in, then delete its remaining conclusions
 (see [Conclusions outlive their sessions](#conclusions-outlive-their-sessions)).
 To remove a peer from one conversation without deleting anything, use
-[remove peers from session](/docs/v3/api-reference/endpoint/sessions/remove-peers-from-session)
+[remove peers from session](https://honcho.dev/docs/v3/api-reference/endpoint/sessions/remove-peers-from-session.md)
 instead.
 
 ## Deleting a session
@@ -43,18 +43,16 @@ Because the work is asynchronous, a `202` means *accepted*, not *finished*. The
 session drops out of session listings right away, but its messages and
 conclusions drain afterwards. Deletion tasks are internal infrastructure work
 and do **not** appear in
-[queue status](/docs/v3/documentation/features/advanced/queue-status) counts, so
+[queue status](https://honcho.dev/docs/v3/documentation/features/advanced/queue-status.md) counts, so
 there is no endpoint that reports when the cascade has finished.
 
-<CodeGroup>
-  ```python Python
-  session.delete()
-  ```
+```python Python theme={null}
+session.delete()
+```
 
-  ```typescript TypeScript
-  await session.delete();
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+await session.delete();
+```
 
 ## Deleting a workspace
 
@@ -76,24 +74,22 @@ runs. That is fine: a session is marked inactive synchronously, so the workspace
 delete stops returning `409` as soon as the deletes are accepted. Any session
 created after the workspace deletion is accepted is cascade-deleted too.
 
-<CodeGroup>
-  ```python Python
-  # Materialize the list first — deleting shifts the pagination window
-  for session in list(honcho.sessions()):
-      session.delete()
+```python Python theme={null}
+# Materialize the list first — deleting shifts the pagination window
+for session in list(honcho.sessions()):
+    session.delete()
 
-  honcho.delete_workspace("my-app")
-  ```
+honcho.delete_workspace("my-app")
+```
 
-  ```typescript TypeScript
-  // Materialize the list first — deleting shifts the pagination window
-  const sessions = [];
-  for await (const session of await honcho.sessions()) sessions.push(session);
-  for (const session of sessions) await session.delete();
+```typescript TypeScript theme={null}
+// Materialize the list first — deleting shifts the pagination window
+const sessions = [];
+for await (const session of await honcho.sessions()) sessions.push(session);
+for (const session of sessions) await session.delete();
 
-  await honcho.deleteWorkspace("my-app");
-  ```
-</CodeGroup>
+await honcho.deleteWorkspace("my-app");
+```
 
 Deleting a workspace removes every peer, session, message, conclusion,
 collection, embedding, webhook endpoint, and queued task belonging to it.
@@ -108,22 +104,20 @@ everything Honcho learned in it.
 * **Derived conclusions** (deductive, inductive, contradiction) are consolidations
   that may draw on several sessions. They are stored at the workspace level with
   no owning session, so they survive session deletion and stay in the peer's
-  [representation](/docs/v3/documentation/core-concepts/representation).
+  [representation](https://honcho.dev/docs/v3/documentation/core-concepts/representation.md).
 
 To remove those, list and delete them directly:
 
-<CodeGroup>
-  ```python Python
-  for conclusion in alice.conclusions.list():
-      alice.conclusions.delete(conclusion.id)
-  ```
+```python Python theme={null}
+for conclusion in alice.conclusions.list():
+    alice.conclusions.delete(conclusion.id)
+```
 
-  ```typescript TypeScript
-  for (const conclusion of await alice.conclusions.list()) {
-    await alice.conclusions.delete(conclusion.id);
-  }
-  ```
-</CodeGroup>
+```typescript TypeScript theme={null}
+for (const conclusion of await alice.conclusions.list()) {
+  await alice.conclusions.delete(conclusion.id);
+}
+```
 
 Deleting the whole workspace removes conclusions at every level and needs no
 follow-up.

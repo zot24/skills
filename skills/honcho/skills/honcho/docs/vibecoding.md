@@ -18,53 +18,50 @@ The fastest way to give any AI tool persistent memory is through the Honcho MCP 
 2. Add the config for your client below
 3. Restart your client
 
-See the [full MCP documentation](/docs/v3/guides/integrations/mcp) for all available tools, advanced configuration, and setup instructions for every supported client.
+See the [full MCP documentation](https://honcho.dev/docs/v3/guides/integrations/mcp.md) for all available tools, advanced configuration, and setup instructions for every supported client.
 
-<CodeGroup>
-  ```json Claude Desktop
-  {
-    "mcpServers": {
-      "honcho": {
-        "command": "npx",
-        "args": [
-          "mcp-remote",
-          "https://mcp.honcho.dev",
-          "--header",
-          "Authorization:${AUTH_HEADER}",
-          "--header",
-          "X-Honcho-User-Name:${USER_NAME}"
-        ],
-        "env": {
-          "AUTH_HEADER": "Bearer hch-your-key-here",
-          "USER_NAME": "YourName"
-        }
+```json Claude Desktop theme={null}
+{
+  "mcpServers": {
+    "honcho": {
+      "command": "npx",
+      "args": [
+        "mcp-remote",
+        "https://mcp.honcho.dev",
+        "--header",
+        "Authorization:${AUTH_HEADER}",
+        "--header",
+        "X-Honcho-Plugin:claude-desktop"
+      ],
+      "env": {
+        "AUTH_HEADER": "Bearer hch-your-key-here"
       }
     }
   }
-  ```
+}
+```
 
-  ```json Cursor
-  {
-    "mcpServers": {
-      "honcho": {
-        "url": "https://mcp.honcho.dev",
-        "headers": {
-          "Authorization": "Bearer hch-your-key-here",
-          "X-Honcho-User-Name": "YourName"
-        }
+```json Cursor theme={null}
+{
+  "mcpServers": {
+    "honcho": {
+      "url": "https://mcp.honcho.dev",
+      "headers": {
+        "Authorization": "Bearer hch-your-key-here",
+        "X-Honcho-Plugin": "cursor"
       }
     }
   }
-  ```
+}
+```
 
-  ```bash Claude Code
-  claude mcp add honcho \
-    --transport http \
-    --url "https://mcp.honcho.dev" \
-    --header "Authorization: Bearer hch-your-key-here" \
-    --header "X-Honcho-User-Name: YourName"
-  ```
-</CodeGroup>
+```bash Claude Code theme={null}
+claude mcp add honcho \
+  --transport http \
+  --url "https://mcp.honcho.dev" \
+  --header "Authorization: Bearer hch-your-key-here" \
+  --header "X-Honcho-Plugin: claude-code"
+```
 
 ***
 
@@ -85,13 +82,13 @@ honcho doctor                # verify connectivity
 
 The CLI also ships an agent skill. Install it with `npx skills add plastic-labs/honcho` and pick `honcho-cli` from the list.
 
-See the [full CLI reference](/docs/v3/documentation/reference/cli) for all commands, flags, and environment variables.
+See the [full CLI reference](https://honcho.dev/docs/v3/documentation/reference/cli.md) for all commands, flags, and environment variables.
 
 ***
 
 ## Claude Code Plugin
 
-Use Honcho to build with Honcho! The [plugin](/docs/v3/guides/integrations/claudecode) provides Claude Code persistent memory that survives context wipes and session restarts.
+Use Honcho to build with Honcho! The [plugin](https://honcho.dev/docs/v3/guides/integrations/claudecode.md) provides Claude Code persistent memory that survives context wipes and session restarts.
 
 ```bash theme={null}
 /plugin marketplace add plastic-labs/claude-honcho
@@ -101,19 +98,19 @@ Use Honcho to build with Honcho! The [plugin](/docs/v3/guides/integrations/claud
 
 The marketplace also includes all the agent skills below, so you can use `/honcho-dev:integrate` directly after installing.
 
-See the [full Claude Code integration guide](/docs/v3/guides/integrations/claudecode) for setup details.
+See the [full Claude Code integration guide](https://honcho.dev/docs/v3/guides/integrations/claudecode.md) for setup details.
 
 ***
 
 ## OpenCode Plugin
 
-The [OpenCode plugin](/docs/v3/guides/integrations/opencode) gives OpenCode sessions persistent memory that survives context wipes, session restarts, and fresh chats.
+The [OpenCode plugin](https://honcho.dev/docs/v3/guides/integrations/opencode.md) gives OpenCode sessions persistent memory that survives context wipes, session restarts, and fresh chats.
 
 ```bash theme={null}
 bunx @honcho-ai/opencode-honcho install
 ```
 
-Then run `/honcho:setup` inside OpenCode. See the [full OpenCode integration guide](/docs/v3/guides/integrations/opencode) for setup details.
+Then run `/honcho:setup` inside OpenCode. See the [full OpenCode integration guide](https://honcho.dev/docs/v3/guides/integrations/opencode.md) for setup details.
 
 ***
 
@@ -121,17 +118,15 @@ Then run `/honcho:setup` inside OpenCode. See the [full OpenCode integration gui
 
 We provide agent skills for coding assistants like Claude Code, OpenCode, Cursor, Windsurf, and others.
 
-<CodeGroup>
-  ```bash Install via npx (Recommended)
-  npx skills add plastic-labs/honcho
-  ```
+```bash Install via npx (Recommended) theme={null}
+npx skills add plastic-labs/honcho
+```
 
-  ```bash Install as Claude Skill Manually
-  mkdir -p ~/.claude/skills/honcho-integration
-  curl -o ~/.claude/skills/honcho-integration/SKILL.md \
-    https://raw.githubusercontent.com/plastic-labs/honcho/main/.claude/skills/honcho-integration/SKILL.md
-  ```
-</CodeGroup>
+```bash Install as Claude Skill Manually theme={null}
+mkdir -p ~/.claude/skills/honcho-integration
+curl -o ~/.claude/skills/honcho-integration/SKILL.md \
+  https://raw.githubusercontent.com/plastic-labs/honcho/main/.claude/skills/honcho-integration/SKILL.md
+```
 
 ### Available Skills
 

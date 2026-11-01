@@ -237,7 +237,7 @@ the IDs were given; an issue that was already closed is reported too. Each
 entry is the closed issue (`status` is `closed`, with `closed_at` and
 `close_reason`) without its `dependencies`, plus two optional members present
 only when that close completed a molecule (see
-[Molecules](/workflows/molecules)):
+[Molecules](https://beads.gascity.com/workflows/molecules.md)):
 
 * `auto_closed_molecule` (object, optional): The molecule root the close also
   closed, as an issue object whose `close_reason` is `all steps complete`

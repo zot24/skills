@@ -8,7 +8,7 @@
 
 > Use Firecrawl with OpenClaw to give your agents web scraping, search, and browser automation capabilities.
 
-Integrate Firecrawl with OpenClaw to give your agents the ability to scrape, search, crawl, extract, and interact with the web — all through the [Firecrawl CLI](/sdks/cli).
+Integrate Firecrawl with OpenClaw to give your agents the ability to scrape, search, crawl, and interact with the web, and run Agent jobs, all through the [Firecrawl CLI](https://docs.firecrawl.dev/sdks/cli.md).
 
 ## Why Firecrawl + OpenClaw
 
@@ -29,11 +29,11 @@ npx -y firecrawl-cli init --browser --all
 * `--all` skips agent selection and initializes every detected agent
 * `--browser` opens the browser for Firecrawl authentication automatically
 
-or install everything seperately:
+or install everything separately:
 
 ```bash theme={null}
 npm install -g firecrawl-cli
-firecrawl init skills
+firecrawl setup skills
 firecrawl login --browser
 # Or, skip the browser and provide your API key directly:
 export FIRECRAWL_API_KEY="fc-YOUR-API-KEY"
@@ -45,9 +45,9 @@ Verify everything is set up correctly:
 firecrawl --status
 ```
 
-
-  Once the skill is installed, your OpenClaw agent automatically discovers and uses Firecrawl commands — no extra configuration needed.
-
+> [!TIP]
+>
+> Once the skill is installed, your OpenClaw agent automatically discovers and uses Firecrawl commands — no extra configuration needed.
 
 ## Scrape
 
@@ -68,39 +68,33 @@ firecrawl https://example.com --format markdown,links --pretty
 Search the web and optionally scrape the results:
 
 ```bash theme={null}
-firecrawl search "latest AI funding rounds 2025" --limit 10
+firecrawl search "latest AI funding rounds" --limit 10
 
 # Search and scrape the results
 firecrawl search "OpenClaw documentation" --scrape --scrape-formats markdown
 ```
 
-## Browser
+## Interact
 
-Launch a remote browser session for interactive automation. Each session runs in an isolated sandbox — no local Chromium install required. `agent-browser` is pre-installed with 40+ commands.
-
-```bash theme={null}
-# Shorthand: auto-launches a session if none is active
-firecrawl browser "open https://news.ycombinator.com"
-firecrawl browser "snapshot"
-firecrawl browser "scrape"
-firecrawl browser close
-```
-
-Interact with page elements using refs from the snapshot:
+Scrape a page, then keep working with it in a live browser session. Each session runs remotely in an isolated sandbox, so no local Chromium install is required. `interact` uses the most recent scrape by default.
 
 ```bash theme={null}
-firecrawl browser "open https://example.com"
-firecrawl browser "snapshot"
-# snapshot returns @ref IDs — use them to interact
-firecrawl browser "click @e5"
-firecrawl browser "fill @e3 'search query'"
-firecrawl browser "scrape"
-firecrawl browser close
+firecrawl scrape https://news.ycombinator.com
+firecrawl interact "What are the titles of the top 3 stories?"
+firecrawl interact "Click the More link at the bottom of the page and list the first 3 story titles"
+firecrawl interact stop
 ```
 
+Run code against the live page instead of a prompt:
 
-  The shorthand form (`firecrawl browser "..."`) sends commands to `agent-browser` automatically and auto-launches a sandbox session if there isn't one active. Your agent issues intent-level actions (`open`, `click`, `fill`, `snapshot`, `scrape`) instead of writing Playwright code.
+```bash theme={null}
+firecrawl interact -c "await page.title()"
+firecrawl interact -c "print(await page.title())" --python
+```
 
+> [!NOTE]
+>
+> Your agent issues intent-level prompts, or short Playwright snippets, instead of managing a local browser. Run `firecrawl interact stop` when it's done to release the session. The older `firecrawl browser` command is deprecated; use `scrape` followed by `interact` instead.
 
 ## Example: tell your agent
 
@@ -108,14 +102,14 @@ Here are some prompts you can give your OpenClaw agent:
 
 * *"Use Firecrawl to scrape [https://example.com](https://example.com) and summarize the main content."*
 * *"Search for the latest OpenAI news and give me a summary of the top 5 results."*
-* *"Use Firecrawl Browser to open Hacker News, get the top 5 stories, and the first 10 comments on each."*
+* *"Use Firecrawl to open Hacker News with interact, get the top 5 stories, and the first 10 comments on each."*
 * *"Crawl the docs at [https://docs.firecrawl.dev](https://docs.firecrawl.dev) and save them to a file."*
 
 ## Further reading
 
-* [Firecrawl CLI reference](/sdks/cli)
-* [Browser Sandbox docs](/features/browser)
-* [Agent docs](/features/agent)
+* [Firecrawl CLI reference](https://docs.firecrawl.dev/sdks/cli.md)
+* [Interact docs](https://docs.firecrawl.dev/features/interact.md)
+* [Agent docs](https://docs.firecrawl.dev/features/agent.md)
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

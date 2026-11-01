@@ -300,12 +300,13 @@ components:
                       Description extracted from the page, can be a string or
                       array of strings
                   language:
-                    oneOf:
+                    anyOf:
                       - type: string
+                        nullable: true
                       - type: array
                         items:
                           type: string
-                    nullable: true
+                        nullable: true
                     description: >-
                       Language extracted from the page, can be a string or array
                       of strings

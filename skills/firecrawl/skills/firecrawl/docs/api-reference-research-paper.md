@@ -10,7 +10,7 @@ Inspect paper metadata by id, or add a `query` parameter to read the most releva
 
 Accepted ids include canonical `paperId` values and source-specific `primaryId` values (e.g. `arxiv:1706.03762`).
 
-For a workflow overview, see the [Research Index guide](/features/research).
+For a workflow overview, see the [Research Index guide](https://docs.firecrawl.dev/features/research.md).
 
 
 ## OpenAPI

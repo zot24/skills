@@ -36,60 +36,58 @@ When `lockdown: true` is set on a `/v2/scrape` request:
 
 Add `lockdown: true` to your scrape request.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR_API_KEY",
-  )
+firecrawl = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR_API_KEY",
+)
 
-  # Serve only previously cached results. No outbound request is made.
-  # Returns SCRAPE_LOCKDOWN_CACHE_MISS if the URL is not in the cache.
-  scrape_result = firecrawl.scrape(
-      'https://firecrawl.dev',
-      formats=['markdown'],
-      lockdown=True,
-  )
+# Serve only previously cached results. No outbound request is made.
+# Returns SCRAPE_LOCKDOWN_CACHE_MISS if the URL is not in the cache.
+scrape_result = firecrawl.scrape(
+    'https://firecrawl.dev',
+    formats=['markdown'],
+    lockdown=True,
+)
 
-  print(scrape_result.markdown)
-  ```
+print(scrape_result.markdown)
+```
 
-  ```javascript JavaScript
-  import { Firecrawl } from 'firecrawl';
+```javascript JavaScript theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR_API_KEY",
-  });
+const firecrawl = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR_API_KEY",
+});
 
-  // Serve only previously cached results. No outbound request is made.
-  // Returns SCRAPE_LOCKDOWN_CACHE_MISS if the URL is not in the cache.
-  const scrapeResult = await firecrawl.scrape('https://firecrawl.dev', {
-    formats: ['markdown'],
-    lockdown: true,
-  });
+// Serve only previously cached results. No outbound request is made.
+// Returns SCRAPE_LOCKDOWN_CACHE_MISS if the URL is not in the cache.
+const scrapeResult = await firecrawl.scrape('https://firecrawl.dev', {
+  formats: ['markdown'],
+  lockdown: true,
+});
 
-  console.log(scrapeResult.markdown);
-  ```
+console.log(scrapeResult.markdown);
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer fc-YOUR_API_KEY" for higher rate limits:
-  curl -X POST https://api.firecrawl.dev/v2/scrape \
-    -H 'Content-Type: application/json' \
-    -d '{
-      "url": "https://firecrawl.dev",
-      "formats": ["markdown"],
-      "lockdown": true
-    }'
-  ```
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer fc-YOUR_API_KEY" for higher rate limits:
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "url": "https://firecrawl.dev",
+    "formats": ["markdown"],
+    "lockdown": true
+  }'
+```
 
-  ```bash CLI
-  # Serve only previously cached results. No outbound request is made.
-  firecrawl https://firecrawl.dev --lockdown
-  ```
-</CodeGroup>
+```bash CLI theme={null}
+# Serve only previously cached results. No outbound request is made.
+firecrawl https://firecrawl.dev --lockdown
+```
 
 ## Cache miss response
 

@@ -8,7 +8,7 @@
 
 > A quick-reference profile of stable biographical facts about a peer
 
-A **peer card** is a list of stable, biographical facts about a peer--name, occupation, preferences, standing instructions--that acts as a quick-reference profile. While the full [representation](/docs/v3/documentation/core-concepts/representation) contains all of Honcho's reasoning (conclusions, summaries, semantic search results), the peer card captures the grounding facts that should never be forgotten.
+A **peer card** is a list of stable, biographical facts about a peer--name, occupation, preferences, standing instructions--that acts as a quick-reference profile. While the full [representation](https://honcho.dev/docs/v3/documentation/core-concepts/representation.md) contains all of Honcho's reasoning (conclusions, summaries, semantic search results), the peer card captures the grounding facts that should never be forgotten.
 
 Think of it as the front of a contact card: the information an agent needs at a glance to know who it's talking to.
 
@@ -33,130 +33,124 @@ Peer cards are populated through two paths:
 
 **1. Automatic (via Dreaming)**
 
-When [dreaming](/docs/v3/documentation/features/advanced/dreaming) runs, the deduction and induction specialists extract stable biographical facts from existing conclusions and write them to the peer card. This happens without any manual intervention--Honcho identifies facts like names, occupations, and preferences from conversation history and records them automatically.
+When [dreaming](https://honcho.dev/docs/v3/documentation/features/advanced/dreaming.md) runs, the deduction and induction specialists extract stable biographical facts from existing conclusions and write them to the peer card. This happens without any manual intervention--Honcho identifies facts like names, occupations, and preferences from conversation history and records them automatically.
 
 **2. Manual (via SDK or API)**
 
 You can set a peer card directly. This is useful for bootstrapping a peer with known information before any conversation has occurred, or for correcting facts that Honcho hasn't yet discovered.
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  honcho = Honcho()
-  peer = honcho.peer("user-123")
+honcho = Honcho()
+peer = honcho.peer("user-123")
 
-  # Set the peer card
-  peer.set_card([
-      "Name: Alice. Also known as 'Ali'.",
-      "College student at MIT, studying computer science.",
-      "PREFERENCE: Prefers casual tone.",
-      "INSTRUCTION: Never mention her ex-boyfriend.",
-  ])
+# Set the peer card
+peer.set_card([
+    "Name: Alice. Also known as 'Ali'.",
+    "College student at MIT, studying computer science.",
+    "PREFERENCE: Prefers casual tone.",
+    "INSTRUCTION: Never mention her ex-boyfriend.",
+])
 
-  # Retrieve the peer card
-  card = peer.get_card()
-  print(card)
-  # ["Name: Alice. Also known as 'Ali'.", "College student at MIT...", ...]
-  ```
+# Retrieve the peer card
+card = peer.get_card()
+print(card)
+# ["Name: Alice. Also known as 'Ali'.", "College student at MIT...", ...]
+```
 
-  ```typescript TypeScript
-  import { Honcho } from "@honcho-ai/sdk";
+```typescript TypeScript theme={null}
+import { Honcho } from "@honcho-ai/sdk";
 
-  const honcho = new Honcho({});
-  const peer = await honcho.peer("user-123");
+const honcho = new Honcho({});
+const peer = await honcho.peer("user-123");
 
-  // Set the peer card
-  await peer.setCard([
-      "Name: Alice. Also known as 'Ali'.",
-      "College student at MIT, studying computer science.",
-      "PREFERENCE: Prefers casual tone.",
-      "INSTRUCTION: Never mention her ex-boyfriend.",
-  ]);
+// Set the peer card
+await peer.setCard([
+    "Name: Alice. Also known as 'Ali'.",
+    "College student at MIT, studying computer science.",
+    "PREFERENCE: Prefers casual tone.",
+    "INSTRUCTION: Never mention her ex-boyfriend.",
+]);
 
-  // Retrieve the peer card
-  const card = await peer.getCard();
-  console.log(card);
-  // ["Name: Alice. Also known as 'Ali'.", "College student at MIT...", ...]
-  ```
-</CodeGroup>
+// Retrieve the peer card
+const card = await peer.getCard();
+console.log(card);
+// ["Name: Alice. Also known as 'Ali'.", "College student at MIT...", ...]
+```
 
 ## Directional Peer Cards
 
-Peer cards follow the same observer-observed model as [representations](/docs/v3/documentation/features/advanced/directional-representations). When `observe_others` is enabled, a peer can have a **different** card for each peer it observes.
+Peer cards follow the same observer-observed model as [representations](https://honcho.dev/docs/v3/documentation/features/advanced/directional-representations.md). When `observe_others` is enabled, a peer can have a **different** card for each peer it observes.
 
 For example, if Alice and Bob are in a session together and Alice has `observe_others: true`, Alice will build her own peer card for Bob--separate from Honcho's peer card for Bob. You can read and write these directional cards using the `target` parameter.
 
-<CodeGroup>
-  ```python Python
-  alice = honcho.peer("alice")
+```python Python theme={null}
+alice = honcho.peer("alice")
 
-  # Get Alice's own peer card (Honcho's view of Alice)
-  alice_card = alice.get_card()
+# Get Alice's own peer card (Honcho's view of Alice)
+alice_card = alice.get_card()
 
-  # Get Alice's card for Bob (Alice's view of Bob)
-  alice_bob_card = alice.get_card(target="bob")
+# Get Alice's card for Bob (Alice's view of Bob)
+alice_bob_card = alice.get_card(target="bob")
 
-  # Set Alice's card for Bob
-  alice.set_card(
-      ["Bob mentioned he's allergic to peanuts."],
-      target="bob"
-  )
-  ```
+# Set Alice's card for Bob
+alice.set_card(
+    ["Bob mentioned he's allergic to peanuts."],
+    target="bob"
+)
+```
 
-  ```typescript TypeScript
-  const alice = await honcho.peer("alice");
+```typescript TypeScript theme={null}
+const alice = await honcho.peer("alice");
 
-  // Get Alice's own peer card (Honcho's view of Alice)
-  const aliceCard = await alice.getCard();
+// Get Alice's own peer card (Honcho's view of Alice)
+const aliceCard = await alice.getCard();
 
-  // Get Alice's card for Bob (Alice's view of Bob)
-  const aliceBobCard = await alice.getCard({ target: "bob" });
+// Get Alice's card for Bob (Alice's view of Bob)
+const aliceBobCard = await alice.getCard({ target: "bob" });
 
-  // Set Alice's card for Bob
-  await alice.setCard(
-      ["Bob mentioned he's allergic to peanuts."],
-      { target: "bob" }
-  );
-  ```
-</CodeGroup>
+// Set Alice's card for Bob
+await alice.setCard(
+    ["Bob mentioned he's allergic to peanuts."],
+    { target: "bob" }
+);
+```
 
 ## Where Peer Cards Are Used
 
 ### In the Dialectic (Chat Endpoint)
 
-When you call [`peer.chat()`](/docs/v3/documentation/features/chat), Honcho automatically injects the relevant peer cards into the system prompt. The dialectic agent sees both the observer's own card and the observed peer's card, giving it immediate grounding without needing to search memory.
+When you call [`peer.chat()`](https://honcho.dev/docs/v3/documentation/features/chat), Honcho automatically injects the relevant peer cards into the system prompt. The dialectic agent sees both the observer's own card and the observed peer's card, giving it immediate grounding without needing to search memory.
 
 ### In Context Retrieval
 
-The [`session.context()`](/docs/v3/documentation/features/get-context) method includes the peer card when you specify a `peer_target`:
+The [`session.context()`](https://honcho.dev/docs/v3/documentation/features/get-context) method includes the peer card when you specify a `peer_target`:
 
-<CodeGroup>
-  ```python Python
-  context = session.context(
-      tokens=2000,
-      peer_target="user-123"
-  )
+```python Python theme={null}
+context = session.context(
+    tokens=2000,
+    peer_target="user-123"
+)
 
-  # Access the peer card alongside the representation
-  print(context.peer_card)            # List of peer card facts
-  print(context.peer_representation)  # Full representation text
-  ```
+# Access the peer card alongside the representation
+print(context.peer_card)            # List of peer card facts
+print(context.peer_representation)  # Full representation text
+```
 
-  ```typescript TypeScript
-  const context = await session.context({
-      tokens: 2000,
-      peerTarget: "user-123"
-  });
+```typescript TypeScript theme={null}
+const context = await session.context({
+    tokens: 2000,
+    peerTarget: "user-123"
+});
 
-  console.log(context.peerCard);            // Array of peer card facts
-  console.log(context.peerRepresentation);  // Full representation text
-  ```
-</CodeGroup>
+console.log(context.peerCard);            // Array of peer card facts
+console.log(context.peerRepresentation);  // Full representation text
+```
 
 ### During Dreaming
 
-The [dreaming](/docs/v3/documentation/features/advanced/dreaming) process reads the current peer card before consolidation, then updates it with any new stable facts discovered during the deduction and induction phases.
+The [dreaming](https://honcho.dev/docs/v3/documentation/features/advanced/dreaming.md) process reads the current peer card before consolidation, then updates it with any new stable facts discovered during the deduction and induction phases.
 
 ## Limits
 
@@ -167,50 +161,48 @@ The [dreaming](/docs/v3/documentation/features/advanced/dreaming) process reads 
 
 When the dreaming process or a manual update pushes the card beyond 40 facts, it is automatically truncated to the first 40 entries. Keep facts concise and deduplicated to stay within the limit.
 
-
-  If you manually set a peer card, it **replaces** the entire card--it does not merge with existing facts. Make sure to include all facts you want to keep when calling `set_card()`.
-
+> [!WARNING]
+>
+> If you manually set a peer card, it **replaces** the entire card--it does not merge with existing facts. Make sure to include all facts you want to keep when calling `set_card()`.
 
 ## Configuration
 
-Peer card behavior is controlled through the [configuration hierarchy](/docs/v3/documentation/features/advanced/reasoning-configuration). You can independently toggle whether agents **use** existing peer cards and whether they **create/update** them.
+Peer card behavior is controlled through the [configuration hierarchy](https://honcho.dev/docs/v3/documentation/features/advanced/reasoning-configuration.md). You can independently toggle whether agents **use** existing peer cards and whether they **create/update** them.
 
-<CodeGroup>
-  ```python Python
-  # Disable peer card updates but still use existing cards during reasoning
-  session = honcho.session("my-session", config={
-      "peer_card": {"create": False, "use": True}
-  })
+```python Python theme={null}
+# Disable peer card updates but still use existing cards during reasoning
+session = honcho.session("my-session", config={
+    "peer_card": {"create": False, "use": True}
+})
 
-  # Disable peer cards entirely
-  session = honcho.session("no-cards", config={
-      "peer_card": {"create": False, "use": False}
-  })
-  ```
+# Disable peer cards entirely
+session = honcho.session("no-cards", config={
+    "peer_card": {"create": False, "use": False}
+})
+```
 
-  ```typescript TypeScript
-  // Disable peer card updates but still use existing cards during reasoning
-  const session = await honcho.session("my-session", {
-      config: {
-          peer_card: { create: false, use: true }
-      }
-  });
+```typescript TypeScript theme={null}
+// Disable peer card updates but still use existing cards during reasoning
+const session = await honcho.session("my-session", {
+    config: {
+        peer_card: { create: false, use: true }
+    }
+});
 
-  // Disable peer cards entirely
-  const noCards = await honcho.session("no-cards", {
-      config: {
-          peer_card: { create: false, use: false }
-      }
-  });
-  ```
-</CodeGroup>
+// Disable peer cards entirely
+const noCards = await honcho.session("no-cards", {
+    config: {
+        peer_card: { create: false, use: false }
+    }
+});
+```
 
 | Field | Type | Default | Description |
 | - | - | - | - |
 | `use` | `bool` | `true` | Whether agents read the peer card during reasoning and chat |
 | `create` | `bool` | `true` | Whether agents can create or update peer cards |
 
-Configuration can be set at the workspace, session, or message level. See [Reasoning Configuration](/docs/v3/documentation/features/advanced/reasoning-configuration) for the full hierarchy.
+Configuration can be set at the workspace, session, or message level. See [Reasoning Configuration](https://honcho.dev/docs/v3/documentation/features/advanced/reasoning-configuration.md) for the full hierarchy.
 
 ## Best Practices
 
@@ -224,17 +216,21 @@ Configuration can be set at the workspace, session, or message level. See [Reaso
 
 5. **Use `set_card` for corrections.** If the automatic system has recorded something incorrect, manually set the card with the corrected facts. Remember this replaces the entire card.
 
+> [card] [Representations](https://honcho.dev/docs/v3/documentation/core-concepts/representation.md)
+>
+> Understand the full representation system that peer cards complement
 
-    Understand the full representation system that peer cards complement
+> [card] [Dreaming](https://honcho.dev/docs/v3/documentation/features/advanced/dreaming.md)
+>
+> Learn how dreaming automatically populates peer cards
 
+> [card] [Configuration](https://honcho.dev/docs/v3/documentation/features/advanced/reasoning-configuration.md)
+>
+> Configure peer card behavior at workspace, session, or message level
 
-    Learn how dreaming automatically populates peer cards
-
-
-    Configure peer card behavior at workspace, session, or message level
-
-
-    API reference for retrieving peer cards
+> [card] [Get Peer Card API](https://honcho.dev/docs/v3/api-reference/endpoint/peers/get-peer-card.md)
+>
+> API reference for retrieving peer cards
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

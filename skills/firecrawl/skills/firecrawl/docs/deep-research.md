@@ -10,78 +10,79 @@
 
 Build automated research agents that search the web, scrape full-page content, and synthesize findings with an LLM. Firecrawl handles source discovery and content extraction so you can focus on analysis, not parsing HTML.
 
-
-  This is the current recommended Deep Research workflow. It is built from Firecrawl Search and Scrape. If you are maintaining the legacy v1 Deep Research API, use the [v1 Deep Research endpoint](/api-reference/v1-endpoint/deep-research) and plan migration to the Search-based workflow.
-
+> [!NOTE]
+>
+> This is the current recommended Deep Research workflow. It is built from Firecrawl Search and Scrape. If you are maintaining the legacy v1 Deep Research API, use the [v1 Deep Research endpoint](https://docs.firecrawl.dev/api-reference/v1-endpoint/deep-research) and plan migration to the Search-based workflow.
 
 ## Start with a Template
 
+> [card] [Fireplexity](https://github.com/firecrawl/fireplexity)
+>
+> Blazing-fast AI search with real-time citations
 
-    Blazing-fast AI search with real-time citations
+> [card] [Firesearch](https://github.com/firecrawl/firesearch)
+>
+> Deep research agent with LangGraph and answer validation
 
+> [card] [Open Researcher](https://github.com/firecrawl/open-researcher)
+>
+> Visual AI research assistant for comprehensive analysis
 
-    Deep research agent with LangGraph and answer validation
-
-
-    Visual AI research assistant for comprehensive analysis
-
-
-  **Choose from multiple research templates.** Clone, configure your API key, and start researching.
-
+> [!NOTE]
+>
+> **Choose from multiple research templates.** Clone, configure your API key, and start researching.
 
 ## How It Works
 
 Build powerful research tools that transform scattered web data into comprehensive insights. The core pattern is a **search → scrape → analyze → repeat** loop: use Firecrawl's search API to discover relevant sources, scrape each source for full content, then feed the results into an LLM to synthesize findings and identify follow-up queries.
 
+**1. Search for sources**
 
-    Use the `/search` endpoint to find relevant pages for your research topic.
+Use the `/search` endpoint to find relevant pages for your research topic.
 
-    <CodeGroup>
-      ```python Python
-      from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-      firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-      results = firecrawl.search(
-          "recent advances in quantum computing",
-          limit=5,
-          scrape_options={"formats": ["markdown", "links"]}
-      )
-      ```
+results = firecrawl.search(
+    "recent advances in quantum computing",
+    limit=5,
+    scrape_options={"formats": ["markdown", "links"]}
+)
+```
 
-      ```js Node.js
-      import { Firecrawl } from 'firecrawl';
+```js Node.js theme={null}
+import { Firecrawl } from 'firecrawl';
 
-      const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
 
-      const results = await firecrawl.search(
-        'recent advances in quantum computing',
-        { limit: 5, scrapeOptions: { formats: ['markdown', 'links'] } }
-      );
-      ```
-    </CodeGroup>
+const results = await firecrawl.search(
+  'recent advances in quantum computing',
+  { limit: 5, scrapeOptions: { formats: ['markdown', 'links'] } }
+);
+```
 
+**2. Scrape discovered pages**
 
-    Extract full content from each result to get detailed information with citations.
+Extract full content from each result to get detailed information with citations.
 
-    <CodeGroup>
-      ```python Python
-      for result in results:
-          doc = firecrawl.scrape(result["url"], formats=["markdown"])
-          # Feed doc content into your LLM for analysis
-      ```
+```python Python theme={null}
+for result in results:
+    doc = firecrawl.scrape(result["url"], formats=["markdown"])
+    # Feed doc content into your LLM for analysis
+```
 
-      ```js Node.js
-      for (const result of results) {
-        const doc = await firecrawl.scrape(result.url, { formats: ['markdown'] });
-        // Feed doc content into your LLM for analysis
-      }
-      ```
-    </CodeGroup>
+```js Node.js theme={null}
+for (const result of results) {
+  const doc = await firecrawl.scrape(result.url, { formats: ['markdown'] });
+  // Feed doc content into your LLM for analysis
+}
+```
 
+**3. Analyze and iterate**
 
-    Use an LLM to synthesize findings, identify gaps, and generate follow-up queries. Repeat the loop until your research question is fully answered.
-
+Use an LLM to synthesize findings, identify gaps, and generate follow-up queries. Repeat the loop until your research question is fully answered.
 
 ## Why Researchers Choose Firecrawl
 
@@ -103,27 +104,31 @@ Reduce the risk of missing critical information. Build systems that follow citat
 
 ## FAQs
 
+> [accordion] How can I build research tools with Firecrawl?
+>
+> Use Firecrawl's crawl and search APIs to build iterative research systems. Start with search results, extract content from relevant pages, follow citation links, and aggregate findings. Combine with LLMs to synthesize comprehensive research reports.
 
-    Use Firecrawl's crawl and search APIs to build iterative research systems. Start with search results, extract content from relevant pages, follow citation links, and aggregate findings. Combine with LLMs to synthesize comprehensive research reports.
+> [accordion] Can Firecrawl handle academic and scientific websites?
+>
+> Yes. Firecrawl can extract data from open-access research papers, academic websites, and publicly available scientific publications. It preserves formatting, citations, and technical content critical for research work.
 
+> [accordion] How do I ensure research data accuracy?
+>
+> Firecrawl maintains source attribution and extracts content exactly as presented on websites. All data includes source URLs and timestamps, ensuring full traceability for research purposes.
 
-    Yes. Firecrawl can extract data from open-access research papers, academic websites, and publicly available scientific publications. It preserves formatting, citations, and technical content critical for research work.
+> [accordion] Can I use Firecrawl for longitudinal studies?
+>
+> Yes. Set up scheduled crawls to track how information changes over time. This is perfect for monitoring trends, policy changes, or any research requiring temporal data analysis.
 
-
-    Firecrawl maintains source attribution and extracts content exactly as presented on websites. All data includes source URLs and timestamps, ensuring full traceability for research purposes.
-
-
-    Yes. Set up scheduled crawls to track how information changes over time. This is perfect for monitoring trends, policy changes, or any research requiring temporal data analysis.
-
-
-    Our crawling infrastructure scales to handle thousands of sources simultaneously. Whether you're analyzing entire industries or tracking global trends, Firecrawl provides the data pipeline you need.
-
+> [accordion] How does Firecrawl handle large-scale research projects?
+>
+> Our crawling infrastructure scales to handle thousands of sources simultaneously. Whether you're analyzing entire industries or tracking global trends, Firecrawl provides the data pipeline you need.
 
 ## Related Use Cases
 
-* [AI Platforms](/use-cases/ai-platforms) - Build AI research assistants
-* [Content Generation](/use-cases/content-generation) - Research-based content
-* [Competitive Intelligence](/use-cases/competitive-intelligence) - Market research
+* [AI Platforms](https://docs.firecrawl.dev/use-cases/ai-platforms.md) - Build AI research assistants
+* [Content Generation](https://docs.firecrawl.dev/use-cases/content-generation.md) - Research-based content
+* [Competitive Intelligence](https://docs.firecrawl.dev/use-cases/competitive-intelligence.md) - Market research
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -8,53 +8,51 @@
 
 > See what a chat answer was built from
 
-By default the [chat endpoint](/docs/v3/documentation/features/chat) returns an answer and nothing else, which makes it hard to check. Pass `include_evidence` and the response also carries the conclusions and messages the dialectic read while answering, plus the tools it called.
+By default the [chat endpoint](https://honcho.dev/docs/v3/documentation/features/chat.md) returns an answer and nothing else, which makes it hard to check. Pass `include_evidence` and the response also carries the conclusions and messages the dialectic read while answering, plus the tools it called.
 
 ## Basic Usage
 
-<CodeGroup>
-  ```python Python
-  from honcho import Honcho
+```python Python theme={null}
+from honcho import Honcho
 
-  honcho = Honcho()
-  peer = honcho.peer("user-123")
+honcho = Honcho()
+peer = honcho.peer("user-123")
 
-  result = peer.chat(
-      "What coffee does this user prefer?",
-      include_evidence=True,
-  )
-
-  print(result.content)
-  # "The user prefers dark roast, usually from local roasters."
-
-  for conclusion in result.evidence.conclusions:
-      print(f"[{conclusion.level}] {conclusion.id}: {conclusion.content}")
-  # [explicit] hK3mZq...: User prefers dark roast coffee
-  # [inductive] pR8xLw...: User buys from local roasters
-
-  for call in result.evidence.tool_calls:
-      print(call.tool_name, call.tool_input)
-  # search_memory {'query': 'coffee preference', 'top_k': 20}
-  ```
-
-  ```typescript TypeScript
-  import { Honcho } from '@honcho-ai/sdk';
-
-  const honcho = new Honcho({});
-  const peer = await honcho.peer("user-123");
-
-  const { content, evidence } = await peer.chat(
+result = peer.chat(
     "What coffee does this user prefer?",
-    { includeEvidence: true }
-  );
+    include_evidence=True,
+)
 
-  console.log(content);
+print(result.content)
+# "The user prefers dark roast, usually from local roasters."
 
-  for (const conclusion of evidence?.conclusions ?? []) {
-    console.log(`[${conclusion.level}] ${conclusion.id}: ${conclusion.content}`);
-  }
-  ```
-</CodeGroup>
+for conclusion in result.evidence.conclusions:
+    print(f"[{conclusion.level}] {conclusion.id}: {conclusion.content}")
+# [explicit] hK3mZq...: User prefers dark roast coffee
+# [inductive] pR8xLw...: User buys from local roasters
+
+for call in result.evidence.tool_calls:
+    print(call.tool_name, call.tool_input)
+# search_memory {'query': 'coffee preference', 'top_k': 20}
+```
+
+```typescript TypeScript theme={null}
+import { Honcho } from '@honcho-ai/sdk';
+
+const honcho = new Honcho({});
+const peer = await honcho.peer("user-123");
+
+const { content, evidence } = await peer.chat(
+  "What coffee does this user prefer?",
+  { includeEvidence: true }
+);
+
+console.log(content);
+
+for (const conclusion of evidence?.conclusions ?? []) {
+  console.log(`[${conclusion.level}] ${conclusion.id}: ${conclusion.content}`);
+}
+```
 
 Without `include_evidence`, `chat` returns the answer on its own exactly as before, and the server collects nothing — asking for evidence is the only thing that turns collection on.
 
@@ -75,47 +73,45 @@ Two further limits:
 
 ## Response shape
 
-<CodeGroup>
-  ```json Response
-  {
-    "content": "The user prefers dark roast, usually from local roasters.",
-    "evidence": {
-      "conclusions": [
-        {
-          "id": "hK3mZqPvN2wRtY8bXcLdA",
-          "level": "explicit",
-          "content": "User prefers dark roast coffee",
-          "created_at": "2026-03-20T10:15:00Z",
-          "session_id": "session-xyz",
-          "source_ids": []
-        },
-        {
-          "id": "pR8xLwGtH4vKmN6cZqBfE",
-          "level": "inductive",
-          "content": "User buys from local roasters",
-          "created_at": "2026-03-22T14:30:00Z",
-          "session_id": null,
-          "source_ids": ["hK3mZqPvN2wRtY8bXcLdA"]
-        }
-      ],
-      "messages": [
-        {
-          "id": "m1N2o3P4q5R6s7T8u9V0w",
-          "session_id": "session-xyz",
-          "peer_id": "user-123",
-          "created_at": "2026-03-20T10:12:00Z"
-        }
-      ],
-      "tool_calls": [
-        {"tool_name": "search_memory", "tool_input": {"query": "coffee preference", "top_k": 20}}
-      ],
-      "reasoning_trace_id": null
-    }
+```json Response theme={null}
+{
+  "content": "The user prefers dark roast, usually from local roasters.",
+  "evidence": {
+    "conclusions": [
+      {
+        "id": "hK3mZqPvN2wRtY8bXcLdA",
+        "level": "explicit",
+        "content": "User prefers dark roast coffee",
+        "created_at": "2026-03-20T10:15:00Z",
+        "session_id": "session-xyz",
+        "source_ids": []
+      },
+      {
+        "id": "pR8xLwGtH4vKmN6cZqBfE",
+        "level": "inductive",
+        "content": "User buys from local roasters",
+        "created_at": "2026-03-22T14:30:00Z",
+        "session_id": null,
+        "source_ids": ["hK3mZqPvN2wRtY8bXcLdA"]
+      }
+    ],
+    "messages": [
+      {
+        "id": "m1N2o3P4q5R6s7T8u9V0w",
+        "session_id": "session-xyz",
+        "peer_id": "user-123",
+        "created_at": "2026-03-20T10:12:00Z"
+      }
+    ],
+    "tool_calls": [
+      {"tool_name": "search_memory", "tool_input": {"query": "coffee preference", "top_k": 20}}
+    ],
+    "reasoning_trace_id": null
   }
-  ```
-</CodeGroup>
+}
+```
 
-**Conclusions** carry the ID, level, and text of each conclusion read. `source_ids` names the conclusions a derived one was reasoned from, so you can walk a chain back toward the explicit statements at its base; explicit conclusions have none, since they derive from messages rather than from other conclusions. `session_id` is null for a conclusion that was reasoned across sessions and so belongs to none. Timestamps are when a conclusion was derived, taken from its source messages where that is recorded.
+**Conclusions** carry the ID, level, and text of each conclusion read. `source_ids` names the conclusions a derived one was reasoned from, so you can walk a chain back toward the explicit statements at its base; explicit conclusions have none, since they derive from messages rather than from other conclusions. To continue the walk from an explicit conclusion to the messages it cites, fetch it from the [conclusions endpoint](https://honcho.dev/docs/v3/api-reference/conclusions): its `source_message_ids` lists them. `session_id` is null for a conclusion that was reasoned across sessions and so belongs to none. Timestamps are when a conclusion was derived, taken from its source messages where that is recorded.
 
 **Messages** carry identity and provenance only — no content. Fetch a message by its `id` when you need the text.
 
@@ -136,37 +132,35 @@ So checking that evidence exists tells you nothing about whether anything was fo
 
 Evidence can only be known once the answer is complete, so a streaming response sends it on the stream's final event. The SDKs surface it on the stream object after it has been fully consumed:
 
-<CodeGroup>
-  ```python Python
-  stream = peer.chat_stream(
-      "What coffee does this user prefer?",
-      include_evidence=True,
-  )
-
-  for chunk in stream:
-      print(chunk, end="", flush=True)
-
-  # Available only after the stream has drained
-  for conclusion in stream.evidence.conclusions:
-      print(conclusion.id, conclusion.content)
-  ```
-
-  ```typescript TypeScript
-  const stream = await peer.chatStream(
+```python Python theme={null}
+stream = peer.chat_stream(
     "What coffee does this user prefer?",
-    { includeEvidence: true }
-  );
+    include_evidence=True,
+)
 
-  for await (const chunk of stream) {
-    process.stdout.write(chunk);
-  }
+for chunk in stream:
+    print(chunk, end="", flush=True)
 
-  // Available only after the stream has drained
-  for (const conclusion of stream.evidence?.conclusions ?? []) {
-    console.log(conclusion.id, conclusion.content);
-  }
-  ```
-</CodeGroup>
+# Available only after the stream has drained
+for conclusion in stream.evidence.conclusions:
+    print(conclusion.id, conclusion.content)
+```
+
+```typescript TypeScript theme={null}
+const stream = await peer.chatStream(
+  "What coffee does this user prefer?",
+  { includeEvidence: true }
+);
+
+for await (const chunk of stream) {
+  process.stdout.write(chunk);
+}
+
+// Available only after the stream has drained
+for (const conclusion of stream.evidence?.conclusions ?? []) {
+  console.log(conclusion.id, conclusion.content);
+}
+```
 
 Reading `evidence` mid-stream returns null.
 
@@ -174,32 +168,30 @@ Reading `evidence` mid-stream returns null.
 
 Workspace-level chat takes the same option:
 
-<CodeGroup>
-  ```python Python
-  result = honcho.chat(
-      "What do people here have in common?",
-      include_evidence=True,
-  )
-  print(result.evidence.messages)
-  ```
-
-  ```typescript TypeScript
-  const { content, evidence } = await honcho.chat(
+```python Python theme={null}
+result = honcho.chat(
     "What do people here have in common?",
-    { includeEvidence: true }
-  );
-  ```
-</CodeGroup>
+    include_evidence=True,
+)
+print(result.evidence.messages)
+```
+
+```typescript TypeScript theme={null}
+const { content, evidence } = await honcho.chat(
+  "What do people here have in common?",
+  { includeEvidence: true }
+);
+```
 
 Because workspace chat opens with a statistical overview of the workspace rather than a conclusion prefetch, its evidence is usually weighted toward messages and whatever its tools went on to find.
 
 ## Scoped queries
 
-Evidence never widens what a query could see. It reports only rows a permitted read actually returned, so a query confined by [`scope`](/docs/v3/documentation/features/advanced/scopes) or a session allowlist yields evidence confined the same way — a scope with no member sessions recalls nothing and cites nothing.
+Evidence never widens what a query could see. It reports only rows a permitted read actually returned, so a query confined by [`scope`](https://honcho.dev/docs/v3/documentation/features/advanced/scopes) or a session allowlist yields evidence confined the same way — a scope with no member sessions recalls nothing and cites nothing.
 
 ## Combining with structured outputs
 
-`include_evidence` and [`response_format`](/docs/v3/documentation/features/advanced/structured-outputs) are independent. With both, the answer is parsed to your schema and the evidence sits beside it:
+`include_evidence` and [`response_format`](https://honcho.dev/docs/v3/documentation/features/advanced/structured-outputs) are independent. With both, the answer is parsed to your schema and the evidence sits beside it:
 
 ```python theme={null}
 result = peer.chat(

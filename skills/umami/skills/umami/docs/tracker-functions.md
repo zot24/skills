@@ -20,7 +20,7 @@ Tracking
 Copy page
 
 
-Use the umami.track() and umami.identify() tracker functions to send pageviews, events, event data, and session data from your own code.
+Use the umami.track(), umami.identify(), and umami.captureException() tracker functions to send pageviews, events, event data, session data, and errors from your own code.
 
 
 The Umami tracker exposes functions that you can call on your website if you want more control over your tracking. By default everything is automatically collected, but you can disable automatic pageviews using `data-auto-pageview="false"` and send them yourself with `umami.track()`. Use `data-auto-track="false"` only if you want to disable tracker initialization entirely. See [Tracker configuration](/docs/tracker-configuration).
@@ -52,6 +52,9 @@ umami.identify(unique_id: string, data: object);
 
 // Save session data (an `id` property, if present, is used as the Distinct ID)
 umami.identify(data: object);
+
+// Report a caught error
+umami.captureException(error: unknown, options?: object);
 ```
 
 
@@ -193,6 +196,29 @@ If the object includes an `id` property, its value is also used as the Distinct 
 
 ``` code-block
 umami.identify({ id: 'unique_id', name: 'Bob' });
+```
+
+
+## Errors<a href="#errors" class="heading-anchor" aria-label="Permalink to “Errors”">#</a>
+
+
+Report an error that your code has caught. Requires [`data-errors`](/docs/tracker-configuration#data-errors).
+
+
+``` code-block
+try {
+  checkout();
+} catch (error) {
+  umami.captureException(error);
+}
+```
+
+
+Pass an optional second argument to add a `release`, `environment`, `tags`, or a `fingerprint`. See [Error tracking](/docs/error-tracking#reporting-caught-errors) for details.
+
+
+``` code-block
+umami.captureException(error, { tags: { feature: 'checkout' } });
 ```
 
 

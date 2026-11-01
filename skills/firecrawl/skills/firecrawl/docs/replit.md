@@ -8,172 +8,190 @@
 
 > Official Replit Connector for Firecrawl web search, scraping, and browser interaction
 
-
-  **Official Replit Connector:** [Open Integrations in Replit](https://replit.com/~?settings.show=true\&settings.tab=integrations)
-
-  Search, scrape, and interact with the web • Built for Replit Agent • Core, Pro, or Enterprise plan required
-
+> [!NOTE]
+>
+> **Official Replit Connector:** [Open Integrations in Replit](https://replit.com/~?settings.show=true\&settings.tab=integrations)
+>
+> Search, scrape, and interact with the web • Built for Replit Agent • Core, Pro, or Enterprise plan required
 
 ## Replit Connector Overview
 
 Firecrawl is available as an official Replit Connector. Once connected in your workspace, Replit Agent can use Firecrawl while building apps that need live web data.
 
+> [card] Built for Replit Agent
+>
+> Enable Firecrawl in Integrations so Agent can search, scrape, and interact while building
 
-    Enable Firecrawl in Integrations so Agent can search, scrape, and interact while building
-
-
-    Default: billed to your Replit account. Custom configuration: use a Firecrawl key or claim the 10,000-credit offer
-
+> [card] Start without an API key
+>
+> Default: billed to your Replit account. Custom configuration: use a Firecrawl key or claim the 10,000-credit offer
 
 ## Firecrawl Capabilities in Replit
 
 Replit Agent can build apps with Firecrawl's **search**, **scrape**, **interact**, **monitor**, **crawl**, and **parse** endpoints. Your connector configuration determines which account supplies the API key and pays for Firecrawl usage; it does not change which Firecrawl APIs an app can use.
 
+> [accordion] Search
+>
+> Find relevant live web sources and excerpts for research, competitor discovery, and enrichment.
+>
+> **Use Cases:** Competitor discovery, research assistants, lead enrichment.
 
-    Find relevant live web sources and excerpts for research, competitor discovery, and enrichment.
+> [accordion] Scrape
+>
+> Turn any URL into clean data ready for LLMs, including summaries, structured fields, and app content.
+>
+> **Use Cases:** Product data extraction, article scraping, company page enrichment.
 
-    **Use Cases:** Competitor discovery, research assistants, lead enrichment.
+> [accordion] Interact
+>
+> Click, fill forms, and navigate multi step flows on dynamic websites.
+>
+> **Use Cases:** Form workflows, dynamic pages, multi step data collection.
 
+> [accordion] Monitor
+>
+> Watch pages, sites, or the web for meaningful updates on a schedule. Available through the Firecrawl API in apps you build.
+>
+> **Use Cases:** Keyword monitoring, changelog alerts, competitive tracking.
 
-    Turn any URL into clean data ready for LLMs, including summaries, structured fields, and app content.
+> [accordion] Crawl
+>
+> Discover and scrape reachable pages across a site. Available through the Firecrawl API in apps you build.
+>
+> **Use Cases:** Documentation ingestion, full site extraction, multi page research.
 
-    **Use Cases:** Product data extraction, article scraping, company page enrichment.
-
-
-    Click, fill forms, and navigate multi step flows on dynamic websites.
-
-    **Use Cases:** Form workflows, logged in pages, multi step data collection.
-
-
-    Watch pages, sites, or the web for meaningful updates on a schedule. Available through the Firecrawl API in apps you build.
-
-    **Use Cases:** Keyword monitoring, changelog alerts, competitive tracking.
-
-
-    Discover and scrape reachable pages across a site. Available through the Firecrawl API in apps you build.
-
-    **Use Cases:** Documentation ingestion, full site extraction, multi page research.
-
-
-    Convert PDFs and Word documents into Markdown or JSON. Available through the Firecrawl API in apps you build.
-
-    **Use Cases:** Report parsing, document knowledge bases, file to structured data flows.
-
+> [accordion] Parse
+>
+> Convert PDFs and Word documents into Markdown or JSON. Available through the Firecrawl API in apps you build.
+>
+> **Use Cases:** Report parsing, document knowledge bases, file to structured data flows.
 
 ## Getting Started
 
+**1. Open Integrations**
 
-    In a Replit workspace on a **Core**, **Pro**, or **Enterprise** plan, open **Integrations**.
+In a Replit workspace on a **Core**, **Pro**, or **Enterprise** plan, open **Integrations**.
 
+**2. Connect Firecrawl**
 
-    Select **Enable new connector**, choose **Firecrawl**, use the default configuration, and select **Submit**. On Core and Pro, an account admin manages the connector for the collaborative workspace. On Enterprise, an admin manages it for the organization.
+Select **Enable new connector**, choose **Firecrawl**, use the default configuration, and select **Submit**. On Core and Pro, an account admin manages the connector for the collaborative workspace. On Enterprise, an admin manages it for the organization.
 
+**3. Choose billing**
 
-    Keep **Use Replit default configurations** selected (no Firecrawl account needed), or open **Manage**, select **Use custom configurations**, and either paste your Firecrawl API key or claim the 10,000-credit offer, which provisions and saves a new key.
+Keep **Use Replit default configurations** selected (no Firecrawl account needed), or open **Manage**, select **Use custom configurations**, and either paste your Firecrawl API key or claim the 10,000-credit offer, which provisions and saves a new key.
 
+**4. Verify the connection**
 
-    In an app in the connected workspace, ask Agent to run a server-side connector test:
+In an app in the connected workspace, ask Agent to run a server-side connector test:
 
-    ```text
-    Run a server-side Firecrawl test.
-    Use the Replit connector.
-    Scrape https://example.com.
-    Use the connector-relative /scrape path.
-    Return only the page title and first paragraph.
-    Do not reveal or ask me for an API key.
-    Do not publish the app.
-    ```
+```text theme={null}
+Run a server-side Firecrawl test.
+Use the Replit connector.
+Scrape https://example.com.
+Use the connector-relative /scrape path.
+Return only the page title and first paragraph.
+Do not reveal or ask me for an API key.
+Do not publish the app.
+```
 
-    Confirm the proposed Firecrawl integration if prompted. The connection is working when the app's server-side connector call returns **Example Domain** with the page's first paragraph and does not ask you to supply an API key in chat or application code.
+Confirm the proposed Firecrawl integration if prompted. The connection is working when the app's server-side connector call returns **Example Domain** with the page's first paragraph and does not ask you to supply an API key in chat or application code.
 
-
-      Replit's Firecrawl connector base URL already includes `/v2`. With `@replit/connectors-sdk`, use the connector-relative path `/scrape`, not `/v1/scrape`.
-
+> [!NOTE]
+>
+> Replit's Firecrawl connector base URL already includes `/v2`. With `@replit/connectors-sdk`, use the connector-relative path `/scrape`, not `/v1/scrape`.
 
 ## Billing and credentials
 
+> [accordion] Replit default
+>
+> * **Credential and billing:** Replit supplies its API key. Firecrawl requests are billed through Replit and deducted from Replit credits.
+> * **Firecrawl account:** Not required.
+> * **10,000-credit offer:** Not included.
 
-    * **Credential and billing:** Replit supplies its API key. Firecrawl requests are billed through Replit and deducted from Replit credits.
-    * **Firecrawl account:** Not required.
-    * **10,000-credit offer:** Not included.
+> [accordion] Claim partner credits
+>
+> * **Credential and billing:** Replit provisions a new Firecrawl key. Firecrawl usage consumes the claimed partner credits.
+> * **Firecrawl account:** A partner-associated account and key are provisioned.
+> * **10,000-credit offer:** Included once per user per partner and expires 3 months after application.
+> * **Success signal:** The offer shows **Claimed**, and Replit states that it is using your API key instead of billing connector usage through Replit.
 
+> [accordion] Existing Firecrawl key
+>
+> * **Credential and billing:** You supply the key. Usage follows that Firecrawl account's plan, credits, and limits.
+> * **Firecrawl account:** Required.
+> * **10,000-credit offer:** Not added to the existing key.
 
-    * **Credential and billing:** Replit provisions a new Firecrawl key. Firecrawl usage consumes the claimed partner credits.
-    * **Firecrawl account:** A partner-associated account and key are provisioned.
-    * **10,000-credit offer:** Included once per user per partner and expires 3 months after application.
-    * **Success signal:** The offer shows **Claimed**, and Replit states that it is using your API key instead of billing connector usage through Replit.
+> [!WARNING]
+>
+> Keep Firecrawl API keys in the connector's custom configuration. Do not paste keys into Agent prompts, application source, screenshots, logs, or pull requests.
 
-
-    * **Credential and billing:** You supply the key. Usage follows that Firecrawl account's plan, credits, and limits.
-    * **Firecrawl account:** Required.
-    * **10,000-credit offer:** Not added to the existing key.
-
-
-  Keep Firecrawl API keys in the connector's custom configuration. Do not paste keys into Agent prompts, application source, screenshots, logs, or pull requests.
-
-
-  **Launch offer:** Open **Manage**, select **Use custom configurations**, and claim **10,000 free Firecrawl credits** to provision a **new** key. The offer applies once per user per partner, expires 3 months after it is applied, and uses Firecrawl's Free-plan limits. Pasting an existing key does not add the offer to that key. Default Replit billing does not include it. See [Partner credits](/partner-credits) for full terms.
-
+> [!TIP]
+>
+> **Launch offer:** Open **Manage**, select **Use custom configurations**, and claim **10,000 free Firecrawl credits** to provision a **new** key. The offer applies once per user per partner, expires 3 months after it is applied, and uses Firecrawl's Free-plan limits. Pasting an existing key does not add the offer to that key. Default Replit billing does not include it. See [Partner credits](https://docs.firecrawl.dev/partner-credits.md) for full terms.
 
 ## Usage Patterns
 
+> [tab] Competitor analysis
+>
+> **Search + scrape competitors**
+>
+> 1. Ask Agent to find competitors with Firecrawl `/search`
+> 2. Scrape each competitor site for key context
+> 3. Present names, summaries, and details in a simple UI
+>
+> **Example prompt:**
+>
+> ```
+> Build a competitor analysis app using Firecrawl. Search for competitors, scrape their sites, and show summaries.
+> ```
 
-    **Search + scrape competitors**
-
-    1. Ask Agent to find competitors with Firecrawl `/search`
-    2. Scrape each competitor site for key context
-    3. Present names, summaries, and details in a simple UI
-
-    **Example prompt:**
-
-    ```
-    Build a competitor analysis app using Firecrawl. Search for competitors, scrape their sites, and show summaries.
-    ```
-
-
-    **Keyword monitoring app with `/monitor`**
-
-    Uses the Firecrawl API in the app your Agent builds.
-
-    1. Ask Agent to build an app that calls Firecrawl `/monitor`
-    2. Let users add keywords and target sites
-    3. Run checks on a schedule, plus manual scans, and surface meaningful changes
-
-    **Example prompt:**
-
-    ```
-    Build a keyword monitoring app with Firecrawl that watches selected sites and alerts on meaningful changes.
-    ```
-
+> [tab] Web monitoring
+>
+> **Keyword monitoring app with `/monitor`**
+>
+> Uses the Firecrawl API in the app your Agent builds.
+>
+> 1. Ask Agent to build an app that calls Firecrawl `/monitor`
+> 2. Let users add keywords and target sites
+> 3. Run checks on a schedule, plus manual scans, and surface meaningful changes
+>
+> **Example prompt:**
+>
+> ```
+> Build a keyword monitoring app with Firecrawl that watches selected sites and alerts on meaningful changes.
+> ```
 
 ## Industry Use Cases
 
+> [accordion] Ecommerce
+>
+> * Competitor pricing and assortment tracking
+> * Product availability checks
+> * Review and listing aggregation
 
-    * Competitor pricing and assortment tracking
-    * Product availability checks
-    * Review and listing aggregation
+> [accordion] Marketing & SEO
+>
+> * Competitor content monitoring
+> * SEO audits from live pages
+> * Research brief generation
 
+> [accordion] Sales & Lead Gen
+>
+> * Company enrichment from public web pages
+> * Lead research assistants
+> * Account brief generation for outbound
 
-    * Competitor content monitoring
-    * SEO audits from live pages
-    * Research brief generation
-
-
-    * Company enrichment from public web pages
-    * Lead research assistants
-    * Account brief generation for outbound
-
-
-    * Always fresh documentation assistants
-    * Help center and changelog monitoring
-    * Internal tools that answer from live sources
-
+> [accordion] Support & Knowledge
+>
+> * Always fresh documentation assistants
+> * Help center and changelog monitoring
+> * Internal tools that answer from live sources
 
 ## Official Blog Post
 
-
-  Launch overview: connect Firecrawl in your Replit workspace and build apps with live web data.
-
+> [card] [Firecrawl is now an official Replit Connector](https://www.firecrawl.dev/blog/firecrawl-official-replit-connector)
+>
+> Launch overview: connect Firecrawl in your Replit workspace and build apps with live web data.
 
 ## Troubleshooting
 
@@ -205,26 +223,31 @@ Replit usage can take up to 30 minutes to appear in the usage dashboard.
 
 ## FAQs
 
+> [accordion] Do I need a Firecrawl API key?
+>
+> No. By default, the connector runs on Replit's API key and usage is billed to your Replit account per request. Under **Manage**, select **Use custom configurations** to paste your own Firecrawl API key or claim the 10,000-credit offer, which provisions a new key for you. The offer applies once per user per partner and expires after 3 months.
 
-    No. By default, the connector runs on Replit's API key and usage is billed to your Replit account per request. Under **Manage**, select **Use custom configurations** to paste your own Firecrawl API key or claim the 10,000-credit offer, which provisions a new key for you. The offer applies once per user per partner and expires after 3 months.
+> [accordion] Which Replit plans include the Connector?
+>
+> Replit integrations are available on **Core**, **Pro**, or **Enterprise**. Open Integrations in your workspace and search for Firecrawl.
 
-
-    Replit integrations are available on **Core**, **Pro**, or **Enterprise**. Open Integrations in your workspace and search for Firecrawl.
-
-
-    Replit Agent has used Firecrawl behind the scenes for fresh docs and web content. The official Connector makes Firecrawl available to your apps from the Integrations catalog.
-
+> [accordion] How is this different from Replit using Firecrawl internally?
+>
+> Replit Agent has used Firecrawl behind the scenes for fresh docs and web content. The official Connector makes Firecrawl available to your apps from the Integrations catalog.
 
 ## Related Resources
 
+> [card] [Manage Replit Connectors](https://docs.replit.com/replitai/managing-connectors)
+>
+> Plan availability, setup, access, and connector administration
 
-    Plan availability, setup, access, and connector administration
+> [card] [Replit Agent Integrations](https://docs.replit.com/features/integrations/overview)
+>
+> How Agent finds and uses integrations
 
-
-    How Agent finds and uses integrations
-
-
-    How Replit powers Agent with Firecrawl
+> [card] [Customer story](https://www.firecrawl.dev/blog/how-replit-uses-firecrawl-to-power-ai-agents)
+>
+> How Replit powers Agent with Firecrawl
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

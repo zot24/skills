@@ -10,9 +10,9 @@
 
 Integrate Honcho with the Vercel AI SDK to build AI apps that remember users across sessions. The [Vercel AI SDK](https://sdk.vercel.ai) is an open-source TypeScript toolkit for building AI-powered apps with a unified API across providers. This guide shows you how to wrap any `generateText` or `streamText` call with Honcho's memory middleware and reasoning tools.
 
-
-  The full package source and examples are available on [GitHub](https://github.com/plastic-labs/vercel-ai-sdk-package).
-
+> [!NOTE]
+>
+> The full package source and examples are available on [GitHub](https://github.com/plastic-labs/vercel-ai-sdk-package).
 
 ## What We're Building
 
@@ -22,29 +22,27 @@ We'll wire Honcho into a Vercel AI SDK app so the model receives context from pa
 * **Honcho** stores messages and retrieves user context before each generation
 * **Your model provider** can be Anthropic, OpenAI, Google, etc.
 
-The key benefit: you don't manually manage conversation history across sessions. Honcho handles persistence and context injection — the model always has a rich picture of who it's talking to. (New to Honcho's primitives? See [peers and sessions](/docs/v3/documentation/core-concepts/architecture).)
+The key benefit: you don't manually manage conversation history across sessions. Honcho handles persistence and context injection — the model always has a rich picture of who it's talking to. (New to Honcho's primitives? See [peers and sessions](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md).)
 
 ## Setup
 
 Install the package:
 
-<CodeGroup>
-  ```bash npm
-  npm install @honcho-ai/vercel-ai-sdk
-  ```
+```bash npm theme={null}
+npm install @honcho-ai/vercel-ai-sdk
+```
 
-  ```bash pnpm
-  pnpm add @honcho-ai/vercel-ai-sdk
-  ```
+```bash pnpm theme={null}
+pnpm add @honcho-ai/vercel-ai-sdk
+```
 
-  ```bash yarn
-  yarn add @honcho-ai/vercel-ai-sdk
-  ```
+```bash yarn theme={null}
+yarn add @honcho-ai/vercel-ai-sdk
+```
 
-  ```bash bun
-  bun add @honcho-ai/vercel-ai-sdk
-  ```
-</CodeGroup>
+```bash bun theme={null}
+bun add @honcho-ai/vercel-ai-sdk
+```
 
 Get your API key at [app.honcho.dev](https://app.honcho.dev).
 
@@ -63,17 +61,17 @@ npx skills add plastic-labs/vercel-ai-sdk
 
 Then invoke `/honcho-vercel-ai-sdk`.
 
-
-  If you've already installed `@honcho-ai/vercel-ai-sdk` via npm, you can symlink the skill directly. Example shown is for Claude Code:
-
-  ```bash
-  mkdir -p ~/.claude/skills/honcho-vercel-ai-sdk
-  ln -sf "$(pwd)/node_modules/@honcho-ai/vercel-ai-sdk/skills/honcho-vercel-ai-sdk/SKILL.md" \
-         ~/.claude/skills/honcho-vercel-ai-sdk/SKILL.md
-  ```
-
-  Restart the session, then invoke `/honcho-vercel-ai-sdk`.
-
+> [accordion] Alternative: manual symlink from npm package
+>
+> If you've already installed `@honcho-ai/vercel-ai-sdk` via npm, you can symlink the skill directly. Example shown is for Claude Code:
+>
+> ```bash
+> mkdir -p ~/.claude/skills/honcho-vercel-ai-sdk
+> ln -sf "$(pwd)/node_modules/@honcho-ai/vercel-ai-sdk/skills/honcho-vercel-ai-sdk/SKILL.md" \
+>        ~/.claude/skills/honcho-vercel-ai-sdk/SKILL.md
+> ```
+>
+> Restart the session, then invoke `/honcho-vercel-ai-sdk`.
 
 ## Create a Provider Instance
 
@@ -311,88 +309,92 @@ When the model takes more than one turn (call a tool, see the result, then answe
 
 ## Full Script
 
-
-  ```typescript
-  /**
-   * Multi-turn chat with Honcho memory + Vercel AI SDK.
-   *
-   * Prerequisites:
-   * 1. Install dependencies:
-   *    npm install @honcho-ai/vercel-ai-sdk ai @ai-sdk/anthropic dotenv
-   * 2. Set environment variables in `.env`:
-   *    HONCHO_API_KEY=your-honcho-api-key
-   *    HONCHO_WORKSPACE_ID=your-workspace-id
-   *    ANTHROPIC_API_KEY=your-anthropic-api-key
-   * 3. Run with: npx tsx honcho_vercel_chat.ts
-   *
-   * Pass a stable userId from your auth system and a sessionId for the conversation
-   * thread; Honcho handles persistence and context injection on every turn.
-   */
-
-  import 'dotenv/config';
-  import { createHoncho } from '@honcho-ai/vercel-ai-sdk';
-  import { wrapLanguageModel, generateText, stepCountIs } from 'ai';
-  import { anthropic } from '@ai-sdk/anthropic';
-  import * as readline from 'node:readline/promises';
-  import { stdin as input, stdout as output } from 'node:process';
-
-  const honcho = createHoncho({
-    defaultAssistantId: 'assistant',
-  });
-
-  const userId = process.env.USER_ID ?? 'demo-user';
-  const sessionId = process.env.SESSION_ID ?? `session-${Date.now()}`;
-
-  const model = wrapLanguageModel({
-    model: anthropic('claude-sonnet-4-6'),
-    middleware: honcho.middleware({ userId, sessionId }),
-  });
-
-  async function chat(prompt: string): Promise<string> {
-    const { text } = await generateText({
-      model,
-      tools: honcho.tools({ userId, sessionId }),
-      stopWhen: stepCountIs(3),
-      prompt,
-    });
-    return text;
-  }
-
-  async function main() {
-    const rl = readline.createInterface({ input, output });
-    console.log(`Honcho session: ${sessionId} (user: ${userId})`);
-    console.log('Type a message, or "exit" to quit.\n');
-
-    while (true) {
-      const userMessage = (await rl.question('you > ')).trim();
-      if (!userMessage || userMessage === 'exit') break;
-      const reply = await chat(userMessage);
-      console.log(`bot > ${reply}\n`);
-    }
-
-    rl.close();
-  }
-
-  main().catch((err) => {
-    console.error(err);
-    process.exit(1);
-  });
-  ```
-
+> [accordion] honcho\_vercel\_chat.ts
+>
+> ```typescript
+> /**
+>  * Multi-turn chat with Honcho memory + Vercel AI SDK.
+>  *
+>  * Prerequisites:
+>  * 1. Install dependencies:
+>  *    npm install @honcho-ai/vercel-ai-sdk ai @ai-sdk/anthropic dotenv
+>  * 2. Set environment variables in `.env`:
+>  *    HONCHO_API_KEY=your-honcho-api-key
+>  *    HONCHO_WORKSPACE_ID=your-workspace-id
+>  *    ANTHROPIC_API_KEY=your-anthropic-api-key
+>  * 3. Run with: npx tsx honcho_vercel_chat.ts
+>  *
+>  * Pass a stable userId from your auth system and a sessionId for the conversation
+>  * thread; Honcho handles persistence and context injection on every turn.
+>  */
+>
+> import 'dotenv/config';
+> import { createHoncho } from '@honcho-ai/vercel-ai-sdk';
+> import { wrapLanguageModel, generateText, stepCountIs } from 'ai';
+> import { anthropic } from '@ai-sdk/anthropic';
+> import * as readline from 'node:readline/promises';
+> import { stdin as input, stdout as output } from 'node:process';
+>
+> const honcho = createHoncho({
+>   defaultAssistantId: 'assistant',
+> });
+>
+> const userId = process.env.USER_ID ?? 'demo-user';
+> const sessionId = process.env.SESSION_ID ?? `session-${Date.now()}`;
+>
+> const model = wrapLanguageModel({
+>   model: anthropic('claude-sonnet-4-6'),
+>   middleware: honcho.middleware({ userId, sessionId }),
+> });
+>
+> async function chat(prompt: string): Promise<string> {
+>   const { text } = await generateText({
+>     model,
+>     tools: honcho.tools({ userId, sessionId }),
+>     stopWhen: stepCountIs(3),
+>     prompt,
+>   });
+>   return text;
+> }
+>
+> async function main() {
+>   const rl = readline.createInterface({ input, output });
+>   console.log(`Honcho session: ${sessionId} (user: ${userId})`);
+>   console.log('Type a message, or "exit" to quit.\n');
+>
+>   while (true) {
+>     const userMessage = (await rl.question('you > ')).trim();
+>     if (!userMessage || userMessage === 'exit') break;
+>     const reply = await chat(userMessage);
+>     console.log(`bot > ${reply}\n`);
+>   }
+>
+>   rl.close();
+> }
+>
+> main().catch((err) => {
+>   console.error(err);
+>   process.exit(1);
+> });
+> ```
 
 ## Next Steps
 
+> [card] [Github Repository](https://github.com/plastic-labs/vercel-ai-sdk-package)
+>
+> Source, tests, and full API reference for @honcho-ai/vercel-ai-sdk.
 
-    Source, tests, and full API reference for @honcho-ai/vercel-ai-sdk.
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Learn about peers, sessions, and dialectic reasoning.
 
+> [card] [Self-Hosting Guide](https://honcho.dev/docs/v3/contributing/self-hosting.md)
+>
+> Run Honcho locally with your Vercel AI SDK app.
 
-    Learn about peers, sessions, and dialectic reasoning.
-
-
-    Run Honcho locally with your Vercel AI SDK app.
-
-
-    wrapLanguageModel, middleware, and tool use reference.
+> [card] [Vercel AI SDK Docs](https://sdk.vercel.ai)
+>
+> wrapLanguageModel, middleware, and tool use reference.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

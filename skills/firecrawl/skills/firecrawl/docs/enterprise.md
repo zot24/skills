@@ -8,35 +8,37 @@
 
 > Enterprise plans, security, and features for Firecrawl at scale
 
-Firecrawl Enterprise is built for teams that need to run the web at scale with strict security, compliance, and support requirements. Enterprise plans include everything in our self-serve plans plus custom credits, dedicated support, and the security and access controls below.
+Firecrawl Enterprise is built for teams that need reliable Search, Scrape, Parse, and Interact at scale with strict security, compliance, and support requirements. Enterprise plans include everything in our self-serve plans plus custom credits, dedicated support, and the security and access controls below.
 
-
-  Enterprise features are provisioned by our team. To enable them or discuss a custom plan, visit the [Enterprise page](https://www.firecrawl.dev/enterprise) or reach out to [help@firecrawl.dev](mailto:help@firecrawl.dev).
-
+> [!NOTE]
+>
+> Enterprise features are provisioned by our team. To enable them or discuss a custom plan, visit the [Enterprise page](https://www.firecrawl.dev/enterprise) or reach out to [help@firecrawl.dev](mailto:help@firecrawl.dev).
 
 ## Security & compliance
 
-* **SOC 2 Type II**: Independently audited security controls covering data protection and operational security.
-* **Zero Data Retention (ZDR)**: Page content and extracted data are processed in-memory and never persisted beyond the lifetime of the request. Available for scraping ([Scrape ZDR](/features/scrape#zero-data-retention-zdr)), browser sessions ([Interact ZDR](/features/interact#zero-data-retention-zdr)) and search ([Search ZDR](/features/search#zero-data-retention-zdr)), including an end-to-end mode where our upstream search provider also enforces ZDR.
-* **PII redaction**: Automatically redact personally identifiable information from scrape and parse output. See [PII redaction](/features/scrape#pii-redaction).
+* **SOC 2 Type II**: Firecrawl is SOC 2 Type II compliant (renewal in progress).
+* **Zero Data Retention (ZDR)**: Page content and extracted data are processed in-memory and never persisted beyond the lifetime of the request. Available for scraping ([Scrape ZDR](https://docs.firecrawl.dev/features/scrape.md#zero-data-retention-zdr)), browser sessions ([Interact ZDR](https://docs.firecrawl.dev/features/interact.md#zero-data-retention-zdr)), search ([Search ZDR](https://docs.firecrawl.dev/features/search.md#zero-data-retention-zdr)), including an end-to-end mode where our upstream search provider also enforces ZDR, and agent runs ([Agent ZDR](https://docs.firecrawl.dev/features/agent.md#zero-data-retention-zdr)), whose results are kept for 24 hours for retrieval.
+* **PII redaction**: Automatically redact personally identifiable information from scrape and parse output. See [PII redaction](https://docs.firecrawl.dev/features/scrape.md#pii-redaction).
 * **DPA & custom contracts**: Data Processing Agreements, custom MSAs, and security reviews to meet your procurement requirements.
+
+The [Security overview](https://docs.firecrawl.dev/security.md) covers reports, ZDR by product, subprocessors, access controls, and data residency for your security review.
 
 ## Identity & access management
 
-* **[Single Sign-On (SSO)](/features/sso)**: SAML and OIDC single sign-on so your team authenticates through your existing identity provider (Okta, Entra ID, Google Workspace, and more).
-* **[SCIM directory sync](/features/sso#scim-directory-sync)**: Automatically provision and deprovision users from your directory so access stays in sync with your org.
+* **[Single Sign-On (SSO)](https://docs.firecrawl.dev/features/sso.md)**: SAML and OIDC single sign-on so your team authenticates through your existing identity provider (Okta, Entra ID, Google Workspace, and more).
+* **[SCIM directory sync](https://docs.firecrawl.dev/features/sso.md#scim-directory-sync)**: Automatically provision and deprovision users from your directory so access stays in sync with your org.
 * **Static IP allowlisting**: Route your traffic through dedicated, whitelisted IP addresses for allowlisting on your systems.
-* **[IP restrictions](/features/ip-restrictions)**: Restrict your team's API keys to an allowlist of IP addresses or CIDR ranges so they only work from approved networks.
-* **[Key restrictions](/features/key-restrictions)**: Lock individual API keys to specific output formats and endpoints, enforced server-side with no request-level override.
+* **[IP restrictions](https://docs.firecrawl.dev/features/ip-restrictions.md)**: Restrict your team's API keys to an allowlist of IP addresses or CIDR ranges so they only work from approved networks.
+* **[Key restrictions](https://docs.firecrawl.dev/features/key-restrictions.md)**: Lock individual API keys to specific output formats and endpoints, enforced server-side with no request-level override.
 
 ## Scale & performance
 
 * **Custom credit volumes**: Credit allotments sized to your usage, beyond the standard Scale tier.
 * **Pooled credits across teams**: Group multiple teams under one organization and share a single credit pool across them, with per-team usage tracking and reporting.
 * **Spend limits**: Set spending caps per API key or per team to keep usage and costs under control.
-* **Custom concurrency**: Concurrent browser limits tailored to your workload for maximum throughput. See [Rate Limits](/rate-limits).
+* **Custom concurrency**: Concurrent browser limits tailored to your workload for maximum throughput. See [Rate Limits](https://docs.firecrawl.dev/rate-limits.md).
 * **Reserved concurrency**: Dedicate a portion of your concurrent browser capacity to specific teams or workloads, so high-priority jobs are never starved by other traffic.
-* **Extended credit rollover**: Credits from annual Scale and Enterprise plans allow for some rollover, instead of expiring at the end of the month. See [Billing](/billing).
+* **Extended credit rollover**: Credits from annual Scale and Enterprise plans allow for some rollover, instead of expiring at the end of the month. See [Billing](https://docs.firecrawl.dev/billing.md).
 * **Bulk discounts**: Volume-based pricing for large commitments.
 
 ## Get started

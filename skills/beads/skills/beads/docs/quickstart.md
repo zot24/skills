@@ -41,7 +41,7 @@ The agent picks the right task every time. No wasted cycles.
 
 ## Installation
 
-Install `bd` using [the full installation guide](/getting-started/installation) (Homebrew, install script, npm, or `go install`).
+Install `bd` using [the full installation guide](https://beads.gascity.com/getting-started/installation.md) (Homebrew, install script, npm, or `go install`).
 
 **Developing in a clone of this repository:** use `make install` so the binary gets correct build metadata and a consistent install path. Avoid ad-hoc `go build` / `go install` without the Makefile unless you know what you are doing — see the repository `README` and `AGENTS.md`.
 
@@ -157,7 +157,7 @@ Dependency tree for bd-a3f8e9:
   > bd-a3f8e9.3: Integration tests [P1] (open)
 ```
 
-Children inherit the epic's labels by default — if the epic carries a size/effort label, see [Labels](/core-concepts/labels) for how to keep it off the children.
+Children inherit the epic's labels by default — if the epic carries a size/effort label, see [Labels](https://beads.gascity.com/core-concepts/labels.md) for how to keep it off the children.
 
 ## Add dependencies
 
@@ -279,7 +279,7 @@ bd dolt pull
 
 When a teammate clones the repo, `bd bootstrap` auto-detects the existing database on `refs/dolt/data`, clones it, and wires `origin` for future `bd dolt push` / `bd dolt pull`.
 
-See [`bd dolt`](/cli-reference/dolt) for CLI details. For remote configuration, see [Dolt architecture](/architecture/dolt); for federation, see [federation](/multi-agent/federation).
+See [`bd dolt`](https://beads.gascity.com/cli-reference/dolt) for CLI details. For remote configuration, see [Dolt architecture](https://beads.gascity.com/architecture/dolt.md); for federation, see [federation](https://beads.gascity.com/multi-agent/federation.md).
 
 ## Optional: Notion sync
 
@@ -381,9 +381,9 @@ bd admin cleanup --force
 * Check graph integrity: `bd graph check`
 * Search issues: `bd list --status open`
 * Detect cycles: `bd dep cycles`
-* Gates for PR/CI sync: [`bd gate`](/cli-reference/gate)
-* More sync scenarios: [`bd dolt`](/cli-reference/dolt)
-* Full command list: [CLI Reference](/cli-reference/index)
+* Gates for PR/CI sync: [`bd gate`](https://beads.gascity.com/cli-reference/gate)
+* More sync scenarios: [`bd dolt`](https://beads.gascity.com/cli-reference/dolt)
+* Full command list: [CLI Reference](https://beads.gascity.com/cli-reference/index.md)
 
 See the [repository README](https://github.com/gastownhall/beads/blob/main/README.md) for an overview and links to deeper docs.
 

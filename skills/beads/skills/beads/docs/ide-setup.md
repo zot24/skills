@@ -27,26 +27,26 @@ bd setup claude --remove    # Uninstall
 
 | Recipe | Files written | Details |
 | - | - | - |
-| `claude` | `.claude/settings.json` (or `~/.claude/settings.json` with `--global`) + `CLAUDE.md` section | [Claude Code](/integrations/claude-code) |
-| `cursor` | `.cursor/rules/beads.mdc` + `.agents/skills/beads/` + `.cursor/hooks.json` (with `--global`: `~/.cursor/hooks.json` + `~/.agents/skills/beads/`, no rules file) | [Cursor](/integrations/cursor) |
-| `gemini` | `~/.gemini/settings.json` (or `.gemini/settings.json` with `--project`) + `GEMINI.md` section | [Gemini CLI](/integrations/gemini) |
-| `copilot` | `.copilot-plugin/plugin.json` + `.github/copilot-instructions.md` | [Copilot CLI](/integrations/copilot-cli) |
-| `codex` | `.agents/skills/beads/` + `AGENTS.md` section + `.codex/` hooks (with `--global`: `~/.agents/skills/beads/` + `$CODEX_HOME` or `~/.codex`) | [Codex](/integrations/codex) |
-| `factory` | `AGENTS.md` section | [Factory.ai Droid](/integrations/factory) |
-| `mux` | `AGENTS.md` section (+ `.mux/` layers with `--project`/`--global`) | [Mux](/integrations/mux) |
-| `opencode` | `AGENTS.md` section | [OpenCode](/integrations/opencode) |
-| `aider` | `.aider.conf.yml` + `.aider/BEADS.md` + `.aider/README.md` | [Aider](/integrations/aider) |
-| `junie` | `.junie/guidelines.md` + `.junie/mcp/mcp.json` | [Junie](/integrations/junie) |
-| `windsurf` | `.windsurf/rules/beads.md` | [Windsurf](/integrations/windsurf) |
-| `cody` | `.cody/rules/beads.md` | [Cody](/integrations/cody) |
-| `kilocode` | `.kilocode/rules/beads.md` | [Kilo Code](/integrations/kilocode) |
-| `kiro` | `.kiro/steering/beads.md` | [Kiro CLI](/integrations/kiro) |
+| `claude` | `.claude/settings.json` + `CLAUDE.md` section (or `~/.claude/settings.json` + `~/.claude/CLAUDE.md` with `--global`) | [Claude Code](https://beads.gascity.com/integrations/claude-code.md) |
+| `cursor` | `.cursor/rules/beads.mdc` + `.agents/skills/beads/` + `.cursor/hooks.json` (with `--global`: `~/.cursor/hooks.json` + `~/.agents/skills/beads/`, no rules file) | [Cursor](https://beads.gascity.com/integrations/cursor.md) |
+| `gemini` | `~/.gemini/settings.json` + `~/.gemini/GEMINI.md` section (or `.gemini/settings.json` + `GEMINI.md` section with `--project`, except from `~` or `~/.gemini`) | [Gemini CLI](https://beads.gascity.com/integrations/gemini.md) |
+| `copilot` | `.copilot-plugin/plugin.json` + `.github/copilot-instructions.md` | [Copilot CLI](https://beads.gascity.com/integrations/copilot-cli.md) |
+| `codex` | `.agents/skills/beads/` + `AGENTS.md` section + `.codex/` hooks (with `--global`: `~/.agents/skills/beads/` + `$CODEX_HOME` or `~/.codex`) | [Codex](https://beads.gascity.com/integrations/codex.md) |
+| `factory` | `AGENTS.md` section | [Factory.ai Droid](https://beads.gascity.com/integrations/factory.md) |
+| `mux` | `AGENTS.md` section (+ `.mux/` layers with `--project`/`--global`) | [Mux](https://beads.gascity.com/integrations/mux.md) |
+| `opencode` | `AGENTS.md` section | [OpenCode](https://beads.gascity.com/integrations/opencode.md) |
+| `aider` | `.aider.conf.yml` + `.aider/BEADS.md` + `.aider/README.md` | [Aider](https://beads.gascity.com/integrations/aider.md) |
+| `junie` | `.junie/guidelines.md` + `.junie/mcp/mcp.json` | [Junie](https://beads.gascity.com/integrations/junie.md) |
+| `windsurf` | `.windsurf/rules/beads.md` | [Windsurf](https://beads.gascity.com/integrations/windsurf.md) |
+| `cody` | `.cody/rules/beads.md` | [Cody](https://beads.gascity.com/integrations/cody.md) |
+| `kilocode` | `.kilocode/rules/beads.md` | [Kilo Code](https://beads.gascity.com/integrations/kilocode.md) |
+| `kiro` | `.kiro/steering/beads.md` | [Kiro CLI](https://beads.gascity.com/integrations/kiro.md) |
 
 `bd prime` is the single source of truth for operational workflow commands. Each integration's instruction file either points to `bd prime` (hook-enabled agents) or carries the full command reference (AGENTS-first agents).
 
-
-  Commit the instruction files (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, as applicable) to git so all team members and AI tools get the same instructions.
-
+> [!NOTE]
+>
+> Commit the instruction files (`AGENTS.md`, `CLAUDE.md`, `GEMINI.md`, as applicable) to git so all team members and AI tools get the same instructions.
 
 ### Template Profiles
 
@@ -83,7 +83,7 @@ BD_AGENT_PROFILE=team-maintainer bd prime
 
 ### Managed Sections
 
-`bd setup factory`, `bd setup mux`, and `bd setup opencode` append a beads section to `AGENTS.md`, wrapped in `BEGIN/END BEADS INTEGRATION` HTML-comment markers. The begin marker carries version, profile, and hash metadata (e.g. `<!-- BEGIN BEADS INTEGRATION v:1 profile:full hash:19cc25d9 -->`) so `--check` can report `missing`, `stale`, or `current`; legacy markers without metadata are auto-upgraded on the next install or update. Re-running setup updates the existing section in place (idempotent), and `--remove` deletes only the managed section — the rest of your `AGENTS.md` is untouched.
+`bd setup factory`, `bd setup mux`, and `bd setup opencode` append a beads section to `AGENTS.md`, wrapped in `BEGIN/END BEADS INTEGRATION` HTML-comment markers. The begin marker carries version, profile, and hash metadata (e.g. `<!-- BEGIN BEADS INTEGRATION v:1 profile:full hash:19cc25d9 -->`) so `--check` can report `missing`, `stale`, or `current`; legacy markers without metadata are auto-upgraded on the next install or update. Re-running setup updates the existing section in place (idempotent), and `--remove` deletes only the managed section and the blank lines that set it off — the rest of your `AGENTS.md` is untouched. Running setup again after `--remove` appends the section to the end of the file after one blank line, so removing and re-adding it toggles between the same two files. The section `bd setup claude` and `bd setup gemini` manage in `CLAUDE.md` and `GEMINI.md` behaves the same way, except that in `~/.gemini/GEMINI.md` it goes ahead of the `## Gemini Added Memories` section older Gemini CLI releases keep there, so memories they save stay outside it.
 
 `bd setup codex` uses its own marker pair (`BEGIN/END BEADS CODEX SETUP`). Running it alongside `bd setup factory` or `bd setup mux` against the same `AGENTS.md` leaves two managed sections side by side; each recipe's `--check` inspects only its own section, and each `--remove` removes only its own section.
 
@@ -95,15 +95,15 @@ The recommended approach for Claude Code:
 
 ```bash theme={null}
 bd setup claude            # Project install: .claude/settings.json
-bd setup claude --global   # Global install: ~/.claude/settings.json
+bd setup claude --global   # Global install: ~/.claude/settings.json + ~/.claude/CLAUDE.md
 ```
 
 This installs:
 
 * **SessionStart hook** - Runs `bd prime --hook-json`, which wraps the workflow context in the JSON envelope Claude Code expects. SessionStart fires when a session starts, resumes, or clears, and again after context compaction — no separate compaction hook is needed.
-* **Minimal beads section in `CLAUDE.md`** - A pointer to `bd prime`, managed with hash/version markers for safe updates and `--check` freshness detection. If `CLAUDE.md` is a thin stub that imports `AGENTS.md` (an `@AGENTS.md` line of its own), the section is written to `AGENTS.md` instead, and a stale beads block left in the stub by an older bd is removed.
+* **Minimal beads section in `CLAUDE.md`** - A pointer to `bd prime`, managed with hash/version markers for safe updates and `--check` freshness detection. If `CLAUDE.md` is a thin stub that imports `AGENTS.md` (an `@AGENTS.md` line of its own), the section is written to `AGENTS.md` instead, and a stale beads block left in the stub by an older bd is removed. A `--global` install writes the section to your user-level `~/.claude/CLAUDE.md` and leaves the current directory's files alone. Claude Code loads that file in every project, so there the section applies only in repositories that use beads.
 
-If the [beads Claude Code plugin](/integrations/claude-code-plugin) is installed, hooks are plugin-managed and `bd setup claude` skips writing them, so `bd prime` doesn't fire twice per session.
+If the [beads Claude Code plugin](https://beads.gascity.com/integrations/claude-code-plugin.md) is enabled, its own hook runs `bd prime`, so `bd setup claude` skips writing one: Claude Code runs a plugin's hook beside a settings hook, and with both `bd prime` would fire twice per session. It reads the plugin's setting the way Claude Code does, from the first settings file that names it: managed settings, then `.claude/settings.local.json` (at the repository root, or the main checkout's root in a linked worktree), then the project's `.claude/settings.json`, then `~/.claude/settings.json`. So in a project that turns off a plugin your user settings enable, `bd setup claude` run there writes the hook; a `--global` install run there leaves the hook to the plugin and warns that the project needs `bd setup claude`. Whether teammates get the plugin is decided by the settings everyone shares, managed settings and the project's `.claude/settings.json`. When only your own settings enable it and the shared `.claude/settings.json` holds an older bare `bd prime` hook, `bd setup claude` replaces that hook with the current one rather than dropping it, since teammates without the plugin need it, and warns that `bd prime` runs twice per session for you. When the project's `.claude/settings.json` enables the plugin and only your `.claude/settings.local.json` turns it off, `bd setup claude` adds no hook to the shared file, where teammates with the plugin would run `bd prime` twice. It names the hook that already runs `bd prime` for you, keeping one in `.claude/settings.local.json`, or, when there is none, says how to run `bd prime` for yourself. A `--global` install skips the hook only when managed settings or `~/.claude/settings.json` enable the plugin, since a plugin enabled in a project's own settings runs in that project only. Run from such a project, `--global` still writes its hook for every other project, and there `bd prime` does fire twice per session; the install and `bd setup claude --check` say so and name the fix. To run it once there, turn the plugin off for yourself in that project's `.claude/settings.local.json`, or enable it in `~/.claude/settings.json` and remove the global hook with `bd setup claude --remove --global`, then run `bd setup claude --global` to put back the `~/.claude/CLAUDE.md` section.
 
 **How it works:**
 
@@ -118,7 +118,7 @@ If the [beads Claude Code plugin](/integrations/claude-code-plugin) is installed
 | - | - |
 | `--check` | Check both hooks and the managed `CLAUDE.md` beads section |
 | `--remove` | Remove beads hooks and the managed `CLAUDE.md` beads section |
-| `--global` | Install to `~/.claude/settings.json` instead of the project |
+| `--global` | Install to `~/.claude/settings.json` and `~/.claude/CLAUDE.md` instead of the project |
 | `--stealth` | Use `bd prime --stealth --hook-json` (flush only, no git operations) — useful in CI/CD where git operations might fail |
 
 Restart Claude Code after installation for the hooks to take effect.
@@ -178,16 +178,16 @@ Restart Cursor (or start a new `cursor-agent` session) after installing.
 bd setup cursor --check
 ```
 
-See [Cursor](/integrations/cursor) for details.
+See [Cursor](https://beads.gascity.com/integrations/cursor.md) for details.
 
 ## Gemini CLI
 
 ```bash theme={null}
-bd setup gemini            # Global hooks in ~/.gemini/settings.json
-bd setup gemini --project  # Project hooks in .gemini/settings.json
+bd setup gemini            # Global install: ~/.gemini/settings.json + ~/.gemini/GEMINI.md
+bd setup gemini --project  # Project install: .gemini/settings.json + GEMINI.md
 ```
 
-This installs a SessionStart hook running `bd prime --hook-json` — Gemini requires hook stdout to be valid JSON, and `--hook-json` wraps the markdown in the required envelope — plus a minimal beads section in `GEMINI.md`. `--stealth` works the same as for Claude Code; `--check` and `--remove` cover both the hooks and the managed `GEMINI.md` section.
+This installs a SessionStart hook running `bd prime --hook-json` — Gemini requires hook stdout to be valid JSON, and `--hook-json` wraps the markdown in the required envelope — plus a minimal beads section in your user-level `~/.gemini/GEMINI.md` (in the project's `GEMINI.md` with `--project`). Gemini CLI loads the user-level file in every project, so there the section applies only in repositories that use beads, and a global install leaves the current directory's files alone. Run from your home directory or from `~/.gemini`, `--project` is the global install: it uses `~/.gemini/settings.json` and `~/.gemini/GEMINI.md`, and does not create `~/GEMINI.md`. `--stealth` works the same as for Claude Code; `--check` and `--remove` cover both the hooks and the managed `GEMINI.md` section.
 
 **Verify:**
 
@@ -195,7 +195,7 @@ This installs a SessionStart hook running `bd prime --hook-json` — Gemini requ
 bd setup gemini --check
 ```
 
-See [Gemini CLI](/integrations/gemini) for details.
+See [Gemini CLI](https://beads.gascity.com/integrations/gemini.md) for details.
 
 ## Aider
 
@@ -212,7 +212,7 @@ This writes three files:
 | `.aider/BEADS.md` | Workflow instructions for the AI |
 | `.aider/README.md` | Quick reference for humans |
 
-Aider is human-in-the-loop: the AI **suggests** `bd` commands, and you run them with `/run`. See [Aider](/integrations/aider) for the workflow.
+Aider is human-in-the-loop: the AI **suggests** `bd` commands, and you run them with `/run`. See [Aider](https://beads.gascity.com/integrations/aider.md) for the workflow.
 
 **Verify:**
 
@@ -232,7 +232,7 @@ bd setup codex --global   # Same, under ~/.agents/skills/beads and $CODEX_HOME (
 
 These create or update a managed section in `AGENTS.md` (see Managed Sections above). `bd init` runs the project Claude Code, Codex, and Cursor setup automatically unless `--skip-agents` or `--stealth` is used (or the repository is bare). In worktree, shared, or `BEADS_DIR` setups, use `bd where` to confirm the resolved workspace — these integrations do not require a local `./.beads`. Restart the tool after setup if it is already running.
 
-Details: [Factory.ai Droid](/integrations/factory), [Mux](/integrations/mux), [OpenCode](/integrations/opencode), [Codex](/integrations/codex).
+Details: [Factory.ai Droid](https://beads.gascity.com/integrations/factory.md), [Mux](https://beads.gascity.com/integrations/mux.md), [OpenCode](https://beads.gascity.com/integrations/opencode.md), [Codex](https://beads.gascity.com/integrations/codex.md).
 
 ## GitHub Copilot
 
@@ -242,7 +242,7 @@ Details: [Factory.ai Droid](/integrations/factory), [Mux](/integrations/mux), [O
 bd setup copilot
 ```
 
-This installs a native Copilot CLI plugin manifest (`.copilot-plugin/plugin.json`, which registers `bd prime` hooks) and repository instructions (`.github/copilot-instructions.md`). See [Copilot CLI](/integrations/copilot-cli).
+This installs a native Copilot CLI plugin manifest (`.copilot-plugin/plugin.json`, which registers `bd prime` hooks) and repository instructions (`.github/copilot-instructions.md`). See [Copilot CLI](https://beads.gascity.com/integrations/copilot-cli.md).
 
 **For VS Code with GitHub Copilot**, use the MCP server:
 
@@ -288,7 +288,7 @@ Initialize beads and reload VS Code:
 bd init --quiet
 ```
 
-See [GitHub Copilot Integration](/integrations/github-copilot) for detailed setup.
+See [GitHub Copilot Integration](https://beads.gascity.com/integrations/github-copilot.md) for detailed setup.
 
 ## Context Injection with `bd prime`
 
@@ -347,7 +347,7 @@ Add to Claude Desktop config:
 * Higher context overhead (10-50k tokens for tool schemas)
 * Additional latency from MCP protocol
 
-See [MCP Server](/integrations/mcp-server) for detailed configuration.
+See [MCP Server](https://beads.gascity.com/integrations/mcp-server.md) for detailed configuration.
 
 ## Custom Recipes
 
@@ -368,6 +368,8 @@ name = "myeditor"
 path = ".myeditor/rules.md"
 type = "file"
 ```
+
+A recipe's `path` (or a `multifile` recipe's `paths`) must be a relative path inside the directory you run `bd setup` in: `bd setup` refuses a recipe, touching none of its files or directories, when a path is absolute, leaves that directory through `..`, leads out of it through a symbolic link (the directory holding the file included), or runs through a dangling or looping link, and `bd setup --add` does not save one. To write the template anywhere else, use `bd setup -o <path>`.
 
 For a one-off install without saving a recipe, write the template to any path — or inspect it first:
 

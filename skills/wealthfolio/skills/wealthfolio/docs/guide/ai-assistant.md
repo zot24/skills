@@ -74,7 +74,7 @@
 #### Connect
 
 
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
+<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
 
 
 Docs
@@ -90,7 +90,7 @@ Ask natural-language questions about your portfolio. Run fully local with Ollama
 
 ------------------------------------------------------------------------
 
-Last updated October 14, 2026
+Last updated October 31, 2026
 
 The AI Assistant is a chat interface that answers questions about your portfolio by running typed queries against your local database. Ask “what did I earn in dividends last year?” and it’ll figure out the right query, run it, and answer with real numbers.
 
@@ -158,15 +158,17 @@ The LLM picks the tools, calls them, and summarizes the results. Your raw activi
 Six providers are supported out of the box. Configure them under **Settings → AI Providers**.
 
 
-| Provider               | Where it runs       | Cost                                  | Setup                                        |
-|------------------------|---------------------|---------------------------------------|----------------------------------------------|
-| **Ollama**             | Your machine        | Free                                  | Install Ollama and pull a tool-capable model |
-| **Groq**               | Groq cloud          | Per-token (paid)                      | Add your API key                             |
-| **Google AI (Gemini)** | Google cloud        | Per-token (paid)                      | Add your API key                             |
-| **Anthropic (Claude)** | Anthropic’s servers | Per-token (paid)                      | Add your API key                             |
-| **OpenAI**             | OpenAI’s servers    | Per-token (paid)                      | Add your API key                             |
-| **OpenRouter**         | OpenRouter cloud    | Per-token (paid; free tier available) | Add your API key                             |
+| Provider               | Where it runs       | Cost                                                                    | Setup                                        |
+|------------------------|---------------------|-------------------------------------------------------------------------|----------------------------------------------|
+| **Ollama**             | Your machine        | Free                                                                    | Install Ollama and pull a tool-capable model |
+| **Groq**               | Groq cloud          | Per-token (paid)                                                        | Add your API key                             |
+| **Google AI (Gemini)** | Google cloud        | Per-token (paid)                                                        | Add your API key                             |
+| **Anthropic (Claude)** | Anthropic’s servers | Per-token (paid; Claude Max and Team plans include monthly API credits) | Add your API key                             |
+| **OpenAI**             | OpenAI’s servers    | Per-token (paid)                                                        | Add your API key                             |
+| **OpenRouter**         | OpenRouter cloud    | Per-token (paid; free tier available)                                   | Add your API key                             |
 
+
+**Claude Max or Team plan?** It includes monthly API credits you can spend here. On claude.ai, open **Settings → Billing** (Team owners: **Organization settings → Billing**), link a Console organization under **API credits**, then create an API key in that organization and add it to the Anthropic provider. Free, Pro, and Enterprise plans aren’t eligible. See <a href="https://support.claude.com/en/articles/17154008" class="font-medium underline underline-offset-4">Claude’s help article</a> for details.
 
 Use **Advanced options** to configure a custom endpoint compatible with the selected provider’s API.
 

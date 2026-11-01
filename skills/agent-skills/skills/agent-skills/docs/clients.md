@@ -8,5 +8,6 @@
 
 > Agent products that support the Agent Skills format.
 
+**Shuffle**
 
-<ClientShowcase clients={clients} />
+**Alphabetical**

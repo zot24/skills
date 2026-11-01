@@ -4,7 +4,7 @@
 title: Publishing your adapter
 description: Package, version, and publish your community Chat SDK adapter to npm.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/contributing/building

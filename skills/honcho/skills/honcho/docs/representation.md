@@ -14,9 +14,9 @@ When you write messages to Honcho, the reasoning models extract premises, draw c
 
 ## What's in a Representation?
 
-A peer representation is made up of several types of artifacts that Honcho generates through [*reasoning*](/docs/v3/documentation/core-concepts/reasoning):
+A peer representation is made up of several types of artifacts that Honcho generates through [*reasoning*](https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md):
 
-**Conclusions** are insights derived through formal logic. Deductive conclusions are things Honcho can be certain about based on extracted premises. Inductive conclusions identify patterns across multiple messages. Abductive conclusions infer the simplest explanations for observed behavior. For example, if a user frequently mentions work deadlines and rarely mentions hobbies, Honcho might inductively conclude they're time-constrained or career-focused.
+**Conclusions** are insights derived through formal logic. Deductive conclusions are things Honcho can be certain about based on extracted premises. Inductive conclusions identify patterns across multiple messages. For example, if a user frequently mentions work deadlines and rarely mentions hobbies, Honcho might inductively conclude they're time-constrained or career-focused.
 
 **Summaries** capture the essence of sessions. Short summaries are generated every 20 messages by default, and long summaries every 60 messages. These help compress conversation history into dense, queryable context.
 
@@ -28,7 +28,7 @@ These enable continuous improvement. Each new message refines conclusions, updat
 
 Honcho can build different representations based on what each peer observes. This enables sophisticated multi-peer scenarios where understanding is relative to what was actually witnessed.
 
-There are two observation modes controlled by [configuration](/docs/v3/documentation/features/advanced/configuration):
+There are two observation modes controlled by [configuration](https://honcho.dev/docs/v3/documentation/features/advanced/configuration):
 
 **Honcho observing peers** (`observe_me`): When enabled (default), Honcho forms a representation of the peer based on all messages they've sent across all sessions. This is Honcho's understanding of that peer, built from everything they've said and done in your system. Set `observe_me: false` if you don't want Honcho to reason about that peer at all.
 
@@ -36,7 +36,7 @@ There are two observation modes controlled by [configuration](/docs/v3/documenta
 
 In the diagram below, assume `observe_me` isn't turned off (again, default behavior) and `observe_others` is turned on for both peers in a session that contains the peers Alice and Bob.
 
-<img src="https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/observe_config.png?fit=max&auto=format&n=Pwe1D9IEDkAtnMKn&q=85&s=3ce6039ba1ff8c8b760e2f2d507999fa" alt="" width="1687" height="1916" data-path="images/observe_config.png" />
+![](https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/observe_config.png?fit=max\&auto=format\&n=Pwe1D9IEDkAtnMKn\&q=85\&s=3ce6039ba1ff8c8b760e2f2d507999fa)
 
 The shared session that Alice and Bob have informs their respective representations of each other. Alice has a small set of conclusions that pertain to Bob, and Bob has a small set of conclusions that pertain to Alice. Honcho can observe the totality of each peer's interactions, forming representations of the peers themselves, and enable peers to store conclusions about peers they interact with based only on what they witness in shared sessions.
 
@@ -52,17 +52,21 @@ Humans reconstruct the past from imperfect recollections, then act on those reco
 
 ## Next Steps
 
+> [card] [Get an API Key](https://app.honcho.dev)
+>
+> Sign up for the Honcho platform and start building
 
-    Sign up for the Honcho platform and start building
+> [card] [Quickstart](https://honcho.dev/docs/v3/documentation/introduction/quickstart.md)
+>
+> See representations in action with a working example
 
+> [card] [Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Understand how representations fit into Honcho's architecture
 
-    See representations in action with a working example
-
-
-    Understand how representations fit into Honcho's architecture
-
-
-    Chat with Honcho about your users
+> [card] [Chat Endpoint](https://honcho.dev/docs/v3/documentation/features/chat.md)
+>
+> Chat with Honcho about your users
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -20,27 +20,29 @@ Give Kilo Code long-term memory that survives context wipes, session restarts, a
 
 ### Step 2: Install the Plugin
 
+> [tab] Desktop app, VS Code, JetBrains
+>
+> Install **Honcho** from the Kilo Marketplace, then type `/honcho` in the chat. The agent asks what name Honcho should call you and opens a window on your screen for your API key. You can skip Step 3. See [Setting Up from the Desktop App or an Extension](#setting-up-from-the-desktop-app-or-an-extension).
+>
+> > [!NOTE]
+> >
+> > Until Honcho is listed in the Kilo Marketplace, add it to Kilo's global config yourself. Put it in the `plugin` array of `~/.config/kilo/kilo.jsonc`, and create the file if it does not exist:
+> >
+> > ```jsonc
+> > {
+> >   "plugin": ["@honcho-ai/kilo-honcho"]
+> > }
+> > ```
+> >
+> > Restart Kilo, then type `/honcho`.
 
-    Install **Honcho** from the Kilo Marketplace, then type `/honcho` in the chat. The agent asks what name Honcho should call you and opens a window on your screen for your API key. You can skip Step 3. See [Setting Up from the Desktop App or an Extension](#setting-up-from-the-desktop-app-or-an-extension).
-
-
-      Until Honcho is listed in the Kilo Marketplace, add it to Kilo's global config yourself. Put it in the `plugin` array of `~/.config/kilo/kilo.jsonc`, and create the file if it does not exist:
-
-      ```jsonc
-      {
-        "plugin": ["@honcho-ai/kilo-honcho"]
-      }
-      ```
-
-      Restart Kilo, then type `/honcho`.
-
-
-    Install the plugin, then run Step 3:
-
-    ```bash
-    kilo plugin @honcho-ai/kilo-honcho --global
-    ```
-
+> [tab] Kilo CLI
+>
+> Install the plugin, then run Step 3:
+>
+> ```bash
+> kilo plugin @honcho-ai/kilo-honcho --global
+> ```
 
 To update an existing install:
 
@@ -60,9 +62,9 @@ To add the plugin by hand, put `"@honcho-ai/kilo-honcho"` in the `plugin` array 
 6. Choose a workspace: Kilo's own, or one another Honcho tool already uses
 7. Run `/honcho:status` to verify the runtime
 
-
-  Already using Honcho with Claude Code, Hermes, or another tool? Kilo reads the same `~/.honcho/config.json`, so it works without setup. Run `/honcho:setup` only to share a workspace with that tool.
-
+> [!TIP]
+>
+> Already using Honcho with Claude Code, Hermes, or another tool? Kilo reads the same `~/.honcho/config.json`, so it works without setup. Run `/honcho:setup` only to share a workspace with that tool.
 
 ## What You Get
 
@@ -119,9 +121,9 @@ Session: View in Honcho ↗
 
 On Honcho Cloud, clicking `View in Honcho` opens the session in the Honcho dashboard, where you can read the saved messages and the conclusions. Any other Honcho server has no known dashboard address, so the sidebar shows the session name instead. Click `/honcho:recall`, or run it, to read the exact memory text the model received.
 
-
-  The sidebar section is part of the Kilo CLI. The desktop app and the IDE extensions do not show it; see [Kilo CLI, Desktop App, and IDE Extensions](#kilo-cli-desktop-app-and-ide-extensions).
-
+> [!NOTE]
+>
+> The sidebar section is part of the Kilo CLI. The desktop app and the IDE extensions do not show it; see [Kilo CLI, Desktop App, and IDE Extensions](#kilo-cli-desktop-app-and-ide-extensions).
 
 ## Configuration
 
@@ -167,9 +169,9 @@ For **self-hosted or local Honcho**:
 * `apiKey` is only required if the deployment is authenticated
 * The agent's `honcho_setup` will not switch Kilo to a local `baseUrl`. Set it in the file, or with `/honcho:setup` in the Kilo CLI.
 
-
-  If Kilo is running inside Docker or another remote environment, `localhost` won't refer to your host machine. The `baseUrl` must be reachable from the Kilo server.
-
+> [!WARNING]
+>
+> If Kilo is running inside Docker or another remote environment, `localhost` won't refer to your host machine. The `baseUrl` must be reachable from the Kilo server.
 
 ### Recall Modes
 
@@ -304,11 +306,13 @@ Both write to `team-acme`; Honcho's dialectic reasoning draws on context from bo
 
 ## Next Steps
 
+> [card] [Source Code](https://github.com/plastic-labs/honcho/tree/main/kilo-honcho)
+>
+> The plugin package, README, and changelog.
 
-    The plugin package, README, and changelog.
-
-
-    Learn about peers, sessions, and dialectic reasoning.
+> [card] [Honcho Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Learn about peers, sessions, and dialectic reasoning.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

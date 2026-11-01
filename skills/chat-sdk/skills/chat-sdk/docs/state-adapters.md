@@ -4,7 +4,7 @@
 title: State Adapters
 description: State adapters store thread subscriptions, distributed locks, and cached data for your bot.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: overview
 prerequisites:
   - /docs/getting-started

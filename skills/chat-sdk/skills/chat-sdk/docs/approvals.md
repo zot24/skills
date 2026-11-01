@@ -4,7 +4,7 @@
 title: Approvals
 description: Pause a durable workflow until a human approves it in chat.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/cards

@@ -12,9 +12,9 @@ Turn live website data into presentations, emails, marketing copy, and newslette
 
 ## Start with a Template
 
-
-  Clone and recreate any website as a modern React app
-
+> [card] [Open Lovable](https://github.com/firecrawl/open-lovable)
+>
+> Clone and recreate any website as a modern React app
 
 ## How It Works
 
@@ -44,27 +44,31 @@ Surface relevant news stories as part of your request to keep generated content 
 
 ## FAQs
 
+> [accordion] How does Firecrawl ensure data accuracy for content creation?
+>
+> Firecrawl extracts data directly from source websites, preserving the original content structure and context. All extracted data includes source URLs and timestamps for verification.
 
-    Firecrawl extracts data directly from source websites, preserving the original content structure and context. All extracted data includes source URLs and timestamps for verification.
+> [accordion] What data can Firecrawl provide for content generation?
+>
+> Firecrawl provides clean markdown, structured JSON, HTML, images, and screenshots from websites. This extracted data serves as the factual foundation for your content generation workflows.
 
+> [accordion] Can Firecrawl handle images and news sources?
+>
+> Yes. Firecrawl can extract images, capture screenshots, and pull content from news sites. This enables you to create visually rich content and stay current with industry developments.
 
-    Firecrawl provides clean markdown, structured JSON, HTML, images, and screenshots from websites. This extracted data serves as the factual foundation for your content generation workflows.
+> [accordion] What types of websites can Firecrawl extract from?
+>
+> Firecrawl excels at extracting from company websites, news sites, blogs, and documentation. Sites with structured HTML and clear content hierarchies yield the cleanest extraction results.
 
-
-    Yes. Firecrawl can extract images, capture screenshots, and pull content from news sites. This enables you to create visually rich content and stay current with industry developments.
-
-
-    Firecrawl excels at extracting from company websites, news sites, blogs, and documentation. Sites with structured HTML and clear content hierarchies yield the cleanest extraction results.
-
-
-    Use Firecrawl's batch scraping and crawl APIs to extract data from multiple websites efficiently. Process hundreds of URLs in parallel to build comprehensive datasets for your content workflows.
-
+> [accordion] How can I use Firecrawl for bulk data extraction?
+>
+> Use Firecrawl's batch scraping and crawl APIs to extract data from multiple websites efficiently. Process hundreds of URLs in parallel to build comprehensive datasets for your content workflows.
 
 ## Related Use Cases
 
-* [AI Platforms](/use-cases/ai-platforms) - Build AI-powered content tools
-* [Lead Enrichment](/use-cases/lead-enrichment) - Personalize with prospect data
-* [SEO Platforms](/use-cases/seo-platforms) - Optimize generated content
+* [AI Platforms](https://docs.firecrawl.dev/use-cases/ai-platforms.md) - Build AI-powered content tools
+* [Lead Enrichment](https://docs.firecrawl.dev/use-cases/lead-enrichment.md) - Personalize with prospect data
+* [SEO Platforms](https://docs.firecrawl.dev/use-cases/seo-platforms.md) - Optimize generated content
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -12,61 +12,59 @@ Search Highlights replace each result's plain website description with passages 
 
 Highlights preserve the search result's URL, title, position, and ranking. For web results, the highlighted text is returned in `description`; for news results, it is returned in `snippet`.
 
-
-  If Firecrawl cannot generate a highlight for a result, the website's plain description or snippet is preserved. One unavailable page will not prevent the other search results from being returned.
-
+> [!NOTE]
+>
+> If Firecrawl cannot generate a highlight for a result, the website's plain description or snippet is preserved. One unavailable page will not prevent the other search results from being returned.
 
 ## Highlights are enabled by default
 
 Use Search normally and Firecrawl will return highlights when relevant page content is available.
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  results = firecrawl.search(
-      query="how does firecrawl handle javascript rendering",
-      limit=5,
-  )
+results = firecrawl.search(
+    query="how does firecrawl handle javascript rendering",
+    limit=5,
+)
 
-  for result in results.web or []:
-      print(result.description)
-  ```
+for result in results.web or []:
+    print(result.description)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
 
-  const firecrawl = new Firecrawl({ apiKey: 'fc-YOUR-API-KEY' });
+const firecrawl = new Firecrawl({ apiKey: 'fc-YOUR-API-KEY' });
 
-  const results = await firecrawl.search(
-    'how does firecrawl handle javascript rendering',
-    {
-      limit: 5,
-    }
-  );
-
-  for (const result of results.web ?? []) {
-    console.log(result.description);
+const results = await firecrawl.search(
+  'how does firecrawl handle javascript rendering',
+  {
+    limit: 5,
   }
-  ```
+);
 
-  ```bash cURL
-  curl -X POST https://api.firecrawl.dev/v2/search \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "query": "how does firecrawl handle javascript rendering",
-      "limit": 5
-    }'
-  ```
+for (const result of results.web ?? []) {
+  console.log(result.description);
+}
+```
 
-  ```bash CLI
-  firecrawl search "how does firecrawl handle javascript rendering" \
-    --limit 5
-  ```
-</CodeGroup>
+```bash cURL theme={null}
+curl -X POST https://api.firecrawl.dev/v2/search \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "how does firecrawl handle javascript rendering",
+    "limit": 5
+  }'
+```
+
+```bash CLI theme={null}
+firecrawl search "how does firecrawl handle javascript rendering" \
+  --limit 5
+```
 
 ### MCP
 
@@ -83,7 +81,7 @@ The `firecrawl_search` MCP tool also returns highlights by default:
 
 Highlights use the existing description fields, so the response shape stays the same as a normal search response.
 
-````json
+````json theme={null}
 {
   "success": true,
   "data": {
@@ -105,34 +103,32 @@ Highlights may contain Markdown when the relevant page content includes headings
 
 Set `highlights` to `false` when you want each website's plain description or snippet instead.
 
-<CodeGroup>
-  ```python Python
-  results = firecrawl.search(
-      query="Firecrawl search API",
-      highlights=False,
-  )
-  ```
+```python Python theme={null}
+results = firecrawl.search(
+    query="Firecrawl search API",
+    highlights=False,
+)
+```
 
-  ```js Node
-  const results = await firecrawl.search('Firecrawl search API', {
-    highlights: false,
-  });
-  ```
+```js Node theme={null}
+const results = await firecrawl.search('Firecrawl search API', {
+  highlights: false,
+});
+```
 
-  ```bash cURL
-  curl -X POST https://api.firecrawl.dev/v2/search \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "query": "Firecrawl search API",
-      "highlights": false
-    }'
-  ```
+```bash cURL theme={null}
+curl -X POST https://api.firecrawl.dev/v2/search \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "query": "Firecrawl search API",
+    "highlights": false
+  }'
+```
 
-  ```bash CLI
-  firecrawl search "Firecrawl search API" --no-highlights
-  ```
-</CodeGroup>
+```bash CLI theme={null}
+firecrawl search "Firecrawl search API" --no-highlights
+```
 
 ## Behavior by result type
 
@@ -142,7 +138,7 @@ Set `highlights` to `false` when you want each website's plain description or sn
 * **Search with scraping:** Highlights affect the search description or snippet. Content requested through `scrapeOptions` is returned separately and is not replaced.
 * **Zero Data Retention:** ZDR searches retain the websites' plain descriptions and snippets.
 
-For every Search parameter and the complete response schema, see the [Search API reference](/api-reference/endpoint/search).
+For every Search parameter and the complete response schema, see the [Search API reference](https://docs.firecrawl.dev/api-reference/endpoint/search.md).
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

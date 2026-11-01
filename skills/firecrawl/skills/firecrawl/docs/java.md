@@ -15,22 +15,23 @@
 
 ## Install the SDK
 
+> [tab] Gradle (Kotlin DSL)
+>
+> ```kotlin
+> dependencies {
+>     implementation("com.firecrawl:firecrawl-java:1.18.7")
+> }
+> ```
 
-    ```kotlin
-    dependencies {
-        implementation("com.firecrawl:firecrawl-java:1.18.0")
-    }
-    ```
-
-
-    ```xml
-    <dependency>
-        <groupId>com.firecrawl</groupId>
-        <artifactId>firecrawl-java</artifactId>
-        <version>1.18.0</version>
-    </dependency>
-    ```
-
+> [tab] Maven
+>
+> ```xml
+> <dependency>
+>     <groupId>com.firecrawl</groupId>
+>     <artifactId>firecrawl-java</artifactId>
+>     <version>1.18.7</version>
+> </dependency>
+> ```
 
 ## Search the web
 
@@ -68,17 +69,17 @@ Document doc = client.scrape("https://example.com");
 System.out.println(doc.getMarkdown());
 ```
 
-
-  ```json
-  {
-    "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
-    "metadata": {
-      "title": "Example Domain",
-      "sourceURL": "https://example.com"
-    }
-  }
-  ```
-
+> [accordion] Example response
+>
+> ```json
+> {
+>   "markdown": "# Example Domain\n\nThis domain is for use in illustrative examples...",
+>   "metadata": {
+>     "title": "Example Domain",
+>     "sourceURL": "https://example.com"
+>   }
+> }
+> ```
 
 ## Interact with a page
 
@@ -114,17 +115,21 @@ FirecrawlClient client = FirecrawlClient.fromEnv();
 
 ## Next steps
 
+> [card] [Search docs](https://docs.firecrawl.dev/features/search.md)
+>
+> Search the web and get full page content
 
-    Search the web and get full page content
+> [card] [Scrape docs](https://docs.firecrawl.dev/features/scrape.md)
+>
+> All scrape options including formats, actions, and proxies
 
+> [card] [Interact docs](https://docs.firecrawl.dev/features/interact.md)
+>
+> Click, fill forms, and extract dynamic content
 
-    All scrape options including formats, actions, and proxies
-
-
-    Click, fill forms, and extract dynamic content
-
-
-    Full SDK reference with crawl, map, batch scrape, and more
+> [card] [Java SDK reference](https://docs.firecrawl.dev/sdks/java.md)
+>
+> Full SDK reference with crawl, map, batch scrape, and more
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

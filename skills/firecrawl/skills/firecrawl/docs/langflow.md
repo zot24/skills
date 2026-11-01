@@ -12,16 +12,32 @@
 
 Firecrawl can be used inside of [Langflow, the AI workflow builder](https://www.langflow.org/). This page introduces how to configure and use a Firecrawl block inside of Langflow.
 
-<img className="block" src="https://mintcdn.com/firecrawl/vlKm1oZYK3oSRVTM/images/fc_langflow_block.png?fit=max&auto=format&n=vlKm1oZYK3oSRVTM&q=85&s=3f52eef4ff7544fb3ca7a77f890e7e83" alt="Firecrawl Langflow block" width="798" height="1068" data-path="images/fc_langflow_block.png" />
+![Firecrawl Langflow block](https://mintcdn.com/firecrawl/vlKm1oZYK3oSRVTM/images/fc_langflow_block.png?fit=max\&auto=format\&n=vlKm1oZYK3oSRVTM\&q=85\&s=3f52eef4ff7544fb3ca7a77f890e7e83)
+
+### Installing the Firecrawl bundle
+
+The Firecrawl blocks ship in the `lfx-firecrawl` bundle, which the default Langflow install doesn't include. Install it in the same environment as Langflow, then restart Langflow:
+
+```bash theme={null}
+uv pip install lfx-firecrawl
+```
+
+The bundle adds four blocks: **Firecrawl Scrape API**, **Firecrawl Crawl API**, **Firecrawl Map API**, and **Firecrawl Search API**. Each one returns the Firecrawl API response as `Data`. See the [Langflow Firecrawl bundle docs](https://docs.langflow.org/bundles-firecrawl) for every parameter.
 
 ### Scraping with Firecrawl blocks
 
 1. Log in to your Firecrawl account and get your API Key, and then enter it on the block or pass it in from another part of the workflow.
-2. (Optional) Connect Text Splitter.
-3. Select the scrape mode to pick up a single page.
-4. Input target URL to be scraped or pass it in from another part of the workflow.
-5. Set up any scrape options depending on what website and data you are trying to get, such as the output formats and whether to return only the main content. You can also pass these in from another part of the workflow.
+2. Add the **Firecrawl Scrape API** block to pick up a single page.
+3. Input target URL to be scraped or pass it in from another part of the workflow.
+4. Set up any scrape options depending on what website and data you are trying to get, such as the output formats and whether to return only the main content. You can also pass these in from another part of the workflow.
+5. (Optional) Set **Extractor Options** to get structured JSON from the page.
 6. Use the data in your workflows.
+
+### Crawling, mapping, and searching
+
+* **Firecrawl Crawl API** crawls a URL and its sub-pages. Set limits and paths in **Crawler Options** and per-page settings in **Scrape Options**.
+* **Firecrawl Map API** returns the URLs of one or more sites.
+* **Firecrawl Search API** searches the web for a query, with an optional result **Limit** and **Location**.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

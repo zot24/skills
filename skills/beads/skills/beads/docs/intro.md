@@ -10,7 +10,7 @@
 
 **Beads** (`bd`) is a Dolt-powered issue tracker designed for AI-supervised coding workflows.
 
-These docs are for the 1.3.0 release of beads — see the [v1.3.0 release notes](https://github.com/gastownhall/beads/releases/tag/v1.3.0). Upgrading from 1.2.2 or earlier crosses a schema migration; read [Upgrading](/getting-started/upgrading) first.
+These docs are for the 1.3.2 release of beads — see the [v1.3.2 release notes](https://github.com/gastownhall/beads/releases/tag/v1.3.2). Upgrading from 1.2.2 or earlier crosses a schema migration; read [Upgrading](https://beads.gascity.com/getting-started/upgrading.md) first. After upgrading from 1.3.0 or earlier, run `bd recompute-blocked` once per workspace.
 
 ## Why Beads?
 
@@ -44,16 +44,16 @@ bd ready
 
 ## Core Concepts
 
-The whole model on one page: [How Beads Works](/core-concepts/index).
+The whole model on one page: [How Beads Works](https://beads.gascity.com/core-concepts/index.md).
 
 | Concept | Description |
 | - | - |
-| [**Beads (issues)**](/core-concepts/issues) | Work items with priorities, types, labels, and dependencies |
-| [**Dependencies**](/core-concepts/dependencies) | `blocks`, `parent-child`, `discovered-from`, `related` |
-| [**Sync**](/core-concepts/sync-concepts) | Dolt push/pull over your git remote — no server to run |
-| [**Formulas**](/workflows/formulas) | Declarative workflow templates (TOML or JSON) |
-| [**Molecules**](/workflows/molecules) | Work graphs instantiated from formulas |
-| [**Gates**](/workflows/gates) | Async coordination primitives (human, timer, GitHub) |
+| [**Beads (issues)**](https://beads.gascity.com/core-concepts/issues.md) | Work items with priorities, types, labels, and dependencies |
+| [**Dependencies**](https://beads.gascity.com/core-concepts/dependencies.md) | `blocks`, `parent-child`, `discovered-from`, `related` |
+| [**Sync**](https://beads.gascity.com/core-concepts/sync-concepts.md) | Dolt push/pull over your git remote — no server to run |
+| [**Formulas**](https://beads.gascity.com/workflows/formulas.md) | Declarative workflow templates (TOML or JSON) |
+| [**Molecules**](https://beads.gascity.com/workflows/molecules.md) | Work graphs instantiated from formulas |
+| [**Gates**](https://beads.gascity.com/workflows/gates.md) | Async coordination primitives (human, timer, GitHub) |
 
 ## For AI Agents
 
@@ -72,7 +72,7 @@ bd create "Found bug in auth" --description="Details..." \
 bd dolt push
 ```
 
-See the [Claude Code integration](/integrations/claude-code) for detailed agent instructions.
+See the [Claude Code integration](https://beads.gascity.com/integrations/claude-code.md) for detailed agent instructions.
 
 ## Architecture
 
@@ -89,11 +89,11 @@ The magic is automatic synchronization via Dolt's version-controlled database wi
 
 ## Next Steps
 
-* [Installation](/getting-started/installation) - Get bd installed
-* [Quick Start](/getting-started/quickstart) - Create your first issues
-* [How Beads Works](/core-concepts/index) - The concept model on one page
-* [CLI Reference](/cli-reference/index) - All available commands
-* [Workflows](/workflows/index) - Formulas, molecules, and gates
+* [Installation](https://beads.gascity.com/getting-started/installation.md) - Get bd installed
+* [Quick Start](https://beads.gascity.com/getting-started/quickstart.md) - Create your first issues
+* [How Beads Works](https://beads.gascity.com/core-concepts/index.md) - The concept model on one page
+* [CLI Reference](https://beads.gascity.com/cli-reference/index.md) - All available commands
+* [Workflows](https://beads.gascity.com/workflows/index.md) - Formulas, molecules, and gates
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

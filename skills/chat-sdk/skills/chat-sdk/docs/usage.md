@@ -4,7 +4,7 @@
 title: Creating a Chat Instance
 description: Initialize the Chat class with adapters, state, and configuration options.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/getting-started

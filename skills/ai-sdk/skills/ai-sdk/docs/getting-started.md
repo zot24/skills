@@ -11,6 +11,8 @@ docs_index: /llms.txt
 
 The following guides are intended to provide you with an introduction to some of the core features provided by the AI SDK.
 
+[Using an existing Next.js Pages Router app?](/docs/getting-started/nextjs-pages-router)
+
 ## Backend Framework Examples
 
 You can also use [AI SDK Core](/docs/ai-sdk-core/overview) and [AI SDK UI](/docs/ai-sdk-ui/overview) with the following backend frameworks:

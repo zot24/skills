@@ -12,15 +12,15 @@ Key Restrictions let you lock a single API key down to a defined set of output f
 
 This is designed for environments where a key is handed to an automated agent or an untrusted caller and you want a hard guarantee about what it can do — for example, allowing only Markdown output so a key can never be used to pull raw HTML or scripts.
 
-
-  Key Restrictions are an enterprise feature and are gated per organization. Contact your Firecrawl account team to have them enabled for your account.
-
+> [!NOTE]
+>
+> Key Restrictions are an enterprise feature and are gated per organization. Contact your Firecrawl account team to have them enabled for your account.
 
 ## What you can restrict
 
 Each key has two independent allowlists:
 
-* **Allowed formats** — the [output formats](/features/scrape#scrape-formats) the key may request (e.g. `markdown`). When set, the key can only request formats on the list.
+* **Allowed formats** — the [output formats](https://docs.firecrawl.dev/features/scrape.md#scrape-formats) the key may request (e.g. `markdown`). When set, the key can only request formats on the list.
 * **Allowed endpoints** — the endpoint groups the key may call (e.g. `scrape`, `crawl`). When set, the key can only call endpoints in those groups.
 
 Each list is enforced only when it is **non-empty**. An empty list means "no restriction" for that dimension, so a key with both lists empty behaves exactly like a normal key. This also means a key can never be locked out by an empty configuration.
@@ -50,7 +50,7 @@ A request that asks for any format not on the list is rejected:
 
 ### Actions that return content
 
-Some [actions](/features/interact) return page content directly rather than through the `formats` field — `screenshot`, `scrape`, `executeJavascript`, and `pdf`. On a format-restricted key these are treated as their equivalent format:
+Some [actions](https://docs.firecrawl.dev/features/interact.md) return page content directly rather than through the `formats` field — `screenshot`, `scrape`, `executeJavascript`, and `pdf`. On a format-restricted key these are treated as their equivalent format:
 
 * The `screenshot` action is allowed only if `screenshot` is on the allowed-formats list.
 * `scrape`, `executeJavascript`, and `pdf` actions have no format equivalent and are always rejected on a format-restricted key.
@@ -94,7 +94,7 @@ The legacy `v0` API predates these controls, so a key with **any** restriction c
 
 * Restrictions are per key, so you can hand out a locked-down key to an agent while keeping an unrestricted key for interactive use.
 * Changes propagate to the API within about a minute. There is no way to disable enforcement from within a request.
-* Key Restrictions are independent of [IP Restrictions](/features/ip-restrictions); a key can have both.
+* Key Restrictions are independent of [IP Restrictions](https://docs.firecrawl.dev/features/ip-restrictions.md); a key can have both.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

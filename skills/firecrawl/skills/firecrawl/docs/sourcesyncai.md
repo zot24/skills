@@ -4,321 +4,159 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# SourceSync.ai
+# Integrations
 
-> Firecrawl integrates with SourceSync.ai for web scraping capabilities.
+> Add Firecrawl web search, scraping, and interaction to the coding agents, app builders, frameworks, and automation platforms you already use
 
-[SourceSync.ai](https://sourcesync.ai) is a Retrieval Augmented Generation as a Service platform that helps you build AI applications with your own data. This guide explains how to use Firecrawl with SourceSync.ai for web scraping capabilities.
+Firecrawl plugs into the tools you already build with. Pick your platform below, or call the [API](https://docs.firecrawl.dev/api-reference/v2-introduction.md) directly.
 
-## Setup
+## Coding agents and assistants
 
-1. First, obtain your Firecrawl API key from your [Firecrawl dashboard](https://www.firecrawl.dev/app)
+Give your agent live web search, scraping, and browser interaction over MCP or the [Firecrawl CLI](https://docs.firecrawl.dev/sdks/cli.md).
 
-2. Configure your SourceSync.ai namespace to use Firecrawl as the web scraping provider:
+> [card] [Claude & Claude Code](https://docs.firecrawl.dev/quickstarts/claude-code.md)
+>
+> Connect Firecrawl in Claude or Claude Code
 
-<CodeGroup>
-  ```bash cURL
-  curl -X PATCH https://api.sourcesync.ai/v1/namespaces/YOUR_NAMESPACE_ID \
-    -H "Authorization: Bearer YOUR_SOURCE_SYNC_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "webScraperConfig": {
-        "provider": "FIRECRAWL",
-        "apiKey": "YOUR_FIRECRAWL_API_KEY"
-      }
-    }'
-  ```
+> [card] [ChatGPT & Codex](https://docs.firecrawl.dev/integrations/chatgpt-codex.md)
+>
+> Install the Firecrawl plugin in ChatGPT & Codex
 
-  ```javascript JavaScript
-  const response = await fetch(
-    'https://api.sourcesync.ai/v1/namespaces/YOUR_NAMESPACE_ID',
-    {
-      method: 'PATCH',
-      headers: {
-        Authorization: `Bearer ${SOURCE_SYNC_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        webScraperConfig: {
-          provider: 'FIRECRAWL',
-          apiKey: 'YOUR_FIRECRAWL_API_KEY',
-        },
-      }),
-    }
-  )
-  ```
+> [card] [Cursor](https://docs.firecrawl.dev/quickstarts/cursor.md)
+>
+> One-click install Firecrawl MCP in Cursor
 
-  ```python Python
-  import requests
+> [card] [Grok Build](https://docs.firecrawl.dev/quickstarts/grok-build.md)
+>
+> Set up Firecrawl MCP in xAI Grok Build
 
-  response = requests.patch(
-      'https://api.sourcesync.ai/v1/namespaces/YOUR_NAMESPACE_ID',
-      headers={
-          'Authorization': f'Bearer {SOURCE_SYNC_API_KEY}',
-          'Content-Type': 'application/json',
-      },
-      json={
-          'webScraperConfig': {
-              'provider': 'FIRECRAWL',
-              'apiKey': 'YOUR_FIRECRAWL_API_KEY',
-          },
-      },
-  )
-  ```
-</CodeGroup>
+> [card] [Hermes Agent](https://docs.firecrawl.dev/integrations/hermes.md)
+>
+> The default web search and scrape backend for Hermes Agent
 
-## Usage
+> [card] [OpenClaw](https://docs.firecrawl.dev/quickstarts/openclaw.md)
+>
+> Scrape, search, and browse from OpenClaw agents
 
-Once configured, you can use SourceSync.ai's web scraping endpoints with Firecrawl's capabilities. Here are the main ingestion methods:
+> [card] [OpenCode](https://docs.firecrawl.dev/quickstarts/opencode.md)
+>
+> Wire Firecrawl MCP into OpenCode
 
-### URL List Ingestion
+> [card] [Amp](https://docs.firecrawl.dev/quickstarts/amp.md)
+>
+> Wire Firecrawl MCP into Sourcegraph Amp
 
-Scrape specific URLs:
+> [card] [Windsurf](https://docs.firecrawl.dev/quickstarts/windsurf.md)
+>
+> Set up Firecrawl MCP in Windsurf
 
-<CodeGroup>
-  ```bash cURL
-  curl -X POST https://api.sourcesync.ai/v1/ingest/urls \
-    -H "Authorization: Bearer YOUR_SOURCE_SYNC_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "namespaceId": "YOUR_NAMESPACE_ID",
-      "ingestConfig": {
-        "source": "URLS_LIST",
-        "config": {
-          "urls": [
-            "https://example.com/page1",
-            "https://example.com/page2"
-          ],
-          "scrapeOptions": {
-            "includeSelectors": ["article", "main"],
-            "excludeSelectors": [".navigation", ".footer"]
-          }
-        }
-      }
-    }'
-  ```
+> [card] [Antigravity](https://docs.firecrawl.dev/quickstarts/antigravity.md)
+>
+> Add Firecrawl MCP to Google's agentic IDE
 
-  ```javascript JavaScript
-  const response = await fetch('https://api.sourcesync.ai/v1/ingest/urls', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${SOURCE_SYNC_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      namespaceId: 'YOUR_NAMESPACE_ID',
-      ingestConfig: {
-        source: 'URLS_LIST',
-        config: {
-          urls: ['https://example.com/page1', 'https://example.com/page2'],
-          scrapeOptions: {
-            includeSelectors: ['article', 'main'],
-            excludeSelectors: ['.navigation', '.footer'],
-          },
-        },
-      },
-    }),
-  })
-  ```
+## App builders and platforms
 
-  ```python Python
-  response = requests.post(
-      'https://api.sourcesync.ai/v1/ingest/urls',
-      headers={
-          'Authorization': f'Bearer {SOURCE_SYNC_API_KEY}',
-          'Content-Type': 'application/json',
-      },
-      json={
-          'namespaceId': 'YOUR_NAMESPACE_ID',
-          'ingestConfig': {
-              'source': 'URLS_LIST',
-              'config': {
-                  'urls': ['https://example.com/page1', 'https://example.com/page2'],
-                  'scrapeOptions': {
-                      'includeSelectors': ['article', 'main'],
-                      'excludeSelectors': ['.navigation', '.footer'],
-                  },
-              },
-          },
-      },
-  )
-  ```
-</CodeGroup>
+Connect Firecrawl once, then build on live web data from the platform you deploy on.
 
-### Website Crawling
+> [card] [Replit](https://docs.firecrawl.dev/integrations/replit.md)
+>
+> Search, scrape, and interact in Replit Agent apps
 
-Crawl an entire website with custom rules:
+> [card] [Lovable](https://docs.firecrawl.dev/integrations/lovable.md)
+>
+> Connect your Lovable app to Firecrawl
 
-<CodeGroup>
-  ```bash cURL
-  curl -X POST https://api.sourcesync.ai/v1/ingest/website \
-    -H "Authorization: Bearer YOUR_SOURCE_SYNC_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "namespaceId": "YOUR_NAMESPACE_ID",
-      "ingestConfig": {
-        "source": "WEBSITE",
-        "config": {
-          "url": "https://example.com",
-          "maxDepth": 3,
-          "maxLinks": 100,
-          "includePaths": ["/docs", "/blog"],
-          "excludePaths": ["/admin"],
-          "scrapeOptions": {
-            "includeSelectors": ["article", "main"],
-            "excludeSelectors": [".navigation", ".footer"]
-          }
-        }
-      }
-    }'
-  ```
+> [card] [Stripe Projects](https://docs.firecrawl.dev/integrations/stripe-projects.md)
+>
+> Provision a Firecrawl account, API key, and plan from the Stripe Projects CLI
 
-  ```javascript JavaScript
-  const response = await fetch('https://api.sourcesync.ai/v1/ingest/website', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${SOURCE_SYNC_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      namespaceId: 'YOUR_NAMESPACE_ID',
-      ingestConfig: {
-        source: 'WEBSITE',
-        config: {
-          url: 'https://example.com',
-          maxDepth: 3,
-          maxLinks: 100,
-          includePaths: ['/docs', '/blog'],
-          excludePaths: ['/admin'],
-          scrapeOptions: {
-            includeSelectors: ['article', 'main'],
-            excludeSelectors: ['.navigation', '.footer'],
-          },
-        },
-      },
-    }),
-  })
-  ```
+> [card] [Vercel Marketplace](https://docs.firecrawl.dev/quickstarts/vercel-marketplace.md)
+>
+> Add Firecrawl to Vercel projects with automatic API key setup
 
-  ```python Python
-  response = requests.post(
-      'https://api.sourcesync.ai/v1/ingest/website',
-      headers={
-          'Authorization': f'Bearer {SOURCE_SYNC_API_KEY}',
-          'Content-Type': 'application/json',
-      },
-      json={
-          'namespaceId': 'YOUR_NAMESPACE_ID',
-          'ingestConfig': {
-              'source': 'WEBSITE',
-              'config': {
-                  'url': 'https://example.com',
-                  'maxDepth': 3,
-                  'maxLinks': 100,
-                  'includePaths': ['/docs', '/blog'],
-                  'excludePaths': ['/admin'],
-                  'scrapeOptions': {
-                      'includeSelectors': ['article', 'main'],
-                      'excludeSelectors': ['.navigation', '.footer'],
-                  },
-              },
-          },
-      },
-  )
-  ```
-</CodeGroup>
+## Agent frameworks
 
-### Sitemap Processing
+Use Firecrawl as a loader, reader, or tool inside your agent code.
 
-Process all URLs from a sitemap:
+> [card] [LangChain](https://docs.firecrawl.dev/integrations/langchain.md)
+>
+> Use Firecrawl as a LangChain document loader or agent tools
 
-<CodeGroup>
-  ```bash cURL
-  curl -X POST https://api.sourcesync.ai/v1/ingest/sitemap \
-    -H "Authorization: Bearer YOUR_SOURCE_SYNC_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "namespaceId": "YOUR_NAMESPACE_ID",
-      "ingestConfig": {
-        "source": "SITEMAP",
-        "config": {
-          "url": "https://example.com/sitemap.xml",
-          "scrapeOptions": {
-            "includeSelectors": ["article", "main"],
-            "excludeSelectors": [".navigation", ".footer"]
-          }
-        }
-      }
-    }'
-  ```
+> [card] [LlamaIndex](https://docs.firecrawl.dev/integrations/llamaindex.md)
+>
+> Check out Firecrawl Reader
 
-  ```javascript JavaScript
-  const response = await fetch('https://api.sourcesync.ai/v1/ingest/sitemap', {
-    method: 'POST',
-    headers: {
-      Authorization: `Bearer ${SOURCE_SYNC_API_KEY}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      namespaceId: 'YOUR_NAMESPACE_ID',
-      ingestConfig: {
-        source: 'SITEMAP',
-        config: {
-          url: 'https://example.com/sitemap.xml',
-          scrapeOptions: {
-            includeSelectors: ['article', 'main'],
-            excludeSelectors: ['.navigation', '.footer'],
-          },
-        },
-      },
-    }),
-  })
-  ```
+> [card] [CrewAI](https://docs.firecrawl.dev/integrations/crewai.md)
+>
+> Orchestrate collaborative, autonomous AI agents
 
-  ```python Python
-  response = requests.post(
-      'https://api.sourcesync.ai/v1/ingest/sitemap',
-      headers={
-          'Authorization': f'Bearer {SOURCE_SYNC_API_KEY}',
-          'Content-Type': 'application/json',
-      },
-      json={
-          'namespaceId': 'YOUR_NAMESPACE_ID',
-          'ingestConfig': {
-              'source': 'SITEMAP',
-              'config': {
-                  'url': 'https://example.com/sitemap.xml',
-                  'scrapeOptions': {
-                      'includeSelectors': ['article', 'main'],
-                      'excludeSelectors': ['.navigation', '.footer'],
-                  },
-              },
-          },
-      },
-  )
-  ```
-</CodeGroup>
+> [card] [CAMEL-AI](https://docs.firecrawl.dev/integrations/camelai.md)
+>
+> Connect Firecrawl with Camel AI
 
-## Features
+> [card] [Praison AI](https://docs.firecrawl.dev/integrations/praison.md)
+>
+> Scrape data from the web with the Firecrawl tool
 
-When using Firecrawl with SourceSync.ai, you get access to:
+> [card] [Neuron AI](https://docs.firecrawl.dev/integrations/neuron-ai.md)
+>
+> Give PHP agents web search and page reading
 
-* JavaScript rendering support
-* Automatic rate limiting
-* CSS selector-based content extraction
-* Recursive crawling with depth control
-* Sitemap processing
+> [card] [Vercel AI SDK](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/vercel-ai-sdk.md)
+>
+> Add Firecrawl search, scrape, and interact tools to AI SDK agents
 
-## Resources
+> [card] [Mastra](https://docs.firecrawl.dev/quickstarts/mastra.md)
+>
+> Build Mastra tools and agents on Firecrawl
 
-* [SourceSync.ai Documentation](https://sourcesync.ai)
-* [Web Scraping Guide](https://sourcesync.ai/web-scraping)
-* [API Reference](https://sourcesync.ai/api-reference/data-ingestion#ingest-urls)
+## Visual AI builders
 
-For additional support:
+Drag Firecrawl nodes into a visual canvas to build agents and RAG pipelines.
 
-* Email: [support@sourcesync.ai](mailto:support@sourcesync.ai)
-* Discord: [Join our community](https://discord.gg/Fx3GnFKnRT)
+> [card] [Dify](https://docs.firecrawl.dev/integrations/dify.md)
+>
+> Add Firecrawl to Chatflow, Workflow, and Agent apps
+
+> [card] [Langflow](https://docs.firecrawl.dev/integrations/langflow.md)
+>
+> Build AI apps with a visual builder
+
+> [card] [Flowise](https://docs.firecrawl.dev/integrations/flowise.md)
+>
+> Build LLM flows with drag and drop
+
+## Workflow automation
+
+Run Firecrawl on a schedule or a trigger and route results anywhere.
+
+> [card] [Zapier](https://docs.firecrawl.dev/integrations/zapier.md)
+>
+> Connect Firecrawl with 9,000+ apps
+
+> [card] [Make](https://docs.firecrawl.dev/integrations/make.md)
+>
+> Use Firecrawl with Make
+
+> [card] [n8n](https://docs.firecrawl.dev/integrations/n8n.md)
+>
+> Use Firecrawl with n8n
+
+> [card] [Pipedream](https://docs.firecrawl.dev/integrations/pipedream.md)
+>
+> Use Firecrawl in your Pipedream workflows
+
+## Tooling and data platforms
+
+Expose Firecrawl through a tool layer.
+
+> [card] [Composio](https://docs.firecrawl.dev/integrations/composio.md)
+>
+> Use Firecrawl with Composio
+
+> [!NOTE]
+>
+> Don't see your platform? Firecrawl works anywhere you can make an HTTP request. See the [API reference](https://docs.firecrawl.dev/api-reference/v2-introduction.md), the [SDKs](https://docs.firecrawl.dev/sdks/overview.md), or the [MCP server](https://docs.firecrawl.dev/mcp-server.md).
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

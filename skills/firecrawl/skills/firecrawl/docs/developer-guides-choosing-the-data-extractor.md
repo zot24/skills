@@ -37,84 +37,82 @@ The `/agent` endpoint is Firecrawl's most advanced offering—the successor to `
 
 ### Example
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from pydantic import BaseModel, Field
-  from typing import List, Optional
+```python Python theme={null}
+from firecrawl import Firecrawl
+from pydantic import BaseModel, Field
+from typing import List, Optional
 
-  app = Firecrawl(api_key="fc-YOUR_API_KEY")
+app = Firecrawl(api_key="fc-YOUR_API_KEY")
 
-  class Founder(BaseModel):
-      name: str = Field(description="Full name of the founder")
-      role: Optional[str] = Field(None, description="Role or position")
-      background: Optional[str] = Field(None, description="Professional background")
+class Founder(BaseModel):
+    name: str = Field(description="Full name of the founder")
+    role: Optional[str] = Field(None, description="Role or position")
+    background: Optional[str] = Field(None, description="Professional background")
 
-  class FoundersSchema(BaseModel):
-      founders: List[Founder] = Field(description="List of founders")
+class FoundersSchema(BaseModel):
+    founders: List[Founder] = Field(description="List of founders")
 
-  result = app.agent(
-      prompt="Find the founders of Firecrawl",
-      schema=FoundersSchema,
-      model="spark-2",
-      max_credits=100
-  )
+result = app.agent(
+    prompt="Find the founders of Firecrawl",
+    schema=FoundersSchema,
+    model="spark-2",
+    max_credits=100
+)
 
-  print(result.data)
-  ```
+print(result.data)
+```
 
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
-  import { z } from 'zod';
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
+import { z } from 'zod';
 
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR_API_KEY" });
 
-  const result = await firecrawl.agent({
-    prompt: "Find the founders of Firecrawl",
-    schema: z.object({
-      founders: z.array(z.object({
-        name: z.string().describe("Full name of the founder"),
-        role: z.string().describe("Role or position").optional(),
-        background: z.string().describe("Professional background").optional()
-      })).describe("List of founders")
-    }),
-    model: "spark-2",
-    maxCredits: 100
-  });
+const result = await firecrawl.agent({
+  prompt: "Find the founders of Firecrawl",
+  schema: z.object({
+    founders: z.array(z.object({
+      name: z.string().describe("Full name of the founder"),
+      role: z.string().describe("Role or position").optional(),
+      background: z.string().describe("Professional background").optional()
+    })).describe("List of founders")
+  }),
+  model: "spark-2",
+  maxCredits: 100
+});
 
-  console.log(result.data);
-  ```
+console.log(result.data);
+```
 
-  ```bash cURL
-  curl -X POST "https://api.firecrawl.dev/v2/agent" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "prompt": "Find the founders of Firecrawl",
-      "model": "spark-2",
-      "maxCredits": 100,
-      "schema": {
-        "type": "object",
-        "properties": {
-          "founders": {
-            "type": "array",
-            "description": "List of founders",
-            "items": {
-              "type": "object",
-              "properties": {
-                "name": { "type": "string", "description": "Full name" },
-                "role": { "type": "string", "description": "Role or position" },
-                "background": { "type": "string", "description": "Professional background" }
-              },
-              "required": ["name"]
-            }
+```bash cURL theme={null}
+curl -X POST "https://api.firecrawl.dev/v2/agent" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "prompt": "Find the founders of Firecrawl",
+    "model": "spark-2",
+    "maxCredits": 100,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "founders": {
+          "type": "array",
+          "description": "List of founders",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "Full name" },
+              "role": { "type": "string", "description": "Role or position" },
+              "background": { "type": "string", "description": "Professional background" }
+            },
+            "required": ["name"]
           }
-        },
-        "required": ["founders"]
-      }
-    }'
-  ```
-</CodeGroup>
+        }
+      },
+      "required": ["founders"]
+    }
+  }'
+```
 
 ### Best Use Case: Autonomous Research & Discovery
 
@@ -122,15 +120,15 @@ The `/agent` endpoint is Firecrawl's most advanced offering—the successor to `
 
 **Why `/agent`**: You don't know which websites contain this information. The agent will autonomously search the web, navigate to relevant sources (Crunchbase, news sites, company pages), and compile the structured data for you.
 
-For more details, see the [Agent documentation](/features/agent).
+For more details, see the [Agent documentation](https://docs.firecrawl.dev/features/agent.md).
 
 ***
 
 ## 2. `/extract` Endpoint
 
-
-  **Use `/agent` instead**: We recommend migrating to [`/agent`](/features/agent)—it's faster, more reliable, doesn't require URLs, and handles all `/extract` use cases plus more.
-
+> [!NOTE]
+>
+> **Use `/agent` instead**: We recommend migrating to [`/agent`](https://docs.firecrawl.dev/features/agent)—it's faster, more reliable, doesn't require URLs, and handles all `/extract` use cases plus more.
 
 The `/extract` endpoint collects structured data from specified URLs or entire domains using LLM-powered extraction.
 
@@ -152,68 +150,66 @@ The fundamental challenge with `/extract` is that you typically need to know URL
 
 ### Example
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
+firecrawl = Firecrawl(api_key="fc-YOUR-API-KEY")
 
-  schema = {
+schema = {
+    "type": "object",
+    "properties": {"description": {"type": "string"}},
+    "required": ["description"],
+}
+
+res = firecrawl.extract(
+    urls=["https://docs.firecrawl.dev"],
+    prompt="Extract the page description",
+    schema=schema,
+)
+
+print(res.data["description"])
+```
+
+```js Node theme={null}
+import { Firecrawl } from 'firecrawl';
+
+const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
+
+const schema = {
+  type: 'object',
+  properties: {
+    title: { type: 'string' }
+  },
+  required: ['title']
+};
+
+const res = await firecrawl.extract({
+  urls: ['https://docs.firecrawl.dev'],
+  prompt: 'Extract the page title',
+  schema,
+  scrapeOptions: { formats: [{ type: 'json', prompt: 'Extract', schema }] }
+});
+
+console.log(res.status || res.success, res.data);
+```
+
+```bash cURL theme={null}
+curl -s -X POST "https://api.firecrawl.dev/v2/extract" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "urls": ["https://docs.firecrawl.dev"],
+    "prompt": "Extract the page title",
+    "schema": {
       "type": "object",
-      "properties": {"description": {"type": "string"}},
-      "required": ["description"],
-  }
-
-  res = firecrawl.extract(
-      urls=["https://docs.firecrawl.dev"],
-      prompt="Extract the page description",
-      schema=schema,
-  )
-
-  print(res.data["description"])
-  ```
-
-  ```js Node
-  import { Firecrawl } from 'firecrawl';
-
-  const firecrawl = new Firecrawl({ apiKey: "fc-YOUR-API-KEY" });
-
-  const schema = {
-    type: 'object',
-    properties: {
-      title: { type: 'string' }
+      "properties": {"title": {"type": "string"}},
+      "required": ["title"]
     },
-    required: ['title']
-  };
-
-  const res = await firecrawl.extract({
-    urls: ['https://docs.firecrawl.dev'],
-    prompt: 'Extract the page title',
-    schema,
-    scrapeOptions: { formats: [{ type: 'json', prompt: 'Extract', schema }] }
-  });
-
-  console.log(res.status || res.success, res.data);
-  ```
-
-  ```bash cURL
-  curl -s -X POST "https://api.firecrawl.dev/v2/extract" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "urls": ["https://docs.firecrawl.dev"],
-      "prompt": "Extract the page title",
-      "schema": {
-        "type": "object",
-        "properties": {"title": {"type": "string"}},
-        "required": ["title"]
-      },
-      "scrapeOptions": {
-        "formats": [{"type": "json", "prompt": "Extract", "schema": {"type": "object"}}]
-      }
-    }'
-  ```
-</CodeGroup>
+    "scrapeOptions": {
+      "formats": [{"type": "json", "prompt": "Extract", "schema": {"type": "object"}}]
+    }
+  }'
+```
 
 ### Best Use Case: Targeted Multi-Page Extraction
 
@@ -221,7 +217,7 @@ The fundamental challenge with `/extract` is that you typically need to know URL
 
 **Why `/extract` worked here**: You knew the exact domain. But even then, `/agent` with URLs provided would typically give better results today.
 
-For more details, see the [Extract documentation](/features/extract).
+For more details, see the [Extract documentation](https://docs.firecrawl.dev/features/extract).
 
 ***
 
@@ -239,97 +235,95 @@ The `/scrape` endpoint with JSON mode is the most controlled approach—it extra
 
 ### Example
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
-  from pydantic import BaseModel
+```python Python theme={null}
+from firecrawl import Firecrawl
+from pydantic import BaseModel
 
-  app = Firecrawl(
-    # No API key needed to get started — add one for higher rate limits:
-    # api_key="fc-YOUR-API-KEY",
-  )
+app = Firecrawl(
+  # No API key needed to get started — add one for higher rate limits:
+  # api_key="fc-YOUR-API-KEY",
+)
 
-  class CompanyInfo(BaseModel):
-      company_mission: str
-      supports_sso: bool
-      is_open_source: bool
-      is_in_yc: bool
+class CompanyInfo(BaseModel):
+    company_mission: str
+    supports_sso: bool
+    is_open_source: bool
+    is_in_yc: bool
 
-  result = app.scrape(
-      'https://firecrawl.dev',
-      formats=[{
-        "type": "json",
-        "schema": CompanyInfo.model_json_schema()
-      }],
-      only_main_content=False,
-      timeout=120000
-  )
-
-  print(result)
-  ```
-
-  ```js Node
-  import { Firecrawl } from "firecrawl";
-  import { z } from "zod";
-
-  const app = new Firecrawl({
-    // No API key needed to get started — add one for higher rate limits:
-    // apiKey: "fc-YOUR_API_KEY",
-  });
-
-  // Define schema to extract contents into
-  const schema = z.object({
-    company_mission: z.string(),
-    supports_sso: z.boolean(),
-    is_open_source: z.boolean(),
-    is_in_yc: z.boolean()
-  });
-
-  const result = await app.scrape("https://firecrawl.dev", {
-    formats: [{
-      type: "json",
-      schema: schema
+result = app.scrape(
+    'https://firecrawl.dev',
+    formats=[{
+      "type": "json",
+      "schema": CompanyInfo.model_json_schema()
     }],
-  });
+    only_main_content=False,
+    timeout=120000
+)
 
-  console.log(result);
-  ```
+print(result)
+```
 
-  ```bash cURL
-  # No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
-  curl -X POST https://api.firecrawl.dev/v2/scrape \
-      -H 'Content-Type: application/json' \
-      -d '{
-        "url": "https://firecrawl.dev",
-        "formats": [ {
-          "type": "json",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "company_mission": {
-                        "type": "string"
-              },
-              "supports_sso": {
-                        "type": "boolean"
-              },
-              "is_open_source": {
-                        "type": "boolean"
-              },
-              "is_in_yc": {
-                        "type": "boolean"
-              }
+```js Node theme={null}
+import { Firecrawl } from "firecrawl";
+import { z } from "zod";
+
+const app = new Firecrawl({
+  // No API key needed to get started — add one for higher rate limits:
+  // apiKey: "fc-YOUR_API_KEY",
+});
+
+// Define schema to extract contents into
+const schema = z.object({
+  company_mission: z.string(),
+  supports_sso: z.boolean(),
+  is_open_source: z.boolean(),
+  is_in_yc: z.boolean()
+});
+
+const result = await app.scrape("https://firecrawl.dev", {
+  formats: [{
+    type: "json",
+    schema: schema
+  }],
+});
+
+console.log(result);
+```
+
+```bash cURL theme={null}
+# No API key needed to get started — add -H "Authorization: Bearer YOUR_API_KEY" for higher rate limits:
+curl -X POST https://api.firecrawl.dev/v2/scrape \
+    -H 'Content-Type: application/json' \
+    -d '{
+      "url": "https://firecrawl.dev",
+      "formats": [ {
+        "type": "json",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "company_mission": {
+                      "type": "string"
             },
-            "required": [
-              "company_mission",
-              "supports_sso",
-              "is_open_source",
-              "is_in_yc"
-            ]
-          }
-        } ]
-      }'
-  ```
-</CodeGroup>
+            "supports_sso": {
+                      "type": "boolean"
+            },
+            "is_open_source": {
+                      "type": "boolean"
+            },
+            "is_in_yc": {
+                      "type": "boolean"
+            }
+          },
+          "required": [
+            "company_mission",
+            "supports_sso",
+            "is_open_source",
+            "is_in_yc"
+          ]
+        }
+      } ]
+    }'
+```
 
 ### Best Use Case: Single-Page Precision Extraction
 
@@ -337,7 +331,7 @@ The `/scrape` endpoint with JSON mode is the most controlled approach—it extra
 
 **Why `/scrape` with JSON mode**: You know exactly which page contains the data, need precise single-page extraction, and want synchronous results without job management overhead.
 
-For more details, see the [JSON mode documentation](/features/llm-extract).
+For more details, see the [JSON mode documentation](https://docs.firecrawl.dev/features/llm-extract.md).
 
 ***
 
@@ -428,11 +422,11 @@ The key advantage: with `/agent`, you can drop the URLs entirely and just descri
 
 ## Further Reading
 
-* [Agent documentation](/features/agent)
-* [Agent models](/features/models)
-* [JSON mode documentation](/features/llm-extract)
-* [Extract documentation](/features/extract)
-* [Batch scraping](/features/batch-scrape)
+* [Agent documentation](https://docs.firecrawl.dev/features/agent.md)
+* [Agent models](https://docs.firecrawl.dev/features/models)
+* [JSON mode documentation](https://docs.firecrawl.dev/features/llm-extract.md)
+* [Extract documentation](https://docs.firecrawl.dev/features/extract)
+* [Batch scraping](https://docs.firecrawl.dev/features/batch-scrape.md)
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

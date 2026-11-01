@@ -1700,6 +1700,12 @@
       "target": "skills/firecrawl/docs/sso.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://docs.firecrawl.dev/security.md",
+      "target": "skills/firecrawl/docs/security.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

@@ -602,6 +602,12 @@
       "target": "skills/chat-sdk/docs/adapter-catalog.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/official/gitlab.md",
+      "target": "skills/chat-sdk/docs/adapter-gitlab.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache"

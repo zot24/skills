@@ -4,7 +4,7 @@
 title: Streaming
 description: Stream real-time text responses from AI models and other async sources to chat platforms.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/usage
@@ -124,6 +124,7 @@ await thread.post(stream);
 | Google Chat | Post + Edit                           | Posts a message then edits it as chunks arrive                                                                                                                                                          |
 | Discord     | Post + Edit                           | Posts a message then edits it as chunks arrive                                                                                                                                                          |
 | GitHub      | Buffered                              | Accumulates chunks and posts one final comment                                                                                                                                                          |
+| GitLab      | Buffered                              | Accumulates chunks and posts one final comment                                                                                                                                                          |
 | Linear      | Agent sessions / Post + Edit          | Uses agent session activities in agent-session threads; falls back to post+edit comments in issue threads                                                                                               |
 | Notion      | Post + Edit                           | Posts a comment then edits it as chunks arrive (throttled for \~3 req/s)                                                                                                                                |
 | WhatsApp    | Buffered                              | Accumulates chunks and sends one final message                                                                                                                                                          |

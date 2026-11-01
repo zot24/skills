@@ -12,11 +12,11 @@ Entire web-scale monitoring is an always-on search that watches the web and ping
 
 Page and website monitors watch URLs you name. An **entire web-scale** monitor watches the whole web. Instead of diffing pages you already know about, you give it `queries` to run plus a `goal`, and Firecrawl runs the queries on every check and alerts on **new** results the judge finds relevant to the goal. It's discovery rather than diffing.
 
-Each check runs the same cycle: take the goal and its `queries`, apply a recency window, run the search, dedupe the results by canonical URL, let the optional AI judge decide which new results are meaningful to the goal, and alert through the same webhook and email channels as scrape and crawl monitors. Scheduling, goals, judging, and notifications all work exactly as described in the [Monitoring overview](/features/monitoring).
+Each check runs the same cycle: take the goal and its `queries`, apply a recency window, run the search, dedupe the results by canonical URL, let the optional AI judge decide which new results are meaningful to the goal, and alert through the same webhook and email channels as scrape and crawl monitors. Scheduling, goals, judging, and notifications all work exactly as described in the [Monitoring overview](https://docs.firecrawl.dev/features/monitoring.md).
 
-
-  Page and crawl monitors diff content on URLs you name; web-scale monitors discover new results across the web. Same scheduling, judge, and notifications underneath.
-
+> [!NOTE]
+>
+> Page and crawl monitors diff content on URLs you name; web-scale monitors discover new results across the web. Same scheduling, judge, and notifications underneath.
 
 ## Search target
 
@@ -41,130 +41,129 @@ A search target uses `type: "search"` and replaces `urls` with the queries to ru
 | `includeDomains` | `string[]` | Optional. Restrict results to these domains (up to 50). Mutually exclusive with `excludeDomains`. |
 | `excludeDomains` | `string[]` | Optional. Drop results from these domains (up to 50). Mutually exclusive with `includeDomains`. |
 
+> [!NOTE]
+>
+> A search target requires a non-empty monitor-level `goal` unless you set `judgeEnabled: false`. `queries` are required; the `goal` is what the judge scores each new result against. It does not generate the queries. See [Goals and judging](https://docs.firecrawl.dev/features/monitoring.md#goals-and-judging).
 
-  A search target requires a non-empty monitor-level `goal` unless you set `judgeEnabled: false`. `queries` are required; the `goal` is what the judge scores each new result against. It does not generate the queries. See [Goals and judging](/features/monitoring#goals-and-judging).
-
-
-  **Credits scale with queries.** Each query fetches up to `maxResults` results, and the search-call credits are billed on the raw results across all queries *before* merge and dedupe. Adding queries increases the actual search cost, not just the upfront estimate. After merge/dedupe Firecrawl evaluates at most `maxResults` selected candidates, so the judge credits stay capped by the selected/judged results.
-
+> [!NOTE]
+>
+> **Credits scale with queries.** Each query fetches up to `maxResults` results, and the search-call credits are billed on the raw results across all queries *before* merge and dedupe. Adding queries increases the actual search cost, not just the upfront estimate. After merge/dedupe Firecrawl evaluates at most `maxResults` selected candidates, so the judge credits stay capped by the selected/judged results.
 
 ## Create a web-scale monitor
 
 A web-scale monitor is created the same way as a page monitor. The only differences are the target (`type: "search"` with `queries`, `searchWindow`, `maxResults`, and optional domain filters) and that there are no URLs:
 
-<CodeGroup>
-  ```python Python
-  from firecrawl import Firecrawl
+```python Python theme={null}
+from firecrawl import Firecrawl
 
-  firecrawl = Firecrawl(
-    # Monitor endpoints require an API key:
-    api_key="fc-YOUR-API-KEY",
-  )
+firecrawl = Firecrawl(
+  # Monitor endpoints require an API key:
+  api_key="fc-YOUR-API-KEY",
+)
 
-  monitor = firecrawl.create_monitor(
-      name="AI coding assistant launches",
-      schedule={"text": "every 30 minutes", "timezone": "UTC"},
-      goal="Alert when a new open-source AI coding assistant is announced. Ignore funding rounds and unrelated AI news.",
-      targets=[
-          {
-              "type": "search",
-              "queries": ["open source AI coding assistant launch"],
-              "searchWindow": "24h",
-              "maxResults": 10,
-          }
-      ],
-      notification={
-          "email": {
-              "enabled": True,
-              "recipients": ["alerts@example.com"],
-              "includeDiffs": True,
-          }
-      },
-  )
-
-  print(monitor.id)
-  ```
-
-  ```js Node
-  import Firecrawl from "@mendable/firecrawl-js";
-
-  const firecrawl = new Firecrawl({
-    // Monitor endpoints require an API key:
-    apiKey: "fc-YOUR-API-KEY",
-  });
-
-  const monitor = await firecrawl.createMonitor({
-    name: "AI coding assistant launches",
-    schedule: { text: "every 30 minutes", timezone: "UTC" },
-    goal:
-      "Alert when a new open-source AI coding assistant is announced. Ignore funding rounds and unrelated AI news.",
-    notification: {
-      email: {
-        enabled: true,
-        recipients: ["alerts@example.com"],
-        includeDiffs: true,
-      },
-    },
-    targets: [
-      {
-        type: "search",
-        queries: ["open source AI coding assistant launch"],
-        searchWindow: "24h",
-        maxResults: 10,
-      },
-    ],
-  });
-
-  console.log(monitor.id);
-  ```
-
-  ```bash cURL
-  curl -s -X POST "https://api.firecrawl.dev/v2/monitor" \
-    -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
-    -H "Content-Type: application/json" \
-    -d '{
-      "name": "AI coding assistant launches",
-      "schedule": {
-        "text": "every 30 minutes",
-        "timezone": "UTC"
-      },
-      "goal": "Alert when a new open-source AI coding assistant is announced. Ignore funding rounds and unrelated AI news.",
-      "notification": {
-        "email": {
-          "enabled": true,
-          "recipients": ["alerts@example.com"],
-          "includeDiffs": true
-        }
-      },
-      "targets": [
+monitor = firecrawl.create_monitor(
+    name="AI coding assistant launches",
+    schedule={"text": "every 30 minutes", "timezone": "UTC"},
+    goal="Alert when a new open-source AI coding assistant is announced. Ignore funding rounds and unrelated AI news.",
+    targets=[
         {
-          "type": "search",
-          "queries": ["open source AI coding assistant launch"],
-          "searchWindow": "24h",
-          "maxResults": 10
+            "type": "search",
+            "queries": ["open source AI coding assistant launch"],
+            "searchWindow": "24h",
+            "maxResults": 10,
         }
-      ]
-    }'
-  ```
+    ],
+    notification={
+        "email": {
+            "enabled": True,
+            "recipients": ["alerts@example.com"],
+            "includeDiffs": True,
+        }
+    },
+)
 
-  ```bash CLI
-  firecrawl monitor create \
-    --name "AI coding assistant launches" \
-    --schedule "every 30 minutes" \
-    --queries "open source AI coding assistant launch" \
-    --goal "Alert when a new open-source AI coding assistant is announced. Ignore funding rounds and unrelated AI news."
-  ```
+print(monitor.id)
+```
 
-  ```json MCP: firecrawl_monitor_create
-  {
-    "queries": ["open source AI coding assistant launch"],
+```js Node theme={null}
+import Firecrawl from "firecrawl";
+
+const firecrawl = new Firecrawl({
+  // Monitor endpoints require an API key:
+  apiKey: "fc-YOUR-API-KEY",
+});
+
+const monitor = await firecrawl.createMonitor({
+  name: "AI coding assistant launches",
+  schedule: { text: "every 30 minutes", timezone: "UTC" },
+  goal:
+    "Alert when a new open-source AI coding assistant is announced. Ignore funding rounds and unrelated AI news.",
+  notification: {
+    email: {
+      enabled: true,
+      recipients: ["alerts@example.com"],
+      includeDiffs: true,
+    },
+  },
+  targets: [
+    {
+      type: "search",
+      queries: ["open source AI coding assistant launch"],
+      searchWindow: "24h",
+      maxResults: 10,
+    },
+  ],
+});
+
+console.log(monitor.id);
+```
+
+```bash cURL theme={null}
+curl -s -X POST "https://api.firecrawl.dev/v2/monitor" \
+  -H "Authorization: Bearer $FIRECRAWL_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "AI coding assistant launches",
+    "schedule": {
+      "text": "every 30 minutes",
+      "timezone": "UTC"
+    },
     "goal": "Alert when a new open-source AI coding assistant is announced. Ignore funding rounds and unrelated AI news.",
-    "searchWindow": "24h",
-    "maxResults": 10,
-    "scheduleText": "every 30 minutes"
-  }
-  ```
-</CodeGroup>
+    "notification": {
+      "email": {
+        "enabled": true,
+        "recipients": ["alerts@example.com"],
+        "includeDiffs": true
+      }
+    },
+    "targets": [
+      {
+        "type": "search",
+        "queries": ["open source AI coding assistant launch"],
+        "searchWindow": "24h",
+        "maxResults": 10
+      }
+    ]
+  }'
+```
+
+```bash CLI theme={null}
+firecrawl monitor create \
+  --name "AI coding assistant launches" \
+  --schedule "every 30 minutes" \
+  --queries "open source AI coding assistant launch" \
+  --goal "Alert when a new open-source AI coding assistant is announced. Ignore funding rounds and unrelated AI news."
+```
+
+```json MCP: firecrawl_monitor_create theme={null}
+{
+  "queries": ["open source AI coding assistant launch"],
+  "goal": "Alert when a new open-source AI coding assistant is announced. Ignore funding rounds and unrelated AI news.",
+  "searchWindow": "24h",
+  "maxResults": 10,
+  "scheduleText": "every 30 minutes"
+}
+```
 
 When a new matching result is discovered, the `monitor.page` webhook reports it with status `new` and, when judging ran, a `judgment` describing why it matters:
 
@@ -230,7 +229,7 @@ The target outcome is high precision with enough recall: every alert is worth ac
 
 ## Judging
 
-How much work each check does per result is controlled by the monitor's `judgeEnabled`, the same flag described in [Goals and judging](/features/monitoring#goals-and-judging). With judging on, Firecrawl scrapes each matching result and evaluates its content against the goal, billed at 1 credit per judged result on top of the search call. With `judgeEnabled: false`, a web-scale monitor returns the deduped search results with no AI judging, just the new SERP hits, and pays only the search-call credits (2 credits per 10 results).
+How much work each check does per result is controlled by the monitor's `judgeEnabled`, the same flag described in [Goals and judging](https://docs.firecrawl.dev/features/monitoring.md#goals-and-judging). With judging on, Firecrawl scrapes each matching result and evaluates its content against the goal, billed at 1 credit per judged result on top of the search call. With `judgeEnabled: false`, a web-scale monitor returns the deduped search results with no AI judging, just the new SERP hits, and pays only the search-call credits (2 credits per 10 results).
 
 ## Statuses and dedup
 
@@ -256,11 +255,11 @@ Editing the monitor's `goal` or `queries` bumps its `goalVersion`, which invalid
 
 ## Shared configuration
 
-* [Schedules](/features/monitoring#schedules): cron or natural-language cadence, minimum 5 minutes.
-* [Goals and judging](/features/monitoring#goals-and-judging): required for search targets unless `judgeEnabled: false`.
-* [Notifications](/features/monitoring#notifications): webhook and email delivery.
-* [Check results](/features/monitoring#check-results): inspect each check and its results.
-* [Pricing](/features/monitoring#pricing): 2 credits per 10 results per check, plus 1 credit per judged result.
+* [Schedules](https://docs.firecrawl.dev/features/monitoring.md#schedules): cron or natural-language cadence, minimum 5 minutes.
+* [Goals and judging](https://docs.firecrawl.dev/features/monitoring.md#goals-and-judging): required for search targets unless `judgeEnabled: false`.
+* [Notifications](https://docs.firecrawl.dev/features/monitoring.md#notifications): webhook and email delivery.
+* [Check results](https://docs.firecrawl.dev/features/monitoring.md#check-results): inspect each check and its results.
+* [Pricing](https://docs.firecrawl.dev/features/monitoring.md#pricing): 2 credits per 10 results per check, plus 1 credit per judged result.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

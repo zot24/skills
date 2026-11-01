@@ -4,7 +4,7 @@
 title: Ephemeral Messages
 description: Send messages visible only to a specific user.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: guide
 prerequisites:
   - /docs/usage

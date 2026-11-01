@@ -4,7 +4,7 @@
 title: Types
 description: TypeScript types exported from the chat/ai subpath.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: reference
 related:
   - /docs/ai

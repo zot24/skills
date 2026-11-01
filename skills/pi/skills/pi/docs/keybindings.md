@@ -155,7 +155,7 @@ The dedicated history actions browse prompt history regardless of cursor positio
 <a href="#fullscreen" class="heading-anchor" aria-label="Permalink: Fullscreen" data-copy="" data-copy-text="https://pi.dev/docs/latest/keybindings#fullscreen"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-In fullscreen mode, these actions control the transcript and take precedence over editor actions using the same key.
+In fullscreen mode, these actions control the transcript and take precedence over editor actions using the same key. While an overlay or a scrollable list such as autocomplete, `/settings`, or the model selector has focus, the scrolling and prompt-jump actions go to it instead of the transcript, so `tui.select.pageUp` and `tui.select.pageDown` move the list selection. Transcript search actions keep working.
 
 | Keybinding id                  | Default                                                              | Description                                        |
 |--------------------------------|----------------------------------------------------------------------|----------------------------------------------------|

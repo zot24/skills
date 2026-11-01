@@ -6,7 +6,7 @@
 
 # Hono
 
-> Use Firecrawl with Hono to build lightweight web scraping and search APIs that run anywhere.
+> Use Firecrawl with Hono to build lightweight APIs that search, scrape, and interact with the web and run anywhere.
 
 ## Prerequisites
 
@@ -96,17 +96,21 @@ export default app;
 
 ## Next steps
 
+> [card] [Scrape docs](https://docs.firecrawl.dev/features/scrape.md)
+>
+> All scrape options including formats, actions, and proxies
 
-    All scrape options including formats, actions, and proxies
+> [card] [Search docs](https://docs.firecrawl.dev/features/search.md)
+>
+> Search the web and get full page content
 
+> [card] [Interact docs](https://docs.firecrawl.dev/features/interact.md)
+>
+> Click, fill forms, and extract dynamic content
 
-    Search the web and get full page content
-
-
-    Click, fill forms, and extract dynamic content
-
-
-    Full SDK reference with crawl, map, batch scrape, and more
+> [card] [Node SDK reference](https://docs.firecrawl.dev/sdks/node.md)
+>
+> Full SDK reference with crawl, map, batch scrape, and more
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

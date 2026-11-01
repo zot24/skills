@@ -30,6 +30,8 @@ The `snapshot` command returns a compact accessibility tree with refs for elemen
 
 Filter output to reduce size:
 
+Compact snapshots (`-c`) keep visible text, status text, and their direct ancestors. Empty sibling branches are removed. Interactive snapshots (`-i`) filter out noninteractive content. MCP snapshots default to interactive; set `interactive: false` to retain visible text and status text.
+
 
 ``` m-0
 agent-browser snapshot                    # Full accessibility tree
@@ -88,6 +90,8 @@ agent-browser click @e8      # Use a ref from the new snapshot
 ```
 
 
+A ref keeps pointing at its DOM node while that node exists. If the node was replaced, agent-browser falls back to the one element with the same role and name, but only when the ref was unique in its snapshot. When duplicates make the match ambiguous, the action fails without acting. Run `snapshot` again and use a fresh ref.
+
 ## <a href="#annotated-screenshots" class="peer" data-card="">Annotated screenshots</a>
 
 For visual context alongside text snapshots, use `screenshot --annotate` to overlay numbered labels on interactive elements. Each label `[N]` maps to ref `@eN`:
@@ -110,6 +114,8 @@ Headless Chromium screenshots hide native scrollbars for consistent image output
 Annotated screenshots also cache refs, so you can interact with elements immediately. This is useful when the text snapshot is insufficient for unlabeled icons, canvas content, or visual layout verification.
 
 ## <a href="#iframes" class="peer" data-card="">Iframes</a>
+
+Presentational iframes use the same `Iframe` role for snapshots and stale-ref recovery.
 
 Snapshots automatically detect and inline iframe content. Each `Iframe` node in the main frame is resolved and its child accessibility tree is included directly beneath it. Refs assigned to elements inside iframes carry frame context, so interactions work without switching frames first.
 

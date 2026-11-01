@@ -10,9 +10,9 @@
 
 Honcho is a memory system that *reasons*. You can read more on the philosophy behind the approach [here](https://blog.plasticlabs.ai/blog/Memory-as-Reasoning), but practically speaking, the system runs inference on data in the background to produce the highest quality context for simulating statefulness. This document explains why reasoning is necessary and how Honcho implements it.
 
-
-  If you'd like to experience this methodology first-hand, try out [Honcho Chat](https://honcho.chat)--an interface to your personal memory. Read more [here](https://blog.plasticlabs.ai/blog/Introducing-Honcho-Chat)!
-
+> [!NOTE]
+>
+> If you'd like to experience this methodology first-hand, try out [Honcho Chat](https://honcho.chat)--an interface to your personal memory. Read more [here](https://blog.plasticlabs.ai/blog/Introducing-Honcho-Chat)!
 
 ## Why Reasoning?
 
@@ -53,11 +53,11 @@ Here's an example of a data structure the reasoning models generate:
 }
 ```
 
-The explicit reasoning model ([Neuromancer XR](https://blog.plasticlabs.ai/research/Introducing-Neuromancer-XR)) outputs its "thinking" followed by things that were explicitly stated, which serve as premises to scaffold deductive conclusions. It's on top of this reasoning foundation that further reasoning is scaffolded. Currently that includes peer cards (key biographical information about the peer), consolidation (identifying redundant or contradictory information), induction (pattern recognition across multiple messages), and abduction (inferring the simplest explanations for observed behavior).
+The explicit reasoning model ([Neuromancer XR](https://blog.plasticlabs.ai/research/Introducing-Neuromancer-XR)) outputs its "thinking" followed by things that were explicitly stated, which serve as premises to scaffold deductive conclusions. It's on top of this reasoning foundation that further reasoning is scaffolded. Currently that includes peer cards (key biographical information about the peer), consolidation (identifying redundant or contradictory information), and induction (pattern recognition across multiple messages).
 
 The reasoning that Honcho does is something we're constantly iterating and improving on. Our goal is simple--provide the richest, most relevant context in the fastest, cheapest way possible in order to simulate statefulness in whatever setting you need.
 
-Two components produce this logic: the **Deriver** extracts explicit and deductive conclusions from incoming messages as they arrive, and the **Dreamer** periodically revisits stored conclusions to consolidate them and draw inductive conclusions across patterns spanning multiple messages. See [Architecture](/docs/v3/documentation/core-concepts/architecture) for how these fit into the request/background split.
+Two components produce this logic: the **Deriver** extracts explicit and deductive conclusions from incoming messages as they arrive, and the **Dreamer** periodically revisits stored conclusions to consolidate them and draw inductive conclusions across patterns spanning multiple messages. See [Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md) for how these fit into the request/background split.
 
 ## How It Works
 
@@ -65,7 +65,7 @@ When you write messages to Honcho, they're stored immediately and enqueued for b
 
 The reasoning outputs--conclusions, summaries, peer cards--are stored as part of peer representations, indexed in vector collections for retrieval.
 
-<img src="https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/reasoning.png?fit=max&auto=format&n=Pwe1D9IEDkAtnMKn&q=85&s=5814f9e7e71aa6ba0453819f41044e4b" alt="Diagram for reasoning in Honcho" width="1245" height="962" data-path="images/reasoning.png" />
+![Diagram for reasoning in Honcho](https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/reasoning.png?fit=max\&auto=format\&n=Pwe1D9IEDkAtnMKn\&q=85\&s=5814f9e7e71aa6ba0453819f41044e4b)
 
 The diagram above shows how agents write messages to Honcho, which triggers reasoning that updates peer representations. Agents can then query representations to get additional context for their next response.
 
@@ -75,27 +75,31 @@ Off-the-shelf LLMs can perform formal logical reasoning, but they aren't optimiz
 
 The approach balances quality with practical constraints. Custom models are smaller and cheaper to run, and scaffolded conclusions are more token-efficient than raw conversation history.
 
-Honcho's reasoning capabilities are actively being improved. Current areas of development include enhanced inductive and abductive reasoning, multi-hop  and temporal reasoning, and expanded file types and modalities. The system is designed to be extensible--new reasoning capabilities can be added without breaking existing functionality.
+Honcho's reasoning capabilities are actively being improved. Current areas of development include enhanced inductive reasoning, abductive reasoning (inferring the simplest explanations for observed behavior), multi-hop  and temporal reasoning, and expanded file types and modalities. The system is designed to be extensible--new reasoning capabilities can be added without breaking existing functionality.
 
-
-  If you find that the data you're uploading to Honcho isn't being reasoned over to your liking, we'd love to improve it for you and ingest your data for free--reach out via [Discord](https://discord.gg/honcho) or [email](mailto:support@plasticlabs.ai)!
-
+> [!NOTE]
+>
+> If you find that the data you're uploading to Honcho isn't being reasoned over to your liking, we'd love to improve it for you and ingest your data for free--reach out via [Discord](https://discord.gg/honcho) or [email](mailto:support@plasticlabs.ai)!
 
 ## Next Steps
 
 Without exhaustive reasoning, you're stuck with surface-level retrieval or someone else's opinion on what matters. You can't effectively simulate statefulness if you're not reasoning about everything in the present--coherence plummets, trust falls, and users churn. Don't leave key information on the table. Use Honcho to give your agents the context they need to reconstruct the past as comprehensively as possible and maintain coherence--for your use case.
 
+> [card] [Get an API Key](https://app.honcho.dev)
+>
+> Sign up for the Honcho platform and start building
 
-    Sign up for the Honcho platform and start building
+> [card] [Quickstart](https://honcho.dev/docs/v3/documentation/introduction/quickstart.md)
+>
+> Get started with your first integration
 
+> [card] [Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> See how reasoning fits into Honcho's overall architecture
 
-    Get started with your first integration
-
-
-    See how reasoning fits into Honcho's overall architecture
-
-
-    Learn how reasoning produces peer representations
+> [card] [Peer Representations](https://honcho.dev/docs/v3/documentation/core-concepts/representation.md)
+>
+> Learn how reasoning produces peer representations
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

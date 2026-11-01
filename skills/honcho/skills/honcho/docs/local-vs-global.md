@@ -37,13 +37,11 @@ conversations in Honcho with Alice, Bob, and Charlie as `Peers` and let them
 use Honcho to get insights on each other then Bob would immediately know this
 deception. For example:
 
-<CodeGroup>
-  ```python Python
-  # Bob could run
-  alice.chat("What did Alice eat today?")
-  # Response: Alice did not eat anything today
-  ```
-</CodeGroup>
+```python Python theme={null}
+# Bob could run
+alice.chat("What did Alice eat today?")
+# Response: Alice did not eat anything today
+```
 
 This is a problem. Bob shouldn't be able to know everything about Alice in this
 situation. So to support these situations we support what we call **Local
@@ -56,11 +54,11 @@ form a representation Alice based only on what they observe Alice do.
 
 This feature is illustrated in the graphic below:
 
-<img src="https://mintcdn.com/plasticlabs/lVyHfvNDd8wveJyM/images/local-vs-global-reps.png?fit=max&auto=format&n=lVyHfvNDd8wveJyM&q=85&s=fce616196db46448a5149248d6dc3e64" alt="Peer Representations" width="2054" height="1150" data-path="images/local-vs-global-reps.png" />
+![Peer Representations](https://mintcdn.com/plasticlabs/lVyHfvNDd8wveJyM/images/local-vs-global-reps.png?fit=max\&auto=format\&n=lVyHfvNDd8wveJyM\&q=85\&s=fce616196db46448a5149248d6dc3e64)
 
 We can enable local representation for a `Peer` by setting `observe_others=True`.
 This is shown in the [Configure
-Reasoning](/docs/v2/documentation/core-concepts/configuration) page.
+Reasoning](https://honcho.dev/docs/v2/documentation/core-concepts/configuration.md) page.
 
 Now if we used Bob's local representation of Alice then Bob would only get
 insights on what they've seen Alice say to them.
@@ -70,8 +68,9 @@ bob.chat(target="alice", query="What did Alice eat today?")
 # Response: Alice ate pancakes, eggs, and bacon
 ```
 
-
-  Local Representations are turned off by default
+> [!NOTE]
+>
+> Local Representations are turned off by default
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

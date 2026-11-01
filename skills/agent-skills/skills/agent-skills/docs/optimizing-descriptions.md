@@ -14,7 +14,7 @@ This guide covers how to systematically test and improve your skill's descriptio
 
 ## How skill triggering works
 
-Agents use [progressive disclosure](/specification#progressive-disclosure) to manage context. At startup, they load only the `name` and `description` of each available skill — just enough to decide when a skill might be relevant. When a user's task matches a description, the agent reads the full `SKILL.md` into context and follows its instructions.
+Agents use [progressive disclosure](https://agentskills.io/specification.md#progressive-disclosure) to manage context. At startup, they load only the `name` and `description` of each available skill — just enough to decide when a skill might be relevant. When a user's task matches a description, the agent reads the full `SKILL.md` into context and follows its instructions.
 
 This means the description carries the entire burden of triggering. If the description doesn't convey when the skill is useful, the agent won't know to reach for it.
 
@@ -27,7 +27,7 @@ Before testing, it helps to know what a good description looks like. A few princ
 * **Use imperative phrasing.** Frame the description as an instruction to the agent: "Use this skill when..." rather than "This skill does..." The agent is deciding whether to act, so tell it when to act.
 * **Focus on user intent, not implementation.** Describe what the user is trying to achieve, not the skill's internal mechanics. The agent matches against what the user asked for.
 * **Err on the side of being pushy.** Explicitly list contexts where the skill applies, including cases where the user doesn't name the domain directly: "even if they don't explicitly mention 'CSV' or 'analysis.'"
-* **Keep it concise.** A few sentences to a short paragraph is usually right — long enough to cover the skill's scope, short enough that it doesn't bloat the agent's context across many skills. The [specification](/specification#description-field) enforces a hard limit of 1024 characters.
+* **Keep it concise.** A few sentences to a short paragraph is usually right — long enough to cover the skill's scope, short enough that it doesn't bloat the agent's context across many skills. The [specification](https://agentskills.io/specification.md#description-field) enforces a hard limit of 1024 characters.
 
 ## Designing trigger eval queries
 
@@ -131,9 +131,9 @@ for i in $(seq 0 $((count - 1))); do
 done | jq -s '.'
 ```
 
-
-  If your agent client supports it, you can stop a run early once the outcome is clear — the agent either consulted the skill or started working without it. This can significantly reduce the time and cost of running the full eval set.
-
+> [!TIP]
+>
+> If your agent client supports it, you can stop a run early once the outcome is clear — the agent either consulted the skill or started working without it. This can significantly reduce the time and cost of running the full eval set.
 
 ## Avoiding overfitting with train/validation splits
 
@@ -164,16 +164,16 @@ If you're using a script like the one [above](#running-multiple-times), you can 
 
 Five iterations is usually enough. If performance isn't improving, the issue may be with the queries (too easy, too hard, or poorly labeled) rather than the description.
 
-
-  The [`skill-creator`](https://github.com/anthropics/skills/tree/main/skills/skill-creator) Skill automates this loop end-to-end: it splits the eval set, evaluates trigger rates in parallel, proposes description improvements using Claude, and generates a live HTML report you can watch as it runs.
-
+> [!TIP]
+>
+> The [`skill-creator`](https://github.com/anthropics/skills/tree/main/skills/skill-creator) Skill automates this loop end-to-end: it splits the eval set, evaluates trigger rates in parallel, proposes description improvements using Claude, and generates a live HTML report you can watch as it runs.
 
 ## Applying the result
 
 Once you've selected the best description:
 
 1. Update the `description` field in your `SKILL.md` frontmatter.
-2. Verify the description is under the [1024-character limit](/specification#description-field).
+2. Verify the description is under the [1024-character limit](https://agentskills.io/specification.md#description-field).
 3. Verify the description triggers as expected. Try a few prompts manually as a quick sanity check. For a more rigorous test, write 5-10 fresh queries (a mix of should-trigger and should-not-trigger) and run them through the eval script — since these queries were never part of the optimization process, they give you an honest check on whether the description generalizes.
 
 Before and after:
@@ -195,4 +195,4 @@ The improved description is more specific about what the skill does (summary sta
 
 ## Next steps
 
-Once your skill triggers reliably, you'll want to evaluate whether it produces good outputs. See [Evaluating skill output quality](/skill-creation/evaluating-skills) for how to set up test cases, grade results, and iterate.
+Once your skill triggers reliably, you'll want to evaluate whether it produces good outputs. See [Evaluating skill output quality](https://agentskills.io/skill-creation/evaluating-skills.md) for how to set up test cases, grade results, and iterate.

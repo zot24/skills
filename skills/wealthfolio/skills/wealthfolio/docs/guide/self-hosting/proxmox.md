@@ -74,7 +74,7 @@
 #### Connect
 
 
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
+<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
 
 
 Docs
@@ -90,7 +90,7 @@ Three install paths on Proxmox (community-scripts LXC, Docker inside an LXC, or 
 
 ------------------------------------------------------------------------
 
-Last updated October 14, 2026
+Last updated October 31, 2026
 
 
 There are three sensible ways to run Wealthfolio on Proxmox. Pick based on how you already run other services.
@@ -154,6 +154,18 @@ Re-run the installer one-liner. The script’s `update` path pulls the latest re
 
 **Heads-up: long builds.** Wealthfolio doesn’t yet ship prebuilt Linux binaries, so each install/update compiles the Rust server from scratch (~15–25 min depending on CPU). Tracked in <a href="https://github.com/wealthfolio/wealthfolio/issues/563" class="font-medium underline underline-offset-4">#563</a>. The Docker paths below avoid this entirely.
 
+
+### OIDC with a private CA
+
+For a native LXC using an IdP behind a private CA, place the PEM CA bundle inside the LXC, for example `/etc/wealthfolio/internal-ca.pem`. Inspect `systemctl cat wealthfolio.service` to find the service’s `EnvironmentFile`, and add the following to that file. If the unit defines its environment inline instead, add the variable to the service’s environment configuration.
+
+``` mb-4
+WF_OIDC_CA_FILE=/etc/wealthfolio/internal-ca.pem
+```
+
+The bundle must be readable by the service’s configured `User` and protected against changes by untrusted users. Restart `wealthfolio.service` after changing the setting or replacing the bundle. If you edited the unit or a drop-in, run `systemctl daemon-reload` before restarting. Leave the setting unset when no private CA is needed.
+
+See <a href="/docs/guide/self-hosting/configuration/#wf_oidc_ca_file" class="font-medium underline underline-offset-4"><code>WF_OIDC_CA_FILE</code></a> for supported server builds, startup failures, and browser trust requirements. Installing the CA only in the system trust store does not configure the OIDC client. For the Docker paths below, use the <a href="/docs/guide/self-hosting/docker-compose/#oidc-with-a-private-ca" class="font-medium underline underline-offset-4">read-only Compose mount</a> and a container path instead.
 
 ## <span id="docker-lxc"></span>2. Docker inside an LXC
 
@@ -254,6 +266,7 @@ On This Page
   - <a href="#install" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Install</a>
   - <a href="#layout-inside-the-lxc" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Layout inside the LXC</a>
   - <a href="#updating" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Updating</a>
+  - <a href="#oidc-with-a-private-ca" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">OIDC with a private CA</a>
 - <a href="#a-iddocker-lxca2-docker-inside-an-lxc" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2. Docker inside an LXC</a>
   - <a href="#lxc-requirements-for-docker" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">LXC requirements for Docker</a>
   - <a href="#install-wealthfolio" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Install Wealthfolio</a>

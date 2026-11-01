@@ -6,7 +6,7 @@
 
 # Get Threat Protection Policy
 
-Returns the effective [threat protection](/features/threat-protection) policy for your organization. Enterprise feature; requires the feature to be enabled for your team.
+Returns the effective [threat protection](https://docs.firecrawl.dev/features/threat-protection.md) policy for your organization. Enterprise feature; requires the feature to be enabled for your team.
 
 
 ## OpenAPI

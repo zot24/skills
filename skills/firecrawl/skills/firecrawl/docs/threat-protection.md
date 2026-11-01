@@ -12,9 +12,9 @@ Threat Protection lets your organization block Firecrawl from accessing risky UR
 
 The policy is defined once at the organization level and applies to every endpoint automatically. You can also allow per-request adjustments, or lock the policy so no request can weaken it.
 
-
-  Threat Protection is an enterprise feature and is gated per organization. Contact your Firecrawl account team to have it enabled for your account.
-
+> [!NOTE]
+>
+> Threat Protection is an enterprise feature and is gated per organization. Contact your Firecrawl account team to have it enabled for your account.
 
 ## Modes
 
@@ -147,7 +147,7 @@ In Normal mode a scan costs **+2 credits per URL scanned**, on top of the base c
 * The whitelist always wins, so a URL on an explicitly trusted domain is never blocked by the classifier or a TLD rule.
 * The error code `unsafe_domain_blocked` is kept stable for compatibility even though checks are URL-level.
 * With the failure policy set to `closed` (the default), a classifier outage causes affected requests to be blocked rather than silently allowed.
-* With [SIEM Audit Logging](/features/siem) configured, every decision is visible in your audit trail: events carry the deciding rule, the classifier consulted, the threat categories, and — for Zscaler-classified URLs — a `security_alert` flag when the URL carried a security-alert classification.
+* With [SIEM Audit Logging](https://docs.firecrawl.dev/features/siem.md) configured, every decision is visible in your audit trail: events carry the deciding rule, the classifier consulted, the threat categories, and — for Zscaler-classified URLs — a `security_alert` flag when the URL carried a security-alert classification.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

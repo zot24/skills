@@ -8,9 +8,13 @@
 
 > Use Firecrawl as a tool with Nous Research Hermes models.
 
-Pair [Nous Research](https://nousresearch.com) Hermes models with Firecrawl to give Hermes live web search, scrape, and crawl.
+Pair [Nous Research](https://nousresearch.com) Hermes models with Firecrawl to give Hermes live web search and scrape.
 
-Hermes models support OpenAI-compatible tool calls, so Firecrawl plugs in as a function the model can invoke. You can reach Hermes via the Nous Portal API, via [OpenRouter](/quickstarts/openrouter), or through Nous's Forge agent platform.
+Hermes models support OpenAI-compatible tool calls, so Firecrawl plugs in as a function the model can invoke. You can reach Hermes via the Nous Portal API or via [OpenRouter](https://docs.firecrawl.dev/quickstarts/openrouter.md).
+
+> [!NOTE]
+>
+> Using Hermes Agent, Nous's agent harness? Firecrawl is its default web backend. See the [Hermes Agent guide](https://docs.firecrawl.dev/integrations/hermes.md) instead.
 
 ## Setup
 
@@ -30,7 +34,7 @@ import { Firecrawl } from 'firecrawl';
 import OpenAI from 'openai';
 import { z } from 'zod';
 
-const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
+const firecrawl = new Firecrawl();
 
 // Nous Portal is OpenAI-compatible
 const nous = new OpenAI({
@@ -78,6 +82,7 @@ const response = await nous.chat.completions.create({
 });
 
 for (const call of response.choices[0]?.message.tool_calls ?? []) {
+  if (call.type !== 'function') continue;
   if (call.function.name === 'web_search') {
     const { query, limit } = SearchArgs.parse(JSON.parse(call.function.arguments));
     const results = await firecrawl.search(query, { limit });
@@ -107,13 +112,13 @@ await client.chat.completions.create({
 });
 ```
 
-See the [OpenRouter guide](/quickstarts/openrouter) for the full pattern.
+See the [OpenRouter guide](https://docs.firecrawl.dev/quickstarts/openrouter.md) for the full pattern.
 
 ## Notes
 
-* Hermes is strong at structured tool output — pair with Firecrawl's [JSON format](/features/llm-extract) to chain scrape → extract cleanly.
-* For long-running agent loops, stream tool calls and use Firecrawl's [async crawl](/features/crawl) so the model isn't blocked on large scrapes.
-* Verify the exact Nous Portal base URL and model slug at [portal.nousresearch.com](https://portal.nousresearch.com) — model names update as new Hermes generations ship.
+* Hermes is strong at structured tool output. Pair it with Firecrawl's [JSON format](https://docs.firecrawl.dev/features/llm-extract.md) to get structured data straight from a scrape.
+* For long-running agent loops, stream tool calls and use Firecrawl's [async crawl](https://docs.firecrawl.dev/features/crawl.md) so the model isn't blocked on large scrapes.
+* Verify the exact Nous Portal base URL and model slug at [portal.nousresearch.com](https://portal.nousresearch.com). Model names update as new Hermes generations ship.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

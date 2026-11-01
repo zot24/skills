@@ -12,8 +12,10 @@ If you're happy with how things are working locally, deploying your Honcho insta
 
 A sample `fly.toml` is included for convenience in the repository.
 
-Note. The fly.toml does not include launching a Postgres database. This must
-be configured separately
+> [!WARNING]
+>
+> Note. The fly.toml does not include launching a Postgres database. This must
+> be configured separately
 
 Once `flyctl` is set up use the the following commands to launch the application:
 

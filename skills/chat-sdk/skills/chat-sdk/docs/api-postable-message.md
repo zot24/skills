@@ -4,7 +4,7 @@
 title: PostableMessage
 description: The union type accepted by thread.post() for sending messages.
 docs_index: /llms.txt
-lastUpdated: 2026-10-14
+lastUpdated: 2026-10-22
 type: reference
 related:
   - /docs/posting-messages

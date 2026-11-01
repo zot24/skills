@@ -8,6 +8,9 @@
 
 > Get all Scopes for a Workspace. Results are paginated.
 
+Filter by name with `{"filters": {"id": {"icontains": "sup"}}}`; `id` is
+the unprefixed scope name.
+
 
 ## OpenAPI
 
@@ -26,7 +29,7 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.3.0
+  version: 3.5.0
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -37,7 +40,11 @@ paths:
       tags:
         - scopes
       summary: Get Scopes
-      description: Get all Scopes for a Workspace. Results are paginated.
+      description: |-
+        Get all Scopes for a Workspace. Results are paginated.
+
+        Filter by name with `{"filters": {"id": {"icontains": "sup"}}}`; `id` is
+        the unprefixed scope name.
       operationId: get_scopes_v3_workspaces__workspace_id__scopes_list_post
       parameters:
         - name: workspace_id
@@ -55,11 +62,25 @@ paths:
             default: false
             title: Reverse
           description: Whether to reverse the order of results
+        - name: include_session_count
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: >-
+              Whether to include each scope's member session count as
+              `session_count`
+            default: false
+            title: Include Session Count
+          description: >-
+            Whether to include each scope's member session count as
+            `session_count`
         - name: page
           in: query
           required: false
           schema:
             type: integer
+            maximum: 2147483647
             minimum: 1
             description: Page number (offset mode)
             default: 1
@@ -93,6 +114,15 @@ paths:
             Opt in to cursor pagination. Send an empty value for the first page,
             then the `next_page` value from each response. When set, `page` is
             ignored and the response is a cursor page with no `total`.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              anyOf:
+                - $ref: '#/components/schemas/ScopeGet'
+                - type: 'null'
+              description: Filtering options for the scopes list
+              title: Options
       responses:
         '200':
           description: Successful Response
@@ -115,6 +145,21 @@ paths:
         - HTTPBearer: []
 components:
   schemas:
+    ScopeGet:
+      properties:
+        filters:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Filters
+          description: >-
+            Filters on the scope list. `id` matches the unprefixed scope name,
+            e.g. `{"id": {"icontains": "sup"}}`; `created_at` and `metadata`
+            work as on other lists.
+      type: object
+      title: ScopeGet
+      description: Options for the scope list.
     Page_Scope_:
       properties:
         items:
@@ -208,6 +253,14 @@ components:
           type: string
           format: date-time
           title: Created At
+        session_count:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Session Count
+          description: >-
+            Number of sessions that are active members of this scope. Only
+            returned by the scope list when `include_session_count` is true.
       type: object
       required:
         - id

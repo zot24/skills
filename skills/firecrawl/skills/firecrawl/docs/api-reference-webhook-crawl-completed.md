@@ -8,7 +8,7 @@
 
 > Webhook event sent when a crawl job finishes and all pages have been processed.
 
-For payload examples, configuration, and retry behavior, see [Webhook Event Types](/webhooks/events#crawlcompleted) and [Webhook Overview](/webhooks/overview).
+For payload examples, configuration, and retry behavior, see [Webhook Event Types](https://docs.firecrawl.dev/webhooks/events.md#crawlcompleted) and [Webhook Overview](https://docs.firecrawl.dev/webhooks/overview.md).
 
 
 ## OpenAPI

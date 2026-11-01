@@ -12,35 +12,45 @@ Use an SDK to search, scrape, and interact with the web without managing raw HTT
 
 ## Official SDKs
 
+> [card] [Python SDK](https://docs.firecrawl.dev/sdks/python.md)
+>
+> For Python apps, with sync and async support.
 
-    For Python apps, with sync and async support.
+> [card] [Node SDK](https://docs.firecrawl.dev/sdks/node.md)
+>
+> For Node.js and TypeScript apps.
 
+> [card] [Go SDK](https://docs.firecrawl.dev/sdks/go.md)
+>
+> For Go applications.
 
-    For Node.js and TypeScript apps.
+> [card] [Java SDK](https://docs.firecrawl.dev/sdks/java.md)
+>
+> For Java and JVM-based applications.
 
+> [card] [Ruby SDK](https://docs.firecrawl.dev/sdks/ruby.md)
+>
+> For Ruby and Rails applications.
 
-    For Go applications.
+> [card] [Rust SDK](https://docs.firecrawl.dev/sdks/rust.md)
+>
+> For Rust applications, with full v2 API support.
 
+> [card] [.NET SDK](https://docs.firecrawl.dev/sdks/dotnet.md)
+>
+> For .NET and ASP.NET Core applications.
 
-    For Java and JVM-based applications.
+> [card] [PHP SDK](https://docs.firecrawl.dev/sdks/php.md)
+>
+> For PHP and Laravel applications.
 
+> [card] [Elixir SDK](https://docs.firecrawl.dev/sdks/elixir.md)
+>
+> For Elixir and Phoenix applications.
 
-    For Ruby and Rails applications.
-
-
-    For Rust applications, with full v2 API support.
-
-
-    For .NET and ASP.NET Core applications.
-
-
-    For PHP and Laravel applications.
-
-
-    For Elixir and Phoenix applications.
-
-
-    Run Firecrawl from the command line.
+> [card] [CLI](https://docs.firecrawl.dev/sdks/cli.md)
+>
+> Run Firecrawl from the command line.
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

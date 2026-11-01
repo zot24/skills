@@ -8,7 +8,7 @@
 
 > Webhook event sent when a batch scrape job begins processing.
 
-For payload examples, configuration, and retry behavior, see [Webhook Event Types](/webhooks/events#batch_scrapestarted) and [Webhook Overview](/webhooks/overview).
+For payload examples, configuration, and retry behavior, see [Webhook Event Types](https://docs.firecrawl.dev/webhooks/events.md#batch_scrapestarted) and [Webhook Overview](https://docs.firecrawl.dev/webhooks/overview.md).
 
 
 ## OpenAPI

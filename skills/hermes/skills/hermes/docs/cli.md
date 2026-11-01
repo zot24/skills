@@ -342,7 +342,7 @@ Every installed skill in `~/.hermes/skills/` is automatically registered as a sl
 
 
 ``` prism-code
-/gif-search funny cats
+/excalidraw sketch the request flow for our API
 /axolotl help me fine-tune Llama 3 on my dataset
 /github-pr-workflow create a PR for the auth refactor
 

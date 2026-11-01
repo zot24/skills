@@ -58,12 +58,13 @@ Supported Models
 
 Unsupported Models
 
+- GL-MT6000 (Fortify)
 - GL-MG1300 (Mango 2)
 - GL-E5800 (Mudi 7)
 - GL-MT5000 (Brume 3)
 - GL-X2000 (Spitz Plus)
 - GL-B3000 (Marble)
-- GL-MT6000 (Flint2)
+- GL-MT6000 (Flint 2)
 - GL-AX1800 (Flint)
 - GL-X3000 (Spitz AX)
 - GL-XE3000 (Puli AX)
@@ -122,7 +123,7 @@ Click the gear icon on the right to view or modify Wi-Fi settings for each band.
 
 - 2.4 GHz
 
-  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireless_v4.9/main_2.4g.png" class="glboxshadow" alt="main 5g" />
+  <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/wireless_v4.9/main_2.4g.png" class="glboxshadow" alt="main 2.4g" />
 
 ## Guest Network<a href="#guest-network" class="headerlink" title="Permanent link">¶</a>
 
