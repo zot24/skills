@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.8](https://github.com/zot24/skills/compare/agent-skills-v1.3.7...agent-skills-v1.3.8) (2026-11-01)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#327](https://github.com/zot24/skills/issues/327)) ([634c592](https://github.com/zot24/skills/commit/634c592828b07a03f199981fb73ab71a61313de5))
+
 ## [1.3.7](https://github.com/zot24/skills/compare/agent-skills-v1.3.6...agent-skills-v1.3.7) (2026-10-15)
 
 
