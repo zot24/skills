@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.1](https://github.com/zot24/skills/compare/site-design-options-v1.3.0...site-design-options-v1.3.1) (2026-11-01)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#327](https://github.com/zot24/skills/issues/327)) ([634c592](https://github.com/zot24/skills/commit/634c592828b07a03f199981fb73ab71a61313de5))
+
 ## [1.3.0](https://github.com/zot24/skills/compare/site-design-options-v1.2.0...site-design-options-v1.3.0) (2026-10-14)
 
 
