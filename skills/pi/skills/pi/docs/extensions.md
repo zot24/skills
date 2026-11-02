@@ -196,20 +196,36 @@ Settings also accept built-in extensions as `builtin:<name>` entries; see [Setti
 <a href="#available-imports" class="heading-anchor" aria-label="Permalink: Available Imports" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#available-imports"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Package                                                               | Purpose                                                                       |
-|-----------------------------------------------------------------------|-------------------------------------------------------------------------------|
-| `@earendil-works/pi-coding-agent`                                     | Extension types (`ExtensionAPI`, `ExtensionContext`, events) and helpers      |
-| `@earendil-works/pi-agent-core`                                       | Agent message and tool types                                                  |
-| `typebox`, `typebox/compile`, `typebox/value`                         | Schema definitions for tool parameters                                        |
-| `@earendil-works/pi-ai`                                               | AI utilities (`StringEnum` for string enums, transcript helpers, model types) |
-| `@earendil-works/pi-ai/compat`, `/models`, `/oauth`, `/providers/all` | Provider construction, built-in APIs, and OAuth helpers                       |
-| `@earendil-works/pi-tui`                                              | TUI components for custom rendering                                           |
+| Package                                                               | Purpose                                                                                                                                                                                                                                     |
+|-----------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `@earendil-works/pi-coding-agent`                                     | Extension types (`ExtensionAPI`, `ExtensionContext`, events) and helpers                                                                                                                                                                    |
+| `@earendil-works/pi-agent-core`                                       | Agent message and tool types                                                                                                                                                                                                                |
+| `typebox`, `typebox/compile`, `typebox/value`                         | Schema definitions for tool parameters                                                                                                                                                                                                      |
+| `@earendil-works/pi-ai`                                               | AI utilities (`StringEnum` for string enums, transcript helpers, model types). Inside Pi it also exports TypeBox's `Type`, `Static` and `TSchema`, which the published package no longer re-exports; import them from `typebox` in new code |
+| `@earendil-works/pi-ai/compat`, `/models`, `/oauth`, `/providers/all` | Provider construction, built-in APIs, and OAuth helpers                                                                                                                                                                                     |
+| `@earendil-works/pi-tui`                                              | TUI components for custom rendering                                                                                                                                                                                                         |
 
 Pi maps these imports to its own copies, so extensions share Pi's classes and registries. The legacy `@mariozechner/*` and `@sinclair/typebox` names map to the same modules.
 
 npm dependencies work too. Add a `package.json` next to your extension (or in a parent directory), run `npm install`, and imports from `node_modules/` are resolved automatically.
 
 For distributed Pi packages installed with `pi install` (npm or git), runtime deps must be in `dependencies`; `devDependencies` are not installed. Do not list the host-provided packages above in `dependencies`. See [Declare dependencies](/docs/latest/packages#declare-dependencies).
+
+
+### Tool parameter schemas and TypeBox
+
+<a href="#tool-parameter-schemas-and-typebox" class="heading-anchor" aria-label="Permalink: Tool parameter schemas and TypeBox" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#tool-parameter-schemas-and-typebox"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+
+
+Pi validates tool arguments as JSON Schema with `@earendil-works/pi-schema`, whatever built the schema; TypeBox schemas are JSON Schema and work unchanged. Before validation, loosely typed arguments are coerced: numeric strings to numbers, `"true"` to `true`, a single value to a one-item array, `null` in an optional property dropped. TypeBox features outside JSON Schema do not apply to tool arguments:
+
+- `Type.Refine()` refinements are not run. Check such constraints in `execute()`.
+- `Type.BigInt()`, `Type.Undefined()` and `Type.Void()` reject every argument, since JSON has no such values. Codecs (`Type.Codec()`) do not decode: `execute()` receives the JSON value.
+- Formats registered with TypeBox's `Format.Set()` are not checked. The standard formats are, plus `url` and `json-pointer-uri-fragment`.
+- Property names are matched as names, not as regular expressions, and `additionalProperties` applies only to properties the object does not declare.
+- A `$ref` that names nothing rejects only arguments at its place.
+
+Validation errors the model sees use pi-schema's messages, such as `- path: missing` or `- limit: expected number, got string`.
 
 Node.js built-ins (`node:fs`, `node:path`, etc.) are also available.
 
