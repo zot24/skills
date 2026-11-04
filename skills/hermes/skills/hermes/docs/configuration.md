@@ -1978,6 +1978,21 @@ agent:
 
 Hermes sends it as the top-level Responses `text: {verbosity: ...}` field only on Responses-family routes; it is never sent on `chat_completions`, Anthropic or xAI requests, and an empty or unknown value sends nothing. Structured-output (`text.format`) set through `request_overrides` is passed through unchanged.
 
+### OpenAI Daybreak (`daybreak`)<a href="#openai-daybreak-daybreak" class="hash-link" aria-label="Direct link to openai-daybreak-daybreak" translate="no" title="Direct link to openai-daybreak-daybreak">​</a>
+
+<a href="https://help.openai.com/en/articles/20001258-openai-daybreak-trusted-access-for-cyber-overview" target="_blank" rel="noopener noreferrer">Daybreak</a> is OpenAI's Trusted Access for Cyber program: approved accounts get fewer refusals for authorized security work on supported models. On the ChatGPT/Codex subscription (`openai-codex`), Hermes can request it:
+
+
+``` prism-code
+agent:
+  daybreak: false   # true = request Daybreak Blue on models your account is approved for
+```
+
+
+In Desktop, open a model's options in the model menu: the **Daybreak** switch appears next to **Fast**, only on models your signed-in account's Codex catalog lists for Daybreak. Accounts without Daybreak never see it. The switch is profile-wide, like Codex's own toggle, and applies from the next turn.
+
+Every request checks the catalog again, so `access_programs.cyber: daybreak_blue` is sent only when the switch is on **and** that request's account and model are listed. Switching to an unlisted model, rotating to an account without access, or an unreadable catalog sends standard requests. It is not sent on API-key routes or the opt-in `codex_app_server` runtime, and only your own chat turns use it (Desktop, the TUI and the CLI). Messaging-platform chats, hosted rooms, A2A peers, third-party `--source tool` integrations, editor (ACP) clients, cron jobs and subagents use standard safeguards: OpenAI allows Daybreak no third-party or downstream access, and those chats can be other people. The setting grants no access: approval comes from OpenAI.
+
 
 These models use *adaptive* thinking and don't accept the usual `reasoning.effort` field — OpenRouter ignores it for them. Hermes transparently routes your `reasoning_effort` to OpenRouter's `verbosity` parameter instead (which maps to Anthropic's `output_config.effort`), so the same effort knob keeps working with the levels supported by the selected model. `none` (or unset) leaves the model on its own adaptive default. The native Anthropic provider already controls effort directly and is unaffected.
 
@@ -3437,6 +3452,7 @@ dashboard:
   - <a href="#environment-variables-legacy" class="table-of-contents__link toc-highlight">Environment Variables (legacy)</a>
 - <a href="#reasoning-effort" class="table-of-contents__link toc-highlight">Reasoning Effort</a>
   - <a href="#answer-length-text_verbosity" class="table-of-contents__link toc-highlight">Answer length (<code>text_verbosity</code>)</a>
+  - <a href="#openai-daybreak-daybreak" class="table-of-contents__link toc-highlight">OpenAI Daybreak (<code>daybreak</code>)</a>
 - <a href="#fast-mode" class="table-of-contents__link toc-highlight">Fast Mode</a>
   - <a href="#fast-tiers-behind-a-gateway-or-proxy" class="table-of-contents__link toc-highlight">Fast tiers behind a gateway or proxy</a>
 - <a href="#tool-use-enforcement" class="table-of-contents__link toc-highlight">Tool-Use Enforcement</a>
