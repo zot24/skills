@@ -310,6 +310,19 @@ hermes pairing revoke telegram 123456789  # Remove access
 
 Pairing codes expire after 1 hour, are rate-limited, and use cryptographic randomness.
 
+### Other bots in a chat<a href="#other-bots-in-a-chat" class="hash-link" aria-label="Direct link to Other bots in a chat" translate="no" title="Direct link to Other bots in a chat">​</a>
+
+Hermes treats a sender as a bot when the platform says so (Discord, Slack, Telegram, Feishu, QQ guild, Mattermost bot accounts). On a platform whose events carry no bot flag (Matrix, Signal, IRC, Mattermost personal-access-token bots, …), list the peer's user ids under that platform's `bot_users` in `config.yaml`:
+
+
+``` prism-code
+mattermost:
+  bot_users: ["peer_bot_user_id"]
+```
+
+
+A bot sender is admitted only through that platform's `*_ALLOW_BOTS` setting. Hermes never sends it runtime notices (busy and interrupt acknowledgements, progress, the "not processed" and retry hints, model-fallback and inactivity warnings, failed-delegation notices), only the model's reply, and a bot it is addressed by may still be answered with silence. `gateway.bot_loop_guard` ends the exchange: `max_hops` (default 4) bot messages after your last message, a repeated message counted once, and no answer to a bot answering a reply Hermes delivered to it unless `bot_replies_expect_reply: true`; `enabled: false` turns the rules off.
+
 ### Admins vs Regular Users<a href="#admins-vs-regular-users" class="hash-link" aria-label="Direct link to Admins vs Regular Users" translate="no" title="Direct link to Admins vs Regular Users">​</a>
 
 Allowlists answer "can this person reach the bot at all?" The **admin / user split** answers "now that they're in, what are they allowed to do?"
@@ -954,6 +967,7 @@ Defaults to `false`. Only platforms whose adapter implements `delete_message` ho
 - <a href="#per-room-intentional-silence" class="table-of-contents__link toc-highlight">Per-Room Intentional Silence</a>
 - <a href="#security" class="table-of-contents__link toc-highlight">Security</a>
   - <a href="#dm-pairing-alternative-to-allowlists" class="table-of-contents__link toc-highlight">DM Pairing (Alternative to Allowlists)</a>
+  - <a href="#other-bots-in-a-chat" class="table-of-contents__link toc-highlight">Other bots in a chat</a>
   - <a href="#admins-vs-regular-users" class="table-of-contents__link toc-highlight">Admins vs Regular Users</a>
 - <a href="#redirecting-the-agent" class="table-of-contents__link toc-highlight">Redirecting the Agent</a>
   - <a href="#queue-vs-interrupt-vs-steer-busy-input-mode" class="table-of-contents__link toc-highlight">Queue vs interrupt vs steer (busy-input mode)</a>

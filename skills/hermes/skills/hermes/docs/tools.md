@@ -79,6 +79,7 @@ The terminal tool can execute commands in different environments:
 | `docker`               | Isolated containers           | Security, reproducibility                                   |
 | `ssh`                  | Remote server                 | Sandboxing, keep agent away from its own code               |
 | `singularity` (plugin) | HPC containers                | Cluster computing, rootless                                 |
+| `sprites` (plugin)     | Stateful Fly.io cloud sandbox | Persistent cloud environments with checkpoint & restore     |
 | `modal`                | Cloud execution               | Serverless, scale                                           |
 | `daytona`              | Cloud sandbox workspace       | Persistent remote dev environments                          |
 | `vercel_sandbox`       | Vercel Sandbox cloud microVM  | Cloud execution with snapshot-backed filesystem persistence |
@@ -89,7 +90,7 @@ The terminal tool can execute commands in different environments:
 ``` prism-code
 # In ~/.hermes/config.yaml
 terminal:
-  backend: local    # or: docker, ssh, modal, daytona, vercel_sandbox, or a plugin backend (singularity)
+  backend: local    # or: docker, ssh, modal, daytona, vercel_sandbox, or a plugin backend (singularity, sprites)
   cwd: "."          # Working directory
   timeout: 180      # Command timeout in seconds
 ```
@@ -170,6 +171,18 @@ apptainer build ~/python.sif docker://python:3.11-slim
 # Configure
 hermes config set terminal.backend singularity
 hermes config set terminal.singularity_image ~/python.sif
+```
+
+
+### Sprites<a href="#sprites" class="hash-link" aria-label="Direct link to Sprites" translate="no" title="Direct link to Sprites">​</a>
+
+A plugin (<a href="https://github.com/NousResearch/hermes-plugin-sprites" target="_blank" rel="noopener noreferrer"><code>sprites</code></a>) that runs commands in a stateful <a href="https://fly.io/sprites" target="_blank" rel="noopener noreferrer">Sprite</a> on Fly.io. See [Sprites Backend](/docs/user-guide/configuration#sprites-backend).
+
+
+``` prism-code
+hermes plugins install NousResearch/hermes-plugin-sprites --enable
+hermes config set terminal.backend sprites
+# Add SPRITES_TOKEN to ~/.hermes/.env
 ```
 
 
@@ -308,6 +321,7 @@ On messaging platforms, if sudo fails, the output includes a tip to add `SUDO_PA
   - <a href="#docker-backend" class="table-of-contents__link toc-highlight">Docker Backend</a>
   - <a href="#ssh-backend" class="table-of-contents__link toc-highlight">SSH Backend</a>
   - <a href="#singularityapptainer" class="table-of-contents__link toc-highlight">Singularity/Apptainer</a>
+  - <a href="#sprites" class="table-of-contents__link toc-highlight">Sprites</a>
   - <a href="#modal-serverless-cloud" class="table-of-contents__link toc-highlight">Modal (Serverless Cloud)</a>
   - <a href="#vercel-sandbox" class="table-of-contents__link toc-highlight">Vercel Sandbox</a>
   - <a href="#container-resources" class="table-of-contents__link toc-highlight">Container Resources</a>
