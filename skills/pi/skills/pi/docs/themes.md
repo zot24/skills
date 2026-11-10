@@ -40,11 +40,11 @@ The `system` theme is the default. It builds Pi's colors from your terminal's th
 
 The theme adapts to what the terminal reports:
 
-| Terminal reports           | Result                                                                                                                                                 |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Background and ANSI colors | Colors from the terminal palette, placed for the actual background.                                                                                    |
-| Background only            | Pi's own hues, placed for the actual background.                                                                                                       |
-| Nothing                    | ANSI color indices and the terminal's default colors, which the terminal renders itself. Secondary text is faint, and panels have no background color. |
+| Terminal reports | Result |
+|----|----|
+| Background and ANSI colors | Colors from the terminal palette, placed for the actual background. |
+| Background only | Pi's own hues, placed for the actual background. |
+| Nothing | ANSI color indices and the terminal's default colors, which the terminal renders itself. Secondary text is faint, and panels have no background color. |
 
 Pi asks the terminal for its colors when it starts. Terminals usually answer within a few milliseconds, and Pi waits at most 100 ms before showing the startup header. If the terminal does not answer in time, Pi uses the ANSI color fallback, and it still applies the colors if they arrive later, for example over a slow SSH connection. `system` is a reserved name: a custom theme with that name is ignored.
 
@@ -112,27 +112,27 @@ Use the theme name as the filename. Pi hot-reloads the active user theme only fr
 <a href="#understand-the-theme-file" class="heading-anchor" aria-label="Permalink: Understand the theme file" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#understand-the-theme-file"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Property     | Required | Responsibility                                                                                                     |
-|--------------|----------|--------------------------------------------------------------------------------------------------------------------|
-| `$schema`    | No       | Enables editor validation and completion against Pi's published schema.                                            |
-| `name`       | Yes      | Identifies the theme in selectors and settings. It must be unique, cannot contain `/`, and cannot be `system`.     |
-| `appearance` | No       | `"dark"` or `"light"`: the background the theme is designed for. Pi detects it from the theme colors when omitted. |
-| `vars`       | No       | Defines reusable color values. Variables can reference other variables.                                            |
-| `colors`     | Yes      | Assigns colors to terminal UI roles. The schema identifies required and optional roles.                            |
-| `export`     | No       | Overrides page and panel backgrounds in HTML exports.                                                              |
+| Property | Required | Responsibility |
+|----|----|----|
+| `$schema` | No | Enables editor validation and completion against Pi's published schema. |
+| `name` | Yes | Identifies the theme in selectors and settings. It must be unique, cannot contain `/`, and cannot be `system`. |
+| `appearance` | No | `"dark"` or `"light"`: the background the theme is designed for. Pi detects it from the theme colors when omitted. |
+| `vars` | No | Defines reusable color values. Variables can reference other variables. |
+| `colors` | Yes | Assigns colors to terminal UI roles. The schema identifies required and optional roles. |
+| `export` | No | Overrides page and panel backgrounds in HTML exports. |
 
 Theme objects are strict: only documented top-level fields and color tokens are accepted. Define reusable custom colors under `vars`; custom keys under `colors` or `export` and additional top-level metadata are rejected.
 
 A color can be written in six forms:
 
-| Form               | Example                 | Meaning                                                                                                                                                                                     |
-|--------------------|-------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| RGB hexadecimal    | `"#0af"` or `"#00aaff"` | A three- or six-digit sRGB color.                                                                                                                                                           |
-| OKLCH              | `"oklch(62% 0.1 200)"`  | Perceptual lightness, chroma, and hue.                                                                                                                                                      |
-| OKHSL              | `"okhsl(250 60% 55%)"`  | Hue, saturation, and lightness. Saturation is relative to the most the sRGB gamut allows at that hue and lightness, so every value is in gamut and equal saturation looks equally colorful. |
-| 256-color index    | `39`                    | An ANSI palette index from `0` through `255`.                                                                                                                                               |
-| Variable reference | `"primary"`             | The value of an entry in `vars`.                                                                                                                                                            |
-| Terminal default   | `""`                    | The terminal's default foreground or background color.                                                                                                                                      |
+| Form | Example | Meaning |
+|----|----|----|
+| RGB hexadecimal | `"#0af"` or `"#00aaff"` | A three- or six-digit sRGB color. |
+| OKLCH | `"oklch(62% 0.1 200)"` | Perceptual lightness, chroma, and hue. |
+| OKHSL | `"okhsl(250 60% 55%)"` | Hue, saturation, and lightness. Saturation is relative to the most the sRGB gamut allows at that hue and lightness, so every value is in gamut and equal saturation looks equally colorful. |
+| 256-color index | `39` | An ANSI palette index from `0` through `255`. |
+| Variable reference | `"primary"` | The value of an entry in `vars`. |
+| Terminal default | `""` | The terminal's default foreground or background color. |
 
 Terminal default colors render as the terminal's own colors. Where Pi needs a concrete value, such as HTML export or extension color math, it uses the default colors the terminal reports, or a black or white guess based on the theme's appearance.
 
@@ -150,17 +150,17 @@ Pi reports invalid theme files during startup and `/reload`.
 
 Theme colors describe interface roles rather than individual components. Use these groups to find the relevant part of the schema:
 
-| Area                     | Color names                                                                |
-|--------------------------|----------------------------------------------------------------------------|
-| General interface        | `accent`, `border*`, `text`, `muted`, `dim`, `success`, `error`, `warning` |
-| Selection and fullscreen | `selectedBg`, `searchMatch*`, `scrollbar*`                                 |
-| Messages                 | `userMessage*`, `customMessage*`, `thinkingText`                           |
-| Tool execution           | `toolPendingBg`, `toolSuccessBg`, `toolErrorBg`, `toolTitle`, `toolOutput` |
-| Markdown                 | `md*`                                                                      |
-| Tool diffs               | `toolDiff*`                                                                |
-| Syntax highlighting      | `syntax*`                                                                  |
-| Editor modes             | `thinking*`, `bashMode`                                                    |
-| HTML export              | `export.pageBg`, `export.cardBg`, `export.infoBg`                          |
+| Area | Color names |
+|----|----|
+| General interface | `accent`, `border*`, `text`, `muted`, `dim`, `success`, `error`, `warning` |
+| Selection and fullscreen | `selectedBg`, `searchMatch*`, `scrollbar*` |
+| Messages | `userMessage*`, `customMessage*`, `thinkingText` |
+| Tool execution | `toolPendingBg`, `toolSuccessBg`, `toolErrorBg`, `toolTitle`, `toolOutput` |
+| Markdown | `md*` |
+| Tool diffs | `toolDiff*` |
+| Syntax highlighting | `syntax*` |
+| Editor modes | `thinking*`, `bashMode` |
+| HTML export | `export.pageBg`, `export.cardBg`, `export.infoBg` |
 
 The schema is the format reference. The built-in themes provide complete values that you can copy and adjust.
 

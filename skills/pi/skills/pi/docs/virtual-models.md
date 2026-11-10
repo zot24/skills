@@ -46,10 +46,10 @@ The virtual thinking level is an input to the router. Its meaning is up to the r
 
 Pi keeps the two pairs apart:
 
-|             | Selection                                                                    | Dispatch                                                            |
-|-------------|------------------------------------------------------------------------------|---------------------------------------------------------------------|
-| Recorded in | `model_change` and `thinking_level_change` entries                           | Each assistant message: `provider`, `api`, `model`, `thinkingLevel` |
-| Visible as  | `ctx.model`, `ctx.thinkingLevel`, `PI_MODEL`, `PI_REASONING_LEVEL`, `/model` | The assistant message of each response                              |
+|  | Selection | Dispatch |
+|----|----|----|
+| Recorded in | `model_change` and `thinking_level_change` entries | Each assistant message: `provider`, `api`, `model`, `thinkingLevel` |
+| Visible as | `ctx.model`, `ctx.thinkingLevel`, `PI_MODEL`, `PI_REASONING_LEVEL`, `/model` | The assistant message of each response |
 
 Providers only receive physical models. Assistant messages name the physical model, so replaying a conversation across different physical models works the same as after a manual model switch. Resuming a session restores the virtual selection from its latest `model_change` entry. If the virtual model is no longer registered, Pi falls back to the physical model that answered last.
 
@@ -102,22 +102,22 @@ Registration follows the same queuing and reload rules as `pi.registerProvider()
 
 `route(request, ctx)` runs before every request made with the virtual model and returns `{ model, thinkingLevel }`. The model can be any physical model in the catalog whose provider has credentials; look it up with `ctx.modelRegistry`. A virtual model cannot route to another virtual model. Pi clamps the thinking level to the returned model.
 
-| Field                    | Meaning                                                                                                                                                                                                                 |
-|--------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `model`, `thinkingLevel` | The selected virtual model and level                                                                                                                                                                                    |
-| `reason`                 | Why the request is made, see below                                                                                                                                                                                      |
-| `previous`               | Physical model and thinking level of the latest successful response in `messages`                                                                                                                                       |
-| `failed`                 | For `retry`: physical model, thinking level, and assistant `message` of the failed request, which `messages` no longer contains. The message carries `stopReason` and `errorMessage`. Absent when routing itself failed |
-| `state`                  | Router state last returned on this session branch, see below                                                                                                                                                            |
-| `messages`               | The conversation for this request, including system messages                                                                                                                                                            |
-| `signal`                 | Abort signal of the request                                                                                                                                                                                             |
+| Field | Meaning |
+|----|----|
+| `model`, `thinkingLevel` | The selected virtual model and level |
+| `reason` | Why the request is made, see below |
+| `previous` | Physical model and thinking level of the latest successful response in `messages` |
+| `failed` | For `retry`: physical model, thinking level, and assistant `message` of the failed request, which `messages` no longer contains. The message carries `stopReason` and `errorMessage`. Absent when routing itself failed |
+| `state` | Router state last returned on this session branch, see below |
+| `messages` | The conversation for this request, including system messages |
+| `signal` | Abort signal of the request |
 
-| `reason`       | Request                                                                                                                      |
-|----------------|------------------------------------------------------------------------------------------------------------------------------|
-| `user`         | First request after a message the user wrote, including steering and follow-up messages                                      |
-| `continuation` | Any other request in the agent loop, such as after tool results or extension messages                                        |
-| `retry`        | Automatic retry after a failed request, including after compaction for a context overflow                                    |
-| `direct`       | Request made outside the agent loop, such as a compaction summary or an extension calling `ctx.modelRegistry.streamSimple()` |
+| `reason` | Request |
+|----|----|
+| `user` | First request after a message the user wrote, including steering and follow-up messages |
+| `continuation` | Any other request in the agent loop, such as after tool results or extension messages |
+| `retry` | Automatic retry after a failed request, including after compaction for a context overflow |
+| `direct` | Request made outside the agent loop, such as a compaction summary or an extension calling `ctx.modelRegistry.streamSimple()` |
 
 Returning `previous` for `continuation` and `failed` for `retry` keeps prompt caches and thinking signatures valid. Switching models between turns is allowed but loses the prompt cache. A retry can also switch to another model, for example when `failed.message.errorMessage` reports that a provider is overloaded or the context overflowed.
 

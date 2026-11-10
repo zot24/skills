@@ -33,13 +33,13 @@ Provider extensions run inside Pi and can inspect credentials, prompts, tool def
 <a href="#choose-the-smallest-integration" class="heading-anchor" aria-label="Permalink: Choose the smallest integration" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#choose-the-smallest-integration"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Requirement                                     | Use                                                                  |
-|-------------------------------------------------|----------------------------------------------------------------------|
-| Add models behind a supported API               | [`models.json`](/docs/latest/models#configure-a-compatible-endpoint) |
-| Change an existing provider endpoint or headers | `models.json` or a small provider extension                          |
-| Discover models dynamically                     | A provider with `refreshModels`                                      |
-| Add a `/login` flow                             | A provider with native or legacy OAuth configuration                 |
-| Implement an unsupported wire protocol          | A provider with `stream` or `streamSimple`                           |
+| Requirement | Use |
+|----|----|
+| Add models behind a supported API | [`models.json`](/docs/latest/models#configure-a-compatible-endpoint) |
+| Change an existing provider endpoint or headers | `models.json` or a small provider extension |
+| Discover models dynamically | A provider with `refreshModels` |
+| Add a `/login` flow | A provider with native or legacy OAuth configuration |
+| Implement an unsupported wire protocol | A provider with `stream` or `streamSimple` |
 
 A provider extension is an [extension](/docs/latest/extensions), so it follows the same loading, trust, reload, and error behavior.
 

@@ -27,10 +27,10 @@ RPC mode runs Pi as a long-lived subprocess controlled through JSON records on s
 
 For an in-process Node.js or Bun integration, prefer the [SDK](/docs/latest/sdk). For a subprocess-based TypeScript integration, prefer the exported `RpcClient`, which starts Pi, correlates responses, exposes typed command methods, and delivers events to listeners.
 
-| Interface               | Process boundary | Control model                         | Best fit                                                     |
-|-------------------------|------------------|---------------------------------------|--------------------------------------------------------------|
-| [SDK](/docs/latest/sdk) | In process       | Direct TypeScript methods and events  | Node.js or Bun hosts that want complete API access           |
-| RPC                     | Child process    | JSONL commands, responses, and events | Other languages, isolated processes, IDEs, or custom clients |
+| Interface | Process boundary | Control model | Best fit |
+|----|----|----|----|
+| [SDK](/docs/latest/sdk) | In process | Direct TypeScript methods and events | Node.js or Bun hosts that want complete API access |
+| RPC | Child process | JSONL commands, responses, and events | Other languages, isolated processes, IDEs, or custom clients |
 
 
 ## Start RPC mode
@@ -55,12 +55,12 @@ RPC mode rejects `@file` prompt arguments. Send prompts through the [`prompt`](/
 
 The protocol has four record families:
 
-| Direction | Record              | Purpose                                                                      |
-|-----------|---------------------|------------------------------------------------------------------------------|
-| stdin     | Command             | Ask Pi to prompt, inspect state, change configuration, or manage the session |
-| stdout    | `response`          | Report whether one command succeeded and return any command data             |
-| stdout    | Session event       | Stream run, message, tool, queue, compaction, and retry activity             |
-| Both      | Extension UI record | Forward supported extension interactions between Pi and the client           |
+| Direction | Record | Purpose |
+|----|----|----|
+| stdin | Command | Ask Pi to prompt, inspect state, change configuration, or manage the session |
+| stdout | `response` | Report whether one command succeeded and return any command data |
+| stdout | Session event | Stream run, message, tool, queue, compaction, and retry activity |
+| Both | Extension UI record | Forward supported extension interactions between Pi and the client |
 
 See [RPC Commands](/docs/latest/rpc-commands), [JSON Event Stream](/docs/latest/json), and [RPC Extension UI](/docs/latest/rpc-extension-ui) for the canonical record definitions.
 
@@ -150,9 +150,11 @@ Clients must also handle child-process startup failures, unexpected exits, stder
 <a href="#shutdown" class="heading-anchor" aria-label="Permalink: Shutdown" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#shutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Close the child's stdin to request an orderly shutdown. Pi disposes the active runtime before exiting. Clients should still handle process signals and unexpected exits.
+Close the child's stdin to request an orderly shutdown. Pi disposes the active runtime and waits for pending work to finish before exiting, so give it time to exit before killing it. Clients should still handle process signals and unexpected exits.
 
-An extension can also request shutdown through its extension context. Pi completes shutdown after the current command or after the active run emits `agent_settled`.
+SIGTERM and SIGHUP also start an orderly shutdown. Once a shutdown has started, from either stdin EOF or a signal, a stdin EOF or a single signal does not interrupt it; a second signal exits at once. Closing stdin and sending SIGTERM together is safe.
+
+An extension can also request shutdown with `ctx.shutdown()`. If the session is idle and no command is being handled, Pi shuts down right away. Otherwise it shuts down once the current command finishes (for `prompt`, once the prompt settles) or the active run emits `agent_settled`. (A request made while an extension-started compaction is running waits for the next command or run to finish.)
 
 
 ## Minimal client

@@ -34,6 +34,8 @@ pi uninstall <source> [options]
 pi update [target] [options]
 pi list
 pi config [options]
+pi auth login <provider> [--api-key] [--no-browser]
+pi auth logout <provider>
 pi auth <check|print-api-key|print-bearer-token> [options]
 pi mcp <add|remove|list|login|logout> [options]
 ```
@@ -65,12 +67,12 @@ Pi resolves `@path` from the current working directory. The working directory al
 
 `--print` controls whether Pi runs once and exits. `--mode` selects the output interface. `--mode text` does not force one-shot execution when stdin and stdout are terminals; use `--print` for that behavior.
 
-| Option                      | Behavior                                                                                |
-|-----------------------------|-----------------------------------------------------------------------------------------|
-| `-p`, `--print`             | Run the supplied prompts, write the final assistant text to stdout, then exit           |
-| `--mode text`               | Select text output; still open the terminal UI when stdin and stdout are terminals      |
-| `--mode json`               | Run the supplied prompts, write JSONL events to stdout, then exit                       |
-| `--mode rpc`                | Read JSONL commands from stdin and write responses and events to stdout until shutdown  |
+| Option | Behavior |
+|----|----|
+| `-p`, `--print` | Run the supplied prompts, write the final assistant text to stdout, then exit |
+| `--mode text` | Select text output; still open the terminal UI when stdin and stdout are terminals |
+| `--mode json` | Run the supplied prompts, write JSONL events to stdout, then exit |
+| `--mode rpc` | Read JSONL commands from stdin and write responses and events to stdout until shutdown |
 | `--export <input> [output]` | Export a session file to HTML and exit; derive the destination when `output` is omitted |
 
 RPC mode rejects `@file` arguments. JSON and RPC modes reserve stdout for protocol records. See [JSON Event Stream](/docs/latest/json) and [RPC Protocol](/docs/latest/rpc).
@@ -185,10 +187,10 @@ The MCP resource tools (`list_mcp_resources`, `list_mcp_resource_templates`, `re
 
 Built-in extensions add two more tools. They are off by default; the MCP extension turns them on when an MCP server needs them (see [MCP](/docs/latest/mcp#control-tool-exposure)). To enable them yourself, name them in `--tools` or `defaultTools`.
 
-| Built-in extension | Purpose                                                                                                                                           |
-|--------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| `codemode`         | Run JavaScript that calls the other tools, for example in parallel with `Promise.allSettled`; only the script's output reaches the model          |
-| `tool_search`      | Search tools that are not declared to the model (`codemode` and `deferred` exposure, such as MCP tools) and declare the matches for the next call |
+| Built-in extension | Purpose |
+|----|----|
+| `codemode` | Run JavaScript that calls the other tools, for example in parallel with `Promise.allSettled`; only the script's output reaches the model |
+| `tool_search` | Search tools that are not declared to the model (`codemode` and `deferred` exposure, such as MCP tools) and declare the matches for the next call |
 
 
 ### Enable codemode
@@ -386,26 +388,38 @@ export PI_SELF_UPDATE_COMMAND="mise use -g npm:{packageName}@{version}"
 <a href="#credential-commands" class="heading-anchor" aria-label="Permalink: Credential commands" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli#credential-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
+`pi auth login <provider>` logs in to a provider in the terminal and exits, without starting a session. It signs in with an account and opens the browser, like `/login <provider>`. Providers without account sign-in ask for an API key. Logging in to Radius also adds the Radius MCP server to `~/.pi/agent/mcp.json` when no global server uses that login yet. It requires an interactive terminal.
+
+| Option | Description |
+|----|----|
+| `--api-key` | Save an API key instead of signing in with an account; the key is read without echoing it |
+| `--no-browser` | Do not open a browser; use the provider's other sign-in method, such as a device code, for example over SSH. Asks when there are several. Not allowed with `--api-key` |
+
+`pi auth logout <provider>` removes the credentials that `pi auth login` or `/login` stored, like `/logout`. Environment variables and `models.json` config are unchanged. It exits with status `0` when nothing is stored, so it is safe to repeat.
+
+
 ``` shiki
+pi auth login radius
+pi auth logout radius
 pi auth check --provider openai --json
 ```
 
 
-Authentication commands require `--provider <provider>` or `--model <model>`. See [Providers](/docs/latest/providers) for supported methods.
+The other authentication commands require `--provider <provider>` or `--model <model>`. See [Providers](/docs/latest/providers) for supported methods.
 
-| Command                      | Description                                                                               |
-|------------------------------|-------------------------------------------------------------------------------------------|
-| `pi auth check`              | Print `ready`, `not_ready`, or `invalid`; exit with status `0`, `1`, or `2`, respectively |
-| `pi auth print-api-key`      | Print the resolved API key                                                                |
-| `pi auth print-bearer-token` | Print a resolved OAuth bearer token                                                       |
+| Command | Description |
+|----|----|
+| `pi auth check` | Print `ready`, `not_ready`, or `invalid`; exit with status `0`, `1`, or `2`, respectively |
+| `pi auth print-api-key` | Print the resolved API key |
+| `pi auth print-bearer-token` | Print a resolved OAuth bearer token |
 
-| Option                    | Applies to           | Description                                                                  |
-|---------------------------|----------------------|------------------------------------------------------------------------------|
-| `--provider <provider>`   | All                  | Resolve credentials for a provider                                           |
-| `--model <model>`         | All                  | Resolve credentials from a model; may be combined with `--provider`          |
-| `--json`                  | `auth check`         | Write the structured result as JSON                                          |
-| `--credentials`           | `auth check`         | Emit the resolved credential when ready                                      |
-| `--no-refresh`            | `auth check`         | Do not refresh expired OAuth credentials; refresh is the default             |
+| Option | Applies to | Description |
+|----|----|----|
+| `--provider <provider>` | All | Resolve credentials for a provider |
+| `--model <model>` | All | Resolve credentials from a model; may be combined with `--provider` |
+| `--json` | `auth check` | Write the structured result as JSON |
+| `--credentials` | `auth check` | Emit the resolved credential when ready |
+| `--no-refresh` | `auth check` | Do not refresh expired OAuth credentials; refresh is the default |
 | `--min-expiry <duration>` | `print-bearer-token` | Require remaining token lifetime using `ms`, `s`, `m`, or `h`, such as `30m` |
 
 Credential-printing commands write secrets to stdout.
@@ -418,14 +432,14 @@ Credential-printing commands write secrets to stdout.
 
 These commands work outside a session, so agents can run them through `bash`. See [MCP Servers](/docs/latest/mcp).
 
-| Command                                                | Description                                                                                                                                                                                                                                                                                                                              |
-|--------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `pi mcp add <server> [options] -- <command> [args...]` | Add or replace a stdio server in `mcp.json`; `--env KEY=VALUE` (repeatable) and `--cwd <dir>` set its environment and working directory. Arguments after the command are passed to it                                                                                                                                                    |
-| `pi mcp add <server> [options] --url <url>`            | Add or replace a streamable HTTP server; `--header KEY=VALUE` (repeatable), `--bearer-token-env-var <NAME>` (sends `Authorization: Bearer ${NAME}`), `--oauth-client-id`, `--oauth-client-secret`, `--oauth-callback-port`, `--oauth-client-name`, and `--oauth-client-registration` (`auto`, `cimd`, or `dcr`) configure authentication |
-| `pi mcp remove <server>`                               | Remove a server from `mcp.json`; stored OAuth credentials are kept                                                                                                                                                                                                                                                                       |
-| `pi mcp list [--json]`                                 | Connect to every enabled server and print its state, tools, and errors; exit with `1` when a config entry is invalid or an enabled server is not connected                                                                                                                                                                               |
-| `pi mcp login <server> [-l] [--timeout <seconds>]`     | Sign in to an OAuth server: open the authorization page and wait for the browser; a terminal also accepts the pasted redirect URL. `--timeout` limits the whole sign-in, including requests to the authorization server (default 300 seconds). `-l` requires the server to be defined in the project's `.pi/mcp.json`                    |
-| `pi mcp logout <server> [-l]`                          | Delete the stored OAuth credentials of a server                                                                                                                                                                                                                                                                                          |
+| Command | Description |
+|----|----|
+| `pi mcp add <server> [options] -- <command> [args...]` | Add or replace a stdio server in `mcp.json`; `--env KEY=VALUE` (repeatable) and `--cwd <dir>` set its environment and working directory. Arguments after the command are passed to it |
+| `pi mcp add <server> [options] --url <url>` | Add or replace a streamable HTTP server; `--header KEY=VALUE` (repeatable), `--bearer-token-env-var <NAME>` (sends `Authorization: Bearer ${NAME}`), `--oauth-client-id`, `--oauth-client-secret`, `--oauth-callback-port`, `--oauth-client-name`, and `--oauth-client-registration` (`auto`, `cimd`, or `dcr`) configure authentication |
+| `pi mcp remove <server>` | Remove a server from `mcp.json`; stored OAuth credentials are kept |
+| `pi mcp list [--json]` | Connect to every enabled server and print its state, tools, and errors; exit with `1` when a config entry is invalid or an enabled server is not connected |
+| `pi mcp login <server> [-l] [--timeout <seconds>]` | Sign in to an OAuth server: open the authorization page and wait for the browser; a terminal also accepts the pasted redirect URL. `--timeout` limits the whole sign-in, including requests to the authorization server (default 300 seconds). `-l` requires the server to be defined in the project's `.pi/mcp.json` |
+| `pi mcp logout <server> [-l]` | Delete the stored OAuth credentials of a server |
 
 `add` and `remove` change `~/.pi/agent/mcp.json`, or `.pi/mcp.json` in the current directory with `--local` (`-l`). `add` also takes `--exposure <mode>` (see [Exposure](/docs/latest/mcp#control-tool-exposure)) and `--description <text>` and does not connect; run `pi mcp list` to check the server.
 

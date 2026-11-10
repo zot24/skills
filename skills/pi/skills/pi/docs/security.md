@@ -37,11 +37,11 @@ Safety comes from limiting the files, credentials, processes, and network servic
 
 Different ways of running Pi place different limits on what generated commands can access:
 
-| How Pi runs                                                                   | What remains protected                                                                                                                                                                                       |
-|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Directly, with the permissions of its operating-system user                   | Anything that user cannot access. A dedicated user account can narrow those permissions, but Pi still shares the operating system and network with other users.                                              |
-| Entirely inside a container, virtual machine, or sandbox                      | Host files and processes that you do not expose to the environment. Credentials and network services remain accessible if you make them available inside it. This is usually the strongest practical option. |
-| Outside the isolated environment, with only its built-in tools running inside | Host resources are protected from actions performed through those tools. Pi itself and other extensions remain outside the boundary, so this is a narrower form of isolation.                                |
+| How Pi runs | What remains protected |
+|----|----|
+| Directly, with the permissions of its operating-system user | Anything that user cannot access. A dedicated user account can narrow those permissions, but Pi still shares the operating system and network with other users. |
+| Entirely inside a container, virtual machine, or sandbox | Host files and processes that you do not expose to the environment. Credentials and network services remain accessible if you make them available inside it. This is usually the strongest practical option. |
+| Outside the isolated environment, with only its built-in tools running inside | Host resources are protected from actions performed through those tools. Pi itself and other extensions remain outside the boundary, so this is a narrower form of isolation. |
 
 The working folder controls resource discovery and the default location for tools, but it does not prevent commands from accessing other paths available to the Pi process.
 
