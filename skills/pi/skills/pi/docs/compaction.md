@@ -43,10 +43,10 @@ For TypeScript definitions in your project, inspect `node_modules/@earendil-work
 
 Pi has two summarization mechanisms:
 
-| Mechanism            | Trigger                                  | Purpose                                   |
-|----------------------|------------------------------------------|-------------------------------------------|
-| Compaction           | Context exceeds threshold, or `/compact` | Summarize old messages to free up context |
-| Branch summarization | `/tree` navigation                       | Preserve context when switching branches  |
+| Mechanism | Trigger | Purpose |
+|----|----|----|
+| Compaction | Context exceeds threshold, or `/compact` | Summarize old messages to free up context |
+| Branch summarization | `/tree` navigation | Preserve context when switching branches |
 
 Both use closely related structured formats and track file operations cumulatively. Summarization requests disable prompt-cache writes because these one-off prompts are unlikely to be reused.
 
@@ -560,11 +560,11 @@ Configure compaction in `~/.pi/agent/settings.json` or `<project-dir>/.pi/settin
 ```
 
 
-| Setting            | Default | Description                                            |
-|--------------------|---------|--------------------------------------------------------|
-| `enabled`          | `true`  | Enable auto-compaction                                 |
-| `reserveTokens`    | `16384` | Free context tokens below which auto-compaction starts |
-| `keepRecentTokens` | `20000` | Recent tokens to keep (not summarized)                 |
+| Setting | Default | Description |
+|----|----|----|
+| `enabled` | `true` | Enable auto-compaction |
+| `reserveTokens` | `16384` | Free context tokens below which auto-compaction starts |
+| `keepRecentTokens` | `20000` | Recent tokens to keep (not summarized) |
 
 Disable auto-compaction with `"enabled": false`. You can still compact manually with `/compact`.
 

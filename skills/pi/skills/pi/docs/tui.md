@@ -33,14 +33,14 @@ Start with `ctx.ui` methods from an [extension](/docs/latest/extensions#interact
 <a href="#choose-an-integration-point" class="heading-anchor" aria-label="Permalink: Choose an integration point" data-copy="" data-copy-text="https://pi.dev/docs/latest/tui#choose-an-integration-point"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Need                                         | Use                                                      |
-|----------------------------------------------|----------------------------------------------------------|
+| Need | Use |
+|----|----|
 | Select, confirm, input, or multi-line editor | `ctx.ui.select()`, `confirm()`, `input()`, or `editor()` |
-| Non-blocking feedback                        | `ctx.ui.notify()` or `setStatus()`                       |
-| Persistent content near the editor           | `ctx.ui.setWidget()`                                     |
-| Replace the header, footer, or editor        | The corresponding `ctx.ui` component factory             |
-| Temporary interactive screen or overlay      | `ctx.ui.custom()`                                        |
-| Custom rendering for a tool or session entry | An extension renderer                                    |
+| Non-blocking feedback | `ctx.ui.notify()` or `setStatus()` |
+| Persistent content near the editor | `ctx.ui.setWidget()` |
+| Replace the header, footer, or editor | The corresponding `ctx.ui` component factory |
+| Temporary interactive screen or overlay | `ctx.ui.custom()` |
+| Custom rendering for a tool or session entry | An extension renderer |
 
 These APIs receive Pi’s active theme and keybindings where needed. Do not create a second terminal renderer inside an extension.
 
@@ -188,7 +188,7 @@ export default function (pi: ExtensionAPI) {
 
 This component does not display a text cursor, so it does not need `Focusable`. A component containing `Input` or `Editor` must implement `Focusable` and propagate its `focused` value to that child.
 
-Custom components do not report pi as waiting for the user, because `ctx.ui.custom()` also hosts loaders and other non-blocking UI. When an inline component waits for an answer, pass `blocked: { kind: "question", message: "Pick a color" }` so terminals that support [program status](/docs/latest/terminal-setup#program-status) show pi as blocked while the component is visible. `kind` is `"question"`, `"permission"`, or `"auth"`. Overlays ignore this option.
+Custom components do not report pi as waiting for the user, because `ctx.ui.custom()` also hosts loaders and other non-blocking UI. When a component waits for an answer, pass `blocked: { kind: "question", message: "Pick a color" }` so terminals that support [program status](/docs/latest/terminal-setup#program-status) show pi as blocked. `kind` is `"question"`, `"permission"`, or `"auth"`. An inline component reports blocked while it is visible: a newer dialog or component shown in its place reports its own status instead. An overlay reports blocked from when it is shown until it calls `done()`, also while it is hidden with `setHidden()` or covered by another overlay. When several blocking prompts are open, the most recently shown one supplies `kind` and `message`.
 
 Pass `overlay: true` to draw above existing content. Overlay options control size, anchors, offsets, margins, and responsive visibility. An overlay handle can change focus or temporarily hide and show the overlay with `setHidden()` while the interaction remains active.
 

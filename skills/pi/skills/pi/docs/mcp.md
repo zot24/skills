@@ -162,12 +162,12 @@ Stopping a stdio server closes its stdin, sends SIGTERM, then sends SIGKILL to i
 
 Move the converted entry under `mcpServers` in `mcp.json`, then run `pi mcp list` to validate it.
 
-| Client                                 | Conversion                                                                                                                                                                                                          |
-|----------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Claude Desktop, Claude Code, or Cursor | Copy the existing `mcpServers` entry.                                                                                                                                                                               |
-| VS Code                                | Move an entry from the top-level `servers` object and replace `${input:...}` prompts with `${NAME}` environment variables.                                                                                          |
-| Codex                                  | Convert `[mcp_servers.<name>]` TOML fields such as `command`, `args`, `env`, and `url` to JSON.                                                                                                                     |
-| OpenCode                               | Convert `"type": "local"` to a stdio entry, split its `command` array into `command` and `args`, rename `environment` to `env`, and replace `{env:NAME}` with `${NAME}`. Convert `"type": "remote"` to a URL entry. |
+| Client | Conversion |
+|----|----|
+| Claude Desktop, Claude Code, or Cursor | Copy the existing `mcpServers` entry. |
+| VS Code | Move an entry from the top-level `servers` object and replace `${input:...}` prompts with `${NAME}` environment variables. |
+| Codex | Convert `[mcp_servers.<name>]` TOML fields such as `command`, `args`, `env`, and `url` to JSON. |
+| OpenCode | Convert `"type": "local"` to a stdio entry, split its `command` array into `command` and `args`, rename `environment` to `env`, and replace `{env:NAME}` with `${NAME}`. Convert `"type": "remote"` to a URL entry. |
 
 
 ## Authenticate with OAuth
@@ -267,12 +267,12 @@ Pi uses that document instead of discovery and trusts it as configured, so only 
 
 Each server tool is registered as `mcp__<server>__<tool>`. The server's `exposure` determines how the model reaches it:
 
-| Exposure             | Behavior                                                                                                                                                                                                         | Typical use                                                                  |
-|----------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|
+| Exposure | Behavior | Typical use |
+|----|----|----|
 | `codemode` (default) | Callable from [`codemode`](/docs/latest/cli#tools) scripts, but neither declared to the model nor listed in the codemode description. Scripts find tools with `searchTools()`, `describeTool()`, or `ALL_TOOLS`. | General MCP servers, especially when scripts should combine or filter calls. |
-| `deferred`           | Not declared until [`tool_search`](/docs/latest/cli#tools) loads a match for the next model call.                                                                                                                | Large servers whose tools should be called directly after discovery.         |
-| `direct`             | Declared to the model like a built-in tool and also callable from codemode.                                                                                                                                      | Small, frequently used tool sets.                                            |
-| `hidden`             | Registered but unreachable.                                                                                                                                                                                      | Servers or tools that should remain unavailable.                             |
+| `deferred` | Not declared until [`tool_search`](/docs/latest/cli#tools) loads a match for the next model call. | Large servers whose tools should be called directly after discovery. |
+| `direct` | Declared to the model like a built-in tool and also callable from codemode. | Small, frequently used tool sets. |
+| `hidden` | Registered but unreachable. | Servers or tools that should remain unavailable. |
 
 `codemode-deferred` is accepted as an alias for `codemode`.
 

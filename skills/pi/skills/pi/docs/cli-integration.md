@@ -35,12 +35,12 @@ The SDK is not a CLI mode. It embeds the agent directly in a Node.js or Bun proc
 <a href="#choose-a-mode" class="heading-anchor" aria-label="Permalink: Choose a mode" data-copy="" data-copy-text="https://pi.dev/docs/latest/cli-integration#choose-a-mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Mode        | Interface                             | Lifetime             | Use it when                                    |
-|-------------|---------------------------------------|----------------------|------------------------------------------------|
-| Interactive | Terminal UI                           | Until the user exits | A person is working with Pi directly           |
-| Print       | Final text on stdout                  | One invocation       | A script needs the final assistant response    |
-| JSON        | JSONL events on stdout                | One invocation       | A process needs structured progress from a run |
-| RPC         | JSONL commands, responses, and events | Long-lived           | A process needs bidirectional control          |
+| Mode | Interface | Lifetime | Use it when |
+|----|----|----|----|
+| Interactive | Terminal UI | Until the user exits | A person is working with Pi directly |
+| Print | Final text on stdout | One invocation | A script needs the final assistant response |
+| JSON | JSONL events on stdout | One invocation | A process needs structured progress from a run |
+| RPC | JSONL commands, responses, and events | Long-lived | A process needs bidirectional control |
 
 CLI options still select the working directory, model, tools, resources, and session persistence independently of the mode. See [Command Line](/docs/latest/cli) for the complete startup options.
 

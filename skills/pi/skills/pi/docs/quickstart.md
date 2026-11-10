@@ -176,15 +176,15 @@ Use `/resume` to choose another saved session. See [Continue or branch a session
 
 Start with the least powerful mechanism that meets your need:
 
-| Need                                                | Start with                                              |
-|-----------------------------------------------------|---------------------------------------------------------|
-| Give Pi persistent instructions for a folder        | [`AGENTS.md`](/docs/latest/configuration#context-files) |
-| Reuse a prompt from the `/` menu                    | [Prompt template](/docs/latest/prompt-templates)        |
-| Add task-specific instructions and supporting files | [Skill](/docs/latest/skills)                            |
-| Add executable tools, commands, or event handlers   | [Extension](/docs/latest/extensions)                    |
-| Build a custom terminal component                   | [Terminal UI](/docs/latest/tui)                         |
-| Connect an unsupported model service                | [Custom provider](/docs/latest/custom-provider)         |
-| Install or distribute several resources             | [Pi package](/docs/latest/packages)                     |
+| Need | Start with |
+|----|----|
+| Give Pi persistent instructions for a folder | [`AGENTS.md`](/docs/latest/configuration#context-files) |
+| Reuse a prompt from the `/` menu | [Prompt template](/docs/latest/prompt-templates) |
+| Add task-specific instructions and supporting files | [Skill](/docs/latest/skills) |
+| Add executable tools, commands, or event handlers | [Extension](/docs/latest/extensions) |
+| Build a custom terminal component | [Terminal UI](/docs/latest/tui) |
+| Connect an unsupported model service | [Custom provider](/docs/latest/custom-provider) |
+| Install or distribute several resources | [Pi package](/docs/latest/packages) |
 
 
 ## Uninstall Pi

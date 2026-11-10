@@ -31,13 +31,13 @@ For a built-in provider, start with `/login`, then choose a model with `/model`.
 <a href="#choose-a-connection" class="heading-anchor" aria-label="Permalink: Choose a connection" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#choose-a-connection"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| What you have                                            | Recommended setup                                         |
-|----------------------------------------------------------|-----------------------------------------------------------|
-| A supported subscription                                 | Sign in through `/login`                                  |
-| A provider API key                                       | Store it through `/login` or set its environment variable |
-| A local GGUF model                                       | Connect Pi to the llama.cpp router                        |
-| An OpenAI-, Anthropic-, or Google-compatible endpoint    | Add it to `models.json`                                   |
-| A provider with a custom protocol or authentication flow | Build or install a provider extension                     |
+| What you have | Recommended setup |
+|----|----|
+| A supported subscription | Sign in through `/login` |
+| A provider API key | Store it through `/login` or set its environment variable |
+| A local GGUF model | Connect Pi to the llama.cpp router |
+| An OpenAI-, Anthropic-, or Google-compatible endpoint | Add it to `models.json` |
+| A provider with a custom protocol or authentication flow | Build or install a provider extension |
 
 Browse the [model catalog](https://pi.dev/models) for current providers, model IDs, capabilities, context limits, and pricing. Pi starts with its bundled catalog and can overlay newer catalog data from pi.dev. Cached catalog data remains available offline; run `pi update --models` to force a refresh.
 
@@ -205,16 +205,17 @@ Compatibility settings should describe verified differences in the endpoint's re
 <a href="#use-classifier-models" class="heading-anchor" aria-label="Permalink: Use classifier models" data-copy="" data-copy-text="https://pi.dev/docs/latest/models#use-classifier-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Classifier models do not chat. They answer typed questions about JSON state: pick one of several choices, answer yes or no, or give a score, each with probabilities. Pi includes TypeSafe's Jev model from these providers, Cloudflare's Clef, Clef Flash, and Clef Omni models from Workers AI and OpenRouter, and OpenAI's GPT-6 Luna through the [Decisions API](https://developers.openai.com/api/docs/guides/decisions):
+Classifier models do not chat. They answer typed questions about JSON state: pick one of several choices, answer yes or no, or give a score, each with probabilities. Pi includes TypeSafe's Jev model from these providers, Cloudflare's Clef, Clef Flash, and Clef Omni models from Workers AI and OpenRouter, OpenAI's GPT-6 Luna through the [Decisions API](https://developers.openai.com/api/docs/guides/decisions), and Microsoft-Decision-1 through GitHub Copilot:
 
-| Provider                | Model IDs                                                                                                                            | Authentication                                   |
-|-------------------------|--------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------|
-| `typesafe`              | `jev-latest`                                                                                                                         | `TYPESAFE_API_KEY`                               |
-| `openrouter`            | `typesafe/jev-1.13`, `typesafe/jev-1.14`, `~typesafe/jev-latest`, `cloudflare/clef`, `cloudflare/clef-flash`, `cloudflare/clef-omni` | `OPENROUTER_API_KEY` or `/login`                 |
-| `cloudflare-workers-ai` | `typesafe/jev`, `typesafe/jev-1.14.0`, `@cf/cloudflare/clef`, `@cf/cloudflare/clef-flash`, `@cf/cloudflare/clef-omni`                | `CLOUDFLARE_API_KEY` and `CLOUDFLARE_ACCOUNT_ID` |
-| `vercel-ai-gateway`     | `typesafe-ai/jev`                                                                                                                    | `AI_GATEWAY_API_KEY`                             |
-| `opencode`              | `jev-1.13`, `jev-1.13-free`                                                                                                          | `OPENCODE_API_KEY`                               |
-| `openai`                | `gpt-6-luna`                                                                                                                         | `OPENAI_API_KEY`                                 |
+| Provider | Model IDs | Authentication |
+|----|----|----|
+| `typesafe` | `jev-latest` | `TYPESAFE_API_KEY` |
+| `openrouter` | `typesafe/jev-1.13`, `typesafe/jev-1.14`, `~typesafe/jev-latest`, `cloudflare/clef`, `cloudflare/clef-flash`, `cloudflare/clef-omni` | `OPENROUTER_API_KEY` or `/login` |
+| `cloudflare-workers-ai` | `typesafe/jev`, `typesafe/jev-1.14.0`, `@cf/cloudflare/clef`, `@cf/cloudflare/clef-flash`, `@cf/cloudflare/clef-omni` | `CLOUDFLARE_API_KEY` and `CLOUDFLARE_ACCOUNT_ID` |
+| `vercel-ai-gateway` | `typesafe-ai/jev` | `AI_GATEWAY_API_KEY` |
+| `opencode` | `jev-1.13`, `jev-1.13-free` | `OPENCODE_API_KEY` |
+| `openai` | `gpt-6-luna` | `OPENAI_API_KEY` |
+| `github-copilot` | `microsoft-decision-1` | `COPILOT_GITHUB_TOKEN` or `/login` |
 
 Chat models on a [llama.cpp router](/docs/latest/llama-cpp#classification) are also listed as classifier models.
 

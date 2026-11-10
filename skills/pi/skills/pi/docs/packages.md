@@ -67,12 +67,12 @@ Pi caches `-e` packages under `~/.pi/agent/tmp/extensions/` and checks them on e
 <a href="#choose-a-source" class="heading-anchor" aria-label="Permalink: Choose a source" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#choose-a-source"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-| Source | Example                               | Behavior                                      |
-|--------|---------------------------------------|-----------------------------------------------|
-| npm    | `npm:@example/pi-tools@1.0.0`         | Installed under the Pi npm directory          |
-| git    | `git:github.com/example/pi-tools@v1`  | Cloned and reconciled to the selected ref     |
-| URL    | `https://github.com/example/pi-tools` | Treated as a git source                       |
-| Local  | `./pi-tools`                          | Loaded from the resolved path without copying |
+| Source | Example | Behavior |
+|----|----|----|
+| npm | `npm:@example/pi-tools@1.0.0` | Installed under the Pi npm directory |
+| git | `git:github.com/example/pi-tools@v1` | Cloned and reconciled to the selected ref |
+| URL | `https://github.com/example/pi-tools` | Treated as a git source |
+| Local | `./pi-tools` | Loaded from the resolved path without copying |
 
 Versioned npm specifications are pinned. Git tags and commits are also pinned; package updates reconcile the checkout but do not move a configured ref.
 
