@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -19,12 +16,12 @@ Hermes Agent maintains support for many platforms and distribution methods, but 
 
 We strive to never break installations and updates for these. Issues & regressions in Tier 1 are our first priority and take precedence over other platforms.
 
-| OS / Architecture                                                             | Installation methods                                                                                                                                              | Notes                                                                                                                                                     |
-|-------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **macOS** (Apple Silicon)                                                     | <a href="https://hermes-agent.nousresearch.com/" target="_blank" rel="noopener noreferrer">Hermes Desktop</a>, [`install.sh`](/docs/getting-started/installation) |                                                                                                                                                           |
-| [**Windows 10 / 11**](/docs/user-guide/windows-native) (x86_64, aarch64)      | [`install.ps1`](/docs/getting-started/installation), [MSIX desktop](/docs/user-guide/windows-native)                                                              | The MSIX package requires Windows 11 22H2 or later. Optional dependencies have [architecture limits](/docs/user-guide/windows-native).                    |
-| **Linux / [WSL2](/docs/user-guide/windows-wsl-quickstart)** (x86_64, aarch64) | [`install.sh`](/docs/getting-started/installation)                                                                                                                | We test on the latest Ubuntu and WSL2. If your distro has glibc, systemd, and follows the Filesystem Hierarchy Standard, it's likely to work pretty well. |
-| [**Docker Container**](/docs/user-guide/docker) (x86_64, aarch64)             | [`docker pull`](/docs/user-guide/docker)                                                                                                                          | Docker installs do not support `hermes update`. Updating is done by running a new image.                                                                  |
+| OS / Architecture | Installation methods | Notes |
+|----|----|----|
+| **macOS** (Apple Silicon) | <a href="https://hermes-agent.nousresearch.com/" target="_blank" rel="noopener noreferrer">Hermes Desktop</a>, [`install.sh`](/docs/getting-started/installation) |  |
+| [**Windows 10 / 11**](/docs/user-guide/windows-native) (x86_64, aarch64) | [`install.ps1`](/docs/getting-started/installation), [MSIX desktop](/docs/user-guide/windows-native) | The MSIX package requires Windows 11 22H2 or later. Optional dependencies have [architecture limits](/docs/user-guide/windows-native). |
+| **Linux / [WSL2](/docs/user-guide/windows-wsl-quickstart)** (x86_64, aarch64) | [`install.sh`](/docs/getting-started/installation) | We test on the latest Ubuntu and WSL2. If your distro has glibc, systemd, and follows the Filesystem Hierarchy Standard, it's likely to work pretty well. |
+| [**Docker Container**](/docs/user-guide/docker) (x86_64, aarch64) | [`docker pull`](/docs/user-guide/docker) | Docker installs do not support `hermes update`. Updating is done by running a new image. |
 
 ------------------------------------------------------------------------
 
@@ -34,9 +31,9 @@ These platforms are maintained in-tree only as a best effort. Releases may break
 
 PRs will be accepted to fix issues with them, but they will take precedence below fixing issues with Tier 1 platforms.
 
-| OS / Architecture                                              | Installation methods                                                                   | Notes                                                                                                                                                                                                                                                  |
-|----------------------------------------------------------------|----------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Nix** (macOS, Linux, NixOS)                                  | [Nix flake and modules](/docs/getting-started/nix-setup)                               | Nix owns runtime installation and updates.                                                                                                                                                                                                             |
+| OS / Architecture | Installation methods | Notes |
+|----|----|----|
+| **Nix** (macOS, Linux, NixOS) | [Nix flake and modules](/docs/getting-started/nix-setup) | Nix owns runtime installation and updates. |
 | **Android / [Termux](/docs/getting-started/termux)** (aarch64) | [Signed APT repository](/docs/getting-started/termux), then `pkg install hermes-agent` | Prerelease package with Python, Node, and TUI. Not built by default: only releases cut with `--with termux` (and `windows` and `macos-arm64`) update the APT channel. Run the gateway in a Termux session; Android can terminate background processes. |
 
 ### Build targets and support priority<a href="#build-targets-and-support-priority" class="hash-link" aria-label="Direct link to Build targets and support priority" translate="no" title="Direct link to Build targets and support priority">​</a>

@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -49,22 +46,23 @@ approvals:
 
 The full set of keys:
 
-| Key                         | Default | What it controls                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|-----------------------------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `mode`                      | `smart` | Approval policy for dangerous shell commands — see the table below.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     |
-| `timeout`                   | `300`   | Seconds Hermes waits for an approval reply before timing out.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
-| `discord_prompt_timeout`    | `300`   | Seconds Discord's interactive buttons (approvals, clarify, update and slash-command prompts) stay clickable; minimum 30. See [Discord](/docs/user-guide/messaging/discord).                                                                                                                                                                                                                                                                                                                                                                                                                             |
-| `cron_mode`                 | `deny`  | How [cron jobs](/docs/user-guide/features/cron) behave headlessly when they trigger a dangerous-command prompt. `deny` blocks the command (the agent must find another path); `approve` auto-approves everything in cron context.                                                                                                                                                                                                                                                                                                                                                                       |
-| `single_query_mode`         | `deny`  | How one-shot [`hermes chat -q`](/docs/user-guide/cli) sessions behave when they trigger a dangerous-command prompt. A `-q` session runs a single turn and exits with no user waiting to answer prompts; `deny` blocks the command (the agent must find another path), `approve` auto-approves everything in single-query context. Mirrors `cron_mode`.                                                                                                                                                                                                                                                  |
-| `unattended_mode`           | `deny`  | How sessions on unattended programmatic platforms (webhook, msgraph_webhook, api_server) behave when they trigger a dangerous-command prompt. These surfaces have no human who can answer `/approve`, so instead of blocking for the full approval timeout, `deny` blocks the command instantly (the agent must find another path) and `approve` auto-approves everything in unattended context. Exception: an api_server session whose client can answer the card (`/v1/runs` and streaming chat completions, via `POST /v1/runs/{id}/approval`) still gets the approval request. Mirrors `cron_mode`. |
-| `mcp_reload_confirm`        | `true`  | When true, `/reload-mcp` asks before rebuilding the MCP tool set. Rebuilding invalidates the provider prompt cache (tool schemas live in the system prompt), so the next message re-sends full input tokens. Users who click **Always Approve** flip this key to `false`.                                                                                                                                                                                                                                                                                                                               |
-| `destructive_slash_confirm` | `true`  | When true, destructive session slash commands (`/clear`, `/new`, `/reset`, `/undo`) prompt before discarding conversation state. Three-option dialog (Approve Once / Always Approve / Cancel) routed through native yes/no buttons on Telegram, Discord, and Slack; text fallback elsewhere. Users who click **Always Approve** flip this key to `false`. The TUI also honors this setting for its `/clear`, `/new`, and `/reset` modal; `HERMES_TUI_NO_CONFIRM=1` force-skips that modal regardless of the configured value.                                                                           |
+| Key | Default | What it controls |
+|----|----|----|
+| `mode` | `smart` | Approval policy for dangerous shell commands — see the table below. |
+| `timeout` | `300` | Seconds Hermes waits for an approval reply before timing out. |
+| `discord_prompt_timeout` | `300` | Seconds Discord's interactive buttons (approvals, clarify, update and slash-command prompts) stay clickable; minimum 30. See [Discord](/docs/user-guide/messaging/discord). |
+| `cron_mode` | `deny` | How [cron jobs](/docs/user-guide/features/cron) behave headlessly when they trigger a dangerous-command prompt. `deny` blocks the command (the agent must find another path); `approve` auto-approves everything in cron context. |
+| `single_query_mode` | `deny` | How one-shot [`hermes chat -q`](/docs/user-guide/cli) sessions behave when they trigger a dangerous-command prompt. A `-q` session runs a single turn and exits with no user waiting to answer prompts; `deny` blocks the command (the agent must find another path), `approve` auto-approves everything in single-query context. Mirrors `cron_mode`. |
+| `unattended_mode` | `deny` | How sessions on unattended programmatic platforms (webhook, msgraph_webhook, api_server) behave when they trigger a dangerous-command prompt. These surfaces have no human who can answer `/approve`, so instead of blocking for the full approval timeout, `deny` blocks the command instantly (the agent must find another path) and `approve` auto-approves everything in unattended context. Exception: an api_server session whose client can answer the card (`/v1/runs` and streaming chat completions, via `POST /v1/runs/{id}/approval`) still gets the approval request. Mirrors `cron_mode`. |
+| `approvers` | `["*"]` | Who may answer a pending approval from a messaging chat. `["*"]`: any admitted member. `[]` or a list of user ids: the requester, those ids and the platform admins only — see [Who can answer an approval in a shared chat](#who-can-answer-an-approval-in-a-shared-chat-approvalsapprovers). |
+| `mcp_reload_confirm` | `true` | When true, `/reload-mcp` asks before rebuilding the MCP tool set. Rebuilding invalidates the provider prompt cache (tool schemas live in the system prompt), so the next message re-sends full input tokens. Users who click **Always Approve** flip this key to `false`. |
+| `destructive_slash_confirm` | `true` | When true, destructive session slash commands (`/clear`, `/new`, `/reset`, `/undo`) prompt before discarding conversation state. Three-option dialog (Approve Once / Always Approve / Cancel) routed through native yes/no buttons on Telegram, Discord, and Slack; text fallback elsewhere. Users who click **Always Approve** flip this key to `false`. The TUI also honors this setting for its `/clear`, `/new`, and `/reset` modal; `HERMES_TUI_NO_CONFIRM=1` force-skips that modal regardless of the configured value. |
 
-| Mode                | Behavior                                                                                                                                                                                                                                                                |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **smart** (default) | Use an auxiliary LLM to assess risk. Low-risk commands (e.g., `python -c "print('hello')"`) are auto-approved for that command only. Genuinely dangerous commands are auto-denied. Uncertain cases escalate to a manual prompt.                                         |
-| **manual**          | Always prompt the user for approval on dangerous commands.                                                                                                                                                                                                              |
-| **off**             | Disable all approval checks — equivalent to running with `--yolo`. All commands execute without prompts, and write calls on `trust: untrusted` MCP servers run without the trust prompt. An MCP server's declared spend limit still asks (see [YOLO mode](#yolo-mode)). |
+| Mode | Behavior |
+|----|----|
+| **smart** (default) | Use an auxiliary LLM to assess risk. Low-risk commands (e.g., `python -c "print('hello')"`) are auto-approved for that command only. Genuinely dangerous commands are auto-denied. Uncertain cases escalate to a manual prompt. |
+| **manual** | Always prompt the user for approval on dangerous commands. |
+| **off** | Disable all approval checks — equivalent to running with `--yolo`. All commands execute without prompts, and write calls on `trust: untrusted` MCP servers run without the trust prompt. An MCP server's declared spend limit still asks (see [YOLO mode](#yolo-mode)). |
 
 
 Setting `approvals.mode: off` disables all safety prompts. Use only in trusted environments (CI/CD, containers, etc.).
@@ -132,13 +130,13 @@ Some commands are so catastrophic — irreversible filesystem wipes, fork bombs,
 
 The blocklist is the floor below `--yolo`. It trips **before** the approval layer even sees the command, and there's no override flag. Patterns currently covered (not exhaustive; kept in sync with `tools/approval.py::UNRECOVERABLE_BLOCKLIST`):
 
-| Pattern                                               | Why it's hardline                                        |
-|-------------------------------------------------------|----------------------------------------------------------|
-| `rm -rf /` and obvious variants                       | Wipes the filesystem root                                |
-| `rm -rf --no-preserve-root /`                         | The explicit "yes I mean root" variant                   |
-| `:(){ :|:& };:` (bash fork bomb)                      | Pegs the host until reboot                               |
-| `mkfs.*` on a mounted root device                     | Formats the live system                                  |
-| `dd if=/dev/zero of=/dev/sd*`                         | Zeroes a physical disk                                   |
+| Pattern | Why it's hardline |
+|----|----|
+| `rm -rf /` and obvious variants | Wipes the filesystem root |
+| `rm -rf --no-preserve-root /` | The explicit "yes I mean root" variant |
+| `:(){ :|:& };:` (bash fork bomb) | Pegs the host until reboot |
+| `mkfs.*` on a mounted root device | Formats the live system |
+| `dd if=/dev/zero of=/dev/sd*` | Zeroes a physical disk |
 | Piping untrusted URLs to `sh` at the rootfs top level | Remote-code-execution attack vector too broad to approve |
 
 If you hit the blocklist, the tool call returns an explanatory error to the agent and nothing runs. If a legitimate workflow needs one of these commands (you're the operator of a wipe-and-reinstall pipeline, for example), run it outside the agent.
@@ -195,40 +193,40 @@ approvals:
 
 The following patterns trigger approval prompts (defined in `tools/approval.py`):
 
-| Pattern                                                                       | Description                                                                    |
-|-------------------------------------------------------------------------------|--------------------------------------------------------------------------------|
-| `rm -r` / `rm --recursive`                                                    | Recursive delete                                                               |
-| `rm ... /`                                                                    | Delete in root path                                                            |
-| `chmod 777/666` / `o+w` / `a+w`                                               | World/other-writable permissions                                               |
-| `chmod --recursive` with unsafe perms                                         | Recursive world/other-writable (long flag)                                     |
-| `chown -R root` / `chown --recursive root`                                    | Recursive chown to root                                                        |
-| `mkfs`                                                                        | Format filesystem                                                              |
-| `dd if=`                                                                      | Disk copy                                                                      |
-| `> /dev/sd`                                                                   | Write to block device                                                          |
-| `DROP TABLE/DATABASE`                                                         | SQL DROP                                                                       |
-| `DELETE FROM` (without WHERE)                                                 | SQL DELETE without WHERE                                                       |
-| `TRUNCATE TABLE`                                                              | SQL TRUNCATE                                                                   |
-| `> /etc/`                                                                     | Overwrite system config                                                        |
-| `systemctl stop/restart/disable/mask`                                         | Stop/restart/disable system services                                           |
-| `kill -9 -1`                                                                  | Kill all processes                                                             |
-| `pkill -9`                                                                    | Force kill processes                                                           |
-| Fork bomb patterns                                                            | Fork bombs                                                                     |
-| `bash -c` / `sh -c` / `zsh -c` / `ksh -c`                                     | Shell command execution via `-c` flag (including combined flags like `-lc`)    |
-| `python -e` / `perl -e` / `ruby -e` / `node -c`                               | Script execution via `-e`/`-c` flag                                            |
-| `curl ... | sh` / `wget ... | sh`                                             | Pipe remote content to shell                                                   |
-| `bash <(curl ...)` / `sh <(wget ...)`                                         | Execute remote script via process substitution                                 |
-| `tee` to `/etc/`, `~/.ssh/`, `~/.hermes/.env`                                 | Overwrite sensitive file via tee                                               |
-| `>` / `>>` to `/etc/`, `~/.ssh/`, `~/.hermes/.env`                            | Overwrite sensitive file via redirection                                       |
-| `xargs rm`                                                                    | xargs with rm                                                                  |
-| `find -exec rm` / `find -delete`                                              | Find with destructive actions                                                  |
-| `cp`/`mv`/`install` to `/etc/`                                                | Copy/move file into system config                                              |
-| `sed -i` / `sed --in-place` on `/etc/`                                        | In-place edit of system config                                                 |
-| `pkill`/`killall` hermes/gateway                                              | Self-termination prevention                                                    |
-| `gateway run` with `&`/`disown`/`nohup`/`setsid`                              | Prevents starting gateway outside service manager                              |
-| `docker stop/kill/restart`, `docker compose down/stop/kill/restart`           | Container lifecycle (also catches global flags and `docker-compose`)           |
-| `docker -H`/`--host`/`--context`, `DOCKER_HOST=`/`DOCKER_CONTEXT=`            | Docker daemon redirect — the command targets a different (often remote) daemon |
-| `docker context use`                                                          | Switches the default daemon for all future docker commands                     |
-| `podman --remote`/`-r`/`--url`/`--connection`/`--identity`, `CONTAINER_HOST=` | Podman remote daemon redirect                                                  |
+| Pattern | Description |
+|----|----|
+| `rm -r` / `rm --recursive` | Recursive delete |
+| `rm ... /` | Delete in root path |
+| `chmod 777/666` / `o+w` / `a+w` | World/other-writable permissions |
+| `chmod --recursive` with unsafe perms | Recursive world/other-writable (long flag) |
+| `chown -R root` / `chown --recursive root` | Recursive chown to root |
+| `mkfs` | Format filesystem |
+| `dd if=` | Disk copy |
+| `> /dev/sd` | Write to block device |
+| `DROP TABLE/DATABASE` | SQL DROP |
+| `DELETE FROM` (without WHERE) | SQL DELETE without WHERE |
+| `TRUNCATE TABLE` | SQL TRUNCATE |
+| `> /etc/` | Overwrite system config |
+| `systemctl stop/restart/disable/mask` | Stop/restart/disable system services |
+| `kill -9 -1` | Kill all processes |
+| `pkill -9` | Force kill processes |
+| Fork bomb patterns | Fork bombs |
+| `bash -c` / `sh -c` / `zsh -c` / `ksh -c` | Shell command execution via `-c` flag (including combined flags like `-lc`) |
+| `python -e` / `perl -e` / `ruby -e` / `node -c` | Script execution via `-e`/`-c` flag |
+| `curl ... | sh` / `wget ... | sh` | Pipe remote content to shell |
+| `bash <(curl ...)` / `sh <(wget ...)` | Execute remote script via process substitution |
+| `tee` to `/etc/`, `~/.ssh/`, `~/.hermes/.env` | Overwrite sensitive file via tee |
+| `>` / `>>` to `/etc/`, `~/.ssh/`, `~/.hermes/.env` | Overwrite sensitive file via redirection |
+| `xargs rm` | xargs with rm |
+| `find -exec rm` / `find -delete` | Find with destructive actions |
+| `cp`/`mv`/`install` to `/etc/` | Copy/move file into system config |
+| `sed -i` / `sed --in-place` on `/etc/` | In-place edit of system config |
+| `pkill`/`killall` hermes/gateway | Self-termination prevention |
+| `gateway run` with `&`/`disown`/`nohup`/`setsid` | Prevents starting gateway outside service manager |
+| `docker stop/kill/restart`, `docker compose down/stop/kill/restart` | Container lifecycle (also catches global flags and `docker-compose`) |
+| `docker -H`/`--host`/`--context`, `DOCKER_HOST=`/`DOCKER_CONTEXT=` | Docker daemon redirect — the command targets a different (often remote) daemon |
+| `docker context use` | Switches the default daemon for all future docker commands |
+| `podman --remote`/`-r`/`--url`/`--connection`/`--identity`, `CONTAINER_HOST=` | Podman remote daemon redirect |
 
 
 **Container bypass**: When running in `docker`, `modal`, `daytona`, or `vercel_sandbox` backends (or a container plugin backend such as `singularity` or `sprites`), dangerous command checks are **skipped** because the container itself is the security boundary. Destructive commands inside a container can't harm the host.
@@ -273,7 +271,35 @@ On messaging platforms, the agent sends the dangerous command details to the cha
 - Reply **yes**, **y**, **approve**, **ok**, or **go** to approve
 - Reply **no**, **n**, **deny**, or **cancel** to deny
 
+A messaging approval never asks you to approve a command you cannot read in full. When the command is too long for the approval card, Hermes first sends the whole command as its own message (split across several messages if needed), and the card says the preview was shortened. If the full command cannot be shown (the send fails, or the command itself contains a triple-backtick fence), the card offers **Deny** only. Review such a command in the CLI or the desktop app. On platforms that cut long messages instead of splitting them (ntfy, DingTalk, Photon, LINE), the plain-text prompt puts the answer instructions before the command. When the command would still be cut, the prompt offers only `/deny` and shows the same "preview shortened" notice.
+
 The `HERMES_EXEC_ASK=1` environment variable is automatically set when running the gateway.
+
+#### Who can answer an approval in a shared chat (`approvals.approvers`)<a href="#who-can-answer-an-approval-in-a-shared-chat-approvalsapprovers" class="hash-link" aria-label="Direct link to who-can-answer-an-approval-in-a-shared-chat-approvalsapprovers" translate="no" title="Direct link to who-can-answer-an-approval-in-a-shared-chat-approvalsapprovers">​</a>
+
+By default any member admitted to the chat can answer a pending approval, whoever's message raised it. In a group, channel or shared thread you can bind each approval to the person who asked instead:
+
+
+``` prism-code
+approvals:
+  approvers: []            # default ["*"]: any admitted member answers
+  # approvers: ["U024BE7LH", "123456789"]   # requester + these chat user ids + admins
+```
+
+
+With `approvers` narrowed from `["*"]`, only these people can approve or deny a command:
+
+- the user whose message started the turn that raised it;
+- the user ids listed in `approvers`, using each platform's own id form (Slack `U…`, Telegram numeric id, Matrix `@user:server`);
+- the platform's admins of the chat the approval came from: `allow_admin_from` in a DM, `group_allow_admin_from` in a group (the same scopes slash commands use; a DM admin is not a group admin), from the profile whose bot received the chat.
+
+Identical commands raised at the same time by two different requesters get one prompt each, so one requester's answer never decides the other's. A turn that carries messages from two members (follow-ups merged while the agent was busy) has no single requester: its approvals go to the listed approvers and admins only.
+
+When anyone else clicks a button, adds a reaction, or sends `/approve`, `/deny` or a bare "yes", they get *Only \<name\> can answer this approval.* The command stays pending, so the requester can still answer it. Where the platform supports a private reply, only the clicker sees that note: a Slack ephemeral message, a Discord ephemeral reply, a Telegram callback alert, a Feishu toast or a Teams card response. Matrix, WhatsApp and the relay post it in the chat instead.
+
+The same rule covers the other prompts a member can answer for someone else: a slash-command confirmation (`/reload-mcp`'s Approve Once / Always / Cancel) and the agent's clarify question (a choice button, "Other", or a typed answer). Another member's tap gets the same note and the prompt stays pending; another member's typed message is handled as their own message, never as the answer.
+
+The setting is read when the approval is raised, so with multiplexed profiles each profile's own `config.yaml` decides. Host surfaces (CLI, TUI, Desktop, the API server) answer as the host and are not affected. Matrix keeps its own stricter `MATRIX_APPROVAL_REQUIRE_SENDER` (default on). QQBot already accepts clicks only from the session's own user.
 
 ### Permanent Allowlist<a href="#permanent-allowlist" class="hash-link" aria-label="Direct link to Permanent Allowlist" translate="no" title="Direct link to Permanent Allowlist">​</a>
 
@@ -341,10 +367,10 @@ Before `write_file` or `patch` touches disk, Hermes checks the target path again
 
 These categories are always denied, even when `HERMES_WRITE_SAFE_ROOT` is unset:
 
-| Category                          | Examples                                                                                                                                                                                                                                                                                                                                                                                                                        |
-|-----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| OS credential stores              | `~/.ssh/` (keys, `authorized_keys`), `~/.aws/`, `~/.kube/`, `/etc/sudoers`, `~/.netrc`                                                                                                                                                                                                                                                                                                                                          |
-| Hermes secret stores              | `.env`, `.anthropic_oauth.json`, `auth/google_oauth.json`, Bitwarden and 1Password caches (`bws_cache.json`, `bws_cache.enc.json`, `op_cache.json`), the Photon sidecar token (`photon-sidecar.json`), `vault/`, `browser-profile/`, `mcp-tokens/`, `pairing/` under HERMES_HOME (active profile and global root). Control files (`auth.json`, `config.yaml`, `webhook_subscriptions.json`) are read-denied but stay writable.  |
+| Category | Examples |
+|----|----|
+| OS credential stores | `~/.ssh/` (keys, `authorized_keys`), `~/.aws/`, `~/.kube/`, `/etc/sudoers`, `~/.netrc` |
+| Hermes secret stores | `.env`, `.anthropic_oauth.json`, `auth/google_oauth.json`, Bitwarden and 1Password caches (`bws_cache.json`, `bws_cache.enc.json`, `op_cache.json`), the Photon sidecar token (`photon-sidecar.json`), `vault/`, `browser-profile/`, `mcp-tokens/`, `pairing/` under HERMES_HOME (active profile and global root). Control files (`auth.json`, `config.yaml`, `webhook_subscriptions.json`) are read-denied but stay writable. |
 | Windows NT/device-namespace paths | `\??\...`, `\\.\...`, `\\?\UNC\...`, `\\?\GLOBALROOT...` — rejected for both reads and writes on every platform. On Windows, merely *resolving* such a path (e.g. `\??\UNC\host\share`) triggers outbound SMB authentication and can leak the user's NTLM hash; the prefixes also bypass normal path normalization. Ordinary extended-length local paths (`\\?\C:\...`) and plain UNC shares (`\\server\share`) are unaffected. |
 
 Project-local `.env`, `.env.local`, `.env.production` and `.envrc` files are **read-denied** anywhere on disk (the file tools refuse to read them) but remain writable: the agent can create or edit them for you, it just cannot read the values back.
@@ -569,16 +595,16 @@ If you add names to `terminal.docker_forward_env`, those variables are intention
 
 ## Terminal Backend Security Comparison<a href="#terminal-backend-security-comparison" class="hash-link" aria-label="Direct link to Terminal Backend Security Comparison" translate="no" title="Direct link to Terminal Backend Security Comparison">​</a>
 
-| Backend                  | Isolation           | Dangerous Cmd Check                | Best For                                  |
-|--------------------------|---------------------|------------------------------------|-------------------------------------------|
-| **local**                | None — runs on host | ✅ Yes                             | Development, trusted users                |
-| **ssh**                  | Remote machine      | ✅ Yes                             | Running on a separate server              |
-| **docker**               | Container           | ❌ Skipped (container is boundary) | Production gateway                        |
-| **singularity** (plugin) | Container           | ❌ Skipped                         | HPC environments                          |
-| **sprites** (plugin)     | Cloud microVM       | ❌ Skipped                         | Stateful cloud sandboxes                  |
-| **modal**                | Cloud sandbox       | ❌ Skipped                         | Scalable cloud isolation                  |
-| **daytona**              | Cloud sandbox       | ❌ Skipped                         | Persistent cloud workspaces               |
-| **vercel_sandbox**       | Cloud microVM       | ❌ Skipped                         | Cloud execution with snapshot persistence |
+| Backend | Isolation | Dangerous Cmd Check | Best For |
+|----|----|----|----|
+| **local** | None — runs on host | ✅ Yes | Development, trusted users |
+| **ssh** | Remote machine | ✅ Yes | Running on a separate server |
+| **docker** | Container | ❌ Skipped (container is boundary) | Production gateway |
+| **singularity** (plugin) | Container | ❌ Skipped | HPC environments |
+| **sprites** (plugin) | Cloud microVM | ❌ Skipped | Stateful cloud sandboxes |
+| **modal** | Cloud sandbox | ❌ Skipped | Scalable cloud isolation |
+| **daytona** | Cloud sandbox | ❌ Skipped | Persistent cloud workspaces |
+| **vercel_sandbox** | Cloud microVM | ❌ Skipped | Cloud execution with snapshot persistence |
 
 ## Environment Variable Passthrough<a href="#environment-variable-passthrough" class="hash-link" aria-label="Direct link to Environment Variable Passthrough" translate="no" title="Direct link to Environment Variable Passthrough">​</a>
 
@@ -673,14 +699,14 @@ With the switch off Hermes never reads or refreshes those files: the `claude_cod
 
 ### What Each Sandbox Filters<a href="#what-each-sandbox-filters" class="hash-link" aria-label="Direct link to What Each Sandbox Filters" translate="no" title="Direct link to What Each Sandbox Filters">​</a>
 
-| Sandbox               | Default Filter                                                                                                                            | Passthrough Override                                                                                                                                               |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **execute_code**      | Blocks vars containing `KEY`, `TOKEN`, `SECRET`, `PASSWORD`, `CREDENTIAL`, `PASSWD`, `AUTH` in name; only allows safe-prefix vars through | ✅ Passthrough vars bypass both checks                                                                                                                             |
-| **terminal** (local)  | Blocks explicit Hermes infrastructure vars (provider keys, gateway tokens, tool API keys)                                                 | ✅ Passthrough vars bypass the blocklist                                                                                                                           |
-| **terminal** (Docker) | No host env vars by default                                                                                                               | ✅ Passthrough vars + `docker_forward_env` forwarded via `-e`                                                                                                      |
-| **terminal** (SSH)    | No host env vars by default                                                                                                               | ✅ Passthrough vars forwarded via `SendEnv`; the remote `sshd_config` needs a matching `AcceptEnv` (see [SSH backend](/docs/user-guide/configuration#ssh-backend)) |
-| **terminal** (Modal)  | No host env/files by default                                                                                                              | ✅ Credential files mounted; env passthrough via sync                                                                                                              |
-| **MCP**               | Blocks everything except safe system vars + explicitly configured `env`                                                                   | ❌ Not affected by passthrough (use MCP `env` config instead)                                                                                                      |
+| Sandbox | Default Filter | Passthrough Override |
+|----|----|----|
+| **execute_code** | Blocks vars containing `KEY`, `TOKEN`, `SECRET`, `PASSWORD`, `CREDENTIAL`, `PASSWD`, `AUTH` in name; only allows safe-prefix vars through | ✅ Passthrough vars bypass both checks |
+| **terminal** (local) | Blocks explicit Hermes infrastructure vars (provider keys, gateway tokens, tool API keys) | ✅ Passthrough vars bypass the blocklist |
+| **terminal** (Docker) | No host env vars by default | ✅ Passthrough vars + `docker_forward_env` forwarded via `-e` |
+| **terminal** (SSH) | No host env vars by default | ✅ Passthrough vars forwarded via `SendEnv`; the remote `sshd_config` needs a matching `AcceptEnv` (see [SSH backend](/docs/user-guide/configuration#ssh-backend)) |
+| **terminal** (Modal) | No host env/files by default | ✅ Credential files mounted; env passthrough via sync |
+| **MCP** | Blocks everything except safe system vars + explicitly configured `env` | ❌ Not affected by passthrough (use MCP `env` config instead) |
 
 ### Security Considerations<a href="#security-considerations" class="hash-link" aria-label="Direct link to Security Considerations" translate="no" title="Direct link to Security Considerations">​</a>
 
@@ -784,15 +810,15 @@ The host-substring guard (which blocks lookalike Unicode domain tricks even when
 
 The setting guards the fetches Hermes makes or hands to a remote browser; it does not stop every route to a private host. With it `false`:
 
-| Surface                                                                                                                                                                   | Private URL (`localhost`, `192.168.x.x`, ...)                                                                                                                                                                       |
-|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `web_extract`                                                                                                                                                             | Refused before any backend is called. With it `true`, hosted extract backends still fetch from their own servers and cannot reach your LAN.                                                                         |
-| `vision_analyze` URL fetches, image/video result downloads, gateway media downloads                                                                                       | Refused                                                                                                                                                                                                             |
-| `browser_exec` on a cloud provider with `browser.auto_local_for_private_urls: false`, on a `/browser connect` (CDP) endpoint, or with a Docker/SSH/Modal terminal backend | Refused (`Blocked: URL targets a private or internal address`)                                                                                                                                                      |
-| `browser_cdp` raw CDP calls on those same backends                                                                                                                        | Refused while a private page is open, and when an absolute `http(s)://` URL the call fetches (a `url` param, a script, injected HTML) is private. A scheme-relative `//host` URL is checked for cloud metadata only |
-| `browser_exec` on a cloud provider with `browser.auto_local_for_private_urls: true` (the default)                                                                         | **Opens**, in a local Chromium sidecar on the Hermes host ([hybrid routing](/docs/user-guide/features/browser#hybrid-routing-cloud-for-public-urls-local-for-lanlocalhost))                                         |
-| `browser_exec` on the local Chromium with a local terminal backend                                                                                                        | **Opens**: the browser reaches nothing the terminal can't                                                                                                                                                           |
-| `terminal` (`curl http://localhost`, ...)                                                                                                                                 | **Opens**: no URL guard                                                                                                                                                                                             |
+| Surface | Private URL (`localhost`, `192.168.x.x`, ...) |
+|----|----|
+| `web_extract` | Refused before any backend is called. With it `true`, hosted extract backends still fetch from their own servers and cannot reach your LAN. |
+| `vision_analyze` URL fetches, image/video result downloads, gateway media downloads | Refused |
+| `browser_exec` on a cloud provider with `browser.auto_local_for_private_urls: false`, on a `/browser connect` (CDP) endpoint, or with a Docker/SSH/Modal terminal backend | Refused (`Blocked: URL targets a private or internal address`) |
+| `browser_cdp` raw CDP calls on those same backends | Refused while a private page is open, and when an absolute `http(s)://` URL the call fetches (a `url` param, a script, injected HTML) is private. A scheme-relative `//host` URL is checked for cloud metadata only |
+| `browser_exec` on a cloud provider with `browser.auto_local_for_private_urls: true` (the default) | **Opens**, in a local Chromium sidecar on the Hermes host ([hybrid routing](/docs/user-guide/features/browser#hybrid-routing-cloud-for-public-urls-local-for-lanlocalhost)) |
+| `browser_exec` on the local Chromium with a local terminal backend | **Opens**: the browser reaches nothing the terminal can't |
+| `terminal` (`curl http://localhost`, ...) | **Opens**: no URL guard |
 
 Cloud-metadata endpoints are refused on every row except `terminal`, sidecar and local Chromium included: a metadata URL written in `browser_exec` code, in a URL a raw CDP call fetches, or in a script or HTML it injects is refused before the browser sees it. Raw CDP params the call never fetches are not checked: typed text (`Input.*`), dialog answers, cookie scope URLs and request blocking or interception patterns. The check reads the URL literals the agent writes, not a URL assembled at run time (string concatenation, escapes) or split by a tab or newline the browser drops; it does not watch the browser afterwards, so a public page that redirects to, or fetches from, a metadata address is not stopped by it. On a cloud VM, block the metadata service at the network too (IMDSv2 with hop limit 1, a firewall rule). To keep the agent's browser off private hosts while a cloud provider is configured, set `browser.auto_local_for_private_urls: false`; that matters most on hosted installs (Docker, a VPS), where the sidecar sees the host's own loopback services and its LAN.
 
@@ -908,8 +934,8 @@ Provider HTTP clients keep proxy configuration separate from certificate selecti
 
 Most third-party code Hermes can run is gated by an explicit allow-list: general plugins need `plugins.enabled`, shell hooks need a first-use approval (or `hooks_auto_accept`), MCP servers are listed in config. One surface is deliberately different:
 
-| Extension point                                                            | Loaded from                                                 | Loaded when                                                              | Opt-in                                                                                                 |
-|----------------------------------------------------------------------------|-------------------------------------------------------------|--------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------|
+| Extension point | Loaded from | Loaded when | Opt-in |
+|----|----|----|----|
 | [Gateway event hooks](/docs/user-guide/features/hooks#gateway-event-hooks) | `<profile home>/hooks/<name>/` (`HOOK.yaml` + `handler.py`) | Gateway startup (`HookRegistry.discover_and_load()`), per served profile | **Placing the directory.** No `plugins.enabled` entry, no prompt; `HERMES_SAFE_MODE` does not skip it. |
 
 The gateway imports every valid hook directory in-process, with the gateway's own privileges. This is the documented contract (since `3988c3c245f`), not an oversight: the profile home is operator-owned configuration, and anyone who can write into it can already run code as you through `config.yaml` shell hooks or by editing `plugins.enabled`, so a separate consent gate for `hooks/` would add friction without moving the trust boundary. Treat the contents of `~/.hermes/hooks/` like the contents of `config.yaml` — review a `handler.py` before you place it, and include `ls ~/.hermes/hooks/` whenever you audit the rest of the profile home (the directory is not on the [protected-paths denylist](#file-write-safety), so it is ordinary writable state). Full details: [gateway hook trust model](/docs/user-guide/features/hooks#gateway-hook-trust).
@@ -950,13 +976,13 @@ When a backend requests an unavailable extra, `pm.ensure_import("extra-name")` u
 
 Shipped source, locks, and signed payloads remain unchanged. Additional tools and Python environments use writable storage outside the base artifact. Plugin dependencies share the complete environment; they are not isolated Python sandboxes. Compatible transitive dependencies can change, but declared constraints and exact pins remain binding.
 
-| Control                     | Behavior                                                                                                                       |
-|-----------------------------|--------------------------------------------------------------------------------------------------------------------------------|
-| Declared extras             | The helper accepts project extra names, not arbitrary pip commands. The removed `LAZY_DEPS` feature-name registry is not used. |
-| Verified tools              | Managed tool archives have versions and SHA-256 hashes in `pm/lock.json`.                                                      |
-| Atomic selection            | Preparation and validation precede publication of the new runtime selection.                                                   |
-| Failure reporting           | Failures raise `pm.InstallError`. PM sync receipts include failed steps and policy refusals.                                   |
-| No automatic plugin removal | A failed dependency union does not silently disable or delete installed plugins.                                               |
+| Control | Behavior |
+|----|----|
+| Declared extras | The helper accepts project extra names, not arbitrary pip commands. The removed `LAZY_DEPS` feature-name registry is not used. |
+| Verified tools | Managed tool archives have versions and SHA-256 hashes in `pm/lock.json`. |
+| Atomic selection | Preparation and validation precede publication of the new runtime selection. |
+| Failure reporting | Failures raise `pm.InstallError`. PM sync receipts include failed steps and policy refusals. |
+| No automatic plugin removal | A failed dependency union does not silently disable or delete installed plugins. |
 
 To disable on-demand installations, run:
 

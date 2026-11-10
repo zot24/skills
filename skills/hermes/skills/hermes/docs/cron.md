@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -532,34 +529,34 @@ Doctor never mutates jobs or state — it only reports. Pair it with `hermes cro
 
 When scheduling jobs, you specify where the output goes:
 
-| Option                     | Description                                                               | Example                                                                                                   |
-|----------------------------|---------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------|
-| `"origin"`                 | Back to where the job was created                                         | Default on messaging platforms                                                                            |
-| `"local"`                  | Save to local files only (`~/.hermes/cron/output/`)                       | Default on CLI                                                                                            |
-| `"telegram"`               | Telegram home channel                                                     | Uses `TELEGRAM_HOME_CHANNEL`                                                                              |
-| `"telegram:123456"`        | Specific Telegram chat by ID                                              | Direct delivery                                                                                           |
-| `"telegram:-100123:17585"` | Specific Telegram topic                                                   | `chat_id:thread_id` format                                                                                |
-| `"discord"`                | Discord home channel                                                      | Uses `DISCORD_HOME_CHANNEL`                                                                               |
-| `"discord:#engineering"`   | Specific Discord channel                                                  | By channel name                                                                                           |
-| `"slack"`                  | Slack home channel                                                        |                                                                                                           |
-| `"whatsapp"`               | WhatsApp home                                                             |                                                                                                           |
-| `"signal"`                 | Signal                                                                    |                                                                                                           |
-| `"matrix"`                 | Matrix home room                                                          |                                                                                                           |
-| `"mattermost"`             | Mattermost home channel                                                   |                                                                                                           |
-| `"email"`                  | Email                                                                     |                                                                                                           |
-| `"sms"`                    | SMS via Twilio                                                            |                                                                                                           |
-| `"homeassistant"`          | Home Assistant (plugin)                                                   | Uses `HASS_HOME_CHANNEL`; requires the [`homeassistant` plugin](/docs/user-guide/messaging/homeassistant) |
-| `"dingtalk"`               | DingTalk                                                                  |                                                                                                           |
-| `"feishu"`                 | Feishu/Lark                                                               |                                                                                                           |
-| `"wecom"`                  | WeCom                                                                     |                                                                                                           |
-| `"weixin"`                 | Weixin (WeChat)                                                           |                                                                                                           |
-| `"bluebubbles"`            | BlueBubbles (iMessage)                                                    |                                                                                                           |
-| `"qqbot"`                  | QQ Bot (Tencent QQ)                                                       |                                                                                                           |
-| `"bot-chat"`               | This profile's canonical Bot Chat — the bot reads the output and responds | Machine-local                                                                                             |
-| `"bot-chat:research"`      | Another local profile's Bot Chat                                          | Validated at create time                                                                                  |
-| `"all"`                    | Fan out to every connected home channel                                   | Resolved at fire time                                                                                     |
-| `"telegram,discord"`       | Fan out to a specific set of channels                                     | Comma-separated list                                                                                      |
-| `"origin,all"`             | Deliver to the origin **plus** every other connected channel              | Combine any tokens                                                                                        |
+| Option | Description | Example |
+|----|----|----|
+| `"origin"` | Back to where the job was created | Default on messaging platforms |
+| `"local"` | Save to local files only (`~/.hermes/cron/output/`) | Default on CLI |
+| `"telegram"` | Telegram home channel | Uses `TELEGRAM_HOME_CHANNEL` |
+| `"telegram:123456"` | Specific Telegram chat by ID | Direct delivery |
+| `"telegram:-100123:17585"` | Specific Telegram topic | `chat_id:thread_id` format |
+| `"discord"` | Discord home channel | Uses `DISCORD_HOME_CHANNEL` |
+| `"discord:#engineering"` | Specific Discord channel | By channel name |
+| `"slack"` | Slack home channel |  |
+| `"whatsapp"` | WhatsApp home |  |
+| `"signal"` | Signal |  |
+| `"matrix"` | Matrix home room |  |
+| `"mattermost"` | Mattermost home channel |  |
+| `"email"` | Email |  |
+| `"sms"` | SMS via Twilio |  |
+| `"homeassistant"` | Home Assistant (plugin) | Uses `HASS_HOME_CHANNEL`; requires the [`homeassistant` plugin](/docs/user-guide/messaging/homeassistant) |
+| `"dingtalk"` | DingTalk |  |
+| `"feishu"` | Feishu/Lark |  |
+| `"wecom"` | WeCom |  |
+| `"weixin"` | Weixin (WeChat) |  |
+| `"bluebubbles"` | BlueBubbles (iMessage) |  |
+| `"qqbot"` | QQ Bot (Tencent QQ) |  |
+| `"bot-chat"` | This profile's canonical Bot Chat — the bot reads the output and responds | Machine-local |
+| `"bot-chat:research"` | Another local profile's Bot Chat | Validated at create time |
+| `"all"` | Fan out to every connected home channel | Resolved at fire time |
+| `"telegram,discord"` | Fan out to a specific set of channels | Comma-separated list |
+| `"origin,all"` | Deliver to the origin **plus** every other connected channel | Combine any tokens |
 
 The agent's final response is automatically delivered to the configured `deliver:` target — the agent does not send messages itself, so there is nothing to call in the cron prompt.
 

@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -153,7 +150,7 @@ Credentials that a messaging adapter shares with a non-channel capability — `H
 Clones are built in a hidden staging directory beside `profiles/` and published with one rename after the strip, so a running multiplexer (which rescans `profiles/` on create) can never start adapters on a half-copied tree. A symlinked source `.env`/`config.yaml` is materialized as a private copy first — the clone never writes through to the source.
 
 
-When Honcho is enabled, clone operations automatically create a dedicated AI peer for the new profile while sharing the same user workspace. Each profile builds its own observations and identity. See [Honcho -- Multi-agent / Profiles](/docs/user-guide/features/memory-providers#honcho) for details.
+Memory providers get a hook when a profile that selects them is created or renamed. Honcho (1.2.0 and later) uses it to give a cloned profile its own AI peer in the same user workspace, and keeps that peer on rename; for an imported profile, run `hermes honcho sync`. Each profile builds its own observations and identity. See [Honcho -- Multi-agent / Profiles](/docs/user-guide/features/memory-providers#honcho) for details.
 
 
 ## Using profiles<a href="#using-profiles" class="hash-link" aria-label="Direct link to Using profiles" translate="no" title="Direct link to Using profiles">​</a>

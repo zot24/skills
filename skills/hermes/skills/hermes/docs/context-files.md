@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -15,15 +12,15 @@ Hermes Agent automatically discovers and loads context files that shape how it b
 
 ## Supported Context Files<a href="#supported-context-files" class="hash-link" aria-label="Direct link to Supported Context Files" translate="no" title="Direct link to Supported Context Files">​</a>
 
-| File                           | Purpose                                                              | Discovery                                     |
-|--------------------------------|----------------------------------------------------------------------|-----------------------------------------------|
-| **.hermes.md** / **HERMES.md** | Project instructions (highest priority)                              | Walks to git root                             |
-| **AGENTS.override.md**         | Personal, per-directory override of AGENTS.md (typically gitignored) | CWD at startup + subdirectories progressively |
-| **AGENTS.md**                  | Project instructions, conventions, architecture                      | CWD at startup + subdirectories progressively |
-| **CLAUDE.md**                  | Claude Code context files (also detected)                            | CWD at startup + subdirectories progressively |
-| **SOUL.md**                    | Global personality and tone customization for this Hermes instance   | `HERMES_HOME/SOUL.md` only                    |
-| **.cursorrules**               | Cursor IDE coding conventions                                        | CWD only                                      |
-| **.cursor/rules/\*.mdc**       | Cursor IDE rule modules                                              | CWD only                                      |
+| File | Purpose | Discovery |
+|----|----|----|
+| **.hermes.md** / **HERMES.md** | Project instructions (highest priority) | Walks to git root |
+| **AGENTS.override.md** | Personal, per-directory override of AGENTS.md (typically gitignored) | CWD at startup + subdirectories progressively |
+| **AGENTS.md** | Project instructions, conventions, architecture | CWD at startup + subdirectories progressively |
+| **CLAUDE.md** | Claude Code context files (also detected) | CWD at startup + subdirectories progressively |
+| **SOUL.md** | Global personality and tone customization for this Hermes instance | `HERMES_HOME/SOUL.md` only |
+| **.cursorrules** | Cursor IDE coding conventions | CWD only |
+| **.cursor/rules/\*.mdc** | Cursor IDE rule modules | CWD only |
 
 
 Only **one** project context type is loaded per session (first match wins): `.hermes.md` → `AGENTS.override.md` → `AGENTS.md` → `CLAUDE.md` → `.cursorrules`. **SOUL.md** is always loaded independently as the agent identity (slot \#1).
@@ -205,13 +202,13 @@ This scanner protects against common injection patterns, but it's not a substitu
 
 ## Size Limits<a href="#size-limits" class="hash-link" aria-label="Direct link to Size Limits" translate="no" title="Direct link to Size Limits">​</a>
 
-| Limit                 | Value                                                                                                                                                 |
-|-----------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Max chars per file    | `context_file_max_chars` when set; otherwise dynamic (scales with model context window, floor 20,000, ceiling 500,000)                                |
+| Limit | Value |
+|----|----|
+| Max chars per file | `context_file_max_chars` when set; otherwise dynamic (scales with model context window, floor 20,000, ceiling 500,000) |
 | Read timeout per file | `context_file_read_timeout` (default 5 seconds); a file that takes longer to read — e.g. on iCloud Drive, OneDrive or NFS — is skipped with a warning |
-| Head truncation ratio | 70%                                                                                                                                                   |
-| Tail truncation ratio | 20%                                                                                                                                                   |
-| Truncation marker     | 10% (shows char counts and suggests using file tools)                                                                                                 |
+| Head truncation ratio | 70% |
+| Tail truncation ratio | 20% |
+| Truncation marker | 10% (shows char counts and suggests using file tools) |
 
 When a file exceeds the configured limit, the truncation message reads:
 

@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -31,23 +28,23 @@ Don't have a subscription yet? <a href="https://portal.nousresearch.com/manage-s
 
 The Portal proxies a curated catalog of agentic models from across the ecosystem — billed against your Nous subscription instead of one credit balance per lab.
 
-| Family                | Models                                                                                              |
-|-----------------------|-----------------------------------------------------------------------------------------------------|
-| **Anthropic Claude**  | Opus 4.7, Opus 4.6, Sonnet 4.6, Haiku 4.5                                                           |
-| **OpenAI**            | GPT-5.5, GPT-5.5 Pro, GPT-5.4 Mini, GPT-5.4 Nano, GPT-5.3 Codex                                     |
-| **Google Gemini**     | Gemini 3 Pro Preview, Gemini 3 Flash Preview, Gemini 3.1 Pro Preview, Gemini 3.1 Flash Lite Preview |
-| **DeepSeek**          | DeepSeek V4 Pro                                                                                     |
-| **Qwen**              | Qwen3.7-Max, Qwen3.6-35B-A3B                                                                        |
-| **Kimi / Moonshot**   | Kimi K2.6                                                                                           |
-| **GLM / Zhipu**       | GLM-5.1                                                                                             |
-| **MiniMax**           | MiniMax M2.7                                                                                        |
-| **xAI**               | Grok 4.3                                                                                            |
-| **NVIDIA**            | Nemotron-3 Super 120B-A12B                                                                          |
-| **Tencent**           | Hunyuan 3 Preview                                                                                   |
-| **Xiaomi**            | MiMo V2.5 Pro                                                                                       |
-| **StepFun**           | Step 3.5 Flash                                                                                      |
-| **Hermes**            | Hermes-4-70B, Hermes-4-405B (chat, see [note below](#a-note-on-hermes-4))                           |
-| **+ everything else** | 280+ additional models — the full agentic frontier                                                  |
+| Family | Models |
+|----|----|
+| **Anthropic Claude** | Opus 4.7, Opus 4.6, Sonnet 4.6, Haiku 4.5 |
+| **OpenAI** | GPT-5.5, GPT-5.5 Pro, GPT-5.4 Mini, GPT-5.4 Nano, GPT-5.3 Codex |
+| **Google Gemini** | Gemini 3 Pro Preview, Gemini 3 Flash Preview, Gemini 3.1 Pro Preview, Gemini 3.1 Flash Lite Preview |
+| **DeepSeek** | DeepSeek V4 Pro |
+| **Qwen** | Qwen3.7-Max, Qwen3.6-35B-A3B |
+| **Kimi / Moonshot** | Kimi K2.6 |
+| **GLM / Zhipu** | GLM-5.1 |
+| **MiniMax** | MiniMax M2.7 |
+| **xAI** | Grok 4.3 |
+| **NVIDIA** | Nemotron-3 Super 120B-A12B |
+| **Tencent** | Hunyuan 3 Preview |
+| **Xiaomi** | MiMo V2.5 Pro |
+| **StepFun** | Step 3.5 Flash |
+| **Hermes** | Hermes-4-70B, Hermes-4-405B (chat, see [note below](#a-note-on-hermes-4)) |
+| **+ everything else** | 280+ additional models — the full agentic frontier |
 
 Under the hood, the Portal routes each model to the backend best suited for it — some models go through OpenRouter, others through proprietary or secondary providers, and the routing for a given model can change over time. Everything is billed against your Nous subscription either way. Switch between Claude Sonnet 4.6 for code and Gemini 3 Pro for long context with `/model` mid-session — no new credentials, no top-ups, no surprise zero-balance errors.
 
@@ -59,13 +56,13 @@ Because routing is per-model and not always through OpenRouter, OpenRouter-speci
 
 The same subscription unlocks the [Tool Gateway](/docs/user-guide/features/tool-gateway), which routes Hermes Agent's tool calls through Nous-managed infrastructure. Five backends, one login:
 
-| Tool                         | Partner      | What it does                                                                                                                                                                           |
-|------------------------------|--------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Web search & extract**     | Nous-managed | Agent-grade search and full-page extraction. No search API key, no rate limit babysitting.                                                                                             |
-| **Image generation**         | FAL          | Nine models under one endpoint: FLUX 2 Klein 9B, FLUX 2 Pro, Z-Image Turbo, Nano Banana Pro (Gemini 3 Pro Image), GPT Image 1.5, GPT Image 2, Ideogram V3, Recraft V4 Pro, Qwen Image. |
-| **Text-to-speech**           | OpenAI TTS   | High-quality TTS without a separate OpenAI key. Enables [voice mode](/docs/user-guide/features/voice-mode) across messaging platforms.                                                 |
-| **Cloud browser automation** | Browser Use  | Headless cloud Chromium sessions that `browser_exec` drives over CDP. No Browserbase account needed.                                                                                   |
-| **Cloud terminal sandbox**   | Modal        | Serverless terminal sandboxes for code execution (optional add-on).                                                                                                                    |
+| Tool | Partner | What it does |
+|----|----|----|
+| **Web search & extract** | Nous-managed | Agent-grade search and full-page extraction. No search API key, no rate limit babysitting. |
+| **Image generation** | FAL | Nine models under one endpoint: FLUX 2 Klein 9B, FLUX 2 Pro, Z-Image Turbo, Nano Banana Pro (Gemini 3 Pro Image), GPT Image 1.5, GPT Image 2, Ideogram V3, Recraft V4 Pro, Qwen Image. |
+| **Text-to-speech** | OpenAI TTS | High-quality TTS without a separate OpenAI key. Enables [voice mode](/docs/user-guide/features/voice-mode) across messaging platforms. |
+| **Cloud browser automation** | Browser Use | Headless cloud Chromium sessions that `browser_exec` drives over CDP. No Browserbase account needed. |
+| **Cloud terminal sandbox** | Modal | Serverless terminal sandboxes for code execution (optional add-on). |
 
 Without the gateway, hooking each of those up means a web search account, a FAL account, a Browser Use account, an OpenAI key, and a Modal account — five separate signups, five separate dashboards, five separate top-up flows. With the gateway, all of it routes through one subscription.
 

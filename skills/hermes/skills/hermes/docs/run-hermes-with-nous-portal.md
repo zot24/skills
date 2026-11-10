@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -299,15 +296,15 @@ hermes auth logout nous       # wipes the local refresh token
 
 ## What this gets you, in plain numbers<a href="#what-this-gets-you-in-plain-numbers" class="hash-link" aria-label="Direct link to What this gets you, in plain numbers" translate="no" title="Direct link to What this gets you, in plain numbers">​</a>
 
-| Without Portal                                   | With Portal                            |
-|--------------------------------------------------|----------------------------------------|
+| Without Portal | With Portal |
+|----|----|
 | 1× OpenRouter / Anthropic / OpenAI key in `.env` | 1× OAuth refresh token, no `.env` keys |
-| 1× web search key                                | Web routed through gateway             |
-| 1× FAL key for image gen                         | Image gen routed through gateway       |
-| 1× Browser Use / Browserbase key for browser     | Browser routed through gateway         |
-| 1× OpenAI key for TTS / voice mode               | TTS routed through gateway             |
-| 5 separate dashboards, top-ups, invoices         | 1 subscription, 1 invoice              |
-| Cross-machine: replicate all 5 keys              | Cross-machine: re-OAuth once           |
+| 1× web search key | Web routed through gateway |
+| 1× FAL key for image gen | Image gen routed through gateway |
+| 1× Browser Use / Browserbase key for browser | Browser routed through gateway |
+| 1× OpenAI key for TTS / voice mode | TTS routed through gateway |
+| 5 separate dashboards, top-ups, invoices | 1 subscription, 1 invoice |
+| Cross-machine: replicate all 5 keys | Cross-machine: re-OAuth once |
 
 That's the deal. If you're using more than two of those backends anyway, the subscription pays for itself.
 

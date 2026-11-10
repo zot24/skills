@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -39,19 +36,19 @@ No admin rights required. The installer goes to `%LOCALAPPDATA%\hermes\` and add
 ```
 
 
-| Parameter                        | Purpose                                                                                                                                                                               |
-|----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `-Channel stable|main`           | `stable` (default): the latest published release. `main`: every commit, saved like `hermes update --set-channel main`. `$env:HERMES_INSTALL_CHANNEL` sets it for a plain `irm | iex`. |
-| `-Branch NAME`                   | Select the source branch; default `main`. Another branch is installed at its tip.                                                                                                     |
-| `-Commit SHA`                    | Select a commit after the branch checkout.                                                                                                                                            |
-| `-HermesHome PATH`               | Select the data directory.                                                                                                                                                            |
-| `-InstallDir PATH`               | Select the source checkout directory.                                                                                                                                                 |
-| `-NonInteractive`                | Skip setup and gateway stages that need input.                                                                                                                                        |
-| `-IncludeDesktop`                | Build the desktop app and create shortcuts.                                                                                                                                           |
-| `-ShowResolvedPaths`             | Print resolved paths as JSON without installing.                                                                                                                                      |
-| `-Verbose`                       | Stream every child command's output instead of one status line per step.                                                                                                              |
-| `-Manifest` / `-ProtocolVersion` | Inspect the stage protocol used by the bootstrap GUI.                                                                                                                                 |
-| `-Stage NAME -Json`              | Run one stage and emit its result frame.                                                                                                                                              |
+| Parameter | Purpose |
+|----|----|
+| `-Channel stable|main` | `stable` (default): the latest published release. `main`: every commit, saved like `hermes update --set-channel main`. `$env:HERMES_INSTALL_CHANNEL` sets it for a plain `irm | iex`. |
+| `-Branch NAME` | Select the source branch; default `main`. Another branch is installed at its tip. |
+| `-Commit SHA` | Select a commit after the branch checkout. |
+| `-HermesHome PATH` | Select the data directory. |
+| `-InstallDir PATH` | Select the source checkout directory. |
+| `-NonInteractive` | Skip setup and gateway stages that need input. |
+| `-IncludeDesktop` | Build the desktop app and create shortcuts. |
+| `-ShowResolvedPaths` | Print resolved paths as JSON without installing. |
+| `-Verbose` | Stream every child command's output instead of one status line per step. |
+| `-Manifest` / `-ProtocolVersion` | Inspect the stage protocol used by the bootstrap GUI. |
+| `-Stage NAME -Json` | Run one stage and emit its result frame. |
 
 The current script does not accept `-NoVenv` or `-Tag`. `-SkipSetup` is still accepted as a deprecated alias for `-NonInteractive` so older install wrappers keep binding. To diagnose an unexpected short Windows path, use `-ShowResolvedPaths` first.
 
@@ -101,18 +98,18 @@ On Windows, per-tool API key setup (Firecrawl, FAL, Browser Use, OpenAI TTS) is 
 
 Windows support is feature- and architecture-specific. The base interfaces run natively, but some optional SDKs are excluded from particular targets.
 
-| Feature                                                               | Native Windows            | WSL2                   |
-|-----------------------------------------------------------------------|---------------------------|------------------------|
-| CLI (`hermes chat`, `hermes setup`, `hermes gateway`, …)              | ✓                         | ✓                      |
-| Interactive TUI (`hermes --tui`)                                      | ✓                         | ✓                      |
-| Messaging gateway (Telegram, Discord, Slack, WhatsApp, 15+ platforms) | ✓                         | ✓                      |
-| Cron scheduler                                                        | ✓                         | ✓                      |
-| Browser tool (Chromium via Node)                                      | ✓                         | ✓                      |
-| MCP servers (stdio and HTTP)                                          | ✓                         | ✓                      |
-| Local Ollama / LM Studio / llama-server                               | ✓                         | ✓ (via WSL networking) |
-| Web dashboard (sessions, jobs, metrics, config)                       | ✓                         | ✓                      |
-| Dashboard `/chat` embedded terminal pane                              | ConPTY through `pywinpty` | POSIX PTY              |
-| Auto-start at login                                                   | ✓ (schtasks)              | ✓ (systemd)            |
+| Feature | Native Windows | WSL2 |
+|----|----|----|
+| CLI (`hermes chat`, `hermes setup`, `hermes gateway`, …) | ✓ | ✓ |
+| Interactive TUI (`hermes --tui`) | ✓ | ✓ |
+| Messaging gateway (Telegram, Discord, Slack, WhatsApp, 15+ platforms) | ✓ | ✓ |
+| Cron scheduler | ✓ | ✓ |
+| Browser tool (Chromium via Node) | ✓ | ✓ |
+| MCP servers (stdio and HTTP) | ✓ | ✓ |
+| Local Ollama / LM Studio / llama-server | ✓ | ✓ (via WSL networking) |
+| Web dashboard (sessions, jobs, metrics, config) | ✓ | ✓ |
+| Dashboard `/chat` embedded terminal pane | ConPTY through `pywinpty` | POSIX PTY |
+| Auto-start at login | ✓ (schtasks) | ✓ (systemd) |
 
 The dashboard uses its `pywinpty`/ConPTY bridge on Windows and `ptyprocess` on POSIX. A missing or broken native dependency can make the terminal unavailable; WSL is an alternative, not a requirement of the current design.
 
@@ -157,12 +154,12 @@ Hermes's Windows stdio shim now sets `EDITOR=notepad` as a default. Notepad ship
 
 **User overrides still win** (they're checked before the setdefault):
 
-| Editor    | PowerShell command                                                                 |
-|-----------|------------------------------------------------------------------------------------|
-| VS Code   | `$env:EDITOR = "code --wait"`                                                      |
+| Editor | PowerShell command |
+|----|----|
+| VS Code | `$env:EDITOR = "code --wait"` |
 | Notepad++ | `$env:EDITOR = "'C:\Program Files\Notepad++\notepad++.exe' -multiInst -nosession"` |
-| Neovim    | `$env:EDITOR = "nvim"`                                                             |
-| Helix     | `$env:EDITOR = "hx"`                                                               |
+| Neovim | `$env:EDITOR = "nvim"` |
+| Helix | `$env:EDITOR = "hx"` |
 
 The `--wait` flag on VS Code is critical — without it the editor returns immediately and Hermes gets a blank buffer back.
 
@@ -225,13 +222,13 @@ Services require admin rights to install and tie the gateway's lifecycle to mach
 
 ## Data layout<a href="#data-layout" class="hash-link" aria-label="Direct link to Data layout" translate="no" title="Direct link to Data layout">​</a>
 
-| Path                                  | Contents                                                                       |
-|---------------------------------------|--------------------------------------------------------------------------------|
+| Path | Contents |
+|----|----|
 | `%LOCALAPPDATA%\hermes\hermes-agent\` | Source checkout for the script installation; absent from an MSIX-only install. |
-| `%LOCALAPPDATA%\hermes\tools\`        | Writable managed-tool store. MSIX base tools remain inside the package.        |
-| `%LOCALAPPDATA%\hermes\installs\`     | Per-install runtime selection, journals, and Python generations.               |
-| `%LOCALAPPDATA%\hermes\bin\`          | Source-install CLI launchers. MSIX instead provides execution aliases.         |
-| `%LOCALAPPDATA%\hermes\`              | User configuration, credentials, sessions, plugins, skills, and logs.          |
+| `%LOCALAPPDATA%\hermes\tools\` | Writable managed-tool store. MSIX base tools remain inside the package. |
+| `%LOCALAPPDATA%\hermes\installs\` | Per-install runtime selection, journals, and Python generations. |
+| `%LOCALAPPDATA%\hermes\bin\` | Source-install CLI launchers. MSIX instead provides execution aliases. |
+| `%LOCALAPPDATA%\hermes\` | User configuration, credentials, sessions, plugins, skills, and logs. |
 
 These are default paths. `HERMES_HOME` and installer path arguments can change them. A full deletion of `%LOCALAPPDATA%\hermes` also deletes user data and can affect other installations that share it. Use the uninstall command or Windows package removal instead of deleting that root to repair an app.
 
@@ -273,10 +270,10 @@ Don't put secrets in User environment variables unless you specifically want eve
 
 These only affect native Windows installs:
 
-| Variable                      | Effect                                                                                                                  |
-|-------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| Variable | Effect |
+|----|----|
 | `HERMES_DISABLE_WINDOWS_UTF8` | Set to `1` to disable the UTF-8 stdio shim and fall back to the locale code page. Useful for bisecting an encoding bug. |
-| `EDITOR` / `VISUAL`           | Your editor for `/edit` and `Ctrl-X Ctrl-E`. Hermes defaults to `notepad` if both are unset.                            |
+| `EDITOR` / `VISUAL` | Your editor for `/edit` and `Ctrl-X Ctrl-E`. Hermes defaults to `notepad` if both are unset. |
 
 ## Uninstall<a href="#uninstall" class="hash-link" aria-label="Direct link to Uninstall" translate="no" title="Direct link to Uninstall">​</a>
 

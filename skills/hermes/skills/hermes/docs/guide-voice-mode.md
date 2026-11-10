@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -34,11 +31,11 @@ Voice mode is especially useful when:
 
 There are really three different voice experiences in Hermes.
 
-| Mode                        | Best for                                            | Platform               |
-|-----------------------------|-----------------------------------------------------|------------------------|
-| Interactive microphone loop | Personal hands-free use while coding or researching | CLI                    |
-| Voice replies in chat       | Spoken responses alongside normal messaging         | Telegram, Discord      |
-| Live voice channel bot      | Group or personal live conversation in a VC         | Discord voice channels |
+| Mode | Best for | Platform |
+|----|----|----|
+| Interactive microphone loop | Personal hands-free use while coding or researching | CLI |
+| Voice replies in chat | Spoken responses alongside normal messaging | Telegram, Discord |
+| Live voice channel bot | Group or personal live conversation in a VC | Discord voice channels |
 
 A good path is:
 

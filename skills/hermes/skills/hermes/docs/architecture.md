@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -133,8 +130,9 @@ hermes-agent/
 │                             #   whatsapp, matrix, mattermost, email, sms, dingtalk,
 │                             #   feishu, wecom, irc, line, teams, google_chat,
 │                             #   buzz, ntfy, photon, raft, simplex, whatsapp_cloud,
-│                             #   signal, weixin, bluebubbles, qqbot, yuanbao
-│                             #   (Home Assistant: `homeassistant` catalog plugin)
+│                             #   signal, weixin, bluebubbles, qqbot
+│                             #   (Home Assistant: `homeassistant` catalog plugin;
+│                             #    Yuanbao: `yuanbao` Hermes Labs plugin)
 │
 ├── acp_adapter/              # ACP server (VS Code / Zed / JetBrains)
 ├── cron/                     # Scheduler (jobs.py, scheduler.py)
@@ -273,14 +271,14 @@ Generates ShareGPT-format trajectories from agent sessions for training data gen
 
 ## Design Principles<a href="#design-principles" class="hash-link" aria-label="Direct link to Design Principles" translate="no" title="Direct link to Design Principles">​</a>
 
-| Principle                  | What it means in practice                                                                                                                  |
-|----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| **Prompt stability**       | System prompt doesn't change mid-conversation. No cache-breaking mutations except explicit user actions (`/model`).                        |
-| **Observable execution**   | Every tool call is visible to the user via callbacks. Progress updates in CLI (spinner) and gateway (chat messages).                       |
-| **Interruptible**          | API calls and tool execution can be cancelled mid-flight by user input or signals.                                                         |
-| **Platform-agnostic core** | One AIAgent class serves CLI, gateway, ACP, batch, and API server. Platform differences live in the entry point, not the agent.            |
-| **Loose coupling**         | Optional subsystems (MCP, plugins, memory providers, RL environments) use registry patterns and check_fn gating, not hard dependencies.    |
-| **Profile isolation**      | Each profile (`hermes -p <name>`) gets its own HERMES_HOME, config, memory, sessions, and gateway PID. Multiple profiles run concurrently. |
+| Principle | What it means in practice |
+|----|----|
+| **Prompt stability** | System prompt doesn't change mid-conversation. No cache-breaking mutations except explicit user actions (`/model`). |
+| **Observable execution** | Every tool call is visible to the user via callbacks. Progress updates in CLI (spinner) and gateway (chat messages). |
+| **Interruptible** | API calls and tool execution can be cancelled mid-flight by user input or signals. |
+| **Platform-agnostic core** | One AIAgent class serves CLI, gateway, ACP, batch, and API server. Platform differences live in the entry point, not the agent. |
+| **Loose coupling** | Optional subsystems (MCP, plugins, memory providers, RL environments) use registry patterns and check_fn gating, not hard dependencies. |
+| **Profile isolation** | Each profile (`hermes -p <name>`) gets its own HERMES_HOME, config, memory, sessions, and gateway PID. Multiple profiles run concurrently. |
 
 ## File Dependency Chain<a href="#file-dependency-chain" class="hash-link" aria-label="Direct link to File Dependency Chain" translate="no" title="Direct link to File Dependency Chain">​</a>
 

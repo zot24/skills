@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -25,17 +22,17 @@ Hermes ships with a broad built-in tool registry covering web search, browser au
 
 High-level categories:
 
-| Category                | Examples                                                         | Description                                                                                                                                                                                                         |
-|-------------------------|------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| **Web**                 | `web_search`, `web_extract`                                      | Search the web and extract page content.                                                                                                                                                                            |
-| **X Search**            | `x_search`                                                       | Search X (Twitter) posts and threads via xAI's built-in `x_search` Responses tool — gated on xAI credentials (SuperGrok OAuth or `XAI_API_KEY`); off by default, opt in via `hermes tools` → 🐦 X (Twitter) Search. |
-| **Terminal & Files**    | `terminal`, `process`, `read_file`, `patch`                      | Execute commands and manipulate files.                                                                                                                                                                              |
-| **Browser**             | `browser_exec`, `browser_cdp`, `browser_dialog`, `browser_vault` | Browser automation: `browser_exec` drives Chromium with Python over CDP (screenshots included). The Camofox browser is a separate catalog plugin (`hermes plugins install camofox`).                                |
-| **Media**               | `vision_analyze`, `image_generate`, `text_to_speech`             | Multimodal analysis and generation.                                                                                                                                                                                 |
-| **Agent orchestration** | `todo`, `clarify`, `execute_code`, `delegate_task`               | Planning, clarification, code execution, and subagent delegation.                                                                                                                                                   |
-| **Memory & recall**     | `memory`, `session_search`                                       | Persistent memory and session search.                                                                                                                                                                               |
-| **Automation**          | `cronjob`                                                        | Scheduled tasks with create/list/update/pause/resume/run/remove actions. Outbound delivery is handled by cron's own delivery, the `hermes send` CLI, and the gateway notifier — not by an agent-callable tool.      |
-| **Integrations**        | MCP server tools, plugin tools                                   | MCP and plugin integrations, e.g. Home Assistant (`ha_*`, from the [`homeassistant` catalog plugin](/docs/user-guide/messaging/homeassistant)).                                                                     |
+| Category | Examples | Description |
+|----|----|----|
+| **Web** | `web_search`, `web_extract` | Search the web and extract page content. |
+| **X Search** | `x_search` | Search X (Twitter) posts and threads via xAI's built-in `x_search` Responses tool — gated on xAI credentials (SuperGrok OAuth or `XAI_API_KEY`); off by default, opt in via `hermes tools` → 🐦 X (Twitter) Search. |
+| **Terminal & Files** | `terminal`, `process`, `read_file`, `patch` | Execute commands and manipulate files. |
+| **Browser** | `browser_exec`, `browser_cdp`, `browser_dialog`, `browser_vault` | Browser automation: `browser_exec` drives Chromium with Python over CDP (screenshots included). The Camofox browser is a separate catalog plugin (`hermes plugins install camofox`). |
+| **Media** | `vision_analyze`, `image_generate`, `text_to_speech` | Multimodal analysis and generation. |
+| **Agent orchestration** | `todo`, `clarify`, `execute_code`, `delegate_task` | Planning, clarification, code execution, and subagent delegation. |
+| **Memory & recall** | `memory`, `session_search` | Persistent memory and session search. |
+| **Automation** | `cronjob` | Scheduled tasks with create/list/update/pause/resume/run/remove actions. Outbound delivery is handled by cron's own delivery, the `hermes send` CLI, and the gateway notifier — not by an agent-callable tool. |
+| **Integrations** | MCP server tools, plugin tools | MCP and plugin integrations, e.g. Home Assistant (`ha_*`, from the [`homeassistant` catalog plugin](/docs/user-guide/messaging/homeassistant)). |
 
 For the authoritative code-derived registry, see [Built-in Tools Reference](/docs/reference/tools-reference) and [Toolsets Reference](/docs/reference/toolsets-reference).
 
@@ -73,16 +70,16 @@ A few tool behaviors are worth knowing when you read agent transcripts:
 
 The terminal tool can execute commands in different environments:
 
-| Backend                | Description                   | Use Case                                                    |
-|------------------------|-------------------------------|-------------------------------------------------------------|
-| `local`                | Run on your machine (default) | Development, trusted tasks                                  |
-| `docker`               | Isolated containers           | Security, reproducibility                                   |
-| `ssh`                  | Remote server                 | Sandboxing, keep agent away from its own code               |
-| `singularity` (plugin) | HPC containers                | Cluster computing, rootless                                 |
-| `sprites` (plugin)     | Stateful Fly.io cloud sandbox | Persistent cloud environments with checkpoint & restore     |
-| `modal`                | Cloud execution               | Serverless, scale                                           |
-| `daytona`              | Cloud sandbox workspace       | Persistent remote dev environments                          |
-| `vercel_sandbox`       | Vercel Sandbox cloud microVM  | Cloud execution with snapshot-backed filesystem persistence |
+| Backend | Description | Use Case |
+|----|----|----|
+| `local` | Run on your machine (default) | Development, trusted tasks |
+| `docker` | Isolated containers | Security, reproducibility |
+| `ssh` | Remote server | Sandboxing, keep agent away from its own code |
+| `singularity` (plugin) | HPC containers | Cluster computing, rootless |
+| `sprites` (plugin) | Stateful Fly.io cloud sandbox | Persistent cloud environments with checkpoint & restore |
+| `modal` | Cloud execution | Serverless, scale |
+| `daytona` | Cloud sandbox workspace | Persistent remote dev environments |
+| `vercel_sandbox` | Vercel Sandbox cloud microVM | Cloud execution with snapshot-backed filesystem persistence |
 
 ### Configuration<a href="#configuration" class="hash-link" aria-label="Direct link to Configuration" translate="no" title="Direct link to Configuration">​</a>
 

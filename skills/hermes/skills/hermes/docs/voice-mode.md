@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -34,11 +31,11 @@ A paid [Nous Portal](/docs/user-guide/features/tool-gateway) subscription suppli
 
 ## Overview<a href="#overview" class="hash-link" aria-label="Direct link to Overview" translate="no" title="Direct link to Overview">​</a>
 
-| Feature               | Platform          | Description                                                     |
-|-----------------------|-------------------|-----------------------------------------------------------------|
-| **Interactive Voice** | CLI               | Press Ctrl+B to record, agent auto-detects silence and responds |
-| **Auto Voice Reply**  | Telegram, Discord | Agent sends spoken audio alongside text responses               |
-| **Voice Channel**     | Discord           | Bot joins VC, listens to users speaking, speaks replies back    |
+| Feature | Platform | Description |
+|----|----|----|
+| **Interactive Voice** | CLI | Press Ctrl+B to record, agent auto-detects silence and responds |
+| **Auto Voice Reply** | Telegram, Discord | Agent sends spoken audio alongside text responses |
+| **Voice Channel** | Discord | Bot joins VC, listens to users speaking, speaks replies back |
 
 ## Requirements<a href="#requirements" class="hash-link" aria-label="Direct link to Requirements" translate="no" title="Direct link to Requirements">​</a>
 
@@ -48,11 +45,11 @@ Use `hermes tools` to configure voice providers. Missing built-in feature requir
 
 A bundled app includes its supported engine dependencies. Docker includes a curated subset and disables on-demand installs. Do not use pip to modify a signed payload or the system Python. For a manual development environment, select the required extras in the [development setup](/docs/developer-guide/contributing#development-setup).
 
-| Extra         | Packages                                                   | Required For                     |
-|---------------|------------------------------------------------------------|----------------------------------|
-| `voice`       | `sounddevice`, `numpy`, and Faster-Whisper where supported | CLI audio and optional local STT |
-| `messaging`   | `discord.py[voice]`, `python-telegram-bot`, `aiohttp`      | Discord & Telegram bots          |
-| `tts-premium` | `elevenlabs`                                               | ElevenLabs TTS provider          |
+| Extra | Packages | Required For |
+|----|----|----|
+| `voice` | `sounddevice`, `numpy`, and Faster-Whisper where supported | CLI audio and optional local STT |
+| `messaging` | `discord.py[voice]`, `python-telegram-bot`, `aiohttp` | Discord & Telegram bots |
+| `tts-premium` | `elevenlabs` | ElevenLabs TTS provider |
 
 Local Faster-Whisper is excluded on native Windows ARM64 and Intel macOS. Use a cloud or command-based STT provider on those targets. `audio-io` contains the microphone/playback dependencies without local STT. The `all` extra does not mean every voice or wake engine.
 
@@ -76,12 +73,12 @@ sudo apt install espeak-ng   # for NeuTTS
 ```
 
 
-| Dependency    | Purpose                                         | Required For           |
-|---------------|-------------------------------------------------|------------------------|
-| **PortAudio** | Microphone input and audio playback             | CLI voice mode         |
-| **ffmpeg**    | Audio format conversion (MP3 → Opus, PCM → WAV) | All platforms          |
-| **Opus**      | Discord voice codec                             | Discord voice channels |
-| **espeak-ng** | Phonemizer backend                              | Local NeuTTS provider  |
+| Dependency | Purpose | Required For |
+|----|----|----|
+| **PortAudio** | Microphone input and audio playback | CLI voice mode |
+| **ffmpeg** | Audio format conversion (MP3 → Opus, PCM → WAV) | All platforms |
+| **Opus** | Discord voice codec | Discord voice channels |
+| **espeak-ng** | Phonemizer backend | Local NeuTTS provider |
 
 ### API Keys<a href="#api-keys" class="hash-link" aria-label="Direct link to API Keys" translate="no" title="Direct link to API Keys">​</a>
 
@@ -190,12 +187,12 @@ stt:
 ```
 
 
-| Provider     | Live endpoint                             | Notes                                                                                          |
-|--------------|-------------------------------------------|------------------------------------------------------------------------------------------------|
-| `openai`     | Realtime transcription session            | Needs your own `OPENAI_API_KEY`; the Nous-managed audio gateway serves file transcription only |
-| `xai`        | `wss://api.x.ai/v1/stt`                   | Needs `XAI_API_KEY` (the Grok OAuth login is not used for live STT)                            |
-| `elevenlabs` | Scribe v2 realtime                        | `ELEVENLABS_API_KEY`                                                                           |
-| plugin       | `TranscriptionProvider.streaming_capable` | Plugins opt in with `open_stream_session()`                                                    |
+| Provider | Live endpoint | Notes |
+|----|----|----|
+| `openai` | Realtime transcription session | Needs your own `OPENAI_API_KEY`; the Nous-managed audio gateway serves file transcription only |
+| `xai` | `wss://api.x.ai/v1/stt` | Needs `XAI_API_KEY` (the Grok OAuth login is not used for live STT) |
+| `elevenlabs` | Scribe v2 realtime | `ELEVENLABS_API_KEY` |
+| plugin | `TranscriptionProvider.streaming_capable` | Plugins opt in with `open_stream_session()` |
 
 Live transcription covers CLI and TUI voice mode and Desktop dictation. Local whisper, Groq, Mistral and DeepInfra keep using the file path. If a live session can't open, or fails mid-recording, Hermes transcribes the recording as usual, so turning this on never loses a take.
 
@@ -308,10 +305,10 @@ hermes gateway setup  # Interactive setup wizard for first-time configuration
 
 The bot supports two interaction modes on Discord:
 
-| Mode                    | How to Talk                                     | Mention Required | Setup                             |
-|-------------------------|-------------------------------------------------|------------------|-----------------------------------|
-| **Direct Message (DM)** | Open the bot's profile → "Message"              | No               | Works immediately                 |
-| **Server Channel**      | Type in a text channel where the bot is present | Yes (`@botname`) | Bot must be invited to the server |
+| Mode | How to Talk | Mention Required | Setup |
+|----|----|----|----|
+| **Direct Message (DM)** | Open the bot's profile → "Message" | No | Works immediately |
+| **Server Channel** | Type in a text channel where the bot is present | Yes (`@botname`) | Bot must be invited to the server |
 
 **DM (recommended for personal use):** Just open a DM with the bot and type — no @mention needed. Voice replies and all commands work the same as in channels.
 
@@ -360,10 +357,10 @@ Voice mode setting is persisted across gateway restarts.
 
 ### Platform Delivery<a href="#platform-delivery" class="hash-link" aria-label="Direct link to Platform Delivery" translate="no" title="Direct link to Platform Delivery">​</a>
 
-| Platform     | Format                         | Notes                                                                                           |
-|--------------|--------------------------------|-------------------------------------------------------------------------------------------------|
-| **Telegram** | Voice bubble (Opus/OGG)        | Plays inline in chat. ffmpeg converts MP3 → Opus if needed                                      |
-| **Discord**  | Native voice bubble (Opus/OGG) | Plays inline like a user voice message. Falls back to file attachment if voice bubble API fails |
+| Platform | Format | Notes |
+|----|----|----|
+| **Telegram** | Voice bubble (Opus/OGG) | Plays inline in chat. ffmpeg converts MP3 → Opus if needed |
+| **Discord** | Native voice bubble (Opus/OGG) | Plays inline like a user voice message. Falls back to file attachment if voice bubble API fails |
 
 ------------------------------------------------------------------------
 
@@ -389,10 +386,10 @@ Go to the <a href="https://discord.com/developers/applications" target="_blank" 
 
 **Updated Permissions Integer:**
 
-| Level        | Integer        | What's Included                                                                                            |
-|--------------|----------------|------------------------------------------------------------------------------------------------------------|
-| Text only    | `309237763136` | View Channels, Send Messages, Read History, Embeds, Attachments, Threads, Reactions, Create Public Threads |
-| Text + Voice | `309240908864` | All above + Connect, Speak                                                                                 |
+| Level | Integer | What's Included |
+|----|----|----|
+| Text only | `309237763136` | View Channels, Send Messages, Read History, Embeds, Attachments, Threads, Reactions, Create Public Threads |
+| Text + Voice | `309240908864` | All above + Connect, Speak |
 
 **Re-invite the bot** with the updated permissions URL:
 
@@ -412,11 +409,11 @@ Re-inviting the bot to a server it's already in will update its permissions with
 
 In the <a href="https://discord.com/developers/applications" target="_blank" rel="noopener noreferrer">Developer Portal</a> → your application → **Bot** → **Privileged Gateway Intents**, enable all three:
 
-| Intent                     | Purpose                                                                   |
-|----------------------------|---------------------------------------------------------------------------|
-| **Presence Intent**        | Detect user online/offline status                                         |
-| **Server Members Intent**  | Resolve usernames in `DISCORD_ALLOWED_USERS` to numeric IDs (conditional) |
-| **Message Content Intent** | Read text message content in channels                                     |
+| Intent | Purpose |
+|----|----|
+| **Presence Intent** | Detect user online/offline status |
+| **Server Members Intent** | Resolve usernames in `DISCORD_ALLOWED_USERS` to numeric IDs (conditional) |
+| **Message Content Intent** | Read text message content in channels |
 
 **Message Content Intent** is required. **Server Members Intent** is only needed if your `DISCORD_ALLOWED_USERS` list uses usernames — if you use numeric user IDs, you can leave it OFF. Voice-channel SSRC → user_id mapping comes from Discord's SPEAKING opcode on the voice websocket and does **not** require the Server Members Intent.
 
@@ -606,18 +603,18 @@ DISCORD_ALLOWED_USERS=...
 
 ### STT Provider Comparison<a href="#stt-provider-comparison" class="hash-link" aria-label="Direct link to STT Provider Comparison" translate="no" title="Direct link to STT Provider Comparison">​</a>
 
-| Provider    | Model                       | Speed                     | Quality | Cost                   | API Key |
-|-------------|-----------------------------|---------------------------|---------|------------------------|---------|
-| **Local**   | `base`                      | Fast (depends on CPU/GPU) | Good    | Free                   | No      |
-| **Local**   | `small`                     | Medium                    | Better  | Free                   | No      |
-| **Local**   | `large-v3`                  | Slow                      | Best    | Free                   | No      |
-| **Groq**    | `whisper-large-v3-turbo`    | Very fast (~0.5s)         | Good    | Free tier              | Yes     |
-| **Groq**    | `whisper-large-v3`          | Fast (~1s)                | Better  | Free tier              | Yes     |
-| **OpenAI**  | `whisper-1`                 | Fast (~1s)                | Good    | Paid                   | Yes     |
-| **OpenAI**  | `gpt-4o-transcribe`         | Medium (~2s)              | Best    | Paid                   | Yes     |
-| **OpenAI**  | `gpt-transcribe`            | Fast                      | Best    | Paid (\$0.0045/min)    | Yes     |
-| **Mistral** | `voxtral-mini-latest`       | Fast                      | Good    | Paid                   | Yes     |
-| **xAI**     | `grok-voice-transcribe-2.0` | Fast                      | Best    | Paid (\$0.10/hr batch) | Yes     |
+| Provider | Model | Speed | Quality | Cost | API Key |
+|----|----|----|----|----|----|
+| **Local** | `base` | Fast (depends on CPU/GPU) | Good | Free | No |
+| **Local** | `small` | Medium | Better | Free | No |
+| **Local** | `large-v3` | Slow | Best | Free | No |
+| **Groq** | `whisper-large-v3-turbo` | Very fast (~0.5s) | Good | Free tier | Yes |
+| **Groq** | `whisper-large-v3` | Fast (~1s) | Better | Free tier | Yes |
+| **OpenAI** | `whisper-1` | Fast (~1s) | Good | Paid | Yes |
+| **OpenAI** | `gpt-4o-transcribe` | Medium (~2s) | Best | Paid | Yes |
+| **OpenAI** | `gpt-transcribe` | Fast | Best | Paid (\$0.0045/min) | Yes |
+| **Mistral** | `voxtral-mini-latest` | Fast | Good | Paid | Yes |
+| **xAI** | `grok-voice-transcribe-2.0` | Fast | Best | Paid (\$0.10/hr batch) | Yes |
 
 Provider priority (automatic fallback): **local** \> **groq** \> **openai**
 

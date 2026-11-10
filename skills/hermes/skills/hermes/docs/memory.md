@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -17,10 +14,10 @@ Hermes Agent has bounded, curated memory that persists across sessions. This let
 
 Two files make up the agent's memory:
 
-| File          | Purpose                                                                 | Char Limit                |
-|---------------|-------------------------------------------------------------------------|---------------------------|
+| File | Purpose | Char Limit |
+|----|----|----|
 | **MEMORY.md** | Agent's personal notes — environment facts, conventions, things learned | 2,200 chars (~800 tokens) |
-| **USER.md**   | User profile — your preferences, communication style, expectations      | 1,375 chars (~500 tokens) |
+| **USER.md** | User profile — your preferences, communication style, expectations | 1,375 chars (~500 tokens) |
 
 Both are stored in `~/.hermes/memories/` and are injected into the system prompt as a frozen snapshot at session start. The agent manages its own memory via the `memory` tool — it can add, patch, or remove entries.
 
@@ -258,14 +255,14 @@ See [Session Search Tool](/docs/user-guide/sessions#session-search-tool) for the
 
 ### session_search vs memory<a href="#session_search-vs-memory" class="hash-link" aria-label="Direct link to session_search vs memory" translate="no" title="Direct link to session_search vs memory">​</a>
 
-| Feature        | Persistent Memory                 | Session Search                      |
-|----------------|-----------------------------------|-------------------------------------|
-| **Capacity**   | ~1,300 tokens total               | Unlimited (all sessions)            |
-| **Speed**      | Instant (in system prompt)        | ~20ms FTS5 query, ~1ms scroll       |
-| **Cost**       | Token cost in every prompt        | Free — no LLM calls                 |
-| **Use case**   | Key facts always available        | Finding specific past conversations |
-| **Management** | Manually curated by agent         | Automatic — all sessions stored     |
-| **Token cost** | Fixed per session (~1,300 tokens) | On-demand (searched when needed)    |
+| Feature | Persistent Memory | Session Search |
+|----|----|----|
+| **Capacity** | ~1,300 tokens total | Unlimited (all sessions) |
+| **Speed** | Instant (in system prompt) | ~20ms FTS5 query, ~1ms scroll |
+| **Cost** | Token cost in every prompt | Free — no LLM calls |
+| **Use case** | Key facts always available | Finding specific past conversations |
+| **Management** | Manually curated by agent | Automatic — all sessions stored |
+| **Token cost** | Fixed per session (~1,300 tokens) | On-demand (searched when needed) |
 
 **Memory** is for critical facts that should always be in context. **Session search** is for "did we discuss X last week?" queries where the agent needs to recall specifics from past conversations.
 
@@ -281,11 +278,11 @@ A skill appears on the timeline as soon as it has a learning signal: it was crea
 
 Beyond viewing, the journey is also where you **prune and correct** what Hermes has learned:
 
-| Command                             | What it does                                                                                                                      |
-|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
-| `hermes journey list`               | List node ids — skill names and `memory:<source>:<index>:<fingerprint>` ids for memory chunks (pass one back exactly as printed). |
-| `hermes journey delete <node> [-y]` | Delete a node. Skills are **archived** (restorable), memory chunks are removed. `-y` skips the confirmation.                      |
-| `hermes journey edit <node>`        | Open the node's content (a skill's `SKILL.md` or the memory chunk) in `$EDITOR`.                                                  |
+| Command | What it does |
+|----|----|
+| `hermes journey list` | List node ids — skill names and `memory:<source>:<index>:<fingerprint>` ids for memory chunks (pass one back exactly as printed). |
+| `hermes journey delete <node> [-y]` | Delete a node. Skills are **archived** (restorable), memory chunks are removed. `-y` skips the confirmation. |
+| `hermes journey edit <node>` | Open the node's content (a skill's `SKILL.md` or the memory chunk) in `$EDITOR`. |
 
 The same `list` / `delete <id>` / `edit <id>` subcommands work from the in-chat `/journey` command on the CLI, and the desktop panel offers edit/delete on nodes directly.
 
@@ -318,10 +315,10 @@ The opt-in uses the shared `hooks.output_spill` threshold, preview lengths, and 
 
 By default the agent saves memory freely — including from the background self-improvement review that runs after a turn. If you'd rather approve saves first, set `memory.write_approval: true`. It's a simple on/off gate applied to **both** foreground turns and the background review:
 
-| `write_approval`  | Behaviour                                                                                                                                                                                                                                                                                                |
-|-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `false` (default) | Write freely — the gate is off (the pre-gate behaviour).                                                                                                                                                                                                                                                 |
-| `true`            | Require approval before anything is saved. In the interactive CLI, foreground writes prompt you inline (entries are small enough to read in full). Everywhere else — messaging platforms, scripts, and the background self-improvement review — writes are **staged** for review with `/memory pending`. |
+| `write_approval` | Behaviour |
+|----|----|
+| `false` (default) | Write freely — the gate is off (the pre-gate behaviour). |
+| `true` | Require approval before anything is saved. In the interactive CLI, foreground writes prompt you inline (entries are small enough to read in full). Everywhere else — messaging platforms, scripts, and the background self-improvement review — writes are **staged** for review with `/memory pending`. |
 
 > To turn memory off entirely (not just gate it), set both `memory_enabled: false` and `user_profile_enabled: false`. When both built-in stores are disabled, the built-in `memory` tool is automatically hidden.
 
@@ -351,11 +348,11 @@ display:
 ```
 
 
-| Value          | Behaviour                                                                                                                           |
-|----------------|-------------------------------------------------------------------------------------------------------------------------------------|
-| `off`          | No chat notification. The review still runs and still writes — you just don't see a line for it.                                    |
-| `on` (default) | Generic line, e.g. `💾 Memory updated`, `💾 Skill 'foo' patched`.                                                                   |
-| `verbose`      | Includes a compact preview of what changed, e.g. `💾 Memory ➕ User prefers terse replies` or a `"old" → "new"` skill diff snippet. |
+| Value | Behaviour |
+|----|----|
+| `off` | No chat notification. The review still runs and still writes — you just don't see a line for it. |
+| `on` (default) | Generic line, e.g. `💾 Memory updated`, `💾 Skill 'foo' patched`. |
+| `verbose` | Includes a compact preview of what changed, e.g. `💾 Memory ➕ User prefers terse replies` or a `"old" → "new"` skill diff snippet. |
 
 > This only governs the **gateway** chat notification. The review itself, and writes to your memory/skill stores, are unaffected by this setting. Set it per-platform via `display.platforms.<platform>.memory_notifications`.
 
@@ -444,10 +441,10 @@ auxiliary:
 ```
 
 
-| Value            | Behaviour                                                                                                                                                          |
-|------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Value | Behaviour |
+|----|----|
 | `auto` (default) | Reviews whose runtime resolves to the managed local server are queued and run at idle; every other runtime (cloud, external servers) spawns immediately as before. |
-| `never`          | Old behavior everywhere: spawn immediately at turn end, even on the managed local GPU.                                                                             |
+| `never` | Old behavior everywhere: spawn immediately at turn end, even on the managed local GPU. |
 
 Queued reviews coalesce per session (a newer turn's snapshot replaces the older one — the review replays the whole conversation, so nothing is lost), a review preempted by a new prompt is re-queued instead of discarded, and a review that has waited longer than `defer_max_age_s` runs even if the machine never goes idle. Explicit `/refine` always runs immediately. The queue is in-memory: reviews still pending when the app exits are dropped, same as an in-flight fork would have been.
 

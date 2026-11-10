@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -407,26 +404,26 @@ Hermes reads MCP config from `~/.hermes/config.yaml` under `mcp_servers`.
 
 ### Common keys<a href="#common-keys" class="hash-link" aria-label="Direct link to Common keys" translate="no" title="Direct link to Common keys">​</a>
 
-| Key                            | Type           | Meaning                                                                                                                                                                                     |
-|--------------------------------|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `command`                      | string         | Executable for a stdio MCP server                                                                                                                                                           |
-| `args`                         | list           | Arguments for the stdio server                                                                                                                                                              |
-| `env`                          | mapping        | Environment variables passed to the stdio server                                                                                                                                            |
-| `cwd`                          | string         | Working directory for the stdio server process. Default: the session working directory when one is pinned (ACP/gateway sessions, `terminal.cwd`), else the Hermes process directory         |
-| `url`                          | string         | HTTP MCP endpoint                                                                                                                                                                           |
-| `headers`                      | mapping        | HTTP headers for remote servers                                                                                                                                                             |
-| `client_cert`                  | string \| list | Client certificate for mTLS — a combined PEM path, or `[cert, key]` / `[cert, key, password]`                                                                                               |
-| `client_key`                   | string         | Client private-key PEM path (when separate from `client_cert`)                                                                                                                              |
-| `identity_header`              | mapping        | Optional per-user identity header for HTTP/SSE servers — `{name, value_from: static|profile, value}`                                                                                        |
-| `timeout`                      | number         | Tool call timeout                                                                                                                                                                           |
-| `connect_timeout`              | number         | Initial connection timeout (also bounds the MCP `initialize` handshake)                                                                                                                     |
-| `lazy`                         | bool           | If `true`, register the server's tools from the schema cache at startup and only start/connect it on the first tool call (default `false`). Needs one prior live connect to fill the cache. |
-| `idle_timeout_seconds`         | number         | Recycle a stdio server after this many seconds without a tool call (`0` = never, default). The server restarts transparently on the next tool call.                                         |
-| `max_lifetime_seconds`         | number         | Recycle a stdio server after this total age (`0` = never, default). Restarts transparently on next use.                                                                                     |
-| `enabled`                      | bool           | If `false`, Hermes skips the server entirely                                                                                                                                                |
-| `supports_parallel_tool_calls` | bool           | If `true`, tools from this server may run concurrently                                                                                                                                      |
-| `events`                       | bool           | If `true`, register the experimental MCP events tools for this server (default `false`). See [MCP Events](#mcp-events-experimental)                                                         |
-| `tools`                        | mapping        | Per-server tool filtering and utility policy                                                                                                                                                |
+| Key | Type | Meaning |
+|----|----|----|
+| `command` | string | Executable for a stdio MCP server |
+| `args` | list | Arguments for the stdio server |
+| `env` | mapping | Environment variables passed to the stdio server |
+| `cwd` | string | Working directory for the stdio server process. Default: the session working directory when one is pinned (ACP/gateway sessions, `terminal.cwd`), else the Hermes process directory |
+| `url` | string | HTTP MCP endpoint |
+| `headers` | mapping | HTTP headers for remote servers |
+| `client_cert` | string \| list | Client certificate for mTLS — a combined PEM path, or `[cert, key]` / `[cert, key, password]` |
+| `client_key` | string | Client private-key PEM path (when separate from `client_cert`) |
+| `identity_header` | mapping | Optional per-user identity header for HTTP/SSE servers — `{name, value_from: static|profile, value}` |
+| `timeout` | number | Tool call timeout |
+| `connect_timeout` | number | Initial connection timeout (also bounds the MCP `initialize` handshake) |
+| `lazy` | bool | If `true`, register the server's tools from the schema cache at startup and only start/connect it on the first tool call (default `false`). Needs one prior live connect to fill the cache. |
+| `idle_timeout_seconds` | number | Recycle a stdio server after this many seconds without a tool call (`0` = never, default). The server restarts transparently on the next tool call. |
+| `max_lifetime_seconds` | number | Recycle a stdio server after this total age (`0` = never, default). Restarts transparently on next use. |
+| `enabled` | bool | If `false`, Hermes skips the server entirely |
+| `supports_parallel_tool_calls` | bool | If `true`, tools from this server may run concurrently |
+| `events` | bool | If `true`, register the experimental MCP events tools for this server (default `false`). See [MCP Events](#mcp-events-experimental) |
+| `tools` | mapping | Per-server tool filtering and utility policy |
 
 ### Minimal stdio example<a href="#minimal-stdio-example" class="hash-link" aria-label="Direct link to Minimal stdio example" translate="no" title="Direct link to Minimal stdio example">​</a>
 
@@ -470,8 +467,8 @@ mcp_servers:
 
 For well-known MCP servers, `hermes mcp add` accepts a `--preset` flag that fills in the transport details so you don't have to look up the command and args. The preset only supplies defaults — anything else (env vars, headers, filtering) you pass on the same command line still wins.
 
-| Preset  | What it wires up                                                                              |
-|---------|-----------------------------------------------------------------------------------------------|
+| Preset | What it wires up |
+|----|----|
 | `codex` | The Codex CLI's MCP server (`codex mcp-server` over stdio). Requires the `codex` CLI on PATH. |
 
 

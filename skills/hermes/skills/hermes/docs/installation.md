@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -72,7 +69,7 @@ Use the [Termux APT package](/docs/getting-started/termux) on aarch64 Android de
 
 ### What the source installer does<a href="#what-the-source-installer-does" class="hash-link" aria-label="Direct link to What the source installer does" translate="no" title="Direct link to What the source installer does">​</a>
 
-The scripts clone the source, bootstrap uv, and delegate dependency preparation to PM. PM provides pinned Python, Node.js, npm, ripgrep, and FFmpeg. The source installation selects the `all` Python extra, not every optional extra. PM also installs the browser and computer-use tools by default: a pinned Chromium (Chrome for Testing) that Hermes launches for local browsing, and `cua-driver` (the computer-use driver, on macOS, Windows and glibc Linux). If a download fails, the install still completes and prints the command to retry. The browser driver behind `browser_exec` (browser-harness, the engine of the Browser Use CLI) is a regular Python dependency, so every install, the Desktop app included, already has it. Where PM has no Chromium build (Android/Termux, musl Linux), Hermes uses a system `chromium` on `PATH` instead. Other optional tools use their feature-specific installation paths.
+The scripts clone the source, bootstrap uv, and delegate dependency preparation to PM. PM provides pinned Python, Node.js, npm, pnpm, ripgrep, and FFmpeg. The source installation selects the `all` Python extra, not every optional extra. PM also installs the browser and computer-use tools by default: a pinned Chromium (Chrome for Testing) that Hermes launches for local browsing, and `cua-driver` (the computer-use driver, on macOS, Windows and glibc Linux). If a download fails, the install still completes and prints the command to retry. The browser driver behind `browser_exec` (browser-harness, the engine of the Browser Use CLI) is a regular Python dependency, so every install, the Desktop app included, already has it. Where PM has no Chromium build (Android/Termux, musl Linux), Hermes uses a system `chromium` on `PATH` instead. Other optional tools use their feature-specific installation paths.
 
 A new install lands on the latest stable release, the channel `hermes update` follows from then on (see [Updating](/docs/getting-started/updating)). To install the tip of `main` instead, pass `--channel main` on POSIX or `-Channel main` on Windows (or set `HERMES_INSTALL_CHANNEL=main` first, for the one-liners).
 
@@ -84,13 +81,13 @@ On a terminal the scripts show one status line per step and write the output of 
 
 #### Install layout<a href="#install-layout" class="hash-link" aria-label="Direct link to Install layout" translate="no" title="Direct link to Install layout">​</a>
 
-| Method                | Code                                  | CLI entry point                               | Default user data                      |
-|-----------------------|---------------------------------------|-----------------------------------------------|----------------------------------------|
-| POSIX source script   | `~/.hermes/hermes-agent/`             | `~/.local/bin/hermes` wrapper                 | `~/.hermes/`                           |
-| Windows source script | `%LOCALAPPDATA%\hermes\hermes-agent\` | `%LOCALAPPDATA%\hermes\bin\`                  | `%LOCALAPPDATA%\hermes\`               |
-| Desktop bundle        | Inside the installed app package      | Packaged launchers; Windows execution aliases | Platform default Hermes data directory |
-| Docker                | `/opt/hermes/`                        | Image entrypoint and `hermes` shim            | Mounted `/opt/data/`                   |
-| Termux APT            | `$PREFIX/lib/hermes-agent/`           | Symlinks in `$PREFIX/bin/`                    | `~/.hermes/`                           |
+| Method | Code | CLI entry point | Default user data |
+|----|----|----|----|
+| POSIX source script | `~/.hermes/hermes-agent/` | `~/.local/bin/hermes` wrapper | `~/.hermes/` |
+| Windows source script | `%LOCALAPPDATA%\hermes\hermes-agent\` | `%LOCALAPPDATA%\hermes\bin\` | `%LOCALAPPDATA%\hermes\` |
+| Desktop bundle | Inside the installed app package | Packaged launchers; Windows execution aliases | Platform default Hermes data directory |
+| Docker | `/opt/hermes/` | Image entrypoint and `hermes` shim | Mounted `/opt/data/` |
+| Termux APT | `$PREFIX/lib/hermes-agent/` | Symlinks in `$PREFIX/bin/` | `~/.hermes/` |
 
 `HERMES_HOME` selects user data. The POSIX script's `--dir` selects its source checkout independently. Windows provides `-HermesHome` and `-InstallDir`. Running the POSIX script as root does not select an automatic FHS layout: it uses root's home unless you provide an explicit source path.
 
@@ -214,11 +211,11 @@ The current source installer does not run Playwright's `--with-deps` step. Apart
 
 ## Troubleshooting<a href="#troubleshooting" class="hash-link" aria-label="Direct link to Troubleshooting" translate="no" title="Direct link to Troubleshooting">​</a>
 
-| Problem                     | Solution                                                                                          |
-|-----------------------------|---------------------------------------------------------------------------------------------------|
-| `hermes: command not found` | Reload your shell (`source ~/.bashrc`) or check PATH                                              |
-| `API key not set`           | Run `hermes model` to configure your provider, or `hermes config set OPENROUTER_API_KEY your_key` |
-| Missing config after update | Run `hermes config check` then `hermes config migrate`                                            |
+| Problem | Solution |
+|----|----|
+| `hermes: command not found` | Reload your shell (`source ~/.bashrc`) or check PATH |
+| `API key not set` | Run `hermes model` to configure your provider, or `hermes config set OPENROUTER_API_KEY your_key` |
+| Missing config after update | Run `hermes config check` then `hermes config migrate` |
 
 For more diagnostics, run `hermes doctor` — it will tell you exactly what's missing and how to fix it.
 
