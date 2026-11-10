@@ -43,7 +43,7 @@ Verify the installation:
 
 
 ``` shiki
-llama cli --version
+llama --version
 ```
 
 
