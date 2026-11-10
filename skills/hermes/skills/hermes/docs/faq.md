@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -265,11 +262,11 @@ See [Security](/docs/user-guide/security) for Hermes' documented execution contr
 
 Chat surfaces (Telegram, Discord, Slack, …) never show the raw transport exception; the gateway maps it to one of three short replies, and the difference tells you where to look:
 
-| Reply                                                                                                                  | What happened                                                                                                                                    | What to do                                                                             |
-|------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| "The connection to the AI model service was **interrupted mid-request** — usually transient."                          | An established connection was cut (`Connection reset by peer`, EOF, `RemoteProtocolError`). The endpoint answered the connect, so it is running. | `/retry`. If it recurs on large requests, see the "stream" entry above.                |
-| "The AI model service isn't reachable right now — the configured model endpoint is **not running or is unreachable**." | Nothing accepted the connection (`Connection refused`, no route to host, DNS failure).                                                           | Start the model server / check `base_url`, then `/retry`; `hermes doctor` on the host. |
-| "Hermes **could not reach** the AI model service (no further detail from the SDK)."                                    | The SDK reported a generic `APIConnectionError` and kept no cause; neither of the above is certain.                                              | `/retry`; `hermes doctor` if it persists. The raw exception is in `hermes logs`.       |
+| Reply | What happened | What to do |
+|----|----|----|
+| "The connection to the AI model service was **interrupted mid-request** — usually transient." | An established connection was cut (`Connection reset by peer`, EOF, `RemoteProtocolError`). The endpoint answered the connect, so it is running. | `/retry`. If it recurs on large requests, see the "stream" entry above. |
+| "The AI model service isn't reachable right now — the configured model endpoint is **not running or is unreachable**." | Nothing accepted the connection (`Connection refused`, no route to host, DNS failure). | Start the model server / check `base_url`, then `/retry`; `hermes doctor` on the host. |
+| "Hermes **could not reach** the AI model service (no further detail from the SDK)." | The SDK reported a generic `APIConnectionError` and kept no cause; neither of the above is certain. | `/retry`; `hermes doctor` if it persists. The raw exception is in `hermes logs`. |
 
 #### `/model` only shows one provider / can't switch providers<a href="#model-only-shows-one-provider--cant-switch-providers" class="hash-link" aria-label="Direct link to model-only-shows-one-provider--cant-switch-providers" translate="no" title="Direct link to model-only-shows-one-provider--cant-switch-providers">​</a>
 
@@ -291,11 +288,11 @@ hermes model
 After adding a new provider via `hermes model`, start a new chat session — `/model` will now show all your configured providers.
 
 
-| Want to...                              | Use                                      |
-|-----------------------------------------|------------------------------------------|
-| Add a new provider                      | `hermes model` (from terminal)           |
-| Enter/change API keys                   | `hermes model` (from terminal)           |
-| Switch model mid-session                | `/model <name>` (inside session)         |
+| Want to... | Use |
+|----|----|
+| Add a new provider | `hermes model` (from terminal) |
+| Enter/change API keys | `hermes model` (from terminal) |
+| Switch model mid-session | `/model <name>` (inside session) |
 | Switch to different configured provider | `/model provider:model` (inside session) |
 
 
@@ -953,13 +950,13 @@ The imported profile will have all config, memories, sessions, and skills from t
 
 ### `hermes backup` vs `hermes profile export`<a href="#hermes-backup-vs-hermes-profile-export" class="hash-link" aria-label="Direct link to hermes-backup-vs-hermes-profile-export" translate="no" title="Direct link to hermes-backup-vs-hermes-profile-export">​</a>
 
-| Feature         | `hermes backup`                                    | `hermes profile export`                             |
-|:----------------|:---------------------------------------------------|:----------------------------------------------------|
-| **Use Case**    | **Full machine migration**                         | **Porting/sharing a specific profile**              |
-| **Scope**       | Hermes data root, with the exclusions listed below | Single profile directory                            |
-| **Includes**    | All profiles, global config, API keys, sessions    | Single profile: SOUL.md, memories, sessions, skills |
-| **Credentials** | **Included** (`.env` and `auth.json`)              | **Excluded** (stripped for safe sharing)            |
-| **Format**      | `.zip`                                             | `.tar.gz`                                           |
+| Feature | `hermes backup` | `hermes profile export` |
+|:---|:---|:---|
+| **Use Case** | **Full machine migration** | **Porting/sharing a specific profile** |
+| **Scope** | Hermes data root, with the exclusions listed below | Single profile directory |
+| **Includes** | All profiles, global config, API keys, sessions | Single profile: SOUL.md, memories, sessions, skills |
+| **Credentials** | **Included** (`.env` and `auth.json`) | **Excluded** (stripped for safe sharing) |
+| **Format** | `.zip` | `.tar.gz` |
 
 The full backup excludes:
 

@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -200,7 +197,7 @@ Point-in-time copies of `config.yaml` itself (taken before `hermes setup` rewrit
 
 For git installs, Hermes auto-stashes dirty tracked files, plus any untracked file at a path the update adds, before checking out the update branch or pulling. Untracked files the update never writes stay in place. Interactive terminal updates ask whether to keep the changes before stashing anything; answering no deletes them instead of leaving a stash entry behind. Non-interactive updates (desktop/chat app, gateway, or `--yes`) use `updates.non_interactive_local_changes`: `stash` restores local source edits after a successful pull, while `discard` drops the update-created stash after a successful pull. Use `discard` only on managed installs where local source edits are never meant to persist.
 
-Before that stash step, Hermes also restores tracked `package-lock.json` diffs left by npm install/build churn. Commit or manually stash intentional lockfile edits before updating.
+Before that stash step, Hermes also restores tracked `package-lock.json` diffs that npm installs leave in the WhatsApp bridge and Photon sidecar. Commit or manually stash intentional lockfile edits before updating.
 
 ## Terminal Backend Configuration<a href="#terminal-backend-configuration" class="hash-link" aria-label="Direct link to Terminal Backend Configuration" translate="no" title="Direct link to Terminal Backend Configuration">​</a>
 
@@ -235,16 +232,16 @@ For cloud sandboxes such as Modal, Daytona, Vercel Sandbox, and Sprites, `contai
 
 ### Backend Overview<a href="#backend-overview" class="hash-link" aria-label="Direct link to Backend Overview" translate="no" title="Direct link to Backend Overview">​</a>
 
-| Backend                  | Where commands run                                                            | Isolation                   | Best for                                                    |
-|--------------------------|-------------------------------------------------------------------------------|-----------------------------|-------------------------------------------------------------|
-| **local**                | Your machine directly                                                         | None                        | Development, personal use                                   |
-| **docker**               | Single persistent Docker container (shared across session, `/new`, subagents) | Full (namespaces, cap-drop) | Safe sandboxing, CI/CD                                      |
-| **ssh**                  | Remote server via SSH                                                         | Network boundary            | Remote dev, powerful hardware                               |
-| **modal**                | Modal cloud sandbox                                                           | Full (cloud VM)             | Ephemeral cloud compute, evals                              |
-| **daytona**              | Daytona workspace                                                             | Full (cloud container)      | Managed cloud dev environments                              |
-| **vercel_sandbox**       | Vercel Sandbox                                                                | Full (cloud microVM)        | Cloud execution with snapshot-backed filesystem persistence |
-| **singularity** (plugin) | Singularity/Apptainer container                                               | Namespaces (--containall)   | HPC clusters, shared machines                               |
-| **sprites** (plugin)     | Sprite on Fly.io                                                              | Full (cloud microVM)        | Stateful cloud sandboxes that persist between sessions      |
+| Backend | Where commands run | Isolation | Best for |
+|----|----|----|----|
+| **local** | Your machine directly | None | Development, personal use |
+| **docker** | Single persistent Docker container (shared across session, `/new`, subagents) | Full (namespaces, cap-drop) | Safe sandboxing, CI/CD |
+| **ssh** | Remote server via SSH | Network boundary | Remote dev, powerful hardware |
+| **modal** | Modal cloud sandbox | Full (cloud VM) | Ephemeral cloud compute, evals |
+| **daytona** | Daytona workspace | Full (cloud container) | Managed cloud dev environments |
+| **vercel_sandbox** | Vercel Sandbox | Full (cloud microVM) | Cloud execution with snapshot-backed filesystem persistence |
+| **singularity** (plugin) | Singularity/Apptainer container | Namespaces (--containall) | HPC clusters, shared machines |
+| **sprites** (plugin) | Sprite on Fly.io | Full (cloud microVM) | Stateful cloud sandboxes that persist between sessions |
 
 ### Local Backend<a href="#local-backend" class="hash-link" aria-label="Direct link to Local Backend" translate="no" title="Direct link to Local Backend">​</a>
 
@@ -263,11 +260,11 @@ Hermes does **not** change your system-wide `HOME`, your shell startup files, or
 
 #### `terminal.home_mode`<a href="#terminalhome_mode" class="hash-link" aria-label="Direct link to terminalhome_mode" translate="no" title="Direct link to terminalhome_mode">​</a>
 
-| Mode      | Host installs                           | Containers                               | Tradeoff                                                                                                                                                                                                                     |
-|-----------|-----------------------------------------|------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `auto`    | Keep the real OS-user `HOME`            | Use `{HERMES_HOME}/home`                 | Recommended default. Host CLIs keep working; container state persists.                                                                                                                                                       |
-| `real`    | Force the real OS-user `HOME`           | Force the real OS-user `HOME` if visible | Useful if a parent process accidentally started with `HOME` pointed at a profile home.                                                                                                                                       |
-| `profile` | Use `{HERMES_HOME}/home` when it exists | Use `{HERMES_HOME}/home` when it exists  | Strict per-profile CLI config isolation, but normal `~/.ssh`, `~/.gitconfig`, `~/.azure`, `~/.config/gh`, Claude/Codex auth, npm state, etc. will not be visible unless you initialize or link them inside the profile home. |
+| Mode | Host installs | Containers | Tradeoff |
+|----|----|----|----|
+| `auto` | Keep the real OS-user `HOME` | Use `{HERMES_HOME}/home` | Recommended default. Host CLIs keep working; container state persists. |
+| `real` | Force the real OS-user `HOME` | Force the real OS-user `HOME` if visible | Useful if a parent process accidentally started with `HOME` pointed at a profile home. |
+| `profile` | Use `{HERMES_HOME}/home` when it exists | Use `{HERMES_HOME}/home` when it exists | Strict per-profile CLI config isolation, but normal `~/.ssh`, `~/.gitconfig`, `~/.azure`, `~/.config/gh`, Claude/Codex auth, npm state, etc. will not be visible unless you initialize or link them inside the profile home. |
 
 The downside of the default is that host profiles share the same normal user-level CLI credentials/config under `~`. If you need a profile with a separate git identity, SSH keys, GitHub CLI login, npm config, or cloud CLI login, use `home_mode: profile` and initialize those tools inside that profile home deliberately.
 
@@ -380,12 +377,12 @@ When a Hermes process exits — `/quit`, closing a TUI session, gateway shutdown
 
 **The container is only torn down (stopped and `docker rm -f`'d) in these cases:**
 
-| Trigger                                        | When it fires                                                                                                                                                                                                                                          |
-|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `docker_persist_across_processes: false`       | Explicit per-process isolation. Every `cleanup()` does `stop` + `rm -f`. Matches pre-issue-#20561 behavior.                                                                                                                                            |
-| Idle reaper (`lifetime_seconds`, default 300s) | Only when the env is `persist_across_processes=false`. Persist-mode envs are no-op'd; container survives the idle sweep.                                                                                                                               |
-| Orphan reaper at next startup                  | Sweeps **Exited** hermes-labeled containers older than `2 × lifetime_seconds` (default 600s = 10 min), scoped to the current profile. **Running containers are never touched** — sibling-process safety. Set `docker_orphan_reaper: false` to disable. |
-| Direct user action                             | `docker rm -f`, `docker system prune`, Docker Desktop restart. We don't set `--restart=always`, so a host reboot leaves the container `Exited` (its CoW layer survives and gets reused on next startup, but bg processes are gone).                    |
+| Trigger | When it fires |
+|----|----|
+| `docker_persist_across_processes: false` | Explicit per-process isolation. Every `cleanup()` does `stop` + `rm -f`. Matches pre-issue-#20561 behavior. |
+| Idle reaper (`lifetime_seconds`, default 300s) | Only when the env is `persist_across_processes=false`. Persist-mode envs are no-op'd; container survives the idle sweep. |
+| Orphan reaper at next startup | Sweeps **Exited** hermes-labeled containers older than `2 × lifetime_seconds` (default 600s = 10 min), scoped to the current profile. **Running containers are never touched** — sibling-process safety. Set `docker_orphan_reaper: false` to disable. |
+| Direct user action | `docker rm -f`, `docker system prune`, Docker Desktop restart. We don't set `--restart=always`, so a host reboot leaves the container `Exited` (its CoW layer survives and gets reused on next startup, but bg processes are gone). |
 
 Edge cases worth knowing:
 
@@ -408,28 +405,28 @@ Parallel subagents spawned via `delegate_task(tasks=[...])` share this one conta
 
 Every key under `terminal:` has an env-var override of the form `TERMINAL_<KEY_UPPERCASE>`. The most useful ones for the Docker backend:
 
-| Env var                                    | Maps to                           | Notes                                                                                                      |
-|--------------------------------------------|-----------------------------------|------------------------------------------------------------------------------------------------------------|
-| `TERMINAL_DOCKER_IMAGE`                    | `docker_image`                    | Base image                                                                                                 |
-| `TERMINAL_DOCKER_FORWARD_ENV`              | `docker_forward_env`              | JSON array: `'["GITHUB_TOKEN","OPENAI_API_KEY"]'`                                                          |
-| `TERMINAL_DOCKER_ENV`                      | `docker_env`                      | JSON dict: `'{"DEBUG":"1"}'`                                                                               |
-| `TERMINAL_DOCKER_VOLUMES`                  | `docker_volumes`                  | JSON array of `"host:container[:ro]"` strings                                                              |
-| `TERMINAL_DOCKER_EXTRA_ARGS`               | `docker_extra_args`               | JSON array                                                                                                 |
-| `TERMINAL_DOCKER_MOUNT_CWD_TO_WORKSPACE`   | `docker_mount_cwd_to_workspace`   | `true` / `false`                                                                                           |
-| `TERMINAL_DOCKER_RUN_AS_HOST_USER`         | `docker_run_as_host_user`         | `true` / `false`                                                                                           |
-| `TERMINAL_DOCKER_SNAP_COMPAT`              | `docker_snap_compat`              | `true` / `false` — default `false`                                                                         |
-| `TERMINAL_DOCKER_NETWORK`                  | `docker_network`                  | `true` / `false` — default `true`; `false` = `--network=none`                                              |
-| `TERMINAL_DOCKER_PERSIST_ACROSS_PROCESSES` | `docker_persist_across_processes` | `true` / `false` — default `true`                                                                          |
-| `TERMINAL_DOCKER_SHARED_CONTAINER_KEY`     | `docker_shared_container_key`     | Explicit shared identity for trusted profiles; empty by default                                            |
-| `TERMINAL_DOCKER_ORPHAN_REAPER`            | `docker_orphan_reaper`            | `true` / `false` — default `true`                                                                          |
-| `TERMINAL_CONTAINER_CPU`                   | `container_cpu`                   | CPU cores                                                                                                  |
-| `TERMINAL_CONTAINER_MEMORY`                | `container_memory`                | MB                                                                                                         |
-| `TERMINAL_CONTAINER_DISK`                  | `container_disk`                  | MB                                                                                                         |
-| `TERMINAL_CONTAINER_PERSISTENT`            | `container_persistent`            | `true` / `false` — controls the bind-mount workspace dirs, distinct from `docker_persist_across_processes` |
-| `TERMINAL_LIFETIME_SECONDS`                | `lifetime_seconds`                | Idle reaper window                                                                                         |
-| `TERMINAL_TEMP_DIR`                        | `temp_dir`                        | Session temp root (local backend)                                                                          |
-| `TERMINAL_TIMEOUT`                         | `timeout`                         | Per-command timeout                                                                                        |
-| `HERMES_DOCKER_BINARY`                     | *none*                            | Force a specific docker/podman binary path                                                                 |
+| Env var | Maps to | Notes |
+|----|----|----|
+| `TERMINAL_DOCKER_IMAGE` | `docker_image` | Base image |
+| `TERMINAL_DOCKER_FORWARD_ENV` | `docker_forward_env` | JSON array: `'["GITHUB_TOKEN","OPENAI_API_KEY"]'` |
+| `TERMINAL_DOCKER_ENV` | `docker_env` | JSON dict: `'{"DEBUG":"1"}'` |
+| `TERMINAL_DOCKER_VOLUMES` | `docker_volumes` | JSON array of `"host:container[:ro]"` strings |
+| `TERMINAL_DOCKER_EXTRA_ARGS` | `docker_extra_args` | JSON array |
+| `TERMINAL_DOCKER_MOUNT_CWD_TO_WORKSPACE` | `docker_mount_cwd_to_workspace` | `true` / `false` |
+| `TERMINAL_DOCKER_RUN_AS_HOST_USER` | `docker_run_as_host_user` | `true` / `false` |
+| `TERMINAL_DOCKER_SNAP_COMPAT` | `docker_snap_compat` | `true` / `false` — default `false` |
+| `TERMINAL_DOCKER_NETWORK` | `docker_network` | `true` / `false` — default `true`; `false` = `--network=none` |
+| `TERMINAL_DOCKER_PERSIST_ACROSS_PROCESSES` | `docker_persist_across_processes` | `true` / `false` — default `true` |
+| `TERMINAL_DOCKER_SHARED_CONTAINER_KEY` | `docker_shared_container_key` | Explicit shared identity for trusted profiles; empty by default |
+| `TERMINAL_DOCKER_ORPHAN_REAPER` | `docker_orphan_reaper` | `true` / `false` — default `true` |
+| `TERMINAL_CONTAINER_CPU` | `container_cpu` | CPU cores |
+| `TERMINAL_CONTAINER_MEMORY` | `container_memory` | MB |
+| `TERMINAL_CONTAINER_DISK` | `container_disk` | MB |
+| `TERMINAL_CONTAINER_PERSISTENT` | `container_persistent` | `true` / `false` — controls the bind-mount workspace dirs, distinct from `docker_persist_across_processes` |
+| `TERMINAL_LIFETIME_SECONDS` | `lifetime_seconds` | Idle reaper window |
+| `TERMINAL_TEMP_DIR` | `temp_dir` | Session temp root (local backend) |
+| `TERMINAL_TIMEOUT` | `timeout` | Per-command timeout |
+| `HERMES_DOCKER_BINARY` | *none* | Force a specific docker/podman binary path |
 
 ### SSH Backend<a href="#ssh-backend" class="hash-link" aria-label="Direct link to SSH Backend" translate="no" title="Direct link to SSH Backend">​</a>
 
@@ -454,10 +451,10 @@ TERMINAL_SSH_USER=ubuntu
 
 **Optional:**
 
-| Variable                  | Default                                      | Description                              |
-|---------------------------|----------------------------------------------|------------------------------------------|
-| `TERMINAL_SSH_PORT`       | `22`                                         | SSH port                                 |
-| `TERMINAL_SSH_KEY`        | (system default)                             | Path to SSH private key                  |
+| Variable | Default | Description |
+|----|----|----|
+| `TERMINAL_SSH_PORT` | `22` | SSH port |
+| `TERMINAL_SSH_KEY` | (system default) | Path to SSH private key |
 | `TERMINAL_SSH_PERSISTENT` | follows `terminal.persistent_shell` (`true`) | Carry exported env vars between commands |
 
 **How it works:** Connects at init time with `BatchMode=yes` and `StrictHostKeyChecking=accept-new`, then captures the remote login shell's environment once into a snapshot file. Every command runs as a fresh `bash -c` that sources that snapshot, `cd`s to the tracked working directory, and runs your command.
@@ -771,14 +768,14 @@ A host path in `terminal.cwd` (for example `C:\Users\me\project` on Windows, or 
 
 Every terminal command on the **local** and **SSH** backends runs in a fresh `bash` process. Hermes captures your login shell's environment once (PATH, exports from your profile, functions, aliases) and starts the first command from that snapshot. With the setting off, every command starts from it. With the setting on, each command saves its exported variables for the next one, and that saved copy holds exported variables only, so profile functions and aliases are gone after the first command.
 
-| What                                      | Setting on (default)  | Setting off                    |
-|-------------------------------------------|-----------------------|--------------------------------|
-| Working directory (`cd ~/project`)        | carries over          | carries over                   |
-| Exported env vars (`export FOO=bar`)      | carry over            | reset to the login environment |
-| Plain shell vars (`MY_VAR=hello`)         | do **not** carry over | do not carry over              |
-| Functions / aliases defined mid-session   | do **not** carry over | do not carry over              |
-| Login environment (PATH, profile exports) | always present        | always present                 |
-| Profile functions / aliases               | first command only    | always present                 |
+| What | Setting on (default) | Setting off |
+|----|----|----|
+| Working directory (`cd ~/project`) | carries over | carries over |
+| Exported env vars (`export FOO=bar`) | carry over | reset to the login environment |
+| Plain shell vars (`MY_VAR=hello`) | do **not** carry over | do not carry over |
+| Functions / aliases defined mid-session | do **not** carry over | do not carry over |
+| Login environment (PATH, profile exports) | always present | always present |
+| Profile functions / aliases | first command only | always present |
 
 The working directory always carries over because the file tools resolve relative paths against it. To make a variable stick in either mode, `export` it (setting on) or put it in your shell profile or `terminal.env_passthrough`.
 
@@ -793,10 +790,10 @@ export TERMINAL_LOCAL_PERSISTENT=false              # local
 
 **Precedence:**
 
-| Backend | Variable                                                                                  | Default |
-|---------|-------------------------------------------------------------------------------------------|---------|
-| SSH     | `TERMINAL_SSH_PERSISTENT`, else `terminal.persistent_shell` (`TERMINAL_PERSISTENT_SHELL`) | `true`  |
-| Local   | `TERMINAL_LOCAL_PERSISTENT`                                                               | `true`  |
+| Backend | Variable | Default |
+|----|----|----|
+| SSH | `TERMINAL_SSH_PERSISTENT`, else `terminal.persistent_shell` (`TERMINAL_PERSISTENT_SHELL`) | `true` |
+| Local | `TERMINAL_LOCAL_PERSISTENT` | `true` |
 
 Docker, Modal, Daytona, Vercel Sandbox and plugin backends (Singularity included) ignore these settings.
 
@@ -1162,11 +1159,11 @@ Points at a custom OpenAI-compatible endpoint. Uses `OPENAI_API_KEY` for auth.
 
 ### How the three knobs interact<a href="#how-the-three-knobs-interact" class="hash-link" aria-label="Direct link to How the three knobs interact" translate="no" title="Direct link to How the three knobs interact">​</a>
 
-| `auxiliary.compression.provider` | `auxiliary.compression.base_url` | Result                                              |
-|----------------------------------|----------------------------------|-----------------------------------------------------|
-| `auto` (default)                 | not set                          | Auto-detect best available provider                 |
-| `nous` / `openrouter` / etc.     | not set                          | Force that provider, use its auth                   |
-| any                              | set                              | Use the custom endpoint directly (provider ignored) |
+| `auxiliary.compression.provider` | `auxiliary.compression.base_url` | Result |
+|----|----|----|
+| `auto` (default) | not set | Auto-detect best available provider |
+| `nous` / `openrouter` / etc. | not set | Force that provider, use its auth |
+| any | set | Use the custom endpoint directly (provider ignored) |
 
 ### Stream progress timeout<a href="#stream-progress-timeout" class="hash-link" aria-label="Direct link to Stream progress timeout" translate="no" title="Direct link to Stream progress timeout">​</a>
 
@@ -1415,15 +1412,15 @@ goals:
 
 Hermes has separate timeout layers for streaming, plus a stale detector for non-streaming calls. The stale detectors auto-adjust for local providers only when you leave them at their implicit defaults.
 
-| Timeout                                      | Default   | Local providers                                                 | Config / env                                                                         |
-|----------------------------------------------|-----------|-----------------------------------------------------------------|--------------------------------------------------------------------------------------|
-| Socket read timeout                          | 120s      | Auto-raised to 1800s                                            | `HERMES_STREAM_READ_TIMEOUT`                                                         |
-| Stale stream detection                       | 180s      | Raised to a 900s ceiling (`agent.local_stream_stale_timeout`)   | `HERMES_STREAM_STALE_TIMEOUT`                                                        |
-| Stream max lifetime (opt-in)                 | Off (`0`) | Same                                                            | `agent.stream_max_lifetime`                                                          |
-| Stale non-stream detection                   | 90s       | Auto-disabled when left implicit                                | `providers.<id>.stale_timeout_seconds` or `HERMES_API_CALL_STALE_TIMEOUT`            |
-| Responses first-event watchdog               | 120s      | Raised to the 900s ceiling (`agent.local_stream_stale_timeout`) | `HERMES_CODEX_TTFB_TIMEOUT_SECONDS`                                                  |
-| API call (non-streaming)                     | 1800s     | Unchanged                                                       | `providers.<id>.request_timeout_seconds` / `timeout_seconds` or `HERMES_API_TIMEOUT` |
-| Post-terminal stream drain (Codex/Responses) | 2s        | Unchanged                                                       | `agent.stream_drain_timeout`                                                         |
+| Timeout | Default | Local providers | Config / env |
+|----|----|----|----|
+| Socket read timeout | 120s | Auto-raised to 1800s | `HERMES_STREAM_READ_TIMEOUT` |
+| Stale stream detection | 180s | Raised to a 900s ceiling (`agent.local_stream_stale_timeout`) | `HERMES_STREAM_STALE_TIMEOUT` |
+| Stream max lifetime (opt-in) | Off (`0`) | Same | `agent.stream_max_lifetime` |
+| Stale non-stream detection | 90s | Auto-disabled when left implicit | `providers.<id>.stale_timeout_seconds` or `HERMES_API_CALL_STALE_TIMEOUT` |
+| Responses first-event watchdog | 120s | Raised to the 900s ceiling (`agent.local_stream_stale_timeout`) | `HERMES_CODEX_TTFB_TIMEOUT_SECONDS` |
+| API call (non-streaming) | 1800s | Unchanged | `providers.<id>.request_timeout_seconds` / `timeout_seconds` or `HERMES_API_TIMEOUT` |
+| Post-terminal stream drain (Codex/Responses) | 2s | Unchanged | `agent.stream_drain_timeout` |
 
 The **socket read timeout** controls how long httpx waits for the next chunk of data from the provider. Local LLMs can take minutes for prefill on large contexts before producing the first token, so Hermes raises this to 30 minutes when it detects a local endpoint. If you explicitly set `HERMES_STREAM_READ_TIMEOUT`, that value is always used regardless of endpoint detection.
 
@@ -1460,10 +1457,10 @@ model:
 
 Separate from iteration budget pressure, context pressure tracks how close the conversation is to the **compaction threshold** — the point where context compression fires to summarize older messages. This helps both you and the agent understand when the conversation is getting long.
 
-| Progress               | Level   | What happens                                                         |
-|------------------------|---------|----------------------------------------------------------------------|
-| **≥ 60%** to threshold | Info    | CLI shows a cyan progress bar; gateway sends an informational notice |
-| **≥ 85%** to threshold | Warning | CLI shows a bold yellow bar; gateway warns compaction is imminent    |
+| Progress | Level | What happens |
+|----|----|----|
+| **≥ 60%** to threshold | Info | CLI shows a cyan progress bar; gateway sends an informational notice |
+| **≥ 85%** to threshold | Warning | CLI shows a bold yellow bar; gateway warns compaction is imminent |
 
 In the CLI, context pressure appears as a progress bar in the tool output feed:
 
@@ -1595,16 +1592,16 @@ Unable to execute JavaScript.
 
 Every model slot in Hermes — auxiliary tasks, compression, fallback — uses the same three knobs:
 
-| Key        | What it does                                           | Default            |
-|------------|--------------------------------------------------------|--------------------|
-| `provider` | Which provider to use for auth and routing             | `"auto"`           |
-| `model`    | Which model to request                                 | provider's default |
-| `base_url` | Custom OpenAI-compatible endpoint (overrides provider) | not set            |
+| Key | What it does | Default |
+|----|----|----|
+| `provider` | Which provider to use for auth and routing | `"auto"` |
+| `model` | Which model to request | provider's default |
+| `base_url` | Custom OpenAI-compatible endpoint (overrides provider) | not set |
 
 Auxiliary task blocks additionally accept a `reasoning_effort` knob:
 
-| Key                | What it does                                                                                                  | Default                    |
-|--------------------|---------------------------------------------------------------------------------------------------------------|----------------------------|
+| Key | What it does | Default |
+|----|----|----|
 | `reasoning_effort` | Thinking level for that task's LLM calls: `none`, `minimal`, `low`, `medium`, `high`, `xhigh`, `max`, `ultra` | not set (provider default) |
 
 This is the per-task counterpart of the global `agent.reasoning_effort`: run compression at `low` or vision at `none` to cut side-task latency and cost when your main model is an expensive reasoning model, without touching your main chat behavior. It applies to auxiliary-client tasks such as `vision`, `compression`, `title_generation`, and `curator`, across all three auxiliary wire formats (chat completions, Codex Responses, Anthropic Messages). An explicit `extra_body.reasoning` on the same task wins over the shorthand. A caller that turns thinking off for its own call (title generation does — a 64-token title has no room for reasoning) wins over both: the task-level effort is dropped for that request instead of being sent beside the provider's thinking-off field.
@@ -1768,11 +1765,11 @@ When the primary auxiliary provider (`openrouter` / `openai/gpt-4o-mini`) return
 
 Each entry supports the same three knobs as any auxiliary task config:
 
-| Key        | Description                                                               |
-|------------|---------------------------------------------------------------------------|
+| Key | Description |
+|----|----|
 | `provider` | Provider name (`nous`, `openrouter`, `anthropic`, `gemini`, `main`, etc.) |
-| `model`    | Model name for that provider                                              |
-| `base_url` | (Optional) Custom OpenAI-compatible endpoint                              |
+| `model` | Model name for that provider |
+| `base_url` | (Optional) Custom OpenAI-compatible endpoint |
 
 `fallback_chain` is available on any auxiliary task — `compression`, `vision`, `approval`, `mcp`, etc.
 
@@ -1849,15 +1846,15 @@ AUXILIARY_VISION_MODEL=openai/gpt-4o
 
 These options apply to **auxiliary task configs** (`auxiliary:`, `compression:`) and primary fallback entries (`fallback_providers:` or legacy `fallback_model:`), not to your main `model.provider` setting.
 
-| Provider          | Description                                                                                                                                                                                                                                                                                 | Requirements                                           |
-|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------|
-| `"auto"`          | Best available (default). Vision tries OpenRouter → Nous → Codex.                                                                                                                                                                                                                           | —                                                      |
-| `"openrouter"`    | Force OpenRouter — routes to any model (Gemini, GPT-4o, Claude, etc.)                                                                                                                                                                                                                       | `OPENROUTER_API_KEY`                                   |
-| `"nous"`          | Force Nous Portal                                                                                                                                                                                                                                                                           | `hermes auth`                                          |
-| `"codex"`         | Force Codex OAuth (ChatGPT account). Set `model` explicitly (e.g. `gpt-5.4`).                                                                                                                                                                                                               | `hermes model` → ChatGPT or Codex Subscription         |
-| `"minimax-oauth"` | Force MiniMax OAuth (browser login, no API key). Uses MiniMax-M2.7-highspeed for auxiliary tasks.                                                                                                                                                                                           | `hermes model` → MiniMax (OAuth)                       |
-| `"xai-oauth"`     | Force xAI Grok OAuth (browser login for SuperGrok or X Premium+ subscribers, no API key). Same OAuth token covers chat, TTS, image, video, and transcription.                                                                                                                               | `hermes model` → xAI Grok OAuth (SuperGrok / Premium+) |
-| `"main"`          | Use your active custom/main endpoint. This can come from `OPENAI_BASE_URL` + `OPENAI_API_KEY` or from a custom endpoint saved via `hermes model` / `config.yaml`. Works with OpenAI, local models, or any OpenAI-compatible API. **Auxiliary tasks only — not valid for `model.provider`.** | Custom endpoint credentials + base URL                 |
+| Provider | Description | Requirements |
+|----|----|----|
+| `"auto"` | Best available (default). Vision tries OpenRouter → Nous → Codex. | — |
+| `"openrouter"` | Force OpenRouter — routes to any model (Gemini, GPT-4o, Claude, etc.) | `OPENROUTER_API_KEY` |
+| `"nous"` | Force Nous Portal | `hermes auth` |
+| `"codex"` | Force Codex OAuth (ChatGPT account). Set `model` explicitly (e.g. `gpt-5.4`). | `hermes model` → ChatGPT or Codex Subscription |
+| `"minimax-oauth"` | Force MiniMax OAuth (browser login, no API key). Uses MiniMax-M2.7-highspeed for auxiliary tasks. | `hermes model` → MiniMax (OAuth) |
+| `"xai-oauth"` | Force xAI Grok OAuth (browser login for SuperGrok or X Premium+ subscribers, no API key). Same OAuth token covers chat, TTS, image, video, and transcription. | `hermes model` → xAI Grok OAuth (SuperGrok / Premium+) |
+| `"main"` | Use your active custom/main endpoint. This can come from `OPENAI_BASE_URL` + `OPENAI_API_KEY` or from a custom endpoint saved via `hermes model` / `config.yaml`. Works with OpenAI, local models, or any OpenAI-compatible API. **Auxiliary tasks only — not valid for `model.provider`.** | Custom endpoint credentials + base URL |
 
 Direct API-key providers from the main provider catalog also work here when you want side tasks to bypass your default router. For example, `gmi` is valid once `GMI_API_KEY` is configured, and `fireworks` is valid once `FIREWORKS_API_KEY` is configured:
 
@@ -2115,12 +2112,12 @@ agent:
 ```
 
 
-| Mode                     | When fast params are sent                                                   | Use it for                                                        |
-|--------------------------|-----------------------------------------------------------------------------|-------------------------------------------------------------------|
-| `normal` (default, `""`) | Never                                                                       | Cheapest; standard latency                                        |
-| `fast`                   | Every request                                                               | Long interactive sessions where you always want speed             |
-| `auto`                   | Requests in the first `fast_auto_seconds` of **every** turn                 | Snappy first reply; long tool loops fall back to standard pricing |
-| `cold`                   | Same window, but only on the **first turn** of a session (no prior history) | Fast onboarding reply, standard pricing afterwards                |
+| Mode | When fast params are sent | Use it for |
+|----|----|----|
+| `normal` (default, `""`) | Never | Cheapest; standard latency |
+| `fast` | Every request | Long interactive sessions where you always want speed |
+| `auto` | Requests in the first `fast_auto_seconds` of **every** turn | Snappy first reply; long tool loops fall back to standard pricing |
+| `cold` | Same window, but only on the **first turn** of a session (no prior history) | Fast onboarding reply, standard pricing afterwards |
 
 `/fast normal|fast|ultrafast|auto|cold` switches the mode for the session (`/fast ultra` is shorthand for `ultrafast`). On a ChatGPT/Codex subscription, Ultrafast is offered only when your account's Codex model catalog lists it for the current model; the backend otherwise accepts the request and serves standard speed. Add `--global` to persist to `config.yaml`. `/fast` alone shows the current mode.
 
@@ -2161,12 +2158,12 @@ agent:
 ```
 
 
-| Value                               | Behavior                                                                                                                                          |
-|-------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| `"auto"` (default)                  | Enabled for models matching: `gpt`, `codex`, `gemini`, `gemma`, `grok`, `glm`, `qwen`, `deepseek`, `muse`. Disabled for all others (e.g. Claude). |
-| `true`                              | Always enabled, regardless of model. Useful if you notice your current model describing actions instead of performing them.                       |
-| `false`                             | Always disabled, regardless of model.                                                                                                             |
-| `["gpt", "codex", "qwen", "llama"]` | Enabled only when the model name contains one of the listed substrings (case-insensitive).                                                        |
+| Value | Behavior |
+|----|----|
+| `"auto"` (default) | Enabled for models matching: `gpt`, `codex`, `gemini`, `gemma`, `grok`, `glm`, `qwen`, `deepseek`, `muse`. Disabled for all others (e.g. Claude). |
+| `true` | Always enabled, regardless of model. Useful if you notice your current model describing actions instead of performing them. |
+| `false` | Always disabled, regardless of model. |
+| `["gpt", "codex", "qwen", "llama"]` | Enabled only when the model name contains one of the listed substrings (case-insensitive). |
 
 ### What it injects<a href="#what-it-injects" class="hash-link" aria-label="Direct link to What it injects" translate="no" title="Direct link to What it injects">​</a>
 
@@ -2200,12 +2197,12 @@ agent:
 ```
 
 
-| Value                             | Behavior                                                                                                                      |
-|-----------------------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| `"auto"` (default)                | Enabled for models matching: `gpt`, `codex`, `grok`, `deepseek`, `kimi`, `qwen`, `glm`, `minimax`, `mimo`, `mistral`, `muse`. |
-| `true`                            | Always enabled, regardless of model.                                                                                          |
-| `false`                           | Always disabled, regardless of model.                                                                                         |
-| `["deepseek", "my-custom-model"]` | Enabled only when the model name contains one of the listed substrings (case-insensitive).                                    |
+| Value | Behavior |
+|----|----|
+| `"auto"` (default) | Enabled for models matching: `gpt`, `codex`, `grok`, `deepseek`, `kimi`, `qwen`, `glm`, `minimax`, `mimo`, `mistral`, `muse`. |
+| `true` | Always enabled, regardless of model. |
+| `false` | Always disabled, regardless of model. |
+| `["deepseek", "my-custom-model"]` | Enabled only when the model name contains one of the listed substrings (case-insensitive). |
 
 The injected block covers:
 
@@ -2528,13 +2525,13 @@ display:
 
 Supported fields:
 
-| Field          | Renders                                                                                                                                                                                                                                                   | Example                             |
-|----------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------|
-| `model`        | Bare model id, vendor prefix dropped                                                                                                                                                                                                                      | `gpt-5.4`                           |
-| `context_pct`  | Last-call context occupancy as a percent                                                                                                                                                                                                                  | `5%`                                |
-| `latency`      | Wall-clock duration of the turn                                                                                                                                                                                                                           | `22s`, `1m05s`                      |
+| Field | Renders | Example |
+|----|----|----|
+| `model` | Bare model id, vendor prefix dropped | `gpt-5.4` |
+| `context_pct` | Last-call context occupancy as a percent | `5%` |
+| `latency` | Wall-clock duration of the turn | `22s`, `1m05s` |
 | `served_model` | The model that actually answered, when it differs from the one you configured: the deployment a routing proxy reported in its `x-litellm-model-id` (or `x-litellm-model-api-base`) response header, or the fallback model Hermes switched to for the turn | `hermes-router → gpt-4o-2024-11-20` |
-| `cwd`          | Home-relative working directory                                                                                                                                                                                                                           | `~`                                 |
+| `cwd` | Home-relative working directory | `~` |
 
 The default field set is `["model", "context_pct", "cwd"]`. `latency` and `served_model` are opt-in — add them to `fields` to use them. `served_model` renders nothing when the served model is the configured one (or when the proxy sends no such header), so behind a routing proxy or an active fallback it is the field that makes the switch visible. Fields whose data is unavailable are skipped silently rather than rendering an empty slot.
 
@@ -2589,13 +2586,13 @@ privacy:
 
 When `redact_pii` is `true`, the gateway redacts personally identifiable information from the system prompt before sending it to the LLM on supported platforms:
 
-| Field                                      | Treatment                                                             |
-|--------------------------------------------|-----------------------------------------------------------------------|
-| Phone numbers (user ID on WhatsApp/Signal) | Hashed to `user_<12-char-sha256>`                                     |
-| User IDs                                   | Hashed to `user_<12-char-sha256>`                                     |
-| Chat IDs                                   | Numeric portion hashed, platform prefix preserved (`telegram:<hash>`) |
-| Home channel IDs                           | Numeric portion hashed                                                |
-| User names / usernames                     | **Not affected** (user-chosen, publicly visible)                      |
+| Field | Treatment |
+|----|----|
+| Phone numbers (user ID on WhatsApp/Signal) | Hashed to `user_<12-char-sha256>` |
+| User IDs | Hashed to `user_<12-char-sha256>` |
+| Chat IDs | Numeric portion hashed, platform prefix preserved (`telegram:<hash>`) |
+| Home channel IDs | Numeric portion hashed |
+| User names / usernames | **Not affected** (user-chosen, publicly visible) |
 
 **Platform support:** Redaction applies to WhatsApp, Signal, and Telegram. Discord and Slack are excluded because their mention systems (`<@user_id>`) require the real ID in the LLM context.
 
@@ -2723,18 +2720,18 @@ stt:
 
 **Provider support.**
 
-| Provider                                    | Prompt parameter                             | Behavior                                                                               |
-|---------------------------------------------|----------------------------------------------|----------------------------------------------------------------------------------------|
-| `local` (faster-whisper)                    | `initial_prompt`                             | Forwarded unchanged to the local model                                                 |
-| `openai`                                    | `prompt`                                     | Forwarded unchanged in the transcription request                                       |
-| `groq`                                      | `prompt`                                     | Forwarded unchanged in the transcription request                                       |
-| `mistral`                                   | `prompt`                                     | Forwarded unchanged in the transcription request                                       |
-| `deepinfra`                                 | `prompt`                                     | OpenAI-compatible path, forwarded unchanged                                            |
-| `xai`                                       | not supported                                | Logged at DEBUG, the request proceeds without the prompt                               |
-| `elevenlabs`                                | not supported                                | Logged at DEBUG, the request proceeds without the prompt                               |
-| `local_command`                             | not supported                                | Logged at DEBUG, the request proceeds without the prompt                               |
-| `stt.providers.<name>` with `type: command` | not supported                                | Logged at DEBUG, the request proceeds without the prompt                               |
-| Plugin-registered providers                 | `prompt` in the `transcribe(**extra)` kwargs | Only sent when a prompt is set, so providers that predate this key see unchanged calls |
+| Provider | Prompt parameter | Behavior |
+|----|----|----|
+| `local` (faster-whisper) | `initial_prompt` | Forwarded unchanged to the local model |
+| `openai` | `prompt` | Forwarded unchanged in the transcription request |
+| `groq` | `prompt` | Forwarded unchanged in the transcription request |
+| `mistral` | `prompt` | Forwarded unchanged in the transcription request |
+| `deepinfra` | `prompt` | OpenAI-compatible path, forwarded unchanged |
+| `xai` | not supported | Logged at DEBUG, the request proceeds without the prompt |
+| `elevenlabs` | not supported | Logged at DEBUG, the request proceeds without the prompt |
+| `local_command` | not supported | Logged at DEBUG, the request proceeds without the prompt |
+| `stt.providers.<name>` with `type: command` | not supported | Logged at DEBUG, the request proceeds without the prompt |
+| Plugin-registered providers | `prompt` in the `transcribe(**extra)` kwargs | Only sent when a prompt is set, so providers that predate this key see unchanged calls |
 
 **Length.** Whisper-family models only condition on the final ~224 prompt tokens. For the whisper-family backends (`local`, `openai`, `groq`, `deepinfra`) Hermes enforces that cap client-side: an over-long final prompt is truncated to its tail with a logged warning — the request never errors because of prompt length. Other backends (`mistral`, plugin providers) receive the prompt unchanged and own their own validation. Keep hints short and specific either way.
 
@@ -2997,14 +2994,14 @@ web:
 ```
 
 
-| Backend                 | Env Var                                             | Search | Extract                     |
-|-------------------------|-----------------------------------------------------|--------|-----------------------------|
-| **Firecrawl** (default) | `FIRECRAWL_API_KEY`                                 | ✔      | ✔                           |
-| **SearXNG**             | `SEARXNG_URL`                                       | ✔      | —                           |
-| **Parallel**            | `PARALLEL_API_KEY` (optional — keyless free tier)   | ✔      | ✔                           |
-| **Tavily**              | `TAVILY_API_KEY` (optional — keyless when selected) | ✔      | ✔                           |
-| **Perplexity**          | `PERPLEXITY_API_KEY`                                | ✔      | ✔ (query-relevant snippets) |
-| **Exa**                 | `EXA_API_KEY` (optional — keyless free tier)        | ✔      | ✔                           |
+| Backend | Env Var | Search | Extract |
+|----|----|----|----|
+| **Firecrawl** (default) | `FIRECRAWL_API_KEY` | ✔ | ✔ |
+| **SearXNG** | `SEARXNG_URL` | ✔ | — |
+| **Parallel** | `PARALLEL_API_KEY` (optional — keyless free tier) | ✔ | ✔ |
+| **Tavily** | `TAVILY_API_KEY` (optional — keyless when selected) | ✔ | ✔ |
+| **Perplexity** | `PERPLEXITY_API_KEY` | ✔ | ✔ (query-relevant snippets) |
+| **Exa** | `EXA_API_KEY` (optional — keyless free tier) | ✔ | ✔ |
 
 **Backend selection:** The runtime always uses the stored `web.backend` selection (set via `hermes tools`; `nous` routes through the managed Tool Gateway). Only if no web backend has ever been selected is one auto-detected from available API keys: if only `SEARXNG_URL` is set, SearXNG is used; if only `EXA_API_KEY` is set, Exa; if only `TAVILY_API_KEY` is set, Tavily; if only `PERPLEXITY_API_KEY` is set, Perplexity; if only `PARALLEL_API_KEY` is set, Parallel; if only `KEENABLE_API_KEY` is set, Keenable. With **no selection and no credentials at all**, requests rotate round-robin across the keyless free-tier ring (Exa / Parallel / Firecrawl / Keenable) with automatic next-in-line failover on rate limits (and, for search, on vendor refusals) — see the [Web Search guide](/docs/user-guide/features/web-search) for details. Once a selection exists, adding a key to `.env` does not change the route. Selecting Tavily, Firecrawl, or Keenable in `hermes tools` also works without a key.
 
@@ -3155,11 +3152,11 @@ approvals:
 ```
 
 
-| Mode              | Behavior                                                                                                                                                                                                                  |
-|-------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Mode | Behavior |
+|----|----|
 | `smart` (default) | Use an auxiliary LLM to assess whether a flagged command is actually dangerous. Low-risk commands are auto-approved for that command only. Genuinely risky commands are denied; uncertain decisions escalate to the user. |
-| `manual`          | Prompt the user before executing any flagged command. In the CLI, shows an interactive approval dialog. In messaging, queues a pending approval request.                                                                  |
-| `off`             | Skip all approval checks. Equivalent to `HERMES_YOLO_MODE=true`. **Use with caution.**                                                                                                                                    |
+| `manual` | Prompt the user before executing any flagged command. In the CLI, shows an interactive approval dialog. In messaging, queues a pending approval request. |
+| `off` | Skip all approval checks. Equivalent to `HERMES_YOLO_MODE=true`. **Use with caution.** |
 
 Smart mode is particularly useful for reducing approval fatigue — it lets the agent work more autonomously on safe operations while still catching genuinely destructive commands.
 
@@ -3288,29 +3285,29 @@ The delegation provider uses the same credential resolution as CLI/gateway start
 
 ## Clarify<a href="#clarify" class="hash-link" aria-label="Direct link to Clarify" translate="no" title="Direct link to Clarify">​</a>
 
-Configure how long Hermes waits for a response to a clarifying question. One value covers every surface — the classic CLI modal, the TUI/Desktop card, and the messaging gateway. The canonical key is `agent.clarify_timeout` (default `3600` seconds; `0` or less = unlimited); a legacy top-level `clarify.timeout` is still honored if explicitly set:
+Configure how long Hermes waits for a response to a clarifying question. One value covers every surface — the classic CLI modal, the TUI/Desktop card, and the messaging gateway. The canonical key is `agent.clarify_timeout` (default `90` seconds; `0` or less = unlimited); a legacy top-level `clarify.timeout` is still honored if explicitly set:
 
 
 ``` prism-code
 agent:
-  clarify_timeout: 3600        # Seconds to wait for user clarification response (0 or less = unlimited)
+  clarify_timeout: 90          # Seconds to wait for user clarification response (0 or less = unlimited)
 ```
 
 
-When the timeout expires, the agent unblocks with `"outcome": "timed_out"` (answers the user already locked are kept) and continues on its own. A clarify prompt is never cut by the generic per-tool deadline (`timeouts.tools.sequential_call`); only `agent.clarify_timeout` bounds the wait.
+When the timeout expires, the agent unblocks with `"outcome": "timed_out"` (answers the user already locked are kept) and continues on its own. On a messaging platform, sending any other message instead of an answer cancels the question at once, and the agent carries on with that message. A clarify prompt is never cut by the generic per-tool deadline (`timeouts.tools.sequential_call`); only `agent.clarify_timeout` bounds the wait.
 
 ## Context Files (SOUL.md, AGENTS.md)<a href="#context-files-soulmd-agentsmd" class="hash-link" aria-label="Direct link to Context Files (SOUL.md, AGENTS.md)" translate="no" title="Direct link to Context Files (SOUL.md, AGENTS.md)">​</a>
 
 Hermes uses two different context scopes:
 
-| File                       | Purpose                                                                               | Scope                                         |
-|----------------------------|---------------------------------------------------------------------------------------|-----------------------------------------------|
-| `SOUL.md`                  | **Primary agent identity** — defines who the agent is (slot \#1 in the system prompt) | `~/.hermes/SOUL.md` or `$HERMES_HOME/SOUL.md` |
-| `.hermes.md` / `HERMES.md` | Project-specific instructions (highest priority)                                      | Walks to git root                             |
-| `AGENTS.md`                | Project-specific instructions, coding conventions                                     | Recursive directory walk                      |
-| `CLAUDE.md`                | Claude Code context files (also detected)                                             | Working directory only                        |
-| `.cursorrules`             | Cursor IDE rules (also detected)                                                      | Working directory only                        |
-| `.cursor/rules/*.mdc`      | Cursor rule files (also detected)                                                     | Working directory only                        |
+| File | Purpose | Scope |
+|----|----|----|
+| `SOUL.md` | **Primary agent identity** — defines who the agent is (slot \#1 in the system prompt) | `~/.hermes/SOUL.md` or `$HERMES_HOME/SOUL.md` |
+| `.hermes.md` / `HERMES.md` | Project-specific instructions (highest priority) | Walks to git root |
+| `AGENTS.md` | Project-specific instructions, coding conventions | Recursive directory walk |
+| `CLAUDE.md` | Claude Code context files (also detected) | Working directory only |
+| `.cursorrules` | Cursor IDE rules (also detected) | Working directory only |
+| `.cursor/rules/*.mdc` | Cursor rule files (also detected) | Working directory only |
 
 - **SOUL.md** is the agent's primary identity. It occupies slot \#1 in the system prompt, completely replacing the built-in default identity. Edit it to fully customize who the agent is.
 - If SOUL.md is missing, empty, or cannot be loaded, Hermes falls back to a built-in default identity.
@@ -3326,11 +3323,11 @@ See also:
 
 ## Working Directory<a href="#working-directory" class="hash-link" aria-label="Direct link to Working Directory" translate="no" title="Direct link to Working Directory">​</a>
 
-| Context                                | Default                                                                   |
-|----------------------------------------|---------------------------------------------------------------------------|
-| **CLI (`hermes`)**                     | Current directory where you run the command                               |
-| **Messaging gateway**                  | `terminal.cwd` from `~/.hermes/config.yaml`; if unset, home directory `~` |
-| **Docker / Singularity / Modal / SSH** | User's home directory inside the container or remote machine              |
+| Context | Default |
+|----|----|
+| **CLI (`hermes`)** | Current directory where you run the command |
+| **Messaging gateway** | `terminal.cwd` from `~/.hermes/config.yaml`; if unset, home directory `~` |
+| **Docker / Singularity / Modal / SSH** | User's home directory inside the container or remote machine |
 
 Override the working directory:
 

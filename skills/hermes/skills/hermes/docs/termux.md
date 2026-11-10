@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -16,14 +13,14 @@ The Termux package does not work right now. A fix is in progress and will ship s
 
 The Termux package runs Hermes on **aarch64 (arm64-v8a)** Android devices. Two APT channels are published under `https://hermes-assets.nousresearch.com/releases/termux/<channel>`:
 
-| Channel  | APT suite       | Contents                                                                 |
-|----------|-----------------|--------------------------------------------------------------------------|
+| Channel | APT suite | Contents |
+|----|----|----|
 | `stable` | `hermes-stable` | Tagged `vMAJOR.MINOR.PATCH` releases that passed the stable release gate |
 | `canary` | `hermes-canary` | Prerelease builds from canary tags; versions carry `~canary.<timestamp>` |
 
 The steps below use `stable`. To follow prereleases, replace `stable` with `canary` and `hermes-stable` with `hermes-canary` in steps 2 and 4. Both channels are signed with the same key.
 
-The package includes Python, Node.js, npm, uv, ripgrep, ffmpeg, and their runtime libraries. CI builds the native Python wheels and the TUI before it creates the package. The device does not compile core dependencies or assemble its base Python environment during installation. The package uses Python 3.14 with the bionic interpreter pin; it does not require the same patch version as desktop CPython. The wheel closure is core plus `acp`, not all desktop extras.
+The package includes Python, Node.js, npm, uv, ripgrep, ffmpeg, and their runtime libraries. The first `hermes dashboard` downloads pnpm and installs the web UI's JavaScript dependencies. CI builds the native Python wheels and the TUI before it creates the package. The device does not compile core dependencies or assemble its base Python environment during installation. The package uses Python 3.14 with the bionic interpreter pin; it does not require the same patch version as desktop CPython. The wheel closure is core plus `acp`, not all desktop extras.
 
 ## Install<a href="#install" class="hash-link" aria-label="Direct link to Install" translate="no" title="Direct link to Install">​</a>
 
@@ -140,11 +137,11 @@ The `hermes`, `hermes-agent`, and `hermes-acp` commands use the packaged runtime
 
 ## Files and updates<a href="#files-and-updates" class="hash-link" aria-label="Direct link to Files and updates" translate="no" title="Direct link to Files and updates">​</a>
 
-| Contents                    | Location                                                                   |
-|-----------------------------|----------------------------------------------------------------------------|
-| Package files               | `$PREFIX/lib/hermes-agent/`                                                |
-| Command symlinks            | `$PREFIX/bin/hermes`, `$PREFIX/bin/hermes-agent`, `$PREFIX/bin/hermes-acp` |
-| Configuration and user data | `~/.hermes/`, or the selected `HERMES_HOME`                                |
+| Contents | Location |
+|----|----|
+| Package files | `$PREFIX/lib/hermes-agent/` |
+| Command symlinks | `$PREFIX/bin/hermes`, `$PREFIX/bin/hermes-agent`, `$PREFIX/bin/hermes-acp` |
+| Configuration and user data | `~/.hermes/`, or the selected `HERMES_HOME` |
 
 Update through APT:
 

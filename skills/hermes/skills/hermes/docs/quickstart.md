@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_fXgn">Skip to main content</a>
-
-
 On this page
 
 
@@ -37,13 +34,13 @@ Unable to execute JavaScript.
 
 Pick the row that matches your goal:
 
-| Goal                                     | Do this first                          | Then do this                                            |
-|------------------------------------------|----------------------------------------|---------------------------------------------------------|
-| I just want Hermes working on my machine | `hermes setup`                         | Run a real chat and verify it responds                  |
-| I already know my provider               | `hermes model`                         | Save the config, then start chatting                    |
-| I want a bot or always-on setup          | `hermes gateway setup` after CLI works | Connect Telegram, Discord, Slack, or another platform   |
-| I want a local or self-hosted model      | `hermes model` → custom endpoint       | Verify the endpoint, model name, and context length     |
-| I want multi-provider fallback           | `hermes model` first                   | Add routing and fallback only after the base chat works |
+| Goal | Do this first | Then do this |
+|----|----|----|
+| I just want Hermes working on my machine | `hermes setup` | Run a real chat and verify it responds |
+| I already know my provider | `hermes model` | Save the config, then start chatting |
+| I want a bot or always-on setup | `hermes gateway setup` after CLI works | Connect Telegram, Discord, Slack, or another platform |
+| I want a local or self-hosted model | `hermes model` → custom endpoint | Verify the endpoint, model name, and context length |
+| I want multi-provider fallback | `hermes model` first | Add routing and fallback only after the base chat works |
 
 **Rule of thumb:** if Hermes cannot complete a normal chat, do not add more features yet. Get one clean conversation working first, then layer on gateway, cron, skills, voice, or routing.
 
@@ -123,46 +120,46 @@ Blank Slate writes an explicit `platform_toolsets.cli` list plus `agent.disabled
 
 Good defaults:
 
-| Provider                  | What it is                                                                                                                      | How to set up                                                                           |
-|---------------------------|---------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
-| **Nous Portal**           | Subscription-based, zero-config                                                                                                 | OAuth login via `hermes model`                                                          |
-| **OpenAI Codex**          | ChatGPT or Codex subscription, uses Codex models                                                                                | Device code auth via `hermes model` → **ChatGPT or Codex Subscription**                 |
-| **Anthropic**             | Claude models directly — Max plan + extra usage credits (OAuth), or API key for pay-per-token                                   | `hermes model` → OAuth login (requires Max + extra credits), or an Anthropic API key    |
-| **OpenRouter**            | Multi-provider routing across many models                                                                                       | Enter your API key                                                                      |
-| **Fireworks AI**          | Direct OpenAI-compatible model API                                                                                              | Set `FIREWORKS_API_KEY`                                                                 |
-| **Z.AI**                  | GLM / Zhipu-hosted models                                                                                                       | Set `GLM_API_KEY` / `ZAI_API_KEY` (also accepts `Z_AI_API_KEY`)                         |
-| **Kimi / Moonshot**       | Moonshot-hosted coding and chat models                                                                                          | Set `KIMI_API_KEY` (or the Kimi-Coding-specific `KIMI_CODING_API_KEY`)                  |
-| **Kimi / Moonshot China** | China-region Moonshot endpoint                                                                                                  | Set `KIMI_CN_API_KEY`                                                                   |
-| **Arcee AI**              | Trinity models                                                                                                                  | Set `ARCEEAI_API_KEY`                                                                   |
-| **GMI Cloud**             | Multi-model direct API                                                                                                          | Set `GMI_API_KEY`                                                                       |
-| **Actual Computer**       | Your own hardware as a private inference cluster — hosted relay or local daemon                                                 | Set `ACTUAL_API_KEY` (relay) or `ACTUAL_BASE_URL=http://127.0.0.1:8080` (local, no key) |
-| **MiniMax (OAuth)**       | MiniMax frontier model via browser OAuth — no API key needed (model name in `hermes_cli/models.py` may change between releases) | `hermes model` → MiniMax (OAuth)                                                        |
-| **MiniMax**               | International MiniMax endpoint                                                                                                  | Set `MINIMAX_API_KEY`                                                                   |
-| **MiniMax China**         | China-region MiniMax endpoint                                                                                                   | Set `MINIMAX_CN_API_KEY`                                                                |
-| **Alibaba Cloud**         | Qwen models via DashScope                                                                                                       | Set `DASHSCOPE_API_KEY` (Qwen Coding Plan also accepts `ALIBABA_CODING_PLAN_API_KEY`)   |
-| **Hugging Face**          | 20+ open models via unified router (Qwen, DeepSeek, Kimi, etc.)                                                                 | Set `HF_TOKEN`                                                                          |
-| **AWS Bedrock**           | Claude, Nova, Llama, DeepSeek via native Converse API                                                                           | IAM role or `aws configure` ([guide](/docs/guides/aws-bedrock))                         |
-| **Azure Foundry**         | Azure AI Foundry-hosted models                                                                                                  | Set `AZURE_FOUNDRY_API_KEY` + `AZURE_FOUNDRY_BASE_URL`                                  |
-| **Google AI Studio**      | Gemini models via direct API                                                                                                    | Set `GOOGLE_API_KEY` / `GEMINI_API_KEY`                                                 |
-| **xAI**                   | Grok models via direct API                                                                                                      | Set `XAI_API_KEY`                                                                       |
-| **xAI Grok OAuth**        | SuperGrok / Premium+ subscription, no API key needed                                                                            | `hermes model` → xAI Grok OAuth                                                         |
-| **NovitaAI**              | Multi-model API gateway                                                                                                         | Set `NOVITA_API_KEY`                                                                    |
-| **Ramp Router**           | Responses-native LLM gateway routing across OpenAI/Anthropic/xAI/...                                                            | Set `RAMP_ROUTER_API_KEY`                                                               |
-| **Nebius Token Factory**  | Open models on Nebius AI cloud                                                                                                  | Set `NEBIUS_API_KEY`                                                                    |
-| **StepFun**               | Step Plan models                                                                                                                | Set `STEPFUN_API_KEY`                                                                   |
-| **Xiaomi MiMo**           | Xiaomi-hosted models                                                                                                            | Set `XIAOMI_API_KEY`                                                                    |
-| **Tencent TokenHub**      | Tencent-hosted models                                                                                                           | Set `TOKENHUB_API_KEY`                                                                  |
-| **Tencent TokenPlan**     | Tencent Hy models via Anthropic-style endpoint                                                                                  | Set `TOKENPLAN_API_KEY`                                                                 |
-| **Ollama Cloud**          | Managed Ollama-hosted models                                                                                                    | Set `OLLAMA_API_KEY`                                                                    |
-| **LM Studio**             | Local desktop app exposing an OpenAI-compatible API                                                                             | Set `LM_API_KEY` (and `LM_BASE_URL` if non-default)                                     |
-| **Qwen OAuth**            | Qwen Portal browser OAuth — no API key needed                                                                                   | `hermes model` → Qwen OAuth                                                             |
-| **Kilo Code**             | KiloCode-hosted models                                                                                                          | Set `KILOCODE_API_KEY`                                                                  |
-| **OpenCode Zen**          | Pay-as-you-go access to curated models                                                                                          | Set `OPENCODE_ZEN_API_KEY`                                                              |
-| **OpenCode Go**           | \$10/month subscription for open models                                                                                         | Set `OPENCODE_GO_API_KEY`                                                               |
-| **DeepSeek**              | Direct DeepSeek API access                                                                                                      | Set `DEEPSEEK_API_KEY`                                                                  |
-| **NVIDIA NIM**            | Nemotron models via build.nvidia.com or local NIM                                                                               | Set `NVIDIA_API_KEY` (optional: `NVIDIA_BASE_URL`)                                      |
-| **Vercel AI Gateway**     | Vercel AI Gateway routing                                                                                                       | Set `AI_GATEWAY_API_KEY`                                                                |
-| **Custom Endpoint**       | VLLM, SGLang, Ollama, or any OpenAI-compatible API                                                                              | Set base URL + API key                                                                  |
+| Provider | What it is | How to set up |
+|----|----|----|
+| **Nous Portal** | Subscription-based, zero-config | OAuth login via `hermes model` |
+| **OpenAI Codex** | ChatGPT or Codex subscription, uses Codex models | Device code auth via `hermes model` → **ChatGPT or Codex Subscription** |
+| **Anthropic** | Claude models directly — Max plan + extra usage credits (OAuth), or API key for pay-per-token | `hermes model` → OAuth login (requires Max + extra credits), or an Anthropic API key |
+| **OpenRouter** | Multi-provider routing across many models | Enter your API key |
+| **Fireworks AI** | Direct OpenAI-compatible model API | Set `FIREWORKS_API_KEY` |
+| **Z.AI** | GLM / Zhipu-hosted models | Set `GLM_API_KEY` / `ZAI_API_KEY` (also accepts `Z_AI_API_KEY`) |
+| **Kimi / Moonshot** | Moonshot-hosted coding and chat models | Set `KIMI_API_KEY` (or the Kimi-Coding-specific `KIMI_CODING_API_KEY`) |
+| **Kimi / Moonshot China** | China-region Moonshot endpoint | Set `KIMI_CN_API_KEY` |
+| **Arcee AI** | Trinity models | Set `ARCEEAI_API_KEY` |
+| **GMI Cloud** | Multi-model direct API | Set `GMI_API_KEY` |
+| **Actual Computer** | Your own hardware as a private inference cluster — hosted relay or local daemon | Set `ACTUAL_API_KEY` (relay) or `ACTUAL_BASE_URL=http://127.0.0.1:8080` (local, no key) |
+| **MiniMax (OAuth)** | MiniMax frontier model via browser OAuth — no API key needed (model name in `hermes_cli/models.py` may change between releases) | `hermes model` → MiniMax (OAuth) |
+| **MiniMax** | International MiniMax endpoint | Set `MINIMAX_API_KEY` |
+| **MiniMax China** | China-region MiniMax endpoint | Set `MINIMAX_CN_API_KEY` |
+| **Alibaba Cloud** | Qwen models via DashScope | Set `DASHSCOPE_API_KEY` (Qwen Coding Plan also accepts `ALIBABA_CODING_PLAN_API_KEY`) |
+| **Hugging Face** | 20+ open models via unified router (Qwen, DeepSeek, Kimi, etc.) | Set `HF_TOKEN` |
+| **AWS Bedrock** | Claude, Nova, Llama, DeepSeek via native Converse API | IAM role or `aws configure` ([guide](/docs/guides/aws-bedrock)) |
+| **Azure Foundry** | Azure AI Foundry-hosted models | Set `AZURE_FOUNDRY_API_KEY` + `AZURE_FOUNDRY_BASE_URL` |
+| **Google AI Studio** | Gemini models via direct API | Set `GOOGLE_API_KEY` / `GEMINI_API_KEY` |
+| **xAI** | Grok models via direct API | Set `XAI_API_KEY` |
+| **xAI Grok OAuth** | SuperGrok / Premium+ subscription, no API key needed | `hermes model` → xAI Grok OAuth |
+| **NovitaAI** | Multi-model API gateway | Set `NOVITA_API_KEY` |
+| **Ramp Router** | Responses-native LLM gateway routing across OpenAI/Anthropic/xAI/... | Set `RAMP_ROUTER_API_KEY` |
+| **Nebius Token Factory** | Open models on Nebius AI cloud | Set `NEBIUS_API_KEY` |
+| **StepFun** | Step Plan models | Set `STEPFUN_API_KEY` |
+| **Xiaomi MiMo** | Xiaomi-hosted models | Set `XIAOMI_API_KEY` |
+| **Tencent TokenHub** | Tencent-hosted models | Set `TOKENHUB_API_KEY` |
+| **Tencent TokenPlan** | Tencent Hy models via Anthropic-style endpoint | Set `TOKENPLAN_API_KEY` |
+| **Ollama Cloud** | Managed Ollama-hosted models | Set `OLLAMA_API_KEY` |
+| **LM Studio** | Local desktop app exposing an OpenAI-compatible API | Set `LM_API_KEY` (and `LM_BASE_URL` if non-default) |
+| **Qwen OAuth** | Qwen Portal browser OAuth — no API key needed | `hermes model` → Qwen OAuth |
+| **Kilo Code** | KiloCode-hosted models | Set `KILOCODE_API_KEY` |
+| **OpenCode Zen** | Pay-as-you-go access to curated models | Set `OPENCODE_ZEN_API_KEY` |
+| **OpenCode Go** | \$10/month subscription for open models | Set `OPENCODE_GO_API_KEY` |
+| **DeepSeek** | Direct DeepSeek API access | Set `DEEPSEEK_API_KEY` |
+| **NVIDIA NIM** | Nemotron models via build.nvidia.com or local NIM | Set `NVIDIA_API_KEY` (optional: `NVIDIA_BASE_URL`) |
+| **Vercel AI Gateway** | Vercel AI Gateway routing | Set `AI_GATEWAY_API_KEY` |
+| **Custom Endpoint** | VLLM, SGLang, Ollama, or any OpenAI-compatible API | Set base URL + API key |
 
 For most first-time users: choose a provider, accept the defaults unless you know why you're changing them. The full provider catalog with env vars and setup steps lives on the [Providers](/docs/integrations/providers) page.
 
@@ -378,14 +375,14 @@ See [ACP Editor Integration](/docs/user-guide/features/acp).
 
 These are the problems that waste the most time:
 
-| Symptom                                        | Likely cause                                                  | Fix                                                                  |
-|------------------------------------------------|---------------------------------------------------------------|----------------------------------------------------------------------|
-| Hermes opens but gives empty or broken replies | Provider auth or model selection is wrong                     | Run `hermes model` again and confirm provider, model, and auth       |
-| Custom endpoint "works" but returns garbage    | Wrong base URL, model name, or not actually OpenAI-compatible | Verify the endpoint in a separate client first                       |
-| Gateway starts but nobody can message it       | Bot token, allowlist, or platform setup is incomplete         | Re-run `hermes gateway setup` and check `hermes gateway status`      |
-| `hermes --continue` can't find old session     | Switched profiles or session never saved                      | Check `hermes sessions list` and confirm you're in the right profile |
-| Model unavailable or odd fallback behavior     | Provider routing or fallback settings are too aggressive      | Keep routing off until the base provider is stable                   |
-| `hermes doctor` flags config problems          | Config values are missing or stale                            | Fix the config, retest a plain chat before adding features           |
+| Symptom | Likely cause | Fix |
+|----|----|----|
+| Hermes opens but gives empty or broken replies | Provider auth or model selection is wrong | Run `hermes model` again and confirm provider, model, and auth |
+| Custom endpoint "works" but returns garbage | Wrong base URL, model name, or not actually OpenAI-compatible | Verify the endpoint in a separate client first |
+| Gateway starts but nobody can message it | Bot token, allowlist, or platform setup is incomplete | Re-run `hermes gateway setup` and check `hermes gateway status` |
+| `hermes --continue` can't find old session | Switched profiles or session never saved | Check `hermes sessions list` and confirm you're in the right profile |
+| Model unavailable or odd fallback behavior | Provider routing or fallback settings are too aggressive | Keep routing off until the base provider is stable |
+| `hermes doctor` flags config problems | Config values are missing or stale | Fix the config, retest a plain chat before adding features |
 
 ## Recovery Toolkit<a href="#recovery-toolkit" class="hash-link" aria-label="Direct link to Recovery Toolkit" translate="no" title="Direct link to Recovery Toolkit">​</a>
 
