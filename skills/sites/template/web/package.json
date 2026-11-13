@@ -8,7 +8,7 @@
     "preview": "astro build && wrangler dev",
     "deploy": "astro build && wrangler deploy",
     "types": "wrangler types",
-    "design:lint": "designmd lint DESIGN.md",
+    "design:lint": "node scripts/design-lint.mjs",
     "design:tokens": "designmd export --format css-tailwind DESIGN.md > src/styles/theme.css",
     "audit:built": "node scripts/audit-built.mjs"
   },
