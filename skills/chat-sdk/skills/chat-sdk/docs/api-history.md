@@ -4,7 +4,7 @@
 title: History
 description: API reference for bot.history, covering the user, thread, and channel scopes.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: reference
 ---
 
@@ -22,10 +22,10 @@ History scopes are configured under the `history` key on `ChatConfig`.
 
 ### ChatConfig.history
 
-| Property | Type                                                    | Description                                                                                                                                                                                 |
-| -------- | ------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `user`   | `UserHistoryConfig \| undefined`                        | Cross-platform per-user message persistence. Requires an \`identity\` resolver. Replaces the legacy \`transcripts\` + \`identity\` top-level fields.                                        |
-| `thread` | `{ maxMessages?: number; ttlMs?: number } \| undefined` | Per-thread message history backfill. Used by adapters that set \`persistThreadHistory: true\` (e.g. Telegram, WhatsApp). Replaces the legacy \`threadHistory\` / \`messageHistory\` fields. |
+| Property | Type                                                    | Description                                                                                                                                                                                                |
+| -------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `user`   | `UserHistoryConfig \| undefined`                        | Cross-platform per-user message persistence. Requires an \`identity\` resolver. Replaces the legacy \`transcripts\` + \`identity\` top-level fields.                                                       |
+| `thread` | `{ maxMessages?: number; ttlMs?: number } \| undefined` | Per-thread message history backfill. Used by adapters that set \`persistThreadHistory: true\` (e.g. WhatsApp, and Telegram by default). Replaces the legacy \`threadHistory\` / \`messageHistory\` fields. |
 
 ### UserHistoryConfig
 
@@ -121,7 +121,7 @@ Wipes every entry stored under the user key. Returns the count that was removed.
 
 ## bot.history.thread
 
-Per-thread message history. Always available, and delegates to the adapter's `fetchMessages`. For adapters that persist history in the SDK-maintained `ThreadHistoryCache` (`persistThreadHistory: true`, e.g. Telegram, WhatsApp), an empty platform response falls back to that cache. Every method throws when the adapter named in the thread ID prefix is not registered, so a typo'd ID fails loudly instead of reading as an empty thread.
+Per-thread message history. Always available, and delegates to the adapter's `fetchMessages`. For adapters that persist history in the SDK-maintained `ThreadHistoryCache` (`persistThreadHistory: true`, e.g. WhatsApp, and Telegram by default), an empty platform response falls back to that cache. Every method throws when the adapter named in the thread ID prefix is not registered, so a typo'd ID fails loudly instead of reading as an empty thread.
 
 ### list
 

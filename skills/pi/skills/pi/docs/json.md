@@ -31,14 +31,14 @@ pi --mode json "Review this repository"
 ```
 
 
-Pi writes one session header followed by session events, then exits after the supplied prompts finish. RPC mode emits the same session-event shapes but has no session header because it is a bidirectional, long-lived protocol. See [RPC Mode](/docs/latest/rpc).
+Pi writes one session header followed by session events, then exits after the supplied prompts finish. RPC mode emits the same session-event shapes but has no session header because it is a bidirectional, long-lived protocol. See [RPC Mode](/latest/latest/rpc).
 
-This page is the canonical reference for events shared by JSON and RPC mode. Message values use the [shared message types](/docs/latest/message-types).
+This page is the canonical reference for events shared by JSON and RPC mode. Message values use the [shared message types](/latest/latest/message-types).
 
 
 ## Framing and process I/O
 
-<a href="#framing-and-process-io" class="heading-anchor" aria-label="Permalink: Framing and process I/O" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#framing-and-process-io"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#framing-and-process-io" class="heading-anchor" aria-label="Permalink: Framing and process I/O" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#framing-and-process-io"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The stream uses strict JSONL framing. Each record is one JSON object terminated by LF (`\n`). Split records only on LF and strip an optional preceding carriage return. Unicode line and paragraph separators are valid inside JSON strings and are not record boundaries.
@@ -50,10 +50,10 @@ Read stdout continuously. A reader that stops consuming records can stall Pi whe
 
 ## Session header
 
-<a href="#session-header" class="heading-anchor" aria-label="Permalink: Session header" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#session-header"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session-header" class="heading-anchor" aria-label="Permalink: Session header" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#session-header"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-The first JSON-mode record is the current [session header](/docs/latest/session-format#sessionheader):
+The first JSON-mode record is the current [session header](/latest/latest/session-format#sessionheader):
 
 
 ``` shiki
@@ -61,12 +61,12 @@ The first JSON-mode record is the current [session header](/docs/latest/session-
 ```
 
 
-RPC mode does not emit this record. Use [`get_state`](/docs/latest/rpc-commands#get_state) for its current session ID and file.
+RPC mode does not emit this record. Use [`get_state`](/latest/latest/rpc-commands#get_state) for its current session ID and file.
 
 
 ## Event sequence
 
-<a href="#event-sequence" class="heading-anchor" aria-label="Permalink: Event sequence" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#event-sequence"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#event-sequence" class="heading-anchor" aria-label="Permalink: Event sequence" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#event-sequence"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A basic run produces records like these:
@@ -91,7 +91,7 @@ A basic run produces records like these:
 
 ## Agent and turn events
 
-<a href="#agent-and-turn-events" class="heading-anchor" aria-label="Permalink: Agent and turn events" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#agent-and-turn-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#agent-and-turn-events" class="heading-anchor" aria-label="Permalink: Agent and turn events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#agent-and-turn-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Event | Fields | Meaning |
@@ -107,7 +107,7 @@ A turn is one assistant response plus any tool calls and tool results produced b
 
 ## Message events
 
-<a href="#message-events" class="heading-anchor" aria-label="Permalink: Message events" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#message-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#message-events" class="heading-anchor" aria-label="Permalink: Message events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#message-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Event | Fields | Meaning |
@@ -119,7 +119,7 @@ A turn is one assistant response plus any tool calls and tool results produced b
 
 ### Reconstruct streaming messages
 
-<a href="#reconstruct-streaming-messages" class="heading-anchor" aria-label="Permalink: Reconstruct streaming messages" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#reconstruct-streaming-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#reconstruct-streaming-messages" class="heading-anchor" aria-label="Permalink: Reconstruct streaming messages" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#reconstruct-streaming-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Wire `message_update` records are delta-only. They omit the SDK event's cumulative `message` field and every `assistantMessageEvent.partial` snapshot so stream size remains linear.
@@ -155,7 +155,7 @@ The top-level `usage` is the latest cumulative provider-reported usage for the a
 
 ## Tool execution events
 
-<a href="#tool-execution-events" class="heading-anchor" aria-label="Permalink: Tool execution events" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#tool-execution-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#tool-execution-events" class="heading-anchor" aria-label="Permalink: Tool execution events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#tool-execution-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Event | Fields | Meaning |
@@ -176,7 +176,7 @@ Use `toolCallId` to correlate the lifecycle. `partialResult` is the latest parti
 
 ## Queue and state events
 
-<a href="#queue-and-state-events" class="heading-anchor" aria-label="Permalink: Queue and state events" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#queue-and-state-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#queue-and-state-events" class="heading-anchor" aria-label="Permalink: Queue and state events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#queue-and-state-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Event | Fields | Meaning |
@@ -186,12 +186,12 @@ Use `toolCallId` to correlate the lifecycle. `partialResult` is the latest parti
 | `session_info_changed` | `name` | The session display name changed. An absent `name` means it was cleared. |
 | `thinking_level_changed` | `level` | The active thinking level changed. |
 
-The `entry` value uses a persisted [session entry type](/docs/latest/session-format#entry-types).
+The `entry` value uses a persisted [session entry type](/latest/latest/session-format#entry-types).
 
 
 ## Compaction events
 
-<a href="#compaction-events" class="heading-anchor" aria-label="Permalink: Compaction events" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#compaction-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#compaction-events" class="heading-anchor" aria-label="Permalink: Compaction events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#compaction-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `compaction_start` reports why compaction began:
@@ -227,12 +227,12 @@ The `entry` value uses a persisted [session entry type](/docs/latest/session-for
 
 If compaction was aborted, `result` is absent and `aborted` is true. If it failed, `result` is absent, `aborted` is false, and `errorMessage` describes the failure. Successful overflow recovery sets `willRetry` to true before Pi retries the prompt.
 
-See [Compaction and Branch Summaries](/docs/latest/compaction) for result semantics.
+See [Compaction and Branch Summaries](/latest/latest/compaction) for result semantics.
 
 
 ## Retry events
 
-<a href="#retry-events" class="heading-anchor" aria-label="Permalink: Retry events" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#retry-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#retry-events" class="heading-anchor" aria-label="Permalink: Retry events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#retry-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Assistant-turn retry emits:
@@ -261,10 +261,10 @@ For a branch summary, `source` is `"branchSummary"` and `reason` is absent. The 
 
 ## RPC-only events
 
-<a href="#rpc-only-events" class="heading-anchor" aria-label="Permalink: RPC-only events" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#rpc-only-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#rpc-only-events" class="heading-anchor" aria-label="Permalink: RPC-only events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#rpc-only-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-A direct RPC [`bash`](/docs/latest/rpc-commands#bash) command emits one `bash_execution_update` for each output chunk. Its optional `id` matches the command ID. The final command response can contain truncated output, but these events stream all output:
+A direct RPC [`bash`](/latest/latest/rpc-commands#bash) command emits one `bash_execution_update` for each output chunk. Its optional `id` matches the command ID. The final command response can contain truncated output, but these events stream all output:
 
 
 ``` shiki
@@ -280,12 +280,12 @@ RPC also adds `extension_error` when an extension handler throws:
 ```
 
 
-Extension UI records are a separate RPC subprotocol, not `AgentSessionEvent` values. See [RPC Extension UI](/docs/latest/rpc-extension-ui).
+Extension UI records are a separate RPC subprotocol, not `AgentSessionEvent` values. See [RPC Extension UI](/latest/latest/rpc-extension-ui).
 
 
 ## TypeScript types
 
-<a href="#typescript-types" class="heading-anchor" aria-label="Permalink: TypeScript types" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#typescript-types"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#typescript-types" class="heading-anchor" aria-label="Permalink: TypeScript types" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#typescript-types"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The SDK's `AgentSessionEvent` contains cumulative streaming snapshots for in-process consumers. JSON and RPC transform only `message_update`:
@@ -313,7 +313,7 @@ Use the exported `JsonAgentSessionEvent` type from `@earendil-works/pi-coding-ag
 
 ## Example
 
-<a href="#example" class="heading-anchor" aria-label="Permalink: Example" data-copy="" data-copy-text="https://pi.dev/docs/latest/json#example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#example" class="heading-anchor" aria-label="Permalink: Example" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Print completed messages from a one-shot run:

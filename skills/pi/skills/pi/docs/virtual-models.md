@@ -25,12 +25,12 @@ On this page
 
 A virtual model is a selectable model that picks a physical model for each request. Use one to route by task, cost, or conversation state. For example, a router can send quick questions to a small model and hard problems to a large one, while the user selects a single model.
 
-Register virtual models from an [extension](/docs/latest/extensions). They appear in `/model`, `--model`, scoped models, and settings like any other model. A virtual model can be listed under any provider, including one with physical models, such as `openai-codex/auto`.
+Register virtual models from an [extension](/latest/latest/extensions). They appear in `/model`, `--model`, scoped models, and settings like any other model. A virtual model can be listed under any provider, including one with physical models, such as `openai-codex/auto`.
 
 
 ## Selection and dispatch
 
-<a href="#selection-and-dispatch" class="heading-anchor" aria-label="Permalink: Selection and dispatch" data-copy="" data-copy-text="https://pi.dev/docs/latest/virtual-models#selection-and-dispatch"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#selection-and-dispatch" class="heading-anchor" aria-label="Permalink: Selection and dispatch" data-copy="" data-copy-text="https://docs.pi.dev/latest/virtual-models#selection-and-dispatch"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A virtual model selects a model and a thinking level. A router maps that pair to a physical pair for each request:
@@ -60,7 +60,7 @@ Context usage uses the limits of the physical model that produced the latest res
 
 ## Register a virtual model
 
-<a href="#register-a-virtual-model" class="heading-anchor" aria-label="Permalink: Register a virtual model" data-copy="" data-copy-text="https://pi.dev/docs/latest/virtual-models#register-a-virtual-model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#register-a-virtual-model" class="heading-anchor" aria-label="Permalink: Register a virtual model" data-copy="" data-copy-text="https://docs.pi.dev/latest/virtual-models#register-a-virtual-model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -97,7 +97,7 @@ Registration follows the same queuing and reload rules as `pi.registerProvider()
 
 ## Route requests
 
-<a href="#route-requests" class="heading-anchor" aria-label="Permalink: Route requests" data-copy="" data-copy-text="https://pi.dev/docs/latest/virtual-models#route-requests"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#route-requests" class="heading-anchor" aria-label="Permalink: Route requests" data-copy="" data-copy-text="https://docs.pi.dev/latest/virtual-models#route-requests"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `route(request, ctx)` runs before every request made with the virtual model and returns `{ model, thinkingLevel }`. The model can be any physical model in the catalog whose provider has credentials; look it up with `ctx.modelRegistry`. A virtual model cannot route to another virtual model. Pi clamps the thinking level to the returned model.
@@ -126,7 +126,7 @@ If `route()` throws, or returns a virtual model or a model without credentials, 
 
 ## Keep routing state
 
-<a href="#keep-routing-state" class="heading-anchor" aria-label="Permalink: Keep routing state" data-copy="" data-copy-text="https://pi.dev/docs/latest/virtual-models#keep-routing-state"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#keep-routing-state" class="heading-anchor" aria-label="Permalink: Keep routing state" data-copy="" data-copy-text="https://docs.pi.dev/latest/virtual-models#keep-routing-state"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `route()` can return `state` next to the model. Pi stores it on the session branch and passes it back as `request.state` on later requests. Use it for decisions the transcript does not record, such as classifier results or a routing phase:

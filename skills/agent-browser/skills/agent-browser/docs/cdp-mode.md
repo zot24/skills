@@ -2,16 +2,6 @@
 
 
 
-<a href="/" class="flex @min-[1024px]:hidden items-center text-gray-1000"><span class="font-medium tracking-tight" style="font-family:var(--font-geist-pixel-square)">agent-browser</span></a>
-
-
-<a href="https://github.com/vercel-labs/agent-browser" class="size-8 items-center justify-center @min-[768px]:inline-flex hidden shrink-0" data-geist-button="" data-prefix="false" data-suffix="false" data-version="v1" aria-label="GitHub repository" rel="noopener" target="_blank"><span class="truncate px-1.5 inline-flex shrink-0 items-center justify-center"></span></a>
-
-
-        &quot;sidebar toc-popover toc&quot;
-        &quot;sidebar main toc&quot; 1fr / minmax(var(--fd-sidebar-col), 1fr) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-width) - var(--fd-toc-width))) minmax(min-content, 1fr);--fd-docs-row-1:4rem;--fd-docs-row-2:calc(var(--fd-docs-row-1) + var(--fd-header-height));--fd-docs-row-3:calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height));--fd-sidebar-col:var(--fd-sidebar-width)">
-
-
 Menu
 
 
@@ -161,27 +151,28 @@ This enables control of:
 
 ## <a href="#global-options" class="peer" data-card="">Global options</a>
 
-| Option                    | Description                                                                                                                     |
-|---------------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| `--session <name>`        | Use isolated session                                                                                                            |
-| `--profile <path>`        | Persistent browser profile directory                                                                                            |
-| `-p <provider>`           | Browser provider (`browserbase`, `browseruse`, `kernel`, `browserless`, `agentcore`, or a configured `browser.provider` plugin) |
-| `--headers <json>`        | HTTP headers scoped to origin                                                                                                   |
-| `--executable-path`       | Custom browser executable                                                                                                       |
-| `--args <args>`           | Browser launch args. Commas inside a value are kept.                                                                            |
-| `--user-agent <ua>`       | Custom User-Agent string                                                                                                        |
-| `--proxy <url>`           | Proxy server URL                                                                                                                |
-| `--proxy-bypass <hosts>`  | Hosts to bypass proxy                                                                                                           |
-| `--json`                  | JSON output for scripts                                                                                                         |
-| `--name, -n`              | Locator name filter                                                                                                             |
-| `--exact`                 | Exact, case-sensitive match (accessible name for role)                                                                          |
-| `--headed`                | Show browser window                                                                                                             |
-| `--cdp <port|url>`        | CDP connection (port or WebSocket URL)                                                                                          |
-| `--auto-connect`          | Auto-discover and connect to running Chrome                                                                                     |
-| `--pin-tab`               | Pin the session to its bound tab (strict tab binding)                                                                           |
-| `--no-pin-tab`            | Disable a sticky pin previously enabled with `--pin-tab`                                                                        |
-| `--color-scheme <scheme>` | Persistent color scheme (`dark`, `light`, `no-preference`)                                                                      |
-| `--debug`                 | Debug output                                                                                                                    |
+| Option | Description |
+|----|----|
+| `--session <name>` | Use isolated session |
+| `--profile <path>` | Persistent browser profile directory |
+| `-p <provider>` | Browser provider (`browserbase`, `browseruse`, `kernel`, `browserless`, `agentcore`, or a configured `browser.provider` plugin) |
+| `--headers <json>` | HTTP headers scoped to origin |
+| `--executable-path` | Custom browser executable |
+| `--args <args>` | Browser launch args. Commas inside a value are kept. |
+| `--user-agent <ua>` | Custom User-Agent string |
+| `--proxy <url>` | Proxy server URL |
+| `--proxy-bypass <hosts>` | Hosts to bypass proxy |
+| `--json` | JSON output for scripts |
+| `--name, -n` | Locator name filter |
+| `--exact` | Exact, case-sensitive match (accessible name for role) |
+| `--headed` | Show browser window |
+| `--cdp <port|url>` | CDP connection (port or WebSocket URL) |
+| `--auto-connect` | Auto-discover and connect to running Chrome |
+| `--no-auto-connect` | Return a session attached with `--auto-connect` to a local launch; also `--auto-connect false`. Overrides `AGENT_BROWSER_AUTO_CONNECT` and config `autoConnect` |
+| `--pin-tab` | Pin the session to its bound tab (strict tab binding) |
+| `--no-pin-tab` | Disable a sticky pin previously enabled with `--pin-tab` |
+| `--color-scheme <scheme>` | Persistent color scheme (`dark`, `light`, `no-preference`) |
+| `--debug` | Debug output |
 
 ## <a href="#cloud-providers" class="peer" data-card="">Cloud providers</a>
 

@@ -4,7 +4,7 @@
 title: TanStack AI
 description: "Feed thread history into TanStack AI's chat(), give it Chat SDK tools, and serve a TanStack AI browser chat from the same bot."
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: guide
 prerequisites:
   - /docs/usage

@@ -165,6 +165,84 @@ The extract endpoints share limits with the corresponding /agent rate limits.
 
 The batch scrape endpoints share limits with the corresponding /crawl rate limits.
 
+### Government and Research Indexes
+
+Calls to the [Government Index](https://docs.firecrawl.dev/features/gov.md) and the [Research Index](https://docs.firecrawl.dev/features/research.md) are free. Each index has a per-minute limit per team that is the same on every plan:
+
+| Index | Calls per minute |
+| - | - |
+| Government Index | 300 |
+| Research Index | 100 |
+
+Each index also has a daily call limit per team:
+
+
+  <thead>
+    <tr>
+      <th>Plan</th>
+      <th>Calls per index per day</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>Free / Hobby / Standard</td>
+      <td>1,000</td>
+    </tr>
+
+    <tr>
+      <td>Growth</td>
+      <td>2,000</td>
+    </tr>
+
+    <tr>
+      <td>Scale / Enterprise</td>
+      <td>Unlimited</td>
+    </tr>
+  </tbody>
+
+
+Requests without an API key get the Free limit, counted per IP address. Counts reset at 00:00 UTC. After you upgrade, the new limit applies within about 10 minutes.
+
+#### What counts
+
+Each index has its own counts. Every call to that index counts once toward both its per-minute and its daily limit, whichever way you reach it:
+
+* **Government Index:** `/search/gov`, `/search` with the `gov` category, and the Government Index tool in [Alexandria](https://docs.firecrawl.dev/features/alexandria.md).
+* **Research Index:** every `/search/research/papers` endpoint (search, inspect, read and related papers), and the Research Index tool in Alexandria.
+
+A `gov` search on `/search` also counts toward your plan's `/search` rate limit.
+
+An Alexandria request that carries several calls to an index counts each one. If the request would go over either limit, none of its calls run. The request also counts toward the rate limit of the endpoint it is sent to.
+
+A request Firecrawl rejects as invalid (`400`) before it reaches the index is not counted toward the daily limit, and an Alexandria request replayed with the same `x-request-id` is not counted toward either limit. The replay returns the saved result, except under zero data retention: no result is kept, so the replay returns `409` with code `response_not_retained`. A call that reaches the index counts even if the index returns an error.
+
+#### When you reach the limit
+
+Over the per-minute limit, the request returns `429` with a `Retry-After` header giving the seconds until the minute's count resets. The per-minute limits are the same on every plan, so upgrading does not raise them. Over the daily limit, it returns `429` with a `Retry-After` header giving the seconds until 00:00 UTC. Until then, calls to that index are refused unless they fit in what is left of the daily limit or you upgrade. The daily-limit body explains the limit and how to raise it:
+
+```json theme={null}
+{
+  "success": false,
+  "code": "INDEX_DAILY_LIMIT",
+  "error": "Daily Research Index limit reached: your team has used 1,000 of its 1,000 calls today. The limit resets at 00:00 UTC, in 3h 12m. Upgrade to Scale or Enterprise for unlimited Research Index calls: https://firecrawl.dev/pricing",
+  "limit": 1000,
+  "used": 1000,
+  "resetsAt": "2026-10-16T00:00:00.000Z",
+  "upgradeUrl": "https://firecrawl.dev/pricing"
+}
+```
+
+| Field | Meaning |
+| - | - |
+| `code` | `INDEX_DAILY_LIMIT` from the search endpoints, `index_daily_limit` from Alexandria. A per-minute rate limit `429` has no `code`, except when an Alexandria request goes over an index's per-minute limit, which returns `index_rate_limit`. Use this field to tell them apart. |
+| `limit` | Your plan's daily limit for this index. |
+| `used` | Calls already counted today. |
+| `resetsAt` | When the count resets, in UTC. |
+| `upgradeUrl` | Where to change your plan. |
+
+Alexandria's `index_rate_limit` and `index_daily_limit` responses also include `retryAfterSeconds`, the same value as the `Retry-After` header. A `429` from the rate limit of the endpoint an Alexandria request is sent to has no `code`; honor its `Retry-After` header.
+
 ### Browser Sandbox
 
 The browser sandbox endpoints have per-plan rate limits that scale with your subscription:

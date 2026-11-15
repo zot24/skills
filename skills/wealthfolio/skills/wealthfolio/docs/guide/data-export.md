@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,50 +13,86 @@ Export & Backup
 Export data to CSV or JSON, create profile backups, and restore a portable backup on another device.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
-Open **Settings → Backup & Export** in the profile you want to back up. The **Backup** tab manages saved snapshots, portable exports, and restores; the **Export** tab exports data for use elsewhere.
+Open **Settings → Backup & export** in the profile you want to back up. The **Backups** tab manages saved snapshots, portable exports, and restores; the **Data export** tab exports data for use elsewhere.
 
 ------------------------------------------------------------------------
 
 ## 1 · Run an export
 
-1.  Open **Settings → Backup & Export → Export**.
-2.  Choose **CSV** or **JSON**, then select **Accounts**, **Activities**, **Holdings**, **Goals**, or **Portfolio History**.
-3.  Save the file offered by your platform. For a restorable copy of the whole profile, use the **Backup** tab instead.
+1.  Open **Settings → Backup & export → Data export**.
+2.  Pick a **File format**: **CSV** or **JSON**. It applies to every download on the page.
+3.  To save everything, select **Export all**. With CSV you get one ZIP file: a CSV file for each dataset and a README that explains them. With JSON you get one file with each dataset as a section.
+4.  To save one dataset, find it under **Choose what to export** and select its download button.
+5.  Save the file offered by your platform. For a restorable copy of the whole profile, use the **Backups** tab instead.
 
 <img src="https://assets.wealthfolio.app/images/docs/export.webp" class="h-full w-full overflow-hidden object-cover dark:hidden" loading="lazy" decoding="async" data-fetchpriority="auto" width="718" height="404" alt="Wealthfolio Exports" /><img src="https://assets.wealthfolio.app/images/docs/export-dark.webp" class="hidden h-full w-full overflow-hidden object-cover dark:block" loading="lazy" decoding="async" data-fetchpriority="auto" width="718" height="404" alt="Wealthfolio Exports" />
+
+### What you can export
+
+The page lists 23 datasets in six groups:
+
+
+| Group | Datasets |
+|----|----|
+| **Accounts and activity** | Accounts, Activities |
+| **Investments** | Holdings, Tax lots, Realized gains, Manual prices, Income, Income by source |
+| **Net worth** | Assets and liabilities, Asset valuations, Loan payments, Net worth history, Portfolio history |
+| **Spending and budgets** | Budgets, Budget vs actual, Budget groups, Categorization rules, Events |
+| **Planning** | Goals, Contribution limits |
+| **Organization** | Portfolios, Categories, Asset classifications |
+
+
+Each dataset shows how many rows it has. **Holdings** shows **Current holdings**, and the two history datasets show **Daily values**. A dataset with nothing in it shows **None yet** and has no download. In the ZIP, a dataset with no rows gets no file, and the README lists it. A profile with only assets and liabilities you value by hand can export too.
+
+### Options
+
+These options apply to **Export all** and to each dataset, and the row counts follow them:
+
+- **Include archived accounts** is on by default. It adds archived accounts with their activities, tax lots, and loan payments. Turn it off to leave them out.
+- **Dates**: set **From** and **To** to limit activities, sales, prices, valuations, and histories. Leave both empty for all dates.
+
+Exports don’t include forecasts, because they change every day. To save one, use **Export schedule** in a loan’s **⋮** menu, or **Export projection** in a goal’s **⋮** menu. See <a href="/docs/guide/goals/" class="font-medium underline underline-offset-4">Goals</a> and <a href="/docs/guide/retirement-planning/" class="font-medium underline underline-offset-4">Retirement Planning</a>.
+
+> **Upgrading from 3.12.** If you load exports into a spreadsheet or a script, check it after the update:
+>
+> - CSV files escape a quote inside a value as `""` instead of `\"`.
+> - Accounts, Activities, and Portfolio history have new columns.
+> - Portfolio history adds an `accountName` column. Rows marked `All accounts` come first, then each account’s own rows, so don’t add up every row.
+> - Accounts and Activities include archived accounts unless you turn off **Include archived accounts**.
+> - Goals no longer has its two projection columns. Use **Export projection** instead.
+> - File names don’t change.
 
 ------------------------------------------------------------------------
 
 ## 2 · Pick the right format
 
 
-| Format                             | When to use                                                                             |
-|------------------------------------|-----------------------------------------------------------------------------------------|
-| **CSV**                            | Loading one table into a spreadsheet or another tool.                                   |
-| **JSON**                           | Programmatic processing; preserves nested structures that CSV flattens out.             |
+| Format | When to use |
+|----|----|
+| **CSV** | Loading one table into a spreadsheet or another tool. |
+| **ZIP** (**Export all** as CSV) | Every dataset at once: a CSV file for each, with a README that explains them. |
+| **JSON** | Programmatic processing; preserves nested structures that CSV flattens out. |
 | **Password-protected `.wfbackup`** | Keeping a restorable profile copy outside the installation or moving it to another one. |
-| **Encrypted `.wfrec`**             | A downloaded cloud restore point, opened with your recovery code or a linked device.    |
-| **Unencrypted `.db`**              | An advanced, unprotected database export. Anyone with the file can read its contents.   |
+| **Encrypted `.wfrec`** | A downloaded cloud restore point, opened with your recovery code or a linked device. |
+| **Unencrypted `.db`** | An advanced, unprotected database export. Anyone with the file can read its contents. |
 
 
-For a **backup before a big change**, create a snapshot on the **Backup** tab, then export it as a password-protected `.wfbackup` and save it outside the installation. CSV and JSON exports cannot restore a complete profile.
+For a **backup before a big change**, create a snapshot on the **Backups** tab, then export it as a password-protected `.wfbackup` and save it outside the installation. CSV and JSON exports cannot restore a complete profile.
 
 ------------------------------------------------------------------------
 
-Exported activity amounts use the saved final total, including fees and taxes. Do not subtract those charges again in a spreadsheet. Splits and security transfers have special meanings; see <a href="/docs/concepts/activity-fields/" class="font-medium underline underline-offset-4">Activity Fields</a>.
+Exported activity amounts use the saved final total, with fees and taxes already applied. Do not apply those charges again in a spreadsheet. Splits and security transfers have special meanings; see <a href="/docs/concepts/activity-fields/" class="font-medium underline underline-offset-4">Activity Fields</a>.
 
 ## 3 · Round-trip restore
 
 ### Create a backup
 
-Open **Settings → Backup & Export → Backup** and select **Back up now**. The snapshot appears in the list for the current profile. Select **Export** on that snapshot to save a portable copy. Choose a backup password and keep it with your recovery information; Wealthfolio cannot reset it. You can also export an unencrypted `.db` if you need one.
+Open **Settings → Backup & export → Backups** and select **Back up now**. The snapshot appears in the list for the current profile. Select **Export** on that snapshot to save a portable copy. Choose a backup password and keep it with your recovery information; Wealthfolio cannot reset it. You can also export an unencrypted `.db` if you need one.
 
-The initial snapshot stays in the current installation. Desktop and iOS use native file handling for the exported copy; web downloads it through the browser. Check that the export was saved somewhere independent of the device or server. In web mode, **Save original snapshot** is an advanced option: it downloads the original database with its existing encryption, which may require the original server master key to read.
+The initial snapshot stays in the current installation. Desktop and iOS use native file handling for the exported copy; web downloads it through the browser. Check that the export was saved somewhere independent of the device or server. In web mode, **Download original file**, under **Original server file (advanced)**, downloads the original database with its existing encryption, which may require the original server master key to read.
 
 Desktop and iOS support restore in the app. Web restore uses an offline server command. Each profile has its own database; repeat the backup for every profile you need to protect.
 
@@ -147,7 +108,7 @@ A password-protected `.wfbackup` uses the password chosen during **Export**, sep
 
 ### Restore in the app
 
-On desktop or iOS, open the **Backup** tab in the destination profile. Select **Restore from file** for a `.wfbackup` or unencrypted `.db`, or **Restore** on a saved snapshot. Enter the export password if prompted, review the backup preview, then confirm the replacement.
+On desktop or iOS, open the **Backups** tab in the destination profile. Select **Restore from file** for a `.wfbackup` or unencrypted `.db`, or **Restore** on a saved snapshot. Enter the export password if prompted, review the backup preview, then confirm the replacement.
 
 
 Restoring replaces your current database with the backup; it does not merge the two. Save a current backup before proceeding. CSV and JSON exports cannot be used for a full restore.
@@ -163,7 +124,7 @@ Web mode has no restore upload action. Stop Wealthfolio (or its container) and r
 
 ## 4 · Where the database files live
 
-Use the **Backup** tab for restores on desktop or iOS. If you are recovering installation files manually, close Wealthfolio first and preserve the **whole data directory**, including `profiles.json`, `profiles/`, and any legacy `app.db`. Include `profiles.json.bak` if present. New profiles store their database at `profiles/<uuid>/app.db`. The Personal profile migrated from an earlier version may still use the original root-level `app.db`. Replacing that root file will not restore a newer profile. Default desktop data directories are:
+Use the **Backups** tab for restores on desktop or iOS. If you are recovering installation files manually, close Wealthfolio first and preserve the **whole data directory**, including `profiles.json`, `profiles/`, and any legacy `app.db`. Include `profiles.json.bak` if present. New profiles store their database at `profiles/<uuid>/app.db`. The Personal profile migrated from an earlier version may still use the original root-level `app.db`. Replacing that root file will not restore a newer profile. Default desktop data directories are:
 
 - **macOS:** `~/Library/Application Support/com.teymz.wealthfolio/`
 - **Windows:** `%APPDATA%\com.teymz.wealthfolio\`
@@ -186,7 +147,7 @@ Both approaches give you point-in-time recovery without trusting any cloud, and 
 
 ## 6 · Encrypted cloud backup
 
-Cloud backup is in **Settings → Backup & Export → Backups** in Wealthfolio 3.10 and later. It is included in Connect Basic and higher and is off until you enable it. Local snapshots and manual exports remain available without Connect.
+Cloud backup is in **Settings → Backup & export → Backups** in Wealthfolio 3.10 and later. It is included in Connect Basic and higher and is off until you enable it. Local snapshots and manual exports remain available without Connect.
 
 1.  On the device or server that should run backups, sign in to Connect in the profile you want to protect.
 2.  Choose **Set up cloud backups** and save the recovery code outside this installation.
@@ -218,15 +179,14 @@ Select the destination profile explicitly. Review the command’s validation out
 Choose **Pause backups** to stop new backups for your Connect account. Saved copies still follow the retention policy; your latest backup is kept while your subscription is active. To resume, turn backups on again from the device you want as the source. Canceling renewal keeps paid features available until the subscription ends. When paid access ends, uploads stop and existing points remain downloadable for 30 days before scheduled deletion. Download any `.wfrec` copies you want to keep before that period ends; local data and downloaded packages remain yours. If backups were on when paid access ended, renewing resumes them from the same source. Renewing cannot bring back deleted cloud copies. The encrypted recovery key record remains until account deletion. Deleting points requires a valid Connect session and explicit confirmation, and removes their listing before storage cleanup. Replacing a recovery code requires a recent sign-in.
 
 
-------------------------------------------------------------------------
+<a href="/docs/guide/settings/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Settings</a> <a href="/docs/guide/connect-broker-sync/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Connect &amp; Broker Sync</a>
 
 
-<a href="/docs/guide/settings/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Settings</a> <a href="/docs/guide/connect-broker-sync/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Connect &amp; Broker Sync</a>
-
-
-On This Page
+On this page
 
 - <a href="#1--run-an-export" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · Run an export</a>
+  - <a href="#what-you-can-export" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">What you can export</a>
+  - <a href="#options" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Options</a>
 - <a href="#2--pick-the-right-format" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · Pick the right format</a>
 - <a href="#3--round-trip-restore" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Round-trip restore</a>
   - <a href="#create-a-backup" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Create a backup</a>

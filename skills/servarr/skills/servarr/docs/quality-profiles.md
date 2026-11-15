@@ -1,17 +1,6 @@
 > Source: https://trash-guides.info/Sonarr/
 
 
-<a href="#sonarr" class="md-skip">Skip to content</a>
-
-
-Initializing search
-
-
-<a href="https://github.com/TRaSH-Guides/Guides" class="md-source" data-md-component="source" title="Go to repository"></a>
-
-
-TRaSH-Guides
-
 
 <a href="#available-guides" class="md-nav__link"><span class="md-ellipsis"> Available guides </span></a>
 
@@ -90,5 +79,4 @@ After setting up your optimal volume/paths found [HERE](/File-and-Folder-Structu
 
 
 Back to top
-
 

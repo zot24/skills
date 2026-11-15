@@ -621,6 +621,13 @@ Use `initialMessages` when you need the original input messages and `responseMes
 
 The `pruneMessages` helper provides a built-in way to remove selected messages or message parts. You can use it inside `prepareStep` when you want a simple compaction strategy.
 
+With OpenAI Responses models, editing earlier history can cause subsequent
+reasoning to be dropped. Pruning earlier messages or tool results changes that
+history. Prefer provider compaction when supported, and preserve positioned
+configuration updates, including empty system messages. See [preserving
+reasoning across
+turns](/providers/ai-sdk-providers/openai#preserving-reasoning-across-turns).
+
 ```tsx
 import { generateText, pruneMessages, type ModelMessage } from 'ai';
 
@@ -1425,6 +1432,11 @@ The [Google Vertex provider](/providers/ai-sdk-providers/google-vertex#tool-resu
 also supports direct `gs://` tool-result file references for Gemini 3 and later
 models with supported image and document MIME types. It downloads HTTP(S)
 tool-result URLs and sends their contents as inline data.
+
+File URLs returned by tools are untrusted input. To validate DNS results when
+the provider downloads them on Node.js, pass a `guarded-fetch` transport as
+the provider's `fetch` option. See [Secure URL
+Fetching](/docs/advanced/secure-url-fetching).
 
 In order to send multi-modal tool results, e.g. screenshots, back to the model,
 they need to be converted into a specific format.

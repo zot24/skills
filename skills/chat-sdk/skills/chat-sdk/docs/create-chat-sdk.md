@@ -4,7 +4,7 @@
 title: CLI
 description: Scaffold a Chat SDK bot app with a single command.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 related:
   - /docs
   - /docs/getting-started

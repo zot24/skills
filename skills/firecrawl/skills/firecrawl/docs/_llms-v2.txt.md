@@ -4,7 +4,7 @@
 
 ## v2
 
-- [English / v2 / Documentation (137 pages)](https://docs.firecrawl.dev/_llms/en/v2/documentation.txt): Documentation for English / v2 / Documentation.
+- [English / v2 / Documentation (138 pages)](https://docs.firecrawl.dev/_llms/en/v2/documentation.txt): Get Started, Core Endpoints, More, Quickstarts, Developer Guides, Webhooks, Use Cases, Other, Contributing.
 
 ### SDKs
 
@@ -113,7 +113,6 @@
 #### Agentic Debugging Endpoints
 
 - [Ask](https://docs.firecrawl.dev/api-reference/endpoint/ask.md): Diagnose Firecrawl job, account, and API usage issues with an AI support agent.
-- [Docs Search](https://docs.firecrawl.dev/api-reference/endpoint/docs-search.md): Answer Firecrawl documentation questions using the public docs corpus.
 
 #### Account Endpoints
 
@@ -186,6 +185,7 @@
 - [Firecrawl in Claude & Claude Code](https://docs.firecrawl.dev/quickstarts/claude-code.md): Search the web and read pages from Claude or your Claude Code session.
 - [Firecrawl in Claude Desktop and Cowork](https://docs.firecrawl.dev/quickstarts/claude-desktop.md): Connect Firecrawl once and use it in Claude Desktop chat, Cowork, and the Code tab.
 - [MCP Web Search & Scrape in Cursor](https://docs.firecrawl.dev/quickstarts/cursor.md): Add web scraping and search to Cursor in 2 minutes
+- [MCP Web Search & Scrape in Factory Droid](https://docs.firecrawl.dev/quickstarts/factory-droid.md): Add Firecrawl web search and scraping to Factory Droid
 - [MCP Web Search & Scrape in OpenCode](https://docs.firecrawl.dev/quickstarts/opencode.md): Add Firecrawl web scraping and search to OpenCode
 - [MCP Web Search & Scrape in Codex CLI](https://docs.firecrawl.dev/quickstarts/codex-cli.md): Add Firecrawl web scraping and search to OpenAI Codex CLI
 - [MCP Web Search & Scrape in Grok Build](https://docs.firecrawl.dev/quickstarts/grok-build.md): Add Firecrawl web scraping and search to xAI Grok Build

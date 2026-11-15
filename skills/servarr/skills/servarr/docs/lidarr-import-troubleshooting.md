@@ -39,21 +39,21 @@ Standalone track imports outside the album context use a **60% similarity** thre
 
 The distance score is a weighted combination of how well each field matches. Lidarr adapts the weights from <a href="https://beets.readthedocs.io/" class="is-external-link">beets' default configuration</a>, with MusicBrainz IDs as the strongest signals:
 
-| Signal                                                       | Weight   | Notes                                                                              |
-|--------------------------------------------------------------|----------|------------------------------------------------------------------------------------|
-| `recording_id`                                               | 10.0     | MusicBrainz Recording MBID. If present and correct, imports almost always succeed. |
-| `album_id`                                                   | 5.0      | MusicBrainz Release MBID.                                                          |
-| `artist`                                                     | 3.0      | Artist name (Levenshtein distance after normalisation).                            |
-| `album`                                                      | 3.0      | Album/release title (same).                                                        |
-| `track_title`                                                | 3.0      | Per-track title.                                                                   |
-| `track_artist`                                               | 2.0      | Per-track artist (matters for compilations).                                       |
-| `track_length`                                               | 2.0      | Duration in seconds.                                                               |
-| `tracks`                                                     | 2.0      | Track-count agreement.                                                             |
-| `source`                                                     | 2.0      | Source medium (digital / CD / vinyl / etc).                                        |
-| `media_count`, `media_format`, `year`, `track_index`         | 1.0 each |                                                                                    |
-| `unmatched_tracks`                                           | 0.9      | Penalty for files that don't map to any MB track.                                  |
-| `missing_tracks`                                             | 0.6      | Penalty for MB tracks with no corresponding file.                                  |
-| `country`, `label`, `catalog_number`, `album_disambiguation` | 0.5 each | Tiebreakers, not primary signals.                                                  |
+| Signal | Weight | Notes |
+|----|----|----|
+| `recording_id` | 10.0 | MusicBrainz Recording MBID. If present and correct, imports almost always succeed. |
+| `album_id` | 5.0 | MusicBrainz Release MBID. |
+| `artist` | 3.0 | Artist name (Levenshtein distance after normalisation). |
+| `album` | 3.0 | Album/release title (same). |
+| `track_title` | 3.0 | Per-track title. |
+| `track_artist` | 2.0 | Per-track artist (matters for compilations). |
+| `track_length` | 2.0 | Duration in seconds. |
+| `tracks` | 2.0 | Track-count agreement. |
+| `source` | 2.0 | Source medium (digital / CD / vinyl / etc). |
+| `media_count`, `media_format`, `year`, `track_index` | 1.0 each |  |
+| `unmatched_tracks` | 0.9 | Penalty for files that don't map to any MB track. |
+| `missing_tracks` | 0.6 | Penalty for MB tracks with no corresponding file. |
+| `country`, `label`, `catalog_number`, `album_disambiguation` | 0.5 each | Tiebreakers, not primary signals. |
 
 The practical takeaway: **MusicBrainz Recording IDs and Release IDs are the dominant signals**. Files tagged with correct MBIDs (by MusicBrainz Picard, for example) almost always import. Files without MBIDs rely on artist/album/title matching and are far more sensitive to tag quality.
 

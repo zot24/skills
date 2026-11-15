@@ -4,7 +4,7 @@
 title: Markdown
 description: AST builder functions and utilities for programmatic message formatting.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: reference
 related:
   - /docs/posting-messages

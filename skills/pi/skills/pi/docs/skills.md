@@ -32,7 +32,7 @@ Pi implements the [Agent Skills specification](https://agentskills.io/specificat
 
 ## Create a skill
 
-<a href="#create-a-skill" class="heading-anchor" aria-label="Permalink: Create a skill" data-copy="" data-copy-text="https://pi.dev/docs/latest/skills#create-a-skill"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#create-a-skill" class="heading-anchor" aria-label="Permalink: Create a skill" data-copy="" data-copy-text="https://docs.pi.dev/latest/skills#create-a-skill"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A skill is a directory containing `SKILL.md`:
@@ -72,7 +72,7 @@ Use relative paths from the skill directory when referring to bundled files. Pi 
 
 ## Understand how skills load
 
-<a href="#understand-how-skills-load" class="heading-anchor" aria-label="Permalink: Understand how skills load" data-copy="" data-copy-text="https://pi.dev/docs/latest/skills#understand-how-skills-load"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#understand-how-skills-load" class="heading-anchor" aria-label="Permalink: Understand how skills load" data-copy="" data-copy-text="https://docs.pi.dev/latest/skills#understand-how-skills-load"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 At startup, Pi scans configured skill locations and adds each skill’s name, description, and path to the system prompt. It does not add the full instructions.
@@ -87,26 +87,26 @@ Arguments after `/skill:name` are appended to the loaded instructions as a user 
 ```
 
 
-Set `disable-model-invocation: true` in frontmatter when a skill should be available only through its explicit command. The `enableSkillCommands` [setting](/docs/latest/settings) controls whether skill commands appear in interactive command discovery; manually entered `/skill:name` commands still work.
+Set `disable-model-invocation: true` in frontmatter when a skill should be available only through its explicit command. The `enableSkillCommands` [setting](/latest/latest/settings) controls whether skill commands appear in interactive command discovery; manually entered `/skill:name` commands still work.
 
 
 ## Add it to Pi
 
-<a href="#add-it-to-pi" class="heading-anchor" aria-label="Permalink: Add it to Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/skills#add-it-to-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#add-it-to-pi" class="heading-anchor" aria-label="Permalink: Add it to Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/skills#add-it-to-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Place the skill in your user or project skills directory. Directories containing `SKILL.md` are discovered recursively.
 
 Pi also supports the Agent Skills locations `~/.agents/skills/` and `.agents/skills/`. Project `.agents/skills/` directories are discovered from the working directory through its ancestors, stopping at the repository root when one exists.
 
-Pi accepts some standalone Markdown skills, but a directory containing `SKILL.md` is the portable form and should be preferred. See [Settings](/docs/latest/settings#resources) and [Pi Packages](/docs/latest/packages) for additional locations.
+Pi accepts some standalone Markdown skills, but a directory containing `SKILL.md` is the portable form and should be preferred. See [Settings](/latest/latest/settings#resources) and [Pi Packages](/latest/latest/packages) for additional locations.
 
 Project skills can instruct the model to run scripts or modify files. Review unfamiliar skills and their supporting files before granting project trust.
 
 
 ## Write portable frontmatter
 
-<a href="#write-portable-frontmatter" class="heading-anchor" aria-label="Permalink: Write portable frontmatter" data-copy="" data-copy-text="https://pi.dev/docs/latest/skills#write-portable-frontmatter"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#write-portable-frontmatter" class="heading-anchor" aria-label="Permalink: Write portable frontmatter" data-copy="" data-copy-text="https://docs.pi.dev/latest/skills#write-portable-frontmatter"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The Agent Skills specification defines these fields:
@@ -130,12 +130,12 @@ Malformed `SKILL.md` files and declared skills without descriptions are not load
 
 ## Validate and share a skill
 
-<a href="#validate-and-share-a-skill" class="heading-anchor" aria-label="Permalink: Validate and share a skill" data-copy="" data-copy-text="https://pi.dev/docs/latest/skills#validate-and-share-a-skill"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#validate-and-share-a-skill" class="heading-anchor" aria-label="Permalink: Validate and share a skill" data-copy="" data-copy-text="https://docs.pi.dev/latest/skills#validate-and-share-a-skill"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Run Pi from a location where the skill is discoverable, then inspect the startup diagnostics and `/skill:name` command. Run `/reload` after editing a skill during an active session.
 
-Use a [Pi package](/docs/latest/packages) to distribute one or more skills through npm or git. Keep environment setup inside the skill and declare any required runtime dependencies in the package.
+Use a [Pi package](/latest/latest/packages) to distribute one or more skills through npm or git. Keep environment setup inside the skill and declare any required runtime dependencies in the package.
 
 For examples, see the [Anthropic skills collection](https://github.com/anthropics/skills) and [Pi skills collection](https://github.com/badlogic/pi-skills).
 

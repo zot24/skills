@@ -11,36 +11,35 @@
 
 ## OpenAPI
 
-````yaml delete /v2/workspaces/{workspace_id}/webhooks/{endpoint_id}
+````yaml delete /v3/workspaces/{workspace_id}/webhooks/{endpoint_id}
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/webhooks/{endpoint_id}:
+  /v3/workspaces/{workspace_id}/webhooks/{endpoint_id}:
     delete:
       tags:
         - webhooks
       summary: Delete Webhook Endpoint
       description: Delete a specific webhook endpoint.
       operationId: >-
-        delete_webhook_endpoint_v2_workspaces__workspace_id__webhooks__endpoint_id__delete
+        delete_webhook_endpoint_v3_workspaces__workspace_id__webhooks__endpoint_id__delete
       parameters:
         - name: workspace_id
           in: path
@@ -59,11 +58,8 @@ paths:
             title: Endpoint Id
           description: Webhook endpoint ID
       responses:
-        '200':
+        '204':
           description: Successful Response
-          content:
-            application/json:
-              schema: {}
         '422':
           description: Validation Error
           content:
@@ -98,6 +94,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

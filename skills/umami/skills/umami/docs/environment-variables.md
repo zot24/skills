@@ -2,12 +2,6 @@
 
 
 
-<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2 text-xl font-bold text-foreground tracking-[-0.03em]" target="_blank" rel="noreferrer"><img src="/logo.svg" class="h-6 w-auto dark:hidden" /><img src="/logo.svg" class="hidden h-6 w-auto dark:block" /><span>umami</span></a>
-
-
-<a href="https://github.com/umami-software/umami" class="inline-flex items-center rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-foreground size-8 justify-center" target="_blank" rel="noreferrer" aria-label="Umami on GitHub"></a>
-
-
 Menu
 
 
@@ -34,7 +28,7 @@ Runtime variables are recognized when Umami is running. You can set your environ
 ### APP_SECRET<a href="#app_secret" class="heading-anchor" aria-label="Permalink to “APP_SECRET”">#</a>
 
 
-A random string used to secure authentication tokens. Each installation should have a unique value. You can generate one with:
+**Required.** A random string used to secure authentication tokens. Each installation should have a unique value. You can generate one with:
 
 
 ``` code-block
@@ -45,6 +39,14 @@ openssl rand -hex 32
 ``` code-block
 APP_SECRET = "random string"
 ```
+
+
+Required since v3.5.0
+
+
+Earlier versions fell back to `DATABASE_URL` when `APP_SECRET` was not set. That fallback has been removed. An empty value or the placeholder `replace-me-with-a-random-string` is now rejected.
+
+The secret signs login tokens and is part of how anonymous session IDs are generated. If you set a new value, everyone is signed out. Visitors already seen in the current salt period are also counted as new sessions. To upgrade an installation that never set `APP_SECRET` without either effect, set `APP_SECRET` to the exact value of your `DATABASE_URL`. Umami then derives the same secret it used before.
 
 
 ### CLIENT_IP_HEADER<a href="#client_ip_header" class="heading-anchor" aria-label="Permalink to “CLIENT_IP_HEADER”">#</a>
@@ -142,6 +144,17 @@ Disables the check for new versions of Umami.
 
 ``` code-block
 DISABLE_UPDATES = 1
+```
+
+
+### ENABLE_CLIENT_SALT<a href="#enable_client_salt" class="heading-anchor" aria-label="Permalink to “ENABLE_CLIENT_SALT”">#</a>
+
+
+Accepts a session salt sent by the tracker with [`data-salt`](/docs/tracker-configuration#data-salt) or [`data-salt-rotation`](/docs/tracker-configuration#data-salt-rotation). The client salt is mixed into the server salt set by [`SALT_ROTATION`](#salt_rotation) rather than replacing it, so it can only split sessions further. Without this variable, client salts are ignored.
+
+
+``` code-block
+ENABLE_CLIENT_SALT = 1
 ```
 
 
@@ -279,13 +292,22 @@ REMOVE_TRAILING_SLASH = 1
 ### SALT_ROTATION<a href="#salt_rotation" class="heading-anchor" aria-label="Permalink to “SALT_ROTATION”">#</a>
 
 
-Controls how often the anonymous session salt rotates for generated session identifiers. The default is `month`.
+Controls how often the anonymous session salt rotates for generated session identifiers. When the salt rotates, a returning visitor gets a new session ID. The default is `month`.
+
+| Value | Behavior |
+|----|----|
+| `day` or `daily` | Rotates at the start of each day (UTC). |
+| `week` or `weekly` | Rotates at the start of each week (UTC). |
+| `month` or `monthly` | Rotates at the start of each month (UTC). This is the default. |
+| Any other value | Uses a fixed salt derived from that value, so the salt never rotates. Available since v3.5.0. |
 
 
 ``` code-block
 SALT_ROTATION = "month"
 ```
 
+
+The `daily`, `weekly`, and `monthly` aliases and fixed salts were added in v3.5.0. To let the tracker add its own salt on top of this one, see [`ENABLE_CLIENT_SALT`](#enable_client_salt).
 
 ### SKIP_LOCATION_HEADERS<a href="#skip_location_headers" class="heading-anchor" aria-label="Permalink to “SKIP_LOCATION_HEADERS”">#</a>
 
@@ -318,9 +340,9 @@ TRACKER_SCRIPT_NAME = "custom-script-name.js"
 
 A comma-delimited list of IP addresses and CIDR ranges of the proxies and load balancers in front of Umami. Set this when requests pass through more than one proxy and Umami records an internal address (like `10.0.0.8`) instead of the visitor's IP.
 
-When set, Umami reads `X-Forwarded-For` and `Forwarded` from right to left, skips trusted proxies, and uses the first address that isn't one. Headers such as `X-Real-IP` that contain a trusted proxy address are skipped in favor of the next header.
+Without it, Umami uses the leftmost address in `X-Forwarded-For` or `Forwarded`, which a client can set to anything. When set, Umami reads `X-Forwarded-For` and `Forwarded` from right to left, skips trusted proxies, and uses the first address that isn't one. Headers such as `X-Real-IP` that contain a trusted proxy address are skipped in favor of the next header.
 
-You can also use the presets `loopback`, `linklocal` and `private` (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`).
+You can also use the presets `loopback` (`127.0.0.0/8`, `::1/128`), `linklocal` (`169.254.0.0/16`, `fe80::/10`), and `private` (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`, `fc00::/7`). Invalid entries are ignored.
 
 
 ``` code-block

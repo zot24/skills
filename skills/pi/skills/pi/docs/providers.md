@@ -33,10 +33,10 @@ Use `/login [provider]` to see the methods supported by a provider. Amazon Bedro
 
 ## Authenticate interactively
 
-<a href="#authenticate-interactively" class="heading-anchor" aria-label="Permalink: Authenticate interactively" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#authenticate-interactively"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#authenticate-interactively" class="heading-anchor" aria-label="Permalink: Authenticate interactively" data-copy="" data-copy-text="https://docs.pi.dev/latest/providers#authenticate-interactively"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Run `/login` and select a provider. Pi guides you through its OAuth or API-key flow and saves the resulting credential in [`auth.json`](/docs/latest/configuration#agent-directory).
+Run `/login` and select a provider. Pi guides you through its OAuth or API-key flow and saves the resulting credential in [`auth.json`](/latest/latest/configuration#agent-directory).
 
 On a remote or headless machine, an OAuth callback may not reach the local process. When prompted, paste the final redirect URL or authorization code back into Pi.
 
@@ -47,7 +47,7 @@ Run `/logout` and select a provider to remove its stored credential. This does n
 
 ## Use an API key from the environment
 
-<a href="#use-an-api-key-from-the-environment" class="heading-anchor" aria-label="Permalink: Use an API key from the environment" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#use-an-api-key-from-the-environment"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#use-an-api-key-from-the-environment" class="heading-anchor" aria-label="Permalink: Use an API key from the environment" data-copy="" data-copy-text="https://docs.pi.dev/latest/providers#use-an-api-key-from-the-environment"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Environment variables are useful in CI and anywhere Pi should not store the key. Set the variable before starting Pi:
@@ -80,7 +80,7 @@ This table covers providers with a single primary API-key variable. Providers th
 | ZAI Coding Plan (China) | `ZAI_CODING_CN_API_KEY` |
 | OpenCode Zen and Go | `OPENCODE_API_KEY` |
 | Radius | `RADIUS_API_KEY` |
-| TypeSafe ([classifier models](/docs/latest/models#use-classifier-models)) | `TYPESAFE_API_KEY` |
+| TypeSafe ([classifier models](/latest/latest/models#use-classifier-models)) | `TYPESAFE_API_KEY` |
 | Hugging Face | `HF_TOKEN` |
 | Fireworks | `FIREWORKS_API_KEY` |
 | Together AI | `TOGETHER_API_KEY` |
@@ -90,8 +90,10 @@ This table covers providers with a single primary API-key variable. Providers th
 | MiniMax | `MINIMAX_API_KEY` |
 | MiniMax (China) | `MINIMAX_CN_API_KEY` |
 | Moonshot AI (Global and China) | `MOONSHOT_API_KEY` |
-| Qwen Token Plan and Individual | `QWEN_TOKEN_PLAN_API_KEY` |
-| Qwen Token Plan (China) and Individual (China) | `QWEN_TOKEN_PLAN_CN_API_KEY` |
+| Qwen Token Plan Team | `QWEN_TOKEN_PLAN_TEAM_API_KEY` |
+| Qwen Token Plan Team (China) | `QWEN_TOKEN_PLAN_TEAM_CN_API_KEY` |
+| Qwen Token Plan Individual | `QWEN_TOKEN_PLAN_INDIVIDUAL_API_KEY` |
+| Qwen Token Plan Individual (China) | `QWEN_TOKEN_PLAN_INDIVIDUAL_CN_API_KEY` |
 | Xiaomi MiMo | `XIAOMI_API_KEY` |
 | Xiaomi MiMo Token Plan (China) | `XIAOMI_TOKEN_PLAN_CN_API_KEY` |
 | Xiaomi MiMo Token Plan (Amsterdam) | `XIAOMI_TOKEN_PLAN_AMS_API_KEY` |
@@ -104,7 +106,7 @@ With no key or token set, Anthropic uses workload identity federation when `ANTH
 
 ## Load an API key from a command
 
-<a href="#load-an-api-key-from-a-command" class="heading-anchor" aria-label="Permalink: Load an API key from a command" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#load-an-api-key-from-a-command"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#load-an-api-key-from-a-command" class="heading-anchor" aria-label="Permalink: Load an API key from a command" data-copy="" data-copy-text="https://docs.pi.dev/latest/providers#load-an-api-key-from-a-command"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 To use a secret manager without writing the resolved key to disk, set a provider's `key` in `auth.json` to a command prefixed with `!`:
@@ -125,7 +127,7 @@ Pi runs the command when the key is first needed and caches its standard output 
 
 ## Provider Specific Config
 
-<a href="#provider-specific-config" class="heading-anchor" aria-label="Permalink: Provider Specific Config" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#provider-specific-config"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#provider-specific-config" class="heading-anchor" aria-label="Permalink: Provider Specific Config" data-copy="" data-copy-text="https://docs.pi.dev/latest/providers#provider-specific-config"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The providers below have additional setup, need additional settings, or can use credentials supplied by their platform.
@@ -148,7 +150,7 @@ A stored API-key credential can include an `env` object. Its values take priorit
 
 ### Radius
 
-<a href="#radius" class="heading-anchor" aria-label="Permalink: Radius" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#radius"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#radius" class="heading-anchor" aria-label="Permalink: Radius" data-copy="" data-copy-text="https://docs.pi.dev/latest/providers#radius"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Radius is a service crafted for Pi by the builders of Pi, Earendil Works. It provides a customizable AI gateway with organization-level controls and analytics built in, and artifacts for sharing what you create with Pi.
@@ -164,7 +166,7 @@ Radius authentication uses its gateway catalog and caches refreshed model metada
 
 ### OpenRouter
 
-<a href="#openrouter" class="heading-anchor" aria-label="Permalink: OpenRouter" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#openrouter"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#openrouter" class="heading-anchor" aria-label="Permalink: OpenRouter" data-copy="" data-copy-text="https://docs.pi.dev/latest/providers#openrouter"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Authenticate with `/login openrouter` or `OPENROUTER_API_KEY`.
@@ -173,7 +175,7 @@ With a key, Pi lists only the OpenRouter chat models that key may use, with the 
 
 Pi refreshes the list in the background at startup in interactive mode, when `/model` opens, after `/login`, and on `pi update --models`. The last list is saved and used offline and in `pi -p` and RPC mode. After switching keys outside `/login`, the previous key's list stays until the next refresh.
 
-Regional endpoints filter models to their region. To use one, set the base URL in [`models.json`](/docs/latest/models#configure-a-compatible-endpoint):
+Regional endpoints filter models to their region. To use one, set the base URL in [`models.json`](/latest/latest/models#configure-a-compatible-endpoint):
 
 
 ``` shiki
@@ -190,7 +192,7 @@ If the base URL rejects the key at `/models/user` or does not have that endpoint
 
 ### Azure OpenAI
 
-<a href="#azure-openai" class="heading-anchor" aria-label="Permalink: Azure OpenAI" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#azure-openai"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#azure-openai" class="heading-anchor" aria-label="Permalink: Azure OpenAI" data-copy="" data-copy-text="https://docs.pi.dev/latest/providers#azure-openai"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The provider ID is `azure` (formerly `azure-openai-responses`). Use it as the key in `auth.json`, `models.json`, and `settings.json`, and in model references such as `--model azure/gpt-5.4`.
@@ -220,7 +222,7 @@ export AZURE_OPENAI_DEPLOYMENT_NAME_MAP=gpt-5.4=my-gpt-deployment,deepseek-v4-pr
 
 `AZURE_OPENAI_API_VERSION` overrides the API version for OpenAI models (default `v1`).
 
-To use a Foundry model that Pi does not include, add it under `azure` in [`models.json`](/docs/latest/models#configure-a-compatible-endpoint) with `api: "openai-completions"`. Custom models require a `baseUrl`; `AZURE_OPENAI_BASE_URL` and `AZURE_OPENAI_RESOURCE_NAME` take priority over it when set:
+To use a Foundry model that Pi does not include, add it under `azure` in [`models.json`](/latest/latest/models#configure-a-compatible-endpoint) with `api: "openai-completions"`. Custom models require a `baseUrl`; `AZURE_OPENAI_BASE_URL` and `AZURE_OPENAI_RESOURCE_NAME` take priority over it when set:
 
 
 ``` shiki
@@ -239,7 +241,7 @@ To use a Foundry model that Pi does not include, add it under `azure` in [`model
 
 ### Amazon Bedrock
 
-<a href="#amazon-bedrock" class="heading-anchor" aria-label="Permalink: Amazon Bedrock" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#amazon-bedrock"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#amazon-bedrock" class="heading-anchor" aria-label="Permalink: Amazon Bedrock" data-copy="" data-copy-text="https://docs.pi.dev/latest/providers#amazon-bedrock"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Bedrock can use a bearer token or an ambient AWS credential source:
@@ -269,7 +271,7 @@ Pi also supports ECS task credentials and IRSA through the standard `AWS_CONTAIN
 
 ### Cloudflare AI Gateway
 
-<a href="#cloudflare-ai-gateway" class="heading-anchor" aria-label="Permalink: Cloudflare AI Gateway" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#cloudflare-ai-gateway"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#cloudflare-ai-gateway" class="heading-anchor" aria-label="Permalink: Cloudflare AI Gateway" data-copy="" data-copy-text="https://docs.pi.dev/latest/providers#cloudflare-ai-gateway"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The gateway requires a token, account ID, and gateway ID:
@@ -289,7 +291,7 @@ The account and gateway IDs can come from the process environment or the credent
 
 ### Cloudflare Workers AI
 
-<a href="#cloudflare-workers-ai" class="heading-anchor" aria-label="Permalink: Cloudflare Workers AI" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#cloudflare-workers-ai"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#cloudflare-workers-ai" class="heading-anchor" aria-label="Permalink: Cloudflare Workers AI" data-copy="" data-copy-text="https://docs.pi.dev/latest/providers#cloudflare-workers-ai"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Workers AI requires a token and account ID:
@@ -306,7 +308,7 @@ The account ID can also be stored in the credential's `env` object.
 
 ### Google Vertex AI
 
-<a href="#google-vertex-ai" class="heading-anchor" aria-label="Permalink: Google Vertex AI" data-copy="" data-copy-text="https://pi.dev/docs/latest/providers#google-vertex-ai"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#google-vertex-ai" class="heading-anchor" aria-label="Permalink: Google Vertex AI" data-copy="" data-copy-text="https://docs.pi.dev/latest/providers#google-vertex-ai"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Use a Google Cloud API key:

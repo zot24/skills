@@ -79,11 +79,11 @@ RefreshArtistCommand <- RefreshArtistService [00:14:32.1234567]
 
 These endpoints are the most useful to compare:
 
-| Endpoint                                             | Page                          |
-|------------------------------------------------------|-------------------------------|
-| `/api/v1/artist` and `/api/v1/album`                 | Initial load and artist index |
-| `/api/v1/wanted/missing` and `/api/v1/wanted/cutoff` | Wanted                        |
-| `/api/v1/history`                                    | History                       |
+| Endpoint | Page |
+|----|----|
+| `/api/v1/artist` and `/api/v1/album` | Initial load and artist index |
+| `/api/v1/wanted/missing` and `/api/v1/wanted/cutoff` | Wanted |
+| `/api/v1/history` | History |
 
 On Linux or macOS, this command pulls out those lines:
 

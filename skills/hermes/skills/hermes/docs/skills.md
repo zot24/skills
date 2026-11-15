@@ -1,158 +1,1174 @@
-> Source: https://hermes-agent.nousresearch.com/docs/skills/
+> Source: https://hermes-agent.nousresearch.com/docs/user-guide/features/skills/
 
 
 
-<img src="https://web-assets.nousresearch.com/marketing/426ac05f8d509dc4e3eaa272d968fb764f5e35a6/assets/mods/hero-art.webp" class="absolute top-[calc(50%-130px)] left-[calc(50%+198px)] h-[792px] w-[1418px] max-w-none -translate-x-1/2 -translate-y-1/2 object-cover" decoding="async" data-fetchpriority="high" />
+On this page
 
 
-Official Marketplace
+# Skills System
 
-# <span class="block">Hermes</span><span class="block">Marketplace</span>
 
+Skills are on-demand knowledge documents the agent can load when needed. They follow a **progressive disclosure** pattern to minimize token usage and are compatible with the <a href="https://agentskills.io/specification" target="_blank" rel="noopener noreferrer">agentskills.io</a> open standard.
 
-Give Hermes new powers; in memory, voice, messaging, and browsing. Built by the community, for the community.
+All skills live in **`~/.hermes/skills/`** — the primary directory and source of truth. On fresh install, bundled skills are copied from the repo. Hub-installed and agent-created skills also go here. The agent can modify or delete any skill.
 
+You can also point Hermes at **external skill directories** — additional folders scanned alongside the local one. See [External Skill Directories](#external-skill-directories) below.
 
-<a href="https://portal.nousresearch.com/terms" class="underline-offset-2 hover:underline" rel="noopener noreferrer" target="_blank">Terms</a> · <a href="https://portal.nousresearch.com/privacy" class="underline-offset-2 hover:underline" rel="noopener noreferrer" target="_blank">Privacy Policy</a>
+See also:
 
-Updated 38 minutes ago · 1,380 plugins
+- [Bundled Skills Catalog](/docs/reference/skills-catalog)
+- [Official Optional Skills Catalog](/docs/reference/optional-skills-catalog)
 
+## Install from the website<a href="#install-from-the-website" class="hash-link" aria-label="Direct link to Install from the website" translate="no" title="Direct link to Install from the website">​</a>
 
-## Featured Plugins
+Each installable card on the public [Skills Hub](/docs/skills) has an **Install in Hermes** button. It opens Hermes Desktop with a URL-encoded, source-qualified skill target: `official/...` for optional skills, `clawhub/...` for ClawHub, and an explicit repository path for bundled skills rather than an ambiguous bare name. The card's CLI command uses the same target:
 
 
-<figure class="hw-mods-featured-slide hw-mods-on-art relative h-[360px] w-full overflow-clip rounded-[9px] text-(--mods-featured-ink) max-md:h-[420px]">
-<h2 id="claude-subscription" class="w-[431px] max-w-full text-[48px] leading-none [text-box-edge:cap_alphabetic] [text-box-trim:trim-both]">Claude Subscription</h2>
-<p>Experimental model provider that runs Hermes turns on a Claude Pro/Max subscription through the official Claude Code CLI (the Agent SDK path), so no separate API key or per-token bill. Requires the claude CLI installed and logged in; the plugin checks for it at load, in hermes model, in the pickers and before every request, and refuses cleanly with the install hint when it is missing. Disclosure — every turn is billed against your Claude subscription's Agent SDK allowance, and the provider inherits whatever account claude is logged into.</p>
-<p>hermes plugins install claude-subscription-directsdk</p>
-<p>by NousResearch</p>
-<a href="hermes://plugin/install?catalog=claude-subscription-directsdk" class="hermes-button group relative inline-flex cursor-pointer items-center justify-center rounded-none border-0 bg-clip-padding outline-none select-none font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-[background-color,box-shadow,color,transform] duration-150 ease-out hover:duration-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-midground/30 disabled:pointer-events-none disabled:cursor-not-allowed hermes-button-size-s text-xs bg-[color-mix(in_srgb,currentColor_5%,transparent)] text-current hover:bg-[color-mix(in_srgb,currentColor_10%,transparent)] disabled:opacity-40 gap-1.5 px-2 py-1.5" role="link" tabindex="0" data-slot="button" data-variant="quiet" data-size="s"><span class="leading-none whitespace-nowrap cap-mono text-cap-trim relative -top-[var(--hpv2-cap-nudge)] cap-fallback:top-[var(--hpv2-nudge)]!">Install in Hermes</span><span class="hermes-button-hover-border" aria-hidden="true"></span></a><a href="/marketplace/claude-subscription-directsdk" class="hermes-button group relative inline-flex cursor-pointer items-center justify-center rounded-none border-0 bg-clip-padding outline-none select-none font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-[background-color,box-shadow,color,transform] duration-150 ease-out hover:duration-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-midground/30 disabled:pointer-events-none disabled:cursor-not-allowed hermes-button-size-s text-xs bg-[var(--hpv2-brand,var(--hermes-primary))] text-[var(--hermes-white)] hover:shadow-[var(--hpv2-shadow-lift-strong)] active:shadow-[var(--hpv2-shadow-press-strong)] gap-1.5 px-2 py-1.5 disabled:bg-[var(--hpv2-row-well,rgb(0_0_0/0.02))] disabled:text-[var(--hpv2-inactive-fg,color-mix(in_srgb,var(--hermes-primary)_40%,transparent))] disabled:shadow-none" role="link" tabindex="0" data-slot="button" data-variant="primary" data-size="s"><span class="leading-none whitespace-nowrap cap-mono text-cap-trim relative -top-[var(--hpv2-cap-nudge)] cap-fallback:top-[var(--hpv2-nudge)]!">Plugin Details</span><span class="relative inline-flex shrink-0 self-center order-last size-[var(--hpv2-btn-prefix-s)]" aria-hidden="true" style="height:0"><span class="absolute top-1/2 flex -translate-y-1/2 items-center justify-center size-[var(--hpv2-btn-prefix-s)]"></span></span><span class="hermes-button-hover-border" aria-hidden="true"></span></a>
-</figure>
+``` prism-code
+hermes://skill/install?identifier=official%2Fsecurity%2F1password
+```
 
 
-<figure class="hw-mods-featured-slide hw-mods-on-art relative h-[360px] w-full overflow-clip rounded-[9px] text-(--mods-featured-ink) max-md:h-[420px]">
-<h2 id="memory-wiki" class="w-[431px] max-w-full text-[48px] leading-none [text-box-edge:cap_alphabetic] [text-box-trim:trim-both]">Memory Wiki</h2>
-<p>Memory Wiki dashboard tab and opt-in native Desktop page: browsable subject pages and daily logs derived from local session history, plus a read-only Persistent Memory (MEMORY.md / USER.md) audit panel.</p>
-<p>hermes plugins install hermes-memory-wiki</p>
-<p>by NousResearch</p>
-<a href="hermes://plugin/install?catalog=hermes-memory-wiki" class="hermes-button group relative inline-flex cursor-pointer items-center justify-center rounded-none border-0 bg-clip-padding outline-none select-none font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-[background-color,box-shadow,color,transform] duration-150 ease-out hover:duration-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-midground/30 disabled:pointer-events-none disabled:cursor-not-allowed hermes-button-size-s text-xs bg-[color-mix(in_srgb,currentColor_5%,transparent)] text-current hover:bg-[color-mix(in_srgb,currentColor_10%,transparent)] disabled:opacity-40 gap-1.5 px-2 py-1.5" role="link" tabindex="0" data-slot="button" data-variant="quiet" data-size="s"><span class="leading-none whitespace-nowrap cap-mono text-cap-trim relative -top-[var(--hpv2-cap-nudge)] cap-fallback:top-[var(--hpv2-nudge)]!">Install in Hermes</span><span class="hermes-button-hover-border" aria-hidden="true"></span></a><a href="/marketplace/hermes-memory-wiki" class="hermes-button group relative inline-flex cursor-pointer items-center justify-center rounded-none border-0 bg-clip-padding outline-none select-none font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-[background-color,box-shadow,color,transform] duration-150 ease-out hover:duration-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-midground/30 disabled:pointer-events-none disabled:cursor-not-allowed hermes-button-size-s text-xs bg-[var(--hpv2-brand,var(--hermes-primary))] text-[var(--hermes-white)] hover:shadow-[var(--hpv2-shadow-lift-strong)] active:shadow-[var(--hpv2-shadow-press-strong)] gap-1.5 px-2 py-1.5 disabled:bg-[var(--hpv2-row-well,rgb(0_0_0/0.02))] disabled:text-[var(--hpv2-inactive-fg,color-mix(in_srgb,var(--hermes-primary)_40%,transparent))] disabled:shadow-none" role="link" tabindex="0" data-slot="button" data-variant="primary" data-size="s"><span class="leading-none whitespace-nowrap cap-mono text-cap-trim relative -top-[var(--hpv2-cap-nudge)] cap-fallback:top-[var(--hpv2-nudge)]!">Plugin Details</span><span class="relative inline-flex shrink-0 self-center order-last size-[var(--hpv2-btn-prefix-s)]" aria-hidden="true" style="height:0"><span class="absolute top-1/2 flex -translate-y-1/2 items-center justify-center size-[var(--hpv2-btn-prefix-s)]"></span></span><span class="hermes-button-hover-border" aria-hidden="true"></span></a>
-</figure>
+Desktop shows **Install “skill-name”?** with separate **Source** and **Install to** rows. Cancel makes no changes. After confirmation the dialog shows **Installing…**, then **Installed** and a completion notification; errors stay in the dialog so you can retry. Installation goes through the normal Skills Hub pipeline (security scan, action log, installed-list refresh). If you switch profile or connection while the confirmation is open, reopen the link for the new destination; a link cannot bypass scanning or pick a different profile. Open conversations are told about the new skill on their next message.
 
+The `skill/install` route needs an updated Desktop build. If the app is missing or does not recognize the link, expand the card and copy its CLI install command.
 
-<figure class="hw-mods-featured-slide hw-mods-on-art relative h-[360px] w-full overflow-clip rounded-[9px] text-(--mods-featured-ink) max-md:h-[420px]">
-<h2 id="blender" class="w-[431px] max-w-full text-[48px] leading-none [text-box-edge:cap_alphabetic] [text-box-trim:trim-both]">Blender</h2>
-<p>Official Blender Lab MCP server over stdio, pinned to upstream v1.0.3, with a Blender workflow skill. Needs Git and uv; Blender 5.1+ is not needed at install. The skill opens Blender itself when a task needs it and, after you agree, installs Blender and Blender Lab's MCP add-on. First startup downloads Python dependencies; prepare the uv environment before connecting. Disclosure — tools execute arbitrary Python in Blender with your privileges; the skill starts Blender with online access for that session only (your saved preference is unchanged), and the add-on's local server on port 9876 has no password, so any program on this computer can use it while Blender is open; only after you agree does the skill download Blender from download.blender.org (about 400 MB, about 1.5 GB unpacked), check it against blender.org's sha256 list and install it in your own folder without administrator rights (Linux ~/.local/opt, macOS ~/Applications, Windows %LOCALAPPDATA%\Programs\Blender Foundation; never over an existing Blender), and download the v1.0.3 add-on, check its hash and install or enable it; first start downloads the pinned Blender Lab MCP server and its Python dependencies with uv. Server discovery does not prove scene readiness.</p>
-<p>hermes plugins install blender</p>
-<p>by NousResearch</p>
-<a href="hermes://plugin/install?catalog=blender" class="hermes-button group relative inline-flex cursor-pointer items-center justify-center rounded-none border-0 bg-clip-padding outline-none select-none font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-[background-color,box-shadow,color,transform] duration-150 ease-out hover:duration-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-midground/30 disabled:pointer-events-none disabled:cursor-not-allowed hermes-button-size-s text-xs bg-[color-mix(in_srgb,currentColor_5%,transparent)] text-current hover:bg-[color-mix(in_srgb,currentColor_10%,transparent)] disabled:opacity-40 gap-1.5 px-2 py-1.5" role="link" tabindex="0" data-slot="button" data-variant="quiet" data-size="s"><span class="leading-none whitespace-nowrap cap-mono text-cap-trim relative -top-[var(--hpv2-cap-nudge)] cap-fallback:top-[var(--hpv2-nudge)]!">Install in Hermes</span><span class="hermes-button-hover-border" aria-hidden="true"></span></a><a href="/marketplace/blender" class="hermes-button group relative inline-flex cursor-pointer items-center justify-center rounded-none border-0 bg-clip-padding outline-none select-none font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-[background-color,box-shadow,color,transform] duration-150 ease-out hover:duration-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-midground/30 disabled:pointer-events-none disabled:cursor-not-allowed hermes-button-size-s text-xs bg-[var(--hpv2-brand,var(--hermes-primary))] text-[var(--hermes-white)] hover:shadow-[var(--hpv2-shadow-lift-strong)] active:shadow-[var(--hpv2-shadow-press-strong)] gap-1.5 px-2 py-1.5 disabled:bg-[var(--hpv2-row-well,rgb(0_0_0/0.02))] disabled:text-[var(--hpv2-inactive-fg,color-mix(in_srgb,var(--hermes-primary)_40%,transparent))] disabled:shadow-none" role="link" tabindex="0" data-slot="button" data-variant="primary" data-size="s"><span class="leading-none whitespace-nowrap cap-mono text-cap-trim relative -top-[var(--hpv2-cap-nudge)] cap-fallback:top-[var(--hpv2-nudge)]!">Plugin Details</span><span class="relative inline-flex shrink-0 self-center order-last size-[var(--hpv2-btn-prefix-s)]" aria-hidden="true" style="height:0"><span class="absolute top-1/2 flex -translate-y-1/2 items-center justify-center size-[var(--hpv2-btn-prefix-s)]"></span></span><span class="hermes-button-hover-border" aria-hidden="true"></span></a>
-</figure>
+## Starting with a blank slate<a href="#starting-with-a-blank-slate" class="hash-link" aria-label="Direct link to Starting with a blank slate" translate="no" title="Direct link to Starting with a blank slate">​</a>
 
+By default every profile is seeded with the bundled skill catalog, and each `hermes update` adds any newly bundled skills. If you want a profile with **no bundled skills** — and that stays empty across updates — you have two paths:
 
-<figure class="hw-mods-featured-slide hw-mods-on-art relative h-[360px] w-full overflow-clip rounded-[9px] text-(--mods-featured-ink) max-md:h-[420px]">
-<h2 id="touchdesigner" class="w-[431px] max-w-full text-[48px] leading-none [text-box-edge:cap_alphabetic] [text-box-trim:trim-both]">TouchDesigner</h2>
-<p>Drive a live TouchDesigner session through the twozero MCP server (Streamable HTTP on 127.0.0.1:40404), with the touchdesigner-mcp workflow skill bundled. Portable Agent Plugins v1 package (mcp.json + skills/); TouchDesigner itself runs on macOS/Windows.</p>
-<p>hermes plugins install touchdesigner</p>
-<p>by NousResearch</p>
-<a href="hermes://plugin/install?catalog=touchdesigner" class="hermes-button group relative inline-flex cursor-pointer items-center justify-center rounded-none border-0 bg-clip-padding outline-none select-none font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-[background-color,box-shadow,color,transform] duration-150 ease-out hover:duration-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-midground/30 disabled:pointer-events-none disabled:cursor-not-allowed hermes-button-size-s text-xs bg-[color-mix(in_srgb,currentColor_5%,transparent)] text-current hover:bg-[color-mix(in_srgb,currentColor_10%,transparent)] disabled:opacity-40 gap-1.5 px-2 py-1.5" role="link" tabindex="0" data-slot="button" data-variant="quiet" data-size="s"><span class="leading-none whitespace-nowrap cap-mono text-cap-trim relative -top-[var(--hpv2-cap-nudge)] cap-fallback:top-[var(--hpv2-nudge)]!">Install in Hermes</span><span class="hermes-button-hover-border" aria-hidden="true"></span></a><a href="/marketplace/touchdesigner" class="hermes-button group relative inline-flex cursor-pointer items-center justify-center rounded-none border-0 bg-clip-padding outline-none select-none font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-[background-color,box-shadow,color,transform] duration-150 ease-out hover:duration-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-midground/30 disabled:pointer-events-none disabled:cursor-not-allowed hermes-button-size-s text-xs bg-[var(--hpv2-brand,var(--hermes-primary))] text-[var(--hermes-white)] hover:shadow-[var(--hpv2-shadow-lift-strong)] active:shadow-[var(--hpv2-shadow-press-strong)] gap-1.5 px-2 py-1.5 disabled:bg-[var(--hpv2-row-well,rgb(0_0_0/0.02))] disabled:text-[var(--hpv2-inactive-fg,color-mix(in_srgb,var(--hermes-primary)_40%,transparent))] disabled:shadow-none" role="link" tabindex="0" data-slot="button" data-variant="primary" data-size="s"><span class="leading-none whitespace-nowrap cap-mono text-cap-trim relative -top-[var(--hpv2-cap-nudge)] cap-fallback:top-[var(--hpv2-nudge)]!">Plugin Details</span><span class="relative inline-flex shrink-0 self-center order-last size-[var(--hpv2-btn-prefix-s)]" aria-hidden="true" style="height:0"><span class="absolute top-1/2 flex -translate-y-1/2 items-center justify-center size-[var(--hpv2-btn-prefix-s)]"></span></span><span class="hermes-button-hover-border" aria-hidden="true"></span></a>
-</figure>
+**At install time** (applies to the default `~/.hermes` profile): the installer has no `--no-skills` flag. Its setup stage asks whether to seed the bundled catalog when you pick the Blank Slate setup; answering no writes the opt-out marker described below. Non-interactive installs seed the catalog, so run `hermes skills opt-out` afterwards if you want the profile empty.
 
+**At profile-create time** (named profiles):
 
-<figure class="hw-mods-featured-slide hw-mods-on-art relative h-[360px] w-full overflow-clip rounded-[9px] text-(--mods-featured-ink) max-md:h-[420px]">
-<h2 id="telegram-business" class="w-[431px] max-w-full text-[48px] leading-none [text-box-edge:cap_alphabetic] [text-box-trim:trim-both]">Telegram Business</h2>
-<p>Observe-with-approval Telegram Business Mode (secretary bot): Hermes drafts replies to your customers' messages and DMs each draft to you with Send, Edit and Discard buttons; nothing reaches a customer until you tap Send. A Hermes Labs plugin: built by Nous Research, not supported. Disclosure — each customer message is sent to your active Hermes model to draft the reply, and drafts and connection records are stored locally in &lt;HERMES_HOME&gt;/telegram-business/state.db.</p>
-<p>hermes plugins install hermes-telegram-business</p>
-<p>by NousResearch</p>
-<a href="hermes://plugin/install?catalog=hermes-telegram-business" class="hermes-button group relative inline-flex cursor-pointer items-center justify-center rounded-none border-0 bg-clip-padding outline-none select-none font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-[background-color,box-shadow,color,transform] duration-150 ease-out hover:duration-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-midground/30 disabled:pointer-events-none disabled:cursor-not-allowed hermes-button-size-s text-xs bg-[color-mix(in_srgb,currentColor_5%,transparent)] text-current hover:bg-[color-mix(in_srgb,currentColor_10%,transparent)] disabled:opacity-40 gap-1.5 px-2 py-1.5" role="link" tabindex="0" data-slot="button" data-variant="quiet" data-size="s"><span class="leading-none whitespace-nowrap cap-mono text-cap-trim relative -top-[var(--hpv2-cap-nudge)] cap-fallback:top-[var(--hpv2-nudge)]!">Install in Hermes</span><span class="hermes-button-hover-border" aria-hidden="true"></span></a><a href="/marketplace/hermes-telegram-business" class="hermes-button group relative inline-flex cursor-pointer items-center justify-center rounded-none border-0 bg-clip-padding outline-none select-none font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-[background-color,box-shadow,color,transform] duration-150 ease-out hover:duration-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-midground/30 disabled:pointer-events-none disabled:cursor-not-allowed hermes-button-size-s text-xs bg-[var(--hpv2-brand,var(--hermes-primary))] text-[var(--hermes-white)] hover:shadow-[var(--hpv2-shadow-lift-strong)] active:shadow-[var(--hpv2-shadow-press-strong)] gap-1.5 px-2 py-1.5 disabled:bg-[var(--hpv2-row-well,rgb(0_0_0/0.02))] disabled:text-[var(--hpv2-inactive-fg,color-mix(in_srgb,var(--hermes-primary)_40%,transparent))] disabled:shadow-none" role="link" tabindex="0" data-slot="button" data-variant="primary" data-size="s"><span class="leading-none whitespace-nowrap cap-mono text-cap-trim relative -top-[var(--hpv2-cap-nudge)] cap-fallback:top-[var(--hpv2-nudge)]!">Plugin Details</span><span class="relative inline-flex shrink-0 self-center order-last size-[var(--hpv2-btn-prefix-s)]" aria-hidden="true" style="height:0"><span class="absolute top-1/2 flex -translate-y-1/2 items-center justify-center size-[var(--hpv2-btn-prefix-s)]"></span></span><span class="hermes-button-hover-border" aria-hidden="true"></span></a>
-</figure>
 
+``` prism-code
+hermes profile create research --no-skills
+```
 
-All
 
-Plugins
+**On an already-installed profile** (default or named), toggle it at runtime:
 
-Skills
 
-Connectors
+``` prism-code
+hermes skills opt-out            # stop future seeding — nothing on disk is touched
+hermes skills opt-out --remove   # also delete UNMODIFIED bundled skills (confirms first)
+hermes skills opt-in --sync      # undo: remove the marker and re-seed now
+```
 
 
-Official<span class="opacity-50">21</span>
+All of these paths write a `.no-bundled-skills` marker into the profile directory. While the marker is present, the installer, `hermes update`, and any skill sync all skip bundled-skill seeding for that profile. Delete the marker (or run `hermes skills opt-in`) to re-enable.
 
-Certified<span class="opacity-50">11</span>
 
-Community<span class="opacity-50">1348</span>
+`hermes skills opt-out` only stops *future* seeding — it never deletes anything already on disk. The optional `--remove` flag deletes bundled skills **only** when they are unmodified (byte-identical to the version Hermes installed). Skills you have edited, skills installed from the hub, and skills you wrote yourself are always kept.
 
 
-Automation<span class="opacity-50">86</span>
+## Using Skills<a href="#using-skills" class="hash-link" aria-label="Direct link to Using Skills" translate="no" title="Direct link to Using Skills">​</a>
 
-Desktop<span class="opacity-50">259</span>
+Every installed skill is automatically available as a slash command:
 
-General<span class="opacity-50">77</span>
 
-Memory<span class="opacity-50">88</span>
+``` prism-code
+# In the CLI or any messaging platform:
+/excalidraw sketch the request flow for our API
+/axolotl help me fine-tune Llama 3 on my dataset
+/github-pr-workflow create a PR for the auth refactor
+/youtube-content summarize https://youtu.be/dQw4w9WgXcQ
 
-Models<span class="opacity-50">111</span>
+# Just the skill name loads it and lets the agent ask what you need:
+/excalidraw
+```
 
-Platform<span class="opacity-50">59</span>
 
-Tools<span class="opacity-50">602</span>
+### Stacking multiple skills in one command<a href="#stacking-multiple-skills-in-one-command" class="hash-link" aria-label="Direct link to Stacking multiple skills in one command" translate="no" title="Direct link to Stacking multiple skills in one command">​</a>
 
-Voice<span class="opacity-50">36</span>
+You can invoke several skills in a single message by chaining slash commands at the start — every leading `/skill` token (up to 5) is loaded, and the rest becomes your instruction:
 
-Web<span class="opacity-50">62</span>
 
+``` prism-code
+/github-pr-workflow /test-driven-development fix issue #123 and open a PR
+```
 
-Show 12 more
 
+Parsing stops at the first token that isn't an installed skill, so arguments that happen to start with `/` (like file paths) are never swallowed:
 
-Official<span class="opacity-50">21</span>
 
+``` prism-code
+/ocr-and-documents ~/.hermes/cache/scratch/scan.pdf extract the tables   # loads one skill; ~/.hermes/cache/scratch/scan.pdf is the argument
+```
 
-Certified<span class="opacity-50">11</span>
 
+For combinations you use repeatedly, prefer a [skill bundle](#skill-bundles) — same effect under one short command.
 
-Community<span class="opacity-50">1348</span>
+(Plan mode works the same way but is a built-in command now: `/plan [request]` tells Hermes to inspect context if needed, write a markdown implementation plan instead of executing the task, and save the result under `.hermes/plans/` relative to the active workspace/backend working directory.)
 
+You can also interact with skills through natural conversation:
 
-Automation<span class="opacity-50">86</span>
 
+``` prism-code
+hermes chat --toolsets skills -q "What skills do you have?"
+hermes chat --toolsets skills -q "Show me the axolotl skill"
+```
 
-Desktop<span class="opacity-50">259</span>
 
+## Learning a skill from sources (`/learn`)<a href="#learning-a-skill-from-sources-learn" class="hash-link" aria-label="Direct link to learning-a-skill-from-sources-learn" translate="no" title="Direct link to learning-a-skill-from-sources-learn">​</a>
 
-General<span class="opacity-50">77</span>
+`/learn` is the fast way to turn something you already know — or a pile of reference material — into a reusable skill, without hand-writing the `SKILL.md`. It is open-ended: point it at *anything you can describe* and the agent gathers the material with the tools it already has, then authors a skill that follows the [house authoring standards](#skillmd-format) (≤60-char description, the standard section order, Hermes-tool framing, no invented commands).
 
 
-Memory<span class="opacity-50">88</span>
+``` prism-code
+# A local SDK or doc directory — read with read_file / search_files
+/learn the REST client in ~/projects/acme-sdk, focus on auth + pagination
 
+# An online doc page — fetched with web_extract
+/learn https://docs.example.com/api/quickstart
 
-Models<span class="opacity-50">111</span>
+# The workflow you just walked the agent through in this conversation
+/learn how I just deployed the staging server
 
+# Pasted notes / a described procedure
+/learn filing an expense: open the portal, New > Expense, attach the receipt, submit
 
-Platform<span class="opacity-50">59</span>
+# A whole book, paper stack, or large docs corpus — becomes a knowledge-base skill
+/learn ~/books/designing-data-intensive-applications.pdf
+```
 
 
-Tools<span class="opacity-50">602</span>
+### Large sources become knowledge-base skills<a href="#large-sources-become-knowledge-base-skills" class="hash-link" aria-label="Direct link to Large sources become knowledge-base skills" translate="no" title="Direct link to Large sources become knowledge-base skills">​</a>
 
+When the source is a book, a stack of papers, a spec, or a large docs folder, the agent doesn't cram it into one file or reduce it to a lossy summary. Instead it authors an **expansive knowledge-base skill**: a lean `SKILL.md` carrying the source's core mental models plus an index, with one distilled file per chapter or topic under `references/` (plus a glossary or cheatsheet when the source earns them). Reference files cost nothing until a question needs one — the agent loads them on demand with `skill_view`, so query cost stays proportional to the answer, not the source. Re-running `/learn` with new material on the same topic folds it into the existing skill rather than creating a duplicate.
 
-Voice<span class="opacity-50">36</span>
+The distillation synthesizes structure — frameworks, definitions, decision rules, anti-patterns — and never reproduces passages of the source text.
 
+Because the live agent does the sourcing, `/learn` works the same in the CLI, the messaging gateway, the TUI, and the dashboard — and on any terminal backend (local, Docker, remote), since there is no separate ingestion engine. In the **dashboard**, the Skills page has a **Learn a skill** button that opens a panel with a directory field, a URL field, and an open-ended text box; it composes a `/learn` request and runs it in chat.
 
-Web<span class="opacity-50">62</span>
+There is no model-tool footprint: `/learn` builds a standards-guided prompt and hands it to the agent as a normal turn. The agent saves the result with the `skill_manage` tool, so the [write-approval gate](#gating-agent-skill-writes-skillswrite_approval) applies if you have it on.
 
+## Progressive Disclosure<a href="#progressive-disclosure" class="hash-link" aria-label="Direct link to Progressive Disclosure" translate="no" title="Direct link to Progressive Disclosure">​</a>
 
-<a href="/marketplace/mem0" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:48%;--plate-y:35%;--plate-scale:1.5;--plate-flip:-1;--plate-dot:4px;--plate-angle:75deg"><img src="https://github.com/mem0ai.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">mem0ai</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">mem0</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Mem0 memory provider — server-side LLM fact extraction with semantic search, automatic deduplication and opt-in reranking, in platform, self-hosted or local OSS mode. Maintained by Mem0; the same provider that shipped in-tree. Disclosure — conversation turns and recall queries g…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">memory</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">68.7k</span></span></span></span></a><a href="/marketplace/hindsight" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art opacity-80 hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true"><img src="https://raw.githubusercontent.com/vectorize-io/hindsight/f14cc1eb5624b0374cb4d82768eb2e0b9c21ae24/hindsight-integrations/hermes/docs/banner.png" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">vectorize-io</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">hindsight</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Hindsight long-term memory provider — knowledge graph, entity resolution and multi-strategy retrieval (recall/reflect/retain tools plus automatic per-turn capture). Maintained by Vectorize; cloud, local external and local embedded modes are available. `hermes memory setup` fetch…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">memory</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">60.0k</span></span></span></span></a><a href="/marketplace/openviking" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art opacity-80 hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true"><img src="https://raw.githubusercontent.com/volcengine/OpenViking/e855796c83f9eb575d9b0f3082926660730f6a63/docs/images/openviking-social.jpg" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">volcengine</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">openviking</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Long-term memory for Hermes. Capture conversations, recall useful facts across sessions and search your knowledge. Choose Quick Local, OpenViking Service (managed cloud) or your own server. Disclosure — conversation turns, tool results and MEMORY.md / USER.md edits are sent to t…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">memory</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">41.8k</span></span></span></span></a><a href="/marketplace/agentmemory" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art opacity-80 hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true"><img src="https://raw.githubusercontent.com/rohitg00/agentmemory/0da38f1d5067a479a6e5c4653de342ba43ca22b2/assets/banner.png" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">rohitg00</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">agentmemory</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Persistent memory provider with automatic recall, conversation capture, and native memory_save, memory_recall, and memory_search tools. Memory is scoped to the active Hermes profile, project, and message author by default. Requires a separately running AgentMemory server. Disclo…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">memory</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">30.2k</span></span></span></span></a><a href="/marketplace/honcho" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art opacity-80 hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true"><img src="https://raw.githubusercontent.com/plastic-labs/honcho/894b88321872e01702a1aa638ddfdde6ad60f173/hermes-plugin-honcho/docs/banner.png" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">plastic-labs</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">honcho</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Honcho is memory infrastructure for building stateful agents that understand changing people, agents, groups, projects, and ideas over time. Store messages and events, let Honcho reason in the background, then query peer representations, session context, search results, or natur…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">memory</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">8.0k</span></span></span></span></a><a href="/marketplace/omh" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:43%;--plate-y:50%;--plate-scale:1.6;--plate-flip:1;--plate-dot:4px;--plate-angle:0deg"><img src="https://github.com/rlaope.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">rlaope</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">omh</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Oh My Hermes (OMH) bridge: routing hints and role context for OMH workflow skills, per-task delegation model routing, plan todos and a status tool, a Hermes Desktop status pane (off until enabled), bounded evidence probes that keep prepared work apart from observed results, and…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">tools</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">5.3k</span></span></span></span></a><a href="/marketplace/phone-harness" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art opacity-80 hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true"><img src="https://raw.githubusercontent.com/phone-harness/phone-harness/549d300e317a76ec8f493600cb04c69ba4f9d97d/integrations/hermes/assets/banner.png" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">ShawnPana</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">phone-harness</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Drive a real phone from Hermes with one phone_exec tool: an iPhone via iPhone Mirroring on a Mac, an Android over adb, or a cloud phone from Phone Harness Cloud. Disclosure — runs model-written Python on this computer with your user's permissions through the phone-harness packag…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">tools</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">4.7k</span></span></span></span></a><a href="/marketplace/reme" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:43%;--plate-y:45%;--plate-scale:1.3;--plate-flip:-1;--plate-dot:3px;--plate-angle:15deg"><img src="https://github.com/agentscope-ai.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">agentscope-ai</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">reme</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Local-first, file-native long-term memory with HTTP and embedded ReMe backends. Disclosure — search queries and full user/assistant turns are sent to the configured ReMe endpoint (default http://127.0.0.1:2333; a non-loopback http:// endpoint receives them in plaintext) or handl…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">memory</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">3.8k</span></span></span></span></a><a href="/marketplace/mnemosyne" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:41%;--plate-y:48%;--plate-scale:1.4;--plate-flip:1;--plate-dot:3px;--plate-angle:15deg"><img src="https://github.com/mnemosyne-oss.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">mnemosyne-oss</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">mnemosyne</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Local-first memory layer for Hermes Agent — SQLite with vector + FTS5 hybrid recall, episodic consolidation, temporal knowledge graph. Zero cloud. Disclosure — the mnemosyne_remember_media tool refuses local file paths unless MNEMOSYNE_MEDIA_ALLOWED_PATHS is set and sends media…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">memory</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">3.6k</span></span></span></span></a><a href="/marketplace/sem-weave" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:43%;--plate-y:38%;--plate-scale:1.5;--plate-flip:-1;--plate-dot:5px;--plate-angle:45deg"><img src="https://github.com/rs545837.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">rs545837</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">sem-weave</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">CLI-backed skills for local code discovery and entity-diff review with Sem, plus optional Weave branch-merge previews. Requires user-installed CLIs; does not apply edits or merges, install binaries, or change Git configuration.</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">tools</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">3.4k</span></span></span></span></a><a href="/marketplace/memanto" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:44%;--plate-y:42%;--plate-scale:1.5;--plate-flip:-1;--plate-dot:5px;--plate-angle:75deg"><img src="https://github.com/moorcheh-ai.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">moorcheh-ai</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">memanto</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Memanto memory agent — typed long-term memory (remember/recall/answer) with auto-recall, turn capture, and RAG answers. Disclosure — each user turn (as a recall query), completed user+assistant turns, Hermes memory writes and memanto_answer questions are sent to Moorcheh cloud (…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">memory</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">2.4k</span></span></span></span></a><a href="/marketplace/letsfg" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art opacity-80 hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true"><img src="https://raw.githubusercontent.com/LetsFG/LetsFG/7c0e7b5122725baacd446585306770fce4fc7d52/integrations/hermes/assets/banner.png" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">LetsFG</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">letsfg</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Search and book real flights and hotels through the hosted LetsFG MCP server (Streamable HTTP, OAuth 2.1 + DCR), with the letsfg travel-booking workflow skill bundled: fares across airlines and the major travel sites, flexible dates, destinations in a region, bookable hotel rate…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">tools</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">2.3k</span></span></span></span></a><a href="/marketplace/hermes-browser-extension" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art opacity-80 hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true"><img src="https://raw.githubusercontent.com/abundantbeing/hermes-browser-extension/34e99b9a3c71a7d437f6593a222d55f74116ef61/assets/readme/release-v0.4.0.jpg" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">abundantbeing</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">hermes-browser-extension</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Connects Hermes to the separately installed Hermes Browser Extension for user-shared page context and opt-in control of explicitly attached browser tabs. Browser control requires Chromium; Firefox supports chat and page context. Serves authenticated routes on the Hermes API serv…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">web</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">1.8k</span></span></span></span></a><a href="/marketplace/pay" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:45%;--plate-y:44%;--plate-scale:1.5;--plate-flip:1;--plate-dot:3px;--plate-angle:0deg"><img src="https://github.com/solana-foundation.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">solana-foundation</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">pay</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Discover priced APIs and pay per request (HTTP 402, x402, MPP) in stablecoins through the official hosted Pay MCP server (Streamable HTTP at https://connect.pay.sh/mcp, OAuth sign-in, no keys or local wallet), with the pay workflow skill bundled. Portable Agent Plugins v1 packag…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-[color-mix(in_srgb,var(--mods-green)_60%,transparent)] text-(--mods-green)"><span>Certified</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">tools</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">1.8k</span></span></span></span></a><a href="/marketplace/pay-cli" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:56%;--plate-y:51%;--plate-scale:1.3;--plate-flip:-1;--plate-dot:5px;--plate-angle:15deg"><img src="https://github.com/solana-foundation.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">solana-foundation</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">pay-cli</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Discover priced APIs and pay per request (HTTP 402, x402, MPP) in stablecoins from a wallet on this machine, through the local `pay mcp` stdio server of the official Pay CLI, with the pay workflow skill bundled. Portable Agent Plugins v1 package (mcp.json + skills/), no Python o…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-[color-mix(in_srgb,var(--mods-green)_60%,transparent)] text-(--mods-green)"><span>Certified</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">tools</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">1.8k</span></span></span></span></a><a href="/marketplace/deja-memory" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:60%;--plate-y:52%;--plate-scale:1.4;--plate-flip:-1;--plate-dot:5px;--plate-angle:0deg"><img src="https://github.com/vshulcz.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">vshulcz</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">deja-memory</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Memory from the coding sessions already on this machine — Claude Code, Codex, Cursor, Hermes and the other agents deja reads, including history from before it was installed. No model, no API key, no server. Disclosure — runs the separately installed, unpinned deja binary (brew i…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">memory</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">1.5k</span></span></span></span></a><a href="/marketplace/betterdb" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:56%;--plate-y:46%;--plate-scale:1.5;--plate-flip:1;--plate-dot:4px;--plate-angle:15deg"><img src="https://github.com/betterdb-inc.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">betterdb-inc</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">betterdb</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">BetterDB long-term memory provider — semantic recall on Valkey / valkey-search via the betterdb-agent-memory SDK. Completed turns are embedded and stored in a vector index; the next turn recalls the most relevant memories with a composite similarity/recency/importance score. Exp…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">memory</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">1.3k</span></span></span></span></a><a href="/marketplace/nostr-vpn" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:54%;--plate-y:55%;--plate-scale:1.6;--plate-flip:-1;--plate-dot:5px;--plate-angle:75deg"><img src="https://github.com/sirius-business-ltd.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">Sirius Business Ltd</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">nostr-vpn</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Private mesh networking through the separately installed nvpn CLI. Instruction-only skill; connects to relays and peers and starts a persistent daemon. Tunnels need elevated host networking privileges. Disclosure — instruction-only skill: the agent runs the separately installed…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">tools</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">1.2k</span></span></span></span></a><a href="/marketplace/unbrowse" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:60%;--plate-y:49%;--plate-scale:1.3;--plate-flip:1;--plate-dot:5px;--plate-angle:45deg"><img src="https://github.com/unbrowse-ai.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">unbrowse-ai</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">unbrowse</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Unbrowse: websites as APIs. Read any page as clean markdown, run tasks on sites through learned first-party APIs (no browser), and drive a cloud browser with saved logins when nothing matches. Also a web_extract backend and a guard that routes public-web browser_* calls to Unbro…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">web</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">912</span></span></span></span></a><a href="/marketplace/inline-platform" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art hw-mods-avatar-plate hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true" style="--plate-x:52%;--plate-y:38%;--plate-scale:1.5;--plate-flip:-1;--plate-dot:3px;--plate-angle:15deg"><img src="https://github.com/morajabi.png?size=560" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">morajabi</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">inline-platform</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Use Hermes Agent from Inline work-chat DMs, chats, and reply threads. Disclosure — the setup wizard can, on explicit opt-in, download https://inline.chat/cli/install.sh and pipe it to sh without a checksum, then run the vendor inline CLI login; on connect the adapter publishes y…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span>Community</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">platform</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">909</span></span></span></span></a><a href="/marketplace/accent-picker" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art opacity-80 hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true"><img src="https://raw.githubusercontent.com/NousResearch/hermes-official-plugins/abec9e822a23089943dd1d476a104bf746f19f86/assets/accent-picker.jpg" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">NousResearch</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">accent-picker</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">OKLCH accent colour picker for the Hermes Desktop status bar: drag it and the whole theme retints live, with palette commands to reset to the theme default or copy the current colour. A theme-authoring tool; the colour is scratch state and is never persisted. Desktop-only (deskt…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[color-mix(in_srgb,var(--mods-tier)_80%,transparent)] text-(--mods-on-tier)"><span>Official</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">Desktop app</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">640</span></span></span></span></a><a href="/marketplace/advanced-delegation" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art opacity-80 hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true"><img src="https://raw.githubusercontent.com/NousResearch/hermes-official-plugins/13b2c1c9c8204bf333df240b2aacf98c3e6250b7/assets/advanced-delegation.jpg" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">NousResearch</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">advanced-delegation</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Two extra delegation modes for `delegate_task`, next to the built-in default. Model routes (`delegation.backend: model_map`): the agent picks a named model route per subagent from a list you define (e.g. fast, deep, local). Profile routes (`delegation.backend: profile_routes`):…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[color-mix(in_srgb,var(--mods-tier)_80%,transparent)] text-(--mods-on-tier)"><span>Official</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">tools</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">640</span></span></span></span></a><a href="/marketplace/agent-importers" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art opacity-80 hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true"><img src="https://raw.githubusercontent.com/NousResearch/hermes-official-plugins/471acd3b4d0d5c12f6f0f6b42db4a2f52a912dba/assets/agent-importers.jpg" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">NousResearch</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">agent-importers</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">`hermes import-agent`: import an OpenClaw (~/.openclaw, or legacy ~/.clawdbot / ~/.moltbot), Claude Code (~/.claude), Codex CLI (~/.codex), Cursor (~/.cursor), Grok Bot (a self-export the Bot writes from a prompt the importer prints) or OpenBot desktop (its openbot.db) setup int…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[color-mix(in_srgb,var(--mods-tier)_80%,transparent)] text-(--mods-on-tier)"><span>Official</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">tools</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">640</span></span></span></span></a><a href="/marketplace/blender" class="hw-mods-card relative flex w-full min-w-0 overflow-clip rounded-[9px] p-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-(--mods-white) flex-col bg-(--mods-l5)"><span class="hw-mods-art opacity-80 hw-mods-framed bottom-auto aspect-[1.52] h-auto" aria-hidden="true"><img src="https://raw.githubusercontent.com/NousResearch/hermes-official-plugins/9b11ffeda84b077bea9de52d22733c7a41ca581a/assets/blender.jpg" decoding="async" loading="lazy" /></span><span class="pointer-events-none -mx-5 -mt-5 block aspect-[1.9]" aria-hidden="true"></span><span class="relative flex min-w-0 flex-1 flex-col justify-center gap-[5px] pt-4"><span class="flex w-full items-center pb-5"><span class="flex min-w-0 flex-1 items-center gap-2"><span class="min-w-0 truncate text-[12px] leading-[1.6] opacity-40">NousResearch</span></span></span><span class="flex h-[95px] max-h-[95px] w-full max-w-[360px] flex-col gap-[5px] overflow-clip"><span class="text-[18px] leading-[1.4] font-bold">blender</span><span class="line-clamp-3 text-[13px] leading-[1.6] opacity-60">Official Blender Lab MCP server over stdio, pinned to upstream v1.0.3, with a Blender workflow skill. Needs Git and uv; Blender 5.1+ is not needed at install. The skill opens Blender itself when a task needs it and, after you agree, installs Blender and Blender Lab's MCP add-on.…</span></span><span class="flex w-full items-center gap-2.5 pt-5"><span class="flex min-w-0 items-center gap-1.5"><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap shrink-0 border-transparent bg-[color-mix(in_srgb,var(--mods-tier)_80%,transparent)] text-(--mods-on-tier)"><span>Official</span></span><span class="hw-mods-label inline-flex items-center gap-1 rounded-r-[3px] border-[1.2px] p-1.5 text-[10px] whitespace-nowrap min-w-0 border-transparent bg-[linear-gradient(rgb(0_0_0/0.05),rgb(0_0_0/0.05)),linear-gradient(var(--mods-l5),var(--mods-l5))] [&amp;&gt;span]:opacity-60"><span class="truncate">tools</span></span></span><span class="flex min-w-0 flex-1 items-center justify-end gap-1"><span class="text-[12px] leading-[1.6] opacity-40">640</span></span></span></span></a>
+Skills use a token-efficient loading pattern:
 
 
-## Developer Mode
+``` prism-code
+Level 0: skills_list()           → [{name, description, category}, ...]   (~3k tokens)
+Level 1: skill_view(name)        → Full content + metadata       (varies)
+Level 2: skill_view(name, path)  → Specific reference file       (varies)
+```
 
-Explore built-in Hermes toolsets and actions.
 
+The agent only loads the full skill content when it actually needs it.
 
-### Developer?
+### Skills added during a conversation<a href="#skills-added-during-a-conversation" class="hash-link" aria-label="Direct link to Skills added during a conversation" translate="no" title="Direct link to Skills added during a conversation">​</a>
 
-Create a Hermes extension for Desktop or agent workflows.
+The list of skills the agent picks from is part of the conversation's system prompt, which stays fixed so the provider's prompt cache keeps working. When a skill is installed, created or removed while a conversation is open (from the Skills Hub, `hermes skills install` in another terminal, a plugin, the curator, or the agent itself), your next message to the agent carries a short note naming the new skills with their descriptions and the removed ones. The note is sent once per change; the system prompt itself picks up the change at the next compaction. `/reload-skills` is not needed for this, it still refreshes the `/skill-name` slash commands.
 
+## SKILL.md Format<a href="#skillmd-format" class="hash-link" aria-label="Direct link to SKILL.md Format" translate="no" title="Direct link to SKILL.md Format">​</a>
 
-<a href="https://hermes-agent.nousresearch.com/docs/developer-guide/plugins" class="hermes-button group relative inline-flex cursor-pointer items-center justify-center rounded-none border-0 bg-clip-padding outline-none select-none font-[family-name:var(--font-mono)] tracking-[0.1em] uppercase transition-[background-color,box-shadow,color,transform] duration-150 ease-out hover:duration-0 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-midground/30 disabled:pointer-events-none disabled:cursor-not-allowed hermes-button-size-s text-xs bg-[var(--hpv2-brand,var(--hermes-primary))] text-[var(--hermes-white)] hover:shadow-[var(--hpv2-shadow-lift-strong)] active:shadow-[var(--hpv2-shadow-press-strong)] gap-1.5 px-2 py-1.5 disabled:bg-[var(--hpv2-row-well,rgb(0_0_0/0.02))] disabled:text-[var(--hpv2-inactive-fg,color-mix(in_srgb,var(--hermes-primary)_40%,transparent))] disabled:shadow-none" rel="noopener noreferrer" target="_blank" role="link" tabindex="0" data-slot="button" data-variant="primary" data-size="s"><span class="leading-none whitespace-nowrap cap-mono text-cap-trim relative -top-[var(--hpv2-cap-nudge)] cap-fallback:top-[var(--hpv2-nudge)]!">Developer Section</span><span class="relative inline-flex shrink-0 self-center order-last size-[var(--hpv2-btn-prefix-s)]" aria-hidden="true" style="height:0"><span class="absolute top-1/2 flex -translate-y-1/2 items-center justify-center size-[var(--hpv2-btn-prefix-s)]"></span></span><span class="hermes-button-hover-border" aria-hidden="true"></span></a>
+
+``` prism-code
+---
+name: my-skill
+description: Brief description of what this skill does
+version: 1.0.0
+platforms: [macos, linux]     # Optional — restrict to specific OS platforms
+metadata:
+  hermes:
+    tags: [python, automation]
+    category: devops
+    fallback_for_toolsets: [web]    # Optional — conditional activation (see below)
+    requires_toolsets: [terminal]   # Optional — conditional activation (see below)
+    config:                          # Optional — config.yaml settings
+      - key: my.setting
+        description: "What this controls"
+        default: "value"
+        prompt: "Prompt for setup"
+---
+
+# Skill Title
+
+## When to Use
+Trigger conditions for this skill.
+
+## Procedure
+1. Step one
+2. Step two
+
+## Pitfalls
+- Known failure modes and fixes
+
+## Verification
+How to confirm it worked.
+```
+
+
+### Platform-Specific Skills<a href="#platform-specific-skills" class="hash-link" aria-label="Direct link to Platform-Specific Skills" translate="no" title="Direct link to Platform-Specific Skills">​</a>
+
+Skills can restrict themselves to specific operating systems using the `platforms` field:
+
+| Value     | Matches        |
+|-----------|----------------|
+| `macos`   | macOS (Darwin) |
+| `linux`   | Linux          |
+| `windows` | Windows        |
+
+
+``` prism-code
+platforms: [macos]            # macOS only (e.g., iMessage, Apple Reminders, FindMy)
+platforms: [macos, linux]     # macOS and Linux
+```
+
+
+When set, the skill is automatically hidden from the system prompt, `skills_list()`, and slash commands on incompatible platforms. If omitted, the skill loads on all platforms.
+
+## Skill output and media delivery<a href="#skill-output-and-media-delivery" class="hash-link" aria-label="Direct link to Skill output and media delivery" translate="no" title="Direct link to Skill output and media delivery">​</a>
+
+When a skill response (or any agent response) includes a bare absolute path to a media file — for example `/home/user/screenshots/diagram.png` — the gateway auto-detects it, strips it from the visible text, and delivers the file natively to the user's chat (Telegram photo, Discord attachment, etc.) instead of leaving the raw path in the message.
+
+For audio specifically, the `[[audio_as_voice]]` directive promotes audio files to native voice-message bubbles on platforms that support them (Telegram, WhatsApp).
+
+### Forcing document-style delivery: `[[as_document]]`<a href="#forcing-document-style-delivery-as_document" class="hash-link" aria-label="Direct link to forcing-document-style-delivery-as_document" translate="no" title="Direct link to forcing-document-style-delivery-as_document">​</a>
+
+Sometimes you want the **opposite** of inline preview: you want the file delivered as a downloadable attachment, not a re-compressed image bubble. The classic example is a high-resolution screenshot or chart — Telegram's `sendPhoto` recompresses it to ~200 KB at 1280 px, destroying readability. A 1-2 MB PNG sent via `sendDocument` keeps the original bytes intact.
+
+If a response (or any text inside it — typically the last line) contains the literal directive `[[as_document]]`, every media path extracted from that response is delivered as a document/file attachment rather than an image bubble:
+
+
+``` prism-code
+Here is your rendered chart:
+
+/home/user/.hermes/cache/chart-q4-2025.png
+
+[[as_document]]
+```
+
+
+The directive is stripped before delivery, so users never see it. Granularity is intentionally all-or-nothing per response: emit `[[as_document]]` once and every image path in the same response is delivered as a document. This mirrors the scope of `[[audio_as_voice]]`.
+
+Use it from a skill when:
+
+- You produce screenshots or charts the user needs as files (for editing in another tool, archiving, sharing intact).
+- The default lossy preview would obscure detail (small text, pixel-accurate diagrams, color-sensitive renders).
+
+Platforms without a separate document path (e.g. SMS) fall back to whatever attachment mechanism they have.
+
+### Conditional Activation (Fallback Skills)<a href="#conditional-activation-fallback-skills" class="hash-link" aria-label="Direct link to Conditional Activation (Fallback Skills)" translate="no" title="Direct link to Conditional Activation (Fallback Skills)">​</a>
+
+Skills can automatically show or hide themselves based on which tools are available in the current session. This is most useful for **fallback skills** — free or local alternatives that should only appear when a premium tool is unavailable.
+
+
+``` prism-code
+metadata:
+  hermes:
+    fallback_for_toolsets: [web]      # Show ONLY when these toolsets are unavailable
+    requires_toolsets: [terminal]     # Show ONLY when these toolsets are available
+    fallback_for_tools: [web_search]  # Show ONLY when these specific tools are unavailable
+    requires_tools: [terminal]        # Show ONLY when these specific tools are available
+```
+
+
+| Field | Behavior |
+|----|----|
+| `fallback_for_toolsets` | Skill is **hidden** when the listed toolsets are available. Shown when they're missing. |
+| `fallback_for_tools` | Same, but checks individual tools instead of toolsets. |
+| `requires_toolsets` | Skill is **hidden** when the listed toolsets are unavailable. Shown when they're present. |
+| `requires_tools` | Same, but checks individual tools. |
+
+**Example:** a curl-based search skill declaring `fallback_for_toolsets: [web]` stays hidden while the web toolset is available and appears only when it is disabled, so the agent still has a search path.
+
+Skills without any conditional fields behave exactly as before — they're always shown.
+
+## Secure Setup on Load<a href="#secure-setup-on-load" class="hash-link" aria-label="Direct link to Secure Setup on Load" translate="no" title="Direct link to Secure Setup on Load">​</a>
+
+Skills can declare required environment variables without disappearing from discovery:
+
+
+``` prism-code
+required_environment_variables:
+  - name: TENOR_API_KEY
+    prompt: Tenor API key
+    help: Get a key from https://developers.google.com/tenor
+    required_for: full functionality
+```
+
+
+When a missing value is encountered, Hermes asks for it securely only when the skill is actually loaded in the local CLI. You can skip setup and keep using the skill. Messaging surfaces never ask for secrets in chat — they tell you to use `hermes setup` or `~/.hermes/.env` locally instead.
+
+Once set, declared env vars are **automatically passed through** to `execute_code` and `terminal` sandboxes — the skill's scripts can use `$TENOR_API_KEY` directly. For non-skill env vars, use the `terminal.env_passthrough` config option. See [Environment Variable Passthrough](/docs/user-guide/security#environment-variable-passthrough) for details.
+
+### Skill Config Settings<a href="#skill-config-settings" class="hash-link" aria-label="Direct link to Skill Config Settings" translate="no" title="Direct link to Skill Config Settings">​</a>
+
+Skills can also declare non-secret config settings (paths, preferences) stored in `config.yaml`:
+
+
+``` prism-code
+metadata:
+  hermes:
+    config:
+      - key: myplugin.path
+        description: Path to the plugin data directory
+        default: "~/myplugin-data"
+        prompt: Plugin data directory path
+```
+
+
+Settings are stored under `skills.config` in your config.yaml. `hermes config migrate` prompts for unconfigured settings, and `hermes config show` displays them. When a skill loads, its resolved config values are injected into the context so the agent knows the configured values automatically.
+
+See [Skill Settings](/docs/user-guide/configuration#skill-settings) and [Creating Skills — Config Settings](/docs/developer-guide/creating-skills#config-settings-configyaml) for details.
+
+## Skill Directory Structure<a href="#skill-directory-structure" class="hash-link" aria-label="Direct link to Skill Directory Structure" translate="no" title="Direct link to Skill Directory Structure">​</a>
+
+
+``` prism-code
+~/.hermes/skills/                  # Single source of truth
+├── mlops/                         # Category directory
+│   ├── axolotl/
+│   │   ├── SKILL.md               # Main instructions (required)
+│   │   ├── references/            # Additional docs
+│   │   ├── templates/             # Output formats
+│   │   ├── scripts/               # Helper scripts callable from the skill
+│   │   ├── examples/              # Referenced example outputs
+│   │   └── assets/                # Supplementary files
+│   └── vllm/
+│       └── SKILL.md
+├── devops/
+│   └── deploy-k8s/                # Agent-created skill
+│       ├── SKILL.md
+│       └── references/
+├── .hub/                          # Skills Hub state
+│   ├── lock.json
+│   ├── quarantine/
+│   └── audit.log
+└── .bundled_manifest              # Tracks seeded bundled skills
+```
+
+
+Third-party URL and GitHub installs include `SKILL.md` plus the exact local files it references under `references/`, `templates/`, `scripts/`, `assets/`, and `examples/`. Unreferenced repository files are not copied. Hermes scans the complete quarantined bundle and records the source URL, exact content hash, scanner version, findings, timestamp, and fresh-or-cached status in `skills/.hub/lock.json`.
+
+### Advisory SkillEvaluator scan<a href="#advisory-skillevaluator-scan" class="hash-link" aria-label="Direct link to Advisory SkillEvaluator scan" translate="no" title="Direct link to Advisory SkillEvaluator scan">​</a>
+
+In addition to the built-in security scanner (which enforces the install policy above), Hermes can run <a href="https://github.com/NVIDIA/SkillEvaluator" target="_blank" rel="noopener noreferrer">NVIDIA SkillEvaluator</a> Tier 1 checks on every hub install as a second opinion. Tier 1 is deterministic and keyless — PII detection (leaked emails, personal paths, connection strings), unicode-smuggling detection, script lint, license compliance, and a static security scan via <a href="https://github.com/NVIDIA/SkillSpector" target="_blank" rel="noopener noreferrer">NVIDIA SkillSpector</a>.
+
+The scan is **advisory only**: findings are printed with file and line before the install confirmation, and the install continues. Findings that look like real credentials (private keys, cloud access keys, tokens, credentialed connection strings) are highlighted in red so you can review the flagged lines before deciding. PII-class findings are informational — the upstream scanner has known false-positive classes (e.g. `git@github.com` SSH syntax, documentation example emails), so they never block anything.
+
+To enable it, install the optional scanner binaries (the second one powers the `security` check; without it that check simply reports "not run"):
+
+
+``` prism-code
+uv tool install --python 3.13 \
+  "skillevaluator @ git+https://github.com/NVIDIA/SkillEvaluator.git@v0.1.0"
+uv tool install "git+https://github.com/NVIDIA/SkillSpector.git@v2.9.5"
+```
+
+
+Without the binary on PATH the scan is silently skipped. To turn it off entirely:
+
+
+``` prism-code
+skills:
+  tier1_advisory: false
+```
+
+
+The dashboard's Browse-hub scan button returns the same advisory data in its response (`tier1` field) alongside the built-in scanner's verdict.
+
+## External Skill Directories<a href="#external-skill-directories" class="hash-link" aria-label="Direct link to External Skill Directories" translate="no" title="Direct link to External Skill Directories">​</a>
+
+If you maintain skills outside of Hermes — for example, a shared `~/.agents/skills/` directory used by multiple AI tools — you can tell Hermes to scan those directories too.
+
+Add `external_dirs` under the `skills` section in `~/.hermes/config.yaml`:
+
+
+``` prism-code
+skills:
+  external_dirs:
+    - ~/.agents/skills
+    - /home/shared/team-skills
+    - ${SKILLS_REPO}/skills
+```
+
+
+Paths support `~` expansion and `${VAR}` environment variable substitution.
+
+### How it works<a href="#how-it-works" class="hash-link" aria-label="Direct link to How it works" translate="no" title="Direct link to How it works">​</a>
+
+- **Create locally, update in place**: New agent-created skills are written to `~/.hermes/skills/` (or `skills.create_dir` when configured — see below). Existing skills are modified where they are found, including skills under `external_dirs`, when the agent uses `skill_manage` actions such as `patch` (targeted or full rewrite), `write_file`, `remove_file`, or `delete`.
+- **External dirs are not a write-protection boundary**: If an external skill directory is writable by the Hermes process, agent-managed skill updates can change files in that directory. Use filesystem permissions or a separate profile/toolset setup if shared external skills must stay read-only.
+- **Precedence**: If the same skill name exists in more than one directory, the higher-precedence directory wins everywhere — skill index, `skills_list`, `hermes skills list`, `skill_view`, slash commands, `-s` preload and cron: `project → local (~/.hermes/skills/) → skills.create_dir → external_dirs`. The hidden copy is logged as shadowed. See [Duplicate skill names](#duplicate-skill-names).
+- **Full integration**: External skills appear in the system prompt index, `skills_list`, `skill_view`, and as `/skill-name` slash commands — no different from local skills.
+- **Non-existent paths are silently skipped**: If a configured directory doesn't exist, Hermes ignores it without errors. Useful for optional shared directories that may not be present on every machine.
+
+### Example<a href="#example" class="hash-link" aria-label="Direct link to Example" translate="no" title="Direct link to Example">​</a>
+
+
+``` prism-code
+~/.hermes/skills/               # Local (primary, read-write)
+├── devops/deploy-k8s/
+│   └── SKILL.md
+└── mlops/axolotl/
+    └── SKILL.md
+
+~/.agents/skills/               # External (shared, mutable if writable)
+├── my-custom-workflow/
+│   └── SKILL.md
+└── team-conventions/
+    └── SKILL.md
+```
+
+
+All four skills appear in your skill index. If you create a new skill called `my-custom-workflow` locally, it shadows the external version.
+
+## Redirecting Skill Creation (`skills.create_dir`)<a href="#redirecting-skill-creation-skillscreate_dir" class="hash-link" aria-label="Direct link to redirecting-skill-creation-skillscreate_dir" translate="no" title="Direct link to redirecting-skill-creation-skillscreate_dir">​</a>
+
+By default the agent writes new skills to the profile-local `~/.hermes/skills/`. If you want agent-created skills to land somewhere else — a shared "brain" directory, a git-tracked repo, or a fleet-wide skills volume — set `create_dir` under the `skills` section:
+
+
+``` prism-code
+skills:
+  create_dir: /opt/brain/skills
+```
+
+
+What this changes:
+
+- **`skill_manage` create writes there.** New skills (including category subdirectories) are created under `create_dir` instead of the local skills dir. The directory is created on first write if it doesn't exist.
+- **The agent's instructions follow the config.** Every agent-facing instruction that names the skill-creation path — the `skill_manage` tool description and related prompt text — dynamically renders the configured directory, so the agent is told to create skills there. No system-prompt overrides or filesystem tricks needed.
+- **The directory is fully integrated.** Skills under `create_dir` are scanned alongside the local dir: they appear in the skill index, `skills_list`, `skill_view`, slash commands, and can be patched or deleted like any local skill.
+- **Everything else stays local.** Existing skills are still modified in place wherever they live; bundled skill sync, the hub, and the curator keep operating on the profile-local dir.
+
+Paths support `~` expansion and `${VAR}` substitution; relative paths resolve against your Hermes home. Setting `create_dir` to the local skills dir is the same as leaving it unset.
+
+## Project-Local Skills<a href="#project-local-skills" class="hash-link" aria-label="Direct link to Project-Local Skills" translate="no" title="Direct link to Project-Local Skills">​</a>
+
+Repos can carry their own skills, active only for sessions started inside that project — the same pattern other agent harnesses use for repo-local configuration. When you launch Hermes inside a git checkout, it looks for skills in:
+
+
+``` prism-code
+<project-root>/.hermes/skills/    # Hermes-native location
+<project-root>/.agents/skills/    # cross-tool convention (shared with other agent CLIs)
+```
+
+
+The project root is the nearest ancestor directory containing `.git` (worktrees and submodules count).
+
+### Trusting a project<a href="#trusting-a-project" class="hash-link" aria-label="Direct link to Trusting a project" translate="no" title="Direct link to Trusting a project">​</a>
+
+Skills are procedure documents the agent follows, so Hermes does **not** auto-load them from arbitrary cloned repos. The first time you run Hermes in a repo with project skills, the banner shows a notice:
+
+
+``` prism-code
+◆ 3 project skill(s) found in /home/you/myproject but not loaded — run `hermes skills trust` to enable them.
+```
+
+
+Trust the repo once (from inside it, or by passing the path):
+
+
+``` prism-code
+hermes skills trust             # trust the current repo
+hermes skills trust ~/myproject # or explicitly
+hermes skills untrust           # revoke
+```
+
+
+Trusted roots are stored in `skills.trusted_project_dirs` in `~/.hermes/config.yaml`. Set `skills.project_discovery: false` to turn the feature off entirely (no scanning, no notices).
+
+### Precedence<a href="#precedence" class="hash-link" aria-label="Direct link to Precedence" translate="no" title="Direct link to Precedence">​</a>
+
+Project skills are the **highest-precedence tier**: `project → local (~/.hermes/skills/) → skills.create_dir → external_dirs`. A project skill named `deploy` overrides a same-named profile or bundled skill for sessions inside that repo — that's the point: vendored repo skills win on their home turf, without touching your global profile. Project skills are tagged `[project]` in the agent's skill index so provenance stays visible.
+
+Like external dirs, project skill directories are treated as repo-owned: autonomous skill maintenance (the curator) never modifies them, and new agent-created skills always go to `~/.hermes/skills/`.
+
+### Duplicate skill names<a href="#duplicate-skill-names" class="hash-link" aria-label="Direct link to Duplicate skill names" translate="no" title="Direct link to Duplicate skill names">​</a>
+
+Every surface resolves a skill name the same way:
+
+- **Across directories**, the higher-precedence directory wins (`project → local → skills.create_dir → external_dirs`), including for the same relative path (`productivity/xdup` local and external loads the local copy). The shadowed copy is hidden and a warning is logged.
+- **Inside one directory**, two *different* skills that share a name are never guessed between. Both are listed under their exact relative path (for example `a/one` and `b/two`), and loading the bare name fails with `Ambiguous skill name dup-demo: use one of a/one, b/two`. That message is also what `hermes -s dup-demo` and cron jobs report. Identical copies of one skill (a symlink view or byte-identical copy) resolve to the shallowest path.
+
+Plugin skills use their own `plugin:skill` names and never collide with these.
+
+### Scan-time quarantine<a href="#scan-time-quarantine" class="hash-link" aria-label="Direct link to Scan-time quarantine" translate="no" title="Direct link to Scan-time quarantine">​</a>
+
+Trust is a repo-level decision, but a repo's skill content changes with every `git pull`. To close that gap, every project skill is scanned with the same security scanner used for Skills Hub installs before it enters the index. A skill whose scan verdict is **dangerous** (prompt-injection directives, credential-exfiltration commands, hidden-text tricks) is quarantined: it does not appear in the skill index, `skills_list`, slash commands, and refuses to load by name with an explanatory error. Scans are content-hash cached under `~/.hermes/cache/project_skill_scans/` (never inside your repo) and re-run automatically when the skill's content changes.
+
+### Non-interactive surfaces (cron, API, ACP)<a href="#non-interactive-surfaces-cron-api-acp" class="hash-link" aria-label="Direct link to Non-interactive surfaces (cron, API, ACP)" translate="no" title="Direct link to Non-interactive surfaces (cron, API, ACP)">​</a>
+
+Cron jobs and other non-interactive surfaces inherit your interactive trust decision — they never prompt and never auto-trust. The project root resolves from the surface's working directory (a cron job's `workdir`, via the same mechanism the terminal tool uses). A cron job whose `workdir` is inside a repo you previously trusted loads that repo's project skills; a job in an untrusted or undecided repo loads none.
+
+In the TUI and Desktop the project root follows each **session's workspace** (the directory shown in the sidebar / set with the workspace picker), so starting `hermes --tui` inside a trusted repo registers its project skills as slash commands even when `terminal.cwd` is left at the default placeholder `.`; two sessions open in two repos each see their own.
+
+## Skill Bundles<a href="#skill-bundles" class="hash-link" aria-label="Direct link to Skill Bundles" translate="no" title="Direct link to Skill Bundles">​</a>
+
+Skill bundles are tiny YAML files that group several skills under a single slash command. When you run `/<bundle-name>`, every skill listed in the bundle loads at once — useful when a particular task always benefits from the same set of skills together.
+
+### Quick example<a href="#quick-example" class="hash-link" aria-label="Direct link to Quick example" translate="no" title="Direct link to Quick example">​</a>
+
+
+``` prism-code
+# Create a bundle for backend feature work
+hermes bundles create backend-dev \
+  --skill github-code-review \
+  --skill test-driven-development \
+  --skill github-pr-workflow \
+  -d "Backend feature work — review, test, PR workflow"
+```
+
+
+Then in the CLI or any gateway platform:
+
+
+``` prism-code
+/backend-dev refactor the auth middleware
+```
+
+
+The agent receives all three skills loaded into one user message, with any text after the slash command attached as a user instruction.
+
+### YAML schema<a href="#yaml-schema" class="hash-link" aria-label="Direct link to YAML schema" translate="no" title="Direct link to YAML schema">​</a>
+
+Bundles live in **`~/.hermes/skill-bundles/<slug>.yaml`** and look like this:
+
+
+``` prism-code
+name: backend-dev
+description: Backend feature work — review, test, PR workflow.
+skills:
+  - github-code-review
+  - test-driven-development
+  - github-pr-workflow
+instruction: |
+  Always start by writing failing tests, then implement.
+  Open the PR through the standard workflow with co-author tags.
+```
+
+
+Fields:
+
+- `name` (optional — defaults to the filename stem) — the bundle's display name. Normalized to a hyphen slug for the slash command (`Backend Dev` → `/backend-dev`).
+- `description` (optional) — short text shown in `/bundles` and `hermes bundles list`.
+- `skills` (required, non-empty list) — skill names or paths relative to your skills directory. Use the same identifier you'd pass to `/<skill-name>`.
+- `instruction` (optional) — extra guidance prepended to the loaded skill content. Useful for codifying "how we always use these together."
+
+### Managing bundles<a href="#managing-bundles" class="hash-link" aria-label="Direct link to Managing bundles" translate="no" title="Direct link to Managing bundles">​</a>
+
+
+``` prism-code
+# List all installed bundles
+hermes bundles list
+
+# Inspect one bundle
+hermes bundles show backend-dev
+
+# Create a bundle interactively (omit --skill flags to enter them one per line)
+hermes bundles create research
+
+# Overwrite an existing bundle
+hermes bundles create backend-dev --skill ... --force
+
+# Delete a bundle
+hermes bundles delete backend-dev
+
+# Re-scan ~/.hermes/skill-bundles/ and report changes
+hermes bundles reload
+```
+
+
+From inside a chat session, `/bundles` lists every installed bundle and its skills.
+
+### Behavior<a href="#behavior" class="hash-link" aria-label="Direct link to Behavior" translate="no" title="Direct link to Behavior">​</a>
+
+- **Bundles take precedence over individual skills** when slugs collide. If you name a bundle `research` and you also have a skill called `research`, `/research` invokes the bundle. This is intentional — you opted into the bundle by naming it.
+- **Missing skills are skipped, not fatal.** If a bundle lists `skill-foo` and you haven't installed it, the bundle still loads the skills that do resolve, and the agent gets a note listing what was skipped.
+- **Bundles work in every surface** — interactive CLI, TUI, dashboard chat, and every gateway platform (Telegram, Discord, Slack, …) — because dispatch is centralized in the same place as individual skill commands.
+- **Bundles do not invalidate the prompt cache.** They generate a fresh user message at invocation time, the same way `/<skill-name>` does — no system prompt mutation.
+
+### When bundles beat installing each skill manually<a href="#when-bundles-beat-installing-each-skill-manually" class="hash-link" aria-label="Direct link to When bundles beat installing each skill manually" translate="no" title="Direct link to When bundles beat installing each skill manually">​</a>
+
+Use a bundle when:
+
+- You always pair the same skills for a recurring task (`/backend-dev`, `/release-prep`, `/incident-response`).
+- You want a one-character-shorter mental model than typing several `/skill` invocations in a row.
+- You want to ship a team-wide "task profile" by checking the bundle YAML into a shared dotfiles repo and symlinking it into `~/.hermes/skill-bundles/`.
+
+A bundle is just a YAML alias — it doesn't install skills for you. The skills themselves must already be present (in `~/.hermes/skills/` or an external skill directory). Otherwise the bundle invocation just skips the missing ones.
+
+## Agent-Managed Skills (skill_manage tool)<a href="#agent-managed-skills-skill_manage-tool" class="hash-link" aria-label="Direct link to Agent-Managed Skills (skill_manage tool)" translate="no" title="Direct link to Agent-Managed Skills (skill_manage tool)">​</a>
+
+The agent can create, update, and delete its own skills via the `skill_manage` tool. This is the agent's **procedural memory** — when it figures out a non-trivial workflow, it saves the approach as a skill for future reuse.
+
+Skills and memory work together in the self-improvement loop: memory stores small durable facts that should always be in context, while skills store longer procedures that should load only when relevant. The background review can suggest or stage skill changes after a session, but the write-approval gate below lets you require human review before those changes land.
+
+### When the Agent Creates Skills<a href="#when-the-agent-creates-skills" class="hash-link" aria-label="Direct link to When the Agent Creates Skills" translate="no" title="Direct link to When the Agent Creates Skills">​</a>
+
+The system prompt asks the agent to record a non-trivial workflow with `skill_manage` for future reuse. In practice that covers:
+
+- When it worked out a multi-step workflow worth repeating
+- When it hit errors or dead ends and found the working path
+- When the user corrected its approach
+
+### What a skill entry looks like<a href="#what-a-skill-entry-looks-like" class="hash-link" aria-label="Direct link to What a skill entry looks like" translate="no" title="Direct link to What a skill entry looks like">​</a>
+
+A skill is the instructions for doing a class of task the most efficient and correct way, to your specifications: the procedure in order, the commands and tool calls that work, how you want the result to look, and the pitfalls that cost time. Whether written in a foreground turn, by the background review, or by the curator's consolidation pass, it captures **lessons, not logs**: a pitfall is a generalizable rule plus one clause of *why* (the mechanism), attached to the step it affects, stated once. Incident narration, PR or issue numbers, dates, and quoted chat are not skill content; the rule has to stand without the story behind it. Always-on rules live in `SKILL.md` itself; `references/` holds a small set of files named by topic (a decision table, a recipe, provider quirks), extended in place rather than accumulated one file per session. Skills also do not restate what is already loaded every turn (the repo's `AGENTS.md`, tool schemas).
+
+`skill_manage` runs an advisory linter on `create`, on `SKILL.md` patches, and on `references/` writes and returns its findings in the tool result. Three rules exist specifically for this shape: `incident-log-shape` (a body dense in PR/issue numbers), `references-sprawl` (more than 60 reference files), and `oversized-body` (a `SKILL.md` body past ~24k chars — `skill_view` loads the whole file and it stays in context for the rest of the session). They warn; they never block a write.
+
+### Actions<a href="#actions" class="hash-link" aria-label="Direct link to Actions" translate="no" title="Direct link to Actions">​</a>
+
+| Action | Use for | Key params |
+|----|----|----|
+| `create` | New skill from scratch | `name`, `content` (full SKILL.md), optional `category` |
+| `patch` | Targeted fixes (preferred) | `name`, `old_string`, `new_string` |
+| `patch` with `content` | Major structural rewrites (replaces the whole SKILL.md; `edit` is the legacy alias) | `name`, `content` |
+| `delete` | Remove a skill entirely | `name` |
+| `write_file` | Add/update supporting files | `name`, `file_path`, `file_content` |
+| `remove_file` | Remove a supporting file | `name`, `file_path` |
+
+Each action is advertised as its own shape: the text slot belongs to one action only (`content` → create / full rewrite, `new_string` → targeted patch, `file_content` → write_file). An op that carries another action's slot — e.g. `file_content` on a `create` — is invalid against the tool schema (grammar-constrained local backends never emit it) and, if it arrives anyway, is rejected **before any op in the batch is applied**, with an error naming the key the text sits in and where to move it.
+
+
+The targeted `patch` is preferred for updates — it's more token-efficient than a full rewrite because only the changed text appears in the tool call.
+
+
+### Gating agent skill writes (`skills.write_approval`)<a href="#gating-agent-skill-writes-skillswrite_approval" class="hash-link" aria-label="Direct link to gating-agent-skill-writes-skillswrite_approval" translate="no" title="Direct link to gating-agent-skill-writes-skillswrite_approval">​</a>
+
+By default the agent writes skills freely — including from the [background self-improvement review](/docs/user-guide/features/memory#controlling-memory-writes-write_approval) that runs after a turn. If you'd rather approve every skill write first (small models that misjudge what they learned, secure environments, or just wanting eyes on the self-improvement loop), turn on the write-approval gate:
+
+
+``` prism-code
+skills:
+  write_approval: false     # false = write freely (default) | true = require approval
+```
+
+
+When `write_approval: true`, every `skill_manage` write (create / edit / patch / delete / write_file / remove_file) is **staged** instead of committed — a SKILL.md is too large to review inline, so staging applies regardless of whether the write came from a foreground turn or the background review. It doesn't cover direct edits of skill files by the generic file tools or the terminal. Staged writes survive restarts under `~/.hermes/pending/skills/` and are reviewed with the same familiar approve/deny flow as dangerous commands:
+
+
+``` prism-code
+/skills pending             # list staged skill writes + a one-line gist each
+/skills diff <id>           # full unified diff (best viewed in CLI or dashboard)
+/skills approve <id>        # apply it (or 'all')
+/skills reject <id>         # drop it (or 'all')
+/skills approval on         # turn the gate on (or 'off') and persist it
+```
+
+
+The review surface works in the interactive CLI and on messaging platforms (diff output is truncated for chat bubbles — read the full diff on the CLI or in the pending JSON file). Memory writes have the same gate under `memory.write_approval` — see [Controlling memory writes](/docs/user-guide/features/memory#controlling-memory-writes-write_approval).
+
+To stop the agent from changing one *specific* skill at all, lock it: `hermes curator lock <skill>` (or the lock switch in Desktop). A locked skill stays readable and auto-loadable, but `skill_manage`, `write_file`, `patch` and `terminal` all refuse to change it, in every kind of session; your own edits still work. See [Locking a skill](/docs/user-guide/features/curator#locking-a-skill).
+
+> The separate `skills.guard_agent_created` setting is a content scanner (dangerous-pattern heuristics), not an approval gate — the two are independent. See [Guard on agent-created skill writes](/docs/user-guide/configuration#guard-on-agent-created-skill-writes).
+
+## Skills Hub<a href="#skills-hub" class="hash-link" aria-label="Direct link to Skills Hub" translate="no" title="Direct link to Skills Hub">​</a>
+
+Browse, search, install, and manage skills from online registries, `skills.sh`, direct well-known skill endpoints, and official optional skills.
+
+Unfiltered searches (CLI, TUI, and the dashboard) are answered from a cached centralized index that covers the external registries. That index is rebuilt periodically, so when it has no match for your query Hermes also asks `skills.sh`, ClawHub, LobeHub and well-known endpoints directly — a skill published minutes ago still shows up. That extra pass gets at most 8 seconds of the search budget, so a slow registry cannot turn a miss into a long wait. Custom GitHub taps are not part of that fallback (search them with `--source github`, or via the index once it catches up), and provider filters such as `--source nvidia` do not trigger it (those registries carry no provider data).
+
+### Common commands<a href="#common-commands" class="hash-link" aria-label="Direct link to Common commands" translate="no" title="Direct link to Common commands">​</a>
+
+
+``` prism-code
+hermes skills browse                              # Browse all hub skills (official first)
+hermes skills browse --source official            # Browse only official optional skills
+hermes skills search kubernetes                   # Search all sources
+hermes skills search react --source skills-sh     # Search the skills.sh directory
+hermes skills search https://mintlify.com/docs --source well-known
+hermes skills inspect openai/skills/k8s           # Preview before installing
+hermes skills install openai/skills/k8s           # Install with security scan
+hermes skills install official/security/1password
+hermes skills install skills-sh/vercel-labs/json-render/json-render-react --force
+hermes skills install well-known:https://mintlify.com/docs/.well-known/skills/mintlify
+hermes skills install https://sharethis.chat/SKILL.md              # Direct URL (+ referenced support files)
+hermes skills install https://example.com/SKILL.md --name my-skill # Override name when frontmatter has none
+hermes skills list --source hub                   # List hub-installed skills
+hermes skills check                               # Check installed hub skills for upstream updates
+hermes skills update                              # Reinstall hub skills with upstream changes when needed
+hermes skills audit                               # Re-scan all hub skills for security
+hermes skills uninstall k8s                       # Remove a hub skill
+hermes skills reset google-workspace              # Un-stick a bundled skill from "user-modified" (see below)
+hermes skills reset google-workspace --restore    # Also restore the bundled version, deleting your local edits
+hermes skills publish skills/my-skill --to github --repo owner/repo
+hermes skills snapshot export setup.json          # Export skill config
+hermes skills tap add myorg/skills-repo           # Add a custom GitHub source
+```
+
+
+### Supported hub sources<a href="#supported-hub-sources" class="hash-link" aria-label="Direct link to Supported hub sources" translate="no" title="Direct link to Supported hub sources">​</a>
+
+| Source | Example | Notes |
+|----|----|----|
+| `official` | `official/security/1password` | Optional skills shipped with Hermes. |
+| `skills-sh` | `skills-sh/vercel-labs/agent-skills/vercel-react-best-practices` | Searchable via `hermes skills search <query> --source skills-sh`. Hermes resolves alias-style skills when the skills.sh slug differs from the repo folder. |
+| `well-known` | `well-known:https://mintlify.com/docs/.well-known/skills/mintlify` | Skills served directly from `/.well-known/skills/index.json` on a website. Search using the site or docs URL. |
+| `url` | `https://sharethis.chat/SKILL.md` | Direct HTTP(S) URL to `SKILL.md` plus explicitly referenced support files. Name resolution: frontmatter → URL slug → interactive prompt → `--name` flag. |
+| `github` | `openai/skills/k8s` | Direct GitHub repo/path installs and custom taps. |
+| `clawhub`, `lobehub`, `browse-sh` | Source-specific identifiers | Community or marketplace integrations. |
+
+### Integrated hubs and registries<a href="#integrated-hubs-and-registries" class="hash-link" aria-label="Direct link to Integrated hubs and registries" translate="no" title="Direct link to Integrated hubs and registries">​</a>
+
+Hermes currently integrates with these skills ecosystems and discovery sources:
+
+#### 1. Official optional skills (`official`)<a href="#1-official-optional-skills-official" class="hash-link" aria-label="Direct link to 1-official-optional-skills-official" translate="no" title="Direct link to 1-official-optional-skills-official">​</a>
+
+These are maintained in the Hermes repository itself and install with built-in trust.
+
+- Catalog: [Official Optional Skills Catalog](/docs/reference/optional-skills-catalog)
+- Source in repo: `optional-skills/`
+- Example:
+
+
+``` prism-code
+hermes skills browse --source official
+hermes skills install official/security/1password
+```
+
+
+#### 2. skills.sh (`skills-sh`)<a href="#2-skillssh-skills-sh" class="hash-link" aria-label="Direct link to 2-skillssh-skills-sh" translate="no" title="Direct link to 2-skillssh-skills-sh">​</a>
+
+This is Vercel's public skills directory. Hermes can search it directly, inspect skill detail pages, resolve alias-style slugs, and install from the underlying source repo.
+
+- Directory: <a href="https://skills.sh/" target="_blank" rel="noopener noreferrer">skills.sh</a>
+- CLI/tooling repo: <a href="https://github.com/vercel-labs/skills" target="_blank" rel="noopener noreferrer">vercel-labs/skills</a>
+- Official Vercel skills repo: <a href="https://github.com/vercel-labs/agent-skills" target="_blank" rel="noopener noreferrer">vercel-labs/agent-skills</a>
+- Example:
+
+
+``` prism-code
+hermes skills search react --source skills-sh
+hermes skills inspect skills-sh/vercel-labs/json-render/json-render-react
+hermes skills install skills-sh/vercel-labs/json-render/json-render-react --force
+```
+
+
+#### 3. Well-known skill endpoints (`well-known`)<a href="#3-well-known-skill-endpoints-well-known" class="hash-link" aria-label="Direct link to 3-well-known-skill-endpoints-well-known" translate="no" title="Direct link to 3-well-known-skill-endpoints-well-known">​</a>
+
+This is URL-based discovery from sites that publish `/.well-known/skills/index.json`. It is not a single centralized hub — it is a web discovery convention.
+
+- Example live endpoint: <a href="https://mintlify.com/docs/.well-known/skills/index.json" target="_blank" rel="noopener noreferrer">Mintlify docs skills index</a>
+- Reference server implementation: <a href="https://github.com/vercel-labs/skills-handler" target="_blank" rel="noopener noreferrer">vercel-labs/skills-handler</a>
+- Example:
+
+
+``` prism-code
+hermes skills search https://mintlify.com/docs --source well-known
+hermes skills inspect well-known:https://mintlify.com/docs/.well-known/skills/mintlify
+hermes skills install well-known:https://mintlify.com/docs/.well-known/skills/mintlify
+```
+
+
+#### 4. Direct GitHub skills (`github`)<a href="#4-direct-github-skills-github" class="hash-link" aria-label="Direct link to 4-direct-github-skills-github" translate="no" title="Direct link to 4-direct-github-skills-github">​</a>
+
+Hermes can install directly from GitHub repositories and GitHub-based taps. This is useful when you already know the repo/path or want to add your own custom source repo.
+
+Default taps (browsable without any setup):
+
+- <a href="https://github.com/openai/skills" target="_blank" rel="noopener noreferrer">openai/skills</a>
+
+- <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener noreferrer">anthropics/skills</a>
+
+- <a href="https://github.com/huggingface/skills" target="_blank" rel="noopener noreferrer">huggingface/skills</a>
+
+- <a href="https://github.com/NVIDIA/skills" target="_blank" rel="noopener noreferrer">NVIDIA/skills</a> — NVIDIA-verified skills (signed `skill.oms.sig` + governance `skill-card.md`)
+
+- <a href="https://github.com/wandb/skills" target="_blank" rel="noopener noreferrer">wandb/skills</a>, <a href="https://github.com/qdrant/skills" target="_blank" rel="noopener noreferrer">qdrant/skills</a>, <a href="https://github.com/pinecone-io/skills" target="_blank" rel="noopener noreferrer">pinecone-io/skills</a>, <a href="https://github.com/makenotion/skills" target="_blank" rel="noopener noreferrer">makenotion/skills</a>, <a href="https://github.com/Airtable/skills" target="_blank" rel="noopener noreferrer">Airtable/skills</a>, <a href="https://github.com/Shopify/Shopify-AI-Toolkit" target="_blank" rel="noopener noreferrer">Shopify/Shopify-AI-Toolkit</a> — each vendor's own skills for its product
+
+- <a href="https://github.com/garrytan/gstack" target="_blank" rel="noopener noreferrer">garrytan/gstack</a>
+
+- <a href="https://github.com/K-Dense-AI/scientific-agent-skills" target="_blank" rel="noopener noreferrer">K-Dense-AI/scientific-agent-skills</a> and <a href="https://github.com/synthetic-sciences/openscience" target="_blank" rel="noopener noreferrer">synthetic-sciences/openscience</a> — ~480 scientific research skills (bioinformatics, chemistry, physics, ML training, scholarly tooling), grouped under one `science` category. Community trust: every install is security-scanned. Many wrap third-party tools with their own licenses (some GPL; KEGG requires a commercial license for non-academic use) — check each skill's prerequisites.
+
+- Example:
+
+
+``` prism-code
+hermes skills install openai/skills/k8s
+hermes skills tap add myorg/skills-repo
+```
+
+
+**Category groupings (`skills.sh.json`).** A GitHub tap may ship a `skills.sh.json` file at its repo root following the <a href="https://skills.sh/schemas/skills.sh.schema.json" target="_blank" rel="noopener noreferrer">skills.sh schema</a>. Its `groupings` (each with a `title` and a list of skill names) are read at index time and become the category labels shown in the <a href="https://hermes-agent.nousresearch.com/docs" target="_blank" rel="noopener noreferrer">Skills Hub</a> page — instead of a tag-derived guess. This is generic: any tap that ships the file gets real categorization, no Hermes-side changes required.
+
+
+``` prism-code
+{
+  "$schema": "https://skills.sh/schemas/skills.sh.schema.json",
+  "groupings": [
+    { "title": "Inference AI", "skills": ["dynamo-recipe-runner", "dynamo-router-sla"] },
+    { "title": "Decision Optimization", "skills": ["cuopt-developer", "cuopt-install"] }
+  ]
+}
+```
+
+
+#### 5. ClawHub (`clawhub`)<a href="#5-clawhub-clawhub" class="hash-link" aria-label="Direct link to 5-clawhub-clawhub" translate="no" title="Direct link to 5-clawhub-clawhub">​</a>
+
+A third-party skills marketplace integrated as a community source.
+
+- Site: <a href="https://clawhub.ai/" target="_blank" rel="noopener noreferrer">clawhub.ai</a>
+- Hermes source id: `clawhub`
+
+#### 6. LobeHub (`lobehub`)<a href="#6-lobehub-lobehub" class="hash-link" aria-label="Direct link to 6-lobehub-lobehub" translate="no" title="Direct link to 6-lobehub-lobehub">​</a>
+
+Hermes can search and convert agent entries from LobeHub's public catalog into installable Hermes skills.
+
+- Site: <a href="https://lobehub.com/" target="_blank" rel="noopener noreferrer">LobeHub</a>
+- Public agents index: <a href="https://chat-agents.lobehub.com/" target="_blank" rel="noopener noreferrer">chat-agents.lobehub.com</a>
+- Backing repo: <a href="https://github.com/lobehub/lobe-chat-agents" target="_blank" rel="noopener noreferrer">lobehub/lobe-chat-agents</a>
+- Hermes source id: `lobehub`
+
+#### 7. browse.sh (`browse-sh`)<a href="#7-browsesh-browse-sh" class="hash-link" aria-label="Direct link to 7-browsesh-browse-sh" translate="no" title="Direct link to 7-browsesh-browse-sh">​</a>
+
+Hermes integrates with <a href="https://browse.sh" target="_blank" rel="noopener noreferrer">browse.sh</a>, Browserbase's catalog of 200+ site-specific browser-automation SKILL.md files (Airbnb, Amazon, arXiv, 12306.cn, Etsy, Xero, and many more). Each skill describes how to drive one website end-to-end and is suitable for use with Hermes' browser tools and any browser-automation skills you already have installed.
+
+- Site: <a href="https://browse.sh/" target="_blank" rel="noopener noreferrer">browse.sh</a>
+- Catalog API: `https://browse.sh/api/skills`
+- Hermes source id: `browse-sh`
+- Trust level: `community`
+
+
+``` prism-code
+hermes skills search airbnb --source browse-sh
+hermes skills inspect browse-sh/airbnb.com/search-listings-ddgioa
+hermes skills install browse-sh/airbnb.com/search-listings-ddgioa
+```
+
+
+Identifiers use the form `browse-sh/<hostname>/<task-id>` and match the slug exposed by the browse.sh catalog. Content is resolved through the per-skill detail endpoint (`/api/skills/<slug>` → `skillMdUrl`), not through the catalog's GitHub `sourceUrl`.
+
+#### 8. Direct URL (`url`)<a href="#8-direct-url-url" class="hash-link" aria-label="Direct link to 8-direct-url-url" translate="no" title="Direct link to 8-direct-url-url">​</a>
+
+Install `SKILL.md` directly from any HTTP(S) URL — useful when an author hosts a skill on their own site (no hub listing, no GitHub path to type). Hermes also fetches explicitly referenced files under `references/`, `templates/`, `scripts/`, `assets/`, and `examples/`, then scans and installs the complete bundle.
+
+- Hermes source id: `url`
+- Identifier: the URL itself (no prefix needed)
+- Scope: `SKILL.md` plus exact referenced support files in the allowlisted directories. Hermes does not enumerate or copy unrelated files from the host.
+
+
+``` prism-code
+hermes skills install https://sharethis.chat/SKILL.md
+hermes skills install https://example.com/my-skill/SKILL.md --category productivity
+```
+
+
+Name resolution, in order:
+
+1.  `name:` field in the SKILL.md YAML frontmatter (recommended — every well-formed skill has one).
+2.  Parent directory name from the URL path (e.g. `.../my-skill/SKILL.md` → `my-skill`, or `.../my-skill.md` → `my-skill`), when it's a valid identifier (`^[a-z][a-z0-9_-]*$`).
+3.  Interactive prompt on a terminal with a TTY.
+4.  On non-interactive surfaces (the `/skills install` slash command inside the TUI, gateway platforms, scripts), a clean error pointing at the `--name` override.
+
+
+``` prism-code
+# Frontmatter has no name and the URL slug is unhelpful — supply one:
+hermes skills install https://example.com/SKILL.md --name sharethis-chat
+
+# Or inside a chat session:
+/skills install https://example.com/SKILL.md --name sharethis-chat
+```
+
+
+Trust level is always `community` — the same security scan runs as for every other source. The URL is stored as the install identifier, so `hermes skills update` re-fetches from the same URL automatically when you want to refresh.
+
+### Security scanning and `--force`<a href="#security-scanning-and---force" class="hash-link" aria-label="Direct link to security-scanning-and---force" translate="no" title="Direct link to security-scanning-and---force">​</a>
+
+All hub-installed skills go through a **security scanner** that checks for data exfiltration, prompt injection, destructive commands, supply-chain signals, and other threats.
+
+`hermes skills inspect ...` now also surfaces upstream metadata when available:
+
+- repo URL
+- skills.sh detail page URL
+- install command
+- weekly installs
+- upstream security audit statuses
+- well-known index/endpoint URLs
+
+Use `--force` when you have reviewed a third-party skill and want to override a non-dangerous policy block:
+
+
+``` prism-code
+hermes skills install skills-sh/anthropics/skills/pdf --force
+```
+
+
+Important behavior:
+
+- `--force` can override policy blocks for caution/warn-style findings.
+- `--force` does **not** override a `dangerous` scan verdict.
+- Official optional skills (`official/...`) are treated as built-in trust and do not show the third-party warning panel.
+
+### Trust levels<a href="#trust-levels" class="hash-link" aria-label="Direct link to Trust levels" translate="no" title="Direct link to Trust levels">​</a>
+
+| Level | Source | Policy |
+|----|----|----|
+| `builtin` | Ships with Hermes | Always trusted |
+| `official` | `optional-skills/` in the repo | Built-in trust, no third-party warning |
+| `trusted` | Trusted registries/repos such as `openai/skills`, `anthropics/skills`, `huggingface/skills`, `NVIDIA/skills`, `wandb/skills`, `qdrant/skills`, `pinecone-io/skills`, `makenotion/skills`, `Airtable/skills`, `Shopify/Shopify-AI-Toolkit` | More permissive policy than community sources |
+| `community` | Everything else (`skills.sh`, well-known endpoints, custom GitHub repos, most marketplaces) | Non-dangerous findings can be overridden with `--force`; `dangerous` verdicts stay blocked |
+
+### Update lifecycle<a href="#update-lifecycle" class="hash-link" aria-label="Direct link to Update lifecycle" translate="no" title="Direct link to Update lifecycle">​</a>
+
+The hub now tracks enough provenance to re-check upstream copies of installed skills:
+
+
+``` prism-code
+hermes skills check          # Report which installed hub skills changed upstream
+hermes skills update         # Reinstall only the skills with updates available
+hermes skills update react   # Update one specific installed hub skill
+hermes skills update react --force   # Overwrite a skill you've edited locally
+```
+
+
+This uses the stored source identifier plus the current upstream bundle content hash to detect drift.
+
+Checks skip network requests for missing or non-directory installs (`orphaned`) and unsafe or unresolvable recorded paths (`invalid_install`). Missing-directory entries can be removed with `hermes skills uninstall <name>`; invalid paths require inspecting and repairing the active profile's `skills/.hub/lock.json` before retrying. No entries are removed automatically.
+
+Valid installs continue to use their source adapter’s existing synchronous fetch and transport timeouts. There is no strict total deadline for an update check: an unreachable or slow source for an existing install can still delay later entries.
+
+Skills you have edited locally (the on-disk content no longer matches the hash recorded at install time) are **skipped** by `hermes skills update` so your changes are never silently overwritten. Pass `--force` to replace them with the upstream version anyway.
+
+
+Skills hub operations use the GitHub API, which has a rate limit of 60 requests/hour for unauthenticated users. An install costs about two API calls (the repo and its file tree); the skill's files themselves download from `raw.githubusercontent.com`, which the limit does not count. If you see rate-limit errors during install or search, set `GITHUB_TOKEN` in your `.env` file to increase the limit to 5,000 requests/hour. The error message includes an actionable hint when this happens.
+
+
+### Publishing a custom skill tap<a href="#publishing-a-custom-skill-tap" class="hash-link" aria-label="Direct link to Publishing a custom skill tap" translate="no" title="Direct link to Publishing a custom skill tap">​</a>
+
+If you want to share a curated set of skills — for your team, your org, or publicly — you can publish them as a **tap**: a GitHub repository other Hermes users add with `hermes skills tap add <owner/repo>`. No server, no registry sign-up, no release pipeline. Just a directory of `SKILL.md` files.
+
+#### Repo layout<a href="#repo-layout" class="hash-link" aria-label="Direct link to Repo layout" translate="no" title="Direct link to Repo layout">​</a>
+
+A tap is any GitHub repo (public or private — private needs `GITHUB_TOKEN`) laid out like this:
+
+
+``` prism-code
+owner/repo
+├── skills/                       # default path; configurable per-tap
+│   ├── my-workflow/
+│   │   ├── SKILL.md              # required
+│   │   ├── references/           # optional supporting files
+│   │   ├── templates/
+│   │   └── scripts/
+│   ├── another-skill/
+│   │   └── SKILL.md
+│   └── third-skill/
+│       └── SKILL.md
+└── README.md                     # optional but helpful
+```
+
+
+Rules:
+
+- Each skill lives in its own directory under the tap's root path (default `skills/`).
+- The directory name becomes the skill's install slug.
+- Each skill directory must contain a `SKILL.md` with standard [SKILL.md frontmatter](#skillmd-format) (`name`, `description`, plus optional `metadata.hermes.tags`, `version`, `author`, `platforms`, `metadata.hermes.config`).
+- Subdirectories like `references/`, `templates/`, `scripts/`, `assets/` are downloaded alongside `SKILL.md` at install time.
+- Skills whose directory name starts with `.` or `_` are ignored.
+
+Hermes discovers skills by listing every subdirectory of the tap path and probing each for `SKILL.md`.
+
+#### Minimal tap example<a href="#minimal-tap-example" class="hash-link" aria-label="Direct link to Minimal tap example" translate="no" title="Direct link to Minimal tap example">​</a>
+
+
+``` prism-code
+my-org/hermes-skills
+└── skills/
+    └── deploy-runbook/
+        └── SKILL.md
+```
+
+
+`skills/deploy-runbook/SKILL.md`:
+
+
+``` prism-code
+---
+name: deploy-runbook
+description: Our deployment runbook — services, rollback, Slack channels
+version: 1.0.0
+author: My Org Platform Team
+metadata:
+  hermes:
+    tags: [deployment, runbook, internal]
+---
+
+# Deploy Runbook
+
+Step 1: ...
+```
+
+
+After pushing that to GitHub, any Hermes user can subscribe and install:
+
+
+``` prism-code
+hermes skills tap add my-org/hermes-skills
+hermes skills search deploy
+hermes skills install my-org/hermes-skills/deploy-runbook
+```
+
+
+#### Non-default paths<a href="#non-default-paths" class="hash-link" aria-label="Direct link to Non-default paths" translate="no" title="Direct link to Non-default paths">​</a>
+
+If your skills don't live under `skills/` (common when you're adding a `skills/` subtree to an existing project), edit the tap entry in `~/.hermes/skills/.hub/taps.json`:
+
+
+``` prism-code
+{
+  "taps": [
+    {"repo": "my-org/platform-docs", "path": "internal/skills/"}
+  ]
+}
+```
+
+
+The `hermes skills tap add` CLI defaults new taps to `path: "skills/"`; edit the file directly if you need a different path. `hermes skills tap list` shows the effective path per tap.
+
+#### Installing individual skills directly (without adding a tap)<a href="#installing-individual-skills-directly-without-adding-a-tap" class="hash-link" aria-label="Direct link to Installing individual skills directly (without adding a tap)" translate="no" title="Direct link to Installing individual skills directly (without adding a tap)">​</a>
+
+Users can also install a single skill from any public GitHub repo without adding the whole repo as a tap:
+
+
+``` prism-code
+hermes skills install owner/repo/skills/my-workflow
+```
+
+
+Useful when you want to share one skill without asking the user to subscribe to your whole registry.
+
+#### Trust levels for taps<a href="#trust-levels-for-taps" class="hash-link" aria-label="Direct link to Trust levels for taps" translate="no" title="Direct link to Trust levels for taps">​</a>
+
+New taps are assigned `community` trust by default. Skills installed from them run through the standard security scan and show the third-party warning panel on first install. If your org or a widely-trusted source should get higher trust, add its repo to `TRUSTED_REPOS` in `tools/skills_guard.py` (requires a Hermes core PR).
+
+#### Tap management<a href="#tap-management" class="hash-link" aria-label="Direct link to Tap management" translate="no" title="Direct link to Tap management">​</a>
+
+
+``` prism-code
+hermes skills tap list                                # show all configured taps
+hermes skills tap add myorg/skills-repo               # add (default path: skills/)
+hermes skills tap remove myorg/skills-repo            # remove
+```
+
+
+Inside a running session:
+
+
+``` prism-code
+/skills tap list
+/skills tap add myorg/skills-repo
+/skills tap remove myorg/skills-repo
+```
+
+
+Taps are stored in `~/.hermes/skills/.hub/taps.json` (created on demand).
+
+## Bundled skill updates (`hermes skills reset`)<a href="#bundled-skill-updates-hermes-skills-reset" class="hash-link" aria-label="Direct link to bundled-skill-updates-hermes-skills-reset" translate="no" title="Direct link to bundled-skill-updates-hermes-skills-reset">​</a>
+
+Hermes ships with a set of bundled skills in `skills/` inside the repo. On install and on every `hermes update`, a sync pass copies those into `~/.hermes/skills/` and records a manifest at `~/.hermes/skills/.bundled_manifest` mapping each skill name to the content hash at the time it was synced (the **origin hash**).
+
+On each sync, Hermes recomputes the hash of your local copy and compares it to the origin hash:
+
+- **Unchanged** → safe to pull upstream changes, copy the new bundled version in, record the new origin hash.
+- **Changed** → treated as **user-modified** and skipped forever, so your edits never get stomped.
+
+Generated runtime caches inside a skill (`__pycache__/`, `.pytest_cache/`, `.mypy_cache/`, `.ruff_cache/`, and a `.pyc` sitting next to its `.py`) are not part of the hash, so running a skill's helper script never marks it user-modified or hides it from `hermes skills list-modified` / `diff`.
+
+The protection is good, but it has one sharp edge. If you edit a bundled skill and then later want to abandon your changes and go back to the bundled version by just copy-pasting from `~/.hermes/hermes-agent/skills/`, the manifest still holds the *old* origin hash from whenever the last successful sync ran. Your fresh copy-paste contents (current bundled hash) won't match that stale origin hash, so sync keeps flagging it as user-modified.
+
+`hermes skills reset` is the escape hatch:
+
+
+``` prism-code
+# Safe: clears the manifest entry for this skill. Your current copy is preserved,
+# but the next sync re-baselines against it so future updates work normally.
+hermes skills reset google-workspace
+
+# Full restore: also deletes your local copy and re-copies the current bundled
+# version. Use this when you want the pristine upstream skill back.
+hermes skills reset google-workspace --restore
+
+# Non-interactive (e.g. in scripts or TUI mode) — skip the --restore confirmation.
+hermes skills reset google-workspace --restore --yes
+```
+
+
+The same command works in chat as a slash command:
+
+
+``` prism-code
+/skills reset google-workspace
+/skills reset google-workspace --restore
+```
+
+
+Each profile has its own `.bundled_manifest` under its own `HERMES_HOME`, so `hermes -p coder skills reset <name>` only affects that profile.
+
+
+### Slash commands (inside chat)<a href="#slash-commands-inside-chat" class="hash-link" aria-label="Direct link to Slash commands (inside chat)" translate="no" title="Direct link to Slash commands (inside chat)">​</a>
+
+All the same commands work with `/skills`:
+
+
+``` prism-code
+/skills browse
+/skills search react --source skills-sh
+/skills search https://mintlify.com/docs --source well-known
+/skills inspect skills-sh/vercel-labs/json-render/json-render-react
+/skills install openai/skills/skill-creator --force
+/skills check
+/skills update
+/skills reset google-workspace
+/skills list
+```
+
+
+Official optional skills still use identifiers like `official/security/1password` and `official/mcp/fastmcp`.
+
+
+- <a href="#install-from-the-website" class="table-of-contents__link toc-highlight">Install from the website</a>
+- <a href="#starting-with-a-blank-slate" class="table-of-contents__link toc-highlight">Starting with a blank slate</a>
+- <a href="#using-skills" class="table-of-contents__link toc-highlight">Using Skills</a>
+  - <a href="#stacking-multiple-skills-in-one-command" class="table-of-contents__link toc-highlight">Stacking multiple skills in one command</a>
+- <a href="#learning-a-skill-from-sources-learn" class="table-of-contents__link toc-highlight">Learning a skill from sources (<code>/learn</code>)</a>
+  - <a href="#large-sources-become-knowledge-base-skills" class="table-of-contents__link toc-highlight">Large sources become knowledge-base skills</a>
+- <a href="#progressive-disclosure" class="table-of-contents__link toc-highlight">Progressive Disclosure</a>
+  - <a href="#skills-added-during-a-conversation" class="table-of-contents__link toc-highlight">Skills added during a conversation</a>
+- <a href="#skillmd-format" class="table-of-contents__link toc-highlight">SKILL.md Format</a>
+  - <a href="#platform-specific-skills" class="table-of-contents__link toc-highlight">Platform-Specific Skills</a>
+- <a href="#skill-output-and-media-delivery" class="table-of-contents__link toc-highlight">Skill output and media delivery</a>
+  - <a href="#forcing-document-style-delivery-as_document" class="table-of-contents__link toc-highlight">Forcing document-style delivery: <code>[[as_document]]</code></a>
+  - <a href="#conditional-activation-fallback-skills" class="table-of-contents__link toc-highlight">Conditional Activation (Fallback Skills)</a>
+- <a href="#secure-setup-on-load" class="table-of-contents__link toc-highlight">Secure Setup on Load</a>
+  - <a href="#skill-config-settings" class="table-of-contents__link toc-highlight">Skill Config Settings</a>
+- <a href="#skill-directory-structure" class="table-of-contents__link toc-highlight">Skill Directory Structure</a>
+  - <a href="#advisory-skillevaluator-scan" class="table-of-contents__link toc-highlight">Advisory SkillEvaluator scan</a>
+- <a href="#external-skill-directories" class="table-of-contents__link toc-highlight">External Skill Directories</a>
+  - <a href="#how-it-works" class="table-of-contents__link toc-highlight">How it works</a>
+  - <a href="#example" class="table-of-contents__link toc-highlight">Example</a>
+- <a href="#redirecting-skill-creation-skillscreate_dir" class="table-of-contents__link toc-highlight">Redirecting Skill Creation (<code>skills.create_dir</code>)</a>
+- <a href="#project-local-skills" class="table-of-contents__link toc-highlight">Project-Local Skills</a>
+  - <a href="#trusting-a-project" class="table-of-contents__link toc-highlight">Trusting a project</a>
+  - <a href="#precedence" class="table-of-contents__link toc-highlight">Precedence</a>
+  - <a href="#duplicate-skill-names" class="table-of-contents__link toc-highlight">Duplicate skill names</a>
+  - <a href="#scan-time-quarantine" class="table-of-contents__link toc-highlight">Scan-time quarantine</a>
+  - <a href="#non-interactive-surfaces-cron-api-acp" class="table-of-contents__link toc-highlight">Non-interactive surfaces (cron, API, ACP)</a>
+- <a href="#skill-bundles" class="table-of-contents__link toc-highlight">Skill Bundles</a>
+  - <a href="#quick-example" class="table-of-contents__link toc-highlight">Quick example</a>
+  - <a href="#yaml-schema" class="table-of-contents__link toc-highlight">YAML schema</a>
+  - <a href="#managing-bundles" class="table-of-contents__link toc-highlight">Managing bundles</a>
+  - <a href="#behavior" class="table-of-contents__link toc-highlight">Behavior</a>
+  - <a href="#when-bundles-beat-installing-each-skill-manually" class="table-of-contents__link toc-highlight">When bundles beat installing each skill manually</a>
+- <a href="#agent-managed-skills-skill_manage-tool" class="table-of-contents__link toc-highlight">Agent-Managed Skills (skill_manage tool)</a>
+  - <a href="#when-the-agent-creates-skills" class="table-of-contents__link toc-highlight">When the Agent Creates Skills</a>
+  - <a href="#what-a-skill-entry-looks-like" class="table-of-contents__link toc-highlight">What a skill entry looks like</a>
+  - <a href="#actions" class="table-of-contents__link toc-highlight">Actions</a>
+  - <a href="#gating-agent-skill-writes-skillswrite_approval" class="table-of-contents__link toc-highlight">Gating agent skill writes (<code>skills.write_approval</code>)</a>
+- <a href="#skills-hub" class="table-of-contents__link toc-highlight">Skills Hub</a>
+  - <a href="#common-commands" class="table-of-contents__link toc-highlight">Common commands</a>
+  - <a href="#supported-hub-sources" class="table-of-contents__link toc-highlight">Supported hub sources</a>
+  - <a href="#integrated-hubs-and-registries" class="table-of-contents__link toc-highlight">Integrated hubs and registries</a>
+  - <a href="#security-scanning-and---force" class="table-of-contents__link toc-highlight">Security scanning and <code>--force</code></a>
+  - <a href="#trust-levels" class="table-of-contents__link toc-highlight">Trust levels</a>
+  - <a href="#update-lifecycle" class="table-of-contents__link toc-highlight">Update lifecycle</a>
+  - <a href="#publishing-a-custom-skill-tap" class="table-of-contents__link toc-highlight">Publishing a custom skill tap</a>
+- <a href="#bundled-skill-updates-hermes-skills-reset" class="table-of-contents__link toc-highlight">Bundled skill updates (<code>hermes skills reset</code>)</a>
+  - <a href="#slash-commands-inside-chat" class="table-of-contents__link toc-highlight">Slash commands (inside chat)</a>
 
 

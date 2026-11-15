@@ -2,16 +2,6 @@
 
 
 
-<a href="/" class="flex @min-[1024px]:hidden items-center text-gray-1000"><span class="font-medium tracking-tight" style="font-family:var(--font-geist-pixel-square)">agent-browser</span></a>
-
-
-<a href="https://github.com/vercel-labs/agent-browser" class="size-8 items-center justify-center @min-[768px]:inline-flex hidden shrink-0" data-geist-button="" data-prefix="false" data-suffix="false" data-version="v1" aria-label="GitHub repository" rel="noopener" target="_blank"><span class="truncate px-1.5 inline-flex shrink-0 items-center justify-center"></span></a>
-
-
-        &quot;sidebar toc-popover toc&quot;
-        &quot;sidebar main toc&quot; 1fr / minmax(var(--fd-sidebar-col), 1fr) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-width) - var(--fd-toc-width))) minmax(min-content, 1fr);--fd-docs-row-1:4rem;--fd-docs-row-2:calc(var(--fd-docs-row-1) + var(--fd-header-height));--fd-docs-row-3:calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height));--fd-sidebar-col:var(--fd-sidebar-width)">
-
-
 Menu
 
 
@@ -36,6 +26,8 @@ agent-browser install  # Download Chrome from Chrome for Testing (first time)
 
 
 This is the fastest option -- commands run through the native Rust CLI directly with sub-millisecond parsing overhead.
+
+npm, pnpm, Yarn, and Bun download only the binary for your platform, from a matching `@agent-browser/cli-*` optional dependency. The global `agent-browser` command runs the native binary directly. Package managers that block install scripts by default, such as npm 12, pnpm, and Bun, link it on the first run instead, so no extra setup is needed. Installing with `--omit=optional` skips the binary; reinstall without that flag.
 
 On macOS versions below 13, `agent-browser install` stops before downloading Chrome for Testing and prints instructions to update macOS or install Chrome manually. Update macOS to version 13 or later through **System Settings \> General \> Software Update**, or install Chrome from <a href="https://www.google.com/chrome/" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!" rel="noreferrer noopener" target="_blank">Google's Chrome download page</a>. This check applies when you run `agent-browser install`; the package installation commands above remain unchanged. If `sw_vers -productVersion` is unavailable, exits with an error, returns no version, or returns a malformed version, `agent-browser install` reports a detection error and stops before making a network request.
 
@@ -88,10 +80,9 @@ Compiles from source (~2-3 min). Requires Node.js 24+, pnpm 11+, and the Rust to
 git clone https://github.com/vercel-labs/agent-browser
 cd agent-browser
 pnpm install
-pnpm build
-pnpm build:native
-./bin/agent-browser install
+pnpm build:source
 pnpm link --global
+agent-browser install
 ```
 
 
@@ -143,26 +134,26 @@ agent-browser doctor --json              # Structured output
 
 It checks:
 
-| Category     | What it checks                                                                                                                                                                                                                                         |
-|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Environment  | CLI version, platform, home directory, state and socket dirs, free disk space                                                                                                                                                                          |
-| Chrome       | Chrome install path and version, cache dir, Puppeteer fallback, user-data dir and profile count, optional `lightpanda` engine                                                                                                                          |
-| Daemons      | Running daemons per session, stale `.sock` / `.pid` / `.version` / `.stream` files (auto-cleaned), version mismatch with the CLI, dashboard process liveness                                                                                           |
-| Config       | `~/.agent-browser/config.json`, `./agent-browser.json`, and any file at `AGENT_BROWSER_CONFIG` parse as valid JSON                                                                                                                                     |
-| Security     | Encryption key env var or `~/.agent-browser/.encryption-key` (with 0600 permissions on unix), state file count and age vs `AGENT_BROWSER_STATE_EXPIRE_DAYS`, action policy file                                                                        |
-| Providers    | Env vars for Browserless, Browserbase, Browser Use, Kernel, AgentCore (AWS creds), Appium (for `--provider ios`), and `AI_GATEWAY_API_KEY` for chat                                                                                                    |
-| Network      | Reachability of the Chrome for Testing CDN, AI Gateway (if configured), and any currently selected provider endpoint (skipped under `--offline`)                                                                                                       |
-| Launch test  | Spawns a scratch session, launches headless Chrome, navigates to `about:blank`, then closes. Measures wall time (skipped under `--quick`)                                                                                                              |
+| Category | What it checks |
+|----|----|
+| Environment | CLI version, platform, home directory, state and socket dirs, free disk space |
+| Chrome | Chrome install path and version, cache dir, Puppeteer fallback, user-data dir and profile count, optional `lightpanda` engine |
+| Daemons | Running daemons per session, stale `.sock` / `.pid` / `.version` / `.stream` files (auto-cleaned), version mismatch with the CLI, dashboard process liveness |
+| Config | `~/.agent-browser/config.json`, `./agent-browser.json`, and any file at `AGENT_BROWSER_CONFIG` parse as valid JSON |
+| Security | Encryption key env var or `~/.agent-browser/.encryption-key` (with 0600 permissions on unix), state file count and age vs `AGENT_BROWSER_STATE_EXPIRE_DAYS`, action policy file |
+| Providers | Env vars for Browserless, Browserbase, Browser Use, Kernel, AgentCore (AWS creds), Appium (for `--provider ios`), and `AI_GATEWAY_API_KEY` for chat |
+| Network | Reachability of the Chrome for Testing CDN, AI Gateway (if configured), and any currently selected provider endpoint (skipped under `--offline`) |
+| Launch test | Spawns a scratch session, launches headless Chrome, navigates to `about:blank`, then closes. Measures wall time (skipped under `--quick`) |
 | WebGPU probe | Opt-in via `--webgpu`: launches a scratch session with the [WebGPU preset](/webgpu), renders through a real WebGPU pass, and pixel-checks both an offscreen readback and a decoded screenshot. Add `--headed` to validate the headed/Xvfb capture path |
 
 Stale sidecar files are always cleaned. Destructive actions are opt-in via `--fix`:
 
-| Check                      | What `--fix` does                                                                                        |
-|----------------------------|----------------------------------------------------------------------------------------------------------|
-| Chrome missing             | Runs `agent-browser install`                                                                             |
-| Version-mismatched daemons | Sends `close` to each and cleans files                                                                   |
-| Old state files            | Deletes state files older than `AGENT_BROWSER_STATE_EXPIRE_DAYS` (default 30)                            |
-| Missing encryption key     | Generates a new key at `~/.agent-browser/.encryption-key` (0600, unix); never overwrites an existing key |
+| Check | What `--fix` does |
+|----|----|
+| Chrome missing | Runs `agent-browser install` |
+| Version-mismatched daemons | Sends `close` to each and cleans files |
+| Old state files | Deletes state files older than `AGENT_BROWSER_STATE_EXPIRE_DAYS` (default 30) |
+| Missing encryption key | Generates a new key at `~/.agent-browser/.encryption-key` (0600, unix); never overwrites an existing key |
 
 Exit code is `0` if all checks pass (warnings are fine), `1` if any fail.
 
@@ -187,6 +178,24 @@ AGENT_BROWSER_EXECUTABLE_PATH=/path/to/chromium agent-browser open example.com
 ### <a href="#serverless-example" class="peer" data-card="">Serverless example</a>
 
 Use `@sparticuz/chromium` or similar to obtain a Chromium executable path, then pass it via `--executable-path` or `AGENT_BROWSER_EXECUTABLE_PATH`.
+
+For example, in an AWS Lambda handler:
+
+
+``` m-0
+import chromium from "@sparticuz/chromium";
+import { execSync } from "child_process";
+
+export async function handler() {
+  const executablePath = await chromium.executablePath();
+  const result = execSync(
+    `AGENT_BROWSER_EXECUTABLE_PATH=${executablePath} agent-browser open https://example.com && agent-browser snapshot -i --json`,
+    { encoding: "utf-8" }
+  );
+  return JSON.parse(result);
+}
+```
+
 
 ## <a href="#ai-agent-setup" class="peer" data-card="">AI agent setup</a>
 

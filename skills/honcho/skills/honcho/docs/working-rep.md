@@ -4,344 +4,69 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Working Representations
+# Peer Representations
 
-> Learn how to retrieve cached peer knowledge and understanding using Honcho's working representation system
+> A peer representation is Honcho's evolving, reasoned model of a user or agent, built continually from every message and queried for context.
 
-Working representations are Honcho's system for accessing cached psychological models that capture what peers know, think, and remember. Unlike the `chat()` method which generates fresh representations on-demand, the `working_rep()` method retrieves pre-computed representations that have been automatically built and stored as conversations progress.
+A representation is the collection of reasoning Honcho has done about a peer over time. It's the continual learning about a peer over every message that's been written to it. Representations evolve dynamically as new messages come in, with Honcho reasoning about them in the background.
 
-## How Working Representations Are Created
+When you write messages to Honcho, the reasoning models extract premises, draw conclusions, and scaffold new conclusions as well. All of that reasoning gets stored as the peer's representation. Think of it as Honcho's understanding of who that peer is, what they care about, and how they behave, built through formal logic rather than simple storage.
 
-Working representations are automatically generated and cached through Honcho's background processing system:
+## What's in a Representation?
 
-1. **Automatic Generation**: When messages are added to sessions, they trigger background jobs that analyze conversations using theory of mind inference and long-term memory integration
+A peer representation is made up of several types of artifacts that Honcho generates through [*reasoning*](https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md):
 
-2. **Cached Storage**: The generated representations are stored in the database as metadata on `Peer` objects (for global representations) or `SessionPeer` objects (for session-scoped representations)
+**Conclusions** are insights derived through formal logic. Deductive conclusions are things Honcho can be certain about based on extracted premises. Inductive conclusions identify patterns across multiple messages. For example, if a user frequently mentions work deadlines and rarely mentions hobbies, Honcho might inductively conclude they're time-constrained or career-focused.
 
-3. **Retrieval**: The `working_rep()` method provides fast access to these cached representations without requiring LLM processing
+**Summaries** capture the essence of sessions. Short summaries are generated every 20 messages by default, and long summaries every 60 messages. These help compress conversation history into dense, queryable context.
 
-> [!NOTE]
+**Peer cards** contain key biographical information. They essentially cache the most basic information about a peer (name, occupation, interests) to ensure the model never loses its grounding.
+
+These enable continuous improvement. Each new message refines conclusions, updates summaries, and keeps peer cards current—building a more accurate representation over time.
+
+## Observation & Perspective-Taking
+
+Honcho can build different representations based on what each peer observes. This enables sophisticated multi-peer scenarios where understanding is relative to what was actually witnessed.
+
+There are two observation modes controlled by [configuration](https://honcho.dev/docs/v3/documentation/features/advanced/reasoning-configuration.md):
+
+**Honcho observing peers** (`observe_me`): When enabled (default), Honcho forms a representation of the peer based on all messages they've sent across all sessions. This is Honcho's understanding of that peer, built from everything they've said and done in your system. Set `observe_me: false` if you don't want Honcho to reason about that peer at all.
+
+**Peers observing others** (`observe_others`): When enabled at the session level, a peer will form representations of other peers in that session based only on messages they've observed. If Alice and Bob are in a session together and Alice has `observe_others: true`, Alice will form a representation of Bob based solely on what Bob said in sessions Alice participated in. Alice's representation of Bob will be completely different from Charlie's representation of Bob if they've observed different interactions.
+
+In the diagram below, assume `observe_me` isn't turned off (again, default behavior) and `observe_others` is turned on for both peers in a session that contains the peers Alice and Bob.
+
+![](https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/observe_config.png?fit=max\&auto=format\&n=Pwe1D9IEDkAtnMKn\&q=85\&s=3ce6039ba1ff8c8b760e2f2d507999fa)
+
+The shared session that Alice and Bob have informs their respective representations of each other. Alice has a small set of conclusions that pertain to Bob, and Bob has a small set of conclusions that pertain to Alice. Honcho can observe the totality of each peer's interactions, forming representations of the peers themselves, and enable peers to store conclusions about peers they interact with based only on what they witness in shared sessions.
+
+Why would you want peers observing others? So you can simulate stateful *perspectives*. If Bob participates with Alice in sessions 1 and 2, while Charlie participates with Alice in session 3, Bob's representation of Alice will be built from sessions 1 and 2, while Charlie's representation will only include what happened in session 3. Bob can reference shared history, inside jokes, or past conflicts that Charlie knows nothing about. Without perspective-based segmentation, all agents are omniscient--the simulation breaks down, trust falls apart, and users churn.
+
+## Why Representations Work
+
+Statefulness is simulated through reconstruction of the past. Traditional systems reconstruct by retrieving stored facts, querying semantically similar items, and hoping the LLM does the rest. Honcho reconstructs through reasoning about the past exhaustively, leaving much less to chance.
+
+Reasoning can surface insights never explicitly stated. If a user mentions they're saving for a house in one session and complains about subscription costs in another, Honcho can conclude they're budget-conscious without anyone saying it. Reasoning handles contradictions gracefully--when new information conflicts with old conclusions, it reconciles them instead of just accumulating more data. And reasoning enables prediction under uncertainty, inferring what's likely true based on patterns even when data is incomplete.
+
+Humans reconstruct the past from imperfect recollections, then act on those reconstructions as if they were complete. Representations enable agents to do the same with far greater fidelity. Reasoning produces an exhaustive, explicit record of what can be concluded about a peer--giving agents complete recollection that humans can only pretend to have. That's what makes truly stateful agents possible.
+
+## Next Steps
+
+> [card] [Get an API Key](https://app.honcho.dev)
 >
-> **Cached vs On-Demand**: `working_rep()` retrieves cached representations for fast access, while `peer.chat()` generates fresh representations using the dialectic system. Use `working_rep()` when you need fast access to stored knowledge, and `chat()` when you need current analysis with custom queries.
-
-## Basic Usage
-
-Working representations are accessed through the `working_rep()` method on Session or Peer objects:
-
-```python Python theme={null}
-from honcho import Honcho
-
-# Initialize client
-honcho = Honcho()
-
-# Create peers and session
-user = honcho.peer("user-123")
-assistant = honcho.peer("ai-assistant")
-session = honcho.session("support-conversation")
-
-# Add conversation to trigger representation generation
-session.add_messages([
-    user.message("I'm having trouble with my billing account"),
-    assistant.message("I can help with that. What specific issue are you seeing?"),
-    user.message("My credit card was charged twice last month"),
-    assistant.message("I see duplicate charges on your account. Let me refund one of them.")
-])
-
-# Chat to generate a working representation
-response = user.chat("What is this user's main concern right now?", session_id=session.id)
-
-# Retrieve the cached working representation for the user
-user_representation = session.working_rep("user-123")
-print("Cached user representation:", user_representation)
-
-# Or access from the peer directly
-peer_representation = user.working_rep()
-```
-
-```typescript TypeScript theme={null}
-import { Honcho } from "@honcho-ai/sdk";
-
-// Initialize client
-const honcho = new Honcho({});
-
-// Create peers and session
-const user = await honcho.peer("user-123");
-const assistant = await honcho.peer("ai-assistant");
-const session = await honcho.session("support-conversation");
-
-// Add conversation to trigger representation generation
-await session.addMessages([
-  user.message("I'm having trouble with my billing account"),
-  assistant.message("I can help with that. What specific issue are you seeing?"),
-  user.message("My credit card was charged twice last month"),
-  assistant.message("I see duplicate charges on your account. Let me refund one of them.")
-]);
-
-// Chat to generate a working representation
-const response = await user.chat("What is this user's main concern right now?", { sessionId: session.id });
-
-// Retrieve the cached working representation for the user
-const userRepresentation = await session.workingRep("user-123");
-console.log("Cached user representation:", userRepresentation);
-
-// Or access from the peer directly
-const peerRepresentation = await user.workingRep();
-```
-
-## Semantic Search in Representations
-
-Working representations support semantic search to retrieve the most relevant observations for a given query. This is useful when you want to focus the representation on specific topics.
-
-### Parameters
-
-| Parameter | Type | Description |
-| - | - | - |
-| `search_query` | `str` | Semantic search query to filter relevant observations |
-| `search_top_k` | `int` | Number of semantic search results to include (1-100) |
-| `search_max_distance` | `float` | Maximum semantic distance threshold (0.0-1.0) |
-| `include_most_derived` | `bool` | Whether to include the most recently derived observations |
-| `max_observations` | `int` | Maximum number of observations to include (1-100) |
-
-```python Python theme={null}
-# Get representation focused on a specific topic
-billing_rep = session.working_rep(
-    "user-123",
-    search_query="billing and payment issues",
-    search_top_k=10,
-    search_max_distance=0.8,
-    include_most_derived=True,
-    max_observations=25
-)
-
-# Get representation from peer with target
-# What user-123 knows about the assistant
-local_rep = session.working_rep(
-    "user-123",
-    target="ai-assistant",
-    search_query="support interactions"
-)
-
-# Access from peer object with semantic search
-user_rep = user.working_rep(
-    session=session,
-    search_query="preferences",
-    search_top_k=5
-)
-```
-
-```typescript TypeScript theme={null}
-// Get representation focused on a specific topic
-const billingRep = await session.workingRep("user-123", {
-  searchQuery: "billing and payment issues",
-  searchTopK: 10,
-  searchMaxDistance: 0.8,
-  includeMostDerived: true,
-  maxObservations: 25
-});
-
-// Get representation from peer with target
-// What user-123 knows about the assistant
-const localRep = await session.workingRep("user-123", {
-  target: "ai-assistant",
-  searchQuery: "support interactions"
-});
-
-// Access from peer object with semantic search
-const userRep = await user.workingRep(session, undefined, {
-  searchQuery: "preferences",
-  searchTopK: 5
-});
-```
-
-## Understanding Representation Content
-
-Cached working representations contain structured psychological analysis based on conversation history. The format typically includes:
-
-### Current Mental State Predictions
-
-Information about what the peer is currently thinking, feeling, or focused on based on recent messages.
-
-### Relevant Long-term Facts
-
-Facts about the peer that have been extracted and stored over time from various conversations.
-
-### Example Representation Structure
-
-```python Python theme={null}
-# Example of what a cached representation might contain
-representation = session.working_rep("user-123")
-
-# Typical content structure:
-"""
-PREDICTION ABOUT THE USER'S CURRENT MENTAL STATE:
-The user appears frustrated with a billing issue, specifically concerning duplicate charges.
-They seem to have some confidence in the support process as they provided specific details.
-
-RELEVANT LONG-TERM FACTS ABOUT THE USER:
-- User has had previous billing inquiries
-- User prefers direct, specific communication
-- User is detail-oriented when reporting issues
-"""
-
-print("Full representation:", representation)
-```
-
-```typescript TypeScript theme={null}
-// Example of what a cached representation might contain
-const representation = await session.workingRep("user-123");
-
-// Typical content structure:
-/*
-PREDICTION ABOUT THE USER'S CURRENT MENTAL STATE:
-The user appears frustrated with a billing issue, specifically concerning duplicate charges.
-They seem to have some confidence in the support process as they provided specific details.
-
-RELEVANT LONG-TERM FACTS ABOUT THE USER:
-- User has had previous billing inquiries
-- User prefers direct, specific communication
-- User is detail-oriented when reporting issues
-*/
-
-console.log("Full representation:", representation);
-```
-
-## When Representations Are Updated
-
-Working representations are automatically updated through Honcho's background processing system:
-
-### Message Processing Pipeline
-
-1. **Message Creation**: When messages are added via `session.add_messages()` or similar methods
-2. **Background Queuing**: Messages are queued for processing in the background
-3. **Theory of Mind Analysis**: The system analyzes conversation patterns and psychological states
-4. **Fact Extraction**: Long-term facts are extracted and stored in vector embeddings
-5. **Representation Generation**: New representations are created combining current analysis with historical facts
-6. **Cache Update**: The new representation is stored in the database metadata
-
-### Processing Triggers
-
-Representations are updated when:
-
-* New messages are added to sessions
-* Sufficient new content has accumulated
-* The background processing system determines an update is needed
-
-## Comparison with Chat Method
-
-Understanding when to use `working_rep()` vs `peer.chat()`:
-
-### Use `working_rep()` when:
-
-* You need fast access to stored psychological models
-* You want to see what the system has already learned about a peer
-* You're building dashboards or analytics that display peer understanding
-* You need consistent representations that don't change between calls
-
-### Use `peer.chat()` when:
-
-* You need to ask specific questions about a peer
-* You want fresh analysis based on current conversation state
-* You need customized insights for specific use cases
-* You want to query about relationships between peers
-
-```python Python theme={null}
-# Fast cached access
-cached_rep = session.working_rep("user-123")
-print("Cached:", cached_rep[:100] + "...")
-
-# Custom query with fresh analysis
-custom_analysis = user.chat("What is this user's main concern right now?", session_id=session.id)
-print("Fresh analysis:", custom_analysis)
-```
-
-```typescript TypeScript theme={null}
-// Fast cached access
-const cachedRep = await session.workingRep("user-123");
-console.log("Cached:", cachedRep.substring(0, 100) + "...");
-
-// Custom query with fresh analysis
-const customAnalysis = await user.chat("What is this user's main concern right now?", { sessionId: session.id });
-console.log("Fresh analysis:", customAnalysis);
-```
-
-## Best Practices
-
-### 1. Ensure Availability Before Using
-
-Make sure that a representation exists before processing it by using the chat endpoint first.
-
-### 2. Use for Fast Analytics
-
-Cached representations are ideal for analytics dashboards:
-
-```python Python theme={null}
-# Good: Fast dashboard updates using cached data
-def update_analytics_dashboard(sessions):
-    analytics = {}
-    for session in sessions:
-        for peer_id in session.get_peer_ids():
-            rep = session.working_rep(peer_id)
-            analytics[peer_id] = analyze_representation(rep)
-    return analytics
-```
-
-```typescript TypeScript theme={null}
-// Good: Fast dashboard updates using cached data
-async function updateAnalyticsDashboard(sessions) {
-  const analytics: Record<string, any> = {};
-  for (const session of sessions) {
-    const peerIds = await session.getPeerIds();
-    for (const peerId of peerIds) {
-      const rep = await session.workingRep(peerId);
-      analytics[peerId] = analyzeRepresentation(rep);
-    }
-  }
-  return analytics;
-}
-```
-
-### 3. Combine with Fresh Analysis When Needed
-
-Use cached representations for baseline understanding, and fresh analysis for current insights:
-
-```python Python theme={null}
-# Get baseline understanding from cache
-baseline = session.working_rep("user-123")
-
-# Get current specific insights
-current_state = user.chat("How is this user feeling right now?", session_id=session.id)
-
-# Combine for comprehensive view
-comprehensive_view = {
-    "baseline_knowledge": baseline,
-    "current_analysis": current_state
-}
-```
-
-```typescript TypeScript theme={null}
-// Get baseline understanding from cache
-const baseline = await session.workingRep("user-123");
-
-// Get current specific insights
-const currentState = await user.chat("How is this user feeling right now?", { sessionId: session.id });
-
-// Combine for comprehensive view
-const comprehensiveView = {
-  baselineKnowledge: baseline,
-  currentAnalysis: currentState
-};
-```
-
-## Conclusion
-
-Working representations provide fast access to cached psychological models that Honcho automatically builds and maintains. By understanding how to:
-
-* Retrieve cached representations using `session.working_rep()`
-* Parse and interpret representation content
-* Handle cases where representations aren't available
-* Combine cached and fresh analysis appropriately
-
-You can build efficient applications that leverage Honcho's continuous learning about peer knowledge and mental states without the latency of real-time generation.
+> Sign up for the Honcho platform and start building
+
+> [card] [Quickstart](https://honcho.dev/docs/v3/documentation/introduction/quickstart.md)
+>
+> See representations in action with a working example
+
+> [card] [Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
+>
+> Understand how representations fit into Honcho's architecture
+
+> [card] [Chat Endpoint](https://honcho.dev/docs/v3/documentation/features/chat.md)
+>
+> Chat with Honcho about your users
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,9 +13,7 @@ Goals & Save-Up Planner
 Set savings targets, fund them from your accounts, and project when you'll get there.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
 The Goals feature turns Wealthfolio into a planning tool: pick a goal, link the accounts that fund it, and the app projects your progress and tells you whether you’re on track.
@@ -103,17 +26,19 @@ Open `Goals` from the sidebar to see every goal at a glance.
 
 The dashboard summarises:
 
-- **Saved** — total current value across all active goals.
-- **Target** — sum of every goal’s target amount.
-- **Overall** — combined progress percentage.
-- **On track** — number of goals projected to hit their target.
+- **Saved** – total current value across all active goals.
+- **Target** – sum of every goal’s target amount.
+- **Overall** – combined progress percentage.
+- **On track** – number of goals projected to hit their target.
 
 Each goal is shown as a card with a cover image, a title, the target date and time remaining, the current saved amount, the remaining amount, and a colour-coded progress bar:
 
-- **Green** — On track (projected to reach the target).
-- **Amber** — At risk (projected between 90 % and 100 % of the target).
-- **Red** — Off track (projected below 90 % of the target).
-- **Grey** — Not applicable (no target or no target date).
+- **Green** – On track (projected to reach the target).
+- **Amber** – At risk (projected between 90 % and 100 % of the target).
+- **Red** – Off track (projected below 90 % of the target).
+- **Grey** – Not applicable (no target or no target date).
+
+A goal shows the same status on its card, on the **Goals** card of the main Dashboard, and on its own page.
 
 Archived goals are collapsed under the **Archived (n)** toggle so the dashboard stays focused on what’s still active.
 
@@ -122,14 +47,14 @@ Archived goals are collapsed under the **Archived (n)** toggle so the dashboard 
 Click **+ New Goal**. Six templates are available:
 
 
-| Template      | Default target | Notes                                                                                                                                            |
-|---------------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| Retirement    | —              | Opens the <a href="/docs/guide/retirement-planning/" class="font-medium underline underline-offset-4">retirement planner</a>. One per portfolio. |
-| Education     | 50,000         | Save-up goal.                                                                                                                                    |
-| Home Purchase | 100,000        | Save-up goal.                                                                                                                                    |
-| Car Purchase  | 40,000         | Save-up goal.                                                                                                                                    |
-| Wedding       | 30,000         | Save-up goal.                                                                                                                                    |
-| Savings Goal  | 10,000         | Generic save-up goal.                                                                                                                            |
+| Template | Default target | Notes |
+|----|----|----|
+| Retirement | – | Opens the <a href="/docs/guide/retirement-planning/" class="font-medium underline underline-offset-4">retirement planner</a>. One non-archived retirement goal per profile. |
+| Education | 50,000 | Save-up goal. |
+| Home Purchase | 100,000 | Save-up goal. |
+| Car Purchase | 40,000 | Save-up goal. |
+| Wedding | 30,000 | Save-up goal. |
+| Savings Goal | 10,000 | Generic save-up goal. |
 
 
 For non-retirement goals, the wizard asks for:
@@ -139,17 +64,19 @@ For non-retirement goals, the wizard asks for:
 3.  **Target amount** in your base currency.
 4.  **Target date**.
 
-Retirement goals have their own setup flow — see the <a href="/docs/guide/retirement-planning/" class="font-medium underline underline-offset-4">Retirement Planning</a> guide.
+Retirement goals have their own setup flow – see the <a href="/docs/guide/retirement-planning/" class="font-medium underline underline-offset-4">Retirement Planning</a> guide.
 
 ## Funding a Goal
 
-Goals don’t hold money themselves — they reference your real accounts.
+Goals don’t hold money themselves – they reference your real accounts.
 
-In the goal’s **Funding** section, allocate a percentage of each account to the goal:
+In the goal’s **Account Shares** section, allocate a percentage of each account to the goal:
 
-- A single account can fund **multiple goals** as long as the combined share across all *active* goals stays at or under **100 %**.
+- An *active* savings goal sets its share of an account aside. A single account can fund **multiple savings goals**, but their combined share can’t pass **100 %**. A goal’s share is released when it’s completed or archived.
+- **Retirement** can share an account with savings goals. Its share is an upper limit: it counts what active savings goals leave free, up to that share. With a savings goal holding 30 % of an account, a retirement share of 100 % counts 70 %. See <a href="/docs/guide/retirement-planning/#funding" class="font-medium underline underline-offset-4">Retirement Planning → Funding</a>.
+- Each account share shows its amount beside the percentage.
 - Eligible account types are **investment / securities**, **cash**, and **cryptocurrency** accounts.
-- Accounts that already feed a Defined-Contribution income stream in a retirement plan cannot also be linked as a generic funding source for that goal — the income stream already accounts for them.
+- Accounts that already feed a Defined-Contribution income stream in a retirement plan cannot also be linked as a generic funding source for that goal – the income stream already accounts for them.
 
 The current value of each goal is the share-weighted sum of the linked account balances, recomputed automatically when balances change.
 
@@ -157,9 +84,9 @@ The current value of each goal is the share-weighted sum of the linked account b
 
 A goal can be in one of three states:
 
-- **Active** — counts toward the dashboard totals and progress.
-- **Completed** — keeps the goal in the dashboard but marks it done.
-- **Archived** — hides the goal from the active list (still recoverable).
+- **Active** – counts toward the dashboard totals and progress.
+- **Completed** – keeps the goal in the dashboard but marks it done.
+- **Archived** – hides the goal from the active list (still recoverable).
 
 Use the **⋮** menu on the goal detail page to edit the title, description, or status, or to delete the goal entirely.
 
@@ -169,61 +96,69 @@ Every non-retirement goal opens into a Save-Up workspace with a hero card, a pro
 
 ### Inputs
 
-The sidebar lets you tune four levers:
+The **Savings Inputs** card in the sidebar lets you tune four levers:
 
 
 | Lever                  | Unit          | Default          | Range                 |
 |------------------------|---------------|------------------|-----------------------|
 | Target amount          | base currency | template default | 0 – 1,000,000,000,000 |
-| Target date            | calendar date | —                | within 100 years      |
+| Target date            | calendar date | –                | within 100 years      |
 | Monthly contribution   | base currency | 0                | 0 – 1,000,000,000     |
-| Expected annual return | percent       | 5 %              | -20 % – 50 %          |
+| Expected annual return | percent       | 5 %              | 0 % – 50 %            |
 
 
-The **current value** is read-only — it comes from the funding allocation.
+An expected return above 12 % shows a high-return warning. Until you save these inputs, the goal is projected with no monthly contribution and a 5 % expected return.
+
+The **current value** is read-only – it comes from the funding allocation.
 
 ### Outputs
 
 The calculator returns:
 
-- **Progress** — current value ÷ target, capped at 100 %.
-- **Health status** — `on_track`, `at_risk`, or `off_track`.
-- **Projected value at target date** — what you’ll likely have on the target date if you keep contributing.
-- **Required monthly contribution** — what you’d need to deposit each month to reach the target on time.
-- **Projected completion date** — the first month your balance is expected to reach the target.
-- **Trajectory** — month-by-month projection in three scenarios: *pessimistic* (return − 2 %), *nominal* (your input), and *optimistic* (return + 2 %), drawn against the target line.
+- **Progress** – current value ÷ target, capped at 100 %.
+- **Health status** – **On track** when the projected value at the target date reaches the target, **At risk** when it reaches at least 90 % of it, **Off track** below that. The page shows **Reached** once the saved amount meets the target, and **Setup needed** until the goal has a target amount and a target date.
+- **Projected value at target date** – the balance the projection reaches on the target date with your monthly contribution and expected return.
+- **Required monthly contribution** – the smallest whole monthly amount that reaches the target by the target date (**Needed** in the **Monthly plan** card).
+- **Projected completion date** – the first month-end at which the projected balance reaches the target (**Finish** in the **Monthly plan** card), or today if you’ve already reached it.
+- **Trajectory** – the projected balance from today to the target date in three scenarios: *pessimistic* (return − 2 %, not below 0 %), *nominal* (your input), and *optimistic* (return + 2 %). A dashed line (**Needed to stay on track** in the legend) shows the balance needed at each point to still reach the target by the target date with your planned contribution. The nominal line sits on or above it when the goal is on track.
 
-Milestones (25 %, 50 %, 75 %, 100 %) show when each step is expected to be hit under the nominal scenario.
+Milestones (25 %, 50 %, 75 %, 100 %) show the month the nominal projection first reaches each step. A step you’ve already saved shows **Reached**; one the projection doesn’t reach by the target date shows **Not reached**.
+
+The status, projected value, required contribution, completion date, chart, and milestones all come from one projection, so they always agree.
+
+To save the projection, choose **Export projection** in the goal’s **⋮** menu. You get a CSV file with the projected, optimistic, and pessimistic balances, the target amount, and the **Needed to stay on track** balance for each date. <a href="/docs/guide/data-export/" class="font-medium underline underline-offset-4">Data export</a> doesn’t include projections, so this is the only way to save one.
 
 ### How the projection works
 
-The save-up engine runs a deterministic month-by-month simulation:
+The save-up engine runs one deterministic simulation from today, recording the balance at each month-end and on the target date:
 
-1.  The current balance is grown daily at `annual_return ÷ 365`.
-2.  Your monthly contribution is added at the end of each calendar month.
-3.  The simulation runs forward to the target date (or up to 100 years for the completion-date search).
-4.  The required monthly contribution is solved by bisection (50 iterations) and rounded up to the nearest whole unit, so it is always the *minimum* deposit that hits the target by the target date.
+1.  The expected return is a yearly rate, as in the retirement planner. Over `d` days the balance grows by `(1 + annual_return)^(d ÷ 365)`, so a 5 % return grows the balance 5 % a year.
+2.  Your monthly contribution lands at each calendar month-end after today, up to and including the target date. A target date that isn’t a month-end gets no contribution for its month: a goal due on the 30th doesn’t count that month’s contribution. Money you’ve already saved is in the current value.
+3.  The projected value at the target date is the simulated balance on that date. The health status compares it with the target.
+4.  The required monthly contribution is solved directly, because the final balance grows in a straight line with the contribution: the shortfall without contributions is divided by what one unit a month grows to by the target date, rounded up to a whole unit, and checked against the simulation. It is 0 when the current balance already grows to the target, and the whole shortfall when no month-end falls before the target date.
+5.  The completion-date search runs past the target date: three times the time to the target date (at least 10 years, at most 100), or 50 years for a goal with no target date. If the projection misses the target date, the completion date is the first month-end after it at which the balance reaches the target.
+6.  The optimistic and pessimistic scenarios repeat the simulation at your return + 2 % and − 2 % (not below 0 %).
+7.  The dashed line works backwards from the target on the target date: each step removes the planned contribution and discounts the balance at the expected return.
+
+> **Upgrading from 3.11.** A savings goal can show a different status, projected value, or monthly amount after the update. A 5 % return used to grow the balance about 5.13 % a year and now grows it 5 %, contributions follow the month-end rule above, and a goal with no saved plan assumes 5 % instead of 7 %.
 
 ### Assumptions and limitations
 
 The save-up calculator deliberately keeps the model simple. It does **not** account for:
 
-- **Volatility** — returns are treated as a constant rate, not a distribution. The optimistic / pessimistic bands are a fixed ±2 % spread, not statistical confidence intervals.
-- **Inflation** — every figure is nominal. If you want today’s-money equivalence, lower your expected return by your assumed inflation rate.
-- **Taxes and fees** — the model assumes a net-of-everything return. Use a return that already nets out fees and tax drag.
-- **Irregular contributions** — only a single recurring monthly amount is supported.
-- **Account-level returns** — the same expected return is applied to the whole goal balance regardless of how the underlying accounts are actually invested.
+- **Volatility** – returns are treated as a constant rate, not a distribution. The optimistic / pessimistic bands are a fixed ±2 % spread, not statistical confidence intervals.
+- **Inflation** – every figure is nominal. If you want today’s-money equivalence, lower your expected return by your assumed inflation rate.
+- **Taxes and fees** – the model assumes a net-of-everything return. Use a return that already nets out fees and tax drag.
+- **Irregular contributions** – only a single recurring monthly amount is supported.
+- **Account-level returns** – the same expected return is applied to the whole goal balance regardless of how the underlying accounts are actually invested.
 
-For more sophisticated retirement modelling — Monte Carlo runs, glide paths, tax buckets, multiple income streams — use the <a href="/docs/guide/retirement-planning/" class="font-medium underline underline-offset-4">retirement planner</a> instead.
-
-
-------------------------------------------------------------------------
+For more sophisticated retirement modelling – Monte Carlo runs, glide paths, tax buckets, multiple income streams – use the <a href="/docs/guide/retirement-planning/" class="font-medium underline underline-offset-4">retirement planner</a> instead.
 
 
-<a href="/docs/guide/allocation-targets/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/retirement-planning/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Retirement &amp; FIRE Planning</a>
+<a href="/docs/guide/allocation-targets/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/retirement-planning/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Retirement &amp; FIRE Planning</a>
 
 
-On This Page
+On this page
 
 - <a href="#the-goals-dashboard" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">The Goals Dashboard</a>
 - <a href="#creating-a-goal" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Creating a Goal</a>

@@ -8,7 +8,7 @@ On this page
 # Nous Portal
 
 
-<a href="https://portal.nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Portal</a> is Nous Research's unified subscription gateway and **the recommended way to run Hermes Agent**. One OAuth login replaces the juggling act of separate accounts, API keys, and billing relationships across every model lab, search API, image generator, and browser provider you'd otherwise need to wire up by hand.
+<a href="https://portal.nousresearch.com" target="_blank" rel="noopener noreferrer">Nous Portal</a> is Nous Research's unified subscription gateway and **the recommended way to run Hermes Agent**. One OAuth login replaces the juggling act of separate accounts, API keys, and billing relationships across every model lab, search API, image generator, and browser provider you'd otherwise need to wire up by hand. Comparing it with OpenRouter? <a href="https://portal.nousresearch.com/compare/openrouter" target="_blank" rel="noopener noreferrer">Nous Portal vs OpenRouter</a> covers pricing, free models and plans with sources.
 
 If you only have time to set up one thing, set up this. The fastest path:
 

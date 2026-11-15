@@ -6,58 +6,55 @@
 
 # Search Session
 
-> Search a Session
+> Search a Session with optional filters. Use `limit` to control the number of results returned.
 
 
 ## OpenAPI
 
-````yaml post /v2/workspaces/{workspace_id}/sessions/{session_id}/search
+````yaml post /v3/workspaces/{workspace_id}/sessions/{session_id}/search
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/sessions/{session_id}/search:
+  /v3/workspaces/{workspace_id}/sessions/{session_id}/search:
     post:
       tags:
         - sessions
       summary: Search Session
-      description: Search a Session
+      description: >-
+        Search a Session with optional filters. Use `limit` to control the
+        number of results returned.
       operationId: >-
-        search_session_v2_workspaces__workspace_id__sessions__session_id__search_post
+        search_session_v3_workspaces__workspace_id__sessions__session_id__search_post
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
         - name: session_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the session
             title: Session Id
-          description: ID of the session
       requestBody:
         required: true
         content:
@@ -75,7 +72,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Message'
                 title: >-
-                  Response Search Session V2 Workspaces  Workspace Id  Sessions 
+                  Response Search Session V3 Workspaces  Workspace Id  Sessions 
                   Session Id  Search Post
         '422':
           description: Validation Error
@@ -173,6 +170,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

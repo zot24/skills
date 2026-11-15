@@ -4,7 +4,7 @@
 
 ## Brazilian Portuguese
 
-- [Brazilian Portuguese / v2 (247 pages)](https://docs.firecrawl.dev/_llms/pt-br/v2.txt): Documentation for Brazilian Portuguese / v2.
+- [Brazilian Portuguese / v2 (246 pages)](https://docs.firecrawl.dev/_llms/pt-br/v2.txt): Documentação, SDKs, Referência da API, Desenvolva com IA.
 
 ### v1
 

@@ -254,6 +254,14 @@ By default, Teams bots only receive messages when directly @-mentioned. The RSC 
 
 The adapter sets `isBot` for the adapter's own bot, senders with `from.role: "bot"`, and Teams bot account IDs starting with `28:`. `isMe` identifies only the adapter's own bot. The same values appear on `message.author` and on `event.user` for reactions, card actions, and dialog events, so handlers can exclude bot activity from human-only conversations.
 
+## Message edits
+
+`onMessageUpdated` fires when Teams sends the bot an edited message. Teams sends only the new version, so `previousMessage` is `undefined`, and `isMention` comes from the edited message's mentions. `metadata.dateSent` and `metadata.editedAt` are both the edit time, because Teams doesn't send the original send time. Undeleted messages are ignored.
+
+The adapter assumes that a channel edit's `conversation.id` carries `;messageid=<root>`, the same as a new channel message, so the thread ID points at the reply chain. This hasn't been checked against a captured channel edit yet.
+
+In a DM, a stream that an `onMessageUpdated` handler posts goes out as its own message, the same as in group chats and channels. It doesn't use native DM streaming, because that stream belongs to the reply to the original message, which may still be in progress.
+
 ## Bot joins
 
 `onMemberJoinedChannel` fires when a `conversationUpdate` activity adds this bot to a channel or group chat. `adapter.botUserId` is the Teams bot ID (`28:<appId>`), so the same bot-join guard works across adapters:
@@ -277,7 +285,9 @@ This dispatches bot joins only. Personal installs, ordinary member additions, an
 `bot.onUninstalled` fires for `remove` and `remove-upgrade`. Both cover personal,
 group chat, and team installs and receive the `action`, the activity `id`, the
 platform `conversationId`, the actor `userId`, `tenantId`, `locale`, and the raw
-activity. These handlers are currently emitted only by Teams.
+activity. Only Teams emits `onInstalled`. Slack also emits `onUninstalled`, as
+described in [Slack uninstalls](/adapters/official/slack#uninstalls), so check
+`event.adapter.name` in handlers that read Teams fields from `event.raw`.
 
 `event.channelId` is the Chat SDK destination for the installation: the personal
 chat, the group chat, or the channel selected during a team install. It encodes
@@ -405,6 +415,29 @@ Messages posted through the built-in [AI tools](/docs/ai/ai-sdk-tools) are label
 
 See Microsoft's [AI content labels documentation](https://learn.microsoft.com/en-us/microsoftteams/platform/agents-in-teams/integrate-ai/ai-content-labels).
 
+## Raw Adaptive Cards
+
+Chat SDK cards cover the elements that every platform can render. For Adaptive Card features they don't cover, such as `Badge` or container styles, pass the card as `adaptiveCard` to the Teams adapter's `postMessage`, `postChannelMessage`, `postEphemeral`, or `editMessage`. The adapter sends the card as is. `thread.post()` doesn't accept it, because other platforms can't render it.
+
+```typescript title="lib/bot.ts"
+const teams = bot.getAdapter("teams");
+
+await teams.postMessage(thread.id, {
+  adaptiveCard: {
+    type: "AdaptiveCard",
+    version: "1.5",
+    body: [{ type: "Badge", text: "Bug", style: "Attention" }],
+  },
+  fallbackText: "Bug: checkout fails on Safari",
+});
+```
+
+`adaptiveCard` takes the card's JSON or a card object built with `@microsoft/teams.cards`, including the card that `cardToAdaptiveCard` returns for a Chat SDK card. The adapter throws a `ValidationError` when `adaptiveCard` isn't an object, or when the same message also sets `markdown`, `raw`, `ast`, or `card`. To type your own helpers, import `TeamsPostableAdaptiveCard` from `@chat-adapter/teams`.
+
+Teams shows `fallbackText` as the activity summary, in notifications and in clients that can't render the card. A Chat SDK card posted as `{ card, fallbackText }` sets the same summary.
+
+A raw card message also accepts `files` and `aiGenerated`. `editMessage` updates the card and doesn't upload `files`, as with any other edit.
+
 ## User lookup
 
 `bot.getUser()` looks up user profiles through the Microsoft Graph API. To enable it:
@@ -420,7 +453,7 @@ console.log(user?.fullName); // "Alice Smith"
 
 The adapter caches each user's Azure AD object ID from incoming activities, so `getUser` only works for users who have previously interacted with the bot.
 
-Live incoming message authors include `email` when the Teams conversation members API resolves the sender. This lookup uses the bot's access to the current conversation and does not require Microsoft Graph permissions. Lookup failures leave `message.author.email` undefined without preventing message delivery. Edited-message events and messages returned by `fetchMessages` are not hydrated with an email.
+Live incoming message authors include `email` when the Teams conversation members API resolves the sender. This lookup uses the bot's access to the current conversation and does not require Microsoft Graph permissions. Lookup failures leave `message.author.email` undefined without preventing message delivery. Edited messages get the same lookup. Messages returned by `fetchMessages` are not hydrated with an email.
 
 ## Incoming attachments
 

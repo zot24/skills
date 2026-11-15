@@ -23,14 +23,14 @@ On this page
 # Models Configuration
 
 
-This reference lists the fields of `models.json`. See [Configure a compatible endpoint](/docs/latest/models#configure-a-compatible-endpoint) for examples and [Configuration](/docs/latest/configuration#agent-directory) for the file location.
+This reference lists the fields of `models.json`. See [Configure a compatible endpoint](/latest/latest/models#configure-a-compatible-endpoint) for examples and [Configuration](/latest/latest/configuration#agent-directory) for the file location.
 
 Add `"$schema": "https://pi.dev/schemas/models.schema.json"` to `models.json` for editor validation and completion.
 
 
 ## Providers
 
-<a href="#providers" class="heading-anchor" aria-label="Permalink: Providers" data-copy="" data-copy-text="https://pi.dev/docs/latest/models-configuration#providers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#providers" class="heading-anchor" aria-label="Permalink: Providers" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#providers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Each key under `providers` is a provider ID. A built-in provider ID changes that provider. Any other ID adds a provider, which needs `baseUrl` and an `api` at provider or model level.
@@ -51,7 +51,7 @@ Each key under `providers` is a provider ID. A built-in provider ID changes that
 
 ## Models
 
-<a href="#models" class="heading-anchor" aria-label="Permalink: Models" data-copy="" data-copy-text="https://pi.dev/docs/latest/models-configuration#models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#models" class="heading-anchor" aria-label="Permalink: Models" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Each `models` entry adds a model to the provider. An entry whose `id` matches an existing model replaces it.
@@ -88,7 +88,7 @@ Each `models` entry adds a model to the provider. An entry whose `id` matches an
 
 ## Model overrides
 
-<a href="#model-overrides" class="heading-anchor" aria-label="Permalink: Model overrides" data-copy="" data-copy-text="https://pi.dev/docs/latest/models-configuration#model-overrides"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#model-overrides" class="heading-anchor" aria-label="Permalink: Model overrides" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#model-overrides"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Each `modelOverrides` key is the ID of a built-in or extension model. Unknown IDs are ignored. Object fields, such as `cost`, merge with the model's value field by field; other fields replace it.
@@ -122,10 +122,10 @@ Each `modelOverrides` key is the ID of a built-in or extension model. Unknown ID
 
 ## Input limits
 
-<a href="#input-limits" class="heading-anchor" aria-label="Permalink: Input limits" data-copy="" data-copy-text="https://pi.dev/docs/latest/models-configuration#input-limits"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#input-limits" class="heading-anchor" aria-label="Permalink: Input limits" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#input-limits"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-See [Describe model input and caching](/docs/latest/models#describe-model-input-and-caching).
+See [Describe model input and caching](/latest/latest/models#describe-model-input-and-caching).
 
 | Field | Type | Default | Description |
 |----|----|----|----|
@@ -142,7 +142,7 @@ See [Describe model input and caching](/docs/latest/models#describe-model-input-
 
 ## Compatibility
 
-<a href="#compatibility" class="heading-anchor" aria-label="Permalink: Compatibility" data-copy="" data-copy-text="https://pi.dev/docs/latest/models-configuration#compatibility"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#compatibility" class="heading-anchor" aria-label="Permalink: Compatibility" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#compatibility"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `compat` describes verified differences from an API's standard request and response behavior. Model values override provider values per field. The fields that apply depend on the model's `api`.
@@ -150,7 +150,7 @@ See [Describe model input and caching](/docs/latest/models#describe-model-input-
 
 ### `openai-completions`
 
-<a href="#openai-completions" class="heading-anchor" aria-label="Permalink: openai-completions" data-copy="" data-copy-text="https://pi.dev/docs/latest/models-configuration#openai-completions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#openai-completions" class="heading-anchor" aria-label="Permalink: openai-completions" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#openai-completions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Field | Type | Default | Description |
@@ -189,7 +189,7 @@ See [Describe model input and caching](/docs/latest/models#describe-model-input-
 
 ### `openai-responses`
 
-<a href="#openai-responses" class="heading-anchor" aria-label="Permalink: openai-responses" data-copy="" data-copy-text="https://pi.dev/docs/latest/models-configuration#openai-responses"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#openai-responses" class="heading-anchor" aria-label="Permalink: openai-responses" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#openai-responses"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Also applies to `azure-openai-responses` and `openai-codex-responses`.
@@ -212,7 +212,7 @@ Also applies to `azure-openai-responses` and `openai-codex-responses`.
 
 ### `anthropic-messages`
 
-<a href="#anthropic-messages" class="heading-anchor" aria-label="Permalink: anthropic-messages" data-copy="" data-copy-text="https://pi.dev/docs/latest/models-configuration#anthropic-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#anthropic-messages" class="heading-anchor" aria-label="Permalink: anthropic-messages" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#anthropic-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Field | Type | Default | Description |
@@ -229,13 +229,13 @@ Also applies to `azure-openai-responses` and `openai-codex-responses`.
 | `supportsMidConvoEffort` | boolean | `false` | Whether the exact model transport supports effort-only system messages and thinking binding controls. |
 | `supportsMidConvoSystemMessages` | boolean | `false` | Whether the exact model accepts system-role messages inside the conversation. When false, later system messages are folded into the top-level system prompt. |
 | `supportsMidConvoToolChanges` | boolean | `false` | Whether the exact model accepts mid-conversation tool_addition and tool_removal blocks. Requires supportsMidConvoSystemMessages. |
-| `supportsMessageThreads` | boolean |  | Whether the endpoint supports Anthropic message threads, which let a request with a session id send only the new messages and continue from the previous reply. Default: true for provider anthropic with a baseUrl on api.anthropic.com, false otherwise. Set true for gateways that forward the thread request field. |
+| `supportsMessageThreads` | boolean |  | Whether the endpoint supports Anthropic message threads, which let a request with a session id send only the new messages and continue from the previous reply. Default: true for a baseUrl on api.anthropic.com, false otherwise. Set true for gateways that forward the thread request field. |
 | `allowedFallbackModels` | `object[]` |  | Models Anthropic accepts for server-side refusal fallback, with local pricing metadata for returned fallback responses. When absent or empty, callers must omit fallbacks; Anthropic rejects the field for models with no permitted fallback targets. |
 
 
 ### `bedrock-converse-stream`
 
-<a href="#bedrock-converse-stream" class="heading-anchor" aria-label="Permalink: bedrock-converse-stream" data-copy="" data-copy-text="https://pi.dev/docs/latest/models-configuration#bedrock-converse-stream"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#bedrock-converse-stream" class="heading-anchor" aria-label="Permalink: bedrock-converse-stream" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#bedrock-converse-stream"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Field | Type | Default | Description |
@@ -245,7 +245,7 @@ Also applies to `azure-openai-responses` and `openai-codex-responses`.
 
 ### `mistral-conversations`
 
-<a href="#mistral-conversations" class="heading-anchor" aria-label="Permalink: mistral-conversations" data-copy="" data-copy-text="https://pi.dev/docs/latest/models-configuration#mistral-conversations"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#mistral-conversations" class="heading-anchor" aria-label="Permalink: mistral-conversations" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#mistral-conversations"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Field | Type | Default | Description |
@@ -255,7 +255,7 @@ Also applies to `azure-openai-responses` and `openai-codex-responses`.
 
 ### `typesafe-system-one`
 
-<a href="#typesafe-system-one" class="heading-anchor" aria-label="Permalink: typesafe-system-one" data-copy="" data-copy-text="https://pi.dev/docs/latest/models-configuration#typesafe-system-one"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#typesafe-system-one" class="heading-anchor" aria-label="Permalink: typesafe-system-one" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#typesafe-system-one"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Also applies to `cloudflare-workers-ai-system-one`.

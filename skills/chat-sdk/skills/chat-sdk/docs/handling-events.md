@@ -4,7 +4,7 @@
 title: Handling Events
 description: Register handlers for mentions, messages, reactions, member joins, and platform-specific events.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: guide
 prerequisites:
   - /docs/getting-started
@@ -516,8 +516,9 @@ The `event` object includes:
 ## Installation lifecycle
 
 `onInstalled` and `onUninstalled` receive bot installation and removal events.
-Currently only the Teams adapter emits them, for personal, group chat, and team
-installs.
+The Teams adapter emits both, for personal, group chat, and team installs. The
+Slack adapter emits `onUninstalled` when a workspace or Enterprise Grid org
+uninstalls the app.
 
 ```typescript
 bot.onInstalled(async (event) => {
@@ -540,7 +541,10 @@ and post later with `bot.channel(channelId).post()`.
 `recordInstallation` and `removeInstallation` are application-owned. For Teams
 team installs, use `event.raw.channelData.team.id` as the installation scope;
 the install and removal events can carry different `conversationId` values.
-Include the bot ID and tenant ID in your persistence key.
+Include the bot ID and tenant ID in your persistence key. For Slack,
+`conversationId` is the installation key: the `team_id`, or the `enterprise_id`
+for org-wide installs. `tenantId` is the Enterprise Grid `enterprise_id` when
+the event carries one.
 
 `action` is `add`, `add-upgrade`, `remove`, or `remove-upgrade`. The upgrade
 variants mean the app manifest added or removed the bot, so persist and clean
@@ -551,7 +555,8 @@ side effects idempotent for webhook retries. Handler errors are logged, and
 asynchronous work is registered with the webhook's `waitUntil`.
 
 See [Teams installation lifecycle](/adapters/official/teams#installation-lifecycle)
-for persistence, reinstall cleanup, and proactive messages.
+for persistence, reinstall cleanup, and proactive messages, and
+[Slack uninstalls](/adapters/official/slack#uninstalls) for Slack cleanup.
 
 ---
 

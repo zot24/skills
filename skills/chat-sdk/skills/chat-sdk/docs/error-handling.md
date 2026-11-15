@@ -4,7 +4,7 @@
 title: Error Handling
 description: Handle rate limits, unsupported features, and other errors from adapters.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: guide
 prerequisites:
   - /docs/usage

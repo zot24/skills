@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,9 +13,7 @@ Wealthfolio FAQ
 Answers to the questions we see most often about imports, transfers, FX, performance metrics, self-hosting, and more.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 This FAQ is the front door. For deeper explanations, follow the links inside each answer to the <a href="/docs/concepts/" class="font-medium underline underline-offset-4">concept docs</a> and <a href="/docs/guide/dashboards/" class="font-medium underline underline-offset-4">user guide</a>.
 
@@ -118,7 +41,7 @@ Yes. The desktop and self-hosted core are free forever, including manual backups
 ### What's the fastest way to get started?
 
 
-For each existing position, add a `TRANSFER_IN` activity with the **External** flag checked — it seeds the lot at your current quantity and cost basis without recording a fictional buy. Add a single `DEPOSIT` for your cash balance. You can switch to full `BUY`/`SELL` tracking going forward. See <a href="/docs/concepts/activity-types/#workflow-styles" class="underline underline-offset-4 hover:text-foreground">Activity Types</a> for both styles.
+For each existing position, add a `TRANSFER_IN` activity with the **External** flag checked – it seeds the lot at your current quantity and cost basis without recording a fictional buy. Add a single `DEPOSIT` for your cash balance. You can switch to full `BUY`/`SELL` tracking going forward. See <a href="/docs/concepts/activity-types/#workflow-styles" class="underline underline-offset-4 hover:text-foreground">Activity Types</a> for both styles.
 
 
 ## Data, privacy, and backup
@@ -136,25 +59,25 @@ Locally, in an SQLite database.
 - **Android:** App private storage on your device.
 - **Self-hosted:** Data volume mounted at `/app/data` inside the container.
 
-With Connect, data is encrypted on-device before syncing — we never see your portfolio data.
+With Connect, data is encrypted on-device before syncing – we never see your portfolio data.
 
 
 ### How do I back up before a big change?
 
 
-Settings → **Exports** → choose the **Full database (SQL)** option. This is a complete snapshot you can restore later. CSV and JSON exports are also available for individual collections. See <a href="/docs/guide/data-export/" class="underline underline-offset-4 hover:text-foreground">Export &amp; Backup</a>.
+Settings → **Backup & export** → **Backups** → **Back up now**. This saves a complete snapshot you can restore later. To keep a copy outside the app, export that backup with a password. The CSV and JSON files from the **Data export** tab are for spreadsheets and other apps and can't be restored into Wealthfolio. See <a href="/docs/guide/data-export/" class="underline underline-offset-4 hover:text-foreground">Export &amp; Backup</a>.
 
 
 ### How do I move Wealthfolio to a new computer?
 
 
-The simplest path: copy the data directory from the old machine (see paths above) to the same location on the new machine. Alternatively, export the full database SQL on the old machine and import it on the new one.
+On the old machine, create a backup in Settings → Backup & export → Backups and export it with a password. On the new machine, choose Restore from file on the same tab. You can also close Wealthfolio and copy the whole data directory (see paths above) to the same location on the new machine.
 
 
 ### Can I sync across devices?
 
 
-Yes, with <a href="/connect/" class="underline underline-offset-4 hover:text-foreground">Wealthfolio Connect</a>. Sync is end-to-end encrypted on-device — we can't read your portfolio. See the <a href="/docs/guide/connect-broker-sync/" class="underline underline-offset-4 hover:text-foreground">Connect &amp; Broker Sync guide</a>.
+Yes, with <a href="/connect/" class="underline underline-offset-4 hover:text-foreground">Wealthfolio Connect</a>. Sync is end-to-end encrypted on-device – we can't read your portfolio. See the <a href="/docs/guide/connect-broker-sync/" class="underline underline-offset-4 hover:text-foreground">Connect &amp; Broker Sync guide</a>.
 
 
 ### Does Wealthfolio track me or collect data?
@@ -177,7 +100,7 @@ UTF-8, with a header row, ISO dates, decimal points (not commas), and one activi
 
 Two common gotchas:
 
-- **Missing symbol:** every row needs a symbol. For pure cash flows (deposits, withdrawals, interest), use `$CASH-<CCY>` — e.g. `$CASH-USD`.
+- **Missing symbol:** every row needs a symbol. For pure cash flows (deposits, withdrawals, interest), use `$CASH-<CCY>` – e.g. `$CASH-USD`.
 - **\$ in price fields:** strip currency symbols before import. `$57.50` should be `57.50`. Same for thousands separators (`1,234.56` → `1234.56`).
 
 Full troubleshooting list: <a href="/docs/guide/csv-import/#7--troubleshooting" class="underline underline-offset-4 hover:text-foreground">CSV Import → Troubleshooting</a>.
@@ -186,7 +109,7 @@ Full troubleshooting list: <a href="/docs/guide/csv-import/#7--troubleshooting" 
 ### Can I import a cash-only or bank account?
 
 
-Yes. Use the `$CASH-<CCY>` symbol (e.g. `$CASH-EUR`) on `DEPOSIT`, `WITHDRAWAL`, `INTEREST`, `FEE`, and `TAX` rows. The importer treats those as pure cash activities — no security lookup is needed.
+Yes. Use the `$CASH-<CCY>` symbol (e.g. `$CASH-EUR`) on `DEPOSIT`, `WITHDRAWAL`, `INTEREST`, `FEE`, and `TAX` rows. The importer treats those as pure cash activities – no security lookup is needed.
 
 
 ### Will re-importing the same file duplicate activities?
@@ -198,7 +121,7 @@ The importer detects exact duplicates by date + symbol + quantity + price + amou
 ### Is there a per-broker recipe?
 
 
-Yes — Schwab, Fidelity, Vanguard, IBKR, Robinhood, Trading 212, Questrade, BofA, and Guideline are documented in the <a href="/docs/guide/csv-import/#5--broker-recipes" class="underline underline-offset-4 hover:text-foreground">CSV Import guide</a>. If your broker isn't listed and you'd like to contribute a recipe, open a PR on <a href="https://github.com/wealthfolio/wealthfolio" class="underline underline-offset-4 hover:text-foreground" target="_blank" rel="noopener noreferrer">GitHub</a>.
+Yes – Schwab, Fidelity, Vanguard, IBKR, Robinhood, Trading 212, Questrade, BofA, and Guideline are documented in the <a href="/docs/guide/csv-import/#5--broker-recipes" class="underline underline-offset-4 hover:text-foreground">CSV Import guide</a>. If your broker isn't listed and you'd like to contribute a recipe, open a PR on <a href="https://github.com/wealthfolio/wealthfolio" class="underline underline-offset-4 hover:text-foreground" target="_blank" rel="noopener noreferrer">GitHub</a>.
 
 
 ## Activities, transfers, dividends, splits
@@ -207,15 +130,17 @@ Yes — Schwab, Fidelity, Vanguard, IBKR, Robinhood, Trading 212, Questrade, Bof
 ### How do I record a transfer between accounts?
 
 
-Create a `TRANSFER_OUT` on the source account and a matching `TRANSFER_IN` on the destination account. For securities transfers, Wealthfolio preserves the original cost basis. See <a href="/docs/concepts/activity-types/#7--how-transfers-work" class="underline underline-offset-4 hover:text-foreground">Activity Types — Transfers</a>.
+Create a `TRANSFER_OUT` on the source account and a matching `TRANSFER_IN` on the destination account. For securities transfers, Wealthfolio preserves the original cost basis. See <a href="/docs/concepts/activity-types/#7--how-transfers-work" class="underline underline-offset-4 hover:text-foreground">Activity Types – Transfers</a>.
 
 **Same-day gotcha:** if both activities are dated the same day, give the OUT an earlier timestamp than the IN. Otherwise the IN may be processed before the lot exists on the source side.
+
+**Already recorded both sides?** In a cash deposit's or withdrawal's row menu, **Make it a transfer...** turns it into a linked transfer. For transfer legs that aren't linked, such as the two sides of a synced transfer, open Activities → **Add Activities** → **Match transfers** to link them all at once. See <a href="/docs/guide/activities/#3--transfers-between-accounts" class="underline underline-offset-4 hover:text-foreground">Activities – Transfers</a>.
 
 
 ### How do I transfer an asset out (e.g., crypto sent to a wallet)?
 
 
-Use a `TRANSFER_OUT` on the source account with the **External** flag checked — Wealthfolio closes the lots via FIFO without realising a gain, since the asset moved to an untracked destination. If the destination is another Wealthfolio account, leave the External flag unchecked and pick the destination account — Wealthfolio will create the matching `TRANSFER_IN` and preserve the original cost basis.
+Use a `TRANSFER_OUT` on the source account with the **External** flag checked – Wealthfolio closes the lots via FIFO without realising a gain, since the asset moved to an untracked destination. If the destination is another Wealthfolio account, leave the External flag unchecked and pick the destination account – Wealthfolio will create the matching `TRANSFER_IN` and preserve the original cost basis.
 
 
 ### How do I record dividend reinvestment (DRIP)?
@@ -251,7 +176,7 @@ The easy-to-miss step is the **asset toggle**: pick the trade type first, then s
 
 1.  **Activities → + Add Manually → Add Transaction**, then pick the `Sell` type.
 2.  Under **Asset & Account**, switch the asset toggle from **Stock** to **Option**. Choose **Call** or **Put**, then set the symbol, **strike**, and **expiration**.
-3.  In the **Trade** section set **Position** to **Open**, then enter the number of **Contracts** and the **Premium/Share** (Wealthfolio applies the 100x multiplier for you — enter `1.25`, not `125`). The button reads **Sell to Open**.
+3.  In the **Trade** section set **Position** to **Open**, then enter the number of **Contracts** and the **Premium/Share** (Wealthfolio applies the 100x multiplier for you – enter `1.25`, not `125`). The button reads **Sell to Open**.
 
 Close it later with `Buy` + asset **Option** + **Close** (Buy to Close), or use the `Option Expiry` adjustment subtype if it expires worthless. Buying an option to open is the mirror: `Buy` + asset **Option** + **Open**. Full walkthrough: <a href="/docs/guide/activities/#options-calls--puts" class="underline underline-offset-4 hover:text-foreground">Options (calls &amp; puts)</a>.
 
@@ -265,16 +190,15 @@ Use `INTEREST` with the **Staking Reward** subtype. Wealthfolio records both the
 ### How do I record withholding tax on dividends?
 
 
-Two patterns work:
+In the `DIVIDEND` form, enter the **Amount before tax** and the **Withholding tax**. Wealthfolio works out the **Received amount**. For a \$100 dividend with \$15 withheld, enter 100 and 15, and the form shows \$85 received. If your statement shows only the cash after tax, type 85 into **Received amount** instead, and the amount before tax is worked out for you. Wealthfolio saves the \$85 received and doesn't deduct the tax again. Interest works the same way.
 
-- **Gross + tax:** record the `DIVIDEND` at the gross amount and a separate `TAX` activity for the withholding.
-- **Net:** record the `DIVIDEND` at the net amount your broker actually deposited. You lose the gross/withholding breakdown but cash reconciles cleanly.
+If your statement lists the withholding as its own cash movement, you can instead record the `DIVIDEND` at \$100 with no withholding and a separate `TAX` activity for \$15. Use one or the other, not both. See <a href="/docs/concepts/activity-fields/" class="underline underline-offset-4 hover:text-foreground">Activity Fields</a>.
 
 
 ### Are fees double-counted if I use both inline fees and FEE activities?
 
 
-Yes, if you log the same fee twice. Pick one: either include the commission as the `fee` field on the `BUY`/`SELL`, or create a separate `FEE` activity — not both. See <a href="/docs/concepts/activity-types/#6--how-fees-work" class="underline underline-offset-4 hover:text-foreground">How fees work</a>.
+Yes, if you log the same fee twice. Pick one: either include the commission as the `fee` field on the `BUY`/`SELL`, or create a separate `FEE` activity – not both. See <a href="/docs/concepts/activity-types/#6--how-fees-and-taxes-work" class="underline underline-offset-4 hover:text-foreground">How fees work</a>.
 
 
 ## Symbols & market data
@@ -283,15 +207,15 @@ Yes, if you log the same fee twice. Pick one: either include the commission as t
 ### Which ticker format does Wealthfolio use?
 
 
-Symbols are **provider-agnostic**. Each asset stores a canonical ticker (e.g. `RY`, `AAPL`) plus an optional exchange MIC code (e.g. `XTSE` for Toronto). Wealthfolio's resolver translates that into whatever format each market-data provider expects — Yahoo wants `RY.TO`, Börse Frankfurt wants `XETR:RY`, OpenFIGI wants an ISIN, and so on.
+Symbols are **provider-agnostic**. Each asset stores a canonical ticker (e.g. `RY`, `AAPL`) plus an optional exchange <span class="abbr" title="Market Identifier Code (ISO 10383)">MIC</span> code (e.g. `XTSE` for Toronto). Wealthfolio's resolver translates that into whatever format each market-data provider expects – Yahoo wants `RY.TO`, Börse Frankfurt wants `XETR:RY`, OpenFIGI wants an ISIN, and so on.
 
-When you add an asset, you can type either the bare ticker or the exchange-qualified form your provider uses (e.g. `RY.TO`) — Wealthfolio parses the suffix into a ticker + MIC pair. The Yahoo suffix table is the most common case and is documented in <a href="/docs/concepts/market-data-and-fx/" class="underline underline-offset-4 hover:text-foreground">Market Data &amp; FX</a>.
-
-
-### The same ticker exists on two exchanges — how do I pick the right one?
+When you add an asset, you can type either the bare ticker or the exchange-qualified form your provider uses (e.g. `RY.TO`) – Wealthfolio parses the suffix into a ticker + MIC pair. The Yahoo suffix table is the most common case and is documented in <a href="/docs/concepts/market-data-and-fx/" class="underline underline-offset-4 hover:text-foreground">Market Data &amp; FX</a>.
 
 
-Add the exchange to the symbol when creating the asset — either as a Yahoo suffix (`IWDA.AS` for Euronext Amsterdam) or a MIC code in the dedicated exchange field. Once the asset is created, edit its **Exchange** setting any time to switch.
+### The same ticker exists on two exchanges – how do I pick the right one?
+
+
+Add the exchange to the symbol when creating the asset – either as a Yahoo suffix (`IWDA.AS` for Euronext Amsterdam) or a MIC code in the dedicated exchange field. Once the asset is created, edit its **Exchange** setting any time to switch.
 
 If a specific provider needs a different format for that asset (e.g. one of your custom scrapers wants `IWDA-AMS`), add a **per-provider override** in the asset's **Market Data** tab.
 
@@ -301,13 +225,13 @@ If a specific provider needs a different format for that asset (e.g. one of your
 
 Built-in providers today:
 
-- **Yahoo Finance** — equities, ETFs, crypto, FX, commodities. Default for most users.
-- **Alpha Vantage**, **Finnhub**, **MarketData.app** — additional equity coverage (BYO API key).
-- **OpenFIGI** — bond / ISIN lookup.
-- **Börse Frankfurt** — German exchange listings.
-- **Metal Price API** — precious metals spot prices.
-- **US Treasury Calc** — Treasury / CUSIP data.
-- **Custom providers** — point at any JSON, HTML, table, or CSV source. See <a href="/docs/guide/custom-providers/" class="underline underline-offset-4 hover:text-foreground">Custom Market Data Providers</a>.
+- **Yahoo Finance** – equities, ETFs, crypto, FX, commodities. Default for most users.
+- **Alpha Vantage**, **Finnhub**, **MarketData.app** – additional equity coverage (BYO API key).
+- **OpenFIGI** – bond / ISIN lookup.
+- **Börse Frankfurt** – German exchange listings.
+- **Metal Price API** – precious metals spot prices.
+- **US Treasury Calc** – Treasury / CUSIP data.
+- **Custom providers** – point at any JSON, HTML, table, or CSV source. See <a href="/docs/guide/custom-providers/" class="underline underline-offset-4 hover:text-foreground">Custom Market Data Providers</a>.
 
 Per asset you can set a **preferred provider** and, when a provider needs a non-standard symbol, a **per-provider override**. The resolver falls through providers based on capability, health, and rate-limit headroom.
 
@@ -321,16 +245,16 @@ Two paths:
 2.  Build a <a href="/docs/guide/custom-providers/" class="underline underline-offset-4 hover:text-foreground">custom market data provider</a> pointed at any public JSON API, HTML page, HTML table, or CSV. No coding required.
 
 
-### A provider expects a different symbol than the one I stored — fix?
+### A provider expects a different symbol than the one I stored – fix?
 
 
-Open the asset → **Market Data** tab → set a **per-provider override**. For example, the asset's canonical symbol is `SHOP` but your custom provider fetches it as `SHOP-CA` — record the override and Wealthfolio uses it whenever it queries that provider, leaving the canonical symbol untouched.
+Open the asset → **Market Data** tab → set a **per-provider override**. For example, the asset's canonical symbol is `SHOP` but your custom provider fetches it as `SHOP-CA` – record the override and Wealthfolio uses it whenever it queries that provider, leaving the canonical symbol untouched.
 
 
-### My custom security defaults to USD — can I change it?
+### My custom security defaults to USD – can I change it?
 
 
-Yes. Open the asset → **Edit** → set the **Currency** field. The next quote update will use the currency you set. Note that *quote unit currency* (what the provider returns — e.g. GBp pence) can differ from the asset's currency (GBP); Wealthfolio normalizes minor units automatically.
+Yes. Open the asset → **Edit** → set the **Currency** field. The next quote update will use the currency you set. Note that *quote unit currency* (what the provider returns – e.g. GBp pence) can differ from the asset's currency (GBP); Wealthfolio normalizes minor units automatically.
 
 
 ### Why did prices stop updating?
@@ -338,10 +262,10 @@ Yes. Open the asset → **Edit** → set the **Currency** field. The next quote 
 
 Most common causes:
 
-1.  The provider returned bad or stale data. Check the <a href="/docs/guide/health-center/" class="underline underline-offset-4 hover:text-foreground">Health Center</a> — it flags suspect quotes.
+1.  The provider returned bad or stale data. Check the <a href="/docs/guide/health-center/" class="underline underline-offset-4 hover:text-foreground">Health Center</a> – it flags suspect quotes.
 2.  The symbol delisted. Switch to manual quotes in the asset's settings.
 3.  The provider is rate-limited or its circuit breaker tripped after repeated failures. Wait a few minutes; Wealthfolio falls back to the next capable provider when one is unhealthy.
-4.  The provider expects a different symbol than the canonical one — add a per-provider override (see above).
+4.  The provider expects a different symbol than the canonical one – add a per-provider override (see above).
 
 
 ### Will Wealthfolio keep fetching quotes for tickers I no longer hold?
@@ -356,13 +280,13 @@ No. Once an asset has zero quantity across all accounts and no recent activities
 ### Why does my gain/loss look wrong in my base currency?
 
 
-Wealthfolio uses the FX rate **on the trade date** to convert each activity into your base currency. When the FX rate moves later, your unrealized gain/loss in base currency will move too — even if the security price didn't change. Worked example and the math: <a href="/docs/concepts/market-data-and-fx/#fx-and-gain-loss" class="underline underline-offset-4 hover:text-foreground">Market Data &amp; FX</a>.
+Wealthfolio uses the FX rate **on the trade date** to convert each activity into your base currency. When the FX rate moves later, your unrealized gain/loss in base currency will move too – even if the security price didn't change. Worked example and the math: <a href="/docs/concepts/market-data-and-fx/#fx-and-gain-loss" class="underline underline-offset-4 hover:text-foreground">Market Data &amp; FX</a>.
 
 
 ### Can I change an account's currency after creating it?
 
 
-No — the account currency is set at creation. Workaround: create a new account in the correct currency and use `TRANSFER_IN` to move the holdings over (cost basis is preserved).
+No – the account currency is set at creation. Workaround: create a new account in the correct currency and use `TRANSFER_IN` to move the holdings over (cost basis is preserved).
 
 
 ### Can goals be in a non-base currency?
@@ -374,7 +298,7 @@ Goals are currently denominated in your base currency. Multi-currency goals are 
 ### How are FX rates fetched, and can I override them?
 
 
-Rates come from your configured market data provider. To override, go to **Settings → Exchange Rates** and enter a manual rate for any pair — Wealthfolio will use your rate instead of the fetched one for that date forward.
+Rates come from your configured market data provider. To override, go to **Settings → Exchange Rates** and enter a manual rate for any pair – Wealthfolio will use your rate instead of the fetched one for that date forward.
 
 
 ## Performance metrics
@@ -383,8 +307,8 @@ Rates come from your configured market data provider. To override, go to **Setti
 ### What does the percentage on my dashboard actually mean?
 
 
-- **Per-account %**: money-weighted return (MWR) — captures the impact of your timing decisions.
-- **Total portfolio %**: time-weighted return (TWR) — strips out contributions/withdrawals so it's comparable to a benchmark.
+- **Per-account %**: money-weighted return (MWR) – captures the impact of your timing decisions.
+- **Total portfolio %**: time-weighted return (TWR) – strips out contributions/withdrawals so it's comparable to a benchmark.
 
 The two can disagree, and that's not a bug. See <a href="/docs/concepts/performance-metrics/" class="underline underline-offset-4 hover:text-foreground">Performance Metrics</a> for the full breakdown.
 
@@ -408,17 +332,17 @@ Two different lenses. The account % blends realized gains (sales + dividends + i
 ### Cost basis: FIFO only? Why no LIFO or average cost?
 
 
-FIFO today, intentionally. It's the most defensible default for tax reporting in most jurisdictions and keeps lot accounting simple to reason about. LIFO and weighted-average cost are planned — additional cost-basis methods will be added in future versions. See <a href="/docs/concepts/cost-basis-and-lots/" class="underline underline-offset-4 hover:text-foreground">Cost Basis &amp; Lots</a>.
+FIFO today, intentionally. It's the most defensible default for tax reporting in most jurisdictions and keeps lot accounting simple to reason about. LIFO and weighted-average cost are planned – additional cost-basis methods will be added in future versions. See <a href="/docs/concepts/cost-basis-and-lots/" class="underline underline-offset-4 hover:text-foreground">Cost Basis &amp; Lots</a>.
 
 
 ### Is "average cost" a moving average or FIFO?
 
 
-The cost-basis accounting is **FIFO**. The **average cost** you see on a holding is just a display figure — the total cost basis of your open lots divided by the shares remaining. It is *not* a moving-average accounting method, and Wealthfolio doesn't keep a running moving-average price.
+The cost-basis accounting is **FIFO**. The **average cost** you see on a holding is just a display figure – the total cost basis of your open lots divided by the shares remaining. It is *not* a moving-average accounting method, and Wealthfolio doesn't keep a running moving-average price.
 
-This matters when you sell: realized gains close the **oldest lot first** (FIFO), not at a moving-average price. So in jurisdictions that tax on a moving average — such as Austria's *gleitender Durchschnittspreis* — Wealthfolio's realized-gain figures will diverge from your tax calculation, and you'll need to reconcile manually.
+This matters when you sell: realized gains close the **oldest lot first** (FIFO), not at a moving-average price. So in jurisdictions that tax on a moving average – such as Austria's *gleitender Durchschnittspreis* – Wealthfolio's realized-gain figures will diverge from your tax calculation, and you'll need to reconcile manually.
 
-Moving-average / weighted-average cost (WAC) is planned — additional cost-basis methods will be added in future versions. See <a href="/docs/concepts/cost-basis-and-lots/" class="underline underline-offset-4 hover:text-foreground">Cost Basis &amp; Lots</a>.
+Moving-average / weighted-average cost (WAC) is planned – additional cost-basis methods will be added in future versions. See <a href="/docs/concepts/cost-basis-and-lots/" class="underline underline-offset-4 hover:text-foreground">Cost Basis &amp; Lots</a>.
 
 
 ## Accounts & contribution limits
@@ -430,16 +354,16 @@ Moving-average / weighted-average cost (WAC) is planned — additional cost-basi
 Settings → **Accounts** → edit the account → toggle **Active** off. Archived accounts keep their data but are hidden from the dashboard.
 
 
-### TFSA / RRSP / 401(k) / IRA contribution tracking — how does it work?
+### TFSA / RRSP / 401(k) / IRA contribution tracking – how does it work?
 
 
-Mark the account type, then Wealthfolio sums all `DEPOSIT` activities for the period and compares against the contribution limit you set. Full walkthrough: <a href="/docs/guide/contribution-limits/" class="underline underline-offset-4 hover:text-foreground">Contribution Limits</a>.
+Add a limit in Settings → **Contribution limits** with the cap, its year or dates, and the accounts that count. Wealthfolio adds up the `DEPOSIT` activities on those accounts, transfers in from accounts outside the limit, and transfers or credits marked external, and compares the total with the cap. Click a limit to see each contribution, and switch one off to leave it out of that limit. Full walkthrough: <a href="/docs/guide/contribution-limits/" class="underline underline-offset-4 hover:text-foreground">Contribution Limits</a>.
 
 
 ### Why don't TRANSFER_INs count toward contribution room?
 
 
-By design — transfers between your own accounts aren't new contributions. If a transfer should count (e.g. a rollover from an external account that isn't tracked in Wealthfolio), use a `DEPOSIT` instead.
+By design – a transfer between two accounts in the same limit isn't a new contribution. That includes a rollover from a hidden account, such as an old employer plan, once you add it to the limit. A transfer in from one of your accounts outside the limit does count. A transfer with no matching `TRANSFER_OUT` counts only when it's marked external, so for a rollover from an account you don't track in Wealthfolio, edit the transfer and mark it as external. The limit's details page lists each transfer it doesn't count, with the reason.
 
 
 ### Can I track real estate, vehicles, or other alternative assets?
@@ -489,25 +413,25 @@ The release-check ping (looking for updates). It carries no portfolio data. To d
 ### Custom providers can't reach my LAN or reverse proxy
 
 
-Wealthfolio doesn't block private IP ranges for custom providers — if the host resolves and responds, the fetcher runs. If you're not getting through, the issue is usually downstream: DNS, container networking, the reverse proxy's ACLs, or TLS verification. Test the provider URL from the same shell or container Wealthfolio runs from to isolate.
+Wealthfolio doesn't block private IP ranges for custom providers – if the host resolves and responds, the fetcher runs. If you're not getting through, the issue is usually downstream: DNS, container networking, the reverse proxy's ACLs, or TLS verification. Test the provider URL from the same shell or container Wealthfolio runs from to isolate.
 
 
 ### Can mobile connect to my self-hosted instance?
 
 
-Not natively, but the web interface works as a Progressive Web App. On iOS Safari, open your self-hosted URL and choose Add to Home Screen — you get app-like access. Full native iOS app for self-hosted instances is on the roadmap.
+Not natively, but the web interface works as a Progressive Web App. On iOS Safari, open your self-hosted URL and choose Add to Home Screen – you get app-like access. Full native iOS app for self-hosted instances is on the roadmap.
 
 
 ### Which Docker image should I pull?
 
 
-`wealthfolio/wealthfolio` on Docker Hub. Pin to a specific tag for production (`wealthfolio/wealthfolio:3.4.0`) — `latest` will follow new major versions.
+`wealthfolio/wealthfolio` on Docker Hub. Pin to a specific tag for production (`wealthfolio/wealthfolio:3.4.0`) – `latest` will follow new major versions.
 
 
 ### OIDC / SSO support?
 
 
-Yes — supported on the self-hosted web edition. Sign in through any OpenID Connect provider (Keycloak, Authentik, PocketID, Authelia, …) alongside or instead of the simple password; a successful SSO login mints the same session. Enable it with the `WF_OIDC_*` variables and set an email/subject allowlist. See the <a href="/docs/guide/self-hosting/configuration/#single-sign-on-oidc" class="underline underline-offset-4 hover:text-foreground">OIDC configuration reference</a>.
+Yes – supported on the self-hosted web edition. Sign in through any OpenID Connect provider (Keycloak, Authentik, PocketID, Authelia, …) alongside or instead of the simple password; a successful SSO login mints the same session. Enable it with the `WF_OIDC_*` variables and set an email/subject allowlist. See the <a href="/docs/guide/self-hosting/configuration/#single-sign-on-oidc" class="underline underline-offset-4 hover:text-foreground">OIDC configuration reference</a>.
 
 
 ## Addons & AI
@@ -534,7 +458,7 @@ Start with the <a href="/docs/addons/getting-started/" class="underline underlin
 ### Is the AI assistant private? Does it need a paid API?
 
 
-You pick. Configure **Ollama** for fully-local inference (free, no data leaves your machine), or BYO API key for OpenAI, Anthropic, or any OpenAI-compatible endpoint. The assistant uses function-calling against your local database — it never sends raw rows to the model, only the result of explicit, typed queries. Full details: <a href="/docs/guide/ai-assistant/" class="underline underline-offset-4 hover:text-foreground">AI Assistant</a>.
+You pick. Configure **Ollama** for fully-local inference (free, no data leaves your machine), or BYO API key for OpenAI, Anthropic, or any OpenAI-compatible endpoint. The assistant uses function-calling against your local database – it never sends raw rows to the model, only the result of explicit, typed queries. Full details: <a href="/docs/guide/ai-assistant/" class="underline underline-offset-4 hover:text-foreground">AI Assistant</a>.
 
 
 ## Troubleshooting
@@ -585,8 +509,8 @@ Try in order:
 1.  Update to the latest version.
 2.  Restart the app.
 3.  Check your internet connection.
-4.  Trigger a manual refresh — hover over the total value on the home page and click **Update Portfolio**.
-5.  Open the <a href="/docs/guide/health-center/" class="underline underline-offset-4 hover:text-foreground">Health Center</a> — it'll flag stale quotes or data inconsistencies.
+4.  Trigger a manual refresh – hover over the total value on the home page and click **Update Portfolio**.
+5.  Open the <a href="/docs/guide/health-center/" class="underline underline-offset-4 hover:text-foreground">Health Center</a> – it'll flag stale quotes or data inconsistencies.
 
 
 ### I'm getting errors when importing data
@@ -604,13 +528,10 @@ Checklist:
 Full reference: <a href="/docs/guide/csv-import/" class="underline underline-offset-4 hover:text-foreground">CSV Import</a>.
 
 
-------------------------------------------------------------------------
+<a href="/docs/addons/api-reference/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">API Reference</a> <a href="/docs/glossary/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Glossary</a>
 
 
-<a href="/docs/addons/api-reference/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">API Reference</a> <a href="/docs/glossary/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Glossary</a>
-
-
-On This Page
+On this page
 
 - <a href="#getting-started" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Getting started</a>
 - <a href="#data-privacy-and-backup" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Data, privacy, and backup</a>

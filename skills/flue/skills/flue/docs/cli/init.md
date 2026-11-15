@@ -1,18 +1,5 @@
 > Source: https://flueframework.com/docs/cli/init
 
-<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
-
-
-<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
-
-
-Esc
-
-
-Start typing to search the documentation.
-
-
-<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # flue init
@@ -37,12 +24,12 @@ flue init [directory] [--target <node|cloudflare>] [--deploy] [--force]
 
 ## Options
 
-| Option              | Description                                                                                                                                                                                                                            |
-|---------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `--target <target>` | Build target: `node` or `cloudflare`. When omitted, `flue init` prompts for it; without a terminal, omitting it is an error. Any other value is rejected: `Invalid target: "bogus". Supported targets: node, cloudflare`.              |
-| `--deploy`          | Include the HTTP server setup (`vite.config.ts`, `src/app.ts`, and the Hono and Vite dependencies). Off by default for the `node` target. The `cloudflare` target always deploys, so `--target cloudflare` implies `--deploy`.         |
-| `--root <path>`     | Directory to scaffold into; identical to the positional argument. Passing both is rejected: `Pass the directory as an argument or with --root, not both.`                                                                              |
-| `--force`           | Scaffold into a non-empty directory without confirmation, and overwrite every file in the skeleton that already exists (including `flue.config.*`). Without `--force`, an existing file is left alone and reported as “kept existing”. |
+| Option | Description |
+|----|----|
+| `--target <target>` | Build target: `node` or `cloudflare`. When omitted, `flue init` prompts for it; without a terminal, omitting it is an error. Any other value is rejected: `Invalid target: "bogus". Supported targets: node, cloudflare`. |
+| `--deploy` | Include the HTTP server setup (`vite.config.ts`, `src/app.ts`, and the Hono and Vite dependencies). Off by default for the `node` target. The `cloudflare` target always deploys, so `--target cloudflare` implies `--deploy`. |
+| `--root <path>` | Directory to scaffold into; identical to the positional argument. Passing both is rejected: `Pass the directory as an argument or with --root, not both.` |
+| `--force` | Scaffold into a non-empty directory without confirmation, and overwrite every file in the skeleton that already exists (including `flue.config.*`). Without `--force`, an existing file is left alone and reported as “kept existing”. |
 
 A flag may be passed at most once (`--target may only be passed once.`). Unknown flags, extra positional arguments, and arguments after a bare `--` are rejected.
 

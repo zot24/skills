@@ -4,7 +4,7 @@
 title: Overview
 description: Overview of Chat SDK adapters, adapter tiers, and where to find platform, state, and catalog guides.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: overview
 prerequisites:
   - /docs/getting-started

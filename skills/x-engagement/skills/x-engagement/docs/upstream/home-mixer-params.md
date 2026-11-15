@@ -1,6 +1,6 @@
 > Source: https://raw.githubusercontent.com/xai-org/x-algorithm/main/home-mixer/params/param.rs
 
-// mirrored from config feature-switch defaults; last sync 2026-10-30T22:59:56Z
+// mirrored from config feature-switch defaults; last sync 2026-11-13T16:00:28Z
 use xai_feature_switches::param;
 
 param!(
@@ -95,8 +95,17 @@ param!(
     Vec<String>,
     "rust_home_mixer_shadow_traffic_phoenix_cluster_rates",
     vec![
+        "Experiment12Fou:0".to_string(),
         "Experiment18Fou:0.3".to_string(),
-        "Experiment19Fou:0.3".to_string()
+        "Experiment19Fou:0.3".to_string(),
+        "Experiment22Fou:0.3".to_string(),
+        "Experiment23Fou:0.3".to_string(),
+        "Experiment24Fou:0.3".to_string(),
+        "Experiment25Fou:0.3".to_string(),
+        "Experiment26Fou:0.3".to_string(),
+        "Experiment27Fou:0.3".to_string(),
+        "Experiment28Fou:0.3".to_string(),
+        "Experiment29Fou:0.3".to_string()
     ]
 );
 param!(
@@ -169,7 +178,7 @@ param!(
     PhoenixAggregationType,
     String,
     "rust_home_mixer_phoenix_aggregation_type",
-    "DENSE_WITH_LONG_DWELL"
+    "DENSE_WITH_LONG_DWELL_HOME_EXCURSION"
 );
 param!(
     PhoenixRetrievalAggregationType,
@@ -269,6 +278,12 @@ param!(
     "rust_home_mixer_phoenix_xds_retrieval_max_retries",
     0
 );
+param!(
+    PhoenixXdsRetrievalUncompressedClustersList,
+    Vec<String>,
+    "rust_home_mixer_phoenix_xds_retrieval_uncompressed_clusters_list",
+    vec![]
+);
 
 param!(
     PhoenixRetrievalExcludeSeenPosts,
@@ -309,7 +324,7 @@ param!(
     EnableHomeExcursionScores,
     bool,
     "rust_home_mixer_enable_home_excursion_scores",
-    false
+    true
 );
 param!(
     EnablePageLogging,
@@ -371,6 +386,36 @@ param!(
     "rust_home_mixer_page_rl_exploration_top_k",
     64
 );
+param!(
+    VMRankerSendPostTopics,
+    bool,
+    "rust_home_mixer_vm_ranker_send_post_topics",
+    false
+);
+param!(
+    PostTopicsMaxCandidates,
+    usize,
+    "rust_home_mixer_post_topics_max_candidates",
+    200
+);
+param!(
+    PostTopicsTimeoutMs,
+    u64,
+    "rust_home_mixer_post_topics_timeout_ms",
+    80
+);
+param!(
+    RecentViewsRows,
+    usize,
+    "rust_home_mixer_recent_views_rows",
+    64
+);
+param!(
+    RecentViewsSequenceLength,
+    u32,
+    "rust_home_mixer_recent_views_sequence_length",
+    256
+);
 
 // These weights reflect a combination of how much an action is
 // valued in ranking and typical propensities of these actions
@@ -401,7 +446,12 @@ param!(
 // navigating to a post (i.e., coordinating via groupchat) has no
 // ranking impact. And users cannot manufacture a post to show up in
 // their Timeline in any consistently reproducible way.
-param!(FavoriteWeight, f64, "rust_home_mixer_favorite_weight", 0.66);
+param!(
+    FavoriteWeight,
+    f64,
+    "rust_home_mixer_favorite_weight",
+    0.708
+);
 param!(ReplyWeight, f64, "rust_home_mixer_reply_weight", 5.0);
 param!(
     BidirectionalFollowReplyWeightBoost,
@@ -426,9 +476,9 @@ param!(
     VideoOpenWeight,
     f64,
     "rust_home_mixer_video_open_weight",
-    0.02
+    0.0
 );
-param!(ClickWeight, f64, "rust_home_mixer_click_weight", 0.3);
+param!(ClickWeight, f64, "rust_home_mixer_click_weight", 0.274);
 param!(OpenLinkWeight, f64, "rust_home_mixer_open_link_weight", 0.2);
 param!(
     ProfileClickWeight,
@@ -437,7 +487,7 @@ param!(
     0.0
 );
 param!(VqvWeight, f64, "rust_home_mixer_vqv_weight", 0.0);
-param!(ShareWeight, f64, "rust_home_mixer_share_weight", 2.0);
+param!(ShareWeight, f64, "rust_home_mixer_share_weight", 2.118);
 param!(
     ShareViaDmWeight,
     f64,
@@ -448,7 +498,7 @@ param!(
     ShareViaCopyLinkWeight,
     f64,
     "rust_home_mixer_share_via_copy_link_weight",
-    20.0
+    0.0
 );
 param!(DwellWeight, f64, "rust_home_mixer_dwell_weight", 0.05);
 param!(QuoteWeight, f64, "rust_home_mixer_quote_weight", 5.0);
@@ -483,23 +533,29 @@ param!(
     0.0
 );
 param!(
+    GrokAnalyzeWeight,
+    f64,
+    "rust_home_mixer_grok_analyze_weight",
+    0.0
+);
+param!(
     ContDwellTimeWeight,
     f64,
     "rust_home_mixer_cont_dwell_time_weight",
-    0.006
+    0.0075
 );
 param!(
     ContClickDwellTimeWeight,
     f64,
     "rust_home_mixer_cont_click_dwell_time_weight",
-    0.4
+    0.385
 );
 
 param!(
     NotInterestedWeight,
     f64,
     "rust_home_mixer_not_interested_weight",
-    -52.272
+    -53.07
 );
 param!(
     BlockAuthorWeight,
@@ -575,6 +631,18 @@ param!(
     bool,
     "rust_home_mixer_vm_ranker_send_history_topics",
     false
+);
+param!(
+    VMRankerSendDppHistory,
+    bool,
+    "rust_home_mixer_vm_ranker_send_dpp_history",
+    true
+);
+param!(
+    VMRankerDppHistoryMaxItems,
+    usize,
+    "rust_home_mixer_vm_ranker_dpp_history_max_items",
+    50
 );
 param!(
     HistoryTopicsEnabled,
@@ -685,6 +753,12 @@ param!(
     EnableUnderTheHood,
     bool,
     "rust_home_mixer_enable_under_the_hood",
+    false
+);
+param!(
+    EnableUnderTheHoodFrame,
+    bool,
+    "rust_home_mixer_enable_under_the_hood_frame",
     false
 );
 param!(
@@ -853,13 +927,13 @@ param!(
     NewUserMinEngagementFilterUseRatio,
     bool,
     "rust_home_mixer_new_user_min_engagement_filter_use_ratio",
-    false
+    true
 );
 param!(
     NewUserMinEngagementThreshold,
     f64,
     "rust_home_mixer_new_user_min_engagement_threshold",
-    0.0
+    0.004
 );
 param!(
     NewUserMinEngagementFilterMaxAccountAgeSecs,
@@ -930,6 +1004,19 @@ param!(
 );
 
 param!(
+    EnableAdsHistoryXdcCacheWrite,
+    bool,
+    "rust_home_mixer_enable_ads_history_xdc_cache_write",
+    true
+);
+param!(
+    AdsHistoryCacheTtlSecs,
+    u64,
+    "rust_home_mixer_ads_history_cache_ttl_secs",
+    300
+);
+
+param!(
     EnableAdsFunnelTrace,
     bool,
     "rust_home_mixer_enable_ads_funnel_trace",
@@ -941,6 +1028,13 @@ param!(
     String,
     "rust_home_mixer_ads_blender",
     "slot_spread"
+);
+
+param!(
+    AdsFollowingMinPosts,
+    u32,
+    "rust_home_mixer_ads_following_min_posts",
+    5
 );
 
 param!(
@@ -1182,6 +1276,18 @@ param!(
     "rust_home_mixer_jetfuel_frame_nfl_timeline_rotation_enabled",
     false
 );
+param!(
+    EnableJetfuelFrameGrokbotSuggestedTasks,
+    bool,
+    "rust_home_mixer_jetfuel_frame_grokbot_suggested_tasks_enabled",
+    false
+);
+param!(
+    JetfuelFrameGrokbotSuggestedTasksFatigueHours,
+    u32,
+    "rust_home_mixer_jetfuel_frame_grokbot_suggested_tasks_fatigue_hours",
+    6
+);
 
 param!(
     EnableFeedSurvey,
@@ -1215,6 +1321,12 @@ param!(
     6
 );
 param!(
+    EnableVideoCarouselHeaderIcon,
+    bool,
+    "rust_home_mixer_enable_video_carousel_header_icon",
+    false
+);
+param!(
     EnableVideoCarouselAuthorDedupe,
     bool,
     "rust_home_mixer_enable_video_carousel_author_dedupe",
@@ -1239,6 +1351,18 @@ param!(
     0.72
 );
 param!(
+    EnableVideoCarouselCtrModel,
+    bool,
+    "rust_home_mixer_enable_video_carousel_ctr_model",
+    false
+);
+param!(
+    VideoCarouselCtrModelName,
+    String,
+    "rust_home_mixer_video_carousel_ctr_model_name",
+    "lr_v8_search_video_1_2026-11-03_no_high_risk"
+);
+param!(
     VideoCarouselEmbeddingVersion,
     String,
     "rust_home_mixer_video_carousel_embedding_version",
@@ -1249,6 +1373,24 @@ param!(
     bool,
     "rust_home_mixer_enable_video_carousel_high_risk_filter",
     true
+);
+param!(
+    EnableVideoCarouselMediumRiskFilter,
+    bool,
+    "rust_home_mixer_enable_video_carousel_medium_risk_filter",
+    true
+);
+param!(
+    EnableVideoCarouselSeenFilter,
+    bool,
+    "rust_home_mixer_enable_video_carousel_seen_filter",
+    true
+);
+param!(
+    EnableVideoCarouselTakeFromFeed,
+    bool,
+    "rust_home_mixer_enable_video_carousel_take_from_feed",
+    false
 );
 param!(
     EnableVideoCarouselCandidatesLogging,
@@ -1278,6 +1420,18 @@ param!(
     VideoCarouselWeightedScoreWeight,
     f64,
     "rust_home_mixer_video_carousel_weighted_score_weight",
+    0.0
+);
+param!(
+    VideoCarouselVideoContinuationWeight,
+    f64,
+    "rust_home_mixer_video_carousel_video_continuation_weight",
+    0.0
+);
+param!(
+    VideoCarouselNotInterestedWeight,
+    f64,
+    "rust_home_mixer_video_carousel_not_interested_weight",
     0.0
 );
 param!(

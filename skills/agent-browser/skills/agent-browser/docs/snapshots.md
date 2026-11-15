@@ -2,16 +2,6 @@
 
 
 
-<a href="/" class="flex @min-[1024px]:hidden items-center text-gray-1000"><span class="font-medium tracking-tight" style="font-family:var(--font-geist-pixel-square)">agent-browser</span></a>
-
-
-<a href="https://github.com/vercel-labs/agent-browser" class="size-8 items-center justify-center @min-[768px]:inline-flex hidden shrink-0" data-geist-button="" data-prefix="false" data-suffix="false" data-version="v1" aria-label="GitHub repository" rel="noopener" target="_blank"><span class="truncate px-1.5 inline-flex shrink-0 items-center justify-center"></span></a>
-
-
-        &quot;sidebar toc-popover toc&quot;
-        &quot;sidebar main toc&quot; 1fr / minmax(var(--fd-sidebar-col), 1fr) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-width) - var(--fd-toc-width))) minmax(min-content, 1fr);--fd-docs-row-1:4rem;--fd-docs-row-2:calc(var(--fd-docs-row-1) + var(--fd-header-height));--fd-docs-row-3:calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height));--fd-sidebar-col:var(--fd-sidebar-width)">
-
-
 Menu
 
 
@@ -65,6 +55,35 @@ agent-browser snapshot -i
 # @e4 [link] "Learn more"
 ```
 
+
+## <a href="#control-hints" class="peer" data-card="">Control hints</a>
+
+Controls whose accessible name is empty, or shared with another ref in the same snapshot, carry a hint read from the DOM after the ref. Refs themselves are unchanged:
+
+
+``` m-0
+agent-browser snapshot -i
+# - link [ref=e1] hint="img:cart"
+# - button [ref=e2] hint="icon:icon-trash; in:Blue mug"
+# - button [ref=e3] hint="icon:fa-heart; in:Blue mug"
+# - button [ref=e4] hint="img:pencil; id:edit-btn; in:Blue mug"
+# - textbox "Email" [ref=e5] hint="name:login-email"
+# - textbox "Email" [ref=e6] hint="name:newsletter-email"
+```
+
+
+Parts are joined with `; ` in this order, and each appears only when it is found:
+
+| Part | Source |
+|----|----|
+| `icon:` | SVG sprite id from `<use href="#...">`, the `<svg>` `id` or `data-icon`, or an icon library class such as `lucide-trash` or `fa-heart` |
+| `img:` | File name of an image inside the control, without the extension |
+| `data-testid:`, `name:`, `id:` | The first of those attributes set on the control, skipping values that look auto-generated |
+| `in:` | Text of the nearest table row, list item, or article around the control |
+
+Hints are on by default in every snapshot mode. In `--json` output the hint sits in the `snapshot` text and the `refs` map keeps its empty `name`. Iframe refs never get a hint.
+
+A hint is not the accessible name. `find role <role> --name` and stale-ref recovery match on the name only, so act on these elements by ref. A control with no name and nothing to read still prints with no hint.
 
 ## <a href="#using-refs" class="peer" data-card="">Using refs</a>
 

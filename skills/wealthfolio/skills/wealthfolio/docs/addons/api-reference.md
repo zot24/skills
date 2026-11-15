@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,9 +13,7 @@ Addon API Reference
 Complete reference for Wealthfolio addon APIs.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
 # API Reference
@@ -202,31 +125,32 @@ Blob URLs may be used by images, fonts, media elements, and WebAssembly. Worker 
 The API is organized into host-brokered domains:
 
 
-| Domain                  | Description             | Key Functions                                                                    |
-|-------------------------|-------------------------|----------------------------------------------------------------------------------|
-| **Accounts**            | Account management      | `getAll`, `create`                                                               |
-| **Portfolio**           | Holdings and valuations | `getHoldings`, `getIncomeSummary`, `update`, `recalculate`                       |
-| **Activities**          | Trading transactions    | `getAll`, `create`, `import`, `search`, `update`                                 |
-| **Market**              | Market data and symbols | `searchTicker`, `sync`, `getProviders`, `fetchDividends`                         |
-| **Performance**         | Performance metrics     | `calculateHistory`, `calculateSummary`                                           |
-| **Packaged Assets**     | Private package files   | `list`, `has`, `getBlob`, `getUrl`                                               |
-| **Financial Assets**    | Asset profiles          | `getProfile`, `updateProfile`, `updateQuoteMode`                                 |
-| **Quotes**              | Price quotes            | `update`, `getHistory`                                                           |
-| **Goals**               | Financial goals         | `getAll`, `create`, `update`, `getFunding`, `saveFunding`                        |
-| **Contribution Limits** | Investment limits       | `getAll`, `create`, `update`, `calculateDeposits`                                |
-| **Exchange Rates**      | Currency rates          | `getAll`, `update`, `add`, `getRatesForDates`                                    |
-| **Spending**            | Spend categorization    | `isEnabled`, `getCategories`, `getRules`, `saveRule`, `deleteRule`, `rerunRules` |
-| **Settings**            | App configuration       | `get`, `update`, `backupDatabase`                                                |
-| **Files**               | File operations         | `openCsvDialog`, `openSaveDialog`                                                |
-| **Snapshots**           | Holdings snapshots      | `getAll`, `getByDate`, `save`, `checkImport`, `importSnapshots`, `delete`        |
-| **Events**              | Real-time events        | `onUpdateComplete`, `onSyncComplete`, `onDrop`                                   |
-| **Secrets**             | Secure storage          | `get`, `set`, `delete`                                                           |
-| **Storage**             | Durable key-value store | `get`, `set`, `delete`                                                           |
-| **Network**             | Brokered HTTPS requests | `request`                                                                        |
-| **Logger**              | Logging operations      | `error`, `info`, `warn`, `debug`, `trace`                                        |
-| **Navigation**          | Route navigation        | `navigate`                                                                       |
-| **Query**               | React Query integration | `getClient`, `invalidateQueries`, `refetchQueries`                               |
-| **Toast**               | User notifications      | `success`, `error`, `warning`, `info`                                            |
+| Domain | Description | Key Functions |
+|----|----|----|
+| **Accounts** | Account management | `getAll`, `create` |
+| **Portfolio** | Holdings and valuations | `getHoldings`, `getIncomeSummary`, `update`, `recalculate` |
+| **Activities** | Trading transactions | `getAll`, `create`, `import`, `search`, `update` |
+| **Market** | Market data and symbols | `searchTicker`, `sync`, `getProviders`, `fetchDividends` |
+| **Performance** | Performance metrics | `calculateHistory`, `calculateSummary` |
+| **Packaged Assets** | Private package files | `list`, `has`, `getBlob`, `getUrl` |
+| **Financial Assets** | Asset profiles | `getProfile`, `updateProfile`, `updateQuoteMode` |
+| **Allocation Targets** | Targets and drift | `getAll`, `getDrift` |
+| **Quotes** | Price quotes | `update`, `getHistory` |
+| **Goals** | Financial goals | `getAll`, `create`, `update`, `getFunding`, `saveFunding` |
+| **Contribution Limits** | Investment limits | `getAll`, `create`, `update`, `calculateDeposits` |
+| **Exchange Rates** | Currency rates | `getAll`, `update`, `add`, `getRatesForDates` |
+| **Spending** | Spending and budgets | `getContext`, `getBudget`, `getReport`, `searchCashActivities`, `assignCategory` |
+| **Settings** | App configuration | `get`, `update`, `backupDatabase` |
+| **Files** | File operations | `openCsvDialog`, `openSaveDialog` |
+| **Snapshots** | Holdings snapshots | `getAll`, `getByDate`, `save`, `checkImport`, `importSnapshots`, `delete` |
+| **Events** | Real-time events | `onUpdateComplete`, `onSyncComplete`, `onDrop` |
+| **Secrets** | Secure storage | `get`, `set`, `delete` |
+| **Storage** | Durable key-value store | `get`, `set`, `delete` |
+| **Network** | Brokered HTTPS requests | `request` |
+| **Logger** | Logging operations | `error`, `info`, `warn`, `debug`, `trace` |
+| **Navigation** | Route navigation | `navigate` |
+| **Query** | React Query integration | `getClient`, `invalidateQueries`, `refetchQueries` |
+| **Toast** | User notifications | `success`, `error`, `warning`, `info` |
 
 
 ## Accounts API
@@ -245,7 +169,6 @@ interface Account {
   name: string;
   accountType: AccountType;
   group?: string;
-  balance: number;
   currency: string;
   isDefault: boolean;
   isActive: boolean;
@@ -260,6 +183,8 @@ interface Account {
   providerAccountId?: string;
 }
 ```
+
+`Account` has no balance. Wealthfolio 3.13 removed `balance` from the SDK type; the app never returned it. For account values, use `portfolio.getLatestValuations()`, which needs the `portfolio` permission.
 
 #### `create(account: unknown): Promise<Account>`
 
@@ -290,7 +215,7 @@ Access portfolio data, holdings, and performance information with real-time upda
 
 #### `getHoldings(accountId: string): Promise<Holding[]>`
 
-Gets all holdings for a specific account with current valuations.
+Gets all holdings for a specific account with current valuations. From Wealthfolio 3.13, it fails while any account’s calculation is pending or has failed.
 
 ``` mb-4
 const holdings = await ctx.api.portfolio.getHoldings('account-123');
@@ -324,15 +249,17 @@ interface Holding {
   dayChange?: MonetaryValue | null;
   dayChangePct?: number | null;
   prevCloseValue?: MonetaryValue | null;
-  weight: number;
+  weight: number | null;
   asOfDate: string;
 }
 
 interface MonetaryValue {
-  local: number;
-  base: number;
+  local: number | null;
+  base: number | null;
 }
 ```
+
+From Wealthfolio 3.13, `weight` and a `MonetaryValue`’s `local` and `base` can be `null` when the host can’t value them. Check for `null` before doing arithmetic. `AmountDisplay` and `GainAmount` from `@wealthfolio/ui` accept `null` or `undefined` and show ”—”.
 
 #### `getHolding(accountId: string, assetId: string): Promise<Holding | null>`
 
@@ -365,6 +292,8 @@ Gets comprehensive income summary across all accounts.
 ``` mb-4
 const income = await ctx.api.portfolio.getIncomeSummary();
 ```
+
+From Wealthfolio 3.13, each `IncomeByAsset` in `byAsset` has an optional `dividendIncome`: the part of the asset’s `income` that is dividends. `income` still counts every income type. Older hosts leave `dividendIncome` out.
 
 #### `getHistoricalValuations(accountId?: string, startDate?: string, endDate?: string): Promise<AccountValuation[]>`
 
@@ -427,7 +356,7 @@ const results = await ctx.api.activities.search(
 
 ### Amount, charges, and review
 
-From 3.8, `amount` is the final cash magnitude including fees and taxes. Runtime readers use the saved total without deducting charges again. All monetary inputs use the activity currency; `fxRate` is expressed as account-currency units per activity-currency unit. A positive supplied rate books BUY/SELL cash in account currency. Without it, trade cash stays in activity currency. Non-trade cash stays in activity currency even with an FX rate; that rate can still affect contribution reporting.
+From 3.8, `amount` is the final cash magnitude, with fees and taxes already applied. A BUY amount includes its fees; a DIVIDEND or INTEREST amount is net of withholding. Runtime readers use the saved total without deducting charges again. All monetary inputs use the activity currency; `fxRate` is expressed as account-currency units per activity-currency unit. A positive supplied rate books BUY/SELL cash in account currency. Without it, trade cash stays in activity currency. Non-trade cash stays in activity currency even with an FX rate; that rate can still affect contribution reporting.
 
 - On create/import, omitted trade totals can be derived from quantity, price, the asset multiplier, fee, and tax. Gross trade totals can be converted to final totals.
 - Import mismatches preserve the total and set `needsReview`. Missing totals that cannot be derived leave imported rows as Draft for review.
@@ -495,6 +424,79 @@ Imports validated activities with duplicate detection.
 
 ``` mb-4
 const imported = await ctx.api.activities.import(checkedActivities);
+```
+
+From Wealthfolio 3.12, an import can record a <a href="/docs/concepts/activity-types/#fund-conversions" class="font-medium underline underline-offset-4">fund conversion</a>: two `ADJUSTMENT` rows, one with subtype `CONVERSION_OUT` for the fund and units that leave and one with `CONVERSION_IN` for the fund and units that arrive, sharing a `sourceGroupId`. Both rows go in the same import; a conversion row without its other row fails the import. Other rows ignore `sourceGroupId`.
+
+``` mb-4
+const conversion: ActivityImport[] = [
+  {
+    accountId: 'account-123',
+    activityType: 'ADJUSTMENT',
+    subtype: 'CONVERSION_OUT',
+    date: '2026-10-15',
+    symbol: 'FUND-A',
+    quantity: 100,
+    currency: 'EUR',
+    sourceGroupId: 'switch-fund-a-fund-b',
+    isValid: true,
+    isDraft: false,
+  },
+  {
+    accountId: 'account-123',
+    activityType: 'ADJUSTMENT',
+    subtype: 'CONVERSION_IN',
+    date: '2026-10-15',
+    symbol: 'FUND-B',
+    quantity: 80,
+    currency: 'EUR',
+    sourceGroupId: 'switch-fund-a-fund-b',
+    isValid: true,
+    isDraft: false,
+  },
+];
+
+const checked = await ctx.api.activities.checkImport(conversion);
+const result = await ctx.api.activities.import(checked);
+```
+
+From Wealthfolio 3.13, an `ActivityImport` row takes three optional fields. Older hosts ignore them.
+
+- `charges`: labelled lines that break the row’s `fee` and `tax` down as the statement listed them, such as commission and stamp duty. Each line is a `fee` or a `tax`, with a free-text label and an amount in the row’s currency. The lines must add up to both totals, or the row is rejected and `checkImport` flags it. They are stored in the activity’s `metadata.charges` and change no calculation. If a later edit changes a total without new lines, the stored lines are dropped.
+- `sourceRecordId`: your own ID for the transaction the row records, such as a statement reference. A row with one is a duplicate of the activity your addon imported with the same ID into the same account, whatever its values or comment, and is skipped. Identical transactions with different IDs import separately. Keep each ID the same in every import and different for every separate transaction. A row with an ID also matches, by its values, an activity imported before you sent IDs. IDs are trimmed, and blank IDs count as absent. The activity stores the ID as `addon:<your addon id>:<ID>`. Matching by ID is limited to your addon, but the values fallback can match any import without an ID in the account, including CSV imports and other addons’ imports.
+- `metadata`: details to keep with the activity, stored in its metadata under `addons[<your addon id>]`.
+
+``` mb-4
+interface ActivityCharge {
+  category: 'fee' | 'tax';
+  label: string;
+  amount: number | string;
+}
+
+const rows: ActivityImport[] = [
+  {
+    accountId: 'account-123',
+    activityType: 'BUY',
+    date: '2026-11-03',
+    symbol: 'FUND-A',
+    quantity: 20,
+    unitPrice: 30,
+    fee: 4.9,
+    tax: 2.4,
+    currency: 'EUR',
+    charges: [
+      { category: 'fee', label: 'Commission', amount: 4.9 },
+      { category: 'tax', label: 'Stamp duty', amount: 2.4 },
+    ],
+    sourceRecordId: 'statement-2026-11-0042',
+    metadata: { statementPage: 3 },
+    isValid: true,
+    isDraft: false,
+  },
+];
+
+const checked = await ctx.api.activities.checkImport(rows);
+const result = await ctx.api.activities.import(checked);
 ```
 
 #### `checkImport(activities: ActivityImport[]): Promise<ActivityImport[]>`
@@ -641,6 +643,108 @@ const asset = await ctx.api.assets.updateQuoteMode('asset-uuid-1', 'MANUAL');
 
 ------------------------------------------------------------------------
 
+## Allocation Targets API
+
+Read the user’s <a href="/docs/guide/allocation-targets/" class="font-medium underline underline-offset-4">allocation targets</a> and compare holdings with them. The API is read-only: users create and edit targets in Wealthfolio. Weights and drift are in basis points (10000 = 100%).
+
+This API requires Wealthfolio 3.13 or newer. Addons using it must set `minWealthfolioVersion` to `3.13.0` or newer. Both functions are in the high-risk `allocation-targets` category, and each needs its own grant:
+
+``` mb-4
+{
+  "permissions": [
+    {
+      "category": "allocation-targets",
+      "functions": ["getAll", "getDrift"],
+      "purpose": "Show how holdings compare with your targets"
+    }
+  ]
+}
+```
+
+### Methods
+
+#### `getAll(): Promise<AllocationTarget[]>`
+
+Gets the user’s targets, archived ones excluded, each with its scope, range settings, and category weights. Several targets can share a scope. Category IDs differ between installs, so use a weight’s `categoryKey` to tell categories apart.
+
+``` mb-4
+const targets = await ctx.api.allocationTargets.getAll();
+
+type AllocationTargetScopeType = 'all' | 'portfolio' | 'account';
+type AllocationBandType = 'absolute' | 'hybrid';
+
+interface AllocationTargetWeight {
+  /** Category id within the target's taxonomy. */
+  categoryId: string;
+  /** The category's stable key, e.g. `REAL_ESTATE`; ids differ between installs. */
+  categoryKey: string;
+  categoryName: string;
+  targetBps: number;
+}
+
+interface AllocationTarget {
+  id: string;
+  name: string;
+  scopeType: AllocationTargetScopeType;
+  /** Account id or portfolio id; null when `scopeType` is `'all'`. */
+  scopeId: string | null;
+  /** Taxonomy the weights' categories belong to, e.g. `asset_classes`. */
+  taxonomyId: string;
+  /** Absolute range in bps; for `'hybrid'` bands, the floor of the range. */
+  driftBandBps: number;
+  bandType: AllocationBandType;
+  /** Relative part of a hybrid range, in bps of the category's target. */
+  relativeFactorBps: number;
+  allowSells: boolean;
+  wholeSharesOnly: boolean;
+  /** Decimal string in the base currency. */
+  minTradeAmount: string;
+  maxTurnoverBps: number | null;
+  weights: AllocationTargetWeight[];
+  createdAt: string;
+  updatedAt: string;
+}
+```
+
+#### `getDrift(targetId: string): Promise<AllocationDrift | null>`
+
+Compares current holdings with a target, by category of the target’s taxonomy, over the target’s own scope. Values are in the base currency. Returns `null` when no live target has that ID. It values holdings live, so call it when you need it rather than on a timer.
+
+``` mb-4
+const drift = await ctx.api.allocationTargets.getDrift(targets[0].id);
+
+type AllocationDriftStatus = 'in_band' | 'underweight' | 'overweight' | 'not_targeted';
+
+interface AllocationDriftRow {
+  categoryId: string;
+  categoryName: string;
+  currentBps: number;
+  targetBps: number;
+  driftBps: number;
+  currentValue: number;
+  targetValue: number;
+  valueDelta: number;
+  /** Range applied to this category after resolving a hybrid band. */
+  effectiveBandBps: number;
+  status: AllocationDriftStatus;
+  isCash: boolean;
+}
+
+interface AllocationDrift {
+  targetId: string;
+  scopeType: AllocationTargetScopeType;
+  scopeId: string | null;
+  baseCurrency: string;
+  totalValue: number;
+  maxDriftBps: number;
+  outOfBandCount: number;
+  deployableCash: number;
+  rows: AllocationDriftRow[];
+}
+```
+
+------------------------------------------------------------------------
+
 ## Quotes API
 
 Manage price quotes and historical data.
@@ -783,9 +887,36 @@ const results = await ctx.api.exchangeRates.getRatesForDates([
 
 ## Spend Categorization API
 
-Classify activities into Wealthfolio’s expense, income, or savings taxonomies using reusable categorization rules. Rules continue to apply to future matching imports.
+Classify activities into Wealthfolio’s expense, income, or savings taxonomies using reusable categorization rules. Rules continue to apply to future matching imports. Addons can also read Spending reports, transactions, events, and budgets, assign categories and events, and set budget targets.
 
-This API requires Wealthfolio 3.8 or newer and the medium-risk `spending` permission. Declare only the methods your addon calls from `isEnabled`, `getCategories`, `getRules`, `saveRule`, `deleteRule`, and `rerunRules`.
+This API requires Wealthfolio 3.8 or newer. `getReport()` and `searchCashActivities()` require 3.9, and the context, budget, event, and category assignment functions require 3.12. Each function needs its own grant, in the category below. Declare only the functions your addon calls. Grants an addon already has don’t expand to new functions.
+
+
+| Category | Risk Level | Functions |
+|----|----|----|
+| `spending` | Medium | `isEnabled`, `getCategories`, `getContext`, `getBudget`, `getEvents`, `getEventTypes`, `getReport`, `getRules`, `saveRule`, `deleteRule`, `rerunRules` |
+| `activities` | High | `searchCashActivities`, `assignCategory`, `unassignCategory`, `setEvent` |
+| `budgets` | High | `upsertBudgetTarget` |
+
+
+The functions are all called on `ctx.api.spending`. For example, an addon that reads the budget and assigns categories declares:
+
+``` mb-4
+{
+  "permissions": [
+    {
+      "category": "spending",
+      "functions": ["getBudget"],
+      "purpose": "Show this month's budget"
+    },
+    {
+      "category": "activities",
+      "functions": ["assignCategory"],
+      "purpose": "Categorize imported card transactions"
+    }
+  ]
+}
+```
 
 ### Methods
 
@@ -842,6 +973,111 @@ Re-runs all categorization rules and returns the number of matching activities. 
 const matched = await ctx.api.spending.rerunRules();
 ```
 
+### Context, reports, and transactions
+
+#### `getContext(): Promise<SpendingContext>`
+
+Returns whether Spending is enabled, the IDs of the accounts it covers, and the IDs of the categories excluded from it. `accountIds` is empty while Spending is off. Reading it never enables Spending or adds an account.
+
+``` mb-4
+const { enabled, accountIds, excludedCategoryIds } = await ctx.api.spending.getContext();
+```
+
+#### `getReport(request: SpendingReportRequest): Promise<SpendingReport>`
+
+Returns income, outflow, and saving totals with category breakdowns for an inclusive RFC3339 date range. `current` covers the range and `prior` the same length of time just before it. Amounts are in `baseCurrency`, with exchange rates taken at each period’s end.
+
+From Wealthfolio 3.12, each `SpendingPeriodSummary` has an optional `fromSavings`, the money brought back from savings, and `net` adds it: `income - outflow - saved + fromSavings`.
+
+``` mb-4
+const report = await ctx.api.spending.getReport({
+  startDate: '2026-10-01T00:00:00Z',
+  endDate: '2026-10-31T23:59:59Z',
+});
+```
+
+#### `searchCashActivities(request: CashActivitySearchRequest): Promise<CashActivitySearchResponse>`
+
+Searches activities in the accounts enabled for Spending, with their cash-flow bucket, category assignments, splits, and spending amounts. Page with `offset` and `limit`. `net` covers the whole filtered result and is present only on the first page.
+
+Split amounts (`ActivitySplit.amount`, typed `string | number`) are exact decimal strings; Wealthfolio 3.11.0 returned numbers. Add them with decimal arithmetic, not `+`.
+
+``` mb-4
+const page = await ctx.api.spending.searchCashActivities({
+  startDate: '2026-10-01T00:00:00Z',
+  endDate: '2026-10-31T23:59:59Z',
+  status: 'uncategorized',
+  limit: 50,
+});
+```
+
+#### `assignCategory(activityId: string, kind: SpendCategoryKind, categoryId: string): Promise<void>`
+
+Sets an activity’s category in the `expense`, `income`, or `saving` taxonomy. It is saved as a manual assignment, so re-running rules never replaces it. An activity that has splits is refused, so its splits are never lost.
+
+``` mb-4
+await ctx.api.spending.assignCategory('activity-123', 'expense', 'cat_groceries');
+```
+
+#### `unassignCategory(activityId: string, kind: SpendCategoryKind): Promise<void>`
+
+Clears an activity’s category in that taxonomy. It doesn’t clear split allocations.
+
+``` mb-4
+await ctx.api.spending.unassignCategory('activity-123', 'expense');
+```
+
+### Events and budgets
+
+#### `getEvents(): Promise<SpendingEvent[]>`
+
+Lists the user’s Spending events, each with its name, `eventTypeId`, and start and end dates.
+
+``` mb-4
+const events = await ctx.api.spending.getEvents();
+```
+
+#### `getEventTypes(): Promise<EventType[]>`
+
+Lists event types. Built-in types have a stable `key`; types the user created have `key: null`.
+
+``` mb-4
+const eventTypes = await ctx.api.spending.getEventTypes();
+```
+
+#### `setEvent(activityId: string, eventId: string | null): Promise<void>`
+
+Tags an activity with an event, or removes its tag when `eventId` is `null`. Pass `null` explicitly; the argument can’t be omitted. An event’s dates don’t restrict which activities it can tag.
+
+``` mb-4
+await ctx.api.spending.setEvent('activity-123', 'event-456');
+await ctx.api.spending.setEvent('activity-123', null);
+```
+
+#### `getBudget(periodKey?: string): Promise<BudgetSnapshot>`
+
+Returns the budget for a month (`YYYY-MM`), or for `'default'`, the default targets months inherit. Omit `periodKey` for the current month. `state` holds the stored groups, targets, and rollover settings; `computed` holds the rows and totals, in `computed.currency`. Reading the budget changes nothing, and the snapshot is empty while Spending is off.
+
+``` mb-4
+const budget = await ctx.api.spending.getBudget('2026-10');
+```
+
+From Wealthfolio 3.13, the budget keeps spending and savings apart. `computed.totals.spending*` and a group row’s `plannedTotal`, `actual`, `remaining`, and `overspent` count spending only: expense categories and group buffers. Savings categories report in `savingsPlanned` and `savingsActual` on the totals, and in `savingsTargetTotal` and `savingsActual` on each group row. A savings category is never overspent. The plan’s total allocation is `spendingPlanned + savingsPlanned`. Older hosts don’t return the savings fields.
+
+#### `upsertBudgetTarget(target: NewBudgetTarget, periodKey?: string): Promise<BudgetSnapshot>`
+
+Creates or updates a budget target, then returns the budget for `periodKey` (the current month when omitted). `target.periodKey` is `'default'` or a month (`YYYY-MM`). A default target applies to every month that inherits it, past months included; a month’s own target wins over it. `amount` is a decimal string. A `category` target names `taxonomyId` and `categoryId` only; a `group_buffer` target names `groupId` only.
+
+``` mb-4
+const budget = await ctx.api.spending.upsertBudgetTarget({
+  periodKey: 'default',
+  targetType: 'category',
+  taxonomyId: category.taxonomyId, // a SpendCategory from getCategories('expense')
+  categoryId: category.categoryId,
+  amount: '450.00',
+});
+```
+
 ------------------------------------------------------------------------
 
 ## Contribution Limits API
@@ -857,6 +1093,8 @@ Gets all contribution limits.
 ``` mb-4
 const limits = await ctx.api.contributionLimits.getAll();
 ```
+
+From Wealthfolio 3.13, `ContributionLimit` has an optional `isRecurring`: the limit repeats every year. Set on the latest limit of a group, it makes Wealthfolio show the later years with the same amount until the user saves or edits one.
 
 #### `create(newLimit: NewContributionLimit): Promise<ContributionLimit>`
 
@@ -884,7 +1122,7 @@ const updatedLimit = await ctx.api.contributionLimits.update('limit-123', {
 
 #### `calculateDeposits(limitId: string): Promise<DepositsCalculation>`
 
-Calculates deposits for a specific contribution limit.
+Calculates deposits for a specific contribution limit. From Wealthfolio 3.13, it leaves out contributions the user excluded from that limit on its details page.
 
 ``` mb-4
 const deposits = await ctx.api.contributionLimits.calculateDeposits('limit-123');
@@ -921,7 +1159,7 @@ const goal = await ctx.api.goals.create({
 
 #### `update(goal: Goal): Promise<Goal>`
 
-Updates an existing goal.
+Updates an existing goal’s editable inputs. Wealthfolio calculates health, progress, and projection fields; values sent for them are ignored.
 
 ``` mb-4
 const updatedGoal = await ctx.api.goals.update({
@@ -932,7 +1170,7 @@ const updatedGoal = await ctx.api.goals.update({
 
 #### `getFunding(goalId: string): Promise<GoalAllocation[]>`
 
-Gets funding rules for a specific goal.
+Gets funding rules for a specific goal. From Wealthfolio 3.12, savings goals can take part of an account that Retirement uses. `getFunding()` returns Retirement’s share as set, not what Retirement counts after savings goals, so the shares on one account can add up to more than 100%.
 
 ``` mb-4
 const funding = await ctx.api.goals.getFunding('goal-123');
@@ -990,6 +1228,36 @@ Creates a database backup.
 
 ``` mb-4
 const backup = await ctx.api.settings.backupDatabase();
+```
+
+### Theme, text size, and gain and loss colours
+
+Addon pages follow the user’s theme, text size, and gain and loss colours, and update when the user changes them. Wealthfolio sets each one as an attribute on the addon page’s `<html>`, and `settings.get()` returns them as optional `Settings` fields. Hosts without a setting leave its field out.
+
+
+| Setting | `Settings` field | `<html>` attribute | Values |
+|----|----|----|----|
+| Theme | `themeId` | `data-theme` | `classic`, `signature`, `ember`, `cupertino`, `newspaper`, `cyber`, `terminal`, `poster` |
+| Text size | `textSize` | `data-text-size` | `small`, `default`, `large`, `extra-large` |
+| Gain and loss colours | `gainColors` | `data-gain-colors` | `green-up` (the default), `red-up`, `red-up-blue-down` |
+
+
+``` mb-4
+const { themeId, textSize, gainColors } = await ctx.api.settings.get();
+```
+
+- **Theme:** there are eight themes, and new profiles start on `signature`. Addon pages get the theme’s colours through the host’s CSS variables. For charts, `--investments` is the portfolio value line and `--series-1` to `--series-8` are for lines compared on one axis. `--net-worth`, `--spending-accent`, `--spending-deep`, and `--spending-mid` are chart tokens too. `chartSliceColor(index)` from `@wealthfolio/ui` gives the colour for the item at a position in a composition, as the host’s donuts and breakdown lists use. Classic’s `--chart-*` and `--heatmap-*` values changed in 3.12, so addon charts that read them change colour in Classic.
+- **Text size:** it scales the root font size. Sizes in `rem` grow with it; sizes in `px` don’t.
+- **Gain and loss colours:** use `--gain` and `--loss` instead of `--success` and `--destructive` for a price or value going up or down. Each has `-subtle`, `-subtle-foreground`, and `-subtle-border` variants. `GainAmount`, `GainPercent`, and `AmountDisplay` already follow them.
+
+``` mb-4
+.price-up {
+  color: var(--gain);
+}
+
+.price-down {
+  color: var(--loss);
+}
 ```
 
 ------------------------------------------------------------------------
@@ -1128,7 +1396,7 @@ await ctx.api.secrets.delete('old-api-key');
 
 ## Storage API
 
-Durable per-addon key-value storage. Use this instead of `localStorage`, which is unavailable in the sandboxed (opaque-origin) iframe and throws. Values are opaque strings owned by your addon: storage survives addon updates, is cleared on uninstall, replicates across paired devices, and is scoped so no other addon can read it. Storage is a **baseline capability** — it needs no `permissions` entry.
+Durable per-addon key-value storage. Use this instead of `localStorage`, which is unavailable in the sandboxed (opaque-origin) iframe and throws. Values are opaque strings owned by your addon: storage survives addon updates, is cleared on uninstall, replicates across paired devices, and is scoped so no other addon can read it. Storage is a **baseline capability** – it needs no `permissions` entry.
 
 ### Methods
 
@@ -1143,7 +1411,7 @@ const prefs = raw ? JSON.parse(raw) : defaults;
 
 #### `set(key: string, value: string): Promise<void>`
 
-Stores a string value. Keys are ≤ 128 characters and limited to the charset `[A-Za-z0-9_.:-]`. Values are capped at roughly 250 KB each — because storage replicates across a user’s paired devices, `set` rejects an oversized value instead of failing to sync later. Use many small keys rather than one large blob, and keep device-local caches out of storage.
+Stores a string value. Keys are ≤ 128 characters and limited to the charset `[A-Za-z0-9_.:-]`. Values are capped at roughly 250 KB each – because storage replicates across a user’s paired devices, `set` rejects an oversized value instead of failing to sync later. Use many small keys rather than one large blob, and keep device-local caches out of storage.
 
 ``` mb-4
 await ctx.api.storage.set('prefs', JSON.stringify(prefs));
@@ -1210,7 +1478,7 @@ if (response.status === 200) {
 `auth.type` selects the scheme Wealthfolio injects:
 
 - `'bearer'` → `Authorization: Bearer <secret>`
-- `'basic'` → `Authorization: Basic <secret>`. Store the already base64-encoded `user:pass` string as the secret; the broker only prefixes the scheme. This is the way to reach APIs like <a href="https://www.simplefin.org" class="font-medium underline underline-offset-4">SimpleFin Bridge</a> whose access URLs embed credentials — extract `user:pass` at setup, base64-encode it, and save it with `ctx.api.secrets.set`.
+- `'basic'` → `Authorization: Basic <secret>`. Store the already base64-encoded `user:pass` string as the secret; the broker only prefixes the scheme. This is the way to reach APIs like <a href="https://www.simplefin.org" class="font-medium underline underline-offset-4">SimpleFin Bridge</a> whose access URLs embed credentials – extract `user:pass` at setup, base64-encode it, and save it with `ctx.api.secrets.set`.
 
 Network requests are constrained:
 
@@ -1512,7 +1780,7 @@ export default async function enable(ctx: AddonContext) {
 
 ### Sidebar API
 
-Prefer declaring sidebar entries in `manifest.json` under `contributes.links.sidebar` (see below) — the host renders them without booting your addon and they survive reloads. The runtime `addItem` API is still available for **dynamic** items an addon adds while running.
+Prefer declaring sidebar entries in `manifest.json` under `contributes.links.sidebar` (see below) – the host renders them without booting your addon and they survive reloads. The runtime `addItem` API is still available for **dynamic** items an addon adds while running.
 
 #### Declarative (preferred)
 
@@ -1527,7 +1795,7 @@ Prefer declaring sidebar entries in `manifest.json` under `contributes.links.sid
 }
 ```
 
-A **route** is a durable addon page (host-renderable before the addon boots — the lazy-activation surface); a **link** is a placement in a host slot (only `"sidebar"` is consumed today) that references a declared `route` id of the same addon. The runtime `router.add({ id })` **must** equal `contributes.routes[].id`. Omit `path` for the root at `/addons/<manifest.id>`; nested routes use a relative suffix such as `reports/:year`. Absolute paths, traversal, queries, and fragments are rejected in the manifest.
+A **route** is a durable addon page (host-renderable before the addon boots – the lazy-activation surface); a **link** is a placement in a host slot (only `"sidebar"` is consumed today) that references a declared `route` id of the same addon. The runtime `router.add({ id })` **must** equal `contributes.routes[].id`. Omit `path` for the root at `/addons/<manifest.id>`; nested routes use a relative suffix such as `reports/:year`. Absolute paths, traversal, queries, and fragments are rejected in the manifest.
 
 #### `addItem(config: SidebarItemConfig): SidebarItemHandle`
 
@@ -1538,7 +1806,7 @@ const sidebarItem = ctx.sidebar.addItem({
   id: 'my-addon',
   label: 'My Addon',
   route: '/addons/my-addon',
-  icon: 'wallet', // Optional — an AddonIconName (see below)
+  icon: 'wallet', // Optional – an AddonIconName (see below)
   order: 100, // Lower numbers appear first
 });
 
@@ -1559,20 +1827,20 @@ const icon: AddonIconName = 'wallet'; // ✓
 // const icon: AddonIconName = 'spinner'; // ✗ type error
 ```
 
-Icons come from a curated set of <a href="https://phosphoricons.com" class="font-medium underline underline-offset-4">Phosphor</a> icons (duotone weight) that Wealthfolio bundles and renders — the sidebar is host UI, so an addon **names** an icon rather than shipping one. Matching is case- and separator-insensitive (`'ChartLine'`, `'chart-line'`, and `'chartline'` are equivalent), and an unknown or omitted name renders a neutral `caret-right` fallback.
+Icons come from a curated set of <a href="https://phosphoricons.com" class="font-medium underline underline-offset-4">Phosphor</a> icons (duotone weight) that Wealthfolio bundles and renders – the sidebar is host UI, so an addon **names** an icon rather than shipping one. Matching is case- and separator-insensitive (`'ChartLine'`, `'chart-line'`, and `'chartline'` are equivalent), and an unknown or omitted name renders a neutral `caret-right` fallback.
 
 
-This applies only to the **sidebar** icon. Inside your own route/page you render with your own React, so you can use any icon there — Lucide, Phosphor, or your own SVGs.
+This applies only to the **sidebar** icon. Inside your own route/page you render with your own React, so you can use any icon there – Lucide, Phosphor, or your own SVGs. From Wealthfolio 3.13, the host shares `lucide-react` 1.x, which has no brand icons such as `Github`, `Twitter`, or `Youtube`. An addon that imports one from the host’s `lucide-react` fails to load, so bundle your own icon instead.
 
 
 The 80 supported names, by group (preview every glyph at <a href="https://phosphoricons.com" class="font-medium underline underline-offset-4">phosphoricons.com</a>):
 
-- **Money & finance** — `wallet`, `coins`, `dollar`, `dollar-circle`, `bank`, `credit-card`, `piggy-bank`, `receipt`, `invoice`, `hand-coins`, `vault`, `chart-line-up`, `chart-line`, `trend-up`, `trend-down`, `percent`, `scales`, `calculator`
-- **Charts & analytics** — `chart-bar`, `chart-pie`, `chart-pie-slice`, `chart-donut`, `gauge`, `target`, `presentation`
-- **Assets** — `house`, `buildings`, `car`, `airplane`, `bicycle`, `diamond`, `bitcoin`, `storefront`, `briefcase`, `package`, `cube`
-- **General** — `star`, `heart`, `gift`, `trophy`, `medal`, `lightning`, `sparkle`, `bell`, `tag`, `bookmark`, `flag`, `fire`, `rocket`, `lightbulb`, `graduation-cap`, `barbell`, `fork-knife`, `coffee`, `wine`, `shopping-cart`, `shopping-bag`, `basket`
-- **Time & place** — `calendar`, `calendar-dots`, `calendar-check`, `clock`, `hourglass`, `globe`, `map-pin`, `compass`
-- **Productivity** — `folder`, `files`, `notebook`, `clipboard-text`, `list-checks`, `sliders`, `wrench`, `toolbox`, `puzzle-piece`, `plugs-connected`, `app-window`, `squares-four`, `stack`, `kanban`
+- **Money & finance** – `wallet`, `coins`, `dollar`, `dollar-circle`, `bank`, `credit-card`, `piggy-bank`, `receipt`, `invoice`, `hand-coins`, `vault`, `chart-line-up`, `chart-line`, `trend-up`, `trend-down`, `percent`, `scales`, `calculator`
+- **Charts & analytics** – `chart-bar`, `chart-pie`, `chart-pie-slice`, `chart-donut`, `gauge`, `target`, `presentation`
+- **Assets** – `house`, `buildings`, `car`, `airplane`, `bicycle`, `diamond`, `bitcoin`, `storefront`, `briefcase`, `package`, `cube`
+- **General** – `star`, `heart`, `gift`, `trophy`, `medal`, `lightning`, `sparkle`, `bell`, `tag`, `bookmark`, `flag`, `fire`, `rocket`, `lightbulb`, `graduation-cap`, `barbell`, `fork-knife`, `coffee`, `wine`, `shopping-cart`, `shopping-bag`, `basket`
+- **Time & place** – `calendar`, `calendar-dots`, `calendar-check`, `clock`, `hourglass`, `globe`, `map-pin`, `compass`
+- **Productivity** – `folder`, `files`, `notebook`, `clipboard-text`, `list-checks`, `sliders`, `wrench`, `toolbox`, `puzzle-piece`, `plugs-connected`, `app-window`, `squares-four`, `stack`, `kanban`
 
 ### Router API
 
@@ -1604,9 +1872,9 @@ const enable: AddonEnableFunction = (ctx) => {
 export default enable;
 ```
 
-Provide **exactly one** of `component` (preferred — the host manages mount/unmount in its single root) or `render` (a legacy imperative escape hatch given the container element); if both are set, `component` wins. Do **not** call `createRoot` yourself — a per-route root leaves an orphaned tree whose re-renders never reach the DOM. The component receives the current route as a `{ location }` prop (`AddonRouteLocation` with `pathname/search/hash/params`); the sandbox has **no** react-router provider, so `useLocation()` / `useParams()` are unavailable.
+Provide **exactly one** of `component` (preferred – the host manages mount/unmount in its single root) or `render` (a legacy imperative escape hatch given the container element); if both are set, `component` wins. Do **not** call `createRoot` yourself – a per-route root leaves an orphaned tree whose re-renders never reach the DOM. The component receives the current route as a `{ location }` prop (`AddonRouteLocation` with `pathname/search/hash/params`); the sandbox has **no** react-router provider, so `useLocation()` / `useParams()` are unavailable.
 
-When a route is also declared in `manifest.json` `contributes.routes`, the runtime `router.add({ id })` **must use the same `id`** — a mismatch renders a blank “route is not available” page. Runtime `router.add` still works for routes an addon adds dynamically while running.
+When a route is also declared in `manifest.json` `contributes.routes`, the runtime `router.add({ id })` **must use the same `id`** – a mismatch renders a blank “route is not available” page. Runtime `router.add` still works for routes an addon adds dynamically while running.
 
 
 Addon routes must stay inside the addon’s namespace. For an addon with id `my-addon`, use `/addons/my-addon` or `/addon/my-addon`. For ids ending in `-addon`, Wealthfolio also allows the stripped slug, for example `swingfolio-addon` can use `/addons/swingfolio`.
@@ -1744,13 +2012,10 @@ const holdings: Holding[] = await ctx.api.portfolio.getHoldings(accounts[0].id);
 **Ready to build?** Check out the <a href="/docs/addons/getting-started/" class="font-medium underline underline-offset-4">Getting Started guide</a> to see these APIs in action!
 
 
-------------------------------------------------------------------------
+<a href="/docs/addons/localization/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Localization</a> <a href="/docs/faq/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">FAQ</a>
 
 
-<a href="/docs/addons/localization/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Localization</a> <a href="/docs/faq/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">FAQ</a>
-
-
-On This Page
+On this page
 
 - <a href="#api-reference" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">API Reference</a>
   - <a href="#context-overview" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Context Overview</a>
@@ -1761,6 +2026,7 @@ On This Page
   - <a href="#activities-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Activities API</a>
   - <a href="#market-data-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Market Data API</a>
   - <a href="#assets-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Assets API</a>
+  - <a href="#allocation-targets-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Allocation Targets API</a>
   - <a href="#quotes-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Quotes API</a>
   - <a href="#performance-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Performance API</a>
   - <a href="#exchange-rates-api" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Exchange Rates API</a>

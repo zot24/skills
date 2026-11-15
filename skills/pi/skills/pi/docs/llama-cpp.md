@@ -28,7 +28,7 @@ Pi supports the [llama.cpp](https://llama.app) router server. The router discove
 
 ## Install llama.cpp
 
-<a href="#install-llamacpp" class="heading-anchor" aria-label="Permalink: Install llama.cpp" data-copy="" data-copy-text="https://pi.dev/docs/latest/llama-cpp#install-llamacpp"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#install-llamacpp" class="heading-anchor" aria-label="Permalink: Install llama.cpp" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#install-llamacpp"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Install llama.cpp with the [official installer](https://llama.app/docs/installation):
@@ -52,7 +52,7 @@ See [llama.app](https://llama.app) for other installation methods, including pac
 
 ## Start the router
 
-<a href="#start-the-router" class="heading-anchor" aria-label="Permalink: Start the router" data-copy="" data-copy-text="https://pi.dev/docs/latest/llama-cpp#start-the-router"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#start-the-router" class="heading-anchor" aria-label="Permalink: Start the router" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#start-the-router"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Start `llama serve` without `--model`, `-m`, or `-hf`. Passing a model starts single-model mode instead of router mode. See the [llama.cpp server guide](https://llama.app/docs/serve#serving-multiple-models-router-mode) for router configuration.
@@ -93,7 +93,7 @@ Restart the router after manually adding files. The router also supports cached 
 
 ## Configure Pi
 
-<a href="#configure-pi" class="heading-anchor" aria-label="Permalink: Configure Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/llama-cpp#configure-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#configure-pi" class="heading-anchor" aria-label="Permalink: Configure Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#configure-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Start Pi and configure the provider:
@@ -123,7 +123,7 @@ If the server uses an API key, start `llama serve` with the matching `--api-key`
 
 ## Manage models
 
-<a href="#manage-models" class="heading-anchor" aria-label="Permalink: Manage models" data-copy="" data-copy-text="https://pi.dev/docs/latest/llama-cpp#manage-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#manage-models" class="heading-anchor" aria-label="Permalink: Manage models" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#manage-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Run:
@@ -150,10 +150,10 @@ If the router disconnects, `/llama` shows **Retry** and **Close**. Retry reconne
 
 ## Classification
 
-<a href="#classification" class="heading-anchor" aria-label="Permalink: Classification" data-copy="" data-copy-text="https://pi.dev/docs/latest/llama-cpp#classification"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#classification" class="heading-anchor" aria-label="Permalink: Classification" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#classification"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Classifier models answer typed `choice`, `bool`, and `score` questions about JSON state, like TypeSafe's Jev models. The model reaches them from [`codemode`](/docs/latest/cli#enable-codemode) scripts, and extensions through `ctx.modelRegistry.classify()`; see [Classifier models](/docs/latest/models#use-classifier-models). Pi lists llama.cpp models as classifiers in two ways:
+Classifier models answer typed `choice`, `bool`, and `score` questions about JSON state, like TypeSafe's Jev models. The model reaches them from [`codemode`](/latest/latest/cli#enable-codemode) scripts, and extensions through `ctx.modelRegistry.classify()`; see [Classifier models](/latest/latest/models#use-classifier-models). Pi lists llama.cpp models as classifiers in two ways:
 
 - **Decision models** such as [Julia-1, Laya, Kev, lev, and OpenJev](https://huggingface.co/collections/ggml-org/decision-models-6abf80cca3c83f127060a769) answer natively through llama.cpp's `/v1/systemone` endpoint. They appear only as classifiers, with the `typesafe-system-one` API, and not in `/model`.
 - **Chat models** are also listed as classifiers with the same ID and the `llama-cpp-classify` API, which reads answers from next-token probabilities as described below.
@@ -163,7 +163,7 @@ llama.cpp 0.6.0 and later report decision models in the router's model list: the
 
 ### Chat models as classifiers
 
-<a href="#chat-models-as-classifiers" class="heading-anchor" aria-label="Permalink: Chat models as classifiers" data-copy="" data-copy-text="https://pi.dev/docs/latest/llama-cpp#chat-models-as-classifiers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#chat-models-as-classifiers" class="heading-anchor" aria-label="Permalink: Chat models as classifiers" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#chat-models-as-classifiers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The model does not generate an answer. Each question becomes one chat prompt: the state, every question of the request, the state again, and then the question with its answers under single-token labels. Labels are letters for a choice (up to 62 options), `Yes`/`No` for a bool, and digits for a score (up to 10 levels). The second copy of the state is read with the questions in view, which improved accuracy on JevBench with small models. Pi reads the probabilities of the labels as the next token and normalizes them. A choice returns every option's probability and a confidence of `(n * peak - 1) / (n - 1)`; a score returns the expected level.
@@ -176,7 +176,7 @@ The model does not generate an answer. Each question becomes one chat prompt: th
 
 ## Troubleshooting
 
-<a href="#troubleshooting" class="heading-anchor" aria-label="Permalink: Troubleshooting" data-copy="" data-copy-text="https://pi.dev/docs/latest/llama-cpp#troubleshooting"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#troubleshooting" class="heading-anchor" aria-label="Permalink: Troubleshooting" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#troubleshooting"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Check that the router is reachable:
@@ -193,6 +193,6 @@ curl http://127.0.0.1:9931/models
 - **Load fails or uses too much memory:** Lower `-c` or unload another model.
 - **Server is not in router mode:** Start it without `--model`, `-m`, or `-hf`.
 
-To remove the `llama.cpp` provider and `/llama`, disable `llama.cpp` under Built-in in `pi config`, or set `"extensions": ["-builtin:llama.cpp"]` in [settings](/docs/latest/settings#resources).
+To remove the `llama.cpp` provider and `/llama`, disable `llama.cpp` under Built-in in `pi config`, or set `"extensions": ["-builtin:llama.cpp"]` in [settings](/latest/latest/settings#resources).
 
 

@@ -4,7 +4,7 @@
 
 ## French
 
-- [French / v2 (247 pages)](https://docs.firecrawl.dev/_llms/fr/v2.txt): Documentation for French / v2.
+- [French / v2 (246 pages)](https://docs.firecrawl.dev/_llms/fr/v2.txt): Documentation, SDKs, Référence de l’API, Créer avec l’IA.
 
 ### v1
 

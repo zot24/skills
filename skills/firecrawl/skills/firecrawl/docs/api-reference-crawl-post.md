@@ -210,8 +210,9 @@ paths:
                         The URL to send the webhook to. This will trigger for
                         crawl started (crawl.started), every page crawled
                         (crawl.page) and when the crawl is completed
-                        (crawl.completed or crawl.failed). The response will be
-                        the same as the `/scrape` endpoint.
+                        (crawl.completed). A page that fails to scrape is sent
+                        as crawl.page with success set to false. The response
+                        will be the same as the `/scrape` endpoint.
                     headers:
                       type: object
                       description: Headers to send to the webhook URL.
@@ -367,7 +368,7 @@ components:
         skipTlsVerification:
           type: boolean
           description: Skip TLS certificate verification when making requests.
-          default: true
+          default: false
         timeout:
           type: integer
           description: >-

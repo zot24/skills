@@ -1,17 +1,6 @@
 > Source: https://docs.gl-inet.com/router/en/4/interface_guide/tailscale
 
 
-<a href="#tailscale" class="md-skip">Skip to content</a>
-
-
-Initializing search
-
-
-<a href="https://github.com/gl-inet/docs4.x" class="md-source" data-md-component="source" title="Go to repository"></a>
-
-
-gl-inet/docs4.x
-
 
 <a href="../../faq/" class="md-nav__link"><span class="md-ellipsis"> FAQ </span></a> <span class="md-nav__icon md-icon"></span>
 
@@ -172,7 +161,7 @@ Here are the steps to set up this feature.
 
 3.  Enable the subnet routes.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/tailscale_enable_subnet_routes.png" class="glboxshadow" alt="tailcale enable subnet route" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/tailscale_enable_subnet_routes.png" class="glboxshadow" alt="tailscale enable subnet route" />
 
 4.  Now you can access the GL-AXT1800 via its IP address (`192.168.29.1`) on other devices. In fact, you can access all devices within the `192.168.29.0/24` subnet.
 
@@ -238,7 +227,7 @@ Here are the steps to set Leo-Desktop as an Exit Node. For an alternative custom
 
     In the pop-up window, enable the subnet routes.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/tailscale_enable_subnet_routes.png" class="glboxshadow" alt="tailcale enable subnet route" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/tailscale_enable_subnet_routes.png" class="glboxshadow" alt="tailscale enable subnet route" />
 
 2.  On the device you want to use as an exit node, such as Leo-Desktop in this example, select **Run exit node**. Here's an example on Windows OS.
 
@@ -246,7 +235,7 @@ Here are the steps to set Leo-Desktop as an Exit Node. For an alternative custom
 
     Then click **Yes**.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/custom_exit_nodes/tailscale_run_exit_node_alert.png" class="glboxshadow" alt="tailscale windows run exit ndoe" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/custom_exit_nodes/tailscale_run_exit_node_alert.png" class="glboxshadow" alt="tailscale windows run exit node" />
 
 3.  In the Tailscale Admin console, set up the Leo-Desktop as an Exit node.
 
@@ -376,7 +365,7 @@ Follow the steps below to configure a **custom exit node** on the GL‑BE9300.
 
 2.  Select the device you want to use as an exit node, such as the GL-MG1300 in this example, enable **Run exit node**.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/run_exit_node_1.png" class="glboxshadow" width="600" alt="run exit node 1" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/run_exit_node_1.png" class="glboxshadow" alt="run exit node 1" />
 
     Then click **Apply**.
 
@@ -390,9 +379,9 @@ Follow the steps below to configure a **custom exit node** on the GL‑BE9300.
 
     To avoid connectivity interruptions when the exit-node authentication key expires, you can enable **Disable Key Expiry**.
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/disable_key_expiry_1.png" class="glboxshadow" alt="disable key expirty 1" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/disable_key_expiry_1.png" class="glboxshadow" alt="disable key expiry 1" />
 
-    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/disable_key_expiry_2.png" class="glboxshadow" alt="disable key expirty 2" />
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/tailscale/disable_key_expiry_2.png" class="glboxshadow" alt="disable key expiry 2" />
 
 4.  Return to the GL-BE9300's web Admin Panel, go to **APPLICATIONS** -\> **Tailscale** and enable **Custom Exit Nodes**. Click the refresh button, and select the IP address of the GL-MG1300 from the drop-down menu, then click **Apply**.
 
@@ -414,5 +403,4 @@ Thanks for your feedback! Help us improve this page by <a href="https://glinet.f
 
 
 Back to top
-
 

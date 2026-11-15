@@ -2,12 +2,6 @@
 
 
 
-<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2 text-xl font-bold text-foreground tracking-[-0.03em]" target="_blank" rel="noreferrer"><img src="/logo.svg" class="h-6 w-auto dark:hidden" /><img src="/logo.svg" class="hidden h-6 w-auto dark:block" /><span>umami</span></a>
-
-
-<a href="https://github.com/umami-software/umami" class="inline-flex items-center rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-foreground size-8 justify-center" target="_blank" rel="noreferrer" aria-label="Umami on GitHub"></a>
-
-
 Menu
 
 
@@ -34,7 +28,7 @@ There are several different ways to install Umami.
 Change the default password
 
 
-Umami creates a default login account with username **admin** and password **umami** the first time it sets up its database. Change the default password immediately after your first login.
+Umami creates a default login account with username **admin** and password **umami** the first time it sets up its database. Since v3.5.0, Umami requires you to replace the default password before you can continue after logging in with it.
 
 
 ## Installing from source<a href="#installing-from-source" class="heading-anchor" aria-label="Permalink to “Installing from source”">#</a>
@@ -76,6 +70,7 @@ Create an `.env` file with the following:
 
 ``` code-block
 DATABASE_URL={connection url}
+APP_SECRET={random string}
 ```
 
 
@@ -87,6 +82,8 @@ DATABASE_URL=postgresql://username:mypassword@localhost:5432/mydb
 ```
 
 
+`APP_SECRET` is required and secures authentication tokens. Generate one with `openssl rand -hex 32`. See [APP_SECRET](/docs/environment-variables#app_secret).
+
 ### Build the application<a href="#build-the-application" class="heading-anchor" aria-label="Permalink to “Build the application”">#</a>
 
 
@@ -95,7 +92,7 @@ pnpm build
 ```
 
 
-The first time the build is run, it will create all the required database tables in your database. It will also create a login account with username **admin** and password **umami**. Change this password after your first login.
+The first time the build is run, it will create all the required database tables in your database. It will also create a login account with username **admin** and password **umami**. You will be asked to change this password the first time you log in.
 
 ### Start the application<a href="#start-the-application" class="heading-anchor" aria-label="Permalink to “Start the application”">#</a>
 
@@ -129,6 +126,16 @@ pm2 save
 
 Umami ships with a Docker Compose file that contains the application and a PostgreSQL database.
 
+The Compose file reads `APP_SECRET` from an `.env` file next to it and will not start without it. Create the file first:
+
+
+``` code-block
+APP_SECRET={random string}
+```
+
+
+Generate the value with `openssl rand -hex 32`.
+
 To build the Docker container and start up with a PostgreSQL database, run:
 
 
@@ -137,7 +144,7 @@ docker compose up -d
 ```
 
 
-This will create a PostgreSQL database and start the Umami application on `http://localhost:3000`. The default login credentials are username **admin** and password **umami**. Change this password after your first login.
+This will create a PostgreSQL database and start the Umami application on `http://localhost:3000`. The default login credentials are username **admin** and password **umami**. You will be asked to change this password the first time you log in.
 
 Alternatively, if you want to use prebuilt images, you can pull the Umami Docker image:
 
@@ -147,7 +154,7 @@ docker pull docker.umami.is/umami-software/umami:latest
 ```
 
 
-When using a prebuilt image, you need to provide your own database and set the `DATABASE_URL` environment variable. See [Environment variables](/docs/environment-variables) for configuration options.
+When using a prebuilt image, you need to provide your own database and set the `DATABASE_URL` and `APP_SECRET` environment variables. See [Environment variables](/docs/environment-variables) for configuration options.
 
 
 <a href="/docs" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground" rel="prev" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Previous</span><span class="font-medium transition-colors group-hover:text-primary">Introduction</span></span></a><a href="/docs/updates" class="group flex flex-1 items-end gap-3 py-3 text-base text-foreground justify-end text-right" rel="next" data-discover="true"><span class="flex flex-col"><span class="text-xs font-bold text-muted-foreground">Next</span><span class="font-medium transition-colors group-hover:text-primary">Getting updates</span></span></a>

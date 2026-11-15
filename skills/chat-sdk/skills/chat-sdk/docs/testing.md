@@ -4,7 +4,7 @@
 title: Testing
 description: "Test your bot handlers and custom adapters with @chat-adapter/tests, which provides Vitest factories, custom matchers, and a setup file."
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: guide
 prerequisites:
   - /docs/getting-started

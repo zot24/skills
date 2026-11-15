@@ -1,18 +1,5 @@
 > Source: https://flueframework.com/docs/guide/database
 
-<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
-
-
-<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
-
-
-Esc
-
-
-Start typing to search the documentation.
-
-
-<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Database
@@ -60,11 +47,11 @@ Without a `db.ts`, Flue runs on in-memory SQLite. Everything works — conversat
 
 The development commands soften this default:
 
-| Command      | Without `db.ts`                                                                                                           |
-|--------------|---------------------------------------------------------------------------------------------------------------------------|
-| `vite dev`   | A cache file (`node_modules/.cache/flue/dev.db`) — history survives code reloads, resets when the dev server cold-starts. |
-| `flue run`   | A cache file (`node_modules/.cache/flue/run.db`) — never reset, so `--id` continues conversations across invocations.     |
-| `vite build` | In-memory — the deployed server keeps state only for the process lifetime.                                                |
+| Command | Without `db.ts` |
+|----|----|
+| `vite dev` | A cache file (`node_modules/.cache/flue/dev.db`) — history survives code reloads, resets when the dev server cold-starts. |
+| `flue run` | A cache file (`node_modules/.cache/flue/run.db`) — never reset, so `--id` continues conversations across invocations. |
+| `vite build` | In-memory — the deployed server keeps state only for the process lifetime. |
 
 With a `db.ts`, all three use your adapter, so development runs against the same storage shape as production.
 
@@ -163,13 +150,13 @@ The contract has strict atomicity and ordering requirements — idempotent admis
 
 ## Choosing a database
 
-| Situation                                      | Choice                                                                |
-|------------------------------------------------|-----------------------------------------------------------------------|
-| Local development                              | The defaults — add `db.ts` only to develop against production storage |
-| Single-host Node deployment                    | File-backed `sqlite()`                                                |
-| State must survive host loss, or many replicas | An ecosystem adapter, with one live owner routed per conversation     |
-| Cloudflare deployment                          | Nothing to configure — Durable Object SQLite is automatic             |
-| A backend not in the catalog                   | A custom `PersistenceAdapter`                                         |
+| Situation | Choice |
+|----|----|
+| Local development | The defaults — add `db.ts` only to develop against production storage |
+| Single-host Node deployment | File-backed `sqlite()` |
+| State must survive host loss, or many replicas | An ecosystem adapter, with one live owner routed per conversation |
+| Cloudflare deployment | Nothing to configure — Durable Object SQLite is automatic |
+| A backend not in the catalog | A custom `PersistenceAdapter` |
 
 ## Next steps
 

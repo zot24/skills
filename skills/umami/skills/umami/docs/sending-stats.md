@@ -2,12 +2,6 @@
 
 
 
-<a href="https://umami.is/?ref=docs" class="inline-flex items-center gap-2 text-xl font-bold text-foreground tracking-[-0.03em]" target="_blank" rel="noreferrer"><img src="/logo.svg" class="h-6 w-auto dark:hidden" /><img src="/logo.svg" class="hidden h-6 w-auto dark:block" /><span>umami</span></a>
-
-
-<a href="https://github.com/umami-software/umami" class="inline-flex items-center rounded-md text-sm font-medium text-foreground hover:bg-accent hover:text-foreground size-8 justify-center" target="_blank" rel="noreferrer" aria-label="Umami on GitHub"></a>
-
-
 Menu
 
 
@@ -31,20 +25,20 @@ To register an `event`, you need to send a `POST` to `/api/send` with the follow
 
 **Parameters**
 
-| Parameter          | Type   | Description                                                                                        |
-|--------------------|--------|----------------------------------------------------------------------------------------------------|
-| `payload.hostname` | string | Name of host.                                                                                      |
-| `payload.screen`   | string | Screen resolution (ex. "1920x1080").                                                               |
-| `payload.language` | string | Language of visitor (ex. "en-US").                                                                 |
-| `payload.url`      | string | Page URL.                                                                                          |
-| `payload.referrer` | string | Referrer URL.                                                                                      |
-| `payload.title`    | string | Page title.                                                                                        |
-| `payload.tag`      | string | Additional tag description.                                                                        |
-| `payload.id`       | string | Distinct ID used to identify the visitor. See [Distinct IDs](/docs/distinct-ids).                  |
-| `payload.website`  | string | Website ID.                                                                                        |
-| `payload.name`     | string | Name of the event.                                                                                 |
-| `payload.data`     | object | (optional) Additional data for the event.                                                          |
-| `type`             | string | One of `event`, `identify`, `performance`, or `error`. See [Error tracking](/docs/error-tracking). |
+| Parameter | Type | Description |
+|----|----|----|
+| `payload.hostname` | string | Name of host. |
+| `payload.screen` | string | Screen resolution (ex. "1920x1080"). |
+| `payload.language` | string | Language of visitor (ex. "en-US"). |
+| `payload.url` | string | Page URL. |
+| `payload.referrer` | string | Referrer URL. |
+| `payload.title` | string | Page title. |
+| `payload.tag` | string | Additional tag description. |
+| `payload.id` | string | Distinct ID used to identify the visitor. See [Distinct IDs](/docs/distinct-ids). |
+| `payload.website` | string | Website ID. |
+| `payload.name` | string | Name of the event. |
+| `payload.data` | object | (optional) Additional data for the event. |
+| `type` | string | One of `event`, `identify`, `performance`, or `error`. See [Error tracking](/docs/error-tracking). |
 
 **Sample payload**
 

@@ -31,7 +31,7 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.5.0
+  version: 3.6.1
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform

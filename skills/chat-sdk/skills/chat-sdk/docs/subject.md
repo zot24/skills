@@ -4,7 +4,7 @@
 title: Message Subject
 description: Fetch the parent resource that a message is about.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: guide
 prerequisites:
   - /docs/handling-events

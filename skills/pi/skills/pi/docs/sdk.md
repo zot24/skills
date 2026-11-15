@@ -25,7 +25,7 @@ On this page
 
 `@earendil-works/pi-coding-agent` embeds Pi in a Node.js or Bun process. It provides direct TypeScript access to the agent, sessions, tools, models, and resources used by the command-line application.
 
-Use the SDK for in-process TypeScript integration. For a language-independent or isolated subprocess, see [CLI Integration](/docs/latest/cli-integration).
+Use the SDK for in-process TypeScript integration. For a language-independent or isolated subprocess, see [CLI Integration](/latest/latest/cli-integration).
 
 
 ``` shiki
@@ -49,7 +49,7 @@ The [complete minimal example](https://github.com/earendil-works/pi/blob/main/pa
 
 ## Session lifecycle
 
-<a href="#session-lifecycle" class="heading-anchor" aria-label="Permalink: Session lifecycle" data-copy="" data-copy-text="https://pi.dev/docs/latest/sdk#session-lifecycle"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session-lifecycle" class="heading-anchor" aria-label="Permalink: Session lifecycle" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#session-lifecycle"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `createAgentSession()` creates an `AgentSession`. The session owns one conversation, its model and tools, queued messages, compaction state, and extension runtime.
@@ -61,7 +61,7 @@ Read current state through `session.messages`, `session.model`, `session.thinkin
 
 ### Session storage
 
-<a href="#session-storage" class="heading-anchor" aria-label="Permalink: Session storage" data-copy="" data-copy-text="https://pi.dev/docs/latest/sdk#session-storage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session-storage" class="heading-anchor" aria-label="Permalink: Session storage" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#session-storage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Sessions are persistent by default. `SessionManager` owns the persisted or in-memory entry tree and tracks its active leaf. Branching changes that leaf without deleting abandoned branches. When Pi reconstructs model context, the manager selects the active branch and applies compaction.
@@ -80,7 +80,7 @@ const { session } = await createAgentSession({
 ```
 
 
-See the checked [sessions example](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/11-sessions.ts) for creating, opening, continuing, listing, and forking sessions. [Session File Format](/docs/latest/session-format) defines the persisted JSONL contract, and [Message Types](/docs/latest/message-types) defines transcript values. For exact methods and signatures, use the exported TypeScript declarations or [`session-manager.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts).
+See the checked [sessions example](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/11-sessions.ts) for creating, opening, continuing, listing, and forking sessions. [Session File Format](/latest/latest/session-format) defines the persisted JSONL contract, and [Message Types](/latest/latest/message-types) defines transcript values. For exact methods and signatures, use the exported TypeScript declarations or [`session-manager.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts).
 
 `cwd` selects the workspace used for project resource discovery, context files, session grouping, and built-in tool paths. Pass it explicitly when the target differs from `process.cwd()`.
 
@@ -93,7 +93,7 @@ After a runtime replacement, subscriptions belong to the old `AgentSession` and 
 
 ## Prompting
 
-<a href="#prompting" class="heading-anchor" aria-label="Permalink: Prompting" data-copy="" data-copy-text="https://pi.dev/docs/latest/sdk#prompting"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#prompting" class="heading-anchor" aria-label="Permalink: Prompting" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#prompting"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `prompt()` handles extension commands and expands file-based prompt templates before ordinary user messages enter the agent. For an accepted agent run, it resolves after the run finishes, including automatic retries.
@@ -107,7 +107,7 @@ A steering message enters after the current assistant turn and its tool calls. A
 
 ## Subscribing to events
 
-<a href="#subscribing-to-events" class="heading-anchor" aria-label="Permalink: Subscribing to events" data-copy="" data-copy-text="https://pi.dev/docs/latest/sdk#subscribing-to-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#subscribing-to-events" class="heading-anchor" aria-label="Permalink: Subscribing to events" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#subscribing-to-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Subscribe before prompting when the host needs streamed output:
@@ -137,7 +137,7 @@ Use `agent_settled` when the host needs to know that Pi will not continue automa
 
 ## Configuring a session
 
-<a href="#configuring-a-session" class="heading-anchor" aria-label="Permalink: Configuring a session" data-copy="" data-copy-text="https://pi.dev/docs/latest/sdk#configuring-a-session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#configuring-a-session" class="heading-anchor" aria-label="Permalink: Configuring a session" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#configuring-a-session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Without overrides, the factory creates a `ModelRuntime`, file-backed `SettingsManager`, persistent `SessionManager`, `DefaultResourceLoader`, and the configured default tools.
@@ -163,7 +163,7 @@ See the focused examples for [models](https://github.com/earendil-works/pi/blob/
 
 ## Examples
 
-<a href="#examples" class="heading-anchor" aria-label="Permalink: Examples" data-copy="" data-copy-text="https://pi.dev/docs/latest/sdk#examples"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#examples" class="heading-anchor" aria-label="Permalink: Examples" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#examples"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Example | Purpose |
@@ -186,13 +186,13 @@ See the focused examples for [models](https://github.com/earendil-works/pi/blob/
 
 ## Resources
 
-<a href="#resources" class="heading-anchor" aria-label="Permalink: Resources" data-copy="" data-copy-text="https://pi.dev/docs/latest/sdk#resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#resources" class="heading-anchor" aria-label="Permalink: Resources" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-- [Choose a Model](/docs/latest/models) covers model selection and compatible endpoints; [Providers](/docs/latest/providers) covers credentials and provider-specific setup.
-- [Configuration](/docs/latest/configuration) explains normal discovery and settings; [Settings](/docs/latest/settings) lists every setting.
-- [Sessions and Context](/docs/latest/sessions) explains session behavior; [Session Format](/docs/latest/session-format) defines persisted entries; [Message Types](/docs/latest/message-types) defines shared transcript values.
-- [Extensions](/docs/latest/extensions), [Skills](/docs/latest/skills), and [Prompt Templates](/docs/latest/prompt-templates) document resources supplied through a `ResourceLoader`.
-- [CLI Integration](/docs/latest/cli-integration) covers print, JSON, and RPC alternatives to an in-process SDK integration.
+- [Choose a Model](/latest/latest/models) covers model selection and compatible endpoints; [Providers](/latest/latest/providers) covers credentials and provider-specific setup.
+- [Configuration](/latest/latest/configuration) explains normal discovery and settings; [Settings](/latest/latest/settings) lists every setting.
+- [Sessions and Context](/latest/latest/sessions) explains session behavior; [Session Format](/latest/latest/session-format) defines persisted entries; [Message Types](/latest/latest/message-types) defines shared transcript values.
+- [Extensions](/latest/latest/extensions), [Skills](/latest/latest/skills), and [Prompt Templates](/latest/latest/prompt-templates) document resources supplied through a `ResourceLoader`.
+- [CLI Integration](/latest/latest/cli-integration) covers print, JSON, and RPC alternatives to an in-process SDK integration.
 
 

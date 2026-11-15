@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -85,22 +10,20 @@ Allocation Targets & Rebalancing
 
 # Allocation Targets & Rebalancing
 
-Define a target portfolio, see how far each holding has drifted, and generate a concrete buy/sell rebalance plan.
+Define a target portfolio, see how far each holding has drifted, and work out adjustments in the rebalancing worksheet.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
-Allocation Targets, introduced in **3.5**, lets you define the portfolio you *want*, see how far your actual holdings have **drifted** from it, and generate a **rebalance plan** that tells you exactly what to buy or sell.
+Allocation Targets, introduced in **3.5**, lets you define the portfolio you *want*, see how far your actual holdings have **drifted** from it, and work out the **adjustments** that would bring it back to target in the **rebalancing worksheet**.
 
 <figure class="not-prose my-6">
 <img src="https://assets.wealthfolio.app/images/screenshots/allocation/overview.png" class="block h-auto w-full dark:hidden" loading="lazy" decoding="async" alt="Allocation targets overview: current vs. target with drift" /> <img src="https://assets.wealthfolio.app/images/screenshots/allocation/overview-dark.png" class="hidden h-auto w-full dark:block" loading="lazy" decoding="async" alt="Allocation targets overview: current vs. target with drift" />
 <figcaption>Allocation targets overview: current vs. target with drift</figcaption>
 </figure>
 
-The feature has three parts: an **Overview** of your current versus target allocation, a **Targets** editor, and a **Rebalance** planner.
+The feature has three parts: an **Overview** of your current versus target allocation, a **Targets** editor, and the **rebalancing worksheet**.
 
 ## Setting targets
 
@@ -118,15 +41,15 @@ Target by any of these taxonomies:
 
 ### Starting point
 
-Begin from a **preset** model or build your own. Built-in presets include, among others:
+Begin from **example weights** or **Build from scratch**. Example weights are named by their weights alone, such as **60% Equity / 40% Fixed Income**. They aren’t recommendations, and Wealthfolio hasn’t assessed whether they fit you. The built-in examples are:
 
 
-| Taxonomy      | Example presets                                                |
-|---------------|----------------------------------------------------------------|
-| Asset Classes | Balanced 60/40, Growth 80/20, All Weather, Permanent Portfolio |
-| Industries    | S&P 500 weights, Equal Weight, Defensive Equity                |
-| Risk Category | Conservative, Balanced, Aggressive                             |
-| Regions       | Global Cap, International Proxy, Equal Weight                  |
+| Taxonomy | Example weights |
+|----|----|
+| Asset Classes | Equity / Fixed Income at 90/10, 80/20, 60/40, 40/60 or 20/80; 30 % Equity, 55 % Fixed Income, 15 % Commodities; 25 % each in Equity, Fixed Income, Cash and Commodities |
+| Industries | 40 % Health Care, 35 % Consumer Staples, 25 % Utilities; about 9 % in each of the 11 sectors; a mix led by 39 % Information Technology |
+| Risk Category | Low / Medium / High at 70/25/5, 30/50/20 or 10/30/60 |
+| Regions | 20 % in each of the five regions; 67 % Americas, 16 % Europe, 14 % Asia, 2 % Oceania, 1 % Africa; 42 % Europe, 40 % Asia, 13 % Americas, 3 % Oceania, 2 % Africa |
 
 
 You can also start from your **current holdings** and adjust from there. Target weights must total **100 %**.
@@ -146,55 +69,75 @@ The **Overview** shows how far you’ve strayed from your target.
 
 - **Drift** is your current allocation minus your target, in percentage points.
 - Each category is **Overweight**, **Underweight**, **In band**, or **Not targeted**.
-- The **tolerance band** (a slider, roughly 0.5 %–10 %, default 5 %) defines how much drift is acceptable. Categories inside the band need no action; categories outside it are flagged.
+- The **tolerance band** defines how much drift is acceptable. A new target uses a **Hybrid** band: each category’s band scales with its target weight (relative factor 20 %, from 5 % to 50 %), and an absolute floor of 1 % (from 0.5 % to 10 %) sets its minimum width. **Absolute** uses the same fixed band, from 0.5 % to 10 %, for every category. Categories inside the band need no action; categories outside it are flagged.
 - The **largest gaps** card surfaces the most out-of-band categories first, and a holdings table shows current %, target %, and drift per holding.
+- Categories use your theme’s chart colours, and each keeps the colour it has on the Insights donuts.
 
 <figure class="not-prose my-6">
 <img src="https://assets.wealthfolio.app/images/screenshots/allocation/drift.png" class="block h-auto w-full dark:hidden" loading="lazy" decoding="async" alt="Drift drivers card highlighting the largest out-of-band gaps" /> <img src="https://assets.wealthfolio.app/images/screenshots/allocation/drift-dark.png" class="hidden h-auto w-full dark:block" loading="lazy" decoding="async" alt="Drift drivers card highlighting the largest out-of-band gaps" />
 <figcaption>Drift drivers card highlighting the largest out-of-band gaps</figcaption>
 </figure>
 
-## Building a rebalance plan
+## Rebalancing worksheet
 
-The **Rebalance** planner turns drift into a concrete list of trades. Choose a strategy and a few constraints, then calculate.
+The rebalancing worksheet replaced the Rebalance planner in **3.12**. It works out how far each category is from its target and calculates adjustments to your positions, which you can edit and then review by account. Nothing is submitted or executed, and fees and taxes aren’t included.
 
-### Strategy
+To open it, go to **Insights → Overview**, choose **Details** on the **Target allocation** card, then **Open rebalancing →** under **Largest gaps**. The first time, a dialog titled **How the rebalancing worksheet works** explains what it does.
+
+The worksheet has three steps: **Setup**, **Adjust positions**, and **Review**. You can switch between them at any time. Wealthfolio keeps your inputs and edits on this device, for each target and account scope.
+
+### Setup
+
+- **Accounts to change**: the accounts the worksheet may change, from the account scope you’re viewing. All are selected at first. Each account funds only its own changes; nothing moves between accounts. Next to each account, set the cash it deploys, or add a **Deposit** for cash you haven’t recorded yet.
+- **Cash to deploy**: the total to invest. Choose **25%**, **50%**, **75%**, or **All** of the cash the selected accounts record, or type an amount. A total is spread as the same share of each account’s cash.
+- **Rebalance**: while it’s off, the worksheet only adds (“Cash only. Nothing is reduced.”). Turn it on to also reduce categories above target: the cash is used first, then reductions fund the rest. It’s available only when the target allows reductions (see **Rebalance settings** below).
+- **Gap to target**: each category’s current and target percentage, the amount to add (+) or reduce (−) to reach the target, and which securities would take it.
+- **Securities**: choose **Change** to leave a security out of increases (**Increase**) or, with Rebalance on, out of reductions (**Reduce**) for this run. You can also add a security you don’t hold; it gets no calculated amount, so you set it in Adjust positions.
+
+Choose **Next: Adjust positions** to calculate. Each category’s gap is split across its eligible securities in proportion to what you already hold of each, and a security in several categories gets one combined amount. If the cash doesn’t cover every gap, each increase is scaled by the same share, and the worksheet says so. Before the first calculation, you can choose **Enter adjustments yourself** instead to start without calculated amounts.
+
+### Adjust positions
+
+Each position shows its weight now and after the change. Edit or remove any line: enter the amount to add or reduce (**Adjustment (+/−)**), or switch to **Projected %** and enter the share of the portfolio you want the position to have. **Add position** adds another security.
+
+- **Portfolio impact** shows each category’s current, projected, and target weight, and how many categories are still outside their target range.
+- **Funding left** shows the cash each account has left after the changes, or how much it lacks. You can add a shortfall as a deposit.
+- An increase goes to the only account that can take it, or to the only one that already holds the security. When several accounts could take it, Wealthfolio doesn’t pick one: open the position and place the amount under **Account allocation**. Reductions come from the accounts that hold the security.
+- Amounts that can’t be placed on a security (no eligible security, nothing held in the category, or no usable price) appear as **Unresolved amounts** and are left out of the projection.
+
+If you change Setup, or prices move more than 1 % after the calculation, the worksheet says so and offers **Recalculate from target**. Your edits stay until you recalculate. **Reset to calculated adjustments** in the ⋯ menu discards your edits.
+
+### Review
+
+**Review adjustments** groups the lines by account. Each line shows its amount and an estimated quantity, and each account shows its total and the cash it has left, or **Funding needed** with the amount it lacks. A line with something to fix, such as an amount not yet placed in accounts, stays under **Not in the review yet** until you fix it.
 
 
-| Mode                  | What it does                                                                           |
-|-----------------------|----------------------------------------------------------------------------------------|
-| **Cash-flow only**    | Deploys new cash into underweight categories. Buys only, no sells.                     |
-| **Sell to rebalance** | Sells overweight positions and uses the proceeds to buy underweight ones.              |
-| **Hybrid**            | Invests new cash first, then sells overweight only if cash alone can’t close the gaps. |
+The worksheet uses your recorded holdings, prices, and exchange rates. It doesn’t choose investments or recommend changes, and actual results may differ because prices can change and fees, taxes, and execution aren’t included. The full text is under **About this preview** in the worksheet.
 
 
-### Constraints
+### Rebalance settings
 
-- **Goal**: stop at the **nearest band** (pragmatic) or push to the **exact target** (precise).
-- **Share sizing**: allow **fractional shares** for precision, or **whole shares only** (which may leave a little drift).
-- **Minimum trade size**: exclude trades smaller than an amount you set.
-
-### The plan
-
-Wealthfolio suggests trades using a drift-priority optimizer. Each step buys or sells the share that reduces total drift the most per dollar. Each suggested trade shows the action (**BUY** / **SELL**), symbol, category, amount, share quantity, last price, and the reason. The summary reports the number of trades, cash deployed and remaining, and **max drift before → after**, with a per-category *before · target · after* bar.
+Each target’s **Rebalance settings**, in the target editor, shape the worksheet:
 
 
-Wealthfolio flags warnings when it’s missing a quote, can’t classify a holding, or finds no buy candidates, so you know where a plan is incomplete.
+| Setting | What it does |
+|----|----|
+| **Reductions** | **Allowed** offers **Rebalance** in the worksheet. With **Not allowed**, the worksheet only invests cash, and no position can be reduced, even by hand. |
+| **Quantities** | **Whole units** rounds calculated quantities down to whole units; **Fractional** allows fractions of a unit. |
+| **Minimum line size** | Calculated lines below this amount are flagged, not removed. |
+| **Max turnover %** | Limits the calculated reductions to this share of the portfolio. Later edits past it are flagged, not blocked. Leave it empty for no limit. |
 
 
-<figure class="not-prose my-6">
-<img src="https://assets.wealthfolio.app/images/screenshots/allocation/rebalance.png" class="block h-auto w-full dark:hidden" loading="lazy" decoding="async" alt="Suggested trades with before · target · after bars" /> <img src="https://assets.wealthfolio.app/images/screenshots/allocation/rebalance-dark.png" class="hidden h-auto w-full dark:block" loading="lazy" decoding="async" alt="Suggested trades with before · target · after bars" />
-<figcaption>Suggested trades with before · target · after bars</figcaption>
-</figure>
+When you edit a saved target that allows reductions, **Never reduced** lists protected assets and accounts. The calculation never reduces those holdings, even above target.
 
 ## Exporting
 
-When the plan looks right, you can act on it:
+From **Review**, once every adjustment is in the review:
 
-- **Export CSV**: downloads `rebalance-plan-{name}-{date}.csv` with metadata (currency, cash totals, max drift before/after) and one row per trade.
-- **Copy as text**: copies a plain-text summary to your clipboard to paste anywhere.
+- **Export CSV**: saves `rebalancing-worksheet-{date}.csv`. It has one row per line (account, security, whether it’s as calculated or edited, increase or reduce, amount, estimated quantity, price, category, and price date), any unresolved amounts, each account’s total and cash left, then what the worksheet was calculated from, its warnings, and its limitations. Numbers use your decimal separator; where that’s a comma, columns are separated by semicolons.
+- **Copy for spreadsheet**: copies the same table to paste into a spreadsheet.
 
-Wealthfolio doesn’t place trades for you. Take the plan to your broker and execute it there.
+Wealthfolio doesn’t place trades for you. Take the adjustments to your broker and make the trades there.
 
 ## Related
 
@@ -202,23 +145,21 @@ Wealthfolio doesn’t place trades for you. Take the plan to your broker and exe
 - <a href="/docs/guide/spending-budgets/" class="font-medium underline underline-offset-4">Spending &amp; Budgets</a>: the other major 3.5 module.
 
 
-------------------------------------------------------------------------
+<a href="/docs/guide/spending-budgets/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Spending &amp; Budgets</a> <a href="/docs/guide/goals/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Goals &amp; Save-Up Planner</a>
 
 
-<a href="/docs/guide/spending-budgets/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Spending &amp; Budgets</a> <a href="/docs/guide/goals/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Goals &amp; Save-Up Planner</a>
-
-
-On This Page
+On this page
 
 - <a href="#setting-targets" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Setting targets</a>
   - <a href="#allocation-type" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Allocation type</a>
   - <a href="#starting-point" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Starting point</a>
   - <a href="#scope" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Scope</a>
 - <a href="#reading-drift" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Reading drift</a>
-- <a href="#building-a-rebalance-plan" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Building a rebalance plan</a>
-  - <a href="#strategy" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Strategy</a>
-  - <a href="#constraints" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Constraints</a>
-  - <a href="#the-plan" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">The plan</a>
+- <a href="#rebalancing-worksheet" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Rebalancing worksheet</a>
+  - <a href="#setup" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Setup</a>
+  - <a href="#adjust-positions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Adjust positions</a>
+  - <a href="#review" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Review</a>
+  - <a href="#rebalance-settings" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Rebalance settings</a>
 - <a href="#exporting" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Exporting</a>
 - <a href="#related" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Related</a>
 

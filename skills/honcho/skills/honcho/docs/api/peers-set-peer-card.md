@@ -9,34 +9,35 @@
 > Set a peer card for a specific peer relationship.
 
 Sets the peer card that the observer peer has for the target peer.
-If no target is specified, sets the observer's own peer card.
+If no target is specified, sets the observer's own peer card. The cards
+dreams recorded for this pair in Representation History are deleted, so
+text the new card replaces is no longer readable there.
 
 
 ## OpenAPI
 
-````yaml put /v2/workspaces/{workspace_id}/peers/{peer_id}/card
+````yaml put /v3/workspaces/{workspace_id}/peers/{peer_id}/card
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/peers/{peer_id}/card:
+  /v3/workspaces/{workspace_id}/peers/{peer_id}/card:
     put:
       tags:
         - peers
@@ -45,17 +46,17 @@ paths:
         Set a peer card for a specific peer relationship.
 
         Sets the peer card that the observer peer has for the target peer.
-        If no target is specified, sets the observer's own peer card.
-      operationId: set_peer_card_v2_workspaces__workspace_id__peers__peer_id__card_put
+        If no target is specified, sets the observer's own peer card. The cards
+        dreams recorded for this pair in Representation History are deleted, so
+        text the new card replaces is no longer readable there.
+      operationId: set_peer_card_v3_workspaces__workspace_id__peers__peer_id__card_put
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
         - name: peer_id
           in: path
           required: true
@@ -72,12 +73,12 @@ paths:
               - type: string
               - type: 'null'
             description: >-
-              The peer whose card to set. If not provided, sets the observer's
-              own card
+              Optional target peer to set a card for, from the observer's
+              perspective. If not provided, sets the observer's own card
             title: Target
           description: >-
-            The peer whose card to set. If not provided, sets the observer's own
-            card
+            Optional target peer to set a card for, from the observer's
+            perspective. If not provided, sets the observer's own card
       requestBody:
         required: true
         content:
@@ -150,6 +151,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

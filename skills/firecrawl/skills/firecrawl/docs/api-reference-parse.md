@@ -235,7 +235,7 @@ components:
         skipTlsVerification:
           type: boolean
           description: Skip TLS certificate verification when making requests.
-          default: true
+          default: false
         removeBase64Images:
           type: boolean
           description: >-

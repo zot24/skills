@@ -1,18 +1,5 @@
 > Source: https://flueframework.com/docs/guide/workflows
 
-<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
-
-
-<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
-
-
-Esc
-
-
-Start typing to search the documentation.
-
-
-<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Workflows
@@ -29,12 +16,12 @@ To learn how to deploy an agent, visit the [Deploy](/docs/guide/deploy/) guide.
 
 The right approach to programmable automations will usually depend on where the code runs and what it needs back from the run:
 
-| Approach                                  | When to use it                                                                                                                                                                          |
-|-------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| [`flue run`](#flue-run)                   | You need to initialize and prompt a local agent from the terminal. Best for CI workflows.                                                                                               |
-| [The Flue JS API](#the-flue-js-api)       | You need to initialize and control a local agent from Node.js. Best for local scripting, cron jobs, etc.                                                                                |
-| [The Flue Agent SDK](#the-flue-agent-sdk) | You need to initialize and control a hosted agent over HTTP. Best for talking (or listening) to deployed production agents.                                                             |
-| [Durable Workflows](#durable-workflows)   | You need to initialize and control a hosted agent from a hosted runtime, and need durability guarantees. Best for multi-step orchestration and products that must survive interruption. |
+| Approach | When to use it |
+|----|----|
+| [`flue run`](#flue-run) | You need to initialize and prompt a local agent from the terminal. Best for CI workflows. |
+| [The Flue JS API](#the-flue-js-api) | You need to initialize and control a local agent from Node.js. Best for local scripting, cron jobs, etc. |
+| [The Flue Agent SDK](#the-flue-agent-sdk) | You need to initialize and control a hosted agent over HTTP. Best for talking (or listening) to deployed production agents. |
+| [Durable Workflows](#durable-workflows) | You need to initialize and control a hosted agent from a hosted runtime, and need durability guarantees. Best for multi-step orchestration and products that must survive interruption. |
 
 These approaches are not mutually exclusive: a durable workflow will use the same `start()` and `init()` API as a standalone Node.js script, and a CI job wraps the same `flue run` command you’d type in a terminal.
 

@@ -2,172 +2,167 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
-MCP Server — Connect AI Agents
+MCP Server – Connect AI Agents
 
 
-# MCP Server — Connect AI Agents
+# MCP Server – Connect AI Agents
 
-Connect Wealthfolio to external AI agents — Claude Code, Codex, ChatGPT desktop, Cursor, Windsurf, Cline, VS Code — over the Model Context Protocol, with scoped, revocable access tokens.
+Connect Wealthfolio to external AI agents – Claude Code, Codex, ChatGPT desktop, Cursor, Windsurf, Cline, VS Code – over the Model Context Protocol, with scoped, revocable access tokens.
 
 
-------------------------------------------------------------------------
+Last updated November 12, 2026
 
-Last updated October 31, 2026
-
-**Wealthfolio’s MCP server** lets external AI agents talk to your portfolio over the <a href="https://modelcontextprotocol.io" class="font-medium underline underline-offset-4">Model Context Protocol</a>. Point Claude Code (including Claude Desktop’s Code tab), Codex, the ChatGPT desktop app, Cursor, Windsurf, Cline, or any MCP-capable client at Wealthfolio and it can read your holdings, performance, and activities — and, if you allow it, draft or record new activities — through the exact same typed tools the built-in <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a> uses.
+**Wealthfolio’s MCP server** lets external AI agents talk to your portfolio over the <a href="https://modelcontextprotocol.io" class="font-medium underline underline-offset-4">Model Context Protocol</a>. Point Claude Code (including Claude Desktop’s Code tab), Codex, the ChatGPT desktop app, Cursor, Windsurf, Cline, or any MCP-capable client at Wealthfolio and it can read your holdings, performance, activities, and spending – and, if you allow it, record or change activities, set up accounts, holdings and liabilities, fix and refresh prices, organize your spending, and manage budgets – through the same typed tool registry the built-in <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a> uses.
 
 Every connection is authenticated with a **scoped access token** you create and can revoke. Nothing is exposed until you turn the server on and hand out a token.
 
-<figure class="my-6">
-<img src="https://assets.wealthfolio.app/images/screenshots/agent-access/overview.png" class="block rounded-lg border border-border dark:hidden" alt="Settings → AI Agent Access — the MCP endpoint, access tokens, and agent activity log" /><img src="https://assets.wealthfolio.app/images/screenshots/agent-access/overview-dark.png" class="hidden rounded-lg border border-border dark:block" alt="Settings → AI Agent Access — the MCP endpoint, access tokens, and agent activity log" />
-<figcaption>Settings → AI Agent Access — turn on the server, mint scoped tokens, watch what agents do</figcaption>
+<figure class="not-prose my-6">
+<img src="https://assets.wealthfolio.app/images/screenshots/agent-access/overview.png" class="block h-auto w-full dark:hidden" loading="lazy" decoding="async" alt="Settings → AI agent access – the MCP endpoint, access tokens, and agent activity log" /> <img src="https://assets.wealthfolio.app/images/screenshots/agent-access/overview-dark.png" class="hidden h-auto w-full dark:block" loading="lazy" decoding="async" alt="Settings → AI agent access – the MCP endpoint, access tokens, and agent activity log" />
+<figcaption>Settings → AI agent access – turn on the server, mint scoped tokens, watch what agents do</figcaption>
 </figure>
 
 
-**Assistant vs. MCP server.** The <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a> is a chat window *inside* Wealthfolio. The MCP server is the reverse: it lets an agent running *outside* Wealthfolio (in your editor or desktop client) reach into your portfolio. Both run over the same local, typed tool registry — your raw database is never handed to a model.
+**Assistant vs. MCP server.** The <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a> is a chat window *inside* Wealthfolio. The MCP server is the reverse: it lets an agent running *outside* Wealthfolio (in your editor or desktop client) reach into your portfolio. Both run over the same local, typed tool registry – your raw database is never handed to a model.
 
 
 ------------------------------------------------------------------------
 
 ## 1 · Where it lives
 
-Open **Settings → AI Agent Access**. What you see depends on how you run Wealthfolio:
+Open **Settings → AI agent access**. What you see depends on how you run Wealthfolio:
 
-- **Desktop app** — a master toggle turns the feature on, then a local MCP server runs at `http://127.0.0.1:<port>/mcp`. You control it with **Start/Stop**, choose whether it **starts with the app**, and toggle **audit logging**.
-- **Self-hosted / web server** — the endpoint is enabled with an environment variable (see <a href="#6--self-hosted-servers" class="font-medium underline underline-offset-4">§6</a>) and served at `/mcp` on the same origin as your server. Token management and the audit log work the same way.
+- **Desktop app** – a master toggle turns the feature on, then a local MCP server runs at `http://127.0.0.1:<port>/mcp`. You control it with **Start/Stop**, choose whether it **starts with the app**, and toggle **audit logging**.
+- **Self-hosted / web server** – the endpoint is enabled with an environment variable (see <a href="#6--self-hosted-servers" class="font-medium underline underline-offset-4">§6</a>) and served at `/mcp` on the same origin as your server. Token management and the audit log work the same way.
 
 
-Agent Access is a **desktop and web** feature. It isn’t available on the mobile app.
+AI agent access is a **desktop and web** feature. It isn’t available on the mobile app.
 
 
 ------------------------------------------------------------------------
 
 ## 2 · Turn it on and create a token
 
-1.  **Enable the server.** Flip the master toggle (desktop) or set the environment variable (self-hosted). On desktop, press **Start** — the endpoint URL appears with a green dot when it’s live.
-2.  **Create an access token.** Under **Personal access tokens**, click **Create token**, name it (e.g. “Claude Code”), pick an expiry, and choose its scopes. Tokens default to **read-only** — one click away from the common case.
+1.  **Enable the server.** Flip the master toggle (desktop) or set the environment variable (self-hosted). On desktop, press **Start** – the endpoint URL appears with a green dot when it’s live.
+2.  **Create an access token.** Under **Personal access tokens**, click **Create token**, name it (e.g. “Claude Code”), pick an expiry, and choose its scopes. Tokens default to the **Read-only** preset – one click away from the common case.
 3.  **Copy the token once.** It’s shown a single time at creation. The dialog also gives you ready-to-paste setup for Claude Code, Codex, or JSON-config clients, with the token already embedded.
 
-<figure class="my-6">
-<img src="https://assets.wealthfolio.app/images/screenshots/agent-access/new-token.png" class="block rounded-lg border border-border dark:hidden" alt="Creating a scoped access token — read and write scopes with a live capability summary" /><img src="https://assets.wealthfolio.app/images/screenshots/agent-access/new-token-dark.png" class="hidden rounded-lg border border-border dark:block" alt="Creating a scoped access token — read and write scopes with a live capability summary" />
-<figcaption>Each scope you tick shows up in the live “this token will be able to” summary on the right</figcaption>
+<figure class="not-prose my-6">
+<img src="https://assets.wealthfolio.app/images/screenshots/agent-access/new-token.png" class="block h-auto w-full dark:hidden" loading="lazy" decoding="async" alt="Creating a scoped access token – read and write scopes with a live capability summary" /> <img src="https://assets.wealthfolio.app/images/screenshots/agent-access/new-token-dark.png" class="hidden h-auto w-full dark:block" loading="lazy" decoding="async" alt="Creating a scoped access token – read and write scopes with a live capability summary" />
+<figcaption>Each scope you tick shows up in the live "this token will be able to" summary on the right</figcaption>
 </figure>
 
-Expiry options are **7 days**, **30 days**, **90 days** (default), **1 year**, or **no expiry**. Shorter is safer — you can always mint a new one.
+Expiry options are **7 days**, **30 days**, **90 days** (default), **1 year**, or **no expiry**. Shorter is safer – you can always mint a new one.
+
+### Change a token’s permissions
+
+To change what an existing token can do, click **Edit permissions** next to it in the token list, tick the scopes or pick a preset, and click **Save**. The token itself doesn’t change, so your clients keep their config; its name and expiry stay the same too. The new permissions apply from the agent’s next request. Refresh the tools in your client, or reconnect it, so the agent sees tools you’ve just granted.
 
 ------------------------------------------------------------------------
 
-## 3 · Scopes — what a token can do
+## 3 · Scopes – what a token can do
 
 A token carries a set of scopes. The agent can only call tools its scopes allow; the backend rejects anything outside them. Scopes split into **read** and **write**.
 
 ### Read access
 
 
-| Scope                         | Grants                                              |
-|-------------------------------|-----------------------------------------------------|
-| **Accounts (read)**           | List accounts and their metadata.                   |
-| **Holdings & value (read)**   | Read holdings, positions, and portfolio value.      |
-| **Performance (read)**        | Read performance history and summaries.             |
-| **Activities (read)**         | Read transactions and other account activities.     |
+| Scope | Grants |
+|----|----|
+| **Accounts (read)** | List accounts and their metadata. |
+| **Holdings & value (read)** | Read holdings, positions, and portfolio value. |
+| **Performance (read)** | Read performance history and summaries. |
+| **Activities (read)** | Read transactions and other account activities. |
 | **Financial planning (read)** | Read goals, contribution limits, and planning data. |
-| **Health (read)**             | Read portfolio health and diagnostic checks.        |
-| **Classification (read)**     | Read instrument classifications and taxonomies.     |
+| **Health (read)** | Read portfolio health and diagnostic checks. |
+| **Asset classification (read)** | Read instrument classifications and taxonomies. |
+| **View spending** | Read transactions in Spending accounts, categories, splits, rules, events, reports, and budgets. |
 
 
 ### Write access
 
 
-| Scope                         | Grants                                                            |
-|-------------------------------|-------------------------------------------------------------------|
-| **Activities — draft**        | Prepare draft activities for review (nothing is committed).       |
-| **Activities — commit/write** | Commit activities. **Requires the draft scope.**                  |
-| **Classification — suggest**  | Suggest instrument classifications for review.                    |
-| **Classification — write**    | Apply instrument classifications. **Requires the suggest scope.** |
+| Scope | Grants |
+|----|----|
+| **Activities — draft** | Prepare draft activities for review (not committed). |
+| **Activities — commit/write** | Commit activities, update existing ones, and link or unlink transfers. **Requires the draft scope.** |
+| **Asset classification — suggest** | Suggest instrument classifications for review. |
+| **Asset classification — apply/write** | Apply reviewed asset classifications. **Requires the suggest scope.** |
+| **Market data — write** | Save reviewed prices (quotes) for existing assets, refresh prices from your providers, and fix an asset’s listing, currency, or provider. **Requires the holdings read scope.** |
+| **Accounts — write** | Create accounts and change their name, type, group, number, tracking mode, and hidden or archived state. **Requires the accounts read scope.** |
+| **Holdings — write** | Save holdings snapshots for accounts that track holdings, and add alternative assets and liabilities. **Requires the holdings read scope.** |
+| **Organize spending** | Manage spending categories, assignments, splits, rules, and events. **Requires View spending.** |
+| **Manage budgets** | Change default and monthly budgets, groups, buffers, and rollovers. **Requires View spending.** |
 
 
-The dialog offers four presets that cover most needs: **Read-only**, **Read + draft**, **Read + write**, and **Read + write + suggest** (which grants both classification suggest and write). `Activities — commit/write` always pulls in `Activities — draft`, and `Classification — write` pulls in `Classification — suggest` — an agent has to be able to stage a change before it can commit one.
+**Activities — commit/write** also lets an agent delete activities, or mark one void so it stays stored but no longer counts. **Health (read)** lets it run the Health Center’s checks, not only read their last result.
+
+Some scopes need another one. Ticking one of these also ticks the scope it needs and locks it until you untick the first; the backend refuses a token that has one without the other:
 
 
-**Grant the narrowest scopes you’re comfortable with.** A read-only token can never modify your data. Only add write scopes for agents you trust to record or draft activities, and prefer a short expiry for those.
+| Scope                                  | Needs                              |
+|----------------------------------------|------------------------------------|
+| **Activities — commit/write**          | **Activities — draft**             |
+| **Asset classification — apply/write** | **Asset classification — suggest** |
+| **Market data — write**                | **Holdings & value (read)**        |
+| **Accounts — write**                   | **Accounts (read)**                |
+| **Holdings — write**                   | **Holdings & value (read)**        |
+| **Organize spending**                  | **View spending**                  |
+| **Manage budgets**                     | **View spending**                  |
+
+
+### Spending
+
+With **View spending**, an agent can read your spending transactions, reports, insights, events, and budgets. It can also list your categorization rules, with where each came from (yours, a preset, or an add-on), and preview them. **Organize spending** lets it organize categories, rules, presets, splits, events, and tags, and re-run your rules on your spending accounts. **Manage budgets** lets it manage budgets. Changes are shown for review before they’re saved, and manual categories are never changed.
+
+### Prices and assets
+
+With **Holdings & value (read)**, an agent can look up one asset’s market data setup: its listing, quote currency, pricing mode, preferred provider, latest price, last sync, and the accounts that hold it. It can also read the stored price history and exchange rates, and list your market data providers. Custom providers show without their URLs or headers, since those can hold API keys. **Health (read)** gives it each Health Center issue with the assets, accounts, and dates involved.
+
+**Market data — write** lets it act on what it finds:
+
+- **Refresh prices**: the latest prices (the app’s **Update prices**), the last few days, or the full history (the app’s **Refresh full history**, or **Refetch price history** for one asset). It can also replace an asset’s stored history with a fresh copy from its provider. Prices you entered by hand and prices from a connected broker are kept.
+- **Fix an asset**: change its quote currency, pricing mode, symbol, exchange, or preferred provider. The preview asks the provider for a price first, and blocks the change if the listing isn’t found or quotes in another currency. It also shows every account that holds the asset. When the listing, currency, or provider changes, saving also replaces the old provider history, so prices in the old currency don’t stay. Transactions, quantities, and costs never change.
+
+Agents can choose any provider you’ve enabled, including a custom one you set up, but can’t add or configure providers.
+
+### Accounts, holdings, and liabilities
+
+**Accounts — write** lets an agent create the accounts it imports into, and update an account’s name, type, group, number, tracking mode, and hidden or archived state. An account’s currency can’t change after it’s created, and there’s no delete. The preview flags an account with the same name, so a retried request doesn’t create a second one.
+
+**Holdings — write** lets it:
+
+- **Save a holdings snapshot**: the positions and cash on a date, for accounts that track holdings (not transactions) and aren’t connected to a broker. A snapshot replaces that date’s positions, and the preview lists what’s added, changed, and removed. Cash left out is carried forward, never zeroed.
+- **Add an alternative asset or liability**: a property, vehicle, collectible, precious metal, private equity holding, other asset, or a liability such as a mortgage. Later values and balances go through **Market data — write**, many dates in one go. Loans with an interest rate and payment schedule are set up in the app.
+
+### Presets
+
+The dialog’s **Access presets** set the scopes in one click:
+
+
+| Preset | Scopes |
+|----|----|
+| **Read-only** | Every read scope, including **View spending**. New tokens start here. |
+| **Read + draft** | Read-only plus **Activities — draft**. |
+| **Read + write** | Read + draft plus **Activities — commit/write**. |
+| **Read + activity write + asset classification** | Read + write plus **Asset classification — suggest** and **Asset classification — apply/write**. |
+| **Spending — view** | **View spending** only. |
+| **Spending — organize** | **View spending** and **Organize spending**. |
+| **Spending — budgets** | **View spending** and **Manage budgets**. |
+
+
+No preset includes **Market data — write**, **Accounts — write**, or **Holdings — write**; tick them yourself. In the token list, a token whose scopes match a preset shows that preset’s name; any other token shows as **Custom** with its number of scopes.
+
+
+**Grant the narrowest scopes you’re comfortable with.** A read-only token can never modify your data. Only add write scopes for agents you trust to change activities, spending, or budgets, and prefer a short expiry for those.
+
+
+**Upgrading from 3.11.** Existing tokens keep exactly the permissions they had. Spending tools now need the spending scopes, so an agent that used the categorization tools needs **View spending** added, plus **Organize spending** to make changes. Use **Edit permissions** – you don’t need a new token – then reconnect the agent so it picks up the new tools. A token made with the Read-only preset now shows as **Custom**, because Read-only now includes View spending; add View spending to make it Read-only again. A token with **Activities — commit/write** can now also delete activities or mark them void; remove that scope from tokens that shouldn’t.
+
+
+**Upgrading from 3.12.** A token with **Market data — write** can now also refresh prices and change an asset’s listing, currency, or provider; remove that scope from tokens that should only save prices. Account and holdings changes need the new **Accounts — write** and **Holdings — write** scopes, which existing tokens don’t have. Add them with **Edit permissions**, then reconnect the agent.
 
 
 ------------------------------------------------------------------------
@@ -239,7 +234,7 @@ The app’s **Other** tab has a snippet for each of these. Cursor, Windsurf, Cli
 
 **LM Studio** uses the same shape without the `"type"` line.
 
-**VS Code** differs — it uses a top-level `servers` key:
+**VS Code** differs – it uses a top-level `servers` key:
 
 ``` mb-4
 {
@@ -273,18 +268,18 @@ The app’s **Other** tab has a snippet for each of these. Cursor, Windsurf, Cli
 ### Where the config goes
 
 
-| Client                                  | Config location                                                                 |
-|-----------------------------------------|---------------------------------------------------------------------------------|
+| Client | Config location |
+|----|----|
 | **Claude Code / Claude Desktop (Code)** | `claude mcp add --scope user …` (`~/.claude.json`), or `.mcp.json` in a project |
-| **Codex / ChatGPT desktop**             | `~/.codex/config.toml`                                                          |
-| **Cursor**                              | `~/.cursor/mcp.json` (or `.cursor/mcp.json` in a project)                       |
-| **VS Code**                             | `.vscode/mcp.json`                                                              |
-| **Windsurf**                            | `~/.codeium/windsurf/mcp_config.json`                                           |
-| **Cline**                               | Cline → MCP Servers → Configure (`cline_mcp_settings.json`)                     |
-| **OpenCode**                            | `opencode.json` in a project, or `~/.config/opencode/opencode.json`             |
-| **Jan**                                 | Settings → MCP Servers → Add                                                    |
-| **LM Studio**                           | Program → Install → Edit `mcp.json`                                             |
-| **Unsloth Studio**                      | In a chat: **+** → MCP servers                                                  |
+| **Codex / ChatGPT desktop** | `~/.codex/config.toml` |
+| **Cursor** | `~/.cursor/mcp.json` (or `.cursor/mcp.json` in a project) |
+| **VS Code** | `.vscode/mcp.json` |
+| **Windsurf** | `~/.codeium/windsurf/mcp_config.json` |
+| **Cline** | Cline → MCP Servers → Configure (`cline_mcp_settings.json`) |
+| **OpenCode** | `opencode.json` in a project, or `~/.config/opencode/opencode.json` |
+| **Jan** | Settings → MCP Servers → Add |
+| **LM Studio** | Program → Install → Edit `mcp.json` |
+| **Unsloth Studio** | In a chat: **+** → MCP servers |
 
 
 On a self-hosted server with several profiles, the snippets the app gives you also carry an `X-WF-Profile-Id` header for the profile you’re signed in to. Keep it; without it the server uses the default profile.
@@ -308,7 +303,7 @@ The in-app <a href="/docs/guide/ai-assistant/" class="font-medium underline unde
 
 ## 5 · Audit log
 
-Every tool call an agent makes is recorded under **Agent activity** — the time, the tool name, the outcome (**Success**, **Denied**, or **Error**), and which token made the call. Filter by tool or outcome, search, and **Clear log** when you want a clean slate.
+Every tool call an agent makes is recorded under **Agent activity** – the time, the tool name, the outcome (**Success**, **Denied**, or **Error**), and which token made the call. Filter by tool or outcome, search, and **Clear log** when you want a clean slate.
 
 On desktop, the **Log agent activity** switch turns recording on or off. On a self-hosted server it’s controlled by an environment variable (below). With logging off, no new audit rows are written.
 
@@ -319,13 +314,13 @@ On desktop, the **Log agent activity** switch turns recording on or off. On a se
 On a <a href="/docs/guide/self-hosting/" class="font-medium underline underline-offset-4">self-hosted</a> Wealthfolio server the MCP endpoint is off by default and enabled with environment variables:
 
 
-| Variable               | Effect                                                                                       |
-|------------------------|----------------------------------------------------------------------------------------------|
-| `WF_MCP_ENABLED=true`  | Serves the MCP endpoint at `/mcp`. Restart the server after setting it.                      |
+| Variable | Effect |
+|----|----|
+| `WF_MCP_ENABLED=true` | Serves the MCP endpoint at `/mcp`. Restart the server after setting it. |
 | `WF_MCP_AUDIT_ENABLED` | Audit logging of agent tool calls. On by default; set to `false` to stop writing audit rows. |
 
 
-After enabling, create tokens from **Settings → AI Agent Access** exactly as on desktop. The `url` in your client config is your server’s origin plus `/mcp` (for example `https://wealth.example.com/mcp`).
+After enabling, create tokens from **Settings → AI agent access** exactly as on desktop. The `url` in your client config is your server’s origin plus `/mcp` (for example `https://wealth.example.com/mcp`).
 
 
 **Self-hosted MCP requires Wealthfolio auth.** On Docker, Unraid, and other network-accessible server installs, `WF_MCP_ENABLED=true` requires Wealthfolio’s own authentication to be configured with `WF_AUTH_PASSWORD_HASH` or OIDC. If you run the app with `WF_AUTH_REQUIRED=false` because a reverse proxy handles login, the server will refuse to start with MCP enabled.
@@ -341,10 +336,10 @@ A self-hosted MCP endpoint is reachable by anything that can hit your server. Pu
 ## 7 · Security model
 
 - **Nothing is exposed by default.** The server is off until you enable it, and it serves nothing without a valid token.
-- **Local-only on desktop.** The desktop server binds to `127.0.0.1` — it isn’t reachable from other machines on your network.
+- **Local-only on desktop.** The desktop server binds to `127.0.0.1` – it isn’t reachable from other machines on your network.
 - **Scoped and revocable.** Each token carries only the scopes you granted. **Remove** a token and any client using it loses access immediately.
 - **Writes are gated.** Committing an activity requires *both* the draft and write scopes; a draft-only token can stage changes but never commit them.
-- **Stopping ≠ revoking.** Stopping the server (or disabling the feature on desktop) keeps your tokens valid — they resume working when you start it again. To cut a client off for good, delete its token.
+- **Stopping ≠ revoking.** Stopping the server (or disabling the feature on desktop) keeps your tokens valid – they resume working when you start it again. To cut a client off for good, delete its token.
 - **Typed tools, not raw SQL.** Agents call the same scoped, typed tools as the AI Assistant. They never receive your database or your other API keys.
 
 ------------------------------------------------------------------------
@@ -365,7 +360,11 @@ Fix it by configuring `WF_AUTH_PASSWORD_HASH` or OIDC, then restart with `WF_MCP
 
 ### The agent says a tool was “denied”
 
-The token is missing the scope for that tool. Create a new token with the scope you need (or the right preset) — scopes can’t be edited after creation, so mint a fresh one and remove the old.
+The token is missing the scope for that tool. Click **Edit permissions** on the token in **Settings → AI agent access**, add the scope you need (or pick the right preset), and save. Then refresh the tools in your client or reconnect it.
+
+### The agent doesn’t see a tool
+
+The client only lists tools the token’s scopes allow. Add the scope with **Edit permissions**, then refresh the tools in your client or reconnect it – a client that’s already connected doesn’t pick up newly granted tools on its own. Spending and budget tools need **View spending**, **Organize spending**, or **Manage budgets**.
 
 ### It worked yesterday, not today
 
@@ -377,7 +376,7 @@ Check whether the token **expired** (see its status in the token list) or was re
 
 ### Does Wealthfolio have a built-in MCP server?
 
-Yes. Wealthfolio ships a native Model Context Protocol server — there’s no third-party bridge to install. Turn it on under **Settings → AI Agent Access**, mint a scoped token, and point any MCP client at it. On the desktop app it runs locally at `http://127.0.0.1:<port>/mcp`; on a self-hosted server it’s served at `/mcp` on your own origin.
+Yes. Wealthfolio ships a native Model Context Protocol server – there’s no third-party bridge to install. Turn it on under **Settings → AI agent access**, mint a scoped token, and point any MCP client at it. On the desktop app it runs locally at `http://127.0.0.1:<port>/mcp`; on a self-hosted server it’s served at `/mcp` on your own origin.
 
 ### Which MCP clients work with Wealthfolio?
 
@@ -385,25 +384,28 @@ Any MCP client that speaks Streamable HTTP, including Claude Code (and Claude De
 
 ### Is the Wealthfolio MCP server safe?
 
-Access is off until you enable it, and every connection uses a **scoped, revocable access token** you create yourself. Agents reach your data only through the same typed tool registry the in-app <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a> uses — never your raw database — and every call is recorded in an audit log you can review.
+Access is off until you enable it, and every connection uses a **scoped, revocable access token** you create yourself. Agents reach your data only through the same typed tool registry the in-app <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a> uses – never your raw database – and every call is recorded in an audit log you can review.
 
 ------------------------------------------------------------------------
 
 **Next step:** If you’d rather chat with your portfolio from inside the app instead of wiring up an external agent, see the <a href="/docs/guide/ai-assistant/" class="font-medium underline underline-offset-4">AI Assistant</a>.
 
-------------------------------------------------------------------------
+
+<a href="/docs/guide/ai-assistant/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">AI Assistant</a> <a href="/docs/guide/mobile/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Mobile</a>
 
 
-<a href="/docs/guide/ai-assistant/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">AI Assistant</a> <a href="/docs/guide/mobile/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Mobile</a>
-
-
-On This Page
+On this page
 
 - <a href="#1--where-it-lives" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · Where it lives</a>
 - <a href="#2--turn-it-on-and-create-a-token" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · Turn it on and create a token</a>
-- <a href="#3--scopes--what-a-token-can-do" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Scopes — what a token can do</a>
+  - <a href="#change-a-tokens-permissions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Change a token's permissions</a>
+- <a href="#3--scopes--what-a-token-can-do" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Scopes – what a token can do</a>
   - <a href="#read-access" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Read access</a>
   - <a href="#write-access" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Write access</a>
+  - <a href="#spending" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Spending</a>
+  - <a href="#prices-and-assets" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Prices and assets</a>
+  - <a href="#accounts-holdings-and-liabilities" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Accounts, holdings, and liabilities</a>
+  - <a href="#presets" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Presets</a>
 - <a href="#4--connect-a-client" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · Connect a client</a>
   - <a href="#claude-code-and-claude-desktop-code-tab" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Claude Code and Claude Desktop (Code tab)</a>
   - <a href="#codex-and-the-chatgpt-desktop-app" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Codex and the ChatGPT desktop app</a>
@@ -417,6 +419,7 @@ On This Page
   - <a href="#the-client-cant-connect" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">The client can't connect</a>
   - <a href="#the-container-wont-start-after-setting-wf_mcp_enabledtrue" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">The container won't start after setting WF_MCP_ENABLED=true</a>
   - <a href="#the-agent-says-a-tool-was-denied" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">The agent says a tool was "denied"</a>
+  - <a href="#the-agent-doesnt-see-a-tool" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">The agent doesn't see a tool</a>
   - <a href="#it-worked-yesterday-not-today" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">It worked yesterday, not today</a>
 - <a href="#frequently-asked-questions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Frequently asked questions</a>
   - <a href="#does-wealthfolio-have-a-built-in-mcp-server" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Does Wealthfolio have a built-in MCP server?</a>

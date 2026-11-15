@@ -4,53 +4,69 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Get Deriver Status
+# Get Queue Status
 
-> Get the deriver processing status, optionally scoped to an observer, sender, and/or session
+> Get the processing queue status for a Workspace, optionally scoped to an observer, sender,
+and/or session.
+
+Only tracks user-facing task types (representation, summary, dream).
+Internal infrastructure tasks (reconciler, webhook, deletion) are excluded.
+Note: completed counts reflect items since the last periodic queue cleanup,
+not lifetime totals.
 
 
 ## OpenAPI
 
-````yaml get /v2/workspaces/{workspace_id}/deriver/status
+````yaml get /v3/workspaces/{workspace_id}/queue/status
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/deriver/status:
+  /v3/workspaces/{workspace_id}/queue/status:
     get:
       tags:
         - workspaces
-      summary: Get Deriver Status
+      summary: Get Queue Status
       description: >-
-        Get the deriver processing status, optionally scoped to an observer,
-        sender, and/or session
-      operationId: get_deriver_status_v2_workspaces__workspace_id__deriver_status_get
+        Get the processing queue status for a Workspace, optionally scoped to an
+        observer, sender,
+
+        and/or session.
+
+
+        Only tracks user-facing task types (representation, summary, dream).
+
+        Internal infrastructure tasks (reconciler, webhook, deletion) are
+        excluded.
+
+        Note: completed counts reflect items since the last periodic queue
+        cleanup,
+
+        not lifetime totals.
+      operationId: get_queue_status_v3_workspaces__workspace_id__queue_status_get
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
         - name: observer_id
           in: query
           required: false
@@ -87,7 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DeriverStatus'
+                $ref: '#/components/schemas/QueueStatus'
         '422':
           description: Validation Error
           content:
@@ -98,7 +114,7 @@ paths:
         - HTTPBearer: []
 components:
   schemas:
-    DeriverStatus:
+    QueueStatus:
       properties:
         total_work_units:
           type: integer
@@ -107,7 +123,7 @@ components:
         completed_work_units:
           type: integer
           title: Completed Work Units
-          description: Completed work units
+          description: Completed work units (since last periodic cleanup)
         in_progress_work_units:
           type: integer
           title: In Progress Work Units
@@ -119,7 +135,7 @@ components:
         sessions:
           anyOf:
             - additionalProperties:
-                $ref: '#/components/schemas/SessionDeriverStatus'
+                $ref: '#/components/schemas/SessionQueueStatus'
               type: object
             - type: 'null'
           title: Sessions
@@ -130,7 +146,20 @@ components:
         - completed_work_units
         - in_progress_work_units
         - pending_work_units
-      title: DeriverStatus
+      title: QueueStatus
+      description: >-
+        Aggregated processing queue status.
+
+
+        Tracks user-facing task types only: representation, summary, and dream.
+
+        Internal infrastructure tasks (reconciler, webhook, deletion) are
+        excluded.
+
+
+        Note: completed_work_units reflects items since the last periodic queue
+
+        cleanup, not lifetime totals.
     HTTPValidationError:
       properties:
         detail:
@@ -140,7 +169,7 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    SessionDeriverStatus:
+    SessionQueueStatus:
       properties:
         session_id:
           anyOf:
@@ -170,7 +199,8 @@ components:
         - completed_work_units
         - in_progress_work_units
         - pending_work_units
-      title: SessionDeriverStatus
+      title: SessionQueueStatus
+      description: Status for a specific session within the processing queue.
     ValidationError:
       properties:
         loc:
@@ -186,6 +216,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

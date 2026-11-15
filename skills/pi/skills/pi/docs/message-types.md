@@ -25,7 +25,7 @@ On this page
 
 Pi uses `AgentMessage` values in SDK state, lifecycle events, RPC responses, and persisted session message entries. This page defines those shared messages and their content blocks.
 
-Message timestamps are Unix timestamps in milliseconds. They are different from the ISO 8601 timestamps on [session entries](/docs/latest/session-format#entry-base).
+Message timestamps are Unix timestamps in milliseconds. They are different from the ISO 8601 timestamps on [session entries](/latest/latest/session-format#entry-base).
 
 Source definitions:
 
@@ -36,12 +36,12 @@ Source definitions:
 
 ## Content blocks
 
-<a href="#content-blocks" class="heading-anchor" aria-label="Permalink: Content blocks" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#content-blocks"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#content-blocks" class="heading-anchor" aria-label="Permalink: Content blocks" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#content-blocks"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ### TextContent
 
-<a href="#textcontent" class="heading-anchor" aria-label="Permalink: TextContent" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#textcontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#textcontent" class="heading-anchor" aria-label="Permalink: TextContent" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#textcontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -58,7 +58,7 @@ interface TextContent {
 
 ### ImageContent
 
-<a href="#imagecontent" class="heading-anchor" aria-label="Permalink: ImageContent" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#imagecontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#imagecontent" class="heading-anchor" aria-label="Permalink: ImageContent" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#imagecontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -75,7 +75,7 @@ interface ImageContent {
 
 ### ThinkingContent
 
-<a href="#thinkingcontent" class="heading-anchor" aria-label="Permalink: ThinkingContent" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#thinkingcontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#thinkingcontent" class="heading-anchor" aria-label="Permalink: ThinkingContent" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#thinkingcontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -93,7 +93,7 @@ Thinking signatures contain provider-specific replay data. Treat them as opaque.
 
 ### ToolCall
 
-<a href="#toolcall" class="heading-anchor" aria-label="Permalink: ToolCall" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#toolcall"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#toolcall" class="heading-anchor" aria-label="Permalink: ToolCall" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#toolcall"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -113,7 +113,7 @@ interface ToolCall {
 
 ## Usage
 
-<a href="#usage" class="heading-anchor" aria-label="Permalink: Usage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#usage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#usage" class="heading-anchor" aria-label="Permalink: Usage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#usage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Assistant messages always contain usage. Tool results can contain usage when the tool performed nested model work.
@@ -144,12 +144,12 @@ When present, `reasoning` is already included in `output`; do not add it again. 
 
 ## Base messages
 
-<a href="#base-messages" class="heading-anchor" aria-label="Permalink: Base messages" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#base-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#base-messages" class="heading-anchor" aria-label="Permalink: Base messages" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#base-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ### SystemMessage
 
-<a href="#systemmessage" class="heading-anchor" aria-label="Permalink: SystemMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#systemmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#systemmessage" class="heading-anchor" aria-label="Permalink: SystemMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#systemmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -169,7 +169,7 @@ The leading system message declares the initial prompt and tools. Later system m
 
 ### UserMessage
 
-<a href="#usermessage" class="heading-anchor" aria-label="Permalink: UserMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#usermessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#usermessage" class="heading-anchor" aria-label="Permalink: UserMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#usermessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -183,7 +183,7 @@ interface UserMessage {
 
 ### AssistantMessage
 
-<a href="#assistantmessage" class="heading-anchor" aria-label="Permalink: AssistantMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#assistantmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#assistantmessage" class="heading-anchor" aria-label="Permalink: AssistantMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#assistantmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -231,7 +231,7 @@ interface DeferredHandle {
 
 ### ToolResultMessage
 
-<a href="#toolresultmessage" class="heading-anchor" aria-label="Permalink: ToolResultMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#toolresultmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#toolresultmessage" class="heading-anchor" aria-label="Permalink: ToolResultMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#toolresultmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -272,7 +272,7 @@ interface NestedToolCallRecord {
 
 ## Coding-agent messages
 
-<a href="#coding-agent-messages" class="heading-anchor" aria-label="Permalink: Coding-agent messages" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#coding-agent-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#coding-agent-messages" class="heading-anchor" aria-label="Permalink: Coding-agent messages" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#coding-agent-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The coding-agent package extends `AgentMessage` with four roles.
@@ -280,10 +280,10 @@ The coding-agent package extends `AgentMessage` with four roles.
 
 ### BashExecutionMessage
 
-<a href="#bashexecutionmessage" class="heading-anchor" aria-label="Permalink: BashExecutionMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#bashexecutionmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#bashexecutionmessage" class="heading-anchor" aria-label="Permalink: BashExecutionMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#bashexecutionmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Created by direct shell commands, including the RPC [`bash`](/docs/latest/rpc-commands#bash) command. It is not an LLM tool result.
+Created by direct shell commands, including the RPC [`bash`](/latest/latest/rpc-commands#bash) command. It is not an LLM tool result.
 
 
 ``` shiki
@@ -306,7 +306,7 @@ Unless `excludeFromContext` is true, Pi converts this message to user-role text 
 
 ### CustomMessage
 
-<a href="#custommessage" class="heading-anchor" aria-label="Permalink: CustomMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#custommessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#custommessage" class="heading-anchor" aria-label="Permalink: CustomMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#custommessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Created when an extension sends a context message.
@@ -329,7 +329,7 @@ Pi converts its content to a user message for model requests. `display` controls
 
 ### BranchSummaryMessage
 
-<a href="#branchsummarymessage" class="heading-anchor" aria-label="Permalink: BranchSummaryMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#branchsummarymessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#branchsummarymessage" class="heading-anchor" aria-label="Permalink: BranchSummaryMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#branchsummarymessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -347,7 +347,7 @@ Pi creates this context message from a persisted `branch_summary` entry.
 
 ### CompactionSummaryMessage
 
-<a href="#compactionsummarymessage" class="heading-anchor" aria-label="Permalink: CompactionSummaryMessage" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#compactionsummarymessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#compactionsummarymessage" class="heading-anchor" aria-label="Permalink: CompactionSummaryMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#compactionsummarymessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -365,7 +365,7 @@ Pi creates this context message from a persisted `compaction` entry.
 
 ## AgentMessage union
 
-<a href="#agentmessage-union" class="heading-anchor" aria-label="Permalink: AgentMessage union" data-copy="" data-copy-text="https://pi.dev/docs/latest/message-types#agentmessage-union"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#agentmessage-union" class="heading-anchor" aria-label="Permalink: AgentMessage union" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#agentmessage-union"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 In the coding agent, the union is equivalent to:

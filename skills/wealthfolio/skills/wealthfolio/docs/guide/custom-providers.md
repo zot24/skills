@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -85,22 +10,20 @@ Custom Market Data Providers
 
 # Custom Market Data Providers
 
-Create your own market data providers to fetch prices from any JSON API, HTML page, HTML table, or CSV source — no coding required.
+Create your own market data providers to fetch prices from any JSON API, HTML page, HTML table, or CSV source – no coding required.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
-Custom providers let you connect Wealthfolio to virtually any market data source — whether that’s a paid API service, a free public API, or a website you want to scrape. You define a URL pattern, tell Wealthfolio where to find the price in the response, and the app handles the rest — fetching, parsing, and storing quotes alongside the built-in providers.
+Custom providers let you connect Wealthfolio to virtually any market data source – whether that’s a paid API service, a free public API, or a website you want to scrape. You define a URL pattern, tell Wealthfolio where to find the price in the response, and the app handles the rest – fetching, parsing, and storing quotes alongside the built-in providers.
 
 **Common use cases:**
 
-- **Connect to paid data APIs** — Use services like Twelve Data, Polygon.io, or Alpha Vantage Pro with your own API key, passing it via authentication headers.
-- **Add free public APIs** — CoinGecko for crypto, ExchangeRate API for currencies, or any other free JSON API.
-- **Scrape websites** — Extract prices from web pages like FT.com, Euronext, or Borsa Italiana using CSS selectors.
-- **Cover niche assets** — Regional bonds, private funds, illiquid ETFs, or anything the built-in providers don’t support.
+- **Connect to paid data APIs** – Use services like Twelve Data, Polygon.io, or Alpha Vantage Pro with your own API key, passing it via authentication headers.
+- **Add free public APIs** – CoinGecko for crypto, ExchangeRate API for currencies, or any other free JSON API.
+- **Scrape websites** – Extract prices from web pages like FT.com, Euronext, or Borsa Italiana using CSS selectors.
+- **Cover niche assets** – Regional bonds, private funds, illiquid ETFs, or anything the built-in providers don’t support.
 
 ## Overview
 
@@ -121,64 +44,68 @@ Each provider can have two sources:
 | **Historical** | Fetches a date range of prices for backfilling | No       |
 
 
-Having separate sources lets you point at different API endpoints for real-time vs. historical data — a common pattern with most data APIs.
+Having separate sources lets you point at different API endpoints for real-time vs. historical data – a common pattern with most data APIs.
 
 ## Supported Formats
 
 
-| Format         | Best for                                          | Extraction method                                      |
-|----------------|---------------------------------------------------|--------------------------------------------------------|
-| **JSON**       | REST APIs (CoinGecko, Twelve Data, etc.)          | JSONPath expressions (`$.data.price`)                  |
-| **HTML**       | Web pages with a single visible price             | CSS selectors (`.price-value`, `#quote`)               |
+| Format | Best for | Extraction method |
+|----|----|----|
+| **JSON** | REST APIs (CoinGecko, Twelve Data, etc.) | JSONPath expressions (`$.data.price`) |
+| **HTML** | Web pages with a single visible price | CSS selectors (`.price-value`, `#quote`) |
 | **HTML Table** | Pages with tabular historical data (FT.com, etc.) | Table & column index (`0:4` = first table, 5th column) |
-| **CSV**        | APIs that return CSV downloads                    | Column name or index (`close`, `3`)                    |
+| **CSV** | APIs that return CSV downloads | Column name or index (`close`, `3`) |
 
 
 ## Creating a Custom Provider
 
-1.  Go to **Settings \> Market Data**.
-2.  Click **Add Custom Provider**.
+1.  Go to **Settings → Market data**.
+2.  Click **Add custom provider**.
 3.  Fill in the provider details:
-    - **Name** — A display name (e.g., “CoinGecko”, “FT London”).
-    - **Code** — Auto-generated from the name. Lowercase letters, numbers, and hyphens only. Must be unique and cannot use reserved names (yahoo, finnhub, etc.).
-    - **Description** — Optional note for your reference.
+    - **Name** – A display name (e.g., “CoinGecko”, “FT London”).
+    - **Code** – Auto-generated from the name. Lowercase letters, numbers, and hyphens only. Must be unique and cannot use reserved names (yahoo, finnhub, etc.).
+    - **Description** – Optional note for your reference.
 
 ### Configuring a Source
 
 Each source (Latest / Historical) is configured in its own tab:
 
-1.  **Choose a format** — JSON, HTML, HTML Table, or CSV.
-2.  **Enter the URL** — Use template variables to make it dynamic (see <a href="#url-template-variables" class="font-medium underline underline-offset-4">URL Template Variables</a>).
-3.  **Set the price path** — Tells Wealthfolio where to find the price value in the response.
-4.  **Click “Test”** — Fetches a sample response so you can verify extraction works.
+1.  **Choose a format** – JSON, HTML, HTML Table, or CSV.
+2.  **Enter the URL** – Use template variables to make it dynamic (see <a href="#url-template-variables" class="font-medium underline underline-offset-4">URL Template Variables</a>). A JSON API can also be sent a POST request with a JSON body (see <a href="#post-requests" class="font-medium underline underline-offset-4">POST Requests</a>).
+3.  **Set the price path** – Tells Wealthfolio where to find the price value in the response.
+4.  **Click “Test”** – Fetches a sample response so you can verify extraction works.
 5.  **Optionally configure** date path, currency path, headers, factor, and other advanced options.
 
 ### Using Templates
 
-To get started quickly, click the template dropdown and select a pre-configured provider. Templates fill in the URL, format, extraction paths, and a test symbol automatically.
+To get started quickly, pick a template under **Quick start**. The list shows the templates for the source type you chose. Templates fill in the URL, format, extraction paths, and a test symbol automatically, and for a POST template, the HTTP method and request body.
 
 **Available latest templates:**
 
 
-| Template         | Format | Description                                          |
-|------------------|--------|------------------------------------------------------|
-| CoinGecko        | JSON   | Free crypto prices (use coin ID: bitcoin, ethereum…) |
-| ExchangeRate API | JSON   | Free currency exchange rates                         |
-| FT.com           | HTML   | LSE ETFs & equities                                  |
-| Euronext         | HTML   | EU funds & equities (ISIN-MIC)                       |
-| Twelve Data      | JSON   | Stocks, crypto, FX (requires API key)                |
-| Borsa Italiana   | HTML   | Italian bonds & stocks                               |
+| Template | Format | Description |
+|----|----|----|
+| Vanguard | JSON | Workplace fund prices (fund code) |
+| CoinGecko | JSON | Free crypto prices (use coin ID: bitcoin, ethereum…) |
+| ExchangeRate API | JSON | Free currency exchange rates |
+| FT.com | HTML | LSE ETFs & equities |
+| Euronext | HTML | EU funds & equities (ISIN-MIC) |
+| Twelve Data | JSON | Stocks, crypto, FX (requires API key) |
+| Borsa Italiana | HTML | Italian bonds & stocks |
+| TMX Money | JSON (POST) | TSX listings & Canadian mutual funds (TSX symbol or Fundserv code, e.g. `RBF556`) |
 
 
 **Available historical templates:**
 
 
-| Template           | Format     | Description                 |
-|--------------------|------------|-----------------------------|
-| Twelve Data (JSON) | JSON       | Full OHLCV time series      |
-| Twelve Data (CSV)  | CSV        | Same data in CSV format     |
-| FT.com             | HTML Table | LSE historical price tables |
-| CoinGecko          | JSON       | Daily crypto price history  |
+| Template | Format | Description |
+|----|----|----|
+| Vanguard | JSON | Workplace fund price history (fund code) |
+| Twelve Data (JSON) | JSON | Full OHLCV time series |
+| Twelve Data (CSV) | CSV | Same data in CSV format |
+| FT.com | HTML Table | LSE historical price tables |
+| CoinGecko | JSON | Daily crypto price history |
+| TMX Money | JSON (POST) | Canadian stock & fund history (TSX symbol or Fundserv code) |
 
 
 ### Testing Your Configuration
@@ -194,22 +121,27 @@ The test panel shows the **extracted price**, **date**, and **currency** so you 
 
 ## Managing Custom Providers
 
-All your custom providers are listed in **Settings \> Market Data** alongside the built-in providers.
+Your custom providers are listed in **Settings → Market data**, in the **Custom providers** card below **Built-in providers**.
 
 ### Enable / Disable
 
-Each provider has an **enable toggle**. Disabled providers are ignored during sync — they won’t be tried for any asset, even if set as that asset’s preferred provider. This is useful for temporarily pausing a provider without deleting its configuration.
+Each custom provider has a switch on its card, and one that’s off shows **Disabled**. Disabled providers are ignored during sync – they won’t be tried for any asset, even if set as that asset’s preferred provider. This is useful for temporarily pausing a provider without deleting its configuration.
 
-### Priority
+### Order and Fallback Use
 
-Use the **priority slider** to control the order in which providers are tried when no preferred provider is set on an asset. Lower numbers = higher priority. Custom providers can be interleaved with built-in providers in any order you like.
+**Built-in providers** lists the built-in providers that are on, in the order they’re tried, each with arrows to move it and a switch. When more than one provider covers an asset, the higher one is tried first. A move saves right away. **Add provider** lists the built-in providers that are off, with a search.
 
-Note: If an asset has a **Preferred Provider** set, that always overrides the global priority order for that asset.
+Custom providers have no arrows. How a custom provider is used is set under **Usage** in its form:
+
+- **Only securities assigned to it** (the default) – Used when you pick it as a security’s preferred provider. No other requests are sent.
+- **Also as a fallback for other securities** – Also tried for any security when the built-in providers fail. Each of those securities becomes a request to the provider’s site, so the URL or request body needs `{SYMBOL}` or `{ISIN}`. **Order among fallbacks** sets the order between fallback providers: lower runs first. A provider used this way shows **Fallback** on its card.
+
+Note: If an asset has a **Preferred provider** set, that always overrides the global order for that asset.
 
 ### Editing and Deleting
 
-- Click **Edit** to modify a provider’s sources, URL, paths, or headers.
-- Click **Delete** to permanently remove a provider.
+- Use the pencil button (**Edit custom provider**) to modify a provider’s sources, URL, paths, or headers.
+- Use the trash button (**Delete**) to permanently remove a provider.
 
 
 You cannot delete a provider that is still assigned to one or more assets. First change those assets’ preferred provider to something else (or “Auto”), then delete.
@@ -217,20 +149,20 @@ You cannot delete a provider that is still assigned to one or more assets. First
 
 ## URL Template Variables
 
-Use these variables in your URL — they are replaced at runtime with values from the asset being fetched:
+Use these variables in your URL – they are replaced at runtime with values from the asset being fetched:
 
 
-| Variable        | Replaced with                    | Example                      |
-|-----------------|----------------------------------|------------------------------|
-| `{SYMBOL}`      | The asset’s ticker symbol        | `AAPL`, `bitcoin`, `VWCE`    |
-| `{ISIN}`        | The asset’s ISIN code            | `IE00BK5BQT80`               |
-| `{CURRENCY}`    | Currency hint (uppercase)        | `EUR`, `USD`                 |
-| `{currency}`    | Currency hint (lowercase)        | `eur`, `usd`                 |
-| `{MIC}`         | Exchange MIC code                | `XETR`, `XAMS`               |
-| `{TODAY}`       | Current date (YYYY-MM-DD)        | `2026-03-30`                 |
-| `{FROM}`        | Start of date range (YYYY-MM-DD) | `2025-01-01`                 |
-| `{TO}`          | End of date range (YYYY-MM-DD)   | `2026-03-30`                 |
-| `{DATE:format}` | Current date with custom format  | `{DATE:%Y%m%d}` → `20260330` |
+| Variable | Replaced with | Example |
+|----|----|----|
+| `{SYMBOL}` | The asset’s ticker symbol | `AAPL`, `bitcoin`, `VWCE` |
+| `{ISIN}` | The asset’s ISIN code | `IE00BK5BQT80` |
+| `{CURRENCY}` | Currency hint (uppercase) | `EUR`, `USD` |
+| `{currency}` | Currency hint (lowercase) | `eur`, `usd` |
+| `{MIC}` | Exchange MIC code | `XETR`, `XAMS` |
+| `{TODAY}` | Current date (YYYY-MM-DD) | `2026-03-30` |
+| `{FROM}` | Start of date range (YYYY-MM-DD) | `2025-01-01` |
+| `{TO}` | End of date range (YYYY-MM-DD) | `2026-03-30` |
+| `{DATE:format}` | Current date with custom format | `{DATE:%Y%m%d}` → `20260330` |
 
 
 **Example URL:**
@@ -245,9 +177,21 @@ For an asset with symbol `bitcoin` and currency `EUR`, this becomes:
 https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur
 ```
 
+## POST Requests
+
+Some APIs expect a POST request with a JSON body instead of a plain URL. For a **JSON API** source, set **HTTP method** to **POST** and enter the body under **Request body (JSON)**. The body must be valid JSON and can use the same template variables as the URL:
+
+``` mb-4
+{ "symbol": "{SYMBOL}", "fields": ["close", "volume"] }
+```
+
+POST requests are sent with a `Content-Type: application/json` header unless your headers set another `Content-Type`. Other source types always send a GET request.
+
+The **TMX Money** templates work this way: they send a GraphQL query to TMX Money’s API in the request body.
+
 ## Extraction Paths
 
-### JSON — JSONPath
+### JSON – JSONPath
 
 Use <a href="https://goessner.net/articles/JsonPath/" class="font-medium underline underline-offset-4">JSONPath</a> expressions to extract values from JSON responses.
 
@@ -272,7 +216,7 @@ Template variables work inside paths too:
 $.{SYMBOL}.{currency}   → resolves to $.bitcoin.eur
 ```
 
-### HTML — CSS Selectors
+### HTML – CSS Selectors
 
 Use standard CSS selectors to target elements on a web page:
 
@@ -284,7 +228,7 @@ Use standard CSS selectors to target elements on a web page:
 
 The text content of the matched element is parsed as a number.
 
-### HTML Table — Table Coordinates
+### HTML Table – Table Coordinates
 
 Use the format `table_index:column_index` (both zero-based):
 
@@ -294,9 +238,9 @@ Use the format `table_index:column_index` (both zero-based):
 1:2    → Second table, 3rd column
 ```
 
-When testing an HTML table source, Wealthfolio auto-detects column roles (date, close, high, low, volume) based on header text — in English, German, French, Spanish, and Italian.
+When testing an HTML table source, Wealthfolio auto-detects column roles (date, close, high, low, volume) based on header text – in English, German, French, Spanish, and Italian.
 
-### CSV — Column Names or Indices
+### CSV – Column Names or Indices
 
 Reference columns by their header name or zero-based index:
 
@@ -324,12 +268,12 @@ If the API requires authentication, add custom HTTP headers as a JSON object:
 Common header patterns:
 
 
-| API style         | Header example                                                     |
-|-------------------|--------------------------------------------------------------------|
-| API key in header | `{"Authorization": "apikey abc123"}`                               |
-| Bearer token      | `{"Authorization": "Bearer abc123"}`                               |
-| Custom header     | `{"X-Api-Key": "abc123"}`                                          |
-| Multiple headers  | `{"Authorization": "Bearer abc123", "Accept": "application/json"}` |
+| API style | Header example |
+|----|----|
+| API key in header | `{"Authorization": "apikey abc123"}` |
+| Bearer token | `{"Authorization": "Bearer abc123"}` |
+| Custom header | `{"X-Api-Key": "abc123"}` |
+| Multiple headers | `{"Authorization": "Bearer abc123", "Accept": "application/json"}` |
 
 
 **Secure storage for secrets:** Prefix any sensitive value with `__SECRET__` (e.g., `__SECRET__my_api_key`) and Wealthfolio will store it in your OS keyring (macOS Keychain, Windows Credential Manager, Linux Secret Service) rather than in the database. Non-secret headers like `Accept` are stored in the database as-is. At runtime, `__SECRET__` placeholders are resolved transparently.
@@ -340,12 +284,12 @@ Common header patterns:
 Multiply the extracted price by a constant number. Set this when the raw value from the API doesn’t match the unit you need:
 
 
-| Scenario                                       | Factor   | Why                   |
-|------------------------------------------------|----------|-----------------------|
-| API returns pence (GBX), you need pounds (GBP) | `0.01`   | 1 pence = 0.01 pounds |
-| API returns basis points                       | `0.0001` | 1 bp = 0.0001         |
-| API returns percentage, you need decimal       | `0.01`   | 5% → 0.05             |
-| NAV reported per 1000 units                    | `0.001`  | Scale to per-unit     |
+| Scenario | Factor | Why |
+|----|----|----|
+| API returns pence (GBX), you need pounds (GBP) | `0.01` | 1 pence = 0.01 pounds |
+| API returns basis points | `0.0001` | 1 bp = 0.0001 |
+| API returns percentage, you need decimal | `0.01` | 5% → 0.05 |
+| NAV reported per 1000 units | `0.001` | Scale to per-unit |
 
 
 Leave empty (or `1`) to use the raw extracted value.
@@ -358,7 +302,7 @@ Typical use case: your source provides USD/EUR (how many euros per dollar) but y
 
 ### Currency Path
 
-A path expression (JSONPath or CSS selector, depending on format) to extract the currency code from the response. If the API response includes the currency of the quoted price, point this path to it. Otherwise leave it empty — the asset’s own currency is used.
+A path expression (JSONPath or CSS selector, depending on format) to extract the currency code from the response. If the API response includes the currency of the quoted price, point this path to it. Otherwise leave it empty – the asset’s own currency is used.
 
 ``` mb-4
 $.currency          → { "price": 152.30, "currency": "USD" }
@@ -377,7 +321,7 @@ Controls how numbers with commas and dots are interpreted:
 | `1.234`      | 1.234 (ambiguous → US) | 1234 (European: dot = thousands) |
 
 
-Auto-detect works in most cases. Set an explicit locale (`de`, `fr`, `es`, `it`) when the source consistently uses European formatting and you want to eliminate ambiguity — especially for values without a decimal part like `1.234` which could mean either 1.234 or 1234.
+Auto-detect works in most cases. Set an explicit locale (`de`, `fr`, `es`, `it`) when the source consistently uses European formatting and you want to eliminate ambiguity – especially for values without a decimal part like `1.234` which could mean either 1.234 or 1234.
 
 The parser also strips currency symbols (`$`, `€`, `£`, `¥`, `₹`, `%`, etc.) automatically before parsing.
 
@@ -437,7 +381,7 @@ For historical sources, you can extract additional market data beyond the closin
 | **Volume path** | Trading volume   | `$.values[*].volume` |
 
 
-These are optional — if omitted, only the closing price is stored.
+These are optional – if omitted, only the closing price is stored.
 
 For **HTML Table** format, use the same `table_index:column_index` syntax:
 
@@ -458,37 +402,37 @@ Volume path: volume
 ### All Advanced Options at a Glance
 
 
-| Option            | Purpose                                  | When to use                               |
-|-------------------|------------------------------------------|-------------------------------------------|
-| **Headers**       | Custom HTTP headers (auth, accept, etc.) | API requires authentication               |
-| **Factor**        | Multiply price by a constant             | Price in wrong unit (pence, basis points) |
-| **Invert**        | Compute 1/price                          | FX pair is inverted vs. what you need     |
-| **Currency path** | Extract currency from response           | API returns multi-currency data           |
-| **Locale**        | Force European number parsing            | Source uses comma as decimal separator    |
-| **Date format**   | Custom date parsing                      | Non-standard date format in response      |
-| **Date timezone** | Interpret dates in a timezone            | Source has no timezone info               |
-| **Default price** | Fallback on request failure              | Unreliable or private sources             |
-| **OHLCV paths**   | Extract high, low, volume                | You want full candle data                 |
+| Option | Purpose | When to use |
+|----|----|----|
+| **Headers** | Custom HTTP headers (auth, accept, etc.) | API requires authentication |
+| **Factor** | Multiply price by a constant | Price in wrong unit (pence, basis points) |
+| **Invert** | Compute 1/price | FX pair is inverted vs. what you need |
+| **Currency path** | Extract currency from response | API returns multi-currency data |
+| **Locale** | Force European number parsing | Source uses comma as decimal separator |
+| **Date format** | Custom date parsing | Non-standard date format in response |
+| **Date timezone** | Interpret dates in a timezone | Source has no timezone info |
+| **Default price** | Fallback on request failure | Unreliable or private sources |
+| **OHLCV paths** | Extract high, low, volume | You want full candle data |
 
 
 ## Configuring Market Data per Asset
 
-The **Market Data** tab on each asset lets you control exactly how prices are fetched for that specific asset. You can set a preferred provider, override the symbol sent to each provider, and switch between automatic and manual pricing.
+The **Market data** tab on each asset lets you control exactly how prices are fetched for that specific asset. You can set a preferred provider, override the symbol sent to each provider, and switch between automatic and manual pricing.
 
 ### Preferred Provider
 
-By default, Wealthfolio uses **Auto** — it tries providers in priority order until one succeeds (see <a href="#how-provider-resolution-works" class="font-medium underline underline-offset-4">How Provider Resolution Works</a>). You can override this per asset:
+By default, Wealthfolio uses **Auto** – it tries providers in priority order until one succeeds (see <a href="#how-provider-resolution-works" class="font-medium underline underline-offset-4">How Provider Resolution Works</a>). You can override this per asset:
 
 1.  Open the asset detail page and click **Edit**.
-2.  Go to the **Market Data** tab.
-3.  In the **Preferred Provider** dropdown, select a provider.
+2.  Go to the **Market data** tab.
+3.  In the **Preferred provider** dropdown, select a provider.
 
 The dropdown is divided into two groups:
 
-- **Built-in** — Yahoo, Alpha Vantage, Finnhub, etc.
-- **Custom** — Any custom providers you’ve created.
+- **Built-in** – Yahoo, Alpha Vantage, Finnhub, etc.
+- **Custom** – Any custom providers you’ve created.
 
-When you select a provider, it becomes the **first** provider tried for this asset. If it fails, the system still falls through to other providers in priority order.
+When you select a built-in provider, it becomes the **first** provider tried for this asset. If it fails, the system still falls through to other providers in priority order. A custom provider is different: prices for the security come only from it, and if it fails, other providers aren’t tried.
 
 ### Symbol Mapping (Overrides)
 
@@ -501,28 +445,28 @@ For a separate cryptocurrency example, CoinGecko may expect a coin ID such as `b
 
 By default, Wealthfolio applies built-in rules to derive the correct symbol per provider (e.g., appending `.TO` for Yahoo when the exchange MIC is `XTSE`). When these rules don’t work, you can set explicit overrides:
 
-1.  In the **Market Data** tab, find the **Symbol Mapping** section.
+1.  In the **Market data** tab, find the **Symbol mapping** section.
 2.  Click **Add**.
 3.  Select the **Provider** and enter the **Symbol** that provider expects.
-4.  Add as many mappings as needed — one per provider.
+4.  Add as many mappings as needed – one per provider.
 
 Each mapping tells that specific provider to use your custom symbol instead of the default. Other providers are unaffected.
 
 **Example:** An asset with ticker `VWCE` on Euronext Amsterdam (`XAMS`):
 
 
-| Provider         | Default symbol (from rules) | Override needed?                 |
-|------------------|-----------------------------|----------------------------------|
-| Yahoo            | `VWCE.AS` (auto-derived)    | No                               |
-| Custom: Euronext | `VWCE`                      | Yes — set to `IE00BK5BQT80-XAMS` |
-| Custom: FT.com   | `VWCE`                      | Yes — set to `VWCE`              |
+| Provider | Default symbol (from rules) | Override needed? |
+|----|----|----|
+| Yahoo | `VWCE.AS` (auto-derived) | No |
+| Custom: Euronext | `VWCE` | Yes – set to `IE00BK5BQT80-XAMS` |
+| Custom: FT.com | `VWCE` | Yes – set to `VWCE` |
 
 
 ### Automatic vs. Manual Pricing
 
-The **Automatic Updates** toggle controls whether prices sync from providers:
+The **Automatic updates** toggle controls whether prices sync from providers:
 
-- **On** (default): Prices are fetched automatically during each sync cycle. The Preferred Provider and Symbol Mapping settings apply.
+- **On** (default): Prices are fetched automatically during each sync cycle. The preferred provider and symbol mapping settings apply.
 - **Off**: Automatic syncing is disabled. You enter and maintain prices manually. Existing manual quotes are preserved.
 
 
@@ -537,9 +481,9 @@ When Wealthfolio needs a price for an asset, it follows a structured resolution 
 
 Providers are sorted to determine the order in which they are tried:
 
-1.  **Preferred provider** (if set on the asset) — always tried first.
-2.  **Custom priority** — providers you’ve reordered in Settings \> Market Data.
-3.  **Default priority** — the provider’s built-in priority.
+1.  **Preferred provider** (if set on the asset) – always tried first.
+2.  **Custom priority** – providers you’ve reordered in Settings → Market data.
+3.  **Default priority** – the provider’s built-in priority.
 
 If no preferred provider is set, the app uses the global priority order from your settings.
 
@@ -547,8 +491,8 @@ If no preferred provider is set, the app uses the global priority order from you
 
 For each provider (in order), the app resolves what symbol to send using a two-step chain:
 
-1.  **Check asset-level overrides** — If you’ve set a symbol mapping for this specific provider on this asset, use it. This is the highest precedence.
-2.  **Apply built-in rules** — If no override exists, derive the symbol using rules based on the asset type and exchange:
+1.  **Check asset-level overrides** – If you’ve set a symbol mapping for this specific provider on this asset, use it. This is the highest precedence.
+2.  **Apply built-in rules** – If no override exists, derive the symbol using rules based on the asset type and exchange:
     - **Equities**: Ticker + exchange suffix (e.g., `SHOP` on `XTSE` → `SHOP.TO` for Yahoo)
     - **Crypto**: Provider-specific format (e.g., `BTC-USD` for Yahoo, `bitcoin` for CoinGecko)
     - **FX pairs**: Provider-specific format (e.g., `EURUSD=X` for Yahoo)
@@ -561,11 +505,11 @@ The app tries each provider in order:
 
 1.  Resolve the symbol for this provider.
 2.  Fetch the quote.
-3.  **If successful** — store the quote and stop.
-4.  **If failed** — classify the error:
-    - *Auth/not found (401, 403, 404)* — stop immediately, don’t try other providers for this error type.
-    - *Rate limited or server error (429, 5xx)* — mark provider as temporarily unreliable, try the next provider.
-    - *Network/timeout* — try the next provider.
+3.  **If successful** – store the quote and stop.
+4.  **If failed** – classify the error:
+    - *Auth/not found (401, 403, 404)* – stop immediately, don’t try other providers for this error type.
+    - *Rate limited or server error (429, 5xx)* – mark provider as temporarily unreliable, try the next provider.
+    - *Network/timeout* – try the next provider.
 5.  If all providers fail, the asset has no price for this sync cycle.
 
 ### How Custom Providers Fit In
@@ -577,7 +521,7 @@ Custom providers participate in this same resolution chain. When an asset’s pr
 3.  It resolves the symbol: first checking for a symbol override keyed as `CUSTOM:coingecko`, then falling back to the asset’s default ticker.
 4.  It expands the URL template, fetches the response, and extracts the price.
 
-This means you can have multiple custom providers (CoinGecko, FT.com, Euronext) and assign different ones to different assets — they all use the same underlying engine but with different configurations.
+This means you can have multiple custom providers (CoinGecko, FT.com, Euronext) and assign different ones to different assets – they all use the same underlying engine but with different configurations.
 
 ### Resolution Example
 
@@ -594,21 +538,13 @@ Consider an asset: **VWCE** (Vanguard FTSE All-World ETF) on Euronext Amsterdam.
 
 **Resolution:**
 
-1.  **Preferred provider: Euronext (custom)** — tried first
+1.  **Preferred provider: Euronext (custom)** – tried first
 
     - Symbol override found: `IE00BK5BQT80-XAMS`
     - URL: `https://live.euronext.com/en/ajax/getDetailedQuote/IE00BK5BQT80-XAMS`
     - Fetches successfully → done.
 
-2.  **If Euronext fails → Yahoo (next in priority)**
-
-    - No override → built-in rules: `VWCE` + `XAMS` suffix → `VWCE.AS`
-    - Fetches from Yahoo with `VWCE.AS`
-
-3.  **If Yahoo fails → Alpha Vantage (next)**
-
-    - No override → built-in rules: `VWCE`
-    - And so on…
+2.  **If Euronext fails, no other provider is tried.** A security assigned to a custom provider gets prices only from it.
 
 ## Examples
 
@@ -776,13 +712,13 @@ Run your own scraping endpoint (Node, Python, whatever) and point Wealthfolio at
 
 ## Limitations
 
-- **No JavaScript execution** — Pages that require JavaScript to load content (SPAs, dynamic widgets) are not supported. The scraper fetches raw HTML only.
-- **No XPath** — HTML extraction uses CSS selectors, not XPath.
-- **No XML/RSS** — Only JSON, HTML, HTML table, and CSV formats are supported.
-- **No GraphQL** — Only REST-style HTTP GET/POST endpoints are supported.
-- **Global sync interval** — Custom providers run on the same sync schedule as built-in providers. Per-provider intervals are not supported.
-- **Rate limiting + circuit breaker** — A built-in rate limiter caps requests per minute and a circuit breaker backs off after repeated failures. Custom providers run at 30 requests/min with a 500ms minimum delay and at most 2 concurrent requests.
-- **HTTP timeouts** — Requests have a finite timeout. Long-running endpoints will fail rather than block the sync queue.
+- **No JavaScript execution** – Pages that require JavaScript to load content (SPAs, dynamic widgets) are not supported. The scraper fetches raw HTML only.
+- **No XPath** – HTML extraction uses CSS selectors, not XPath.
+- **No XML/RSS** – Only JSON, HTML, HTML table, and CSV formats are supported.
+- **GET or JSON POST only** – A source sends a GET request, or for a JSON API, a POST with a JSON body. A GraphQL API works when its query can be sent in a JSON POST body, as the TMX Money templates do.
+- **Global sync interval** – Custom providers run on the same sync schedule as built-in providers. Per-provider intervals are not supported.
+- **Rate limiting + circuit breaker** – A built-in rate limiter caps requests per minute and a circuit breaker backs off after repeated failures. Custom providers run at 30 requests/min with a 500ms minimum delay and at most 2 concurrent requests.
+- **HTTP timeouts** – Requests have a finite timeout. Long-running endpoints will fail rather than block the sync queue.
 
 ## Troubleshooting
 
@@ -795,14 +731,14 @@ Run your own scraping endpoint (Node, Python, whatever) and point Wealthfolio at
 
 **Provider not appearing in asset dropdown**
 
-- Make sure the provider is **enabled** in Settings \> Market Data.
+- Make sure the provider is **enabled** in Settings → Market data.
 - Confirm it was saved successfully (check for validation errors).
 
 **Prices not updating during sync**
 
-- The asset must have its **Preferred Provider** set to your custom provider.
-- Check that “Automatic Updates” is enabled on the asset’s Market Data tab.
-- If only a “Latest” source is configured, only the current price is fetched each sync — historical backfill requires a “Historical” source.
+- The asset must have its **Preferred provider** set to your custom provider.
+- Check that “Automatic updates” is enabled on the asset’s Market data tab.
+- If only a “Latest” source is configured, only the current price is fetched each sync – historical backfill requires a “Historical” source.
 
 **Authentication errors (401/403)**
 
@@ -814,13 +750,10 @@ Run your own scraping endpoint (Node, Python, whatever) and point Wealthfolio at
 - If the source returns numbers like `1.234,56`, set the **Locale** to `de`, `fr`, `es`, or `it` to force European decimal parsing.
 
 
-------------------------------------------------------------------------
+<a href="/docs/guide/contribution-limits/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Contribution Limits</a> <a href="/docs/guide/health-center/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Health Center</a>
 
 
-<a href="/docs/guide/contribution-limits/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Contribution Limits</a> <a href="/docs/guide/health-center/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Health Center</a>
-
-
-On This Page
+On this page
 
 - <a href="#overview" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Overview</a>
 - <a href="#supported-formats" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Supported Formats</a>
@@ -830,14 +763,15 @@ On This Page
   - <a href="#testing-your-configuration" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Testing Your Configuration</a>
 - <a href="#managing-custom-providers" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Managing Custom Providers</a>
   - <a href="#enable--disable" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Enable / Disable</a>
-  - <a href="#priority" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Priority</a>
+  - <a href="#order-and-fallback-use" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Order and Fallback Use</a>
   - <a href="#editing-and-deleting" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Editing and Deleting</a>
 - <a href="#url-template-variables" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">URL Template Variables</a>
+- <a href="#post-requests" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">POST Requests</a>
 - <a href="#extraction-paths" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Extraction Paths</a>
-  - <a href="#json--jsonpath" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">JSON — JSONPath</a>
-  - <a href="#html--css-selectors" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">HTML — CSS Selectors</a>
-  - <a href="#html-table--table-coordinates" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">HTML Table — Table Coordinates</a>
-  - <a href="#csv--column-names-or-indices" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">CSV — Column Names or Indices</a>
+  - <a href="#json--jsonpath" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">JSON – JSONPath</a>
+  - <a href="#html--css-selectors" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">HTML – CSS Selectors</a>
+  - <a href="#html-table--table-coordinates" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">HTML Table – Table Coordinates</a>
+  - <a href="#csv--column-names-or-indices" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">CSV – Column Names or Indices</a>
 - <a href="#advanced-options" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Advanced Options</a>
   - <a href="#authentication-headers" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Authentication Headers</a>
   - <a href="#factor" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Factor</a>

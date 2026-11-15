@@ -608,6 +608,30 @@
       "target": "skills/chat-sdk/docs/adapter-gitlab.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/community/rocketchat.md",
+      "target": "skills/chat-sdk/docs/adapter-community-rocketchat.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/community/signal.md",
+      "target": "skills/chat-sdk/docs/adapter-community-signal.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/community/zoom.md",
+      "target": "skills/chat-sdk/docs/adapter-community-zoom.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://chat-sdk.dev/adapters/vendor-official/adeli.md",
+      "target": "skills/chat-sdk/docs/adapter-vendor-adeli.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache"

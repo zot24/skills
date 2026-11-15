@@ -39,69 +39,69 @@ Lidarr passes data to your script through environment variables. The variables a
 
 These three variables are present in every event.
 
-| Environment Variable    | Details                                                                                                                                                                     |
-|-------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `lidarr_eventtype`      | The event name: `Grab`, `AlbumDownload`, `Rename`, `TrackRetag`, `ArtistAdd`, `ArtistDeleted`, `AlbumDeleted`, `HealthIssue`, `HealthRestored`, `ApplicationUpdate`, `Test` |
-| `lidarr_instancename`   | The Lidarr instance name (set in Settings → General)                                                                                                                        |
-| `lidarr_applicationurl` | The configured application URL (set in Settings → General)                                                                                                                  |
+| Environment Variable | Details |
+|----|----|
+| `lidarr_eventtype` | The event name: `Grab`, `AlbumDownload`, `Rename`, `TrackRetag`, `ArtistAdd`, `ArtistDeleted`, `AlbumDeleted`, `HealthIssue`, `HealthRestored`, `ApplicationUpdate`, `Test` |
+| `lidarr_instancename` | The Lidarr instance name (set in Settings → General) |
+| `lidarr_applicationurl` | The configured application URL (set in Settings → General) |
 
 ### <a href="#grab" class="toc-anchor">¶</a> Grab
 
 Fired when Lidarr sends a release to a download client.
 
-| Environment Variable               | Details                                                      |
-|------------------------------------|--------------------------------------------------------------|
-| `lidarr_eventtype`                 | `Grab`                                                       |
-| `lidarr_artist_id`                 | Internal Lidarr ID for the artist                            |
-| `lidarr_artist_name`               | Artist name                                                  |
-| `lidarr_artist_mbid`               | MusicBrainz artist ID                                        |
-| `lidarr_artist_type`               | Artist type (for example, `Person`, `Group`)                 |
-| `lidarr_artist_genres`             | Pipe-separated list of genres                                |
-| `lidarr_artist_tags`               | Pipe-separated list of tag labels                            |
-| `lidarr_release_albumcount`        | Number of albums in this release                             |
-| `lidarr_release_albumreleasedates` | Comma-separated list of album release dates                  |
-| `lidarr_release_albumtitles`       | Pipe-separated list of album titles                          |
-| `lidarr_release_albumoverviews`    | Pipe-separated list of album overviews                       |
-| `lidarr_release_albummbids`        | Pipe-separated list of album MusicBrainz IDs                 |
-| `lidarr_release_title`             | Release title as returned by the indexer                     |
-| `lidarr_release_indexer`           | Indexer that found the release                               |
-| `lidarr_release_size`              | Release size in bytes                                        |
-| `lidarr_release_quality`           | Quality name (for example, `FLAC`, `MP3-320`)                |
-| `lidarr_release_qualityversion`    | Quality revision version                                     |
-| `lidarr_release_releasegroup`      | Release group tag from the release title                     |
-| `lidarr_release_indexerflags`      | Indexer flags on the release                                 |
-| `lidarr_release_customformat`      | Pipe-separated list of matched custom format names           |
-| `lidarr_release_customformatscore` | Total custom format score for this release                   |
-| `lidarr_download_client`           | Name of the download client used                             |
-| `lidarr_download_client_type`      | Download client name (for example, `qBittorrent`, `SABnzbd`) |
-| `lidarr_download_id`               | Download ID in the download client                           |
+| Environment Variable | Details |
+|----|----|
+| `lidarr_eventtype` | `Grab` |
+| `lidarr_artist_id` | Internal Lidarr ID for the artist |
+| `lidarr_artist_name` | Artist name |
+| `lidarr_artist_mbid` | MusicBrainz artist ID |
+| `lidarr_artist_type` | Artist type (for example, `Person`, `Group`) |
+| `lidarr_artist_genres` | Pipe-separated list of genres |
+| `lidarr_artist_tags` | Pipe-separated list of tag labels |
+| `lidarr_release_albumcount` | Number of albums in this release |
+| `lidarr_release_albumreleasedates` | Comma-separated list of album release dates |
+| `lidarr_release_albumtitles` | Pipe-separated list of album titles |
+| `lidarr_release_albumoverviews` | Pipe-separated list of album overviews |
+| `lidarr_release_albummbids` | Pipe-separated list of album MusicBrainz IDs |
+| `lidarr_release_title` | Release title as returned by the indexer |
+| `lidarr_release_indexer` | Indexer that found the release |
+| `lidarr_release_size` | Release size in bytes |
+| `lidarr_release_quality` | Quality name (for example, `FLAC`, `MP3-320`) |
+| `lidarr_release_qualityversion` | Quality revision version |
+| `lidarr_release_releasegroup` | Release group tag from the release title |
+| `lidarr_release_indexerflags` | Indexer flags on the release |
+| `lidarr_release_customformat` | Pipe-separated list of matched custom format names |
+| `lidarr_release_customformatscore` | Total custom format score for this release |
+| `lidarr_download_client` | Name of the download client used |
+| `lidarr_download_client_type` | Download client name (for example, `qBittorrent`, `SABnzbd`) |
+| `lidarr_download_id` | Download ID in the download client |
 
 ### <a href="#on-import-on-upgrade" class="toc-anchor">¶</a> On Import / On Upgrade
 
 Fired after Lidarr has successfully imported a downloaded album into the library. `lidarr_eventtype` is `AlbumDownload` for both initial imports and upgrades.
 
-| Environment Variable          | Details                                                           |
-|-------------------------------|-------------------------------------------------------------------|
-| `lidarr_eventtype`            | `AlbumDownload`                                                   |
-| `lidarr_artist_id`            | Internal Lidarr ID for the artist                                 |
-| `lidarr_artist_name`          | Artist name                                                       |
-| `lidarr_artist_path`          | Root path for this artist                                         |
-| `lidarr_artist_mbid`          | MusicBrainz artist ID                                             |
-| `lidarr_artist_type`          | Artist type                                                       |
-| `lidarr_artist_genres`        | Pipe-separated list of genres                                     |
-| `lidarr_artist_tags`          | Pipe-separated list of tag labels                                 |
-| `lidarr_album_id`             | Internal Lidarr ID for the album                                  |
-| `lidarr_album_title`          | Album title                                                       |
-| `lidarr_album_overview`       | Album overview/description                                        |
-| `lidarr_album_mbid`           | MusicBrainz release group ID                                      |
-| `lidarr_albumrelease_mbid`    | MusicBrainz release ID (specific pressing)                        |
-| `lidarr_album_releasedate`    | Album release date                                                |
-| `lidarr_download_client`      | Name of the download client                                       |
-| `lidarr_download_client_type` | Download client name                                              |
-| `lidarr_download_id`          | Download ID in the download client                                |
-| `lidarr_addedtrackpaths`      | Pipe-separated list of imported track file paths                  |
-| `lidarr_deletedpaths`         | Pipe-separated list of file paths deleted/replaced during upgrade |
-| `lidarr_deleteddateadded`     | Pipe-separated list of date-added values for deleted files        |
+| Environment Variable | Details |
+|----|----|
+| `lidarr_eventtype` | `AlbumDownload` |
+| `lidarr_artist_id` | Internal Lidarr ID for the artist |
+| `lidarr_artist_name` | Artist name |
+| `lidarr_artist_path` | Root path for this artist |
+| `lidarr_artist_mbid` | MusicBrainz artist ID |
+| `lidarr_artist_type` | Artist type |
+| `lidarr_artist_genres` | Pipe-separated list of genres |
+| `lidarr_artist_tags` | Pipe-separated list of tag labels |
+| `lidarr_album_id` | Internal Lidarr ID for the album |
+| `lidarr_album_title` | Album title |
+| `lidarr_album_overview` | Album overview/description |
+| `lidarr_album_mbid` | MusicBrainz release group ID |
+| `lidarr_albumrelease_mbid` | MusicBrainz release ID (specific pressing) |
+| `lidarr_album_releasedate` | Album release date |
+| `lidarr_download_client` | Name of the download client |
+| `lidarr_download_client_type` | Download client name |
+| `lidarr_download_id` | Download ID in the download client |
+| `lidarr_addedtrackpaths` | Pipe-separated list of imported track file paths |
+| `lidarr_deletedpaths` | Pipe-separated list of file paths deleted/replaced during upgrade |
+| `lidarr_deleteddateadded` | Pipe-separated list of date-added values for deleted files |
 
 > **Manual Import only fires this event when "Replace Existing Files" is checked.** The dialog's Replace Existing Files toggle is passed straight through as the flag that gates this event, so a Manual Import with that box unchecked (the common case for a first-time import with nothing to replace) completes successfully but never fires On Release Import or On Upgrade. If a script needs to react to every import including plain Manual Imports, use [On Track Retag](#track-retag) instead, provided **Write Tags** is enabled, since it fires for any tag write regardless of how the file arrived.
 
@@ -109,52 +109,52 @@ Fired after Lidarr has successfully imported a downloaded album into the library
 
 Fired after Lidarr renames one or more track files for an artist.
 
-| Environment Variable             | Details                                                        |
-|----------------------------------|----------------------------------------------------------------|
-| `lidarr_eventtype`               | `Rename`                                                       |
-| `lidarr_artist_id`               | Internal Lidarr ID for the artist                              |
-| `lidarr_artist_name`             | Artist name                                                    |
-| `lidarr_artist_path`             | Root path for this artist                                      |
-| `lidarr_artist_mbid`             | MusicBrainz artist ID                                          |
-| `lidarr_artist_type`             | Artist type                                                    |
-| `lidarr_artist_genres`           | Pipe-separated list of genres                                  |
-| `lidarr_artist_tags`             | Pipe-separated list of tag labels                              |
-| `lidarr_trackfile_ids`           | Comma-separated list of internal track file IDs Lidarr renamed |
-| `lidarr_trackfile_paths`         | Pipe-separated list of new (current) paths after rename        |
-| `lidarr_trackfile_previouspaths` | Pipe-separated list of old paths before rename                 |
+| Environment Variable | Details |
+|----|----|
+| `lidarr_eventtype` | `Rename` |
+| `lidarr_artist_id` | Internal Lidarr ID for the artist |
+| `lidarr_artist_name` | Artist name |
+| `lidarr_artist_path` | Root path for this artist |
+| `lidarr_artist_mbid` | MusicBrainz artist ID |
+| `lidarr_artist_type` | Artist type |
+| `lidarr_artist_genres` | Pipe-separated list of genres |
+| `lidarr_artist_tags` | Pipe-separated list of tag labels |
+| `lidarr_trackfile_ids` | Comma-separated list of internal track file IDs Lidarr renamed |
+| `lidarr_trackfile_paths` | Pipe-separated list of new (current) paths after rename |
+| `lidarr_trackfile_previouspaths` | Pipe-separated list of old paths before rename |
 
 ### <a href="#track-retag" class="toc-anchor">¶</a> Track Retag
 
 Fired after Lidarr rewrites tags on one or more track files.
 
-| Environment Variable              | Details                                                |
-|-----------------------------------|--------------------------------------------------------|
-| `lidarr_eventtype`                | `TrackRetag`                                           |
-| `lidarr_artist_id`                | Internal Lidarr ID for the artist                      |
-| `lidarr_artist_name`              | Artist name                                            |
-| `lidarr_artist_path`              | Root path for this artist                              |
-| `lidarr_artist_mbid`              | MusicBrainz artist ID                                  |
-| `lidarr_artist_type`              | Artist type                                            |
-| `lidarr_artist_genres`            | Pipe-separated list of genres                          |
-| `lidarr_artist_tags`              | Pipe-separated list of tag labels                      |
-| `lidarr_album_id`                 | Internal Lidarr ID for the album                       |
-| `lidarr_album_title`              | Album title                                            |
-| `lidarr_album_overview`           | Album overview/description                             |
-| `lidarr_album_mbid`               | MusicBrainz release group ID                           |
-| `lidarr_albumrelease_mbid`        | MusicBrainz release ID                                 |
-| `lidarr_album_releasedate`        | Album release date                                     |
-| `lidarr_trackfile_id`             | Internal track file ID                                 |
-| `lidarr_trackfile_trackcount`     | Number of tracks in this file                          |
-| `lidarr_trackfile_path`           | Path to the track file                                 |
-| `lidarr_trackfile_trackids`       | Comma-separated list of internal track IDs             |
-| `lidarr_trackfile_tracknumbers`   | Comma-separated list of track numbers                  |
-| `lidarr_trackfile_tracktitles`    | Pipe-separated list of track titles                    |
-| `lidarr_trackfile_quality`        | Quality name                                           |
-| `lidarr_trackfile_qualityversion` | Quality revision version                               |
-| `lidarr_trackfile_releasegroup`   | Release group tag                                      |
-| `lidarr_trackfile_scenename`      | Scene name of the source release                       |
-| `lidarr_tags_diff`                | JSON diff of tag changes                               |
-| `lidarr_tags_scrubbed`            | Whether Lidarr scrubbed existing tags (`True`/`False`) |
+| Environment Variable | Details |
+|----|----|
+| `lidarr_eventtype` | `TrackRetag` |
+| `lidarr_artist_id` | Internal Lidarr ID for the artist |
+| `lidarr_artist_name` | Artist name |
+| `lidarr_artist_path` | Root path for this artist |
+| `lidarr_artist_mbid` | MusicBrainz artist ID |
+| `lidarr_artist_type` | Artist type |
+| `lidarr_artist_genres` | Pipe-separated list of genres |
+| `lidarr_artist_tags` | Pipe-separated list of tag labels |
+| `lidarr_album_id` | Internal Lidarr ID for the album |
+| `lidarr_album_title` | Album title |
+| `lidarr_album_overview` | Album overview/description |
+| `lidarr_album_mbid` | MusicBrainz release group ID |
+| `lidarr_albumrelease_mbid` | MusicBrainz release ID |
+| `lidarr_album_releasedate` | Album release date |
+| `lidarr_trackfile_id` | Internal track file ID |
+| `lidarr_trackfile_trackcount` | Number of tracks in this file |
+| `lidarr_trackfile_path` | Path to the track file |
+| `lidarr_trackfile_trackids` | Comma-separated list of internal track IDs |
+| `lidarr_trackfile_tracknumbers` | Comma-separated list of track numbers |
+| `lidarr_trackfile_tracktitles` | Pipe-separated list of track titles |
+| `lidarr_trackfile_quality` | Quality name |
+| `lidarr_trackfile_qualityversion` | Quality revision version |
+| `lidarr_trackfile_releasegroup` | Release group tag |
+| `lidarr_trackfile_scenename` | Scene name of the source release |
+| `lidarr_tags_diff` | JSON diff of tag changes |
+| `lidarr_tags_scrubbed` | Whether Lidarr scrubbed existing tags (`True`/`False`) |
 
 ### <a href="#artist-added" class="toc-anchor">¶</a> Artist Added
 
@@ -175,50 +175,50 @@ Fired when you add an artist to Lidarr.
 
 Fired when you remove an artist from Lidarr.
 
-| Environment Variable         | Details                                                  |
-|------------------------------|----------------------------------------------------------|
-| `lidarr_eventtype`           | `ArtistDeleted`                                          |
-| `lidarr_artist_id`           | Internal Lidarr ID for the artist                        |
-| `lidarr_artist_title`        | Artist name                                              |
-| `lidarr_artist_path`         | Path Lidarr used for this artist                         |
-| `lidarr_artist_mbid`         | MusicBrainz artist ID                                    |
-| `lidarr_artist_type`         | Artist type                                              |
-| `lidarr_artist_genres`       | Pipe-separated list of genres                            |
-| `lidarr_artist_tags`         | Pipe-separated list of tag labels                        |
+| Environment Variable | Details |
+|----|----|
+| `lidarr_eventtype` | `ArtistDeleted` |
+| `lidarr_artist_id` | Internal Lidarr ID for the artist |
+| `lidarr_artist_title` | Artist name |
+| `lidarr_artist_path` | Path Lidarr used for this artist |
+| `lidarr_artist_mbid` | MusicBrainz artist ID |
+| `lidarr_artist_type` | Artist type |
+| `lidarr_artist_genres` | Pipe-separated list of genres |
+| `lidarr_artist_tags` | Pipe-separated list of tag labels |
 | `lidarr_artist_deletedfiles` | Whether files on disk were also deleted (`True`/`False`) |
 
 ### <a href="#album-deleted" class="toc-anchor">¶</a> Album Deleted
 
 Fired when you remove an album from Lidarr.
 
-| Environment Variable         | Details                                                  |
-|------------------------------|----------------------------------------------------------|
-| `lidarr_eventtype`           | `AlbumDeleted`                                           |
-| `lidarr_artist_id`           | Internal Lidarr ID for the artist                        |
-| `lidarr_artist_name`         | Artist name                                              |
-| `lidarr_artist_path`         | Root path for this artist                                |
-| `lidarr_artist_mbid`         | MusicBrainz artist ID                                    |
-| `lidarr_artist_type`         | Artist type                                              |
-| `lidarr_artist_genres`       | Pipe-separated list of genres                            |
-| `lidarr_artist_tags`         | Pipe-separated list of tag labels                        |
-| `lidarr_album_id`            | Internal Lidarr ID for the album                         |
-| `lidarr_album_title`         | Album title                                              |
-| `lidarr_album_overview`      | Album overview/description                               |
-| `lidarr_album_mbid`          | MusicBrainz release group ID                             |
-| `lidarr_album_releasedate`   | Album release date                                       |
+| Environment Variable | Details |
+|----|----|
+| `lidarr_eventtype` | `AlbumDeleted` |
+| `lidarr_artist_id` | Internal Lidarr ID for the artist |
+| `lidarr_artist_name` | Artist name |
+| `lidarr_artist_path` | Root path for this artist |
+| `lidarr_artist_mbid` | MusicBrainz artist ID |
+| `lidarr_artist_type` | Artist type |
+| `lidarr_artist_genres` | Pipe-separated list of genres |
+| `lidarr_artist_tags` | Pipe-separated list of tag labels |
+| `lidarr_album_id` | Internal Lidarr ID for the album |
+| `lidarr_album_title` | Album title |
+| `lidarr_album_overview` | Album overview/description |
+| `lidarr_album_mbid` | MusicBrainz release group ID |
+| `lidarr_album_releasedate` | Album release date |
 | `lidarr_artist_deletedfiles` | Whether files on disk were also deleted (`True`/`False`) |
 
 ### <a href="#health-issue" class="toc-anchor">¶</a> Health Issue
 
 Fired when Lidarr detects a health check failure.
 
-| Environment Variable          | Details                                               |
-|-------------------------------|-------------------------------------------------------|
-| `lidarr_eventtype`            | `HealthIssue`                                         |
-| `lidarr_health_issue_level`   | Severity level: `Ok`, `Notice`, `Warning`, or `Error` |
-| `lidarr_health_issue_message` | Human-readable description of the issue               |
-| `lidarr_health_issue_type`    | Name of the health check that fired                   |
-| `lidarr_health_issue_wiki`    | Wiki URL of this health issue, if one exists          |
+| Environment Variable | Details |
+|----|----|
+| `lidarr_eventtype` | `HealthIssue` |
+| `lidarr_health_issue_level` | Severity level: `Ok`, `Notice`, `Warning`, or `Error` |
+| `lidarr_health_issue_message` | Human-readable description of the issue |
+| `lidarr_health_issue_type` | Name of the health check that fired |
+| `lidarr_health_issue_wiki` | Wiki URL of this health issue, if one exists |
 
 ### <a href="#health-restored" class="toc-anchor">¶</a> Health Restored
 

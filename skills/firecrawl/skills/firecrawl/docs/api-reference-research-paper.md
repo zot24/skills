@@ -94,7 +94,7 @@ paths:
                   authors: Prafulla Dhariwal, Alexander Nichol
                   categories:
                     - cs.LG
-                  createdDate: Wed, 11 May 2021 18:01:01 GMT
+                  createdDate: '2021-05-11'
                   updateDate: '2021-06-01'
         '400':
           description: Invalid request
@@ -167,10 +167,12 @@ components:
           description: Paper categories.
         createdDate:
           type: string
-          description: Original creation date string.
+          format: date
+          description: Creation date, YYYY-MM-DD.
         updateDate:
           type: string
-          description: Last-updated date string.
+          format: date
+          description: Last update date, YYYY-MM-DD.
     ResearchPassage:
       type: object
       required:

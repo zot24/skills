@@ -74,7 +74,7 @@ The structure is identical for both Anthropic and custom Skills. Specify the req
   ```bash cURL
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -316,11 +316,11 @@ To provide input files for Skills to work on, [upload them with the Files API](h
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
   <CodeGroupItem language="cURL">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   <CodeGroupItem language="CLI">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   ```python Python
@@ -696,17 +696,17 @@ To provide input files for Skills to work on, [upload them with the Files API](h
   # Get file metadata
   curl "https://api.anthropic.com/v1/files/$FILE_ID" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
 
   # List all files
   curl "https://api.anthropic.com/v1/files" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
 
   # Delete a file
   curl -X DELETE "https://api.anthropic.com/v1/files/$FILE_ID" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
@@ -867,11 +867,11 @@ The response’s `container` object carries the container’s `id` and `expires_
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
   <CodeGroupItem language="cURL">
-    Multi-turn container reuse needs more logic than a single shell command, so use the Claude SDK for it. To build the requests yourself, capture `container.id` from the first response. Then pass it in the next request as `"container": {"id": "...", "skills": [...]}`, together with the conversation history.
+    Multi-turn container reuse needs more logic than a single shell command, so use the Anthropic SDK for it. To build the requests yourself, capture `container.id` from the first response. Then pass it in the next request as `"container": {"id": "...", "skills": [...]}`, together with the conversation history.
   </CodeGroupItem>
 
   <CodeGroupItem language="CLI">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   ```python Python
@@ -1236,11 +1236,11 @@ Skills might perform operations that require multiple turns. Handle `pause_turn`
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
   <CodeGroupItem language="cURL">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   <CodeGroupItem language="CLI">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   ```python Python
@@ -1618,7 +1618,7 @@ Skills might perform operations that require multiple turns. Handle `pause_turn`
 </CodeGroup>
 
 
-  The response might include a `pause_turn` stop reason, which indicates that the API paused a long-running Skill operation. You can provide the response back as-is in a subsequent request to let Claude continue its turn, or modify the content if you want to interrupt the conversation and provide additional guidance.
+  The response might include a `pause_turn` stop reason, which indicates that the API paused a long-running Skill operation. You can provide the response back as-is in a subsequent request to let Claude continue its turn, or modify the content if you want to interrupt the conversation and provide additional guidance. Send the response’s container ID back with that request, in the same `container` object as your Skills, as the example does. Without it, the request runs in a new container, and files from earlier in the turn are lost.
 
 
 ### Using multiple Skills
@@ -1629,7 +1629,7 @@ Combine multiple Skills in a single request to handle complex workflows:
   ```bash cURL
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -1954,7 +1954,7 @@ Combine multiple Skills in a single request to handle complex workflows:
 
 ### Creating a Skill
 
-A Skill bundle is a directory containing a `SKILL.md` file at the top level with `name` and `description` YAML frontmatter, plus any supporting scripts or resources. See [Get started with Agent Skills in the API](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/quickstart) to author one, and the **Requirements** list following the examples for the full constraints.
+A Skill bundle is a directory containing a `SKILL.md` file at the top level with `name` and `description` YAML frontmatter, plus any supporting scripts or resources. See [Skill authoring best practices](https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices) to author one, and the **Requirements** list following the examples for the full constraints.
 
 Upload your custom Skill to make it available in your workspace. You can upload a zip archive or individual file objects. The Python SDK also provides a `files_from_dir` helper that accepts a directory path, and the CLI’s `ant apply` uploads the directory itself.
 
@@ -1964,7 +1964,7 @@ Files are identified by the file name you attach (the `;filename=` suffix in the
   ```bash cURL
   curl -X POST "https://api.anthropic.com/v1/skills" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -F "files[]=@financial_skill/SKILL.md;filename=financial_skill/SKILL.md" \
     -F "files[]=@financial_skill/analyze.py;filename=financial_skill/analyze.py"
   ```
@@ -2269,12 +2269,12 @@ Retrieve all Skills available to your workspace, including both Anthropic pre-bu
   # List all Skills
   curl "https://api.anthropic.com/v1/skills" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
 
   # List only custom Skills
   curl "https://api.anthropic.com/v1/skills?source=custom" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
@@ -2414,7 +2414,7 @@ Get details about a specific Skill:
   ```bash cURL
   curl "https://api.anthropic.com/v1/skills/skill_01AbCdEfGhIjKlMnOpQrStUv" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
@@ -2511,7 +2511,7 @@ Deleting a Skill also deletes all of its versions.
   ```bash cURL
   curl -X DELETE "https://api.anthropic.com/v1/skills/skill_01AbCdEfGhIjKlMnOpQrStUv" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01"
+    -H "anthropic-version: 2026-10-21"
   ```
 
   ```bash CLI
@@ -2593,14 +2593,14 @@ A new version is a complete snapshot, not a delta: upload the Skill’s full fil
   # Create a new version
   curl -X POST "https://api.anthropic.com/v1/skills/skill_01AbCdEfGhIjKlMnOpQrStUv/versions" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -F "files[]=@financial_skill/SKILL.md;filename=financial_skill/SKILL.md" \
     -F "files[]=@financial_skill/analyze.py;filename=financial_skill/analyze.py"
 
   # Use a specific version: the ID from the create response
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -2619,7 +2619,7 @@ A new version is a complete snapshot, not a delta: upload the Skill’s full fil
   # Use latest version
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -3132,7 +3132,7 @@ Combine Excel and custom DCF analysis Skills. First, create the custom DCF analy
   ```bash cURL
   curl -X POST "https://api.anthropic.com/v1/skills" \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -F "files[]=@dcf_skill/SKILL.md;filename=dcf_skill/SKILL.md"
   ```
 
@@ -3262,7 +3262,7 @@ Then use it with the Excel Skill to create a financial model. Pass the ID of the
   ```bash cURL
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -3586,7 +3586,7 @@ The SDK tabs in this section show the `container` value to include in a Messages
   # Pin to specific versions for stability
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -3727,7 +3727,7 @@ The SDK tabs in this section show the `container` value to include in a Messages
   # Use latest for active development
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -3870,7 +3870,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
   # Skills render into the system prompt in a fixed, cache-friendly order
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -3887,7 +3887,7 @@ If you use [Prompt caching](https://platform.claude.com/docs/en/build-with-claud
   # Changing the Skills list ([xlsx] versus [xlsx, pptx]) changes the prefix: a cache miss, whereas an identical list is a cache hit
   curl https://api.anthropic.com/v1/messages \
     -H "x-api-key: $ANTHROPIC_API_KEY" \
-    -H "anthropic-version: 2023-06-01" \
+    -H "anthropic-version: 2026-10-21" \
     -H "content-type: application/json" \
     -d '{
       "model": "claude-opus-5-5",
@@ -4261,11 +4261,11 @@ Handle Skill-related errors gracefully:
 
 <CodeGroup exclude="shell:cURL, shell:CLI">
   <CodeGroupItem language="cURL">
-    This error-handling flow needs more logic than a single shell command, so use the Claude SDK for it. A request that fails because of a Skill problem returns HTTP 400. The `error.message` field in the JSON response body describes the problem.
+    This error-handling flow needs more logic than a single shell command, so use the Anthropic SDK for it. A request that fails because of a Skill problem returns HTTP 400. The `error.message` field in the JSON response body describes the problem.
   </CodeGroupItem>
 
   <CodeGroupItem language="CLI">
-    This workflow needs more logic than a single shell command. Use the [Claude SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
+    This workflow needs more logic than a single shell command. Use the [Anthropic SDK](https://platform.claude.com/docs/en/cli-sdks-libraries/overview) to run it.
   </CodeGroupItem>
 
   ```python Python
@@ -4499,7 +4499,7 @@ Handle Skill-related errors gracefully:
 
 ## Migrate from `skills-2025-10-02`
 
-The Skills API is out of beta and needs no beta header. Migrating off `skills-2025-10-02` is optional: requests that still send it keep working and keep returning the beta response shapes, so an existing integration keeps working until you change it. Removing the header switches those requests to the shapes documented on this page:
+The Skills API is out of beta and needs no beta header. Migrating off `skills-2025-10-02` is optional: requests that send it keep working and keep returning the beta response shapes, so an existing integration keeps working until you change it. Removing the header switches those requests to the shapes documented on this page:
 
 |                                 | With `skills-2025-10-02`                                                        | Without the header                                                                                                                                |
 | ------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |

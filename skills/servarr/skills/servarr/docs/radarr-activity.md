@@ -27,20 +27,20 @@ The queue shows all items the application can recognize that is in the specified
 
 > Hover over the status icon in the Queue to see the full status text and any associated messages.
 
-| Icon                  | Status                                      | Description                                                                                          | Resolution Steps                                                                                           |
-|-----------------------|---------------------------------------------|------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------|
-| blue cloud-download   | Downloading                                 | Release is actively downloading in the Download Client                                               | N/A                                                                                                        |
-| blue cloud            | Queued                                      | Release is queued in the Download Client and has not started                                         | N/A                                                                                                        |
-| pause                 | Paused                                      | Download is paused in the Download Client                                                            | Resume the download in your Download Client                                                                |
-| grey clock            | Pending                                     | Release is awaiting the Delay Profile to elapse before being grabbed                                 | N/A                                                                                                        |
-| yellow clock          | Pending - Download Client Unavailable       | \*Arr cannot reach the Download Client to send or check the release                                  | <a href="/radarr/troubleshooting" class="is-internal-link is-valid-page">See the Troubleshooting Guide</a> |
-| grey download         | Downloaded - Waiting to Import              | Download completed and is queued for import                                                          | N/A                                                                                                        |
-| blue download         | Downloaded - Importing                      | Download completed and is being imported                                                             | N/A                                                                                                        |
-| yellow download       | Downloaded - Unable to Import Automatically | Download completed but \*Arr could not import it automatically. Review the tool tip for more details | <a href="/radarr/troubleshooting" class="is-internal-link is-valid-page">See the Troubleshooting Guide</a> |
-| red download          | Downloaded - Waiting to Process             | Download completed and is queued for failed-download handling                                        | N/A                                                                                                        |
-| yellow cloud-download | Warning                                     | Download Client reported a warning for the release. Review the tool tip for more details             | <a href="/radarr/troubleshooting" class="is-internal-link is-valid-page">See the Troubleshooting Guide</a> |
-| red cloud-download    | Download Failed                             | The download failed in the Download Client                                                           | <a href="/radarr/troubleshooting" class="is-internal-link is-valid-page">See the Troubleshooting Guide</a> |
-| red download          | Import Failed                               | The completed download could not be imported                                                         | <a href="/radarr/troubleshooting" class="is-internal-link is-valid-page">See the Troubleshooting Guide</a> |
+| Icon | Status | Description | Resolution Steps |
+|----|----|----|----|
+| blue cloud-download | Downloading | Release is actively downloading in the Download Client | N/A |
+| blue cloud | Queued | Release is queued in the Download Client and has not started | N/A |
+| pause | Paused | Download is paused in the Download Client | Resume the download in your Download Client |
+| grey clock | Pending | Release is awaiting the Delay Profile to elapse before being grabbed | N/A |
+| yellow clock | Pending - Download Client Unavailable | \*Arr cannot reach the Download Client to send or check the release | <a href="/radarr/troubleshooting" class="is-internal-link is-valid-page">See the Troubleshooting Guide</a> |
+| grey download | Downloaded - Waiting to Import | Download completed and is queued for import | N/A |
+| blue download | Downloaded - Importing | Download completed and is being imported | N/A |
+| yellow download | Downloaded - Unable to Import Automatically | Download completed but \*Arr could not import it automatically. Review the tool tip for more details | <a href="/radarr/troubleshooting" class="is-internal-link is-valid-page">See the Troubleshooting Guide</a> |
+| red download | Downloaded - Waiting to Process | Download completed and is queued for failed-download handling | N/A |
+| yellow cloud-download | Warning | Download Client reported a warning for the release. Review the tool tip for more details | <a href="/radarr/troubleshooting" class="is-internal-link is-valid-page">See the Troubleshooting Guide</a> |
+| red cloud-download | Download Failed | The download failed in the Download Client | <a href="/radarr/troubleshooting" class="is-internal-link is-valid-page">See the Troubleshooting Guide</a> |
+| red download | Import Failed | The completed download could not be imported | <a href="/radarr/troubleshooting" class="is-internal-link is-valid-page">See the Troubleshooting Guide</a> |
 
 # <a href="#history" class="toc-anchor">¶</a> History
 

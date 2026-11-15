@@ -23,7 +23,7 @@ On this page
 # Compaction Reference
 
 
-This reference describes automatic compaction, branch summarization, persisted entries, and extension hooks. For the user workflow, see [Sessions and Context](/docs/latest/sessions#manage-conversation-context).
+This reference describes automatic compaction, branch summarization, persisted entries, and extension hooks. For the user workflow, see [Sessions and Context](/latest/latest/sessions#manage-conversation-context).
 
 **Source files** ([pi](https://github.com/earendil-works/pi)):
 
@@ -38,7 +38,7 @@ For TypeScript definitions in your project, inspect `node_modules/@earendil-work
 
 ## Overview
 
-<a href="#overview" class="heading-anchor" aria-label="Permalink: Overview" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#overview"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#overview" class="heading-anchor" aria-label="Permalink: Overview" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#overview"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Pi has two summarization mechanisms:
@@ -53,12 +53,12 @@ Both use closely related structured formats and track file operations cumulative
 
 ## Compaction
 
-<a href="#compaction" class="heading-anchor" aria-label="Permalink: Compaction" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#compaction"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#compaction" class="heading-anchor" aria-label="Permalink: Compaction" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#compaction"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ### When It Triggers
 
-<a href="#when-it-triggers" class="heading-anchor" aria-label="Permalink: When It Triggers" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#when-it-triggers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#when-it-triggers" class="heading-anchor" aria-label="Permalink: When It Triggers" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#when-it-triggers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Auto-compaction triggers when:
@@ -80,7 +80,7 @@ You can also trigger manually with `/compact [instructions]`, where optional ins
 
 ### How It Works
 
-<a href="#how-it-works" class="heading-anchor" aria-label="Permalink: How It Works" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#how-it-works"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#how-it-works" class="heading-anchor" aria-label="Permalink: How It Works" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#how-it-works"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 1.  **Find cut point**: Walk backwards through the finalized session projection, accumulating token estimates until `keepRecentTokens` (default 20k, configurable in `~/.pi/agent/settings.json` or `<project-dir>/.pi/settings.json`) is reached
@@ -128,7 +128,7 @@ On repeated compactions, the summarized span starts at the previous compaction's
 
 ### Overflow and Length Recovery Ordering
 
-<a href="#overflow-and-length-recovery-ordering" class="heading-anchor" aria-label="Permalink: Overflow and Length Recovery Ordering" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#overflow-and-length-recovery-ordering"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#overflow-and-length-recovery-ordering" class="heading-anchor" aria-label="Permalink: Overflow and Length Recovery Ordering" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#overflow-and-length-recovery-ordering"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Recovery preserves the existing lifecycle and queue order. The completed attempt remains visible to `turn_end` and `agent_end`; post-run recovery then repairs persisted model context before a fresh retry:
@@ -149,7 +149,7 @@ If recovery compaction fails or is cancelled, Pi keeps the omission edits, appen
 
 ### Split user-message spans
 
-<a href="#split-user-message-spans" class="heading-anchor" aria-label="Permalink: Split user-message spans" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#split-user-message-spans"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#split-user-message-spans" class="heading-anchor" aria-label="Permalink: Split user-message spans" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#split-user-message-spans"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A user-message span starts with a user message and includes all turns until the next user message. Normally, compaction cuts at user-message boundaries.
@@ -184,7 +184,7 @@ For split user-message spans, Pi generates two summaries and merges them:
 
 ### Cut Point Rules
 
-<a href="#cut-point-rules" class="heading-anchor" aria-label="Permalink: Cut Point Rules" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#cut-point-rules"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#cut-point-rules" class="heading-anchor" aria-label="Permalink: Cut Point Rules" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#cut-point-rules"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Valid cut points are:
@@ -201,7 +201,7 @@ Preparation advances the kept boundary into a context-invisible suffix only when
 
 ### CompactionEntry Structure
 
-<a href="#compactionentry-structure" class="heading-anchor" aria-label="Permalink: CompactionEntry Structure" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#compactionentry-structure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#compactionentry-structure" class="heading-anchor" aria-label="Permalink: CompactionEntry Structure" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#compactionentry-structure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Defined in [`session-manager.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts):
@@ -236,12 +236,12 @@ See [`prepareCompaction()`](https://github.com/earendil-works/pi/blob/main/packa
 
 ## Branch Summarization
 
-<a href="#branch-summarization" class="heading-anchor" aria-label="Permalink: Branch Summarization" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#branch-summarization"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#branch-summarization" class="heading-anchor" aria-label="Permalink: Branch Summarization" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#branch-summarization"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ### When It Triggers
 
-<a href="#when-it-triggers-1" class="heading-anchor" aria-label="Permalink: When It Triggers" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#when-it-triggers-1"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#when-it-triggers-1" class="heading-anchor" aria-label="Permalink: When It Triggers" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#when-it-triggers-1"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 When you use `/tree` to navigate to a different branch, Pi offers to summarize the work you're leaving. This injects context from the left branch into the new branch.
@@ -249,7 +249,7 @@ When you use `/tree` to navigate to a different branch, Pi offers to summarize t
 
 ### How It Works
 
-<a href="#how-it-works-1" class="heading-anchor" aria-label="Permalink: How It Works" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#how-it-works-1"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#how-it-works-1" class="heading-anchor" aria-label="Permalink: How It Works" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#how-it-works-1"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 1.  **Find common ancestor**: Deepest node shared by old and new positions
@@ -279,7 +279,7 @@ After navigation with summary:
 
 ### Cumulative File Tracking
 
-<a href="#cumulative-file-tracking" class="heading-anchor" aria-label="Permalink: Cumulative File Tracking" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#cumulative-file-tracking"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#cumulative-file-tracking" class="heading-anchor" aria-label="Permalink: Cumulative File Tracking" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#cumulative-file-tracking"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Default compaction and branch summarization track files cumulatively. Both extract file operations from tool calls in the messages being summarized. Compaction also carries file lists from the previous Pi-generated compaction. Branch summarization carries file lists from Pi-generated branch summaries in the entries it summarizes.
@@ -289,7 +289,7 @@ File tracking therefore accumulates across default compactions and nested defaul
 
 ### BranchSummaryEntry Structure
 
-<a href="#branchsummaryentry-structure" class="heading-anchor" aria-label="Permalink: BranchSummaryEntry Structure" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#branchsummaryentry-structure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#branchsummaryentry-structure" class="heading-anchor" aria-label="Permalink: BranchSummaryEntry Structure" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#branchsummaryentry-structure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Defined in [`session-manager.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts):
@@ -323,7 +323,7 @@ See [`collectEntriesForBranchSummary()`](https://github.com/earendil-works/pi/bl
 
 ## Summary Format
 
-<a href="#summary-format" class="heading-anchor" aria-label="Permalink: Summary Format" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#summary-format"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#summary-format" class="heading-anchor" aria-label="Permalink: Summary Format" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#summary-format"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Both formats include Goal, Constraints & Preferences, Progress, Key Decisions, and Next Steps. Compaction summaries also include Critical Context. Branch summaries stop after Next Steps. Pi appends file lists to either format when relevant.
@@ -370,7 +370,7 @@ path/to/changed.ts
 
 ### Message Serialization
 
-<a href="#message-serialization" class="heading-anchor" aria-label="Permalink: Message Serialization" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#message-serialization"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#message-serialization" class="heading-anchor" aria-label="Permalink: Message Serialization" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#message-serialization"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Before summarization, messages are serialized to text via [`serializeConversation()`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/utils.ts):
@@ -393,7 +393,7 @@ Tool results are truncated to 2000 characters during serialization. Content beyo
 
 ## Custom Summarization via Extensions
 
-<a href="#custom-summarization-via-extensions" class="heading-anchor" aria-label="Permalink: Custom Summarization via Extensions" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#custom-summarization-via-extensions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#custom-summarization-via-extensions" class="heading-anchor" aria-label="Permalink: Custom Summarization via Extensions" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#custom-summarization-via-extensions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Extensions can intercept and customize both compaction and branch summarization. See [`extensions/types.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/extensions/types.ts) for event type definitions.
@@ -401,7 +401,7 @@ Extensions can intercept and customize both compaction and branch summarization.
 
 ### session_before_compact
 
-<a href="#session_before_compact" class="heading-anchor" aria-label="Permalink: session_before_compact" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#session_before_compact"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_before_compact" class="heading-anchor" aria-label="Permalink: session_before_compact" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#session_before_compact"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired before auto-compaction or `/compact`. Can cancel or provide custom summary. See `SessionBeforeCompactEvent` and `CompactionPreparation` in the types file.
@@ -443,7 +443,7 @@ pi.on("session_before_compact", async (event, ctx) => {
 
 #### Converting Messages to Text
 
-<a href="#converting-messages-to-text" class="heading-anchor" aria-label="Permalink: Converting Messages to Text" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#converting-messages-to-text"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#converting-messages-to-text" class="heading-anchor" aria-label="Permalink: Converting Messages to Text" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#converting-messages-to-text"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 To generate a summary with your own model, convert messages to text using `serializeConversation`:
@@ -485,7 +485,7 @@ See [custom-compaction.ts](https://github.com/earendil-works/pi/blob/main/packag
 
 ### session_compact_failed
 
-<a href="#session_compact_failed" class="heading-anchor" aria-label="Permalink: session_compact_failed" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#session_compact_failed"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_compact_failed" class="heading-anchor" aria-label="Permalink: session_compact_failed" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#session_compact_failed"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when manual or automatic compaction fails or is aborted. This is useful for telemetry extensions that need to pair `session_before_compact` attempts with terminal outcomes.
@@ -505,7 +505,7 @@ pi.on("session_compact_failed", async (event, ctx) => {
 
 ### session_before_tree
 
-<a href="#session_before_tree" class="heading-anchor" aria-label="Permalink: session_before_tree" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#session_before_tree"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_before_tree" class="heading-anchor" aria-label="Permalink: session_before_tree" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#session_before_tree"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired before `/tree` navigation. Always fires regardless of whether user chose to summarize. Can cancel navigation or provide custom summary.
@@ -543,7 +543,7 @@ See `SessionBeforeTreeEvent` and `TreePreparation` in the types file.
 
 ## Settings
 
-<a href="#settings" class="heading-anchor" aria-label="Permalink: Settings" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#settings"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#settings" class="heading-anchor" aria-label="Permalink: Settings" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#settings"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Configure compaction in `~/.pi/agent/settings.json` or `<project-dir>/.pi/settings.json`:
@@ -571,7 +571,7 @@ Disable auto-compaction with `"enabled": false`. You can still compact manually 
 
 ### Per-model overrides
 
-<a href="#per-model-overrides" class="heading-anchor" aria-label="Permalink: Per-model overrides" data-copy="" data-copy-text="https://pi.dev/docs/latest/compaction#per-model-overrides"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#per-model-overrides" class="heading-anchor" aria-label="Permalink: Per-model overrides" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#per-model-overrides"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Use `compaction.modelOverrides` to tune token budgets for different models:
@@ -598,6 +598,6 @@ Keys are exact, case-sensitive `provider/modelId` values, including any slashes 
 
 These resolved values are used for manual compaction, all automatic threshold checks, overflow recovery, and extension-visible `preparation.settings`. Model switches affect subsequent checks and compactions without changing ordinary settings. Compaction already in progress uses the model and settings captured for that operation. Branch summarization settings are unaffected.
 
-Overrides work in both global and project settings. The files merge recursively before lookup, so a global model-specific value beats a project-wide fallback; a project must override that model entry to change it. See [Settings](/docs/latest/settings#per-model-compaction-overrides) for details.
+Overrides work in both global and project settings. The files merge recursively before lookup, so a global model-specific value beats a project-wide fallback; a project must override that model entry to change it. See [Settings](/latest/latest/settings#per-model-compaction-overrides) for details.
 
 

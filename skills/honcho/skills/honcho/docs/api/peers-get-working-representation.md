@@ -4,75 +4,76 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Get Working Representation
+# Get Representation
 
-> Get a peer's working representation for a session.
+> Get a curated subset of a Peer's Representation. A Representation is always a subset of the total
+knowledge about the Peer. The subset can be scoped and filtered in various ways.
 
-If a session_id is provided in the body, we get the working representation of the peer in that session.
-If a target is provided, we get the representation of the target from the perspective of the peer.
-If no target is provided, we get the omniscient Honcho representation of the peer.
+
+If a session_id is provided in the body, we get the Representation of the Peer scoped to that Session.
+If a target is provided, we get the Representation of the target from the perspective of the Peer.
+If no target is provided, we get the omniscient Honcho Representation of the Peer.
 
 
 ## OpenAPI
 
-````yaml post /v2/workspaces/{workspace_id}/peers/{peer_id}/representation
+````yaml post /v3/workspaces/{workspace_id}/peers/{peer_id}/representation
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/peers/{peer_id}/representation:
+  /v3/workspaces/{workspace_id}/peers/{peer_id}/representation:
     post:
       tags:
         - peers
-      summary: Get Working Representation
+      summary: Get Representation
       description: >-
-        Get a peer's working representation for a session.
+        Get a curated subset of a Peer's Representation. A Representation is
+        always a subset of the total
+
+        knowledge about the Peer. The subset can be scoped and filtered in
+        various ways.
 
 
-        If a session_id is provided in the body, we get the working
-        representation of the peer in that session.
+        If a session_id is provided in the body, we get the Representation of
+        the Peer scoped to that Session.
 
-        If a target is provided, we get the representation of the target from
-        the perspective of the peer.
+        If a target is provided, we get the Representation of the target from
+        the perspective of the Peer.
 
-        If no target is provided, we get the omniscient Honcho representation of
-        the peer.
+        If no target is provided, we get the omniscient Honcho Representation of
+        the Peer.
       operationId: >-
-        get_working_representation_v2_workspaces__workspace_id__peers__peer_id__representation_post
+        get_representation_v3_workspaces__workspace_id__peers__peer_id__representation_post
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
         - name: peer_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the peer
             title: Peer Id
-          description: ID of the peer
       requestBody:
         required: true
         content:
@@ -86,11 +87,7 @@ paths:
           content:
             application/json:
               schema:
-                type: object
-                additionalProperties: true
-                title: >-
-                  Response Get Working Representation V2 Workspaces  Workspace
-                  Id  Peers  Peer Id  Representation Post
+                $ref: '#/components/schemas/RepresentationResponse'
         '422':
           description: Validation Error
           content:
@@ -108,7 +105,37 @@ components:
             - type: string
             - type: 'null'
           title: Session Id
-          description: Get the working representation within this session
+          description: Optional session ID within which to scope the representation
+        filters:
+          anyOf:
+            - additionalProperties: true
+              type: object
+            - type: 'null'
+          title: Filters
+          description: >-
+            Optional filters to scope the representation. This endpoint supports
+            only the 'session_id' key: a session id, a list of session ids, or
+            {"in": [...]}. When session_id is also set, it must be included in
+            the allowlist.
+        scope:
+          anyOf:
+            - type: string
+            - items:
+                type: string
+              type: array
+              maxItems: 100
+              minItems: 1
+            - type: 'null'
+          title: Scope
+          description: >-
+            Optional (unprefixed) scope name(s) to confine the representation. A
+            single scope reads the scope's own representation of the target
+            peer, formed only from the scope's member sessions. A list of scopes
+            restricts the representation to conclusions from the union of the
+            scopes' member sessions (explicit allowlist, fail-closed: an empty
+            union yields an empty representation). Mutually exclusive with
+            `filters` and `session_id`. Requires a workspace- or admin-level
+            key.
         target:
           anyOf:
             - type: string
@@ -134,7 +161,7 @@ components:
           title: Search Top K
           description: >-
             Only used if `search_query` is provided. Number of
-            semantic-search-retrieved observations to include in the
+            semantic-search-retrieved conclusions to include in the
             representation
         search_max_distance:
           anyOf:
@@ -145,28 +172,37 @@ components:
           title: Search Max Distance
           description: >-
             Only used if `search_query` is provided. Maximum distance to search
-            for semantically relevant observations
-        include_most_derived:
+            for semantically relevant conclusions
+        include_most_frequent:
           anyOf:
             - type: boolean
             - type: 'null'
-          title: Include Most Derived
+          title: Include Most Frequent
           description: >-
             Only used if `search_query` is provided. Whether to include the most
-            derived observations in the representation
-        max_observations:
+            frequent conclusions in the representation
+        max_conclusions:
           anyOf:
             - type: integer
               maximum: 100
               minimum: 1
             - type: 'null'
-          title: Max Observations
+          title: Max Conclusions
           description: >-
             Only used if `search_query` is provided. Maximum number of
-            observations to include in the representation
+            conclusions to include in the representation
           default: 25
       type: object
       title: PeerRepresentationGet
+    RepresentationResponse:
+      properties:
+        representation:
+          type: string
+          title: Representation
+      type: object
+      required:
+        - representation
+      title: RepresentationResponse
     HTTPValidationError:
       properties:
         detail:
@@ -191,6 +227,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

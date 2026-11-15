@@ -28,7 +28,7 @@ Themes control the colors Pi uses in interactive mode and HTML exports. Pi inclu
 
 ## Use your terminal's colors
 
-<a href="#use-your-terminals-colors" class="heading-anchor" aria-label="Permalink: Use your terminal&#39;s colors" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#use-your-terminals-colors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#use-your-terminals-colors" class="heading-anchor" aria-label="Permalink: Use your terminal&#39;s colors" data-copy="" data-copy-text="https://docs.pi.dev/latest/themes#use-your-terminals-colors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The `system` theme is the default. It builds Pi's colors from your terminal's theme, so Pi matches the terminal instead of bringing its own palette:
@@ -51,12 +51,12 @@ Pi asks the terminal for its colors when it starts. Terminals usually answer wit
 
 ## Choose a theme
 
-<a href="#choose-a-theme" class="heading-anchor" aria-label="Permalink: Choose a theme" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#choose-a-theme"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#choose-a-theme" class="heading-anchor" aria-label="Permalink: Choose a theme" data-copy="" data-copy-text="https://docs.pi.dev/latest/themes#choose-a-theme"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Open `/settings` and select **Theme**. You can use one theme for every terminal appearance or choose separate themes for light and dark terminals.
 
-The selection is saved as the `theme` [setting](/docs/latest/settings#terminal-and-display):
+The selection is saved as the `theme` [setting](/latest/latest/settings#terminal-and-display):
 
 
 ``` shiki
@@ -89,12 +89,12 @@ pi --use-theme light/dark
 ```
 
 
-See [CLI resources](/docs/latest/cli#resources) for the command-line option.
+See [CLI resources](/latest/latest/cli#resources) for the command-line option.
 
 
 ## Create a custom theme
 
-<a href="#create-a-custom-theme" class="heading-anchor" aria-label="Permalink: Create a custom theme" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#create-a-custom-theme"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#create-a-custom-theme" class="heading-anchor" aria-label="Permalink: Create a custom theme" data-copy="" data-copy-text="https://docs.pi.dev/latest/themes#create-a-custom-theme"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Copy one of the [built-in themes](https://github.com/earendil-works/pi/tree/main/packages/coding-agent/src/modes/interactive/theme) or create a new JSON file conforming to the [schema](https://pi.dev/schemas/theme.schema.json). The built-in themes use OKHSL colors, with variables for colors that several roles share, so you can adjust a hue, saturation, or lightness directly.
@@ -109,7 +109,7 @@ Use the theme name as the filename. Pi hot-reloads the active user theme only fr
 
 ## Understand the theme file
 
-<a href="#understand-the-theme-file" class="heading-anchor" aria-label="Permalink: Understand the theme file" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#understand-the-theme-file"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#understand-the-theme-file" class="heading-anchor" aria-label="Permalink: Understand the theme file" data-copy="" data-copy-text="https://docs.pi.dev/latest/themes#understand-the-theme-file"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Property | Required | Responsibility |
@@ -136,7 +136,7 @@ A color can be written in six forms:
 
 Terminal default colors render as the terminal's own colors. Where Pi needs a concrete value, such as HTML export or extension color math, it uses the default colors the terminal reports, or a black or white guess based on the theme's appearance.
 
-Pi resolves chained variable references. A missing variable or circular reference makes the theme invalid. Pi uses truecolor when available, gamut-maps OKLCH to sRGB, and approximates colors for 256-color terminals. HTML exports convert OKHSL values to hexadecimal because CSS does not support them. If colors differ from their source values, check your terminal's truecolor detection and contrast settings. See [Configure Your Terminal](/docs/latest/terminal-setup#override-detected-capabilities).
+Pi resolves chained variable references. A missing variable or circular reference makes the theme invalid. Pi uses truecolor when available, gamut-maps OKLCH to sRGB, and approximates colors for 256-color terminals. HTML exports convert OKHSL values to hexadecimal because CSS does not support them. If colors differ from their source values, check your terminal's truecolor detection and contrast settings. See [Configure Your Terminal](/latest/latest/terminal-setup#override-detected-capabilities).
 
 Use the [theme JSON schema](https://pi.dev/schemas/theme.schema.json) for the exact properties, required colors, and accepted value types.
 
@@ -145,7 +145,7 @@ Pi reports invalid theme files during startup and `/reload`.
 
 ## Find the color to change
 
-<a href="#find-the-color-to-change" class="heading-anchor" aria-label="Permalink: Find the color to change" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#find-the-color-to-change"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#find-the-color-to-change" class="heading-anchor" aria-label="Permalink: Find the color to change" data-copy="" data-copy-text="https://docs.pi.dev/latest/themes#find-the-color-to-change"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Theme colors describe interface roles rather than individual components. Use these groups to find the relevant part of the schema:
@@ -179,12 +179,12 @@ If `export` colors are omitted, Pi derives HTML page and panel backgrounds from 
 
 ## Load a theme from a project or package
 
-<a href="#load-a-theme-from-a-project-or-package" class="heading-anchor" aria-label="Permalink: Load a theme from a project or package" data-copy="" data-copy-text="https://pi.dev/docs/latest/themes#load-a-theme-from-a-project-or-package"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#load-a-theme-from-a-project-or-package" class="heading-anchor" aria-label="Permalink: Load a theme from a project or package" data-copy="" data-copy-text="https://docs.pi.dev/latest/themes#load-a-theme-from-a-project-or-package"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Place a project theme in `.pi/themes/`. Project themes load only after [project trust](/docs/latest/security#understand-project-trust) is granted.
+Place a project theme in `.pi/themes/`. Project themes load only after [project trust](/latest/latest/security#understand-project-trust) is granted.
 
-You can also load theme files and directories through the `themes` setting or distribute them in a Pi package. See [Configuration](/docs/latest/configuration), [Settings](/docs/latest/settings#resources), and [Pi Packages](/docs/latest/packages).
+You can also load theme files and directories through the `themes` setting or distribute them in a Pi package. See [Configuration](/latest/latest/configuration), [Settings](/latest/latest/settings#resources), and [Pi Packages](/latest/latest/packages).
 
 Each loaded theme must have a unique name. Pi reports duplicate names as resource collisions.
 

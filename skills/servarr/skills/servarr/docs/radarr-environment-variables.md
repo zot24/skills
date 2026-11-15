@@ -21,49 +21,49 @@ The config namespaces are shared between all Servarr apps and correspond to the 
 
 ## <a href="#environment-variables-table" class="toc-anchor">¶</a> Environment Variables Table
 
-| Config Option                    | Namespace  | Variable Name            | Full Environment Variable                  |
-|----------------------------------|------------|--------------------------|--------------------------------------------|
-| `InstanceName`                   | `APP`      | `INSTANCENAME`           | `RADARR__APP__INSTANCENAME`                |
-| `Theme`                          | `APP`      | `THEME`                  | `RADARR__APP__THEME`                       |
-| `LaunchBrowser`                  | `APP`      | `LAUNCHBROWSER`          | `RADARR__APP__LAUNCHBROWSER`               |
-| `ApiKey`                         | `AUTH`     | `APIKEY`                 | `RADARR__AUTH__APIKEY`                     |
-| `AuthenticationEnabled`          | `AUTH`     | `ENABLED`                | `RADARR__AUTH__ENABLED`                    |
-| `AuthenticationMethod`           | `AUTH`     | `METHOD`                 | `RADARR__AUTH__METHOD`                     |
-| `AuthenticationRequired`         | `AUTH`     | `REQUIRED`               | `RADARR__AUTH__REQUIRED`                   |
-| `TrustCgnatIpAddresses`          | `AUTH`     | `TRUSTCGNATIPADDRESSES`  | `RADARR__AUTH__TRUSTCGNATIPADDRESSES`      |
-| `LogLevel`                       | `LOG`      | `LEVEL`                  | `RADARR__LOG__LEVEL`                       |
-| `FilterSentryEvents`             | `LOG`      | `FILTERSENTRYEVENTS`     | `RADARR__LOG__FILTERSENTRYEVENTS`          |
-| `LogRotate`                      | `LOG`      | `ROTATE`                 | `RADARR__LOG__ROTATE`                      |
-| `LogSizeLimit`                   | `LOG`      | `SIZELIMIT`              | `RADARR__LOG__SIZELIMIT`                   |
-| `LogSql`                         | `LOG`      | `SQL`                    | `RADARR__LOG__SQL`                         |
-| `ConsoleLogLevel`                | `LOG`      | `CONSOLELEVEL`           | `RADARR__LOG__CONSOLELEVEL`                |
-| `ConsoleLogFormat`               | `LOG`      | `CONSOLEFORMAT`          | `RADARR__LOG__CONSOLEFORMAT`               |
-| `AnalyticsEnabled`               | `LOG`      | `ANALYTICSENABLED`       | `RADARR__LOG__ANALYTICSENABLED`            |
-| `SyslogServer`                   | `LOG`      | `SYSLOGSERVER`           | `RADARR__LOG__SYSLOGSERVER`                |
-| `SyslogPort`                     | `LOG`      | `SYSLOGPORT`             | `RADARR__LOG__SYSLOGPORT`                  |
-| `SyslogLevel`                    | `LOG`      | `SYSLOGLEVEL`            | `RADARR__LOG__SYSLOGLEVEL`                 |
-| `LogDbEnabled`                   | `LOG`      | `DBENABLED`              | `RADARR__LOG__DBENABLED`                   |
-| `PostgresHost`                   | `POSTGRES` | `HOST`                   | `RADARR__POSTGRES__HOST`                   |
-| `PostgresPort`                   | `POSTGRES` | `PORT`                   | `RADARR__POSTGRES__PORT`                   |
-| `PostgresUser`                   | `POSTGRES` | `USER`                   | `RADARR__POSTGRES__USER`                   |
-| `PostgresPassword`               | `POSTGRES` | `PASSWORD`               | `RADARR__POSTGRES__PASSWORD`               |
-| `PostgresMainDb`                 | `POSTGRES` | `MAINDB`                 | `RADARR__POSTGRES__MAINDB`                 |
-| `PostgresLogDb`                  | `POSTGRES` | `LOGDB`                  | `RADARR__POSTGRES__LOGDB`                  |
+| Config Option | Namespace | Variable Name | Full Environment Variable |
+|----|----|----|----|
+| `InstanceName` | `APP` | `INSTANCENAME` | `RADARR__APP__INSTANCENAME` |
+| `Theme` | `APP` | `THEME` | `RADARR__APP__THEME` |
+| `LaunchBrowser` | `APP` | `LAUNCHBROWSER` | `RADARR__APP__LAUNCHBROWSER` |
+| `ApiKey` | `AUTH` | `APIKEY` | `RADARR__AUTH__APIKEY` |
+| `AuthenticationEnabled` | `AUTH` | `ENABLED` | `RADARR__AUTH__ENABLED` |
+| `AuthenticationMethod` | `AUTH` | `METHOD` | `RADARR__AUTH__METHOD` |
+| `AuthenticationRequired` | `AUTH` | `REQUIRED` | `RADARR__AUTH__REQUIRED` |
+| `TrustCgnatIpAddresses` | `AUTH` | `TRUSTCGNATIPADDRESSES` | `RADARR__AUTH__TRUSTCGNATIPADDRESSES` |
+| `LogLevel` | `LOG` | `LEVEL` | `RADARR__LOG__LEVEL` |
+| `FilterSentryEvents` | `LOG` | `FILTERSENTRYEVENTS` | `RADARR__LOG__FILTERSENTRYEVENTS` |
+| `LogRotate` | `LOG` | `ROTATE` | `RADARR__LOG__ROTATE` |
+| `LogSizeLimit` | `LOG` | `SIZELIMIT` | `RADARR__LOG__SIZELIMIT` |
+| `LogSql` | `LOG` | `SQL` | `RADARR__LOG__SQL` |
+| `ConsoleLogLevel` | `LOG` | `CONSOLELEVEL` | `RADARR__LOG__CONSOLELEVEL` |
+| `ConsoleLogFormat` | `LOG` | `CONSOLEFORMAT` | `RADARR__LOG__CONSOLEFORMAT` |
+| `AnalyticsEnabled` | `LOG` | `ANALYTICSENABLED` | `RADARR__LOG__ANALYTICSENABLED` |
+| `SyslogServer` | `LOG` | `SYSLOGSERVER` | `RADARR__LOG__SYSLOGSERVER` |
+| `SyslogPort` | `LOG` | `SYSLOGPORT` | `RADARR__LOG__SYSLOGPORT` |
+| `SyslogLevel` | `LOG` | `SYSLOGLEVEL` | `RADARR__LOG__SYSLOGLEVEL` |
+| `LogDbEnabled` | `LOG` | `DBENABLED` | `RADARR__LOG__DBENABLED` |
+| `PostgresHost` | `POSTGRES` | `HOST` | `RADARR__POSTGRES__HOST` |
+| `PostgresPort` | `POSTGRES` | `PORT` | `RADARR__POSTGRES__PORT` |
+| `PostgresUser` | `POSTGRES` | `USER` | `RADARR__POSTGRES__USER` |
+| `PostgresPassword` | `POSTGRES` | `PASSWORD` | `RADARR__POSTGRES__PASSWORD` |
+| `PostgresMainDb` | `POSTGRES` | `MAINDB` | `RADARR__POSTGRES__MAINDB` |
+| `PostgresLogDb` | `POSTGRES` | `LOGDB` | `RADARR__POSTGRES__LOGDB` |
 | `PostgresMainDbConnectionString` | `POSTGRES` | `MAINDBCONNECTIONSTRING` | `RADARR__POSTGRES__MAINDBCONNECTIONSTRING` |
-| `PostgresLogDbConnectionString`  | `POSTGRES` | `LOGDBCONNECTIONSTRING`  | `RADARR__POSTGRES__LOGDBCONNECTIONSTRING`  |
-| `UrlBase`                        | `SERVER`   | `URLBASE`                | `RADARR__SERVER__URLBASE`                  |
-| `BindAddress`                    | `SERVER`   | `BINDADDRESS`            | `RADARR__SERVER__BINDADDRESS`              |
-| `AllowedHosts`                   | `SERVER`   | `ALLOWEDHOSTS`           | `RADARR__SERVER__ALLOWEDHOSTS`             |
-| `Port`                           | `SERVER`   | `PORT`                   | `RADARR__SERVER__PORT`                     |
-| `EnableSsl`                      | `SERVER`   | `ENABLESSL`              | `RADARR__SERVER__ENABLESSL`                |
-| `SslPort`                        | `SERVER`   | `SSLPORT`                | `RADARR__SERVER__SSLPORT`                  |
-| `SslCertPath`                    | `SERVER`   | `SSLCERTPATH`            | `RADARR__SERVER__SSLCERTPATH`              |
-| `SslCertPassword`                | `SERVER`   | `SSLCERTPASSWORD`        | `RADARR__SERVER__SSLCERTPASSWORD`          |
-| `TrustedNetworks`                | `SERVER`   | `TRUSTEDNETWORKS`        | `RADARR__SERVER__TRUSTEDNETWORKS`          |
-| `UpdateMechanism`                | `UPDATE`   | `MECHANISM`              | `RADARR__UPDATE__MECHANISM`                |
-| `UpdateAutomatically`            | `UPDATE`   | `AUTOMATICALLY`          | `RADARR__UPDATE__AUTOMATICALLY`            |
-| `UpdateScriptPath`               | `UPDATE`   | `SCRIPTPATH`             | `RADARR__UPDATE__SCRIPTPATH`               |
-| `Branch`                         | `UPDATE`   | `BRANCH`                 | `RADARR__UPDATE__BRANCH`                   |
+| `PostgresLogDbConnectionString` | `POSTGRES` | `LOGDBCONNECTIONSTRING` | `RADARR__POSTGRES__LOGDBCONNECTIONSTRING` |
+| `UrlBase` | `SERVER` | `URLBASE` | `RADARR__SERVER__URLBASE` |
+| `BindAddress` | `SERVER` | `BINDADDRESS` | `RADARR__SERVER__BINDADDRESS` |
+| `AllowedHosts` | `SERVER` | `ALLOWEDHOSTS` | `RADARR__SERVER__ALLOWEDHOSTS` |
+| `Port` | `SERVER` | `PORT` | `RADARR__SERVER__PORT` |
+| `EnableSsl` | `SERVER` | `ENABLESSL` | `RADARR__SERVER__ENABLESSL` |
+| `SslPort` | `SERVER` | `SSLPORT` | `RADARR__SERVER__SSLPORT` |
+| `SslCertPath` | `SERVER` | `SSLCERTPATH` | `RADARR__SERVER__SSLCERTPATH` |
+| `SslCertPassword` | `SERVER` | `SSLCERTPASSWORD` | `RADARR__SERVER__SSLCERTPASSWORD` |
+| `TrustedNetworks` | `SERVER` | `TRUSTEDNETWORKS` | `RADARR__SERVER__TRUSTEDNETWORKS` |
+| `UpdateMechanism` | `UPDATE` | `MECHANISM` | `RADARR__UPDATE__MECHANISM` |
+| `UpdateAutomatically` | `UPDATE` | `AUTOMATICALLY` | `RADARR__UPDATE__AUTOMATICALLY` |
+| `UpdateScriptPath` | `UPDATE` | `SCRIPTPATH` | `RADARR__UPDATE__SCRIPTPATH` |
+| `Branch` | `UPDATE` | `BRANCH` | `RADARR__UPDATE__BRANCH` |
 
 ## <a href="#usage-examples" class="toc-anchor">¶</a> Usage Examples
 
@@ -140,25 +140,25 @@ Branch=master
 
 ### <a href="#available-keys" class="toc-anchor">¶</a> Available Keys
 
-| Key                    | Description                                | Example                      |
-|------------------------|--------------------------------------------|------------------------------|
-| `PackageVersion`       | Custom package version identifier          | `1.0.0-custom`               |
-| `PackageAuthor`        | Package maintainer name                    | `Community Package`          |
-| `PackageGlobalMessage` | Message displayed in UI                    | `Custom build for Debian 11` |
-| `UpdateMethod`         | How updates are handled (see values below) | `External`                   |
-| `UpdateMethodMessage`  | Custom message about update method         | `Updates managed by apt`     |
-| `Branch`               | Default branch to use                      | `master` or `develop`        |
-| `ReleaseVersion`       | Override release version                   | `5.0.0.0`                    |
+| Key | Description | Example |
+|----|----|----|
+| `PackageVersion` | Custom package version identifier | `1.0.0-custom` |
+| `PackageAuthor` | Package maintainer name | `Community Package` |
+| `PackageGlobalMessage` | Message displayed in UI | `Custom build for Debian 11` |
+| `UpdateMethod` | How updates are handled (see values below) | `External` |
+| `UpdateMethodMessage` | Custom message about update method | `Updates managed by apt` |
+| `Branch` | Default branch to use | `master` or `develop` |
+| `ReleaseVersion` | Override release version | `5.0.0.0` |
 
 ### <a href="#updatemethod-values" class="toc-anchor">¶</a> UpdateMethod Values
 
-| Value      | Numeric | Description                   | Use Case                    |
-|------------|---------|-------------------------------|-----------------------------|
-| `BuiltIn`  | 0       | Default built-in updater      | Standard installations      |
-| `Script`   | 1       | Updates via custom script     | Advanced custom setups      |
-| `External` | 10      | Updates managed externally    | Package managers, Docker    |
-| `Apt`      | 11      | Debian/Ubuntu package manager | Used by package maintainers |
-| `Docker`   | 12      | Docker container updates      | Used by Docker maintainers  |
+| Value | Numeric | Description | Use Case |
+|----|----|----|----|
+| `BuiltIn` | 0 | Default built-in updater | Standard installations |
+| `Script` | 1 | Updates via custom script | Advanced custom setups |
+| `External` | 10 | Updates managed externally | Package managers, Docker |
+| `Apt` | 11 | Debian/Ubuntu package manager | Used by package maintainers |
+| `Docker` | 12 | Docker container updates | Used by Docker maintainers |
 
 ### <a href="#real-world-example" class="toc-anchor">¶</a> Real-World Example
 

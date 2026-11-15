@@ -4,7 +4,7 @@
 title: File Uploads
 description: Send and receive files across chat platforms.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: guide
 prerequisites:
   - /docs/usage

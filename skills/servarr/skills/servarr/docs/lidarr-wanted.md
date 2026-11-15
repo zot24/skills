@@ -28,10 +28,10 @@ Each row has two action icons on the right:
 
 ## <a href="#options" class="toc-anchor">¶</a> Options
 
-| Option    | Default     | Description                                               |
-|-----------|-------------|-----------------------------------------------------------|
-| Page Size | 20          | Number of albums shown per page.                          |
-| Columns   | (see below) | Choose which columns are visible and their display order. |
+| Option | Default | Description |
+|----|----|----|
+| Page Size | 20 | Number of albums shown per page. |
+| Columns | (see below) | Choose which columns are visible and their display order. |
 
 Available columns: Artist Name, Album Title, Album Type, Release Date, Last Searched, Actions.
 
@@ -58,10 +58,10 @@ Each row has two action icons on the right:
 
 ## <a href="#options-1" class="toc-anchor">¶</a> Options
 
-| Option    | Default     | Description                                               |
-|-----------|-------------|-----------------------------------------------------------|
-| Page Size | 20          | Number of albums shown per page.                          |
-| Columns   | (see below) | Choose which columns are visible and their display order. |
+| Option | Default | Description |
+|----|----|----|
+| Page Size | 20 | Number of albums shown per page. |
+| Columns | (see below) | Choose which columns are visible and their display order. |
 
 Available columns: Artist Name, Album Title, Album Type, Release Date, Last Searched, Actions.
 

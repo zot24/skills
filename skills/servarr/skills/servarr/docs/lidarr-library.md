@@ -63,15 +63,15 @@ When adding an artist you will set:
 
 **Monitor** is a one-time action, applied to whatever albums Lidarr already has on file at the moment it runs, whether that's when you first add the artist, or later via the **Update Monitoring** bulk action. It does not reach forward to catch albums added to MusicBrainz afterward; that's what [Monitor New Items](#monitor-new-items) is for.
 
-| Option              | Sets monitored to true for                                                                                                    |
-|---------------------|-------------------------------------------------------------------------------------------------------------------------------|
-| **All Albums**      | Every album.                                                                                                                  |
-| **Future Albums**   | Albums with no file that have a release date in the future. Already-released albums, with or without a file, are unmonitored. |
-| **Missing Albums**  | Albums with no file, whether already released or upcoming.                                                                    |
-| **Existing Albums** | Albums that already have a file.                                                                                              |
-| **First Album**     | Only the album with the earliest release date.                                                                                |
-| **Latest Album**    | Only the album with the most recent release date.                                                                             |
-| **None**            | Nothing.                                                                                                                      |
+| Option | Sets monitored to true for |
+|----|----|
+| **All Albums** | Every album. |
+| **Future Albums** | Albums with no file that have a release date in the future. Already-released albums, with or without a file, are unmonitored. |
+| **Missing Albums** | Albums with no file, whether already released or upcoming. |
+| **Existing Albums** | Albums that already have a file. |
+| **First Album** | Only the album with the earliest release date. |
+| **Latest Album** | Only the album with the most recent release date. |
+| **None** | Nothing. |
 
 > The in-app tooltip for **Existing Albums** currently reads "Monitor albums that have files or have not released yet," which duplicates the **Missing Albums** wording and doesn't match what the option does. Based on `AlbumMonitoredService.cs`, **Existing Albums** monitors only albums that already have a file.
 
@@ -79,11 +79,11 @@ When adding an artist you will set:
 
 **Monitor New Items** is an ongoing, artist-level setting. Unlike **Monitor** above, it doesn't run once — it fires every time a metadata refresh finds an album for this artist that isn't already in Lidarr's database.
 
-| Option         | Behavior                                                                                                                                          |
-|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| **All Albums** | Monitor every newly discovered album.                                                                                                             |
+| Option | Behavior |
+|----|----|
+| **All Albums** | Monitor every newly discovered album. |
 | **New Albums** | Monitor a newly discovered album only if its release date is on or after the most recent release date Lidarr already has on file for that artist. |
-| **None**       | Leave newly discovered albums unmonitored.                                                                                                        |
+| **None** | Leave newly discovered albums unmonitored. |
 
 **New Albums** is a release-date comparison against your existing catalog, not a check of when MusicBrainz added the album to its database. An album that has existed on MusicBrainz for years but is only now appearing in Lidarr (for example, after a merge or a metadata correction) is monitored or skipped based purely on its release date relative to what you already have, regardless of when it showed up in Lidarr.
 

@@ -41,10 +41,10 @@ Lidarr runs on one of three release branches. Pick one under **Settings → Gene
 
 Docker tag-to-branch mapping:
 
-|                                                                                                        | `master` (stable) | `develop` (beta) | `nightly` (alpha) |
-|--------------------------------------------------------------------------------------------------------|-------------------|------------------|-------------------|
-| <a href="https://hotio.dev/containers/lidarr" class="is-external-link">hotio</a>                       | `release`         | `testing`        | `nightly`         |
-| <a href="https://docs.linuxserver.io/images/docker-lidarr" class="is-external-link">LinuxServer.io</a> | `latest`          | `develop`        | `nightly`         |
+|  | `master` (stable) | `develop` (beta) | `nightly` (alpha) |
+|----|----|----|----|
+| <a href="https://hotio.dev/containers/lidarr" class="is-external-link">hotio</a> | `release` | `testing` | `nightly` |
+| <a href="https://docs.linuxserver.io/images/docker-lidarr" class="is-external-link">LinuxServer.io</a> | `latest` | `develop` | `nightly` |
 
 > **Branch-switching caveat.** Identical-version branch swaps are safe. Swapping forward (for example, `master` → `develop`) is typically safe. Swapping backward (for example, `develop` → `master`) is the path that can fail. If in doubt, check in Discord with the development team before switching, and take a backup either way.
 

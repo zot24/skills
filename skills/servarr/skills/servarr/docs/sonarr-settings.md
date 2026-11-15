@@ -778,19 +778,19 @@ Select the download client you wish to add, and there will be a pop-up box to en
 
 - Sonarr is only able to set the seed ratio/time on clients that support setting this value via their API when the torrent is added. Seed goals can be set globally in the client itself or per tracker in \*Arr settings for each indexer. See the table below for client compatibility.
 
-|      Client       |                                        Ratio                                         |                                         Time                                         |
-|:-----------------:|:------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|
-|       Aria2       | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
-|      Deluge       | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
-| Download Station  | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
-|       Flood       | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
-|     Hadouken      | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
-|    qBittorrent    | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
-|     rTorrent      | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
+| Client | Ratio | Time |
+|:--:|:--:|:--:|
+| Aria2 | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
+| Deluge | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
+| Download Station | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
+| Flood | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
+| Hadouken | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
+| qBittorrent | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
+| rTorrent | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
 | Torrent Blackhole | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
-|   Transmission    | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |       ![Idle Limit](https://img.shields.io/badge/Supported-Idle%20Limit*-blue)       |
-|     uTorrent      | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
-|       Vuze        | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
+| Transmission | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | ![Idle Limit](https://img.shields.io/badge/Supported-Idle%20Limit*-blue) |
+| uTorrent | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
+| Vuze | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
 
 > ![Idle Limit](https://img.shields.io/badge/Supported-Idle%20Limit*-blue) - Transmission internally has an Idle Time check, but Sonarr compares it with the seeding time if the idle limit is set on a per-torrent basis. This is done as workaround to Transmission’s api limitations.
 

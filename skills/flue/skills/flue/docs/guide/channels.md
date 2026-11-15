@@ -1,18 +1,5 @@
 > Source: https://flueframework.com/docs/guide/channels
 
-<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
-
-
-<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
-
-
-Esc
-
-
-Start typing to search the documentation.
-
-
-<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Channels
@@ -217,24 +204,24 @@ Because the SDK is the provider’s own, everything it documents is available wi
 
 Flue publishes ingress packages and blueprints for these providers; each [ecosystem page](/docs/ecosystem/#channels) documents the provider’s routes, payload types, environment variables, and caveats. The packages are built on Fetch and Web Crypto and run on both the Node and Cloudflare targets. Each blueprint installs its provider’s ingress package (`@flue/slack`, `@flue/github`, …), named on the ecosystem page:
 
-| Provider                                                                           | Blueprint                    |
-|------------------------------------------------------------------------------------|------------------------------|
-| [Slack](/docs/ecosystem/channels/slack/)                                           | `slack`                      |
-| [Discord](/docs/ecosystem/channels/discord/)                                       | `discord`                    |
-| [Microsoft Teams](/docs/ecosystem/channels/teams/)                                 | `teams`                      |
-| [Google Chat](/docs/ecosystem/channels/google-chat/)                               | `google-chat`                |
-| [Telegram](/docs/ecosystem/channels/telegram/)                                     | `telegram`                   |
-| [WhatsApp](/docs/ecosystem/channels/whatsapp/)                                     | `whatsapp`                   |
-| [Facebook Messenger](/docs/ecosystem/channels/messenger/)                          | `messenger`                  |
-| [Twilio](/docs/ecosystem/channels/twilio/)                                         | `twilio`                     |
-| [GitHub](/docs/ecosystem/channels/github/)                                         | `github`                     |
-| [Linear](/docs/ecosystem/channels/linear/)                                         | `linear`                     |
-| [Notion](/docs/ecosystem/channels/notion/)                                         | `notion`                     |
-| [Intercom](/docs/ecosystem/channels/intercom/)                                     | `intercom`                   |
-| [Zendesk](/docs/ecosystem/channels/zendesk/)                                       | `zendesk`                    |
-| [Stripe](/docs/ecosystem/channels/stripe/)                                         | `stripe`                     |
-| [Shopify](/docs/ecosystem/channels/shopify/)                                       | `shopify`                    |
-| [Resend](/docs/ecosystem/channels/resend/)                                         | `resend`                     |
+| Provider | Blueprint |
+|----|----|
+| [Slack](/docs/ecosystem/channels/slack/) | `slack` |
+| [Discord](/docs/ecosystem/channels/discord/) | `discord` |
+| [Microsoft Teams](/docs/ecosystem/channels/teams/) | `teams` |
+| [Google Chat](/docs/ecosystem/channels/google-chat/) | `google-chat` |
+| [Telegram](/docs/ecosystem/channels/telegram/) | `telegram` |
+| [WhatsApp](/docs/ecosystem/channels/whatsapp/) | `whatsapp` |
+| [Facebook Messenger](/docs/ecosystem/channels/messenger/) | `messenger` |
+| [Twilio](/docs/ecosystem/channels/twilio/) | `twilio` |
+| [GitHub](/docs/ecosystem/channels/github/) | `github` |
+| [Linear](/docs/ecosystem/channels/linear/) | `linear` |
+| [Notion](/docs/ecosystem/channels/notion/) | `notion` |
+| [Intercom](/docs/ecosystem/channels/intercom/) | `intercom` |
+| [Zendesk](/docs/ecosystem/channels/zendesk/) | `zendesk` |
+| [Stripe](/docs/ecosystem/channels/stripe/) | `stripe` |
+| [Shopify](/docs/ecosystem/channels/shopify/) | `shopify` |
+| [Resend](/docs/ecosystem/channels/resend/) | `resend` |
 | [Salesforce Marketing Cloud](/docs/ecosystem/channels/salesforce-marketing-cloud/) | `salesforce-marketing-cloud` |
 
 ### Providers without a blueprint

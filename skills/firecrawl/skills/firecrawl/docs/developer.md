@@ -28,7 +28,11 @@ Firecrawl Developer is an index built for coding agents. It covers issues, merge
 | Task | Endpoint |
 | - | - |
 | Search the developer index | [`GET` or `POST /search/developer`](https://docs.firecrawl.dev/api-reference/endpoint/developer-search) |
-| Add developer results to a web search | [`POST /search`](https://docs.firecrawl.dev/api-reference/endpoint/search) with `categories: ["developer"]` |
+| Search the Developer Index through `/search` | [`POST /search`](https://docs.firecrawl.dev/api-reference/endpoint/search) with `categories: ["developer"]`, which cannot be combined with other categories |
+
+> [!NOTE]
+>
+> **The research index GitHub search was removed.** `GET /search/research/github` and the legacy `GET /research/github` were removed on 2026-11-03. Both paths now return `410 Gone`. Send the same `query` and `k` to [`/search/developer`](https://docs.firecrawl.dev/api-reference/endpoint/developer-search) instead. Results return matched `passages` instead of a `snippet`, and each one has an `id`.
 
 ## Search the developer index
 
@@ -76,9 +80,9 @@ See the [developer search reference](https://docs.firecrawl.dev/api-reference/en
 
 > [!NOTE]
 >
-> The Python and Node SDKs reach the Developer Index through the `developer` category shown below. They do not expose a dedicated method for this endpoint, so call it over HTTP, through the [CLI](https://docs.firecrawl.dev/sdks/cli.md), or through [MCP](https://docs.firecrawl.dev/mcp-server.md).
+> The Node SDK calls this endpoint with `firecrawl.developerSearch(query, options)`. The Python SDK calls it with `firecrawl.developer_search(query, ...)` on both the sync and async clients, taking the same filters as keyword arguments. Both return the ranked developer shape with matched passages.
 
-## Add developer results to a web search
+## Search the Developer Index through /search
 
 Pass `developer` as the only entry in the `categories` array on `/search`. The response returns developer results in the standard `web` group, each tagged `category: "developer"`. The `developer` category cannot be combined with other categories.
 

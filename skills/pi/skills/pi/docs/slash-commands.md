@@ -30,7 +30,7 @@ Extensions, prompt templates, and skills can add commands. The command menu in P
 
 ## Models and settings
 
-<a href="#models-and-settings" class="heading-anchor" aria-label="Permalink: Models and settings" data-copy="" data-copy-text="https://pi.dev/docs/latest/slash-commands#models-and-settings"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#models-and-settings" class="heading-anchor" aria-label="Permalink: Models and settings" data-copy="" data-copy-text="https://docs.pi.dev/latest/slash-commands#models-and-settings"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Command | Description |
@@ -46,7 +46,7 @@ Extensions, prompt templates, and skills can add commands. The command menu in P
 
 ## Sessions and context
 
-<a href="#sessions-and-context" class="heading-anchor" aria-label="Permalink: Sessions and context" data-copy="" data-copy-text="https://pi.dev/docs/latest/slash-commands#sessions-and-context"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#sessions-and-context" class="heading-anchor" aria-label="Permalink: Sessions and context" data-copy="" data-copy-text="https://docs.pi.dev/latest/slash-commands#sessions-and-context"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Command | Description |
@@ -64,7 +64,7 @@ Extensions, prompt templates, and skills can add commands. The command menu in P
 
 ## Export and share
 
-<a href="#export-and-share" class="heading-anchor" aria-label="Permalink: Export and share" data-copy="" data-copy-text="https://pi.dev/docs/latest/slash-commands#export-and-share"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#export-and-share" class="heading-anchor" aria-label="Permalink: Export and share" data-copy="" data-copy-text="https://docs.pi.dev/latest/slash-commands#export-and-share"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Command              | Description                                        |
@@ -79,7 +79,7 @@ Review a session before exporting or sharing it. Sessions can contain prompts, t
 
 ## Runtime and project
 
-<a href="#runtime-and-project" class="heading-anchor" aria-label="Permalink: Runtime and project" data-copy="" data-copy-text="https://pi.dev/docs/latest/slash-commands#runtime-and-project"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#runtime-and-project" class="heading-anchor" aria-label="Permalink: Runtime and project" data-copy="" data-copy-text="https://docs.pi.dev/latest/slash-commands#runtime-and-project"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Command | Description |
@@ -94,13 +94,13 @@ Review a session before exporting or sharing it. Sessions can contain prompts, t
 
 ## Commands added by resources
 
-<a href="#commands-added-by-resources" class="heading-anchor" aria-label="Permalink: Commands added by resources" data-copy="" data-copy-text="https://pi.dev/docs/latest/slash-commands#commands-added-by-resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#commands-added-by-resources" class="heading-anchor" aria-label="Permalink: Commands added by resources" data-copy="" data-copy-text="https://docs.pi.dev/latest/slash-commands#commands-added-by-resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - Extensions can register commands with their own arguments and completion behavior.
 - Each prompt template is available under its template name.
 - Skills are available as `/skill:name` when skill commands are enabled.
 
-Use `/reload` after adding or changing a discovered command resource. See [Extensions](/docs/latest/extensions), [Prompt Templates](/docs/latest/prompt-templates), and [Skills](/docs/latest/skills) for their loading and naming rules.
+Use `/reload` after adding or changing a discovered command resource. See [Extensions](/latest/latest/extensions), [Prompt Templates](/latest/latest/prompt-templates), and [Skills](/latest/latest/skills) for their loading and naming rules.
 
 

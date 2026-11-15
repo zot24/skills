@@ -4,7 +4,7 @@
 
 ## Spanish
 
-- [Spanish / v2 (247 pages)](https://docs.firecrawl.dev/_llms/es/v2.txt): Documentation for Spanish / v2.
+- [Spanish / v2 (246 pages)](https://docs.firecrawl.dev/_llms/es/v2.txt): Documentación, SDKs, Referencia de la API, Crear con IA.
 
 ### v1
 

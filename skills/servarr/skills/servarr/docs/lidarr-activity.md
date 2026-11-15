@@ -22,13 +22,13 @@ The queue table shows the following columns by default: Status, Artist, Album Ti
 
 ### <a href="#queue-statuses" class="toc-anchor">¶</a> Queue statuses
 
-| Icon           | Status           | Description                                                                                                | Resolution                                                                                                      |
-|----------------|------------------|------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|
-| Grey cloud     | Queued           | The item is waiting in the download client and hasn't started downloading yet.                             | Wait for the download client to start it.                                                                       |
-| Grey clock     | Release Pending  | The download is waiting for a Delay Profile timer to expire before Lidarr sends it to the download client. | Wait for the delay to pass, or adjust your Delay Profile in Settings.                                           |
-| Yellow arrow   | Downloading      | The item is actively downloading in the download client.                                                   | N/A.                                                                                                            |
-| Purple arrow   | Importing        | The download has finished and Lidarr is importing it.                                                      | N/A.                                                                                                            |
-| Yellow warning | Unable to Import | Lidarr couldn't import the release. Hover over the icon for details.                                       | See <a href="/lidarr/import-troubleshooting" class="is-internal-link is-valid-page">Import Troubleshooting</a>. |
+| Icon | Status | Description | Resolution |
+|----|----|----|----|
+| Grey cloud | Queued | The item is waiting in the download client and hasn't started downloading yet. | Wait for the download client to start it. |
+| Grey clock | Release Pending | The download is waiting for a Delay Profile timer to expire before Lidarr sends it to the download client. | Wait for the delay to pass, or adjust your Delay Profile in Settings. |
+| Yellow arrow | Downloading | The item is actively downloading in the download client. | N/A. |
+| Purple arrow | Importing | The download has finished and Lidarr is importing it. | N/A. |
+| Yellow warning | Unable to Import | Lidarr couldn't import the release. Hover over the icon for details. | See <a href="/lidarr/import-troubleshooting" class="is-internal-link is-valid-page">Import Troubleshooting</a>. |
 
 ### <a href="#queue-action-icons" class="toc-anchor">¶</a> Queue action icons
 
@@ -50,11 +50,11 @@ Each row has action icons on the right:
 
 Click **Options** in the queue toolbar to open Table Options:
 
-| Option                    | Default     | Description                                                                                                                                                                    |
-|---------------------------|-------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Page Size                 | 20          | Number of queue items shown per page.                                                                                                                                          |
-| Show Unknown Artist Items | On          | Shows items in Lidarr's download client category that Lidarr can't match to any artist in your library (for example, removed artists or items added to the category manually). |
-| Columns                   | (see below) | Choose which columns are visible and their display order.                                                                                                                      |
+| Option | Default | Description |
+|----|----|----|
+| Page Size | 20 | Number of queue items shown per page. |
+| Show Unknown Artist Items | On | Shows items in Lidarr's download client category that Lidarr can't match to any artist in your library (for example, removed artists or items added to the category manually). |
+| Columns | (see below) | Choose which columns are visible and their display order. |
 
 Available columns: Status, Artist, Album Title, Album Release Date, Quality, Formats, Custom Format Score, Protocol, Indexer, Download Client, Release Title, Size, Output Path, Time Left, Added, and Progress.
 

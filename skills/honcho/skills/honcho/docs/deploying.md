@@ -4,29 +4,529 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Deploying Honcho
+# Local Environment Setup
 
-> Deploying the Honcho API Server with Docker
+> Set up a local environment to run Honcho for development, testing, or self-hosting
 
-If you're happy with how things are working locally, deploying your Honcho instance is a breeze with [Fly](https://fly.io). Follow the [Fly.io Docs](https://fly.io/docs/getting-started/) to setup your environment and the `flyctl`.
+This guide helps you set up a local environment to run Honcho for development, testing, or self-hosting.
 
-A sample `fly.toml` is included for convenience in the repository.
+**Just want a running instance?** `uv tool install honcho-cli` only installs the `honcho` command. Then run [`honcho start --setup`](https://honcho.dev/docs/v3/documentation/reference/cli#local-stack) (Docker + an LLM provider key) — that pulls a published image and starts API, deriver, Postgres, and Redis. The rest of this page is for building from source, contributing, or deploying without the CLI.
 
-> [!WARNING]
+> [!TIP]
 >
-> Note. The fly.toml does not include launching a Postgres database. This must
-> be configured separately
+> **Don't want to run Postgres, Redis, and a background worker?** Honcho Cloud runs the same open-source server for you, with a generous free tier. [Get an API key](https://app.honcho.dev/api-keys?utm_source=docs\&utm_medium=callout\&utm_content=selfhost_callout) and point the SDK at it — no infrastructure required.
 
-Once `flyctl` is set up use the the following commands to launch the application:
+## Overview
+
+By the end of this guide, you'll have:
+
+* A local Honcho server running on your machine
+* A PostgreSQL database with pgvector extension
+* Basic configuration to connect your applications
+* A working environment for development or testing
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed:
+
+### Required Software
+
+* **uv** - Python package manager: `curl -LsSf https://astral.sh/uv/install.sh | sh` or `brew install uv`
+* **Git** - [Download from git-scm.com](https://git-scm.com/downloads)
+* **Docker** - required for the CLI local stack and the compose-from-source path; not needed for a fully manual setup. [Download from docker.com](https://www.docker.com/products/docker-desktop/)
+
+### Database Options
+
+You'll need a PostgreSQL database with the pgvector extension. Choose one:
+
+* **Local PostgreSQL** - Install locally or use Docker
+* **Supabase** - Free cloud PostgreSQL with pgvector
+* **Railway** - Simple cloud PostgreSQL hosting
+* **Your own PostgreSQL server**
+
+## LLM Setup
+
+Honcho uses LLMs for memory extraction, summarization, dialectic chat, and dreaming. The server will **fail to start** without a provider configured.
+
+If you keep the built-in defaults, you only need one API key: all text-generation features default to `openai / gpt-5.4-mini`, and embeddings default to `openai / text-embedding-3-small`. Any OpenAI-compatible endpoint works too — OpenRouter, Together, Fireworks, Ollama, vLLM, or LiteLLM. Models must support tool calling (function calling).
+
+After copying `.env.template` to `.env`, the default setup is:
 
 ```bash theme={null}
-cd honcho
-flyctl launch --no-deploy # Follow the prompts and edit as you see fit
-cat .env | flyctl secrets import # Load in your secrets
-flyctl deploy # Deploy with appropriate environment variables
+# Required for the built-in defaults
+LLM_OPENAI_API_KEY=sk-...
 ```
 
-Then you should have a new URL to initialize your Honcho client with! Consider your user context managed 🪄.\`
+If you want a different model or an OpenAI-compatible proxy, uncomment and edit the relevant `*_MODEL_CONFIG__TRANSPORT`, `*_MODEL_CONFIG__MODEL`, and `*_MODEL_CONFIG__OVERRIDES__BASE_URL` lines in the Deriver, Dialectic, Summary, and Dream sections. For example:
+
+```bash theme={null}
+LLM_OPENAI_API_KEY=sk-or-v1-...
+
+DERIVER_MODEL_CONFIG__TRANSPORT=openai
+DERIVER_MODEL_CONFIG__MODEL=google/gemini-2.5-flash
+DERIVER_MODEL_CONFIG__OVERRIDES__BASE_URL=https://openrouter.ai/api/v1
+```
+
+> [!NOTE]
+>
+> For recommended model tiers per feature, using multiple providers, or direct vendor API keys, see the [Configuration Guide](https://honcho.dev/docs/v3/contributing/configuration.md#llm-configuration).
+
+### Running without a model provider
+
+`src/mock_provider/` is a deterministic, OpenAI-compatible endpoint, so you can run the full
+stack with no provider account, no API key, and no spend. It answers `/v1/chat/completions`
+and `/v1/embeddings` with obviously-synthetic content derived from the request, and the same
+request always produces the same response. Run it from the standard image or the repo:
+
+```bash theme={null}
+uv run fastapi run --host 0.0.0.0 --port 8106 src/mock_provider/main.py
+```
+
+Then point Honcho at it. All three variables are required:
+
+```bash theme={null}
+export LLM_OPENAI_API_KEY=any-non-empty-string   # only truthiness is checked
+export LLM_OPENAI_BASE_URL=http://localhost:8106/v1
+export EMBEDDING_MODEL_CONFIG__OVERRIDES__BASE_URL=http://localhost:8106/v1
+```
+
+The key's *value* is never checked — the mock reads no Authorization header, and Honcho only
+tests it for truthiness before building the client (`src/llm/registry.py`). Set the base URL
+without it and the client is never constructed, so the base URL is silently ignored. Keep the
+value obviously fake, so a module that ever escapes the override 401s rather than spends.
+
+Embeddings resolve through a separate client that reads the base URL only from the per-module
+override, so without the third variable your embedding calls go to `api.openai.com` for real.
+Do not set any per-module credential override (`..._OVERRIDES__API_KEY` / `API_KEY_ENV`) —
+that makes the module ignore the global base URL.
+
+Two things to know:
+
+* **A repo `.env` beats your exported environment.** `src/config.py` calls
+  `load_dotenv(override=True)` at import, so a stale `.env` silently wins over the variables
+  above. Set `PYTHON_DOTENV_DISABLED=1` (and `HONCHO_CONFIG_TOML_DISABLED=1` for a local
+  `config.toml`) when you need the environment to be the only input.
+* **Mock embeddings are hash-derived and carry no semantic similarity.** Two paraphrases are as
+  far apart as two unrelated strings. Recall against this provider must use lexical/full-text
+  search; anything asserting on vector ranking needs a real embedding provider.
+
+## Personal local stack (CLI)
+
+Recommended if you want Honcho running locally without cloning this repo or building an image. Install the CLI, then run the setup wizard:
+
+```bash theme={null}
+uv tool install honcho-cli
+honcho start --setup basic   # prompts for LLM provider + key, then starts Docker
+```
+
+`honcho start` pulls `ghcr.io/plastic-labs/honcho:latest`, pins that digest, and starts API + deriver + Postgres + Redis. Stack files live under `~/.honcho/profiles/local/`. It does **not** rewrite `environmentUrl` in `~/.honcho/config.json` (that file is shared with plugins). Talk to the stack with `HONCHO_BASE_URL=http://127.0.0.1:8000`, or run `honcho init --base-url http://127.0.0.1:8000` to persist local as the CLI default.
+
+See the [CLI reference](https://honcho.dev/docs/v3/documentation/reference/cli.md#local-stack) for `--setup`, profiles, `--image`, ports, `honcho status` / `stop`, and pointing the CLI at local.
+
+## From source (Docker Compose)
+
+Docker Compose in this repo handles the database, Redis, and Honcho server. The compose file **builds the image from source** so you can develop against local code. A pre-built image is published at `ghcr.io/plastic-labs/honcho:latest` (what `honcho start` uses); it is not on Docker Hub. Building from source requires Docker with BuildKit enabled — see [Troubleshooting](https://honcho.dev/docs/v3/contributing/troubleshooting.md#docker-build-fails-with-permission-errors) if the build fails.
+
+The compose file is production-oriented by default (ports bound to `127.0.0.1`, restart policies, caching enabled). For development, uncomment the source mounts and monitoring services inside the file.
+
+### 1. Clone the Repository
+
+```bash theme={null}
+git clone https://github.com/plastic-labs/honcho.git
+cd honcho
+```
+
+### 2. Set Up Environment Variables
+
+Copy the example environment file and configure it:
+
+```bash theme={null}
+cp .env.template .env
+```
+
+Edit `.env` and configure your LLM provider — see [LLM Setup](#llm-setup) above. The database connection is set in the compose file. Auth is disabled by default (`AUTH_USE_AUTH=false`).
+
+### 3. Start the Services
+
+```bash theme={null}
+cp docker-compose.yml.example docker-compose.yml
+docker compose up -d --build
+```
+
+The first build takes a few minutes (compiling from source). Subsequent starts are fast.
+
+The default image does not include LanceDB. To use `VECTOR_STORE_TYPE=lancedb`, build with `INSTALL_LANCEDB=true docker compose up -d --build`.
+
+For [surprisal-based sampling](https://honcho.dev/docs/v3/contributing/configuration.md#feature-specific-model-configuration) with `kdtree` (the default), `balltree`, `graph`, or `prototype`, install the optional dependencies with `INSTALL_SURPRISAL=true docker compose up -d --build` and set `DREAM_SURPRISAL__ENABLED=true` in `.env`. Both build arguments default to `false`, accept only exact `true` or `false`, and can be enabled independently or together:
+
+```bash theme={null}
+INSTALL_LANCEDB=true INSTALL_SURPRISAL=true docker compose up -d --build
+```
+
+These arguments apply to source builds, not the published image used by `honcho start`.
+
+This starts five services: **api** (port 8000), **deriver** (background worker), **mcp** (Streamable HTTP on port 3000), **database** (PostgreSQL with pgvector, port 5432), and **redis** (port 6379). All ports are bound to `127.0.0.1`. Redis caching is enabled by default.
+
+Point MCP clients at `http://127.0.0.1:3000` — see [Run locally](https://honcho.dev/docs/v3/guides/integrations/mcp.md#run-locally) for stdio, HTTP, and Docker.
+
+For development, uncomment the source mount and monitoring sections inside `docker-compose.yml` to enable live reload, Prometheus, and Grafana.
+
+### 4. Verify
+
+Migrations run automatically on startup.
+
+```bash theme={null}
+# Check all containers are running
+docker compose ps
+
+# Health check (confirms the process is up)
+curl http://localhost:8000/health
+
+# MCP health check
+curl http://localhost:3000/health
+
+# Check the deriver is processing (look for "polling" or "processing" in logs)
+docker compose logs deriver --tail 20
+```
+
+For a full end-to-end test, see [Verify Your Setup](#verify-your-setup) below.
+
+## Manual Setup
+
+For more control over your environment, or on a host without Docker, you can set up everything manually. You need Postgres with pgvector and an LLM provider key. Redis is optional: caching is off by default (`CACHE_ENABLED=false`).
+
+### 1. Clone and Install Dependencies
+
+```bash theme={null}
+git clone https://github.com/plastic-labs/honcho.git
+cd honcho
+
+# Install dependencies using uv (this will also set up Python if needed)
+uv sync
+
+# Activate the virtual environment
+source .venv/bin/activate  # On Windows: .venv\Scripts\activate
+```
+
+### 2. Set Up PostgreSQL
+
+#### Option A: Local PostgreSQL Installation
+
+Install PostgreSQL and pgvector on your system:
+
+**macOS (using Homebrew):**
+
+```bash theme={null}
+brew install postgresql@17 pgvector
+brew services start postgresql@17
+```
+
+**Ubuntu/Debian:**
+
+```bash theme={null}
+sudo apt update
+# Postgres and pgvector majors must match the distro's packaged version.
+# Ubuntu 24.04:
+sudo apt install postgresql-16 postgresql-16-pgvector
+# Debian 12:
+sudo apt install postgresql-15 postgresql-15-pgvector
+# Other versions: add the PostgreSQL APT repo (apt.postgresql.org) first.
+```
+
+**Windows:**
+Download from [postgresql.org](https://www.postgresql.org/download/windows/)
+
+#### Option B: Docker PostgreSQL (if Docker is available)
+
+```bash theme={null}
+docker run --name honcho-db \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -p 5432:5432 \
+  -d pgvector/pgvector:pg15
+```
+
+### 3. Enable Extensions
+
+Connect to PostgreSQL and enable pgvector, pg\_trgm and btree\_gin:
+
+```bash theme={null}
+# Connect to PostgreSQL
+psql -U postgres
+
+# Enable the extensions on the default database
+CREATE EXTENSION IF NOT EXISTS vector;
+CREATE EXTENSION IF NOT EXISTS pg_trgm;
+CREATE EXTENSION IF NOT EXISTS btree_gin;
+\q
+```
+
+> [!NOTE]
+>
+> **Least-privilege database roles.** Honcho runs `CREATE EXTENSION IF NOT EXISTS vector` before migrations and again at startup, so if the role in `DB_CONNECTION_URI` can't create extensions, both fail with a privilege error — `IF NOT EXISTS` doesn't help, because Postgres checks the privilege first.
+>
+> Run the statements above once as a superuser (or `rds_superuser`) and the application role needs no extension privileges. `pg_trgm` and `btree_gin` are optional: if one can't be created, migrations skip the indexes that need it (the message search indexes, which `btree_gin` lets lead with the tenant and workspace and `pg_trgm` backs for `ILIKE`, and a queue index used when deleting data) and log how to create them later. See [Troubleshooting](https://honcho.dev/docs/v3/contributing/troubleshooting.md) if you hit this.
+
+### 4. Configure Environment
+
+Create a `.env` file with your settings:
+
+```bash theme={null}
+cp .env.template .env
+```
+
+Edit `.env` — configure your LLM provider (see [LLM Setup](#llm-setup) above) and set the database connection:
+
+```bash theme={null}
+DB_CONNECTION_URI=postgresql+psycopg://postgres:postgres@localhost:5432/postgres
+AUTH_USE_AUTH=false
+LOG_LEVEL=DEBUG
+```
+
+### 5. Run Database Migrations
+
+```bash theme={null}
+# Run migrations to create tables
+uv run alembic upgrade head
+```
+
+### 6. Start the Server
+
+```bash theme={null}
+# Start the development server
+uv run fastapi dev src/main.py
+```
+
+The server will be available at `http://localhost:8000`.
+
+### 7. Start the Background Worker (Deriver)
+
+In a **separate terminal**, start the deriver background worker:
+
+```bash theme={null}
+uv run python -m src.deriver
+```
+
+The deriver is essential for Honcho's core functionality. It processes incoming messages to extract observations, build peer representations, generate session summaries, and run dream consolidation. Without it, messages will be stored but no memory or reasoning will occur.
+
+## Cloud Database Setup
+
+If you prefer to use a managed PostgreSQL service:
+
+### Supabase (Recommended)
+
+1. **Create a Supabase project** at [supabase.com](https://supabase.com)
+2. **Enable pgvector extension** in the SQL editor:
+   ```sql
+   CREATE EXTENSION IF NOT EXISTS vector;
+   ```
+3. **Get your connection string** from Settings > Database
+4. **Update your `.env` file** with the connection string
+
+### Railway
+
+1. **Create a Railway project** at [railway.app](https://railway.app)
+2. **Add a PostgreSQL service**
+3. **Enable pgvector** in the PostgreSQL console
+4. **Get your connection string** from the service variables
+5. **Update your `.env` file**
+
+## Verify Your Setup
+
+Once your Honcho server is running, verify everything is working:
+
+### 1. Health Check
+
+```bash theme={null}
+curl http://localhost:8000/health
+# {"status":"ok"}
+```
+
+Note: `/health` only confirms the process is running. It does not check database or LLM connectivity.
+
+### 2. Smoke Test (database + API)
+
+This confirms the database connection, migrations, and API are all working:
+
+```bash theme={null}
+# Create a workspace
+curl -s -X POST http://localhost:8000/v3/workspaces \
+  -H "Content-Type: application/json" \
+  -d '{"name": "test"}' | python3 -m json.tool
+```
+
+If you get back a workspace object with an `id`, your database is connected and migrations ran correctly.
+
+### 3. API Documentation
+
+Visit `http://localhost:8000/docs` to see the interactive API documentation.
+
+### 4. Test with SDK
+
+```python theme={null}
+from honcho import Honcho
+
+client = Honcho(
+    base_url="http://localhost:8000",
+    workspace_id="test"
+)
+
+peer = client.peer("test-user")
+print(f"Created peer: {peer.id}")
+```
+
+## Connect Your Application
+
+Now that Honcho is running locally, you can connect your applications:
+
+### Update SDK Configuration
+
+```python theme={null}
+# Python SDK
+from honcho import Honcho
+
+client = Honcho(
+    base_url="http://localhost:8000",
+)
+```
+
+```typescript theme={null}
+// TypeScript SDK
+import { Honcho } from '@honcho-ai/sdk';
+
+const client = new Honcho({
+  baseUrl: 'http://localhost:8000',
+});
+```
+
+### Next Steps
+
+* **Configure Honcho**: Visit the [Configuration Guide](https://honcho.dev/docs/v3/contributing/configuration.md) for model tiers, provider options, and tuning
+* **Use the CLI**: install with `uv tool install honcho-cli`, then [`honcho start --setup`](https://honcho.dev/docs/v3/documentation/reference/cli#local-stack) for a local stack; inspect with `honcho workspace inspect` / `honcho doctor`
+* **Explore the API**: Check out the [API Reference](https://honcho.dev/docs/v3/api-reference/introduction.md)
+* **Try the SDKs**: See our [guides](../guides) for examples
+* **Join the community**: [Discord](https://discord.gg/honcho)
+
+## Troubleshooting
+
+Running into issues? See the [Troubleshooting Guide](https://honcho.dev/docs/v3/contributing/troubleshooting.md) for detailed solutions to common problems including:
+
+* Startup failures (missing API keys, database issues)
+* Runtime errors ("An unexpected error occurred" on every request)
+* Deriver not processing messages
+* Database connection and migration issues
+* Docker and Redis problems
+* CLI local stack (`honcho start`) — missing LLM key, health timeout, still talking to api.honcho.dev
+
+**Quick checks:**
+
+* Verify the server is running: `curl http://localhost:8000/health`
+* Check logs: `docker compose logs api` (from-source Docker), `docker compose -p honcho-local logs` (`honcho start`), or terminal output (manual setup)
+* Ensure migrations ran: `uv run alembic upgrade head` (from-source only; `honcho start` runs them in the image entrypoint)
+
+## Production Considerations
+
+The default compose file is already production-oriented — ports bound to `127.0.0.1`, restart policies, caching enabled.
+
+### Security
+
+* Set `AUTH_USE_AUTH=true` and generate a JWT secret with `python scripts/generate_jwt_secret.py`
+* Use HTTPS via a reverse proxy in front of Honcho. Example with Caddy (automatic TLS):
+  ```
+  honcho.example.com {
+      reverse_proxy localhost:8000
+  }
+  ```
+  Or with nginx:
+  ```nginx
+  server {
+      listen 443 ssl;
+      server_name honcho.example.com;
+      ssl_certificate /etc/letsencrypt/live/honcho.example.com/fullchain.pem;
+      ssl_certificate_key /etc/letsencrypt/live/honcho.example.com/privkey.pem;
+      location / {
+          proxy_pass http://127.0.0.1:8000;
+          proxy_set_header Host $host;
+          proxy_set_header X-Real-IP $remote_addr;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+          proxy_set_header X-Forwarded-Proto $scheme;
+      }
+  }
+  ```
+* Secure your database with strong credentials and restrict network access
+* The production compose binds PostgreSQL and Redis to `127.0.0.1` only — they are not accessible from the network
+
+### Scaling the Deriver
+
+* Increase `DERIVER_WORKERS` (default: 1) for higher message throughput
+* You can also run multiple deriver processes across machines — they coordinate via the database queue
+* Monitor deriver logs for processing backlog
+
+### Scaling the API
+
+Set `API_WORKERS` to run multiple API server processes in the Docker container. It defaults to `1`, preserving the existing single-process behavior.
+
+When connection pooling is enabled (`DB_POOL_CLASS` is not `null`), each API process creates its own SQLAlchemy connection pool. Keep the combined capacity below the PostgreSQL connection limit:
+
+```text theme={null}
+API_WORKERS * (DB_POOL_SIZE + DB_MAX_OVERFLOW) < PostgreSQL max_connections
+```
+
+With the default pooled settings (`10 + 20`), each API worker can open up to 30 connections. For example, `API_WORKERS=3` allows up to 90 API connections. Leave additional headroom for the deriver, migrations, administration, and monitoring.
+
+When `DB_POOL_CLASS=null`, SQLAlchemy uses `NullPool`; `DB_POOL_SIZE` and `DB_MAX_OVERFLOW` do not apply, and connections are opened and closed per use.
+
+### Caching
+
+* The production compose enables Redis caching by default (`CACHE_ENABLED=true`)
+* For the development compose, enable manually: `CACHE_ENABLED=true`
+* Configure `CACHE_URL` to point to your Redis instance (or use a managed Redis service)
+
+### Database Migrations
+
+* Always run `uv run alembic upgrade head` after updating Honcho before starting the server
+* Check current migration status with `uv run alembic current`
+* Migrations hold a session-level advisory lock, so they need a session-mode connection (direct Postgres or a session pooler), not a transaction-mode pooler. A Supabase-style `:6543` port is rewritten to `:5432` automatically.
+
+### LLM Providers
+
+* Ensure your API keys are configured (see [LLM Setup](#llm-setup))
+* For alternative providers or per-feature model overrides, see the [Configuration Guide](https://honcho.dev/docs/v3/contributing/configuration.md#llm-configuration)
+
+### Monitoring
+
+* Enable Prometheus metrics with `METRICS_ENABLED=true`. The API exposes `/metrics` on port 8000, the deriver on port 9090 (internal to its container — not published to the host by default).
+* Enable Sentry error tracking with `SENTRY_ENABLED=true`
+* The development compose includes Prometheus (host port 9090) and Grafana (host port 3000) for scraping and dashboards. Uncomment those services to enable them.
+
+### Backups
+
+* Set up regular PostgreSQL backups:
+  ```bash
+  # One-off backup
+  docker compose exec database pg_dump -U postgres postgres > backup-$(date +%Y%m%d).sql
+
+  # Restore
+  cat backup.sql | docker compose exec -T database psql -U postgres postgres
+  ```
+
+## Deploying on Fly.io
+
+The API can be deployed on [Fly.io](https://fly.io). Follow the [Fly.io getting-started docs](https://fly.io/docs/getting-started/) to set up your account and install `flyctl`. A sample `fly.toml` is included in the repo for convenience.
+
+> [!NOTE]
+>
+> The included `fly.toml` does not provision a PostgreSQL database. Stand one up separately (Fly Postgres, Supabase, Neon, or another managed provider) and set `DB_CONNECTION_URI` to point at it.
+
+Once `flyctl` is set up, from the repo root:
+
+```bash theme={null}
+flyctl launch --no-deploy           # follow the prompts and edit as you see fit
+cat .env | flyctl secrets import    # load secrets from .env
+flyctl deploy                       # deploy
+```
+
+* Back up your `.env` or `config.toml` configuration files
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,9 +13,7 @@ Configuration Reference
 Every WF\_\* environment variable Wealthfolio understands, plus how to escape Argon2 hashes for each environment.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
 All Wealthfolio configuration is done through environment variables prefixed with `WF_`. This page is the source of truth. The platform-specific guides link back here for the details.
@@ -98,26 +21,26 @@ All Wealthfolio configuration is done through environment variables prefixed wit
 ## Quick reference
 
 
-| Variable                    | Required          | Default                                                                                       |
-|-----------------------------|-------------------|-----------------------------------------------------------------------------------------------|
-| `WF_SECRET_KEY`             | ✅ always         | —                                                                                             |
-| `WF_AUTH_PASSWORD_HASH`     | ✅ for web access | —                                                                                             |
-| `WF_CORS_ALLOW_ORIGINS`     | ✅ when auth on   | `*` (rejected with auth on)                                                                   |
-| `WF_LISTEN_ADDR`            | recommended       | `0.0.0.0:8088`                                                                                |
-| `WF_DATA_DIR`               | optional          | Unset (uses `WF_DB_PATH` parent)                                                              |
-| `WF_DB_PATH`                | optional          | `./db/app.db`                                                                                 |
-| `WF_DB_REQUIRE_ENCRYPTION`  | optional          | `false`                                                                                       |
-| `WF_AUTH_REQUIRED`          | optional          | `true`                                                                                        |
-| `WF_AUTH_TOKEN_TTL_MINUTES` | optional          | `60`                                                                                          |
-| `WF_COOKIE_SECURE`          | optional          | `auto`                                                                                        |
-| `WF_OIDC_ISSUER_URL`        | for SSO           | —                                                                                             |
-| `WF_OIDC_CLIENT_ID`         | for SSO           | —                                                                                             |
-| `WF_OIDC_*` (SSO options)   | optional          | see <a href="#single-sign-on-oidc" class="font-medium underline underline-offset-4">below</a> |
-| `WF_REQUEST_TIMEOUT_MS`     | optional          | `300000` (5 min)                                                                              |
-| `WF_STATIC_DIR`             | optional          | `dist`                                                                                        |
-| `WF_SECRET_FILE`            | optional          | `<data-root>/secrets.json`                                                                    |
-| `WF_ADDONS_DIR`             | optional          | `<data-root>` (DB directory)                                                                  |
-| `WF_LOG_FORMAT`             | optional          | `text`                                                                                        |
+| Variable | Required | Default |
+|----|----|----|
+| `WF_SECRET_KEY` | ✅ always | – |
+| `WF_AUTH_PASSWORD_HASH` | ✅ for web access | – |
+| `WF_CORS_ALLOW_ORIGINS` | ✅ when auth on | `*` (rejected with auth on) |
+| `WF_LISTEN_ADDR` | recommended | `0.0.0.0:8088` |
+| `WF_DATA_DIR` | optional | Unset (uses `WF_DB_PATH` parent) |
+| `WF_DB_PATH` | optional | `./db/app.db` |
+| `WF_DB_REQUIRE_ENCRYPTION` | optional | `false` |
+| `WF_AUTH_REQUIRED` | optional | `true` |
+| `WF_AUTH_TOKEN_TTL_MINUTES` | optional | `60` |
+| `WF_COOKIE_SECURE` | optional | `auto` |
+| `WF_OIDC_ISSUER_URL` | for SSO | – |
+| `WF_OIDC_CLIENT_ID` | for SSO | – |
+| `WF_OIDC_*` (SSO options) | optional | see <a href="#single-sign-on-oidc" class="font-medium underline underline-offset-4">below</a> |
+| `WF_REQUEST_TIMEOUT_MS` | optional | `300000` (5 min) |
+| `WF_STATIC_DIR` | optional | `dist` |
+| `WF_SECRET_FILE` | optional | `<data-root>/secrets.json` |
+| `WF_ADDONS_DIR` | optional | `<data-root>` (DB directory) |
+| `WF_LOG_FORMAT` | optional | `text` |
 
 
 ## Startup safety checks
@@ -126,7 +49,7 @@ Wealthfolio refuses to start under two specific configurations to prevent accide
 
 - **Non-loopback listen + no auth**: if `WF_LISTEN_ADDR` binds to anything other than `127.0.0.1` and `WF_AUTH_PASSWORD_HASH` is unset, the server panics. Set `WF_AUTH_REQUIRED=false` to opt out (only do this if a reverse proxy authenticates for you).
 - **Wildcard CORS + auth**: if `WF_CORS_ALLOW_ORIGINS=*` and auth is enabled, the server panics. Set explicit origins (e.g. `https://wealthfolio.example.com`).
-- **OIDC with no allowlist**: if OIDC is enabled (`WF_OIDC_ISSUER_URL` + `WF_OIDC_CLIENT_ID`) but neither `WF_OIDC_ALLOWED_EMAILS` nor `WF_OIDC_ALLOWED_SUBS` is set, the server panics — an empty allowlist would grant every IdP-authenticated user access. Set an allowlist, or `WF_OIDC_ALLOW_ANY=true` to opt into open access (only safe on a dedicated single-user IdP).
+- **OIDC with no allowlist**: if OIDC is enabled (`WF_OIDC_ISSUER_URL` + `WF_OIDC_CLIENT_ID`) but neither `WF_OIDC_ALLOWED_EMAILS` nor `WF_OIDC_ALLOWED_SUBS` is set, the server panics – an empty allowlist would grant every IdP-authenticated user access. Set an allowlist, or `WF_OIDC_ALLOW_ANY=true` to opt into open access (only safe on a dedicated single-user IdP).
 
 ## Security
 
@@ -174,17 +97,17 @@ printf 'your-password' | argon2 yoursalt16chars! -id -e
 Argon2 hashes contain `$` which most shells and Compose interpolate as variable references. Use the right syntax for your environment:
 
 
-| Environment                                  | Syntax                                       | Notes                                                |
-|----------------------------------------------|----------------------------------------------|------------------------------------------------------|
-| Docker CLI `--env-file`                      | `WF_AUTH_PASSWORD_HASH=$argon2id$...`        | Docker CLI does not interpolate env files            |
-| Docker Compose `env_file` with `format: raw` | `WF_AUTH_PASSWORD_HASH=$argon2id$...`        | Requires Docker Compose 2.30+                        |
-| Docker Compose `env_file` (default)          | `WF_AUTH_PASSWORD_HASH='$argon2id$...'`      | Single quotes prevent Compose interpolation          |
-| Docker Compose `env_file` (default)          | `WF_AUTH_PASSWORD_HASH=$$argon2id$$...`      | Alternative: double every `$`                        |
-| Docker Compose YAML inline                   | `WF_AUTH_PASSWORD_HASH: '$$argon2id$$...'`   | Double every `$` to escape Compose                   |
-| Docker CLI `-e` (single quotes)              | `-e WF_AUTH_PASSWORD_HASH='$argon2id$...'`   | Single quotes prevent shell expansion                |
-| Docker CLI `-e` (double quotes)              | `-e WF_AUTH_PASSWORD_HASH="\$argon2id\$..."` | Backslash-escape each `$`                            |
-| Unraid template UI                           | *paste raw hash*                             | Unraid handles escaping internally                   |
-| Coolify env var                              | *paste raw hash, check **Is Literal?***      | Without it Coolify interpolates `$` as variable refs |
+| Environment | Syntax | Notes |
+|----|----|----|
+| Docker CLI `--env-file` | `WF_AUTH_PASSWORD_HASH=$argon2id$...` | Docker CLI does not interpolate env files |
+| Docker Compose `env_file` with `format: raw` | `WF_AUTH_PASSWORD_HASH=$argon2id$...` | Requires Docker Compose 2.30+ |
+| Docker Compose `env_file` (default) | `WF_AUTH_PASSWORD_HASH='$argon2id$...'` | Single quotes prevent Compose interpolation |
+| Docker Compose `env_file` (default) | `WF_AUTH_PASSWORD_HASH=$$argon2id$$...` | Alternative: double every `$` |
+| Docker Compose YAML inline | `WF_AUTH_PASSWORD_HASH: '$$argon2id$$...'` | Double every `$` to escape Compose |
+| Docker CLI `-e` (single quotes) | `-e WF_AUTH_PASSWORD_HASH='$argon2id$...'` | Single quotes prevent shell expansion |
+| Docker CLI `-e` (double quotes) | `-e WF_AUTH_PASSWORD_HASH="\$argon2id\$..."` | Backslash-escape each `$` |
+| Unraid template UI | *paste raw hash* | Unraid handles escaping internally |
+| Coolify env var | *paste raw hash, check **Is Literal?*** | Without it Coolify interpolates `$` as variable refs |
 
 
 **Common mistakes:**
@@ -192,7 +115,7 @@ Argon2 hashes contain `$` which most shells and Compose interpolate as variable 
 - Double quotes in Docker CLI (`"$argon..."`): the shell expands `$argon2id` to empty.
 - Single quotes inside `--env-file` files: Docker keeps the quotes as part of the value.
 - Unquoted/unescaped `$` in Compose YAML: Compose treats `$argon` as a substitution.
-- Coolify: **Is Secret** only masks the value in the UI. It does not stop `$` interpolation — you must also check **Is Literal?**.
+- Coolify: **Is Secret** only masks the value in the UI. It does not stop `$` interpolation – you must also check **Is Literal?**.
 
 
 ### `WF_AUTH_REQUIRED`
@@ -220,11 +143,11 @@ JWT access token lifetime in minutes. Users re-authenticate after this expires.
 Controls the `Secure` attribute on the auth session cookie. Accepted values:
 
 
-| Value              | Behavior                                                                |
-|--------------------|-------------------------------------------------------------------------|
-| `auto` *(default)* | Sets `Secure` automatically based on whether the request was HTTPS.     |
+| Value | Behavior |
+|----|----|
+| `auto` *(default)* | Sets `Secure` automatically based on whether the request was HTTPS. |
 | `true`, `1`, `yes` | Always sets `Secure`. Use behind a reverse proxy that terminates HTTPS. |
-| `false`, `0`, `no` | Never sets `Secure`. Only safe for local-only or testing setups.        |
+| `false`, `0`, `no` | Never sets `Secure`. Only safe for local-only or testing setups. |
 
 
 If you sit behind a reverse proxy doing TLS termination, `auto` works in most cases, but force `true` if cookies aren’t sticking after login.
@@ -246,7 +169,7 @@ A successful SSO login mints the same session cookie as password login, so slidi
 OIDC is enabled when **both** `WF_OIDC_ISSUER_URL` and `WF_OIDC_CLIENT_ID` are set.
 
 
-When OIDC is enabled you must set an allowlist (`WF_OIDC_ALLOWED_EMAILS` and/or `WF_OIDC_ALLOWED_SUBS`) or the server refuses to start. An empty allowlist would grant **every** account your IdP authenticates full access — dangerous on a shared / multi-tenant / self-signup IdP. To intentionally allow anyone (only safe on a dedicated single-user IdP), set `WF_OIDC_ALLOW_ANY=true`.
+When OIDC is enabled you must set an allowlist (`WF_OIDC_ALLOWED_EMAILS` and/or `WF_OIDC_ALLOWED_SUBS`) or the server refuses to start. An empty allowlist would grant **every** account your IdP authenticates full access – dangerous on a shared / multi-tenant / self-signup IdP. To intentionally allow anyone (only safe on a dedicated single-user IdP), set `WF_OIDC_ALLOW_ANY=true`.
 
 
 ### `WF_OIDC_ISSUER_URL`
@@ -286,7 +209,7 @@ WF_OIDC_ALLOWED_EMAILS=you@example.com,partner@example.com
 WF_OIDC_ALLOWED_SUBS=8f3b...,a91c...
 ```
 
-- An `email` is only honored when the IdP asserts `email_verified=true` — an unverified email can be attacker-chosen on self-signup IdPs.
+- An `email` is only honored when the IdP asserts `email_verified=true` – an unverified email can be attacker-chosen on self-signup IdPs.
 - `WF_OIDC_ALLOWED_SUBS` is the stronger control: the `sub` is stable and issuer-scoped. Prefer it on shared / multi-tenant IdPs.
 
 ### `WF_OIDC_ALLOW_ANY`
@@ -295,7 +218,7 @@ WF_OIDC_ALLOWED_SUBS=8f3b...,a91c...
 
 ### `WF_OIDC_POST_LOGOUT_REDIRECT_URL`
 
-**Optional.** When the IdP advertises an `end_session_endpoint`, sign-out also ends the IdP session (RP-Initiated Logout); otherwise logout is local-only. Set this to land back on the app after IdP logout — it must be **registered** with the IdP (e.g. Keycloak’s “Valid post logout redirect URIs”). If unset, the IdP shows its own logged-out page.
+**Optional.** When the IdP advertises an `end_session_endpoint`, sign-out also ends the IdP session (RP-Initiated Logout); otherwise logout is local-only. Set this to land back on the app after IdP logout – it must be **registered** with the IdP (e.g. Keycloak’s “Valid post logout redirect URIs”). If unset, the IdP shows its own logged-out page.
 
 ### `WF_OIDC_RP_LOGOUT`
 
@@ -426,7 +349,7 @@ WF_AUTH_TOKEN_TTL_MINUTES=480
 # Network: explicit origin required when auth is on
 WF_CORS_ALLOW_ORIGINS=https://wealthfolio.example.com
 
-# Single Sign-On (optional) — enabled when issuer + client id are both set.
+# Single Sign-On (optional) – enabled when issuer + client id are both set.
 # An allowlist is required, or set WF_OIDC_ALLOW_ANY=true to allow any IdP user.
 # WF_OIDC_ISSUER_URL=https://auth.example.com/application/o/wealthfolio/
 # WF_OIDC_CLIENT_ID=wealthfolio
@@ -441,16 +364,13 @@ WF_LOG_FORMAT=text
 
 ------------------------------------------------------------------------
 
-To let external AI agents reach a self-hosted instance, enable the endpoint with `WF_MCP_ENABLED=true` and follow the <a href="/docs/guide/mcp-server/" class="font-medium underline underline-offset-4">MCP Server</a> guide — it covers token scopes and the auth requirements for network-bound servers.
+To let external AI agents reach a self-hosted instance, enable the endpoint with `WF_MCP_ENABLED=true` and follow the <a href="/docs/guide/mcp-server/" class="font-medium underline underline-offset-4">MCP Server</a> guide – it covers token scopes and the auth requirements for network-bound servers.
 
 
-------------------------------------------------------------------------
+<a href="/docs/guide/self-hosting/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Overview</a> <a href="/docs/guide/self-hosting/docker/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Docker</a>
 
 
-<a href="/docs/guide/self-hosting/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Overview</a> <a href="/docs/guide/self-hosting/docker/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Docker</a>
-
-
-On This Page
+On this page
 
 - <a href="#quick-reference" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Quick reference</a>
 - <a href="#startup-safety-checks" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Startup safety checks</a>

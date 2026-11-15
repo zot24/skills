@@ -4,69 +4,57 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Query Observations
+# Query Conclusions
 
-> Query observations using semantic search.
-
-Performs vector similarity search on observations to find semantically relevant results.
-Observer and observed are required for semantic search and must be provided in filters.
+> Query Conclusions using semantic search. Use `top_k` to control the number of results returned.
 
 
 ## OpenAPI
 
-````yaml post /v2/workspaces/{workspace_id}/observations/query
+````yaml post /v3/workspaces/{workspace_id}/conclusions/query
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/observations/query:
+  /v3/workspaces/{workspace_id}/conclusions/query:
     post:
       tags:
-        - observations
-      summary: Query Observations
+        - conclusions
+      summary: Query Conclusions
       description: >-
-        Query observations using semantic search.
-
-
-        Performs vector similarity search on observations to find semantically
-        relevant results.
-
-        Observer and observed are required for semantic search and must be
-        provided in filters.
-      operationId: query_observations_v2_workspaces__workspace_id__observations_query_post
+        Query Conclusions using semantic search. Use `top_k` to control the
+        number of results returned.
+      operationId: query_conclusions_v3_workspaces__workspace_id__conclusions_query_post
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ObservationQuery'
-              description: Semantic search parameters for observations
+              $ref: '#/components/schemas/ConclusionQuery'
+              description: Semantic search parameters for Conclusions
       responses:
         '200':
           description: Successful Response
@@ -75,10 +63,10 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Observation'
+                  $ref: '#/components/schemas/Conclusion'
                 title: >-
-                  Response Query Observations V2 Workspaces  Workspace Id 
-                  Observations Query Post
+                  Response Query Conclusions V3 Workspaces  Workspace Id 
+                  Conclusions Query Post
         '422':
           description: Validation Error
           content:
@@ -89,7 +77,7 @@ paths:
         - HTTPBearer: []
 components:
   schemas:
-    ObservationQuery:
+    ConclusionQuery:
       properties:
         query:
           type: string
@@ -120,9 +108,9 @@ components:
       type: object
       required:
         - query
-      title: ObservationQuery
-      description: Query parameters for semantic search of observations
-    Observation:
+      title: ConclusionQuery
+      description: Query parameters for semantic search of conclusions.
+    Conclusion:
       properties:
         id:
           type: string
@@ -133,14 +121,56 @@ components:
         observer_id:
           type: string
           title: Observer Id
-          description: The peer who made the observation
+          description: The peer who made the conclusion
         observed_id:
           type: string
           title: Observed Id
-          description: The peer being observed
+          description: The peer the conclusion is about
         session_id:
-          type: string
+          anyOf:
+            - type: string
+            - type: 'null'
           title: Session Id
+        level:
+          type: string
+          enum:
+            - explicit
+            - deductive
+            - inductive
+            - contradiction
+          title: Level
+          description: >-
+            Reasoning level of the conclusion: 'explicit' (directly extracted
+            from messages) or 'deductive'/'inductive'/'contradiction' (derived
+            during dreaming).
+          default: explicit
+        source_ids:
+          items:
+            type: string
+          type: array
+          title: Source Ids
+          description: >-
+            IDs of the conclusions this one was derived from: premises for
+            'deductive', supporting sources for 'inductive', conflicting
+            conclusions for 'contradiction'. Empty for 'explicit' conclusions,
+            which derive from messages rather than from other conclusions.
+        source_message_ids:
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
+          title: Source Message Ids
+          description: >-
+            IDs of the messages the deriver cited as evidence for an 'explicit'
+            conclusion, in citation order. Evidence may include messages from
+            peers other than the observed one. None for derived levels and for
+            conclusions written before citations were recorded.
+        times_derived:
+          type: integer
+          title: Times Derived
+          description: Number of times this conclusion has been independently derived.
+          default: 1
         created_at:
           type: string
           format: date-time
@@ -151,10 +181,9 @@ components:
         - content
         - observer_id
         - observed_id
-        - session_id
         - created_at
-      title: Observation
-      description: Observation response - external view of a document
+      title: Conclusion
+      description: Conclusion response - external view of a document.
     HTTPValidationError:
       properties:
         detail:
@@ -179,6 +208,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

@@ -30,23 +30,23 @@ Provider extensions run inside Pi and can inspect credentials, prompts, tool def
 
 ## Choose the smallest integration
 
-<a href="#choose-the-smallest-integration" class="heading-anchor" aria-label="Permalink: Choose the smallest integration" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#choose-the-smallest-integration"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#choose-the-smallest-integration" class="heading-anchor" aria-label="Permalink: Choose the smallest integration" data-copy="" data-copy-text="https://docs.pi.dev/latest/custom-provider#choose-the-smallest-integration"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Requirement | Use |
 |----|----|
-| Add models behind a supported API | [`models.json`](/docs/latest/models#configure-a-compatible-endpoint) |
+| Add models behind a supported API | [`models.json`](/latest/latest/models#configure-a-compatible-endpoint) |
 | Change an existing provider endpoint or headers | `models.json` or a small provider extension |
 | Discover models dynamically | A provider with `refreshModels` |
 | Add a `/login` flow | A provider with native or legacy OAuth configuration |
 | Implement an unsupported wire protocol | A provider with `stream` or `streamSimple` |
 
-A provider extension is an [extension](/docs/latest/extensions), so it follows the same loading, trust, reload, and error behavior.
+A provider extension is an [extension](/latest/latest/extensions), so it follows the same loading, trust, reload, and error behavior.
 
 
 ## Register a provider
 
-<a href="#register-a-provider" class="heading-anchor" aria-label="Permalink: Register a provider" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#register-a-provider"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#register-a-provider" class="heading-anchor" aria-label="Permalink: Register a provider" data-copy="" data-copy-text="https://docs.pi.dev/latest/custom-provider#register-a-provider"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Call `pi.registerProvider()` from the extension factory. Pi waits for asynchronous factories before startup continues, so providers registered there are available to startup model selection and `pi --list-models`.
@@ -63,7 +63,7 @@ Registering only `baseUrl` or `headers` for an existing provider preserves its b
 
 ### Redirect an existing provider
 
-<a href="#redirect-an-existing-provider" class="heading-anchor" aria-label="Permalink: Redirect an existing provider" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#redirect-an-existing-provider"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#redirect-an-existing-provider" class="heading-anchor" aria-label="Permalink: Redirect an existing provider" data-copy="" data-copy-text="https://docs.pi.dev/latest/custom-provider#redirect-an-existing-provider"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register only the fields that should change. This keeps the provider's built-in catalog, authentication, API implementation, and compatibility settings:
@@ -88,7 +88,7 @@ Use this form for a proxy or gateway that preserves the upstream protocol. Do no
 
 ### Register a compatible endpoint
 
-<a href="#register-a-compatible-endpoint" class="heading-anchor" aria-label="Permalink: Register a compatible endpoint" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#register-a-compatible-endpoint"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#register-a-compatible-endpoint" class="heading-anchor" aria-label="Permalink: Register a compatible endpoint" data-copy="" data-copy-text="https://docs.pi.dev/latest/custom-provider#register-a-compatible-endpoint"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 When a service implements a supported protocol but has its own model catalog, register the endpoint and only the models the service actually exposes:
@@ -125,7 +125,7 @@ Prefer `models.json` for this case when no executable extension behavior is need
 
 ### Register mixed-operation models
 
-<a href="#register-mixed-operation-models" class="heading-anchor" aria-label="Permalink: Register mixed-operation models" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#register-mixed-operation-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#register-mixed-operation-models" class="heading-anchor" aria-label="Permalink: Register mixed-operation models" data-copy="" data-copy-text="https://docs.pi.dev/latest/custom-provider#register-mixed-operation-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A mixed-operation provider can register non-chat models and their implementations together:
@@ -175,7 +175,7 @@ See the checked [GitLab Duo provider](https://github.com/earendil-works/pi/blob/
 
 ## Provide authentication
 
-<a href="#provide-authentication" class="heading-anchor" aria-label="Permalink: Provide authentication" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#provide-authentication"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#provide-authentication" class="heading-anchor" aria-label="Permalink: Provide authentication" data-copy="" data-copy-text="https://docs.pi.dev/latest/custom-provider#provide-authentication"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Static providers can resolve an API key from a literal, environment interpolation, or a command. These values use the same syntax as `models.json`:
@@ -198,7 +198,7 @@ Never write access tokens, refresh tokens, authorization headers, or complete pr
 
 ## Supply and refresh models
 
-<a href="#supply-and-refresh-models" class="heading-anchor" aria-label="Permalink: Supply and refresh models" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#supply-and-refresh-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#supply-and-refresh-models" class="heading-anchor" aria-label="Permalink: Supply and refresh models" data-copy="" data-copy-text="https://docs.pi.dev/latest/custom-provider#supply-and-refresh-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Every model needs an ID, display name, input capabilities, and cost metadata. Chat and classifier models also need a context window; chat models need an output limit and reasoning support; image models declare their output modalities. Choose the API implementation at the provider level unless one model requires an override.
@@ -221,7 +221,7 @@ Publish persisted catalog data only when it should survive across runs. A live s
 
 ## Reuse a supported streaming API
 
-<a href="#reuse-a-supported-streaming-api" class="heading-anchor" aria-label="Permalink: Reuse a supported streaming API" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#reuse-a-supported-streaming-api"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#reuse-a-supported-streaming-api" class="heading-anchor" aria-label="Permalink: Reuse a supported streaming API" data-copy="" data-copy-text="https://docs.pi.dev/latest/custom-provider#reuse-a-supported-streaming-api"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Use one of Pi AI’s API implementations whenever the provider protocol matches it.
@@ -235,7 +235,7 @@ This is safer than copying a stream implementation because it preserves Pi’s m
 
 ## Implement custom streaming
 
-<a href="#implement-custom-streaming" class="heading-anchor" aria-label="Permalink: Implement custom streaming" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#implement-custom-streaming"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#implement-custom-streaming" class="heading-anchor" aria-label="Permalink: Implement custom streaming" data-copy="" data-copy-text="https://docs.pi.dev/latest/custom-provider#implement-custom-streaming"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Implement `streamSimple` only when no existing API implementation can represent the service. Study the implementations under [`packages/ai/src/api`](https://github.com/earendil-works/pi/tree/main/packages/ai/src/api) first.
@@ -267,7 +267,7 @@ These hooks power extension request inspection, response-header events, and prov
 
 ## Report failures and usage
 
-<a href="#report-failures-and-usage" class="heading-anchor" aria-label="Permalink: Report failures and usage" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#report-failures-and-usage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#report-failures-and-usage" class="heading-anchor" aria-label="Permalink: Report failures and usage" data-copy="" data-copy-text="https://docs.pi.dev/latest/custom-provider#report-failures-and-usage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Set a concrete terminal stop reason. Error and aborted messages need an `errorMessage`; successful messages need accurate input, output, cache, total-token, and cost values.
@@ -279,7 +279,7 @@ Do not rewrite rate limits or transient provider failures as context overflow. T
 
 ## Test the integration
 
-<a href="#test-the-integration" class="heading-anchor" aria-label="Permalink: Test the integration" data-copy="" data-copy-text="https://pi.dev/docs/latest/custom-provider#test-the-integration"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#test-the-integration" class="heading-anchor" aria-label="Permalink: Test the integration" data-copy="" data-copy-text="https://docs.pi.dev/latest/custom-provider#test-the-integration"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Test at least:
@@ -297,6 +297,6 @@ Test at least:
 
 The provider tests under [`packages/ai/test`](https://github.com/earendil-works/pi/tree/main/packages/ai/test) define the behavior expected from built-in providers. Adapt the relevant suites rather than relying only on manual prompts.
 
-Run the extension directly while developing, then move it to a discovered extension location or distribute it through a [Pi package](/docs/latest/packages). Use `/reload` after changing a discovered provider extension in an active session.
+Run the extension directly while developing, then move it to a discovered extension location or distribute it through a [Pi package](/latest/latest/packages). Use `/reload` after changing a discovered provider extension in an active session.
 
 

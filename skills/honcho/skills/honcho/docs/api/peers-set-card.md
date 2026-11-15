@@ -9,7 +9,9 @@
 > Set a peer card for a specific peer relationship.
 
 Sets the peer card that the observer peer has for the target peer.
-If no target is specified, sets the observer's own peer card.
+If no target is specified, sets the observer's own peer card. The cards
+dreams recorded for this pair in Representation History are deleted, so
+text the new card replaces is no longer readable there.
 
 
 ## OpenAPI
@@ -29,7 +31,7 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.5.0
+  version: 3.6.1
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -44,7 +46,9 @@ paths:
         Set a peer card for a specific peer relationship.
 
         Sets the peer card that the observer peer has for the target peer.
-        If no target is specified, sets the observer's own peer card.
+        If no target is specified, sets the observer's own peer card. The cards
+        dreams recorded for this pair in Representation History are deleted, so
+        text the new card replaces is no longer readable there.
       operationId: set_peer_card_v3_workspaces__workspace_id__peers__peer_id__card_put
       parameters:
         - name: workspace_id

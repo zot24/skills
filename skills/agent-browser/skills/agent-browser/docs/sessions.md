@@ -2,16 +2,6 @@
 
 
 
-<a href="/" class="flex @min-[1024px]:hidden items-center text-gray-1000"><span class="font-medium tracking-tight" style="font-family:var(--font-geist-pixel-square)">agent-browser</span></a>
-
-
-<a href="https://github.com/vercel-labs/agent-browser" class="size-8 items-center justify-center @min-[768px]:inline-flex hidden shrink-0" data-geist-button="" data-prefix="false" data-suffix="false" data-version="v1" aria-label="GitHub repository" rel="noopener" target="_blank"><span class="truncate px-1.5 inline-flex shrink-0 items-center justify-center"></span></a>
-
-
-        &quot;sidebar toc-popover toc&quot;
-        &quot;sidebar main toc&quot; 1fr / minmax(var(--fd-sidebar-col), 1fr) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-width) - var(--fd-toc-width))) minmax(min-content, 1fr);--fd-docs-row-1:4rem;--fd-docs-row-2:calc(var(--fd-docs-row-1) + var(--fd-header-height));--fd-docs-row-3:calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height));--fd-sidebar-col:var(--fd-sidebar-width)">
-
-
 Menu
 
 
@@ -62,6 +52,37 @@ Each session has its own:
 - Navigation history
 - Authentication state
 
+## <a href="#changing-settings-on-a-running-session" class="peer" data-card="">Changing settings on a running session</a>
+
+Each command carries the settings you set for it, whether from a flag, an environment variable, or the config file. The daemon compares them with what the session is running and acts on the difference:
+
+- A setting you omit keeps its running value.
+- A setting equal to the running value does nothing, so repeating `--profile ./work` on every command never relaunches the browser.
+- Timeouts, `--action-policy`, `--confirm-actions`, `--no-auto-dialog`, and restore and pin settings apply in place.
+- Launch settings such as `--profile`, `--args`, `--headed`, `--proxy`, `--state`, and `--allowed-domains` relaunch the browser. The daemon keeps running.
+
+Each change that takes effect is printed on stderr, one line each, and every change is listed in `lifecycle.settings.changes` of the `--json` response with `applied: true` or `applied: false`. A launch setting changed while no browser is running is `applied: false` and has no stderr line, since it takes effect at the next launch. Secrets are redacted in both places: passwords and CDP headers are hidden, and CDP URLs lose their credentials and query string.
+
+A command that never launches a browser, such as `get cdp-url` or `session info`, applies only live settings. `get cdp-url` sends no launch settings at all. For the others, launch settings are not applied and not kept; a command that launches carries them again. A launch setting is kept only after the launch that uses it succeeds; if the launch fails, the session keeps its previous launch settings, except `--allowed-domains`, which stays installed after a failed launch so containment is never widened. A command that is denied by policy or waits for confirmation changes no launch settings and leaves the browser running.
+
+The security settings (`--allowed-domains`, `--action-policy`, `--confirm-actions`) also survive a daemon restart. They are kept in an owner-only file next to the session's socket (`<session>.settings` in the socket directory), written before a new value takes effect, so idle expiry, a crash, a kill or an upgrade does not silently drop containment. A restarted daemon starts with the stored values; the environment is used only when no file exists, and a value you pass replaces the stored one (`--allowed-domains ""` clears the filter and the clear is kept). A relative `--action-policy` path is resolved against the directory of the command that set it and stored as an absolute path, so a restarted daemon never reads another directory's policy. The file is removed when a `close` succeeds. `close --all` also closes sessions whose daemon is gone but whose file remains, by starting a daemon with the stored settings, so the same rules apply; a close that policy denies or that waits for confirmation keeps it, and so does a restart the CLI triggers (upgrade, changed daemon options). If the file exists but cannot be read or parsed, or on Unix is readable by other users, the daemon refuses to start and names the file; `agent-browser --session <name> close` clears it. Windows has no mode check, so the file relies on the access rules of the socket directory.
+
+Settings that describe a browser agent-browser starts itself (`--profile`, `--args`, `--executable-path`, `--extension`, `--proxy`, `--user-agent`, `--state`, and similar) are ignored for a session attached over `--cdp`, `--auto-connect` or a provider. They never relaunch it or start a new cloud session, and they appear in `lifecycle.settings.changes` with `effect: "ignored"`. Values of the sensitive ones (`--state`, `--profile`, `--extension`, `--proxy` and its credentials, `--executable-path`, `--args`) inherited from before the switch are dropped, so a state file or proxy credentials from a local launch are never applied to an external browser. An empty `--provider` resets a provider session to a local launch, and `--no-auto-connect` does the same for a session attached with `--auto-connect`. Setting `--state` replaces an inherited `--profile` or `--extension`, and setting `--profile` or `--extension` replaces an inherited `--state`.
+
+With `--relaunch` in a batch, the browser is relaunched once, for the first command.
+
+The first command of a session still seeds its settings from the environment the daemon was spawned with, except the connection target (`--cdp`, `--auto-connect`, `--provider`): that one is kept only after an attach succeeds, so a failed attach never sticks.
+
+
+``` m-0
+agent-browser --profile ./a open https://example.com
+agent-browser --profile ./b get url
+# ⚠ profile: ./a → ./b (--profile), relaunched browser
+```
+
+
+`--state <path>` loads the file when the browser launches. Passing the same path again does not reload it; pass `--relaunch` to relaunch the browser and load it again.
+
 ## <a href="#tab-pinning-in-a-shared-browser" class="peer" data-card="">Tab pinning in a shared browser</a>
 
 Full isolation applies when each session launches its own browser. When sessions instead share one Chrome over `--cdp`, only the tab selection separates them. Each session remembers which tab it is bound to (by CDP target id, persisted across daemon restarts), so a restarted daemon reattaches to the session's own tab instead of adopting the most recently active one.
@@ -99,13 +120,13 @@ AGENT_BROWSER_PROFILE=Default agent-browser open https://gmail.com
 ```
 
 
-| Detail             | Description                                                              |
-|--------------------|--------------------------------------------------------------------------|
-| Supported browsers | Chrome, Chrome Canary, Chromium, Brave                                   |
-| What's copied      | Cookies, local storage, extensions state (cache dirs excluded for speed) |
-| Original profile   | Never modified (read-only snapshot)                                      |
-| Cleanup            | Temp copy deleted when browser closes                                    |
-| Windows note       | Close Chrome before using `--profile <name>` if Chrome is running        |
+| Detail | Description |
+|----|----|
+| Supported browsers | Chrome, Chrome Canary, Chromium, Brave |
+| What's copied | Cookies, local storage, extensions state (cache dirs excluded for speed) |
+| Original profile | Never modified (read-only snapshot) |
+| Cleanup | Temp copy deleted when browser closes |
+| Windows note | Close Chrome before using `--profile <name>` if Chrome is running |
 
 ## <a href="#persistent-profiles" class="peer" data-card="">Persistent profiles</a>
 
@@ -333,20 +354,20 @@ agent-browser set headers '{"X-Custom-Header": "value"}'
 
 ## <a href="#environment-variables" class="peer" data-card="">Environment variables</a>
 
-| Variable                             | Description                                                                  |
-|--------------------------------------|------------------------------------------------------------------------------|
-| `AGENT_BROWSER_SESSION`              | Browser session ID (default: "default")                                      |
-| `AGENT_BROWSER_NAMESPACE`            | Namespace for daemon sockets and restore-state directories                   |
-| `AGENT_BROWSER_PIN_TAB`              | Pin the session to its bound tab (strict tab binding)                        |
-| `AGENT_BROWSER_RESTORE`              | Auto-save/load state persistence key                                         |
-| `AGENT_BROWSER_RESTORE_SAVE`         | Restore save policy: `auto`, `always`, or `never`                            |
+| Variable | Description |
+|----|----|
+| `AGENT_BROWSER_SESSION` | Browser session ID (default: "default") |
+| `AGENT_BROWSER_NAMESPACE` | Namespace for daemon sockets and restore-state directories |
+| `AGENT_BROWSER_PIN_TAB` | Pin the session to its bound tab (strict tab binding) |
+| `AGENT_BROWSER_RESTORE` | Auto-save/load state persistence key |
+| `AGENT_BROWSER_RESTORE_SAVE` | Restore save policy: `auto`, `always`, or `never` |
 | `AGENT_BROWSER_AUTOSAVE_INTERVAL_MS` | Minimum ms between periodic session autosaves (default: 30000, `0` disables) |
-| `AGENT_BROWSER_RESTORE_CHECK_URL`    | URL pattern restored state must match                                        |
-| `AGENT_BROWSER_RESTORE_CHECK_TEXT`   | Page text restored state must contain                                        |
-| `AGENT_BROWSER_RESTORE_CHECK_FN`     | JavaScript expression restored state must satisfy                            |
-| `AGENT_BROWSER_SESSION_NAME`         | Legacy auto-save/load state persistence name                                 |
-| `AGENT_BROWSER_ENCRYPTION_KEY`       | 64-char hex key for AES-256-GCM encryption                                   |
-| `AGENT_BROWSER_STATE_EXPIRE_DAYS`    | Auto-delete states older than N days (default: 30)                           |
+| `AGENT_BROWSER_RESTORE_CHECK_URL` | URL pattern restored state must match |
+| `AGENT_BROWSER_RESTORE_CHECK_TEXT` | Page text restored state must contain |
+| `AGENT_BROWSER_RESTORE_CHECK_FN` | JavaScript expression restored state must satisfy |
+| `AGENT_BROWSER_SESSION_NAME` | Legacy auto-save/load state persistence name |
+| `AGENT_BROWSER_ENCRYPTION_KEY` | 64-char hex key for AES-256-GCM encryption |
+| `AGENT_BROWSER_STATE_EXPIRE_DAYS` | Auto-delete states older than N days (default: 30) |
 
 
 <a href="/snapshots" class="group grid w-fit grid-cols-[auto_1fr] items-center gap-x-1.5 gap-y-1 text-gray-1000"><span class="text-gray-900 text-sm col-start-2">Previous</span><span class="row-start-2 font-medium col-start-2">Snapshots</span></a><a href="/dashboard" class="group grid w-fit grid-cols-[1fr_auto] items-center gap-x-1.5 gap-y-1 justify-self-end text-right text-gray-1000"><span class="text-gray-900 text-sm col-start-1">Next</span><span class="row-start-2 font-medium col-start-1">Dashboard</span></a>

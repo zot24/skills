@@ -2,16 +2,6 @@
 
 
 
-<a href="/" class="flex @min-[1024px]:hidden items-center text-gray-1000"><span class="font-medium tracking-tight" style="font-family:var(--font-geist-pixel-square)">agent-browser</span></a>
-
-
-<a href="https://github.com/vercel-labs/agent-browser" class="size-8 items-center justify-center @min-[768px]:inline-flex hidden shrink-0" data-geist-button="" data-prefix="false" data-suffix="false" data-version="v1" aria-label="GitHub repository" rel="noopener" target="_blank"><span class="truncate px-1.5 inline-flex shrink-0 items-center justify-center"></span></a>
-
-
-        &quot;sidebar toc-popover toc&quot;
-        &quot;sidebar main toc&quot; 1fr / minmax(var(--fd-sidebar-col), 1fr) minmax(0, calc(var(--fd-layout-width,97rem) - var(--fd-sidebar-width) - var(--fd-toc-width))) minmax(min-content, 1fr);--fd-docs-row-1:4rem;--fd-docs-row-2:calc(var(--fd-docs-row-1) + var(--fd-header-height));--fd-docs-row-3:calc(var(--fd-docs-row-2) + var(--fd-toc-popover-height));--fd-sidebar-col:var(--fd-sidebar-width)">
-
-
 Menu
 
 
@@ -26,6 +16,8 @@ View Markdown
 
 ## <a href="#core" class="peer" data-card="">Core</a>
 
+Unknown commands exit with status 1, including when you request command help.
+
 When the top-level Chrome/CDP `eval` result is a value JSON cannot represent, plain output prints its exact JavaScript token, including `NaN`, `Infinity`, `-Infinity`, `-0`, BigInt literals, and `undefined`. With `--json`, `data.result` stays `null` and sibling `data.unserializable` contains the token. MCP text prints the token, and structured responses expose it at `structuredContent.response.data.unserializable`.
 
 
@@ -34,7 +26,10 @@ agent-browser open                    # Launch browser (no nav); stays on about:
 agent-browser open <url>              # Launch + navigate (aliases: goto, navigate)
 agent-browser read [url]              # Fetch agent-readable text, or read rendered active-tab DOM
 agent-browser click <sel>             # Click element (--new-tab to open in new tab)
+agent-browser click <sel> --button right  # Right-click (fires contextmenu)
+agent-browser click <sel> --modifiers control,shift  # Hold keys during the click
 agent-browser dblclick <sel>          # Double-click
+agent-browser dblclick <sel> --modifiers shift  # Double-click with Shift held
 agent-browser fill <sel> <text>       # Clear and fill
 agent-browser type <sel> <text>       # Type into element
 agent-browser press <key>             # Press key (Enter, Tab, Control+a) (alias: key)
@@ -73,9 +68,15 @@ agent-browser mcp call <tool> <json>  # Run one MCP tool and print its result
 ```
 
 
+For `fill` and `type`, put options before the optional `--` marker. Text after the marker is literal, including values that look like flags. For example, `agent-browser fill "#search" -- --json` fills with `--json`, and `agent-browser --json type "#search" --clear --delay 10 -- --clear` clears the field, then types `--clear`. MCP `agent_browser_fill` and `agent_browser_type` pass typed `text` values literally, so they do not need the marker.
+
+`select` works on a native `<select>` and on a custom ARIA combobox or listbox, such as Radix or Headless UI. On a custom widget it opens the widget, then clicks the `role=option` whose name or value matches. A value with no match is an error that lists the available options, a matched option marked `aria-disabled` is an error instead of a click, and an option already selected in a multi-select listbox is left alone.
+
 Browser responses automatically announce WebMCP tools on first discovery and when the catalog changes. Summaries contain only names, brief descriptions, origins, and frame IDs. Choose a relevant tool, then fetch its full schema with `agent-browser webmcp list <tool> --frame <frame-id> --json` before invoking it. Schemas and annotations are never included proactively. Unchanged catalogs and pages without tools add no context. JSON exposes updates as `data.webmcp`; CLI and MCP text include the same bounded summary. See <a href="/webmcp" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">WebMCP</a> for update semantics and security.
 
 Clicks fail before dispatch when another element covers the target's click point. The error names the covering element, for example `covered by <div#consent-banner>`. Dismiss or interact with that element, take a fresh snapshot, then retry the original action. Click and dblclick fail, instead of reporting success, when the element is hidden, disabled, or outside the viewport. `click --new-tab` opens the link's URL directly, so these checks do not apply to it.
+
+`--button` presses `left` (default), `right`, `middle`, `back`, or `forward`; a right click fires the page's `contextmenu` event and a middle click fires `auxclick`. `--modifiers` holds `alt`, `control` (alias `ctrl`), `meta` (aliases `cmd`, `command`), and `shift` during the click, joined by a comma or a plus, such as `control,shift`. Flags go before or after the selector, unknown flags are rejected, and `--new-tab` cannot be combined with `--button` or `--modifiers`. `dblclick` takes `--button`, `--modifiers`, and `--human`, follows the session input mode, and sends two full clicks, so the page receives `click`, `click`, `dblclick`. On macOS, `control` click opens the context menu, so use `meta` for a click that opens a link in a new tab; on Windows and Linux that key is `control`.
 
 Headless Chromium screenshots hide native scrollbars for consistent image output. Pass `--hide-scrollbars false` when launching to keep native scrollbars visible.
 
@@ -198,7 +199,7 @@ agent-browser wait --download [path]  # Wait for any download to complete
 ```
 
 
-`wait --download` returns the oldest download not yet claimed by an earlier wait, including one that finished before the command ran, so it can follow the command that triggered it. With `[path]`, the file is moved there; without it, the output is where the browser saved it. The move only applies to a browser agent-browser launched: over `--cdp`, `--auto-connect`, or a provider, the saved path comes from the remote endpoint, so `[path]` is rejected.
+`wait --download` returns the oldest download not yet claimed by an earlier wait, including one that finished before the command ran, so it can follow the command that triggered it. With `[path]`, the file is moved there; without it, the output is where the browser saved it. Saving to a local path only applies to a browser agent-browser launched: over `--cdp`, `--auto-connect`, or a provider, the saved file is named by the remote endpoint, so `download` and `wait --download [path]` are rejected.
 
 Use `--download-path <dir>` (or `AGENT_BROWSER_DOWNLOAD_PATH` env) to set a default download directory. Without it, downloads go to a temporary directory that is deleted when the browser closes.
 
@@ -218,6 +219,8 @@ agent-browser mouse wheel <dy> [dx]   # Scroll wheel
 
 
 The wheel scrolls at the current tracked pointer, which starts at `0,0`. Failed wheel dispatches leave the tracked pointer unchanged.
+
+Mouse coordinates and wheel deltas accept finite decimal values; invalid supplied values are rejected. For `mouse wheel`, omitted `dy` and `dx` default to `100` and `0`, respectively, and explicit `0` values are preserved.
 
 To scroll elsewhere, move the pointer first:
 
@@ -286,7 +289,7 @@ agent-browser storage session         # Same for sessionStorage
 
 Reads accept at most one key, sets require one key and one value, and clears take no operands. A bare key is shorthand for a one-key read.
 
-Cookie attributes use kebab-case flags such as `--http-only` and `--same-site`. The legacy `--httpOnly` and `--sameSite` spellings remain accepted. When setting one cookie, unknown flags and extra arguments return an error.
+Cookie operations are `get` (the default), `set`, and `clear`; unknown operations return an error. Cookie attributes use kebab-case flags such as `--http-only` and `--same-site`. The legacy `--httpOnly` and `--sameSite` spellings remain accepted. When setting one cookie, unknown flags and extra arguments return an error.
 
 
 ``` m-0
@@ -730,13 +733,12 @@ The default output lists violations and incomplete checks with impact, rule ID, 
 
 
 ``` m-0
-agent-browser open --init-script <path>           # Register before first navigation (repeatable)
-agent-browser addinitscript <js>                  # Register at runtime (returns identifier)
-agent-browser removeinitscript <identifier>       # Remove from every tab in the session
+agent-browser --init-script <path> open <url>  # Register before first navigation (repeatable)
+agent-browser removeinitscript <identifier>
 ```
 
 
-See <a href="/init-scripts" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Init Scripts &amp; Extensions</a> for launch-time scripts, runtime scripts, built-in React DevTools, and extensions.
+See <a href="/init-scripts" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Init Scripts &amp; Extensions</a> for launch-time scripts, script removal, built-in React DevTools, and extensions.
 
 ## <a href="#global-options" class="peer" data-card="">Global options</a>
 
@@ -776,6 +778,7 @@ See <a href="/init-scripts" class="font-normal text-gray-1000! underline decorat
 --cdp <port|url>         # Connect via CDP; root WebSocket query slash is optional
 --cdp-headers <json>     # Headers for --cdp discovery and WebSocket handshake (or AGENT_BROWSER_CDP_HEADERS env)
 --auto-connect           # Auto-discover and connect to running Chrome
+--no-auto-connect        # Return an --auto-connect session to a local launch (overrides AGENT_BROWSER_AUTO_CONNECT)
 --color-scheme <scheme>  # Color scheme: dark, light, no-preference
 --download-path <path>   # Default download directory
 --content-boundaries     # Wrap page output in boundary markers for LLM safety
@@ -793,8 +796,11 @@ See <a href="/init-scripts" class="font-normal text-gray-1000! underline decorat
 -q, --quiet              # Show only AI text responses (chat)
 --config <path>          # Use a custom config file
 --debug                  # Debug output
+--relaunch               # Relaunch the session's browser even when no setting changed
 ```
 
+
+In a `batch`, `--relaunch` relaunches the browser once: the first command that can launch a browser carries it. Commands that never launch one, such as `read`, and commands denied by policy or waiting for confirmation pass it on to the next command.
 
 See <a href="/configuration" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Configuration</a> for config files and environment variables. See <a href="/proxy" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Proxy</a> for proxy server, bypass, and credential settings.
 
@@ -822,11 +828,19 @@ echo '[["fill", "#password", "secret"]]' | agent-browser batch --json --omit-com
 ```
 
 
-| Option           | Description                                                                        |
-|------------------|------------------------------------------------------------------------------------|
-| `--bail`         | Stop on first error (default: continue all commands)                               |
-| `--json`         | Output results as a JSON array                                                     |
+| Option | Description |
+|----|----|
+| `--bail` | Stop on first error (default: continue all commands) |
+| `--json` | Output results as a JSON array |
 | `--omit-command` | With `--json`, replace each `command` array with a stable zero-based `index` field |
+
+Put global flags such as `--init-script` and `--enable` on the outer batch invocation. Keep command-specific options and literal command arguments inside each item.
+
+
+``` m-0
+agent-browser --enable react-devtools batch "open" "navigate data:text/html,<h1>hi</h1>"
+```
+
 
 With `--json --omit-command`, rows use a stable zero-based `index` field on success, failure, or `--bail`; default JSON output keeps the `command` field. This only removes command arrays and does not make output safe for secrets. Errors and response data are unchanged: `type` echoes typed text, and `get value`/`eval` may return input values. The MCP `agent_browser_batch` tool accepts `omitCommand: true`.
 
@@ -847,6 +861,8 @@ echo '{"selector":"@e2"}' | agent-browser mcp call agent_browser_click -
 Starts a Model Context Protocol server over stdio. MCP clients launch this command as a subprocess and exchange newline-delimited JSON-RPC on stdin and stdout. The server defaults to MCP protocol 2025-11-25 and accepts older supported client protocol versions during initialization. A tool call with an argument its schema does not declare fails with an invalid-params error that names the unknown keys and lists the tool's own arguments.
 
 `mcp call` runs one MCP tool without a stdio session and prints its `tools/call` result as JSON, with the agent-browser version in `_meta.agentBrowserVersion`. Pass the tool arguments as a JSON object, or `-` to read them from stdin. Every tool is available unless `--tools` limits the call to profiles. The exit code is 0 on success, 1 when the tool reports an error, and 2 for an unknown tool or invalid arguments. Use it from runtimes that cannot keep a stdio session open between tool calls, such as serverless agents. Access settings such as `AGENT_BROWSER_ALLOWED_DOMAINS` come from the environment, as with the server.
+
+For tool calls that run the CLI, `structuredContent.response` contains parsed CLI JSON. `stdout` is included only when the output cannot be parsed as JSON; `exitCode` and `stderr` are always included.
 
 In a Vercel Sandbox, `startAgentBrowserMcp` runs the server over the sandbox command's stdin. See <a href="/next#mcp-server-over-stdin" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Next.js + Vercel</a>.
 
@@ -895,7 +911,9 @@ Common tools include:
 - `agent_browser_eval`
 - `agent_browser_close`
 
-Each tool has typed fields such as `url`, `selector`, `text`, `key`, `session`, `allowedDomains`, and `idleTimeout`, so MCP clients show meaningful approval prompts instead of raw command arrays. The common `allowedDomains` array maps to `--allowed-domains` and activates the same WebRTC containment and launch-mode restrictions. The common `idleTimeout` string maps to `--idle-timeout`, accepts values such as `30s`, `5m`, `1h`, or raw milliseconds, and accepts `0` to disable idle shutdown. Each tool also accepts `extraArgs` for per-command options and display or emulation flags such as `--engine`; `extraArgs` cannot set `--config` or global flags that change network, file, policy, or host access. Set host-wide options in the MCP server's environment or selected config. Structured `allowedDomains` is rejected when the server already sets allowed domains. Tool discovery is paginated and includes read-only/open-world annotations so modern MCP clients can load the large typed surface incrementally.
+Each tool has typed fields such as `url`, `selector`, `text`, and `key`, so MCP clients show meaningful approval prompts instead of raw command arrays. Tool discovery is paginated and includes read-only/open-world annotations so modern MCP clients can load the large typed surface incrementally.
+
+Every tool also accepts the shared arguments `session`, `restore`, `allowedDomains`, `extraArgs`, `timeoutMs`, `namespace`, `restoreSave`, `restoreCheckUrl`, `restoreCheckText`, `restoreCheckFn`, `caCert`, `useSystemCa`, `clearCaCert`, `idleTimeout`, and `relaunch`. A tool's schema lists only the ones that usually matter for it: `session` on every tool, `restore` and `relaunch` on `open` and `tab_new`, `allowedDomains` and `extraArgs` on `open`, `tab_new`, and `read`, and `timeoutMs` on tools that navigate, wait, or run scripts. The server's `initialize` instructions describe all of them. `allowedDomains` maps to `--allowed-domains`, activates the same WebRTC containment and launch-mode restrictions, and is rejected when the server already sets allowed domains. `idleTimeout` maps to `--idle-timeout`, accepts values such as `30s`, `5m`, `1h`, or raw milliseconds, and accepts `0` to disable idle shutdown. `relaunch: true` maps to `--relaunch`. `extraArgs` carries per-command options and display or emulation flags such as `--engine`; it cannot set `--config` or global flags that change network, file, policy, or host access. Set host-wide options in the MCP server's environment or selected config.
 
 By default, tool invocations use the same config discovery and environment variables as the CLI. Use `session` in the tool arguments, or set `AGENT_BROWSER_SESSION`, to isolate browser state.
 
@@ -932,6 +950,6 @@ The `--allow-file-access` flag enables JavaScript to access other local files. C
 See <a href="/files" class="font-normal text-gray-1000! underline decoration-1 decoration-gray-700 underline-offset-4 hover:text-gray-1000! hover:decoration-gray-1000 hover:opacity-100!">Files &amp; Clipboard</a> for local files, uploads, downloads, screenshots, PDFs, and clipboard workflows.
 
 
-<a href="/skills" class="group grid w-fit grid-cols-[auto_1fr] items-center gap-x-1.5 gap-y-1 text-gray-1000"><span class="text-gray-900 text-sm col-start-2">Previous</span><span class="row-start-2 font-medium col-start-2">Skills</span></a><a href="/configuration" class="group grid w-fit grid-cols-[1fr_auto] items-center gap-x-1.5 gap-y-1 justify-self-end text-right text-gray-1000"><span class="text-gray-900 text-sm col-start-1">Next</span><span class="row-start-2 font-medium col-start-1">Configuration</span></a>
+<a href="/modern-web-guidance" class="group grid w-fit grid-cols-[auto_1fr] items-center gap-x-1.5 gap-y-1 text-gray-1000"><span class="text-gray-900 text-sm col-start-2">Previous</span><span class="row-start-2 font-medium col-start-2">Modern Web Guidance</span></a><a href="/configuration" class="group grid w-fit grid-cols-[1fr_auto] items-center gap-x-1.5 gap-y-1 justify-self-end text-right text-gray-1000"><span class="text-gray-900 text-sm col-start-1">Next</span><span class="row-start-2 font-medium col-start-1">Configuration</span></a>
 
 

@@ -32,7 +32,7 @@ Safety comes from limiting the files, credentials, processes, and network servic
 
 ## Choose how to run Pi
 
-<a href="#choose-how-to-run-pi" class="heading-anchor" aria-label="Permalink: Choose how to run Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/security#choose-how-to-run-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#choose-how-to-run-pi" class="heading-anchor" aria-label="Permalink: Choose how to run Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#choose-how-to-run-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Different ways of running Pi place different limits on what generated commands can access:
@@ -47,12 +47,12 @@ The working folder controls resource discovery and the default location for tool
 
 Whichever option you choose, only provide the files and services required for the task. Keep credentials outside the environment where possible, or use narrowly scoped, short-lived credentials. Restrict network access when commands do not need it.
 
-For setup instructions and the limitations of each isolation method, see [Run Pi in an isolated environment](/docs/latest/containerization).
+For setup instructions and the limitations of each isolation method, see [Run Pi in an isolated environment](/latest/latest/containerization).
 
 
 ## Understand project trust
 
-<a href="#understand-project-trust" class="heading-anchor" aria-label="Permalink: Understand project trust" data-copy="" data-copy-text="https://pi.dev/docs/latest/security#understand-project-trust"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#understand-project-trust" class="heading-anchor" aria-label="Permalink: Understand project trust" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#understand-project-trust"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Project trust controls whether Pi loads most settings and resources supplied by a working folder. It prevents a folder from silently loading executable extensions before you approve it.
@@ -64,7 +64,7 @@ Project trust does not limit what tool calls can access or affect. After Pi star
 
 ### Resources protected by project trust
 
-<a href="#resources-protected-by-project-trust" class="heading-anchor" aria-label="Permalink: Resources protected by project trust" data-copy="" data-copy-text="https://pi.dev/docs/latest/security#resources-protected-by-project-trust"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#resources-protected-by-project-trust" class="heading-anchor" aria-label="Permalink: Resources protected by project trust" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#resources-protected-by-project-trust"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Pi requires a project-trust decision when it finds any of these resources from the current working directory:
@@ -92,7 +92,7 @@ Context files such as `AGENTS.override.md`, `AGENTS.md`, and `CLAUDE.md` load re
 
 ### How Pi chooses a trust decision
 
-<a href="#how-pi-chooses-a-trust-decision" class="heading-anchor" aria-label="Permalink: How Pi chooses a trust decision" data-copy="" data-copy-text="https://pi.dev/docs/latest/security#how-pi-chooses-a-trust-decision"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#how-pi-chooses-a-trust-decision" class="heading-anchor" aria-label="Permalink: How Pi chooses a trust decision" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#how-pi-chooses-a-trust-decision"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A command-line `--approve` or `--no-approve` override applies first. When protected resources exist and there is no command-line override:
@@ -114,7 +114,7 @@ Use `/trust` to save a decision for future Pi processes.
 
 ### Project trust without an interactive prompt
 
-<a href="#project-trust-without-an-interactive-prompt" class="heading-anchor" aria-label="Permalink: Project trust without an interactive prompt" data-copy="" data-copy-text="https://pi.dev/docs/latest/security#project-trust-without-an-interactive-prompt"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#project-trust-without-an-interactive-prompt" class="heading-anchor" aria-label="Permalink: Project trust without an interactive prompt" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#project-trust-without-an-interactive-prompt"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Print, JSON, and RPC modes cannot show the built-in trust prompt. If no command-line override, extension, or saved decision applies:
@@ -127,7 +127,7 @@ Use `--approve` or `--no-approve` when an automated run needs an explicit one-ti
 
 ## Reduce impact and improve recovery
 
-<a href="#reduce-impact-and-improve-recovery" class="heading-anchor" aria-label="Permalink: Reduce impact and improve recovery" data-copy="" data-copy-text="https://pi.dev/docs/latest/security#reduce-impact-and-improve-recovery"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#reduce-impact-and-improve-recovery" class="heading-anchor" aria-label="Permalink: Reduce impact and improve recovery" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#reduce-impact-and-improve-recovery"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 These practices do not replace isolation, but they reduce exposure or make recovery easier:
@@ -142,7 +142,7 @@ These practices do not replace isolation, but they reduce exposure or make recov
 
 ## Report a security issue
 
-<a href="#report-a-security-issue" class="heading-anchor" aria-label="Permalink: Report a security issue" data-copy="" data-copy-text="https://pi.dev/docs/latest/security#report-a-security-issue"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#report-a-security-issue" class="heading-anchor" aria-label="Permalink: Report a security issue" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#report-a-security-issue"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Follow the repository [Security Policy](https://github.com/earendil-works/pi/blob/main/SECURITY.md). Do not open a public issue for a security-sensitive report.

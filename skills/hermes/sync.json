@@ -242,6 +242,18 @@
       "target": "skills/hermes/docs/termux.md",
       "type": "extract-content",
       "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/llms-full.txt/",
+      "target": "skills/hermes/docs/llms-full.txt.md",
+      "type": "extract-content",
+      "freshness_days": 7
+    },
+    {
+      "url": "https://hermes-agent.nousresearch.com/docs/llms.txt/",
+      "target": "skills/hermes/docs/llms.txt.md",
+      "type": "extract-content",
+      "freshness_days": 7
     }
   ],
   "cache_dir": ".cache",

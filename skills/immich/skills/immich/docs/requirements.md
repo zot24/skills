@@ -2,9 +2,6 @@
 
 
 
-<a href="#__docusaurus_skipToContent_fallback" class="skipToContent_THu0">Skip to main content</a>
-
-
 On this page
 
 

@@ -305,6 +305,54 @@ Verify config and connectivity. Scope with -w / -p to check workspace, peer, and
 honcho doctor
 ```
 
+## honcho dream
+
+List dreams and inspect what each one changed in a peer's representation.
+
+> [accordion] inspect
+>
+> Show what one dream changed.
+>
+> Lists the conclusions it created, each with the conclusions it was derived
+> from; the conclusions it removed, as they read when removed; and the peer
+> card before and after. Each source shows where it stands now: current,
+> removed (and by which dream), or unavailable once deleted or removed longer
+> ago than history is kept.
+>
+> ```bash
+> honcho dream inspect <run_id>
+> ```
+>
+> **run\_id** `string` *required*
+
+> [accordion] list
+>
+> List dreams in the workspace, newest first.
+>
+> Pass -p to see the dreams about one peer, and --observer to narrow to one
+> observer's model of that peer. `honcho dream inspect \<id>` shows what a
+> dream changed.
+>
+> ```bash
+> honcho dream list
+> ```
+>
+> **--observer** `string`
+>
+> Only dreams from this observer's perspective (with -p: one representation).
+>
+> **--limit** `number` (default: 20)
+>
+> Dreams per page.
+>
+> **--page** `number` (default: 1)
+>
+> Page number, newest dreams first.
+>
+> **--peer** `string`
+>
+> Only dreams about this peer (the observed peer). Short alias: `-p`.
+
 ## honcho help
 
 Show help message.
@@ -1048,6 +1096,48 @@ List, create, inspect, chat, delete, and search workspaces.
 >
 > Filter by sender peer.
 
+> [accordion] replay
+>
+> Replay a workspace's sessions into another workspace, on this or another instance.
+>
+> Copies workspace, peer and session settings, then re-sends every message in
+> order with its original timestamp. The destination derives its own
+> conclusions; conclusions and peer cards are not copied, so the ones written
+> through the API are not recreated. Rerunning resumes: messages already in
+> the destination are skipped.
+>
+> Each side uses the configured instance unless its URL is given. A side on
+> another instance needs its own API key, read from HONCHO\_FROM\_API\_KEY /
+> HONCHO\_TO\_API\_KEY; the configured credentials are never sent to it.
+>
+> ```bash
+> honcho workspace replay
+> ```
+>
+> **--from** `string` *required*
+>
+> Source workspace ID.
+>
+> **--to** `string`
+>
+> Destination workspace ID. Defaults to the --from ID, which needs a different destination instance.
+>
+> **--from-url** `string`
+>
+> Source Honcho URL, when it is not the configured instance. Its API key is read from HONCHO\_FROM\_API\_KEY.
+>
+> **--to-url** `string`
+>
+> Destination Honcho URL, when it is not the configured instance. Its API key is read from HONCHO\_TO\_API\_KEY.
+>
+> **--num-sessions** `string`
+>
+> Replay only the N sessions with the most recent message.
+>
+> **--dry-run** `boolean`
+>
+> Show what a replay would do with each session, without writing anything.
+
 > [accordion] search
 >
 > Search messages across workspace.
@@ -1093,7 +1183,16 @@ honcho conclusion list --observer <peer_id> --json
 honcho conclusion search "topic" --observer <peer_id> --json
 ```
 
-**4. Debug a session**
+**4. See what dreams changed**
+
+```bash theme={null}
+honcho dream list -p <peer_id>
+honcho dream inspect <run_id>
+```
+
+Each dream lists the conclusions it created with what each was derived from, the conclusions it removed, and the peer card before and after.
+
+**5. Debug a session**
 
 ```bash theme={null}
 honcho session inspect <session_id> --json
@@ -1153,6 +1252,73 @@ honcho peer chat <peer_id> "what happened here?" --scope my-project --json
 honcho workspace chat "what themes show up across peers?" --json
 honcho workspace chat "what happened in this project?" --scope my-project --json
 ```
+
+### Copy a workspace to another workspace or instance
+
+`honcho workspace replay` copies settings and membership, then re-sends every
+message in order with its original timestamp. The destination runs its own
+reasoning over those messages, so its conclusions, summaries and peer cards are
+derived fresh and can differ from the source. Conclusions and peer cards are
+not copied. Use it to copy a workspace inside one instance, or to move one
+between instances, for example from managed Honcho to a self-hosted instance.
+
+```bash theme={null}
+# Preview: what happens to each session, and how many messages are sent
+honcho workspace replay --from my-app --to my-app-copy --dry-run
+
+# Same instance, new workspace
+honcho workspace replay --from my-app --to my-app-copy
+
+# From managed Honcho (the configured instance) to a self-hosted one
+honcho workspace replay --from my-app --to-url http://localhost:8000
+
+# The other direction: read from a self-hosted instance
+honcho workspace replay --from my-app --from-url http://localhost:8000
+
+# Only the 20 sessions with the most recent message
+honcho workspace replay --from my-app --to my-app-copy --num-sessions 20
+```
+
+Each side uses the configured instance unless `--from-url` / `--to-url` names
+another one, so with the CLI set up for managed Honcho (`https://api.honcho.dev`)
+only the self-hosted side needs a URL. `--to` defaults to the `--from` ID, so the
+copy keeps its name on the other instance.
+
+A side on another instance authenticates only with its own key, and your
+configured credentials are never sent to it. A self-hosted instance with
+authentication off needs no key. If authentication is on, pass that instance's
+key:
+
+```bash theme={null}
+export HONCHO_TO_API_KEY=<key for the self-hosted instance>
+honcho workspace replay --from my-app --to-url https://honcho.internal.example.com
+```
+
+Use `HONCHO_FROM_API_KEY` when the other instance is the source. The keys are
+read from the environment only. There is no flag for them, because command-line
+arguments are visible in process listings. A key typed in an `export` line is
+still saved in your shell history, so load it from a secrets manager or a file
+where you can.
+
+A workspace-scoped key is enough for the source. Such a key cannot list
+workspaces, so it cannot tell an empty workspace from a missing one: if the
+source has no sessions and no peers, the command stops with `NOTHING_TO_REPLAY`
+and creates nothing.
+
+Things to know:
+
+* **Dry-run first.** `--dry-run` reads both sides and writes nothing, not even the destination workspace. For each session it says whether a replay will create it, resume it, find it up to date, or skip it because the destination already has different messages under that session ID (a conflict).
+* **It costs reasoning on the destination.** Every replayed message is derived again. Derivation runs in the background after the command exits; the summary prints the `honcho workspace queue-status` command that shows its progress.
+* **It resumes.** Rerun the same command after an interruption; messages already in the destination are skipped. A session in conflict is left untouched, listed under `failed` with the reason `conflict`, and the command exits non-zero. Other failures have the reason `error` and are retried by a rerun.
+* **Output.** In a terminal you get a short report. With `--json`, or when stdout is not a terminal, you get one JSON object with the same facts. Progress lines go to stderr in both modes. A dry run and a replay report different fields:
+  * **Both:** `source`, `destination`, `sessions_in_source`, `workspace_settings_copied`, `not_copied` and `sessions`.
+  * **Dry run only:** `dry_run`, `sessions_to_replay`, `actions` (how many sessions are `create`, `resume`, `up_to_date` or `conflict`), `messages_in_sessions`, `messages_to_send`, `peers_to_copy` and `peers_in_destination`. `sessions` has one entry per selected session, with its `action`, `messages_in_destination` and `messages_to_send`.
+  * **Replay only:** `sessions_replayed`, `sessions_failed`, `actions` (how many sessions were `created`, `resumed` or `up_to_date`), `messages_created`, `messages_skipped`, `peers_created`, `peers_existing`, `failed`, `elapsed_seconds` and `check_derivation`. `sessions` lists only the sessions that were replayed, each with its `action`, `messages_created` and `messages_skipped`. A session that was not replayed is in `failed` instead, with its `session_id`, `reason` and `error`, so read both lists. `check_derivation` is the queue command, or `null` when the replay sent no messages, as on a rerun that finds everything up to date.
+* **Memory written through the API is not copied.** Conclusions and peer cards are never copied; the destination derives its own from the messages. Conclusions you created through the conclusions API and peer cards you set yourself have no source message, so the destination cannot derive them again. Both reports say how many conclusions the source holds (`not_copied.conclusions_in_source` in JSON). Honcho does not mark which conclusions were written through the API, so that number counts all of them. Copy the ones you wrote yourself after the replay.
+* **Settings are copied as they are now.** Messages sent under older observer settings or custom instructions are derived under the current ones. Per-message configuration is not stored by Honcho, so it is not replayed.
+* **Session membership is copied as it is now, not as it changed over time.** Honcho's API does not return when a peer joined or left a session, so the destination session has the source's current members from its first message. A peer that joined late and observes others also observes the messages sent before it joined. The destination then derives conclusions the source never had, and they add to the reasoning cost. A peer that has left a session does not observe it in the destination, so the conclusions it formed there about other peers are not derived again.
+* **Existing peers and sessions with the same ID take the source's metadata and configuration.** Workspace-level settings are copied only when the destination has no sessions yet.
+* **IDs change.** Messages get new IDs, and sessions and peers get the replay time as their `created_at`.
 
 ## Scripting & automation
 
