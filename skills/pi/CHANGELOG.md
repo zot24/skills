@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.27](https://github.com/zot24/skills/compare/pi-v1.1.26...pi-v1.1.27) (2026-11-15)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#343](https://github.com/zot24/skills/issues/343)) ([4c3a766](https://github.com/zot24/skills/commit/4c3a766e25182e2201f43472aeb50cfcb147c63a))
+
 ## [1.1.26](https://github.com/zot24/skills/compare/pi-v1.1.25...pi-v1.1.26) (2026-11-10)
 
 

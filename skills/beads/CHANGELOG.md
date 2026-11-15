@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.6](https://github.com/zot24/skills/compare/beads-v1.1.5...beads-v1.1.6) (2026-11-15)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#343](https://github.com/zot24/skills/issues/343)) ([4c3a766](https://github.com/zot24/skills/commit/4c3a766e25182e2201f43472aeb50cfcb147c63a))
+
 ## [1.1.5](https://github.com/zot24/skills/compare/beads-v1.1.4...beads-v1.1.5) (2026-11-01)
 
 

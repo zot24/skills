@@ -1,6 +1,6 @@
 {
   "name": "obsidian",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Obsidian vault management — Dataview, Templater, workflows, MCP, plugins",
   "sources": [
     {

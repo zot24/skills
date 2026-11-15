@@ -1,6 +1,6 @@
 {
   "name": "apprise-api",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Apprise API (caronc/apprise-api) — deploy, configure, and use the self-hosted notification gateway for 100+ services",
   "sources": [
     {
