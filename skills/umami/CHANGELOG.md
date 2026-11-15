@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.3](https://github.com/zot24/skills/compare/umami-v1.1.2...umami-v1.1.3) (2026-11-15)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#343](https://github.com/zot24/skills/issues/343)) ([4c3a766](https://github.com/zot24/skills/commit/4c3a766e25182e2201f43472aeb50cfcb147c63a))
+
 ## [1.1.2](https://github.com/zot24/skills/compare/umami-v1.1.1...umami-v1.1.2) (2026-11-01)
 
 

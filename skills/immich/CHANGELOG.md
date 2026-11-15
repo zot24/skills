@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.8](https://github.com/zot24/skills/compare/immich-v1.0.7...immich-v1.0.8) (2026-11-15)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#343](https://github.com/zot24/skills/issues/343)) ([4c3a766](https://github.com/zot24/skills/commit/4c3a766e25182e2201f43472aeb50cfcb147c63a))
+
 ## [1.0.7](https://github.com/zot24/skills/compare/immich-v1.0.6...immich-v1.0.7) (2026-11-01)
 
 

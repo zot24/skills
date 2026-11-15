@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.6](https://github.com/zot24/skills/compare/umbrel-app-v2.1.5...umbrel-app-v2.1.6) (2026-11-15)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#343](https://github.com/zot24/skills/issues/343)) ([4c3a766](https://github.com/zot24/skills/commit/4c3a766e25182e2201f43472aeb50cfcb147c63a))
+
 ## [2.1.5](https://github.com/zot24/skills/compare/umbrel-app-v2.1.4...umbrel-app-v2.1.5) (2026-10-15)
 
 

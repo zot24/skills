@@ -1,6 +1,6 @@
 {
   "name": "immich",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Self-hosted photo and video management — Immich server, machine learning, mobile backup, external libraries",
   "sources": [
     {

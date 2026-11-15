@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.13](https://github.com/zot24/skills/compare/adguard-v1.0.12...adguard-v1.0.13) (2026-11-15)
+
+
+### Bug Fixes
+
+* **docs:** sync documentation from upstream ([#343](https://github.com/zot24/skills/issues/343)) ([4c3a766](https://github.com/zot24/skills/commit/4c3a766e25182e2201f43472aeb50cfcb147c63a))
+
 ## [1.0.12](https://github.com/zot24/skills/compare/adguard-v1.0.11...adguard-v1.0.12) (2026-09-15)
 
 
