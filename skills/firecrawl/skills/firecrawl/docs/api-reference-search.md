@@ -51,16 +51,14 @@ Examples: `"US"`, `"DE"`, `"FR"`, `"JP"`, `"UK"`, `"CA"`.
 
 Filter search results by specific categories using the `categories` parameter:
 
-* **`research`**: Restrict web search to academic and research websites (arxiv.org, nature.com, pubmed.ncbi.nlm.nih.gov, and similar). Changes on 2026-11-16 to search the [Research Index](https://docs.firecrawl.dev/features/research.md) and return paper records, see the warning below
+* **`research`**: Restrict web search to academic and research websites (arxiv.org, nature.com, pubmed.ncbi.nlm.nih.gov, and similar). Results are web pages, returned in `data.web`. For paper records, use [`GET /search/research/papers`](https://docs.firecrawl.dev/api-reference/endpoint/research-search-papers)
 * **`pdf`**: Search for PDFs
 * **`developer`**: Search the [Developer Index](https://docs.firecrawl.dev/features/developer.md) — issues, merged pull requests, and READMEs from public code repositories, alongside curated documentation sites
 * **`gov`**: Search the [Firecrawl Government Index](https://docs.firecrawl.dev/features/gov.md) — statutes, regulations, codes, court opinions, and other government publications. Cannot be combined with other categories and takes no filters; use [`/search/gov`](https://docs.firecrawl.dev/api-reference/endpoint/gov-search#filters) to filter
 
-> [!WARNING]
+> [!NOTE]
 >
-> **The `research` category changes on 2026-11-16.** It will search the [Research Index](https://docs.firecrawl.dev/features/research.md) (PubMed, bioRxiv, medRxiv, arXiv) instead of filtering web results to 14 academic websites. Results will move from `data.web` to `data.research` and come back as paper records: `paperId`, `primaryId`, `ids`, `title`, `abstract`, `score`. Until then every response that uses it carries a `warnings` entry.
->
-> If you want paper records, update your parsing before that date or call [`GET /search/research/papers`](https://docs.firecrawl.dev/api-reference/endpoint/research-search-papers) today. If you want web pages from academic sites, switch to [`includeDomains`](#domain-filters).
+> **The `github` category was removed.** Requests that include it return a `400` error. Use `developer` to search GitHub issues, pull requests, and READMEs, or `includeDomains: ["github.com"]` to keep web results from github.com.
 
 ### Example Usage
 
@@ -261,47 +259,66 @@ paths:
                     `options` and `response`. `full` also returns `options`,
                     `response`, and `examples`.
                 categories:
-                  type: array
-                  items:
-                    oneOf:
-                      - type: object
-                        title: Developer
-                        properties:
-                          type:
-                            type: string
-                            enum:
-                              - developer
-                        required:
-                          - type
-                      - type: object
-                        title: Gov
-                        properties:
-                          type:
-                            type: string
-                            enum:
-                              - gov
-                        required:
-                          - type
-                      - type: object
-                        title: Research
-                        properties:
-                          type:
-                            type: string
-                            enum:
-                              - research
-                        required:
-                          - type
-                      - type: object
-                        title: PDF
-                        properties:
-                          type:
-                            type: string
-                            enum:
-                              - pdf
-                        required:
-                          - type
+                  oneOf:
+                    - type: array
+                      title: Category names
+                      items:
+                        type: string
+                        enum:
+                          - developer
+                          - gov
+                          - research
+                          - pdf
+                    - type: array
+                      title: Category objects
+                      items:
+                        oneOf:
+                          - type: object
+                            title: Developer
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                  - developer
+                            required:
+                              - type
+                          - type: object
+                            title: Gov
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                  - gov
+                            required:
+                              - type
+                          - type: object
+                            title: Research
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                  - research
+                            required:
+                              - type
+                          - type: object
+                            title: PDF
+                            properties:
+                              type:
+                                type: string
+                                enum:
+                                  - pdf
+                            required:
+                              - type
                   description: >-
-                    Categories to filter results by. Defaults to [], which means
+                    Categories to filter results by. Pass either an array of
+                    category names, such as `["research", "pdf"]`, or an array
+                    of objects, such as `[{"type": "research"}]`; one array
+                    cannot mix the two forms. `developer` and `gov` must be the
+                    only entry in the array, and combining either with another
+                    category returns `400`. `research` restricts web results to
+                    academic and research websites and returns them in
+                    `data.web`; to search paper records, use `GET
+                    /search/research/papers`. Defaults to [], which means
                     results will not be filtered by any categories.
                 includeDomains:
                   type: array
@@ -746,7 +763,7 @@ components:
         skipTlsVerification:
           type: boolean
           description: Skip TLS certificate verification when making requests.
-          default: true
+          default: false
         timeout:
           type: integer
           description: >-

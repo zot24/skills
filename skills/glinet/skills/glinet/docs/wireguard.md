@@ -1,17 +1,6 @@
 > Source: https://docs.gl-inet.com/router/en/4/interface_guide/wireguard_client
 
 
-<a href="#set-up-wireguard-client-on-glinet-routers" class="md-skip">Skip to content</a>
-
-
-Initializing search
-
-
-<a href="https://github.com/gl-inet/docs4.x" class="md-source" data-md-component="source" title="Go to repository"></a>
-
-
-gl-inet/docs4.x
-
 
 <a href="../../faq/" class="md-nav__link"><span class="md-ellipsis"> FAQ </span></a> <span class="md-nav__icon md-icon"></span>
 
@@ -711,5 +700,4 @@ Thanks for your feedback! Help us improve this page by <a href="https://glinet.f
 
 
 Back to top
-
 

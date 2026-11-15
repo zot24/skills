@@ -1,18 +1,5 @@
 > Source: https://flueframework.com/docs/sdk/errors
 
-<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
-
-
-<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
-
-
-Esc
-
-
-Start typing to search the documentation.
-
-
-<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Errors
@@ -57,11 +44,11 @@ class FlueApiError extends Error {
 
 Rejection value of every SDK JSON request that returns a non-2xx response: [`send()`, `abort()`, and `history()`](/docs/sdk/flue-client/). The SDK performs exactly one fetch per JSON request — no retries — so a `FlueApiError` reflects a single server response.
 
-| Field    | Description                                                                                                                                                                                                                                                                                                                                                                                                    |
-|----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `status` | The HTTP response status.                                                                                                                                                                                                                                                                                                                                                                                      |
-| `body`   | The parsed JSON response body when it parses; the raw response text when it does not; the empty string when the response had no body. Deliberately `unknown`: proxies and gateways in front of a deployment can return arbitrary bodies, so the SDK does not normalize.                                                                                                                                        |
-| `ref`    | The server’s error correlation ref (`err_…`), present when the runtime logged the failure server-side (500-class internal errors). Read from the envelope’s `error.ref`, with the `flue-error-ref` response header as fallback. Quote it when reporting a production 500 — it names the exact server-side log line (see [correlating a production 500](/docs/reference/errors/#correlating-a-production-500)). |
+| Field | Description |
+|----|----|
+| `status` | The HTTP response status. |
+| `body` | The parsed JSON response body when it parses; the raw response text when it does not; the empty string when the response had no body. Deliberately `unknown`: proxies and gateways in front of a deployment can return arbitrary bodies, so the SDK does not normalize. |
+| `ref` | The server’s error correlation ref (`err_…`), present when the runtime logged the failure server-side (500-class internal errors). Read from the envelope’s `error.ref`, with the `flue-error-ref` response header as fallback. Quote it when reporting a production 500 — it names the exact server-side log line (see [correlating a production 500](/docs/reference/errors/#correlating-a-production-500)). |
 
 The `message` is composed from the status, the envelope’s `type` and `message` when the body carries the Flue error envelope, and the ref when the response carried one — for example `Flue API error 404 [agent_instance_not_found]: Agent instance "123456" was not found.` or `Flue API error 500 [internal_error] (ref err_…): An internal error occurred.` — so logging a caught `FlueApiError` lands the ref in your own logs with no extra code. Match on `status` and `body`, not on the string.
 
@@ -84,13 +71,13 @@ Every error response the Flue runtime renders itself carries one JSON envelope �
 }
 ```
 
-| Field     | Description                                                                                                                                                                                                      |
-|-----------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `type`    | Stable, machine-readable identifier (snake_case, e.g. `agent_instance_not_found`). This is the field to branch on; `message` and `details` wording is not API.                                                   |
-| `message` | One-sentence summary, safe to show to any caller.                                                                                                                                                                |
-| `details` | Longer caller-safe explanation. Always present (possibly empty).                                                                                                                                                 |
-| `dev`     | Developer-audience guidance (fix instructions, configuration hints). Present only when the server runs in local development mode and the error has dev-only guidance; its absence is not a reliable prod signal. |
-| `meta`    | Optional structured data, set only where downstream tooling benefits.                                                                                                                                            |
+| Field | Description |
+|----|----|
+| `type` | Stable, machine-readable identifier (snake_case, e.g. `agent_instance_not_found`). This is the field to branch on; `message` and `details` wording is not API. |
+| `message` | One-sentence summary, safe to show to any caller. |
+| `details` | Longer caller-safe explanation. Always present (possibly empty). |
+| `dev` | Developer-audience guidance (fix instructions, configuration hints). Present only when the server runs in local development mode and the error has dev-only guidance; its absence is not a reliable prod signal. |
+| `meta` | Optional structured data, set only where downstream tooling benefits. |
 
 `FlueApiError.body` holds the whole envelope; check the shape before reading fields (`body` stays `unknown` because non-Flue infrastructure can answer too). The server-side error vocabulary — which `type` values exist and their statuses — is documented in the [runtime errors reference](/docs/reference/errors/). Two rejections tied to `send()`’s `uid` condition are worth knowing here:
 
@@ -121,12 +108,12 @@ class FlueExecutionError extends Error {
 
 Rejection value of [`wait()`](/docs/sdk/flue-client/): the message was admitted and executed, but the submission settled with an outcome other than `completed`. A `FlueApiError` means the request never got in; a `FlueExecutionError` means the agent ran and did not finish successfully.
 
-| Field      | Description                                                                                                                                                                                                                              |
-|------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `target`   | What was being awaited. The union has a single member today, `'agent_submission'`.                                                                                                                                                       |
-| `targetId` | The awaited submission’s `submissionId` (from the `AgentSendResult` admission).                                                                                                                                                          |
-| `failure`  | `'failed'` when the submission settled failed; `'aborted'` when it settled aborted (for example after `abort()`); `'terminal_event_missing'` when the conversation stream ended without a terminal settlement event for this submission. |
-| `error`    | The settlement’s error payload, when the settlement carried one; `undefined` for `terminal_event_missing`. Typed `unknown` because the value crosses the wire, but errors the runtime itself serializes follow this shape:               |
+| Field | Description |
+|----|----|
+| `target` | What was being awaited. The union has a single member today, `'agent_submission'`. |
+| `targetId` | The awaited submission’s `submissionId` (from the `AgentSendResult` admission). |
+| `failure` | `'failed'` when the submission settled failed; `'aborted'` when it settled aborted (for example after `abort()`); `'terminal_event_missing'` when the conversation stream ended without a terminal settlement event for this submission. |
+| `error` | The settlement’s error payload, when the settlement carried one; `undefined` for `terminal_event_missing`. Typed `unknown` because the value crosses the wire, but errors the runtime itself serializes follow this shape: |
 
 ``` astro-code
 {
@@ -175,11 +162,11 @@ class DurableStreamError extends Error {
 
 Protocol-level stream failure — a malformed or unparseable stream response, an SSE upgrade the server does not support, or an HTTP status mapped to a structured code.
 
-| Field     | Description                                                                                                                     |
-|-----------|---------------------------------------------------------------------------------------------------------------------------------|
-| `code`    | Structured code for programmatic handling (the union above; the `DurableStreamErrorCode` type alias itself is not re-exported). |
-| `status`  | HTTP status, when the failure maps to a response.                                                                               |
-| `details` | Additional data, typically the raw response body.                                                                               |
+| Field | Description |
+|----|----|
+| `code` | Structured code for programmatic handling (the union above; the `DurableStreamErrorCode` type alias itself is not re-exported). |
+| `status` | HTTP status, when the failure maps to a response. |
+| `details` | Additional data, typically the raw response body. |
 
 ### `StreamClosedError`
 
@@ -208,12 +195,12 @@ class FetchError extends Error {
 
 A stream HTTP request that failed without a protocol-level classification. The stream layer retries transient failures with exponential backoff (429, 503, all 5xx, and network errors; by default indefinitely — bound it via the `backoffOptions` accepted by `wait()` and `observe()`), so with default options a `FetchError` surfaces for non-retryable client errors: 4xx other than 429.
 
-| Field           | Description                                                                       |
-|-----------------|-----------------------------------------------------------------------------------|
-| `status`        | HTTP status of the failed request.                                                |
+| Field | Description |
+|----|----|
+| `status` | HTTP status of the failed request. |
 | `text` / `json` | The response body, as text or parsed JSON depending on the response content type. |
-| `headers`       | The response headers.                                                             |
-| `url`           | The requested URL.                                                                |
+| `headers` | The response headers. |
+| `url` | The requested URL. |
 
 ### `FetchBackoffAbortError`
 

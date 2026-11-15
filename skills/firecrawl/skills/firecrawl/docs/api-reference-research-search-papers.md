@@ -6,7 +6,7 @@
 
 # Search Papers
 
-Search papers by topic, method, benchmark, author, or category. Results include canonical `paperId`, preferred `primaryId`, source ids, title, abstract, score, and optional ranking signals.
+Search papers by topic, method, benchmark, author, or category. Results include canonical `paperId`, preferred `primaryId`, source ids, title, abstract, authors, creation and update dates, score, and optional ranking signals. Pass `sort=date_desc` to return the newest of the most relevant matches, newest first by created date. It does not list every paper in a date range; add `from` and `to` for that.
 
 For a workflow overview, see the [Research Index guide](https://docs.firecrawl.dev/features/research.md).
 
@@ -83,6 +83,21 @@ paths:
           schema:
             type: string
             format: date
+        - name: sort
+          in: query
+          required: false
+          description: >-
+            Result order. `relevance` (default) returns the most relevant papers
+            first. `date_desc` returns the newest papers among the most relevant
+            matches, newest first by created date, with undated papers last. It
+            does not list every paper in a date range; use `from` and `to` for
+            that.
+          schema:
+            type: string
+            enum:
+              - relevance
+              - date_desc
+            default: relevance
       responses:
         '200':
           description: Ranked paper results.
@@ -103,6 +118,11 @@ paths:
                       We show that diffusion models can achieve image sample
                       quality superior to the current state-of-the-art
                       generative models...
+                    authors:
+                      - Prafulla Dhariwal
+                      - Alex Nichol
+                    createdDate: '2021-05-11'
+                    updateDate: '2021-06-01'
                     score: 0.0163934
         '400':
           description: Invalid request
@@ -153,6 +173,21 @@ components:
           type: string
         abstract:
           type: string
+        authors:
+          type: array
+          items:
+            type: string
+          description: >-
+            First 20 author names. GET /search/research/papers/{id} returns the
+            full list.
+        createdDate:
+          type: string
+          format: date
+          description: Creation date, YYYY-MM-DD.
+        updateDate:
+          type: string
+          format: date
+          description: Last update date, YYYY-MM-DD.
         score:
           type: number
           format: double

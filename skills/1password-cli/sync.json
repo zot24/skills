@@ -416,6 +416,12 @@
       "target": "skills/1password-cli/docs/service-accounts/terraform.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://www.1password.dev/cli/reference/management-commands/provisioning/",
+      "target": "skills/1password-cli/docs/cli/reference/management-commands/provisioning.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

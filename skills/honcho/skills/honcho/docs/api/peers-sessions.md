@@ -26,7 +26,7 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.5.0
+  version: 3.6.1
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -153,6 +153,12 @@ components:
           type: integer
           minimum: 0
           title: Total
+          description: >-
+            Number of matching rows, exact up to the server's
+            PAGINATION_COUNT_LIMIT (default 100000) and reported as that limit
+            plus one when there are more. While a next page exists it is at
+            least one more than this page's last row, so `pages` always reaches
+            the end of the list.
         page:
           type: integer
           minimum: 1

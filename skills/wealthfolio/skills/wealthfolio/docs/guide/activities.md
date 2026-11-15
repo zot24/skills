@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,9 +13,7 @@ Add Activities
 Manual entry, CSV import, editing, subtypes, short trades, transfers, and the full activity lifecycle.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 Activities are the atomic events that drive your portfolio: every trade, dividend, deposit, fee, and adjustment. This guide covers how to add them, edit them, and use the subtypes and trade intents that handle DRIP, staking, short positions, options, transfers, and option expiry cleanly.
 
@@ -100,13 +23,13 @@ For the conceptual model (what each type does to cash and holdings), see <a href
 
 ## 1 · Add an activity manually
 
-1.  **Activities** in the sidebar → **+ Add Manually** in the top right.
+1.  **Activities** in the sidebar → **Add Activities** in the top right → **Add Transaction**.
 2.  Pick the **category** (Trade, Cash, Income, Transfer, Adjustment).
 3.  Pick the **type** (BUY, SELL, DIVIDEND, etc.) and, where available, the **subtype** or trade intent.
 4.  Fill the form. Required fields are marked.
 5.  **Add Activity.**
 
-The form adapts to the activity type. For a trade, check the **final amount** against your statement. The suggested total includes the quantity, price, asset multiplier, fee, and tax. You can enter a different total when your statement requires it. For a cash activity, enter the final cash paid or received.
+The form adapts to the activity type. For a trade, check the **final amount** against your statement. The suggested total includes the quantity, price, asset multiplier, fee, and tax. You can enter a different total when your statement requires it. For a cash activity, enter the final cash paid or received. For a dividend or interest payment, enter the amount before tax and the withholding tax: see <a href="#dividends-and-interest" class="font-medium underline underline-offset-4">Dividends and interest</a>.
 
 See <a href="/docs/concepts/activity-fields/" class="font-medium underline underline-offset-4">Activity Fields</a> for what each field means.
 
@@ -123,22 +46,30 @@ After changing quantity, price, fee, or tax, check the final amount before savin
 Most activity types are direct: choose the type, fill the amount or quantity/price, and save. A few real-world events need a subtype or trade intent so Wealthfolio can apply the right accounting.
 
 
-| If you need to log…                  | Use this in Wealthfolio                            | Key fields / gotchas                                                                                         |
-|--------------------------------------|----------------------------------------------------|--------------------------------------------------------------------------------------------------------------|
-| Normal stock/ETF/crypto buy          | **BUY**                                            | Symbol, quantity, unit price, currency, optional fee. Opens a long lot.                                      |
-| Normal sell from an existing long    | **SELL**                                           | Closes long lots FIFO. A plain sell does not open a short if you oversell.                                   |
-| Sell short stock/ETF                 | **SELL** → **Sell Short**                          | Opens a signed short lot. If you are currently long, split the trade first.                                  |
-| Buy to cover stock/ETF short         | **BUY** → **Buy to Cover**                         | Reduces the oldest short lot first. Do not include excess quantity as cover.                                 |
-| Buy to open an option                | **BUY** + asset **Option** + **Open**              | Flip the asset toggle to **Option**, then fill Call/Put, strike, expiration. Multiplier auto-applied.        |
-| Sell / write a call or put to open   | **SELL** + asset **Option** + **Open**             | The step people miss: switch the asset toggle to **Option**. Covered calls, cash-secured puts, naked shorts. |
-| Close an option                      | **BUY** or **SELL** + asset **Option** + **Close** | Buy to Close for short options, Sell to Close for long options.                                              |
-| Dividend reinvestment                | **DIVIDEND** → **DRIP**                            | Fill dividend amount, reinvested quantity, and reinvestment price.                                           |
-| Staking reward                       | **INTEREST** → **Staking Reward**                  | Fill token quantity and fair market value at receipt.                                                        |
-| Bond coupon                          | **INTEREST** on the bond symbol                    | Select the bond in the optional Symbol field; income is attributed to the bond and included in total return. |
-| Stock dividend in the same asset     | **DIVIDEND** → **Dividend in Kind**                | Use for additional units of the same asset; true spin-offs need a separate activity.                         |
-| Option expired worthless             | **ADJUSTMENT** → **Option Expiry**                 | Removes the option lot with no cash movement.                                                                |
-| Bonus, rebate, refund, reimbursement | **CREDIT** with the matching credit subtype        | Bonus counts as new capital; rebate/refund/reimbursement reduce costs instead.                               |
+| If you need to log… | Use this in Wealthfolio | Key fields / gotchas |
+|----|----|----|
+| Normal stock/ETF/crypto buy | **BUY** | Symbol, quantity, unit price, currency, optional fee. Opens a long lot. |
+| Normal sell from an existing long | **SELL** | Closes long lots FIFO. A plain sell does not open a short if you oversell. **Sell all** fills in the whole position. |
+| Sell short stock/ETF | **SELL** → **Sell Short** | Opens a signed short lot. If you are currently long, split the trade first. |
+| Buy to cover stock/ETF short | **BUY** → **Buy to Cover** | Reduces the oldest short lot first. Do not include excess quantity as cover. |
+| Buy to open an option | **BUY** + asset **Option** + **Open** | Flip the asset toggle to **Option**, then fill Call/Put, strike, expiration. Multiplier auto-applied. |
+| Sell / write a call or put to open | **SELL** + asset **Option** + **Open** | The step people miss: switch the asset toggle to **Option**. Covered calls, cash-secured puts, naked shorts. |
+| Close an option | **BUY** or **SELL** + asset **Option** + **Close** | Buy to Close for short options, Sell to Close for long options. |
+| Cash dividend or interest | **DIVIDEND** or **INTEREST** | Enter the **Amount before tax** and **Withholding tax**; the form works out the **Received amount**. |
+| Dividend reinvestment | **DIVIDEND** → **DRIP** | Fill dividend amount, reinvested quantity, and reinvestment price. |
+| Staking reward | **INTEREST** → **Staking Reward** | Fill token quantity and fair market value at receipt. |
+| Bond coupon | **INTEREST** on the bond symbol | Select the bond in the optional Symbol field; income is attributed to the bond and included in total return. |
+| Stock dividend in the same asset | **DIVIDEND** → **Dividend in Kind** | Use for additional units of the same asset; true spin-offs need a separate activity. |
+| Option expired worthless | **ADJUSTMENT** → **Option Expiry** | Removes the option lot with no cash movement. |
+| Fund switch, share class | **Fund conversion** | Same account and day, no fee. The new units keep the old ones’ cost and purchase dates; nothing is sold. |
+| Bonus, rebate, refund, reimbursement | **CREDIT** with the matching credit subtype | Bonus counts as new capital; rebate/refund/reimbursement reduce costs instead. |
 
+
+### Dividends and interest
+
+For a cash dividend, a return of capital, or interest you receive, the form asks for the **Amount before tax** and the **Withholding tax** from your statement, and works out the **Received amount**. If your statement shows only the amount after tax, type it into **Received amount** instead, and the amount before tax is worked out. Wealthfolio saves the received amount as the activity’s amount and the withholding as its tax. This works the same on desktop and phones.
+
+DRIP, Dividend in Kind, Staking Reward, and interest charged on a credit card keep their own fields.
 
 ### DRIP (Dividend Reinvestment)
 
@@ -168,32 +99,34 @@ Use **SELL** → **Sell Short** to open or increase a short. Use **BUY** → **B
 
 Plain **SELL** is intentionally conservative: if you sell more than you hold, Wealthfolio does not automatically open a short. If a single broker trade flips from long to short, split it into two activities: a normal **SELL** for the long quantity, then **Sell Short** for the remainder.
 
+To sell everything an account holds, use **Sell all** beside **Quantity** on the Sell form, on desktop or phone. It fills in the account’s whole position. It isn’t shown for **Sell Short** or for options.
+
 ### Options (calls & puts)
 
-Options have first-class support in the Add Activity form. The step people miss is that you first choose **Buy** or **Sell**, then flip the **asset toggle from Stock to Option** — that’s what swaps the stock fields for the option contract fields (Call/Put, strike, expiration) and a **Position** toggle. If you never flip that toggle, you only ever see the stock form, which is why it can look like options aren’t supported.
+Options have first-class support in the Add Activity form. The step people miss is that you first choose **Buy** or **Sell**, then flip the **asset toggle from Stock to Option** – that’s what swaps the stock fields for the option contract fields (Call/Put, strike, expiration) and a **Position** toggle. If you never flip that toggle, you only ever see the stock form, which is why it can look like options aren’t supported.
 
 The mental model: **Buy vs Sell** = the direction of your order. **Open vs Close** = whether you’re entering a new contract or exiting one you already hold. Wealthfolio combines the two into the intent shown on the submit button.
 
 
-| What you did (broker language)               | In Wealthfolio                          | Submit button reads |
-|----------------------------------------------|-----------------------------------------|---------------------|
-| **Buy to Open** a call or put (BTO)          | **Buy** + asset **Option** + **Open**   | Buy to Open         |
-| **Sell to Open** / write a call or put (STO) | **Sell** + asset **Option** + **Open**  | Sell to Open        |
-| **Buy to Close** a written option (BTC)      | **Buy** + asset **Option** + **Close**  | Buy to Close        |
-| **Sell to Close** a long option (STC)        | **Sell** + asset **Option** + **Close** | Sell to Close       |
+| What you did (broker language) | In Wealthfolio | Submit button reads |
+|----|----|----|
+| **Buy to Open** a call or put (BTO) | **Buy** + asset **Option** + **Open** | Buy to Open |
+| **Sell to Open** / write a call or put (STO) | **Sell** + asset **Option** + **Open** | Sell to Open |
+| **Buy to Close** a written option (BTC) | **Buy** + asset **Option** + **Close** | Buy to Close |
+| **Sell to Close** a long option (STC) | **Sell** + asset **Option** + **Close** | Sell to Close |
 
 
-**Selling a call or put to open (writing options) is `Sell` + asset `Option` + position `Open`.** That single combination covers covered calls, cash-secured puts, and any naked short option — you collect the premium as a credit and open a short option lot.
+**Selling a call or put to open (writing options) is `Sell` + asset `Option` + position `Open`.** That single combination covers covered calls, cash-secured puts, and any naked short option – you collect the premium as a credit and open a short option lot.
 
 #### Step by step: write (sell to open) a call or put
 
-1.  **Activities → + Add Manually → Add Transaction.**
+1.  **Activities → Add Activities → Add Transaction.**
 2.  Pick the **Sell** activity type.
 3.  Under **Asset & Account**, switch the asset toggle from **Stock** to **Option**.
 4.  In **Option Contract**, search the symbol (type a ticker, an option contract, or paste an OCC symbol), pick **Call** or **Put**, and set the **Strike Price** and **Expiration**. Wealthfolio shows the resolved contract (e.g. `Dec 19 $150 CALL`).
 5.  Choose the account, then in the **Trade** section set **Position** to **Open**.
 6.  Enter the number of **Contracts** and the **Premium/Share**. Add any **Fee** / **Tax**.
-7.  Confirm with the button — it reads **Sell to Open** — and Wealthfolio records the credit.
+7.  Confirm with the button – it reads **Sell to Open** – and Wealthfolio records the credit.
 
 <figure class="not-prose my-6">
 <img src="https://assets.wealthfolio.app/images/screenshots/docs/activities/activity-sell-to-open.png" class="block h-auto w-full dark:hidden" loading="lazy" decoding="async" alt="Add Activity form with Sell selected, the asset toggle set to Option, a Call contract with strike and expiration, and Position set to Open" /> <img src="https://assets.wealthfolio.app/images/screenshots/docs/activities/activity-sell-to-open-dark.png" class="hidden h-auto w-full dark:block" loading="lazy" decoding="async" alt="Add Activity form with Sell selected, the asset toggle set to Option, a Call contract with strike and expiration, and Position set to Open" />
@@ -206,22 +139,26 @@ Closing later is the mirror image: **Buy** + asset **Option** + **Close** (Buy t
 
 #### Buying options to open
 
-Going long a call or put is **Buy** + asset **Option** + **Open** (Buy to Open) — you pay the premium as a debit. Close it later with **Sell** + asset **Option** + **Close** (Sell to Close). Same contract fields, multiplier, and per-share premium rules apply.
+Going long a call or put is **Buy** + asset **Option** + **Open** (Buy to Open) – you pay the premium as a debit. Close it later with **Sell** + asset **Option** + **Close** (Sell to Close). Same contract fields, multiplier, and per-share premium rules apply.
 
 #### When an option expires worthless
 
-Use **ADJUSTMENT** → subtype **Option Expiry**. It closes the option lot to zero with no cash movement — the premium is realized (a loss for a long option you paid for, or the full premium kept as gain for a short option you wrote). Use this instead of a Buy/Sell to Close when nothing traded because the contract simply expired.
+Use **ADJUSTMENT** → subtype **Option Expiry**. It closes the option lot to zero with no cash movement – the premium is realized (a loss for a long option you paid for, or the full premium kept as gain for a short option you wrote). Use this instead of a Buy/Sell to Close when nothing traded because the contract simply expired.
 
 #### When an option is assigned or exercised
 
 Assignment/exercise is two events: the option contract goes away and shares change hands. Record them as two activities:
 
-1.  Close the option leg — **Option Expiry** (ADJUSTMENT) removes the contract, or a **Close Position** trade if your broker showed a closing price.
+1.  Close the option leg – **Option Expiry** (ADJUSTMENT) removes the contract, or a **Close Position** trade if your broker showed a closing price.
 2.  Record the resulting stock trade at the **strike price**: a **BUY** if you were assigned on a short put or exercised a long call, a **SELL** if assigned on a short call or exercised a long put.
 
 #### Importing options from a broker CSV
 
 If your broker’s CSV uses **BTO / STO / BTC / STC** (or “Buy to Open”, “Sell to Open”, etc.) labels, map them to the matching type + intent in the activity type/subtype mapping step of the import. See <a href="/docs/guide/csv-import/" class="font-medium underline underline-offset-4">CSV Import</a>.
+
+### Fund conversion
+
+Choose **Fund conversion** to record units of one fund becoming units of another in the same account. Pick the account and date, then the fund and quantity that leave under **From** and the fund and quantity that arrive under **To**. Wealthfolio saves two linked rows, **Conversion Out** and **Conversion In**; editing, duplicating, or deleting either one changes both. For a *traspaso*, use the day the new units arrive. See <a href="/docs/concepts/activity-types/#fund-conversions" class="font-medium underline underline-offset-4">Fund Conversions</a> for the rules.
 
 ### Credit subtypes (Bonus, Trading Rebate, Fee Refund, Reimbursement)
 
@@ -257,6 +194,21 @@ If the other side isn’t a Wealthfolio account, check the **External** flag on 
 
 Leave the **External** flag unchecked and pick the counterparty account. Wealthfolio creates the matching `TRANSFER_OUT` / `TRANSFER_IN` pair and preserves the original cost basis on the receiving side.
 
+To pair a transfer that isn’t linked yet, choose **Link transfer…** in its row menu and pick the other side from the suggested matches or a search. The sheet shows the activity beside the selected match and points out the fields that differ.
+
+### Match transfers
+
+When the two sides of a transfer were recorded separately, for example by an import or broker sync, link them on **Match transfers**. On desktop, open it from **Activities → Add Activities → Match transfers**. The Health Center’s **Incomplete transfer detected** issue opens it too, with **Review transfers**.
+
+- **Ready to link** lists pairs that match exactly on the same day. **Link all N pairs** links them all.
+- **Needs a look** groups the rest by reason, such as **Arrived on a different day** or **No other side found**. Each row has **Link**, **Mark as external**, **Find match**, or **Skip**.
+
+### Turn a deposit or withdrawal into a transfer
+
+If a deposit or withdrawal is really money moving between two of your accounts, choose **Make it a transfer…** in its row menu, on the Activities or Spending page. Pick the matching activity in the other account from the suggestions or a search, or choose **Create it in another account**, then **Convert to transfer**. The two rows become a linked transfer.
+
+To change only the row’s type, open it and use **Change to Transfer In** or **Change to Transfer Out** (and **Change to Deposit** or **Change to Withdrawal** to go back). The amount, date, account, notes, and category are kept. A row changed into a transfer is marked external; use **Link transfer…** to pair it with another account. A linked transfer has to be unlinked with **Unlink transfer** before it can change back.
+
 ------------------------------------------------------------------------
 
 ## 4 · Activity statuses
@@ -264,12 +216,12 @@ Leave the **External** flag unchecked and pick the counterparty account. Wealthf
 Each activity has a status that controls how it’s used in calculations:
 
 
-| Status      | What it means                                                                         |
-|-------------|---------------------------------------------------------------------------------------|
-| **Posted**  | The default; counted everywhere.                                                      |
+| Status | What it means |
+|----|----|
+| **Posted** | The default; counted everywhere. |
 | **Pending** | Broker-reported but incomplete (e.g. missing price on a DRIP). Excluded from metrics. |
-| **Draft**   | You’re staging this before commit. Hidden from totals.                                |
-| **Void**    | Soft-deleted. Hidden everywhere, but the row remains so you can restore it.           |
+| **Draft** | You’re staging this before commit. Hidden from totals. |
+| **Void** | Soft-deleted. Hidden everywhere, but the row remains so you can restore it. |
 
 
 ### Needs review
@@ -288,7 +240,7 @@ Select multiple rows from the activities list (checkboxes on the left), then use
 
 - **Change account:** re-attribute the activities to a different account.
 - **Change status:** set Posted / Pending / Draft / Void.
-- **Delete:** removes the activities. Wealthfolio asks for confirmation first — the action is permanent, so double-check the selection before clicking.
+- **Delete:** removes the activities. Wealthfolio asks for confirmation first – the action is permanent, so double-check the selection before clicking.
 
 Bulk-changing the type isn’t supported. Wealthfolio doesn’t know which fields to preserve.
 
@@ -313,7 +265,7 @@ date,symbol,quantity,activityType,unitPrice,currency,fee,amount
 2023-08-11T14:55:30.863Z,$CASH-USD,1,DEPOSIT,1,USD,0,600.03
 ```
 
-**About the amount field:** use the final total including fees and taxes. Missing trade totals can be calculated during import. Plain cash and income rows need an amount; quantity and price are not a substitute. Security transfers move shares, while DRIP, staking, and in-kind income also use quantity and price. See the <a href="/docs/guide/csv-import/" class="font-medium underline underline-offset-4">CSV Import guide</a> for the full rules.
+**About the amount field:** use the final total, with fees and taxes already applied. Missing trade totals can be calculated during import. Plain cash and income rows need an amount; quantity and price are not a substitute. Security transfers move shares, while DRIP, staking, and in-kind income also use quantity and price. See the <a href="/docs/guide/csv-import/" class="font-medium underline underline-offset-4">CSV Import guide</a> for the full rules.
 
 
 Your browser does not support HTML5 video. Here is a <a href="https://assets.wealthfolio.app/videos/import-csv.mp4" data-astro-cid-4itgdthg="">link to the video</a> instead.
@@ -325,33 +277,36 @@ Your browser does not support HTML5 video. Here is a <a href="https://assets.wea
 
 - **Edit:** click any activity in the list to open the edit sheet. Synced activities can also be corrected; user changes are tracked so broker sync can protect them. Check the final amount and review flag before saving.
 - **Delete:** click an activity → ⋯ menu → **Delete**. Wealthfolio asks for confirmation; deletion is permanent. If you want to keep the row but exclude it from calculations, set its **Status** to `Void` instead.
+- **More details:** click an activity → ⋯ menu → **More details** to see its details. When an import or add-on supplies labelled fee and tax lines, such as commission and stamp duty, they’re listed under the fee and tax. They don’t change any calculation.
 - **Backdated activities:** there’s no restriction on inserting activities into the past. Wealthfolio recalculates all balances forward from the inserted date.
 
 ------------------------------------------------------------------------
 
 **Next step:** <a href="/docs/concepts/activity-types/" class="font-medium underline underline-offset-4">Activity Types</a> is the full reference for every type, subtype, and the rules that govern them.
 
-------------------------------------------------------------------------
+
+<a href="/docs/guide/dashboards/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Dashboards</a> <a href="/docs/guide/assets/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Assets &amp; Securities</a>
 
 
-<a href="/docs/guide/dashboards/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Dashboards</a> <a href="/docs/guide/assets/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Assets &amp; Securities</a>
-
-
-On This Page
+On this page
 
 - <a href="#1--add-an-activity-manually" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · Add an activity manually</a>
   - <a href="#inline-edit-on-the-activities-list" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Inline edit on the activities list</a>
 - <a href="#2--subtypes-and-trade-intents" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · Subtypes and trade intents</a>
+  - <a href="#dividends-and-interest" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Dividends and interest</a>
   - <a href="#drip-dividend-reinvestment" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">DRIP (Dividend Reinvestment)</a>
   - <a href="#staking-reward" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Staking Reward</a>
   - <a href="#dividend-in-kind" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Dividend in Kind</a>
   - <a href="#stocketf-short-positions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Stock/ETF Short Positions</a>
   - <a href="#options-calls--puts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Options (calls &amp; puts)</a>
+  - <a href="#fund-conversion" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Fund conversion</a>
   - <a href="#credit-subtypes-bonus-trading-rebate-fee-refund-reimbursement" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Credit subtypes (Bonus, Trading Rebate, Fee Refund, Reimbursement)</a>
 - <a href="#3--transfers-between-accounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Transfers between accounts</a>
   - <a href="#same-day-transfer_out--transfer_in-gotcha" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Same-day TRANSFER_OUT → TRANSFER_IN gotcha</a>
   - <a href="#transferring-from--to-external-accounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Transferring from / to external accounts</a>
   - <a href="#transferring-between-two-wealthfolio-accounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Transferring between two Wealthfolio accounts</a>
+  - <a href="#match-transfers" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Match transfers</a>
+  - <a href="#turn-a-deposit-or-withdrawal-into-a-transfer" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Turn a deposit or withdrawal into a transfer</a>
 - <a href="#4--activity-statuses" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · Activity statuses</a>
   - <a href="#needs-review" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Needs review</a>
 - <a href="#5--bulk-edit-and-delete" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">5 · Bulk edit and delete</a>

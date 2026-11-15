@@ -4,7 +4,7 @@
 title: History
 description: Store and retrieve message history across user, thread, and channel scopes.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: guide
 prerequisites:
   - /docs/state-adapters
@@ -61,7 +61,7 @@ const bot = new Chat({
 
 Set `history.user.maxPerUser: false` to disable count-based eviction. Omit `retention` as well to keep entries without a TTL. The state adapter must use durable storage to retain history across restarts. The legacy `transcripts.maxPerUser` field also accepts `false`.
 
-Thread and channel scopes are always available on `bot.history`. Use `history.thread` to tune the thread cache, which is used by adapters with `persistThreadHistory: true` such as Telegram and WhatsApp:
+Thread and channel scopes are always available on `bot.history`. Use `history.thread` to tune the thread cache, which is used by adapters with `persistThreadHistory: true` such as WhatsApp, and Telegram unless you turn the option off:
 
 ```typescript
 const bot = new Chat({
@@ -145,6 +145,8 @@ This deletes every entry stored under the key. Single-entry and time-range delet
 ## Thread history
 
 `bot.history.thread` reads thread messages through `adapter.fetchMessages` and keeps a per-thread cache for adapters that lack server-side message history APIs and set `persistThreadHistory: true`, such as Telegram and WhatsApp. For those adapters, `list()` falls back to the cache when the adapter returns an empty first page. For every other adapter, the platform response is authoritative.
+
+Telegram sets `persistThreadHistory: true` by default. If you pass `persistThreadHistory: false` to `createTelegramAdapter`, the SDK doesn't write to the cache or fall back to it, so `list()` returns only the messages the current process has seen. On serverless platforms, that list is empty after a cold start.
 
 ```typescript title="lib/bot.ts" lineNumbers
 bot.onSubscribedMessage(async (thread, message) => {

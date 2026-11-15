@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,9 +13,7 @@ Portfolio Dashboards
 A tour of the home dashboard. What every card means and how to read it.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
 The home dashboard is the at-a-glance view of your portfolio. This page walks through each card so you know what you’re looking at, and where to dig in.
@@ -106,12 +29,9 @@ The home dashboard is the at-a-glance view of your portfolio. This page walks th
 
 ### Total Portfolio Value
 
-The headline number. Sums **all** accounts converted to your base currency at today’s FX rate. Click the eye icon to hide the value (handy for screenshots).
+The headline number. Sums **all** accounts converted to your base currency at today’s FX rate. Click the eye icon beside it to hide the value (handy for screenshots). The Net Worth and Spending tabs have the same button, and so does Portfolio value on **Insights → Overview**.
 
-Below the headline:
-
-- **Day change:** today’s mark-to-market change vs. yesterday’s close.
-- **All-time change:** cumulative change from your earliest activity.
+Below the headline are the gain and the return over the selected period, followed by the period.
 
 Hover the change percentages for a tooltip explaining the metric (TWR vs. MWR; see <a href="/docs/concepts/performance-metrics/" class="font-medium underline underline-offset-4">Performance Metrics</a>).
 
@@ -131,12 +51,15 @@ To see every position, use the **Holdings** page from the sidebar.
 
 The full position list, with a few controls worth knowing:
 
-- **Open / Closed** — the view control before the search box. **Open** is the default and shows what you currently hold. **Closed** shows disposed positions with cost basis, sale proceeds, realized P&L, and realized return in place of the market-value columns (option expiries included). A closed position stays separate from an open one in the same asset, even when a long and a short net to zero.
-- **Type filter** — stocks, ETFs, bonds, and **cash**, which carries its own portfolio weight on desktop and mobile.
+- **Open / Closed** – the view control before the search box. **Open** is the default and shows what you currently hold. **Closed** shows disposed positions with cost basis, sale proceeds, realized P&L, and realized return in place of the market-value columns (option expiries included). A closed position stays separate from an open one in the same asset, even when a long and a short net to zero.
+- **Type filter** – stocks, ETFs, bonds, and **cash**, which carries its own portfolio weight on desktop and mobile.
 - **Quantity labels** follow the instrument: *shares* for stocks, *units* for ETFs and mutual funds, *bonds* for debt securities, *contracts* for options.
 - **Search** matches instrument name in both views, and sorting is preserved when you switch to a view that doesn’t have the column you sorted by.
+- **Columns** – on desktop, this menu also moves columns up or down, and the order is saved per profile. **Reset column order** puts them back.
+- **Currency button** – when your holdings use more than one currency, it switches values between your base currency and each asset’s own (**Show values in Asset Currency**). Both views use the same recorded cost.
+- **Missing values** – a value that can’t be worked out shows ”—” instead of 0 and is left out of totals and weights. If an account’s calculation fails or is still running, only that account’s holdings are left out, and a notice says the totals are incomplete.
 
-The **Insights** tab on the same page gives the sector / region / currency cuts.
+For sector, region, and currency cuts, open **Insights → Overview**.
 
 The mobile app carries the same controls. See the <a href="/docs/guide/mobile/" class="font-medium underline underline-offset-4">Mobile guide</a>.
 
@@ -149,21 +72,25 @@ A donut chart broken down by asset class (Equity, Fixed Income, Cash, Crypto, Al
 <figcaption>Asset allocation with class, region, and sector breakdowns</figcaption>
 </figure>
 
-Drill further on the **Holdings → Insights** tab for sector / region / currency cuts.
+Drill further on **Insights → Overview**: its Accounts, Classes, Regions, and Sectors cards break the portfolio down, and its **Holdings** donut shows your seven largest holdings, the rest, and cash. Its Breakdown card groups the portfolio by allocation, account, sector, region, risk, security type, currency, or your own groups. The views sit on one row, and those that don’t fit are under **More**.
 
 ### Net Worth Chart
 
 Historical net worth over time, with toggleable account inclusion. Useful for spotting trends and the impact of major contributions.
 
-The chart respects the **date range selector** in the top right. Switch between 1M, 3M, YTD, 1Y, 5Y, ALL to zoom.
+The chart follows the period buttons under it: 1D, 1W, 1M, 3M, 6M, YTD, 1Y, 5Y, and ALL. The calendar button beside them picks a custom range, or any completed month or calendar year from its **Month** and **Year** tabs. A year is compared with the year before.
+
+The **Previous period** and **Next period** arrows beside the period name, at the top of the Investments, Net Worth, and Spending tabs, step through the period you picked: 3M steps back three months at a time, and Next stops at the latest period.
+
+The dashboard’s Investments, Net Worth, and Spending tabs share one time period with the Spending and Performance tabs of **Insights**. Pick a period on any of them and the others follow, or show the nearest period they offer, so a single month, a year, or a custom range carries over too. Links that name a period still open on that period, and Insights’ Income tab keeps its own.
 
 ### Net Worth dashboard
 
-Switch to the **Net Worth** tab at the top of the home view for your full financial picture — not just investments, but property, vehicles, collectibles, precious metals, cash, and liabilities. Refreshed in 3.5, it adds:
+Switch to the **Net Worth** tab at the top of the home view for your full financial picture – not just investments, but property, vehicles, collectibles, precious metals, cash, and liabilities. Refreshed in 3.5, it adds:
 
-- A richer **breakdown** of assets and liabilities, with expandable hierarchical categories and tap-to-expand detail drawers (mortgages net against the property they finance).
-- **Velocity** and **Momentum** cards — how quickly your net worth is accelerating over the trailing year, and this period versus the equal window just before it.
-- A **stale-valuation** warning for any asset you haven’t updated in 90+ days, with a direct link to fix it.
+- A richer **breakdown** of assets and liabilities, with expandable hierarchical categories and tap-to-expand detail drawers (mortgages net against the property they finance). In a drawer, each item opens its own page, and a liability’s drawer has **View details**.
+- **Velocity** and **Momentum** cards – how quickly your net worth is accelerating over the trailing year, and this period versus the equal window just before it.
+- A **Needs attention** card that lists, among other things, assets you value by hand that haven’t been updated in 90 days. They also raise a Health Center warning under **Prices**, which shows in the health badge beside the total.
 
 <figure class="not-prose my-6">
 <img src="https://assets.wealthfolio.app/images/screenshots/networth/dashboard.png" class="block h-auto w-full dark:hidden" loading="lazy" decoding="async" alt="The Net Worth dashboard: breakdown of assets and liabilities, velocity, and momentum" /> <img src="https://assets.wealthfolio.app/images/screenshots/networth/dashboard-dark.png" class="hidden h-auto w-full dark:block" loading="lazy" decoding="async" alt="The Net Worth dashboard: breakdown of assets and liabilities, velocity, and momentum" />
@@ -173,6 +100,10 @@ Switch to the **Net Worth** tab at the top of the home view for your full financ
 ### Spending
 
 New in 3.5: track day-to-day cash flow alongside your investments. Categorize transactions, build budgets, and read narrative spending insights. See the <a href="/docs/guide/spending-budgets/" class="font-medium underline underline-offset-4">Spending &amp; Budgets</a> guide.
+
+The Spending tab’s period buttons are 1W, This month, 3M, 6M, YTD, and 1Y. To see how this period compares with the one before, turn on **Compare to prior period** in the tab’s ⋯ menu. Last period’s bars then sit beside this period’s, and the tooltip shows both date ranges and the difference. Click either bar to open its transactions.
+
+Spending insights are on the **Spending** tab of **Insights**, next to Overview, Performance, and Income. The tab shows only when spending is turned on.
 
 ### Goal Progress
 
@@ -184,7 +115,7 @@ If you’ve configured savings goals or a retirement target (<a href="/docs/guid
 
 ### Income Dashboard
 
-Tucked into the **Income** page from the sidebar: dividend and interest income by period, with breakdowns by account and asset.
+Tucked into the **Income** tab of **Insights**: dividend and interest income by period, with breakdowns by account and asset.
 
 <figure class="not-prose my-6">
 <img src="https://assets.wealthfolio.app/images/screenshots/income/summary.png" class="block h-auto w-full dark:hidden" loading="lazy" decoding="async" alt="The Income dashboard: dividends and interest over time" /> <img src="https://assets.wealthfolio.app/images/screenshots/income/summary-dark.png" class="hidden h-auto w-full dark:block" loading="lazy" decoding="async" alt="The Income dashboard: dividends and interest over time" />
@@ -197,14 +128,16 @@ Tucked into the **Income** page from the sidebar: dividend and interest income b
 
 The ”%” on the dashboard and account rows is **MWR** (money-weighted return) by default. It captures the impact of your timing decisions. The total portfolio also shows TWR when you drill into **Performance**.
 
+**Insights → Performance** gives each number its own tile: the return, the money-weighted return, volatility, maximum drawdown, and the gain or loss. Annualized return shows only for ranges of a year or more. A value that can’t be worked out reads N/A, and the ⚠ button beside it says why. Compare two or more items and a **Compared series** table appears under the chart: click a name to make it the main line, or hide a line without removing it.
+
 If you’ve never thought about TWR vs. MWR, the <a href="/docs/concepts/performance-metrics/" class="font-medium underline underline-offset-4">Performance Metrics</a> concept doc explains both with worked examples.
 
 ------------------------------------------------------------------------
 
 ## 3 · Date range and base currency
 
-- **Date range** (top-right of the dashboard) controls all the charts and change percentages.
-- **Base currency** (Settings → Preferences) controls what currency every total is converted to. Changing it doesn’t move any data; only the display conversion.
+- **Date range** (the period buttons under the chart) controls the chart and the change figures. It’s shared with the Net Worth and Spending tabs and with Insights’ Spending and Performance tabs.
+- **Base currency** (Settings → General) controls what currency every total is converted to. Changing it doesn’t move any data; only the display conversion.
 
 ------------------------------------------------------------------------
 
@@ -213,13 +146,10 @@ If you’ve never thought about TWR vs. MWR, the <a href="/docs/concepts/perform
 Start with the <a href="/docs/guide/health-center/" class="font-medium underline underline-offset-4">Health Center</a>. It flags negative cash, stale quotes, and suspect spikes that often explain “why did this jump.” If you can’t find the cause, the <a href="/docs/faq/#performance-metrics" class="font-medium underline underline-offset-4">FAQ</a> walks through the common “why does my number look wrong” cases.
 
 
-------------------------------------------------------------------------
+<a href="/docs/concepts/market-data-and-fx/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Market Data &amp; FX</a> <a href="/docs/guide/activities/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Activities</a>
 
 
-<a href="/docs/concepts/market-data-and-fx/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Market Data &amp; FX</a> <a href="/docs/guide/activities/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Activities</a>
-
-
-On This Page
+On this page
 
 - <a href="#1--the-cards" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · The cards</a>
   - <a href="#total-portfolio-value" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Total Portfolio Value</a>

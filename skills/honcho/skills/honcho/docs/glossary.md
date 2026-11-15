@@ -4,72 +4,124 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Terminology
+# Architecture & Intuition
 
-> Glossary of AI and Honcho Specific Terms
+> Understanding Honcho's core concepts and data model.
 
-## AI Development Basics
+Honcho is memory infrastructure that continuously [*reasons*](https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md) about data to build rich representations of peers (users, agents, or any entity) over time. This document explains the data model, system components, and how data flows through Honcho.
 
-Essential terms for developers new to building AI applications.
+## Data Model
 
-#### LLM (Large Language Model)
+Honcho has a hierarchical data model centered around the entities below.
 
-The AI model that generates text responses, like GPT-4, Claude, or Llama. Think of it as the "brain" that powers your chatbot or AI assistant.
+```mermaid theme={null}
+ graph LR
+      W[Workspaces] -->|have| P[Peers]
+      W -->|have| S[Sessions]
 
-#### Prompt
+      S -->|have| SM[Messages]
 
-The text you send to an AI model to get a response. This includes user messages, system instructions, and any context you provide.
+      P <-.->|many-to-many| S
 
-#### Token
+      style W fill:#B6DBFF,stroke:#333,color:#000
+      style P fill:#B6DBFF,stroke:#333,color:#000
+      style S fill:#B6DBFF,stroke:#333,color:#000
+      style SM fill:#B6DBFF,stroke:#333,color:#000
+```
 
-How AI models count and limit text. Roughly 1 token = 0.75 words. Models have token limits (like 4,000 or 128,000 tokens) that determine how much text they can process at once.
+* A Workspace has Peers & Sessions
+* A Peer can be in multiple Sessions and can send Messages in a Session
+* A Session can have many Peers and stores Messages sent by its Peers
 
-#### Context Window
+### &#x20;Workspaces
 
-The maximum amount of text an AI model can "remember" in one conversation. Once you exceed this limit, the model starts "forgetting" earlier parts of the conversation.
+Workspaces are the top-level containers in Honcho. They provide complete isolation between different applications or environments, essentially serving as a namespace to keep different workloads separate. You might use separate workspaces for development, staging, and production environments, or to isolate different product lines. They also enable multi-tenant SaaS applications where each customer gets their own isolated workspace with complete data separation.
 
-#### Embedding
+Authentication is issued at the workspace level, and configuration settings can be applied workspace-wide to control behavior across all peers and sessions within that workspace.
 
-Converting text into numerical vectors that computers can understand and compare. Enables "smart search" that finds similar content based on meaning, not just keywords.
+***
 
-#### Semantic Search
+### &#x20;Peers
 
-Search based on meaning rather than exact keyword matching, often using embeddings.
+Peers are the most important entity in Honcho--everything revolves around building and maintaining their [*representations*](https://honcho.dev/docs/v3/documentation/core-concepts/representation.md). A peer represents any individual user, agent, or entity in a workspace. Treating humans and agents the same way lets you build arbitrary combinations for multi-agent or group chat scenarios.
 
-#### Agent
+Each peer has a unique identifier within a workspace and is a container for reasoning across all their sessions. This cross-session context means conclusions drawn about a peer in one session can inform interactions in completely different sessions. Peers can be configured to control whether Honcho reasons about them.
 
-An AI system that can take actions and make decisions, not just generate text responses. Agents can use tools, call APIs, and interact with external systems.
+You can use peers for any entity that persists over time--individual users in chatbot applications, AI agents interacting with users or other agents, customer profiles in support systems, student profiles in educational platforms, or even NPCs in role-playing games.
 
-## Honcho Terms
+***
 
-#### Global Representation
+### &#x20;Sessions
 
-Derived context of a specific peer, synthesizing insights from interactions across all sessions, including arbitrary data ingested by this specific peer. With arbitrary data, a global representation can be made independent of sessions.
+Sessions represent interaction threads or contexts between peers. A session can involve multiple peers and provides temporal boundaries for when a set of interactions starts and ends. This lets you confine context and memory to specific interactions while still maintaining longer-term peer representations that span sessions.
 
-#### Local Representation
+Use sessions for things like support tickets, meeting transcripts, learning sessions, or conversations. You can also use single-peer sessions as a way to import external data--create a session with just one peer and structure emails, documents, or files as messages to enrich that peer's representation.
 
-One peer's persistent context of another based on observed interactions/messages.
+Session-level configuration gives you fine-grained control over perspective-taking behavior. You can configure whether a peer should form representations of other peers in the session, and whether other peers should form representations of them.
 
-## Cognitive Science Terms
+Sessions are also the unit of visibility: when one peer's history spans contexts that shouldn't inform each other, you can group sessions into named [scopes](https://honcho.dev/docs/v3/documentation/features/advanced/scopes.md) that bound recall to just those sessions.
 
-Cognitive science terms that are used throughout the inspiration and
-implementation of Honcho
+***
 
-#### Theory of Mind
+### &#x20;Messages
 
-The ability of a computer to understand, remember, and interact with its own mind, enabling it to form representations of the world and make decisions based on its own knowledge and behavior.
+Messages are the fundamental units of interaction within sessions. While they typically represent back-and-forth communication between peers, you can also use messages to ingest any information that provides context--emails, documents, files, user actions, system notifications, or rich media content.
 
-#### Social Cognition
+Every message is attributed to a specific peer and ordered chronologically within its session. When messages are created, they trigger automatic background reasoning that updates peer representations. Messages support rich metadata and structured data through JSONB fields, making them flexible enough to capture whatever information matters for your use case.
 
-The mental processes by which we perceive, interpret, and respond to information about others and social situations. It includes the encoding, storage, retrieval, and application of social knowledge.
+## Data Flow
 
-#### Cognitive Architecture
+Understanding how data moves through Honcho helps clarify the architecture.
 
-In CogSci, frameworks describing fixed structures & mechanisms underlying human cognition. Such frameworks aim to explain how various components of the mind—perception, memory, reasoning, learning, etc—combine to produce intelligent behavior across diverse environments. In AI, it’s a computational implementation of these theories—a designed framework to replicate human cognitive functions.
+When you create messages, they're immediately written to PostgreSQL and reasoning tasks are added to background queues. Background workers then generate logic, summaries, and new insights to improve representations. These conclusions and insights get stored in vector collections for retrieval. This async approach ensures fast writes while still providing rich reasoning capabilities.
 
-#### Predictive Coding
+When you need context from Honcho, you query through the "Chat" endpoint or "Get Context" endpoint. Honcho retrieves relevant conclusions from vector storage along with recent messages, then assembles everything into coherent context ready to inject into agent prompts.
 
-A theory in CogSci proposing the brain is an active prediction machine, continually generating & updating internal world models to anticipate sensory input, rather than passively receiving it—closely linked to Bayesian brain hypotheses, which hold that the brain interprets the world probabilistically, weighing prior knowledge against new evidence to minimize uncertainty.
+![Honcho Architecture](https://mintcdn.com/plasticlabs/Pwe1D9IEDkAtnMKn/images/architecture.png?fit=max\&auto=format\&n=Pwe1D9IEDkAtnMKn\&q=85\&s=8be3896689d78b60a46c501529d32267)
+
+The diagram above shows how agents write messages to Honcho, which triggers reasoning that updates peer representations. Agents can then query representations to get additional context for their next response. Black arrows represent read/write of regular data (messages, storage), while red arrows represent read/write of reasoned-over data (logic, peer representations).
+
+### Under the Hood: Write, Reasoning, and Query Paths
+
+Honcho runs as two cooperating processes: an **API server** that handles requests and enqueues background work, and a **worker** that consumes that work off the queue. This split is what keeps the write path fast--your request never waits on an LLM call.
+
+![Honcho Detailed Internals](https://mintcdn.com/plasticlabs/qjcsnDqFA7-efarp/images/honcho-system-diagram.png?fit=max\&auto=format\&n=qjcsnDqFA7-efarp\&q=85\&s=163754c1a0038feeea6a6d6f8a35d5a1)
+
+**Write path (synchronous).** A message is stored and a reasoning task is enqueued in the same request; the API returns immediately. Nothing about the reasoning that follows blocks the caller.
+
+**Deriver + Summarizer (async, per-message).** The worker picks up queued tasks. The Deriver reads new messages and extracts conclusions about the peer--explicit statements and direct deductions. In parallel, the Summarizer periodically rolls up recent messages into short- and long-form session summaries. Both run per-message rather than on a schedule.
+
+**Dreamer (periodic).** On a schedule (or triggered on demand), the Dreamer revisits existing conclusions to consolidate and deepen them: removing redundant or stale ones, drawing inductive conclusions across patterns that span multiple messages, and updating peer cards--compact biographical summaries of a peer. This is where memory gets richer over time, not just larger.
+
+**Query path (Dialectic).** A `chat()` call spawns a Dialectic agent that answers your question by exploring memory--searching conclusions semantically, pulling supporting messages, and tracing a conclusion back to the premises it was drawn from--before synthesizing a grounded answer. This all happens inline during the request, since answering well is worth the latency that write-path reasoning is designed to avoid.
+
+The same agent runs in two shapes. `peer.chat()` is anchored to one (observer, observed) pair and prefetches the conclusions relevant to the query, so it can often answer from that context alone. `honcho.chat()` has no anchor peer: it prefetches workspace stats and the most active peers' cards as a routing aid, is required to search before answering, and then reads memory pair by pair with `[observer->observed]` attribution. See [Workspace Chat](https://honcho.dev/docs/v3/documentation/features/chat.md#workspace-chat).
+
+## Configuration & Extensibility
+
+Honcho is designed to be flexible. Settings cascade hierarchically from workspace to peer to session, so you can set defaults at the workspace level and override them for specific peers or sessions. Feature flags let you enable or disable reasoning modes, perspective tracking, and other capabilities. You can bring your own LLM provider--OpenAI, Anthropic, or custom endpoints--and metadata fields let you extend any primitive with custom JSON data. Batch operations let you create up to 100 messages in a single API call for efficient bulk ingestion.
+
+## Design Principles
+
+Honcho's architecture follows a few core principles. Everything revolves around building representations of peers (peer-centric). Memory isn't just storage--it's continual learning (reasoning-first). Long-lived operations happen in the background so they don't block user interactions (async by default). The system works with any LLM provider (provider-agnostic) and is built for isolation and scalability from the ground up (multi-tenant). Users and agents are both represented as peers, which enables flexible scenarios you couldn't easily model with a traditional user-assistant paradigm (unified paradigm).
+
+## Next Steps
+
+> [card] [Get an API Key](https://app.honcho.dev)
+>
+> Sign up for the Honcho platform and start building
+
+> [card] [Quickstart](https://honcho.dev/docs/v3/documentation/introduction/quickstart.md)
+>
+> Get started with your first integration
+
+> [card] [Reasoning](https://honcho.dev/docs/v3/documentation/core-concepts/reasoning.md)
+>
+> Learn how Honcho reasons about messages to build memory
+
+> [card] [Peer Representations](https://honcho.dev/docs/v3/documentation/core-concepts/representation.md)
+>
+> Understand what peer representations are and how they work
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

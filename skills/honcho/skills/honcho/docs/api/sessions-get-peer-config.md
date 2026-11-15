@@ -6,66 +6,72 @@
 
 # Get Peer Config
 
-> Get the configuration for a peer in a session
+> Get the configuration for a Peer in a Session.
+
+Member-read lets a peer-scoped key reach this route, but a peer may only
+read its own per-session config — not a co-member's. Workspace/admin and
+session-scoped tokens (which already span the whole session) are unaffected.
 
 
 ## OpenAPI
 
-````yaml get /v2/workspaces/{workspace_id}/sessions/{session_id}/peers/{peer_id}/config
+````yaml get /v3/workspaces/{workspace_id}/sessions/{session_id}/peers/{peer_id}/config
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/sessions/{session_id}/peers/{peer_id}/config:
+  /v3/workspaces/{workspace_id}/sessions/{session_id}/peers/{peer_id}/config:
     get:
       tags:
         - sessions
       summary: Get Peer Config
-      description: Get the configuration for a peer in a session
+      description: >-
+        Get the configuration for a Peer in a Session.
+
+
+        Member-read lets a peer-scoped key reach this route, but a peer may only
+
+        read its own per-session config — not a co-member's. Workspace/admin and
+
+        session-scoped tokens (which already span the whole session) are
+        unaffected.
       operationId: >-
-        get_peer_config_v2_workspaces__workspace_id__sessions__session_id__peers__peer_id__config_get
+        get_peer_config_v3_workspaces__workspace_id__sessions__session_id__peers__peer_id__config_get
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
         - name: session_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the session
             title: Session Id
-          description: ID of the session
         - name: peer_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the peer
             title: Peer Id
-          description: ID of the peer
       responses:
         '200':
           description: Successful Response
@@ -91,8 +97,8 @@ components:
             - type: 'null'
           title: Observe Me
           description: >-
-            Whether honcho should form a global theory-of-mind representation of
-            this peer
+            Whether Honcho will use reasoning to form a representation of this
+            peer
         observe_others:
           anyOf:
             - type: boolean
@@ -127,6 +133,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

@@ -59,7 +59,7 @@ See [examples/extensions/](https://github.com/earendil-works/pi/blob/main/packag
 
 ## Table of Contents
 
-<a href="#table-of-contents" class="heading-anchor" aria-label="Permalink: Table of Contents" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#table-of-contents"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#table-of-contents" class="heading-anchor" aria-label="Permalink: Table of Contents" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#table-of-contents"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - [Quick Start](#quick-start)
@@ -95,7 +95,7 @@ See [examples/extensions/](https://github.com/earendil-works/pi/blob/main/packag
 
 ## Quick Start
 
-<a href="#quick-start" class="heading-anchor" aria-label="Permalink: Quick Start" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#quick-start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#quick-start" class="heading-anchor" aria-label="Permalink: Quick Start" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#quick-start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Create `~/.pi/agent/extensions/my-extension.ts`:
@@ -155,7 +155,7 @@ pi -e ./my-extension.ts
 
 ## Extension Locations
 
-<a href="#extension-locations" class="heading-anchor" aria-label="Permalink: Extension Locations" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#extension-locations"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#extension-locations" class="heading-anchor" aria-label="Permalink: Extension Locations" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#extension-locations"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 > **Security:** Extensions run with your full system permissions and can execute arbitrary code. Only install from sources you trust.
@@ -188,12 +188,12 @@ Additional paths via `settings.json`:
 ```
 
 
-Settings also accept built-in extensions as `builtin:<name>` entries; see [Settings](/docs/latest/settings#resources). To share extensions via npm or git as Pi packages, see [packages.md](/docs/latest/packages).
+Settings also accept built-in extensions as `builtin:<name>` entries; see [Settings](/latest/latest/settings#resources). To share extensions via npm or git as Pi packages, see [packages.md](/latest/latest/packages).
 
 
 ## Available Imports
 
-<a href="#available-imports" class="heading-anchor" aria-label="Permalink: Available Imports" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#available-imports"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#available-imports" class="heading-anchor" aria-label="Permalink: Available Imports" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#available-imports"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Package | Purpose |
@@ -209,12 +209,12 @@ Pi maps these imports to its own copies, so extensions share Pi's classes and re
 
 npm dependencies work too. Add a `package.json` next to your extension (or in a parent directory), run `npm install`, and imports from `node_modules/` are resolved automatically.
 
-For distributed Pi packages installed with `pi install` (npm or git), runtime deps must be in `dependencies`; `devDependencies` are not installed. Do not list the host-provided packages above in `dependencies`. See [Declare dependencies](/docs/latest/packages#declare-dependencies).
+For distributed Pi packages installed with `pi install` (npm or git), runtime deps must be in `dependencies`; `devDependencies` are not installed. Do not list the host-provided packages above in `dependencies`. See [Declare dependencies](/latest/latest/packages#declare-dependencies).
 
 
 ### Tool parameter schemas and TypeBox
 
-<a href="#tool-parameter-schemas-and-typebox" class="heading-anchor" aria-label="Permalink: Tool parameter schemas and TypeBox" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#tool-parameter-schemas-and-typebox"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#tool-parameter-schemas-and-typebox" class="heading-anchor" aria-label="Permalink: Tool parameter schemas and TypeBox" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool-parameter-schemas-and-typebox"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Pi validates tool arguments as JSON Schema with `@earendil-works/pi-schema`, whatever built the schema; TypeBox schemas are JSON Schema and work unchanged. Before validation, loosely typed arguments are coerced: numeric strings to numbers, `"true"` to `true`, a single value to a one-item array, `null` in an optional property dropped. TypeBox features outside JSON Schema do not apply to tool arguments:
@@ -232,7 +232,7 @@ Node.js built-ins (`node:fs`, `node:path`, etc.) are also available.
 
 ## Writing an Extension
 
-<a href="#writing-an-extension" class="heading-anchor" aria-label="Permalink: Writing an Extension" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#writing-an-extension"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#writing-an-extension" class="heading-anchor" aria-label="Permalink: Writing an Extension" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#writing-an-extension"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 An extension exports a default factory function that receives `ExtensionAPI`. The factory can be synchronous or asynchronous:
@@ -267,7 +267,7 @@ If the factory returns a `Promise`, Pi awaits it before continuing startup. That
 
 ### Async factory functions
 
-<a href="#async-factory-functions" class="heading-anchor" aria-label="Permalink: Async factory functions" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#async-factory-functions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#async-factory-functions" class="heading-anchor" aria-label="Permalink: Async factory functions" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#async-factory-functions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Use an async factory for one-time startup work such as fetching remote configuration or dynamically discovering available models.
@@ -310,7 +310,7 @@ This pattern makes the fetched models available during normal startup and to `pi
 
 ### Long-lived resources and shutdown
 
-<a href="#long-lived-resources-and-shutdown" class="heading-anchor" aria-label="Permalink: Long-lived resources and shutdown" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#long-lived-resources-and-shutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#long-lived-resources-and-shutdown" class="heading-anchor" aria-label="Permalink: Long-lived resources and shutdown" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#long-lived-resources-and-shutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Extension factories may run in invocations that never start a session. Do not start background resources such as processes, sockets, file watchers, or timers from the factory.
@@ -320,7 +320,7 @@ Defer background resource startup until `session_start` or the command/tool/even
 
 ### Extension Styles
 
-<a href="#extension-styles" class="heading-anchor" aria-label="Permalink: Extension Styles" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#extension-styles"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#extension-styles" class="heading-anchor" aria-label="Permalink: Extension Styles" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#extension-styles"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 **Single file** - simplest, for small extensions:
@@ -378,12 +378,12 @@ Run `npm install` in the extension directory, then imports from `node_modules/` 
 
 ## Events
 
-<a href="#events" class="heading-anchor" aria-label="Permalink: Events" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#events" class="heading-anchor" aria-label="Permalink: Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ### Lifecycle Overview
 
-<a href="#lifecycle-overview" class="heading-anchor" aria-label="Permalink: Lifecycle Overview" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#lifecycle-overview"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#lifecycle-overview" class="heading-anchor" aria-label="Permalink: Lifecycle Overview" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#lifecycle-overview"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A prompt starts a run. Input handling comes first:
@@ -488,7 +488,7 @@ Other operations change the current session without replacing the runtime:
 
 ### Handler Composition
 
-<a href="#handler-composition" class="heading-anchor" aria-label="Permalink: Handler Composition" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#handler-composition"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#handler-composition" class="heading-anchor" aria-label="Permalink: Handler Composition" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#handler-composition"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Handlers run in extension load order, then registration order. Some events notify; others transform data, replace results, or cancel an operation:
@@ -507,12 +507,12 @@ Notification handlers should not perform slow work on a streaming event. Transfo
 
 ### Startup Events
 
-<a href="#startup-events" class="heading-anchor" aria-label="Permalink: Startup Events" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#startup-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#startup-events" class="heading-anchor" aria-label="Permalink: Startup Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#startup-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 #### project_trust
 
-<a href="#project_trust" class="heading-anchor" aria-label="Permalink: project_trust" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#project_trust"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#project_trust" class="heading-anchor" aria-label="Permalink: project_trust" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#project_trust"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired before Pi decides whether to trust a project with dynamic configs (`.pi` or `.agents/skills`). It runs during startup and when session replacement (for example `/resume`) enters a cwd whose trust has not been resolved in the current process. Only user/global extensions and CLI `-e` extensions participate; project-local extensions are not loaded until after trust is resolved.
@@ -535,12 +535,12 @@ A `project_trust` handler must return `{ trusted: "yes" | "no" | "undecided" }`.
 
 ### Resource Events
 
-<a href="#resource-events" class="heading-anchor" aria-label="Permalink: Resource Events" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#resource-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#resource-events" class="heading-anchor" aria-label="Permalink: Resource Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#resource-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 #### resources_discover
 
-<a href="#resources_discover" class="heading-anchor" aria-label="Permalink: resources_discover" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#resources_discover"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#resources_discover" class="heading-anchor" aria-label="Permalink: resources_discover" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#resources_discover"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired after `session_start` so extensions can contribute additional skill, prompt, and theme paths. The startup path uses `reason: "startup"`. Reload uses `reason: "reload"`.
@@ -561,7 +561,7 @@ pi.on("resources_discover", async (event, _ctx) => {
 
 #### mcp_servers_change
 
-<a href="#mcp_servers_change" class="heading-anchor" aria-label="Permalink: mcp_servers_change" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#mcp_servers_change"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#mcp_servers_change" class="heading-anchor" aria-label="Permalink: mcp_servers_change" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#mcp_servers_change"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when an extension registers or unregisters an MCP server after extensions are bound. `event.servers` lists every registered server after the change. Handling this event marks the extension as the one that connects registered servers; see [MCP Servers](#mcp-servers).
@@ -569,15 +569,15 @@ Fired when an extension registers or unregisters an MCP server after extensions 
 
 ### Session Events
 
-<a href="#session-events" class="heading-anchor" aria-label="Permalink: Session Events" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#session-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session-events" class="heading-anchor" aria-label="Permalink: Session Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-See [Session Format](/docs/latest/session-format) for session storage internals and the SessionManager API.
+See [Session Format](/latest/latest/session-format) for session storage internals and the SessionManager API.
 
 
 #### session_start
 
-<a href="#session_start" class="heading-anchor" aria-label="Permalink: session_start" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#session_start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_start" class="heading-anchor" aria-label="Permalink: session_start" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when a session is started, loaded, or reloaded.
@@ -594,7 +594,7 @@ pi.on("session_start", async (event, ctx) => {
 
 #### session_info_changed
 
-<a href="#session_info_changed" class="heading-anchor" aria-label="Permalink: session_info_changed" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#session_info_changed"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_info_changed" class="heading-anchor" aria-label="Permalink: session_info_changed" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_info_changed"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when the current session display name is set via `/name`, RPC, or `pi.setSessionName()`.
@@ -610,7 +610,7 @@ pi.on("session_info_changed", async (event, ctx) => {
 
 #### session_before_switch
 
-<a href="#session_before_switch" class="heading-anchor" aria-label="Permalink: session_before_switch" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#session_before_switch"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_before_switch" class="heading-anchor" aria-label="Permalink: session_before_switch" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_before_switch"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired before starting a new session (`/new`) or switching sessions (`/resume`).
@@ -634,7 +634,7 @@ After a successful switch or new-session action, Pi emits `session_shutdown` for
 
 #### session_before_fork
 
-<a href="#session_before_fork" class="heading-anchor" aria-label="Permalink: session_before_fork" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#session_before_fork"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_before_fork" class="heading-anchor" aria-label="Permalink: session_before_fork" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_before_fork"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when forking via `/fork` or cloning via `/clone`.
@@ -656,10 +656,10 @@ After a successful fork or clone, Pi emits `session_shutdown` for the old extens
 
 #### session_before_compact / session_compact / session_compact_failed
 
-<a href="#session_before_compact--session_compact--session_compact_failed" class="heading-anchor" aria-label="Permalink: session_before_compact / session_compact / session_compact_failed" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#session_before_compact--session_compact--session_compact_failed"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_before_compact--session_compact--session_compact_failed" class="heading-anchor" aria-label="Permalink: session_before_compact / session_compact / session_compact_failed" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_before_compact--session_compact--session_compact_failed"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Fired on compaction. See [compaction.md](/docs/latest/compaction) for details.
+Fired on compaction. See [compaction.md](/latest/latest/compaction) for details.
 
 
 ``` shiki
@@ -702,10 +702,10 @@ pi.on("session_compact_failed", async (event, ctx) => {
 
 #### session_before_tree / session_tree
 
-<a href="#session_before_tree--session_tree" class="heading-anchor" aria-label="Permalink: session_before_tree / session_tree" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#session_before_tree--session_tree"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_before_tree--session_tree" class="heading-anchor" aria-label="Permalink: session_before_tree / session_tree" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_before_tree--session_tree"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Fired on `/tree` navigation. See [Sessions](/docs/latest/sessions) for tree navigation concepts.
+Fired on `/tree` navigation. See [Sessions](/latest/latest/sessions) for tree navigation concepts.
 
 
 ``` shiki
@@ -733,7 +733,7 @@ pi.on("session_tree", async (event, ctx) => {
 
 #### session_shutdown
 
-<a href="#session_shutdown" class="heading-anchor" aria-label="Permalink: session_shutdown" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#session_shutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session_shutdown" class="heading-anchor" aria-label="Permalink: session_shutdown" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_shutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired before a started session runtime is torn down. Use this to clean up resources opened from `session_start` or other session-scoped hooks.
@@ -750,12 +750,12 @@ pi.on("session_shutdown", async (event, ctx) => {
 
 ### Agent Events
 
-<a href="#agent-events" class="heading-anchor" aria-label="Permalink: Agent Events" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#agent-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#agent-events" class="heading-anchor" aria-label="Permalink: Agent Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#agent-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 #### before_agent_start
 
-<a href="#before_agent_start" class="heading-anchor" aria-label="Permalink: before_agent_start" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#before_agent_start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#before_agent_start" class="heading-anchor" aria-label="Permalink: before_agent_start" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#before_agent_start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired before a run starts, after input handling and expansion. Can inject a message and/or modify the system prompt.
@@ -807,7 +807,7 @@ Inside `before_agent_start`, `event.systemPrompt` and `ctx.getSystemPrompt()` bo
 
 #### agent_start / agent_end / agent_before_settle / agent_settled
 
-<a href="#agent_start--agent_end--agent_before_settle--agent_settled" class="heading-anchor" aria-label="Permalink: agent_start / agent_end / agent_before_settle / agent_settled" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#agent_start--agent_end--agent_before_settle--agent_settled"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#agent_start--agent_end--agent_before_settle--agent_settled" class="heading-anchor" aria-label="Permalink: agent_start / agent_end / agent_before_settle / agent_settled" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#agent_start--agent_end--agent_before_settle--agent_settled"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `agent_start` fires when a low-level agent run begins. `agent_end` fires when that run ends, but Pi may still auto-retry, auto-compact and retry, or continue with queued follow-up messages. `agent_before_settle` is the final actionable boundary: it can append session entries and request one continuation. `agent_settled` is final and notification-only; use it for status integrations that need to know Pi will not continue running automatically.
@@ -847,7 +847,7 @@ If the run is aborted while `agent_before_settle` handlers are running, valid re
 
 #### ui_prompt_start / ui_prompt_end
 
-<a href="#ui_prompt_start--ui_prompt_end" class="heading-anchor" aria-label="Permalink: ui_prompt_start / ui_prompt_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ui_prompt_start--ui_prompt_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ui_prompt_start--ui_prompt_end" class="heading-anchor" aria-label="Permalink: ui_prompt_start / ui_prompt_end" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ui_prompt_start--ui_prompt_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Notification-only lifecycle events for blocking user-facing extension UI prompts. They fire around `ctx.ui.select()`, `ctx.ui.confirm()`, `ctx.ui.input()`, `ctx.ui.editor()`, and `ctx.ui.custom()` so host/status integrations can report "waiting for user" instead of just "running".
@@ -870,7 +870,7 @@ pi.on("ui_prompt_end", async (event, ctx) => {
 
 #### turn_start / turn_end
 
-<a href="#turn_start--turn_end" class="heading-anchor" aria-label="Permalink: turn_start / turn_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#turn_start--turn_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#turn_start--turn_end" class="heading-anchor" aria-label="Permalink: turn_start / turn_end" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#turn_start--turn_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired for each turn (one LLM response + tool calls).
@@ -913,7 +913,7 @@ Host integrations that construct `TurnEndEvent` values must provide `messageEntr
 
 #### message_start / message_update / message_end
 
-<a href="#message_start--message_update--message_end" class="heading-anchor" aria-label="Permalink: message_start / message_update / message_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#message_start--message_update--message_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#message_start--message_update--message_end" class="heading-anchor" aria-label="Permalink: message_start / message_update / message_end" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#message_start--message_update--message_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired for message lifecycle updates.
@@ -954,7 +954,7 @@ pi.on("message_end", async (event, ctx) => {
 
 #### tool_execution_start / tool_execution_update / tool_execution_end
 
-<a href="#tool_execution_start--tool_execution_update--tool_execution_end" class="heading-anchor" aria-label="Permalink: tool_execution_start / tool_execution_update / tool_execution_end" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#tool_execution_start--tool_execution_update--tool_execution_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#tool_execution_start--tool_execution_update--tool_execution_end" class="heading-anchor" aria-label="Permalink: tool_execution_start / tool_execution_update / tool_execution_end" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool_execution_start--tool_execution_update--tool_execution_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired for tool execution lifecycle updates.
@@ -988,10 +988,10 @@ All three events, `tool_call`, and `tool_result` carry `parentToolCallId` when a
 
 #### context
 
-<a href="#context" class="heading-anchor" aria-label="Permalink: context" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#context"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#context" class="heading-anchor" aria-label="Permalink: context" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#context"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Fired before each LLM call. Modify messages non-destructively. See [Session Format](/docs/latest/session-format) for message types.
+Fired before each LLM call. Modify messages non-destructively. See [Session Format](/latest/latest/session-format) for message types.
 
 
 ``` shiki
@@ -1008,10 +1008,10 @@ pi.on("context", async (event, ctx) => {
 
 #### context_with_system
 
-<a href="#context_with_system" class="heading-anchor" aria-label="Permalink: context_with_system" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#context_with_system"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#context_with_system" class="heading-anchor" aria-label="Permalink: context_with_system" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#context_with_system"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Fired before each LLM call, after every `context` handler has run and Pi has restored the prompt and tool state. `event.messages` is the full transcript, including the leading system message and any mid-conversation prompt or tool patches (see [Session Format](/docs/latest/session-format#sessionmessageentry)). The returned messages are sent as they are: this hook owns the prompt and tool declarations for the request.
+Fired before each LLM call, after every `context` handler has run and Pi has restored the prompt and tool state. `event.messages` is the full transcript, including the leading system message and any mid-conversation prompt or tool patches (see [Session Format](/latest/latest/session-format#sessionmessageentry)). The returned messages are sent as they are: this hook owns the prompt and tool declarations for the request.
 
 
 ``` shiki
@@ -1031,7 +1031,7 @@ Rules: keep a system message at index 0 (providers read the prompt and initial t
 
 #### before_provider_headers
 
-<a href="#before_provider_headers" class="heading-anchor" aria-label="Permalink: before_provider_headers" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#before_provider_headers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#before_provider_headers" class="heading-anchor" aria-label="Permalink: before_provider_headers" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#before_provider_headers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired after the outgoing HTTP headers are assembled. Use it to add, override, or remove request headers.
@@ -1055,7 +1055,7 @@ Runs once per provider request; retries reuse the same headers rather than re-fi
 
 #### before_provider_request
 
-<a href="#before_provider_request" class="heading-anchor" aria-label="Permalink: before_provider_request" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#before_provider_request"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#before_provider_request" class="heading-anchor" aria-label="Permalink: before_provider_request" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#before_provider_request"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired after the provider-specific payload is built, right before the request is sent. Handlers run in extension load order. Returning `undefined` keeps the payload unchanged. Returning any other value replaces the payload for later handlers and for the actual request.
@@ -1080,7 +1080,7 @@ The payload is the full request. Providers that continue from a previous respons
 
 #### after_provider_response
 
-<a href="#after_provider_response" class="heading-anchor" aria-label="Permalink: after_provider_response" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#after_provider_response"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#after_provider_response" class="heading-anchor" aria-label="Permalink: after_provider_response" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#after_provider_response"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired after an HTTP response is received and before its stream body is consumed. Handlers run in extension load order.
@@ -1102,7 +1102,7 @@ Header availability depends on provider and transport. Providers that abstract H
 
 #### provider_stream_event
 
-<a href="#provider_stream_event" class="heading-anchor" aria-label="Permalink: provider_stream_event" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#provider_stream_event"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#provider_stream_event" class="heading-anchor" aria-label="Permalink: provider_stream_event" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#provider_stream_event"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired for each parsed provider stream event before Pi normalizes it. Notification-only and not persisted.
@@ -1121,7 +1121,7 @@ pi.on("provider_stream_event", (event, ctx) => {
 
 #### cache_warming_decision
 
-<a href="#cache_warming_decision" class="heading-anchor" aria-label="Permalink: cache_warming_decision" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#cache_warming_decision"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#cache_warming_decision" class="heading-anchor" aria-label="Permalink: cache_warming_decision" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#cache_warming_decision"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired before each prompt-cache refresh with Pi's decision filled in. The event carries only Pi's cost estimates; use `ctx.model`, `ctx.isIdle()`, and `ctx.getContextUsage()` for everything else.
@@ -1146,12 +1146,12 @@ Return `{ action: "warm" }` or `{ action: "stop" }` to override; the last handle
 
 ### Model Events
 
-<a href="#model-events" class="heading-anchor" aria-label="Permalink: Model Events" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#model-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#model-events" class="heading-anchor" aria-label="Permalink: Model Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#model-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 #### model_select
 
-<a href="#model_select" class="heading-anchor" aria-label="Permalink: model_select" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#model_select"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#model_select" class="heading-anchor" aria-label="Permalink: model_select" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#model_select"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when the model changes via `/model` command, model cycling (`Ctrl+P`), or `pi.setModel()`. Restoring a session does not fire it; read `ctx.model` in `session_start` to initialize model-dependent state.
@@ -1178,7 +1178,7 @@ Use this to update UI elements (status bars, footers) or perform model-specific 
 
 #### thinking_level_select
 
-<a href="#thinking_level_select" class="heading-anchor" aria-label="Permalink: thinking_level_select" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#thinking_level_select"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#thinking_level_select" class="heading-anchor" aria-label="Permalink: thinking_level_select" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#thinking_level_select"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when the thinking level changes. This is notification-only; handler return values are ignored.
@@ -1199,12 +1199,12 @@ Use this to update extension UI when `pi.setThinkingLevel()`, model changes, or 
 
 ### Tool Events
 
-<a href="#tool-events" class="heading-anchor" aria-label="Permalink: Tool Events" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#tool-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#tool-events" class="heading-anchor" aria-label="Permalink: Tool Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 #### tool_call
 
-<a href="#tool_call" class="heading-anchor" aria-label="Permalink: tool_call" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#tool_call"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#tool_call" class="heading-anchor" aria-label="Permalink: tool_call" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool_call"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired after `tool_execution_start`, before the tool executes. **Can block.** Use `isToolCallEventType` to narrow and get typed inputs.
@@ -1252,7 +1252,7 @@ pi.on("tool_call", async (event, ctx) => {
 
 #### Typing custom tool input
 
-<a href="#typing-custom-tool-input" class="heading-anchor" aria-label="Permalink: Typing custom tool input" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#typing-custom-tool-input"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#typing-custom-tool-input" class="heading-anchor" aria-label="Permalink: Typing custom tool input" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#typing-custom-tool-input"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Custom tools should export their input type:
@@ -1284,7 +1284,7 @@ pi.on("tool_call", (event) => {
 
 #### tool_result
 
-<a href="#tool_result" class="heading-anchor" aria-label="Permalink: tool_result" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#tool_result"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#tool_result" class="heading-anchor" aria-label="Permalink: tool_result" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool_result"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired after tool execution finishes and before `tool_execution_end` plus the final tool result message events are emitted. **Can modify result.**
@@ -1326,12 +1326,12 @@ pi.on("tool_result", async (event, ctx) => {
 
 ### User Bash Events
 
-<a href="#user-bash-events" class="heading-anchor" aria-label="Permalink: User Bash Events" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#user-bash-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#user-bash-events" class="heading-anchor" aria-label="Permalink: User Bash Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#user-bash-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 #### user_bash
 
-<a href="#user_bash" class="heading-anchor" aria-label="Permalink: user_bash" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#user_bash"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#user_bash" class="heading-anchor" aria-label="Permalink: user_bash" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#user_bash"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when user executes `!` or `!!` commands. **Can intercept.**
@@ -1369,12 +1369,12 @@ Returning `undefined` continues to the next handler, then local execution if non
 
 ### Input Events
 
-<a href="#input-events" class="heading-anchor" aria-label="Permalink: Input Events" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#input-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#input-events" class="heading-anchor" aria-label="Permalink: Input Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#input-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 #### input
 
-<a href="#input" class="heading-anchor" aria-label="Permalink: input" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#input"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#input" class="heading-anchor" aria-label="Permalink: input" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#input"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when user input is received, after extension commands are checked but before skill and template expansion. The event sees the raw input text, so `/skill:foo` and `/template` are not yet expanded.
@@ -1431,7 +1431,7 @@ Transforms chain across handlers. See [input-transform.ts](https://github.com/ea
 
 ## ExtensionContext
 
-<a href="#extensioncontext" class="heading-anchor" aria-label="Permalink: ExtensionContext" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#extensioncontext"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#extensioncontext" class="heading-anchor" aria-label="Permalink: ExtensionContext" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#extensioncontext"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 All handlers receive `ctx: ExtensionContext`. Tool `execute()` receives `ExtensionToolContext`, which adds `ctx.tools` and `ctx.executeTool()` (see [Calling Other Tools](#calling-other-tools)). Command handlers receive [`ExtensionCommandContext`](#extensioncommandcontext).
@@ -1439,7 +1439,7 @@ All handlers receive `ctx: ExtensionContext`. Tool `execute()` receives `Extensi
 
 ### ctx.ui
 
-<a href="#ctxui" class="heading-anchor" aria-label="Permalink: ctx.ui" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxui"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxui" class="heading-anchor" aria-label="Permalink: ctx.ui" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxui"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 UI methods for user interaction. See [Custom UI](#custom-ui) for full details.
@@ -1447,7 +1447,7 @@ UI methods for user interaction. See [Custom UI](#custom-ui) for full details.
 
 ### ctx.mode
 
-<a href="#ctxmode" class="heading-anchor" aria-label="Permalink: ctx.mode" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxmode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxmode" class="heading-anchor" aria-label="Permalink: ctx.mode" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxmode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Current run mode: `"tui"`, `"rpc"`, `"json"`, or `"print"`. Use `ctx.mode === "tui"` to guard terminal-only features such as `custom()`, component factories, terminal input, and direct TUI rendering.
@@ -1455,15 +1455,15 @@ Current run mode: `"tui"`, `"rpc"`, `"json"`, or `"print"`. Use `ctx.mode === "t
 
 ### ctx.hasUI
 
-<a href="#ctxhasui" class="heading-anchor" aria-label="Permalink: ctx.hasUI" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxhasui"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxhasui" class="heading-anchor" aria-label="Permalink: ctx.hasUI" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxhasui"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-`true` in TUI and RPC modes. `false` in print mode (`-p`) and JSON mode. Use this to guard dialog methods (`select`, `confirm`, `input`, `editor`) and fire-and-forget methods (`notify`, `setStatus`, `setWidget`, `setTitle`, `setEditorText`) that work in both TUI and RPC modes. In RPC mode, some TUI-specific methods are no-ops or return defaults (see [RPC Extension UI](/docs/latest/rpc-extension-ui)).
+`true` in TUI and RPC modes. `false` in print mode (`-p`) and JSON mode. Use this to guard dialog methods (`select`, `confirm`, `input`, `editor`) and fire-and-forget methods (`notify`, `setStatus`, `setWidget`, `setTitle`, `setEditorText`) that work in both TUI and RPC modes. In RPC mode, some TUI-specific methods are no-ops or return defaults (see [RPC Extension UI](/latest/latest/rpc-extension-ui)).
 
 
 ### ctx.cwd
 
-<a href="#ctxcwd" class="heading-anchor" aria-label="Permalink: ctx.cwd" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxcwd"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxcwd" class="heading-anchor" aria-label="Permalink: ctx.cwd" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxcwd"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Current working directory.
@@ -1486,7 +1486,7 @@ export default function (pi: ExtensionAPI) {
 
 ### ctx.isProjectTrusted()
 
-<a href="#ctxisprojecttrusted" class="heading-anchor" aria-label="Permalink: ctx.isProjectTrusted()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxisprojecttrusted"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxisprojecttrusted" class="heading-anchor" aria-label="Permalink: ctx.isProjectTrusted()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxisprojecttrusted"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Returns whether project-local trust is active for the current session context. This includes temporary trust decisions and CLI trust overrides, not just saved decisions in the global trust store.
@@ -1496,10 +1496,10 @@ Use this before reading project-local extension configuration that should only b
 
 ### ctx.sessionManager
 
-<a href="#ctxsessionmanager" class="heading-anchor" aria-label="Permalink: ctx.sessionManager" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxsessionmanager"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxsessionmanager" class="heading-anchor" aria-label="Permalink: ctx.sessionManager" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxsessionmanager"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Read-only access to session state: `getCwd()`, `getSessionDir()`, `getSessionId()`, `getSessionFile()`, `getSessionName()`, `getHeader()`, `getEntries()`, `getEntry()`, `getBranch()`, `getTree()`, `getLeafId()`, `getLeafEntry()`, `getLabel()`, `buildContextEntries()`, and `buildSessionProjection()`. See [Session Format](/docs/latest/session-format) for entry types.
+Read-only access to session state: `getCwd()`, `getSessionDir()`, `getSessionId()`, `getSessionFile()`, `getSessionName()`, `getHeader()`, `getEntries()`, `getEntry()`, `getBranch()`, `getTree()`, `getLeafId()`, `getLeafEntry()`, `getLabel()`, `buildContextEntries()`, and `buildSessionProjection()`. See [Session Format](/latest/latest/session-format) for entry types.
 
 For `tool_call`, this state is synchronized through the current assistant message before handlers run. In parallel tool execution mode it is still not guaranteed to include sibling tool results from the same assistant message.
 
@@ -1514,7 +1514,7 @@ ctx.sessionManager.getLeafId()              // Current leaf entry ID
 
 ### ctx.modelRegistry / ctx.model / ctx.thinkingLevel / ctx.scopedModels
 
-<a href="#ctxmodelregistry--ctxmodel--ctxthinkinglevel--ctxscopedmodels" class="heading-anchor" aria-label="Permalink: ctx.modelRegistry / ctx.model / ctx.thinkingLevel / ctx.scopedModels" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxmodelregistry--ctxmodel--ctxthinkinglevel--ctxscopedmodels"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxmodelregistry--ctxmodel--ctxthinkinglevel--ctxscopedmodels" class="heading-anchor" aria-label="Permalink: ctx.modelRegistry / ctx.model / ctx.thinkingLevel / ctx.scopedModels" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxmodelregistry--ctxmodel--ctxthinkinglevel--ctxscopedmodels"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Access to models, providers, and resolved authentication. `ctx.modelRegistry.getProvider(id)` returns the effective pi-ai provider, while `getProviderAuth(id)` resolves its current API key, headers, base URL, and provider-scoped environment without requiring a loaded model. `ctx.model` is the active model, and `ctx.thinkingLevel` is its current effective thinking level.
@@ -1524,19 +1524,19 @@ Access to models, providers, and resolved authentication. `ctx.modelRegistry.get
 
 #### Streaming model calls
 
-<a href="#streaming-model-calls" class="heading-anchor" aria-label="Permalink: Streaming model calls" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#streaming-model-calls"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#streaming-model-calls" class="heading-anchor" aria-label="Permalink: Streaming model calls" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#streaming-model-calls"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Use `ctx.modelRegistry.streamSimple(model, context, options)` for provider-neutral options such as `reasoning`, or `complete(model, context, options)` to await the final assistant message with API-specific options. Both use configured providers and resolve authentication, including for providers registered with `pi.registerProvider()`. Use these instead of `pi-ai/compat` streaming functions, which cannot see extension provider registrations.
 
 `streamSimple()` returns an `AssistantMessageEventStream`. Iterate it for response events and await `.result()` for the final message. Setup failures produce error events and error results.
 
-For non-chat models, `findOfType()`, `getModelsOfType()`, `getAvailableOfType()`, and `getModelOfType()` look up image and classifier models, and `classify()` and `generateImages()` call them. See [Use classifier models](/docs/latest/models#use-classifier-models) and [Use image models](/docs/latest/models#use-image-models).
+For non-chat models, `findOfType()`, `getModelsOfType()`, `getAvailableOfType()`, and `getModelOfType()` look up image and classifier models, and `classify()` and `generateImages()` call them. See [Use classifier models](/latest/latest/models#use-classifier-models) and [Use image models](/latest/latest/models#use-image-models).
 
 
 ### ctx.signal
 
-<a href="#ctxsignal" class="heading-anchor" aria-label="Permalink: ctx.signal" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxsignal"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxsignal" class="heading-anchor" aria-label="Permalink: ctx.signal" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxsignal"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The current agent abort signal, or `undefined` when no agent turn is active.
@@ -1566,7 +1566,7 @@ pi.on("tool_result", async (event, ctx) => {
 
 ### ctx.isIdle() / ctx.abort() / ctx.hasPendingMessages()
 
-<a href="#ctxisidle--ctxabort--ctxhaspendingmessages" class="heading-anchor" aria-label="Permalink: ctx.isIdle() / ctx.abort() / ctx.hasPendingMessages()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxisidle--ctxabort--ctxhaspendingmessages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxisidle--ctxabort--ctxhaspendingmessages" class="heading-anchor" aria-label="Permalink: ctx.isIdle() / ctx.abort() / ctx.hasPendingMessages()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxisidle--ctxabort--ctxhaspendingmessages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Control flow helpers. `ctx.isIdle()` is false while Pi is processing an agent run, automatic retry, auto-compaction retry, or queued continuation.
@@ -1574,7 +1574,7 @@ Control flow helpers. `ctx.isIdle()` is false while Pi is processing an agent ru
 
 ### ctx.shutdown()
 
-<a href="#ctxshutdown" class="heading-anchor" aria-label="Permalink: ctx.shutdown()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxshutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxshutdown" class="heading-anchor" aria-label="Permalink: ctx.shutdown()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxshutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Request a graceful shutdown of pi.
@@ -1597,7 +1597,7 @@ pi.on("tool_call", (event, ctx) => {
 
 ### ctx.getContextUsage()
 
-<a href="#ctxgetcontextusage" class="heading-anchor" aria-label="Permalink: ctx.getContextUsage()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxgetcontextusage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxgetcontextusage" class="heading-anchor" aria-label="Permalink: ctx.getContextUsage()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxgetcontextusage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Returns current context usage for the active model. Uses last assistant usage when available, then estimates tokens for trailing messages.
@@ -1613,7 +1613,7 @@ if (usage?.tokens != null && usage.tokens > 100_000) {
 
 ### ctx.compact()
 
-<a href="#ctxcompact" class="heading-anchor" aria-label="Permalink: ctx.compact()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxcompact"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxcompact" class="heading-anchor" aria-label="Permalink: ctx.compact()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxcompact"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Trigger compaction without awaiting completion. Use `onComplete` and `onError` for follow-up actions.
@@ -1634,7 +1634,7 @@ ctx.compact({
 
 ### ctx.getSystemPrompt()
 
-<a href="#ctxgetsystemprompt" class="heading-anchor" aria-label="Permalink: ctx.getSystemPrompt()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxgetsystemprompt"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxgetsystemprompt" class="heading-anchor" aria-label="Permalink: ctx.getSystemPrompt()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxgetsystemprompt"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Returns Pi's current system prompt string.
@@ -1655,7 +1655,7 @@ pi.on("before_agent_start", (event, ctx) => {
 
 ## ExtensionCommandContext
 
-<a href="#extensioncommandcontext" class="heading-anchor" aria-label="Permalink: ExtensionCommandContext" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#extensioncommandcontext"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#extensioncommandcontext" class="heading-anchor" aria-label="Permalink: ExtensionCommandContext" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#extensioncommandcontext"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Command handlers receive `ExtensionCommandContext`, which extends `ExtensionContext` with session control methods. These are only available in commands because they can deadlock if called from event handlers.
@@ -1663,7 +1663,7 @@ Command handlers receive `ExtensionCommandContext`, which extends `ExtensionCont
 
 ### ctx.getSystemPromptOptions()
 
-<a href="#ctxgetsystempromptoptions" class="heading-anchor" aria-label="Permalink: ctx.getSystemPromptOptions()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxgetsystempromptoptions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxgetsystempromptoptions" class="heading-anchor" aria-label="Permalink: ctx.getSystemPromptOptions()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxgetsystempromptoptions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Returns the base inputs Pi currently uses to build the system prompt.
@@ -1682,7 +1682,7 @@ This reports the current base prompt inputs. It does not include per-turn `befor
 
 ### ctx.waitForIdle()
 
-<a href="#ctxwaitforidle" class="heading-anchor" aria-label="Permalink: ctx.waitForIdle()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxwaitforidle"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxwaitforidle" class="heading-anchor" aria-label="Permalink: ctx.waitForIdle()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxwaitforidle"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Wait for the agent to fully settle, including automatic retries, auto-compaction retries, and queued continuations:
@@ -1700,7 +1700,7 @@ pi.registerCommand("my-cmd", {
 
 ### ctx.newSession(options?)
 
-<a href="#ctxnewsessionoptions" class="heading-anchor" aria-label="Permalink: ctx.newSession(options?)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxnewsessionoptions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxnewsessionoptions" class="heading-anchor" aria-label="Permalink: ctx.newSession(options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxnewsessionoptions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Create a new session:
@@ -1740,7 +1740,7 @@ Options:
 
 ### ctx.fork(entryId, options?)
 
-<a href="#ctxforkentryid-options" class="heading-anchor" aria-label="Permalink: ctx.fork(entryId, options?)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxforkentryid-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxforkentryid-options" class="heading-anchor" aria-label="Permalink: ctx.fork(entryId, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxforkentryid-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fork from a specific entry, creating a new session file:
@@ -1773,7 +1773,7 @@ Options:
 
 ### ctx.navigateTree(targetId, options?)
 
-<a href="#ctxnavigatetreetargetid-options" class="heading-anchor" aria-label="Permalink: ctx.navigateTree(targetId, options?)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxnavigatetreetargetid-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxnavigatetreetargetid-options" class="heading-anchor" aria-label="Permalink: ctx.navigateTree(targetId, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxnavigatetreetargetid-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Navigate to a different point in the session tree. Rejects while an agent response, manual or automatic compaction, or another tree navigation is active, even with `summarize: false`. These conflicts leave the active branch unchanged and reject the promise rather than returning `{ cancelled: true }`. Wait for the active operation to finish (for example, with `await ctx.waitForIdle()` in a command handler) and retry. It also rejects when `summarize` is set without an available model, or when the target entry does not exist:
@@ -1799,7 +1799,7 @@ Options:
 
 ### ctx.switchSession(sessionPath, options?)
 
-<a href="#ctxswitchsessionsessionpath-options" class="heading-anchor" aria-label="Permalink: ctx.switchSession(sessionPath, options?)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxswitchsessionsessionpath-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxswitchsessionsessionpath-options" class="heading-anchor" aria-label="Permalink: ctx.switchSession(sessionPath, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxswitchsessionsessionpath-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Switch to a different session file:
@@ -1850,7 +1850,7 @@ pi.registerCommand("switch", {
 
 ### Session replacement lifecycle and footguns
 
-<a href="#session-replacement-lifecycle-and-footguns" class="heading-anchor" aria-label="Permalink: Session replacement lifecycle and footguns" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#session-replacement-lifecycle-and-footguns"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session-replacement-lifecycle-and-footguns" class="heading-anchor" aria-label="Permalink: Session replacement lifecycle and footguns" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session-replacement-lifecycle-and-footguns"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `withSession` receives a fresh `ReplacedSessionContext`, which extends `ExtensionCommandContext` with async `sendMessage()` and `sendUserMessage()` helpers bound to the replacement session.
@@ -1901,7 +1901,7 @@ pi.registerCommand("handoff", {
 
 ### ctx.reload()
 
-<a href="#ctxreload" class="heading-anchor" aria-label="Permalink: ctx.reload()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#ctxreload"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#ctxreload" class="heading-anchor" aria-label="Permalink: ctx.reload()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxreload"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Run the same reload flow as `/reload`.
@@ -1963,12 +1963,12 @@ pi.on("agent_settled", () => {
 
 ## ExtensionAPI Methods
 
-<a href="#extensionapi-methods" class="heading-anchor" aria-label="Permalink: ExtensionAPI Methods" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#extensionapi-methods"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#extensionapi-methods" class="heading-anchor" aria-label="Permalink: ExtensionAPI Methods" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#extensionapi-methods"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ### pi.on(event, handler)
 
-<a href="#pionevent-handler" class="heading-anchor" aria-label="Permalink: pi.on(event, handler)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pionevent-handler"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pionevent-handler" class="heading-anchor" aria-label="Permalink: pi.on(event, handler)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pionevent-handler"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Subscribe to events. Returns an unsubscribe function that removes only that registration. See [Events](#events) for event types and return values.
@@ -1987,7 +1987,7 @@ Handlers run in extension load order, then registration order within each extens
 
 ### pi.registerTool(definition)
 
-<a href="#piregistertooldefinition" class="heading-anchor" aria-label="Permalink: pi.registerTool(definition)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piregistertooldefinition"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piregistertooldefinition" class="heading-anchor" aria-label="Permalink: pi.registerTool(definition)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistertooldefinition"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register a custom tool callable by the LLM. See [Custom Tools](#custom-tools) for full details.
@@ -2037,7 +2037,7 @@ pi.registerTool({
 
 ### pi.sendMessage(message, options?)
 
-<a href="#pisendmessagemessage-options" class="heading-anchor" aria-label="Permalink: pi.sendMessage(message, options?)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pisendmessagemessage-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pisendmessagemessage-options" class="heading-anchor" aria-label="Permalink: pi.sendMessage(message, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pisendmessagemessage-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Inject a custom message into the session. Custom messages participate in LLM context. For durable TUI-only content that should not be sent to the LLM, use [`pi.appendEntry()`](#piappendentrycustomtype-data) with [`pi.registerEntryRenderer()`](#piregisterentryrenderercustomtype-renderer).
@@ -2068,7 +2068,7 @@ pi.sendMessage({
 
 ### pi.sendUserMessage(content, options?)
 
-<a href="#pisendusermessagecontent-options" class="heading-anchor" aria-label="Permalink: pi.sendUserMessage(content, options?)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pisendusermessagecontent-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pisendusermessagecontent-options" class="heading-anchor" aria-label="Permalink: pi.sendUserMessage(content, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pisendusermessagecontent-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Send a user message to the agent. Unlike `sendMessage()` which sends custom messages, this sends an actual user message that appears as if typed by the user. It starts or queues a turn unless an `input` handler handles it or, with `expandPromptTemplates: true`, it runs an extension command.
@@ -2107,7 +2107,7 @@ See [send-user-message.ts](https://github.com/earendil-works/pi/blob/main/packag
 
 ### pi.appendEntry(customType, data?)
 
-<a href="#piappendentrycustomtype-data" class="heading-anchor" aria-label="Permalink: pi.appendEntry(customType, data?)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piappendentrycustomtype-data"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piappendentrycustomtype-data" class="heading-anchor" aria-label="Permalink: pi.appendEntry(customType, data?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piappendentrycustomtype-data"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Persist extension data. Custom entries do NOT participate in LLM context. In interactive mode, they can also render inside the chat transcript when paired with `pi.registerEntryRenderer()`.
@@ -2130,7 +2130,7 @@ pi.on("session_start", async (_event, ctx) => {
 
 ### pi.setSessionName(name)
 
-<a href="#pisetsessionnamename" class="heading-anchor" aria-label="Permalink: pi.setSessionName(name)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pisetsessionnamename"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pisetsessionnamename" class="heading-anchor" aria-label="Permalink: pi.setSessionName(name)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pisetsessionnamename"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Set the session display name (shown in session selector instead of first message).
@@ -2143,7 +2143,7 @@ pi.setSessionName("Refactor auth module");
 
 ### pi.getSessionName()
 
-<a href="#pigetsessionname" class="heading-anchor" aria-label="Permalink: pi.getSessionName()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pigetsessionname"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pigetsessionname" class="heading-anchor" aria-label="Permalink: pi.getSessionName()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pigetsessionname"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get the current session name, if set.
@@ -2159,7 +2159,7 @@ if (name) {
 
 ### pi.setLabel(entryId, label)
 
-<a href="#pisetlabelentryid-label" class="heading-anchor" aria-label="Permalink: pi.setLabel(entryId, label)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pisetlabelentryid-label"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pisetlabelentryid-label" class="heading-anchor" aria-label="Permalink: pi.setLabel(entryId, label)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pisetlabelentryid-label"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Set or clear a label on an entry. Labels are user-defined markers for bookmarking and navigation (shown in `/tree` selector).
@@ -2182,7 +2182,7 @@ Labels persist in the session and survive restarts. Use them to mark important p
 
 ### pi.registerCommand(name, options)
 
-<a href="#piregistercommandname-options" class="heading-anchor" aria-label="Permalink: pi.registerCommand(name, options)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piregistercommandname-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piregistercommandname-options" class="heading-anchor" aria-label="Permalink: pi.registerCommand(name, options)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistercommandname-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register a command.
@@ -2224,7 +2224,7 @@ pi.registerCommand("deploy", {
 
 ### pi.getCommands()
 
-<a href="#pigetcommands" class="heading-anchor" aria-label="Permalink: pi.getCommands()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pigetcommands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pigetcommands" class="heading-anchor" aria-label="Permalink: pi.getCommands()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pigetcommands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get the slash commands available for invocation via `prompt` in the current session. Includes extension commands, prompt templates, and skill commands. The list matches the RPC `get_commands` ordering: extensions first, then templates, then skills. Skill commands are named `skill:<name>`.
@@ -2263,7 +2263,7 @@ Built-in interactive commands (like `/model` and `/settings`) are not included h
 
 ### pi.registerMessageRenderer(customType, renderer)
 
-<a href="#piregistermessagerenderercustomtype-renderer" class="heading-anchor" aria-label="Permalink: pi.registerMessageRenderer(customType, renderer)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piregistermessagerenderercustomtype-renderer"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piregistermessagerenderercustomtype-renderer" class="heading-anchor" aria-label="Permalink: pi.registerMessageRenderer(customType, renderer)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistermessagerenderercustomtype-renderer"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register a custom TUI renderer for custom messages with your `customType`. Custom messages are created with `pi.sendMessage()` and participate in LLM context. See [Custom UI](#custom-ui).
@@ -2271,7 +2271,7 @@ Register a custom TUI renderer for custom messages with your `customType`. Custo
 
 ### pi.registerMarkdownTransformer(transformer, options?)
 
-<a href="#piregistermarkdowntransformertransformer-options" class="heading-anchor" aria-label="Permalink: pi.registerMarkdownTransformer(transformer, options?)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piregistermarkdowntransformertransformer-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piregistermarkdowntransformertransformer-options" class="heading-anchor" aria-label="Permalink: pi.registerMarkdownTransformer(transformer, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistermarkdowntransformertransformer-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register a transformer for Markdown before Pi renders it in interactive mode. Transformers run in extension load order, and each transformer receives the Markdown returned by the previous transformer. After the chain finishes, Pi renders the transformed content with its built-in renderer.
@@ -2313,7 +2313,7 @@ If a transformer throws, Pi keeps the Markdown produced so far and continues wit
 
 ### pi.registerEntryRenderer(customType, renderer)
 
-<a href="#piregisterentryrenderercustomtype-renderer" class="heading-anchor" aria-label="Permalink: pi.registerEntryRenderer(customType, renderer)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piregisterentryrenderercustomtype-renderer"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piregisterentryrenderercustomtype-renderer" class="heading-anchor" aria-label="Permalink: pi.registerEntryRenderer(customType, renderer)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregisterentryrenderercustomtype-renderer"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register a custom TUI renderer for custom entries with your `customType`. Custom entries are created with `pi.appendEntry()` and do not participate in LLM context.
@@ -2338,10 +2338,10 @@ pi.appendEntry("status-card", { title: "Indexed files", count: 17 });
 
 ### pi.registerShortcut(shortcut, options)
 
-<a href="#piregistershortcutshortcut-options" class="heading-anchor" aria-label="Permalink: pi.registerShortcut(shortcut, options)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piregistershortcutshortcut-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piregistershortcutshortcut-options" class="heading-anchor" aria-label="Permalink: pi.registerShortcut(shortcut, options)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistershortcutshortcut-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Register a keyboard shortcut. See [keybindings.md](/docs/latest/keybindings) for the shortcut format and built-in keybindings.
+Register a keyboard shortcut. See [keybindings.md](/latest/latest/keybindings) for the shortcut format and built-in keybindings.
 
 
 ``` shiki
@@ -2356,7 +2356,7 @@ pi.registerShortcut("ctrl+shift+p", {
 
 ### pi.registerFlag(name, options)
 
-<a href="#piregisterflagname-options" class="heading-anchor" aria-label="Permalink: pi.registerFlag(name, options)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piregisterflagname-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piregisterflagname-options" class="heading-anchor" aria-label="Permalink: pi.registerFlag(name, options)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregisterflagname-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register a CLI flag.
@@ -2380,7 +2380,7 @@ pi.on("session_start", () => {
 
 ### pi.exec(command, args, options?)
 
-<a href="#piexeccommand-args-options" class="heading-anchor" aria-label="Permalink: pi.exec(command, args, options?)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piexeccommand-args-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piexeccommand-args-options" class="heading-anchor" aria-label="Permalink: pi.exec(command, args, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piexeccommand-args-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Execute a command without a shell.
@@ -2392,12 +2392,12 @@ const result = await pi.exec("git", ["status"], { signal, timeout: 5000 });
 ```
 
 
-Options: `signal` and `timeout` terminate the command, `cwd` sets the working directory, and `maxBuffer` limits stdout and stderr combined (default 256 MiB). When output exceeds `maxBuffer`, pi terminates the command and returns the output up to the limit with `truncated: true`, `killed: true`, and a nonzero `code`. `killed` is true whenever pi terminated the command: timeout, abort, or `maxBuffer`. A command that ignores SIGTERM gets SIGKILL after 5 seconds.
+Options: `signal` and `timeout` terminate the command, `cwd` sets the working directory, and `maxBuffer` limits stdout and stderr combined (default 256 MiB). When output exceeds `maxBuffer`, pi terminates the command and returns the output up to the limit with `truncated: true`, `killed: true`, and a nonzero `code`. `killed` is true whenever pi terminated the command: timeout, abort, or `maxBuffer`. A command that ignores SIGTERM gets SIGKILL after 5 seconds. A command terminated by a signal, by pi or otherwise, reports 128 + the signal number as `code`, like a shell: 143 for SIGTERM, 137 for SIGKILL.
 
 
 ### pi.getActiveTools() / pi.getAllTools() / pi.setActiveTools(names)
 
-<a href="#pigetactivetools--pigetalltools--pisetactivetoolsnames" class="heading-anchor" aria-label="Permalink: pi.getActiveTools() / pi.getAllTools() / pi.setActiveTools(names)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pigetactivetools--pigetalltools--pisetactivetoolsnames"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pigetactivetools--pigetalltools--pisetactivetoolsnames" class="heading-anchor" aria-label="Permalink: pi.getActiveTools() / pi.getAllTools() / pi.setActiveTools(names)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pigetactivetools--pigetalltools--pisetactivetoolsnames"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Manage active tools. This works for both built-in tools and dynamically registered tools. `pi.getActiveTools()` returns the active tool names as `string[]`; `pi.getAllTools()` returns metadata for all configured tools.
@@ -2436,10 +2436,10 @@ Typical `sourceInfo` values:
 
 ### pi.setModel(model)
 
-<a href="#pisetmodelmodel" class="heading-anchor" aria-label="Permalink: pi.setModel(model)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pisetmodelmodel"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pisetmodelmodel" class="heading-anchor" aria-label="Permalink: pi.setModel(model)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pisetmodelmodel"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Set the model for the current session. The change is recorded in session history and restored when that session is resumed, but it does not change the configured `defaultProvider` or `defaultModel` used by new sessions. Returns `false` if authentication is not configured for the model's provider. See [models.md](/docs/latest/models) for configuring custom models.
+Set the model for the current session. The change is recorded in session history and restored when that session is resumed, but it does not change the configured `defaultProvider` or `defaultModel` used by new sessions. Returns `false` if authentication is not configured for the model's provider. See [models.md](/latest/latest/models) for configuring custom models.
 
 
 ``` shiki
@@ -2455,7 +2455,7 @@ if (model) {
 
 ### pi.getThinkingLevel() / pi.setThinkingLevel(level)
 
-<a href="#pigetthinkinglevel--pisetthinkinglevellevel" class="heading-anchor" aria-label="Permalink: pi.getThinkingLevel() / pi.setThinkingLevel(level)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pigetthinkinglevel--pisetthinkinglevellevel"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pigetthinkinglevel--pisetthinkinglevellevel" class="heading-anchor" aria-label="Permalink: pi.getThinkingLevel() / pi.setThinkingLevel(level)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pigetthinkinglevel--pisetthinkinglevellevel"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get the current thinking level. Level is clamped to model capabilities (non-reasoning models always use "off"). Changes emit `thinking_level_select`.
@@ -2471,7 +2471,7 @@ pi.setThinkingLevel("high");
 
 ### pi.events
 
-<a href="#pievents" class="heading-anchor" aria-label="Permalink: pi.events" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pievents"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pievents" class="heading-anchor" aria-label="Permalink: pi.events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pievents"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Shared event bus for communication between extensions:
@@ -2485,7 +2485,7 @@ pi.events.emit("my:event", { ... });
 
 ### pi.registerProvider(name, config)
 
-<a href="#piregisterprovidername-config" class="heading-anchor" aria-label="Permalink: pi.registerProvider(name, config)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piregisterprovidername-config"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piregisterprovidername-config" class="heading-anchor" aria-label="Permalink: pi.registerProvider(name, config)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregisterprovidername-config"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register or override a model provider dynamically. Useful for proxies, custom endpoints, or team-wide model configurations.
@@ -2505,7 +2505,7 @@ import { createProvider, openAICompletionsApi } from "@earendil-works/pi-ai/comp
 const provider = createProvider({
   id: "local-server",
   name: "Local Server",
-  baseUrl: "http://localhost:8080/v1",
+  baseUrl: "http://localhost:9931/v1",
   auth: {
     apiKey: {
       name: "Local server setup",
@@ -2549,11 +2549,11 @@ pi.registerProvider("my-proxy", {
 
 // Register a live llama.cpp catalog without persisting discovered models
 pi.registerProvider("llama.cpp", {
-  baseUrl: "http://localhost:8080/v1",
+  baseUrl: "http://localhost:9931/v1",
   apiKey: "local",
   api: "openai-completions",
   async refreshModels({ signal }) {
-    const response = await fetch("http://localhost:8080/v1/models", { signal });
+    const response = await fetch("http://localhost:9931/v1/models", { signal });
     const { data } = (await response.json()) as { data: Array<{ id: string }> };
     return data.map(({ id }) => ({
       id,
@@ -2613,12 +2613,12 @@ The object form accepts a complete pi-ai `Provider`, including native `auth`, `g
 - `oauth` - OAuth provider config for `/login` support. When provided, the provider appears in the login menu.
 - `streamSimple` - Custom streaming implementation for non-standard APIs.
 
-See [custom-provider.md](/docs/latest/custom-provider) for advanced topics: custom streaming APIs, OAuth details, model definition reference.
+See [custom-provider.md](/latest/latest/custom-provider) for advanced topics: custom streaming APIs, OAuth details, model definition reference.
 
 
 ### pi.unregisterProvider(name)
 
-<a href="#piunregisterprovidername" class="heading-anchor" aria-label="Permalink: pi.unregisterProvider(name)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piunregisterprovidername"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piunregisterprovidername" class="heading-anchor" aria-label="Permalink: pi.unregisterProvider(name)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piunregisterprovidername"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Remove a previously registered provider and its models. Built-in models that were overridden by the provider are restored. Has no effect if the provider was not registered.
@@ -2638,15 +2638,15 @@ pi.registerCommand("my-setup-teardown", {
 
 ### pi.registerVirtualModel(model) / pi.unregisterVirtualModel(provider, id)
 
-<a href="#piregistervirtualmodelmodel--piunregistervirtualmodelprovider-id" class="heading-anchor" aria-label="Permalink: pi.registerVirtualModel(model) / pi.unregisterVirtualModel(provider, id)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piregistervirtualmodelmodel--piunregistervirtualmodelprovider-id"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piregistervirtualmodelmodel--piunregistervirtualmodelprovider-id" class="heading-anchor" aria-label="Permalink: pi.registerVirtualModel(model) / pi.unregisterVirtualModel(provider, id)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistervirtualmodelmodel--piunregistervirtualmodelprovider-id"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Register a selectable catalog entry that routes each request to a physical model. `ctx.model` and the session's model selection name the virtual model; assistant messages record the physical model and thinking level the router picked. Registering the same provider and ID again replaces the virtual model. See [Virtual Models](/docs/latest/virtual-models).
+Register a selectable catalog entry that routes each request to a physical model. `ctx.model` and the session's model selection name the virtual model; assistant messages record the physical model and thinking level the router picked. Registering the same provider and ID again replaces the virtual model. See [Virtual Models](/latest/latest/virtual-models).
 
 
 ### pi.registerMcpServer(name, config) / pi.unregisterMcpServer(name) / pi.getMcpServers()
 
-<a href="#piregistermcpservername-config--piunregistermcpservername--pigetmcpservers" class="heading-anchor" aria-label="Permalink: pi.registerMcpServer(name, config) / pi.unregisterMcpServer(name) / pi.getMcpServers()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piregistermcpservername-config--piunregistermcpservername--pigetmcpservers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piregistermcpservername-config--piunregistermcpservername--pigetmcpservers" class="heading-anchor" aria-label="Permalink: pi.registerMcpServer(name, config) / pi.unregisterMcpServer(name) / pi.getMcpServers()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistermcpservername-config--piunregistermcpservername--pigetmcpservers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register an MCP server for the current session. See [MCP Servers](#mcp-servers).
@@ -2654,7 +2654,7 @@ Register an MCP server for the current session. See [MCP Servers](#mcp-servers).
 
 ### pi.registerToolRenderer(resolver)
 
-<a href="#piregistertoolrendererresolver" class="heading-anchor" aria-label="Permalink: pi.registerToolRenderer(resolver)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#piregistertoolrendererresolver"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#piregistertoolrendererresolver" class="heading-anchor" aria-label="Permalink: pi.registerToolRenderer(resolver)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistertoolrendererresolver"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Choose how calls to any tool are drawn, including tools that are not registered yet, such as MCP tools in a resumed session before their server connected. The resolver receives the tool name and `next()`, which returns what the remaining resolvers (in extension load order), then the registered tool, would use, so `next() ?? mine` only fills in.
@@ -2670,7 +2670,7 @@ pi.registerToolRenderer((toolName, next) => {
 
 ### pi.getSettings()
 
-<a href="#pigetsettings" class="heading-anchor" aria-label="Permalink: pi.getSettings()" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#pigetsettings"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#pigetsettings" class="heading-anchor" aria-label="Permalink: pi.getSettings()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pigetsettings"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Return a copy of the effective settings, with global and project settings merged and overrides applied.
@@ -2678,7 +2678,7 @@ Return a copy of the effective settings, with global and project settings merged
 
 ## State Management
 
-<a href="#state-management" class="heading-anchor" aria-label="Permalink: State Management" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#state-management"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#state-management" class="heading-anchor" aria-label="Permalink: State Management" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#state-management"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Extensions with state should store it in tool result `details` for proper branching support:
@@ -2722,7 +2722,7 @@ Rebuild from `getBranch()`, not from every entry: abandoned branches represent a
 
 ## Custom Tools
 
-<a href="#custom-tools" class="heading-anchor" aria-label="Permalink: Custom Tools" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#custom-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#custom-tools" class="heading-anchor" aria-label="Permalink: Custom Tools" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#custom-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register tools the LLM can call via `pi.registerTool()`. Tools appear in the system prompt and can have custom rendering.
@@ -2769,7 +2769,7 @@ async execute(_toolCallId, params, _signal, _onUpdate, ctx) {
 
 ### Tool Definition
 
-<a href="#tool-definition" class="heading-anchor" aria-label="Permalink: Tool Definition" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#tool-definition"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#tool-definition" class="heading-anchor" aria-label="Permalink: Tool Definition" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool-definition"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -2913,7 +2913,7 @@ pi.registerTool({
 
 ### Overriding Built-in Tools
 
-<a href="#overriding-built-in-tools" class="heading-anchor" aria-label="Permalink: Overriding Built-in Tools" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#overriding-built-in-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#overriding-built-in-tools" class="heading-anchor" aria-label="Permalink: Overriding Built-in Tools" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#overriding-built-in-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Extensions can override built-in tools (`read`, `bash`, `powershell`, `edit`, `write`, `grep`, `find`, `ls`) by registering a tool with the same name. The extension tool replaces the built-in without a warning.
@@ -2956,7 +2956,7 @@ Built-in tool implementations:
 
 ### Remote Execution
 
-<a href="#remote-execution" class="heading-anchor" aria-label="Permalink: Remote Execution" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#remote-execution"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#remote-execution" class="heading-anchor" aria-label="Permalink: Remote Execution" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#remote-execution"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Built-in tools support pluggable operations for delegating to remote systems (SSH, containers, etc.):
@@ -3021,12 +3021,12 @@ const bashTool = createBashTool(cwd, {
 ```
 
 
-See [Shell tool session environment](/docs/latest/environment-variables#shell-tool-session-environment) for variable semantics. See [examples/extensions/ssh.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/ssh.ts) for a complete SSH example with `--ssh` flag.
+See [Shell tool session environment](/latest/latest/environment-variables#shell-tool-session-environment) for variable semantics. See [examples/extensions/ssh.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/ssh.ts) for a complete SSH example with `--ssh` flag.
 
 
 ### Output Truncation
 
-<a href="#output-truncation" class="heading-anchor" aria-label="Permalink: Output Truncation" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#output-truncation"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#output-truncation" class="heading-anchor" aria-label="Permalink: Output Truncation" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#output-truncation"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 **Tools MUST truncate their output** to avoid overwhelming the LLM context. Large outputs can cause:
@@ -3086,7 +3086,7 @@ See [examples/extensions/truncated-tool.ts](https://github.com/earendil-works/pi
 
 ### Multiple Tools
 
-<a href="#multiple-tools" class="heading-anchor" aria-label="Permalink: Multiple Tools" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#multiple-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#multiple-tools" class="heading-anchor" aria-label="Permalink: Multiple Tools" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#multiple-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 One extension can register multiple tools with shared state:
@@ -3109,10 +3109,10 @@ export default function (pi: ExtensionAPI) {
 
 ### Custom Rendering
 
-<a href="#custom-rendering" class="heading-anchor" aria-label="Permalink: Custom Rendering" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#custom-rendering"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#custom-rendering" class="heading-anchor" aria-label="Permalink: Custom Rendering" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#custom-rendering"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Tools can provide `renderCall` and `renderResult` for custom TUI display. See [tui.md](/docs/latest/tui) for the full component API and [tool-execution.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/interactive/components/tool-execution.ts) for how tool rows are composed.
+Tools can provide `renderCall` and `renderResult` for custom TUI display. See [tui.md](/latest/latest/tui) for the full component API and [tool-execution.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/interactive/components/tool-execution.ts) for how tool rows are composed.
 
 By default, tool output is wrapped in a `Box` that handles background and horizontal padding from the `outputPad` setting. Tool renderers are also used in HTML exports. A defined `renderCall` or `renderResult` must return a `Component`. If a slot renderer is not defined, `tool-execution.ts` uses fallback rendering for that slot.
 
@@ -3152,7 +3152,7 @@ Use `context.state` for cross-slot shared state. Keep slot-local caches on the r
 
 #### renderCall
 
-<a href="#rendercall" class="heading-anchor" aria-label="Permalink: renderCall" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#rendercall"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#rendercall" class="heading-anchor" aria-label="Permalink: renderCall" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#rendercall"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Renders the tool call or header:
@@ -3176,7 +3176,7 @@ renderCall(args, theme, context) {
 
 #### renderResult
 
-<a href="#renderresult" class="heading-anchor" aria-label="Permalink: renderResult" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#renderresult"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#renderresult" class="heading-anchor" aria-label="Permalink: renderResult" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#renderresult"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Renders the tool result or output:
@@ -3208,7 +3208,7 @@ If a slot intentionally has no visible content, return an empty `Component` such
 
 #### Keybinding Hints
 
-<a href="#keybinding-hints" class="heading-anchor" aria-label="Permalink: Keybinding Hints" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#keybinding-hints"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#keybinding-hints" class="heading-anchor" aria-label="Permalink: Keybinding Hints" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#keybinding-hints"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Use `keyHint()` and `keyText()` from the render context to display keybinding hints that respect the user's keybinding configuration:
@@ -3237,14 +3237,14 @@ Use namespaced keybinding ids:
 - Coding-agent ids use the `app.*` namespace, for example `app.tools.expand`, `app.editor.external`, `app.session.rename`
 - Shared TUI ids use the `tui.*` namespace, for example `tui.select.confirm`, `tui.select.cancel`, `tui.input.tab`
 
-For the exhaustive list of keybinding ids and defaults, see [keybindings.md](/docs/latest/keybindings). `keybindings.json` uses those same namespaced ids.
+For the exhaustive list of keybinding ids and defaults, see [keybindings.md](/latest/latest/keybindings). `keybindings.json` uses those same namespaced ids.
 
 Custom editors and `ctx.ui.custom()` components receive `keybindings: KeybindingsManager` as an injected argument. They should use that injected manager directly instead of calling `getKeybindings()` or `setKeybindings()`.
 
 
 #### Best Practices
 
-<a href="#best-practices" class="heading-anchor" aria-label="Permalink: Best Practices" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#best-practices"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#best-practices" class="heading-anchor" aria-label="Permalink: Best Practices" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#best-practices"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - Use `Text` with padding `(0, 0)`. The default Box handles padding.
@@ -3260,7 +3260,7 @@ Custom editors and `ctx.ui.custom()` components receive `keybindings: Keybinding
 
 #### Fallback
 
-<a href="#fallback" class="heading-anchor" aria-label="Permalink: Fallback" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#fallback"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#fallback" class="heading-anchor" aria-label="Permalink: Fallback" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#fallback"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 If a slot renderer is not defined or throws:
@@ -3271,7 +3271,7 @@ If a slot renderer is not defined or throws:
 
 ### Dynamic Tool Loading
 
-<a href="#dynamic-tool-loading" class="heading-anchor" aria-label="Permalink: Dynamic Tool Loading" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#dynamic-tool-loading"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#dynamic-tool-loading" class="heading-anchor" aria-label="Permalink: Dynamic Tool Loading" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#dynamic-tool-loading"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Extensions can register many tools while keeping only a small initial set active. A tool can then change the active set with `pi.setActiveTools()` during execution. Pi stores the initial prompt and tool loadout in the transcript's first system message, then appends tool and prompt deltas before the next model request. Providers that cannot represent a transition receive a complete transcript checkpoint, which may invalidate the cached prefix.
@@ -3287,7 +3287,7 @@ Pi also ships a built-in `tool_search` tool. Register tools with `exposure: "def
 
 #### Search tool example
 
-<a href="#search-tool-example" class="heading-anchor" aria-label="Permalink: Search tool example" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#search-tool-example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#search-tool-example" class="heading-anchor" aria-label="Permalink: Search tool example" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#search-tool-example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The following extension registers two inactive searchable tools and keeps `search_tools` active as their loader. The example uses simple keyword matching, but the search implementation could use BM25, embeddings, a remote catalog, or project-specific routing.
@@ -3388,7 +3388,7 @@ When `search_tools` adds a match, the model receives the complete updated tool l
 
 ### Tool Exposure
 
-<a href="#tool-exposure" class="heading-anchor" aria-label="Permalink: Tool Exposure" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#tool-exposure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#tool-exposure" class="heading-anchor" aria-label="Permalink: Tool Exposure" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool-exposure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `exposure` controls how the model reaches a tool. "Callable" means callable from other tools through `ctx.executeTool()` (`ctx.tools`), as the `codemode` tool's scripts do:
@@ -3426,7 +3426,7 @@ A tool that reaches other tools declares which ones a call may reach with `reach
 
 ### Calling Other Tools
 
-<a href="#calling-other-tools" class="heading-anchor" aria-label="Permalink: Calling Other Tools" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#calling-other-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#calling-other-tools" class="heading-anchor" aria-label="Permalink: Calling Other Tools" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#calling-other-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A tool can run other tools with `ctx.executeTool(name, args, { signal, onUpdate })`. `ctx.tools` lists the tools it can call. The call never rejects for tool failures: unknown tools, validation errors, blocked calls, and thrown errors come back as results with `isError: true`.
@@ -3440,10 +3440,10 @@ The `usage` of nested results, at every depth, is added to the calling tool's re
 
 ## MCP Servers
 
-<a href="#mcp-servers" class="heading-anchor" aria-label="Permalink: MCP Servers" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#mcp-servers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#mcp-servers" class="heading-anchor" aria-label="Permalink: MCP Servers" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#mcp-servers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-`pi.registerMcpServer(name, config)` adds an MCP server for the current session. `config` has the shape of an `mcpServers` entry in [`mcp.json`](/docs/latest/mcp): `command`, `args`, `env`, and `cwd` for stdio servers, `url`, `headers`, and `oauth` for HTTP servers, plus `exposure`, `toolExposure`, `description`, `enabled`, and `timeout`.
+`pi.registerMcpServer(name, config)` adds an MCP server for the current session. `config` has the shape of an `mcpServers` entry in [`mcp.json`](/latest/latest/mcp): `command`, `args`, `env`, and `cwd` for stdio servers, `url`, `headers`, and `oauth` for HTTP servers, plus `exposure`, `toolExposure`, `description`, `enabled`, and `timeout`.
 
 
 ``` shiki
@@ -3454,22 +3454,22 @@ pi.unregisterMcpServer("jira");
 
 Servers registered while the extension loads connect when the session starts, together with the `mcp.json` servers; servers registered later connect right away, and `pi.unregisterMcpServer()` closes the connection and makes the server's tools unreachable. Registrations are not saved: register again on every load, for example based on the extension's own settings. A server in `mcp.json` with the same name takes precedence, and `/mcp` shows the override. Registering the same name again replaces the extension's earlier registration; names registered by another extension, invalid names, and invalid configs throw.
 
-The built-in MCP support connects registered servers. When nothing does, because another extension replaced it (see [MCP](/docs/latest/mcp#replace-the-built-in-mcp-support)), each registration is reported as an extension error. Other MCP extensions can connect registered servers too: read them with `pi.getMcpServers()` on `session_start` and handle the `mcp_servers_change` event for later changes.
+The built-in MCP support connects registered servers. When nothing does, because another extension replaced it (see [MCP](/latest/latest/mcp#replace-the-built-in-mcp-support)), each registration is reported as an extension error. Other MCP extensions can connect registered servers too: read them with `pi.getMcpServers()` on `session_start` and handle the `mcp_servers_change` event for later changes.
 
 
 ## Custom UI
 
-<a href="#custom-ui" class="heading-anchor" aria-label="Permalink: Custom UI" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#custom-ui"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#custom-ui" class="heading-anchor" aria-label="Permalink: Custom UI" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#custom-ui"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Extensions can interact with users via `ctx.ui` methods and customize how messages/tools render.
 
-For custom components, focus, overlays, themes, and rendering performance, see [Terminal UI](/docs/latest/tui). The examples it lists show selection lists, settings toggles, cancellable loaders, footers, and widgets.
+For custom components, focus, overlays, themes, and rendering performance, see [Terminal UI](/latest/latest/tui). The examples it lists show selection lists, settings toggles, cancellable loaders, footers, and widgets.
 
 
 ### Dialogs
 
-<a href="#dialogs" class="heading-anchor" aria-label="Permalink: Dialogs" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#dialogs"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#dialogs" class="heading-anchor" aria-label="Permalink: Dialogs" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#dialogs"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -3492,7 +3492,7 @@ ctx.ui.notify("Done!", "info");  // "info" | "warning" | "error"
 
 #### Timed Dialogs with Countdown
 
-<a href="#timed-dialogs-with-countdown" class="heading-anchor" aria-label="Permalink: Timed Dialogs with Countdown" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#timed-dialogs-with-countdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#timed-dialogs-with-countdown" class="heading-anchor" aria-label="Permalink: Timed Dialogs with Countdown" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#timed-dialogs-with-countdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Dialogs support a `timeout` option that auto-dismisses with a live countdown display:
@@ -3523,7 +3523,7 @@ if (confirmed) {
 
 #### Manual Dismissal with AbortSignal
 
-<a href="#manual-dismissal-with-abortsignal" class="heading-anchor" aria-label="Permalink: Manual Dismissal with AbortSignal" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#manual-dismissal-with-abortsignal"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#manual-dismissal-with-abortsignal" class="heading-anchor" aria-label="Permalink: Manual Dismissal with AbortSignal" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#manual-dismissal-with-abortsignal"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 For more control (e.g., to distinguish timeout from user cancel), use `AbortSignal`:
@@ -3556,7 +3556,7 @@ See [examples/extensions/timed-confirm.ts](https://github.com/earendil-works/pi/
 
 ### Widgets, Status, and Footer
 
-<a href="#widgets-status-and-footer" class="heading-anchor" aria-label="Permalink: Widgets, Status, and Footer" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#widgets-status-and-footer"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#widgets-status-and-footer" class="heading-anchor" aria-label="Permalink: Widgets, Status, and Footer" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#widgets-status-and-footer"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -3673,7 +3673,7 @@ Custom working-indicator frames are rendered verbatim. If you want colors, add t
 
 ### Autocomplete Providers
 
-<a href="#autocomplete-providers" class="heading-anchor" aria-label="Permalink: Autocomplete Providers" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#autocomplete-providers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#autocomplete-providers" class="heading-anchor" aria-label="Permalink: Autocomplete Providers" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#autocomplete-providers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Use `ctx.ui.addAutocompleteProvider()` to stack custom autocomplete logic on top of the built-in slash-command and path provider. Set `triggerCharacters` for custom natural triggers such as `$`.
@@ -3724,7 +3724,7 @@ See [github-issue-autocomplete.ts](https://github.com/earendil-works/pi/blob/mai
 
 ### Custom Components
 
-<a href="#custom-components" class="heading-anchor" aria-label="Permalink: Custom Components" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#custom-components"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#custom-components" class="heading-anchor" aria-label="Permalink: Custom Components" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#custom-components"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 For complex UI, use `ctx.ui.custom()`. This temporarily replaces the editor with your component until `done()` is called:
@@ -3757,12 +3757,12 @@ The callback receives:
 - `keybindings` - App keybinding manager (for checking shortcuts)
 - `done(value)` - Call to close component and return value
 
-The factory can also return a `Promise` of a component. See [Terminal UI](/docs/latest/tui#build-a-minimal-custom-screen) for a complete custom screen with cached rendering.
+The factory can also return a `Promise` of a component. See [Terminal UI](/latest/latest/tui#build-a-minimal-custom-screen) for a complete custom screen with cached rendering.
 
 
 #### Overlay Mode (Experimental)
 
-<a href="#overlay-mode-experimental" class="heading-anchor" aria-label="Permalink: Overlay Mode (Experimental)" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#overlay-mode-experimental"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#overlay-mode-experimental" class="heading-anchor" aria-label="Permalink: Overlay Mode (Experimental)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#overlay-mode-experimental"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Pass `{ overlay: true }` to render the component as a floating modal on top of existing content, without clearing the screen:
@@ -3805,7 +3805,7 @@ See [`OverlayOptions` and `OverlayHandle`](https://github.com/earendil-works/pi/
 
 ### Custom Editor
 
-<a href="#custom-editor" class="heading-anchor" aria-label="Permalink: Custom Editor" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#custom-editor"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#custom-editor" class="heading-anchor" aria-label="Permalink: Custom Editor" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#custom-editor"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Replace the main input editor with a custom implementation (vim mode, emacs mode, etc.):
@@ -3866,7 +3866,7 @@ See [modal-editor.ts](https://github.com/earendil-works/pi/blob/main/packages/co
 
 ### Message and Entry Rendering
 
-<a href="#message-and-entry-rendering" class="heading-anchor" aria-label="Permalink: Message and Entry Rendering" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#message-and-entry-rendering"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#message-and-entry-rendering" class="heading-anchor" aria-label="Permalink: Message and Entry Rendering" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#message-and-entry-rendering"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register a custom renderer for messages with your `customType`. Use message renderers for content that should participate in LLM context:
@@ -3918,10 +3918,10 @@ pi.appendEntry("my-card", { status: "done" });
 
 ### Theme Colors
 
-<a href="#theme-colors" class="heading-anchor" aria-label="Permalink: Theme Colors" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#theme-colors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#theme-colors" class="heading-anchor" aria-label="Permalink: Theme Colors" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#theme-colors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-All render functions receive a `theme` object. See [themes.md](/docs/latest/themes) for creating custom themes and the full color palette.
+All render functions receive a `theme` object. See [themes.md](/latest/latest/themes) for creating custom themes and the full color palette.
 
 
 ``` shiki
@@ -3945,7 +3945,7 @@ theme.style(text, { fg: "success", bg: "toolSuccessBg", bold: true })
 ```
 
 
-`theme.colors` exposes concrete colors and `theme.appearance` is `"dark"` or `"light"`. See [Apply themes correctly](/docs/latest/tui#apply-themes-correctly).
+`theme.colors` exposes concrete colors and `theme.appearance` is `"dark"` or `"light"`. See [Apply themes correctly](/latest/latest/tui#apply-themes-correctly).
 
 For syntax highlighting in custom tool renderers:
 
@@ -3964,7 +3964,7 @@ const highlighted = highlightCode(code, lang);
 
 ## Error Handling
 
-<a href="#error-handling" class="heading-anchor" aria-label="Permalink: Error Handling" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#error-handling"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#error-handling" class="heading-anchor" aria-label="Permalink: Error Handling" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#error-handling"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - Extension errors are logged, agent continues
@@ -3975,13 +3975,13 @@ const highlighted = highlightCode(code, lang);
 
 ## Mode Behavior
 
-<a href="#mode-behavior" class="heading-anchor" aria-label="Permalink: Mode Behavior" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#mode-behavior"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#mode-behavior" class="heading-anchor" aria-label="Permalink: Mode Behavior" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#mode-behavior"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Mode | `ctx.mode` | `ctx.hasUI` | Notes |
 |----|----|----|----|
 | Interactive | `"tui"` | `true` | Full TUI with terminal rendering |
-| RPC (`--mode rpc`) | `"rpc"` | `true` | Dialogs and notifications via JSON protocol; `custom()` returns `undefined`, component factories are ignored. See [RPC Extension UI](/docs/latest/rpc-extension-ui) |
+| RPC (`--mode rpc`) | `"rpc"` | `true` | Dialogs and notifications via JSON protocol; `custom()` returns `undefined`, component factories are ignored. See [RPC Extension UI](/latest/latest/rpc-extension-ui) |
 | JSON (`--mode json`) | `"json"` | `false` | Event stream to stdout; UI methods are no-ops |
 | Print (`-p`) | `"print"` | `false` | Extensions run but can't prompt |
 
@@ -3990,7 +3990,7 @@ Use `ctx.mode === "tui"` before TUI-specific features (`custom()`, component fac
 
 ## Examples Reference
 
-<a href="#examples-reference" class="heading-anchor" aria-label="Permalink: Examples Reference" data-copy="" data-copy-text="https://pi.dev/docs/latest/extensions#examples-reference"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#examples-reference" class="heading-anchor" aria-label="Permalink: Examples Reference" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#examples-reference"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 All examples in [examples/extensions/](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions).

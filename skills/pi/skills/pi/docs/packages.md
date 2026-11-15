@@ -30,7 +30,7 @@ A package is an ordinary directory or npm package. It can expose conventional re
 
 ## Install and manage packages
 
-<a href="#install-and-manage-packages" class="heading-anchor" aria-label="Permalink: Install and manage packages" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#install-and-manage-packages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#install-and-manage-packages" class="heading-anchor" aria-label="Permalink: Install and manage packages" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#install-and-manage-packages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Install from npm, git, or a local path:
@@ -43,7 +43,7 @@ pi install ./local-package
 ```
 
 
-`pi list` shows configured packages. Use `pi remove <source>` to remove one and `pi update --extensions` to reconcile package installations. See [Command Line](/docs/latest/cli#package-commands) for every package command and option.
+`pi list` shows configured packages. Use `pi remove <source>` to remove one and `pi update --extensions` to reconcile package installations. See [Command Line](/latest/latest/cli#package-commands) for every package command and option.
 
 If a configured package fails to install at startup, for example because npm cannot reach the registry, Pi warns about it, skips that package's resources, and keeps running. Pi tries to install it again on the next start or `/reload`. `pi install` and `pi update --extensions` still report the failure and exit non-zero.
 
@@ -64,7 +64,7 @@ Pi caches `-e` packages under `~/.pi/agent/tmp/extensions/` and checks them on e
 
 ## Choose a source
 
-<a href="#choose-a-source" class="heading-anchor" aria-label="Permalink: Choose a source" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#choose-a-source"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#choose-a-source" class="heading-anchor" aria-label="Permalink: Choose a source" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#choose-a-source"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Source | Example | Behavior |
@@ -81,7 +81,7 @@ Relative local paths resolve from the settings file that contains them. A file p
 
 ## Create a package
 
-<a href="#create-a-package" class="heading-anchor" aria-label="Permalink: Create a package" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#create-a-package"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#create-a-package" class="heading-anchor" aria-label="Permalink: Create a package" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#create-a-package"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The simplest package uses conventional directories:
@@ -123,7 +123,7 @@ The `pi-package` keyword makes an npm package eligible for discovery in the [Pi 
 
 ## Show a changelog
 
-<a href="#show-a-changelog" class="heading-anchor" aria-label="Permalink: Show a changelog" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#show-a-changelog"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#show-a-changelog" class="heading-anchor" aria-label="Permalink: Show a changelog" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#show-a-changelog"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 After a package update, Pi can show what changed. On the next fresh launch, Pi reads the package changelog and shows entries newer than the last seen version under "Extension Updates", the same way it shows its own changelog. The first time Pi sees a package, it records the version without showing anything.
@@ -149,7 +149,7 @@ Use version headings in the same format as Pi's changelog, such as `## [1.2.0]` 
 
 ## Declare dependencies
 
-<a href="#declare-dependencies" class="heading-anchor" aria-label="Permalink: Declare dependencies" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#declare-dependencies"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#declare-dependencies" class="heading-anchor" aria-label="Permalink: Declare dependencies" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#declare-dependencies"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Put runtime packages imported by extensions in `dependencies`. Pi installs package dependencies when it installs an npm or git source.
@@ -171,7 +171,7 @@ Installed packages load with separate module roots. Do not rely on two packages 
 
 ## Select package resources
 
-<a href="#select-package-resources" class="heading-anchor" aria-label="Permalink: Select package resources" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#select-package-resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#select-package-resources" class="heading-anchor" aria-label="Permalink: Select package resources" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#select-package-resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The object form in settings narrows which resources load from a package:
@@ -206,13 +206,13 @@ Run `pi config` to enable or disable discovered resources and pi's built-in exte
 
 ## Understand scope and identity
 
-<a href="#understand-scope-and-identity" class="heading-anchor" aria-label="Permalink: Understand scope and identity" data-copy="" data-copy-text="https://pi.dev/docs/latest/packages#understand-scope-and-identity"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#understand-scope-and-identity" class="heading-anchor" aria-label="Permalink: Understand scope and identity" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#understand-scope-and-identity"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The same package can appear in personal and project settings. A project entry normally replaces the personal entry. With `autoload: false`, the project entry instead acts as a filtering delta over the personal package.
 
 Pi identifies npm packages by package name, git packages by repository URL without the ref, and local packages by resolved absolute path. This prevents the same package from loading twice through equivalent declarations.
 
-Use [Extensions](/docs/latest/extensions), [Skills](/docs/latest/skills), [Prompt Templates](/docs/latest/prompt-templates), and [Themes](/docs/latest/themes) to design each resource before packaging it.
+Use [Extensions](/latest/latest/extensions), [Skills](/latest/latest/skills), [Prompt Templates](/latest/latest/prompt-templates), and [Themes](/latest/latest/themes) to design each resource before packaging it.
 
 

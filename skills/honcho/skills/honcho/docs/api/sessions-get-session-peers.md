@@ -6,68 +6,64 @@
 
 # Get Session Peers
 
-> Get peers from a session
+> Get all Peers in a Session. Results are paginated.
 
 
 ## OpenAPI
 
-````yaml get /v2/workspaces/{workspace_id}/sessions/{session_id}/peers
+````yaml get /v3/workspaces/{workspace_id}/sessions/{session_id}/peers
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/sessions/{session_id}/peers:
+  /v3/workspaces/{workspace_id}/sessions/{session_id}/peers:
     get:
       tags:
         - sessions
       summary: Get Session Peers
-      description: Get peers from a session
+      description: Get all Peers in a Session. Results are paginated.
       operationId: >-
-        get_session_peers_v2_workspaces__workspace_id__sessions__session_id__peers_get
+        get_session_peers_v3_workspaces__workspace_id__sessions__session_id__peers_get
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
         - name: session_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the session
             title: Session Id
-          description: ID of the session
         - name: page
           in: query
           required: false
           schema:
             type: integer
+            maximum: 2147483647
             minimum: 1
-            description: Page number
+            description: Page number (offset mode)
             default: 1
             title: Page
-          description: Page number
+          description: Page number (offset mode)
         - name: size
           in: query
           required: false
@@ -79,13 +75,35 @@ paths:
             default: 50
             title: Size
           description: Page size
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            description: >-
+              Opt in to cursor pagination. Send an empty value for the first
+              page, then the `next_page` value from each response. When set,
+              `page` is ignored and the response is a cursor page with no
+              `total`.
+            title: Cursor
+          description: >-
+            Opt in to cursor pagination. Send an empty value for the first page,
+            then the `next_page` value from each response. When set, `page` is
+            ignored and the response is a cursor page with no `total`.
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page_Peer_'
+                anyOf:
+                  - $ref: '#/components/schemas/Page_Peer_'
+                  - $ref: '#/components/schemas/CursorPage_Peer_'
+                title: >-
+                  Response Get Session Peers V3 Workspaces  Workspace Id 
+                  Sessions  Session Id  Peers Get
         '422':
           description: Validation Error
           content:
@@ -104,35 +122,75 @@ components:
           type: array
           title: Items
         total:
-          anyOf:
-            - type: integer
-              minimum: 0
-            - type: 'null'
+          type: integer
+          minimum: 0
           title: Total
+          description: >-
+            Number of matching rows, exact up to the server's
+            PAGINATION_COUNT_LIMIT (default 100000) and reported as that limit
+            plus one when there are more. While a next page exists it is at
+            least one more than this page's last row, so `pages` always reaches
+            the end of the list.
         page:
-          anyOf:
-            - type: integer
-              minimum: 1
-            - type: 'null'
+          type: integer
+          minimum: 1
           title: Page
         size:
-          anyOf:
-            - type: integer
-              minimum: 1
-            - type: 'null'
+          type: integer
+          minimum: 1
           title: Size
         pages:
-          anyOf:
-            - type: integer
-              minimum: 0
-            - type: 'null'
+          type: integer
+          minimum: 0
           title: Pages
       type: object
       required:
         - items
+        - total
         - page
         - size
+        - pages
       title: Page[Peer]
+    CursorPage_Peer_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Peer'
+          type: array
+          title: Items
+        total:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Total
+        current_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Current Page
+          description: Cursor to refetch the current page
+        current_page_backwards:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Current Page Backwards
+          description: Cursor to refetch the current page starting from the last item
+        previous_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Previous Page
+          description: Cursor for the previous page
+        next_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Next Page
+          description: Cursor for the next page
+      type: object
+      required:
+        - items
+      title: CursorPage[Peer]
     HTTPValidationError:
       properties:
         detail:
@@ -147,6 +205,12 @@ components:
         id:
           type: string
           title: Id
+        uid:
+          type: string
+          title: Uid
+          description: >-
+            Immutable identifier Honcho assigns to this peer. `id` is the name
+            the client chose; `uid` is generated by the server.
         workspace_id:
           type: string
           title: Workspace Id
@@ -165,6 +229,7 @@ components:
       type: object
       required:
         - id
+        - uid
         - workspace_id
         - created_at
       title: Peer
@@ -183,6 +248,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

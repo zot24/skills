@@ -1520,6 +1520,24 @@
       "target": "skills/honcho/docs/guides/pi.md",
       "type": "extract-content",
       "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/api-reference/endpoint/dreams/get-dream.md",
+      "target": "skills/honcho/docs/api/dreams-get-dream.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/api-reference/endpoint/dreams/list-dreams.md",
+      "target": "skills/honcho/docs/api/dreams-list-dreams.md",
+      "type": "extract-content",
+      "freshness_days": 14
+    },
+    {
+      "url": "https://honcho.dev/docs/v3/guides/integrations/cursor-agent-sdk.md",
+      "target": "skills/honcho/docs/guides/cursor-agent-sdk.md",
+      "type": "extract-content",
+      "freshness_days": 14
     }
   ],
   "cache_dir": ".cache",

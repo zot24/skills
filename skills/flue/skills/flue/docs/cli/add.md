@@ -1,18 +1,5 @@
 > Source: https://flueframework.com/docs/cli/add
 
-<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
-
-
-<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
-
-
-Esc
-
-
-Start typing to search the documentation.
-
-
-<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # flue add
@@ -37,15 +24,15 @@ When invoked by a coding agent (detected from environment markers) or with `--pr
 
 ## Arguments
 
-| Argument     | Description                                                                                                                                                                                                                                                                           |
-|--------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<kind>`     | The integration category: `channel`, `database`, `sandbox`, or `tooling`.                                                                                                                                                                                                             |
+| Argument | Description |
+|----|----|
+| `<kind>` | The integration category: `channel`, `database`, `sandbox`, or `tooling`. |
 | `<name|url>` | A blueprint name (`slack`, `postgres`, `daytona`, `sentry`, …; run `flue add` with no arguments for the catalog), or an absolute URL to provider documentation, which selects the kind’s generic build-from-scratch guide with the URL as the coding agent’s research starting point. |
 
 ## Options
 
-| Option    | Description                                                                  |
-|-----------|------------------------------------------------------------------------------|
+| Option | Description |
+|----|----|
 | `--print` | Write the blueprint Markdown to stdout regardless of coding-agent detection. |
 
 ## Examples

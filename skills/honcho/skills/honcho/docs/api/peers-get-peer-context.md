@@ -8,7 +8,7 @@
 
 > Get context for a peer, including their representation and peer card.
 
-This endpoint returns the working representation and peer card for a peer.
+This endpoint returns a curated subset of the representation and peer card for a peer.
 If a target is specified, returns the context for the target from the
 observer peer's perspective. If no target is specified, returns the
 peer's own context (self-observation).
@@ -19,29 +19,28 @@ making multiple API calls.
 
 ## OpenAPI
 
-````yaml get /v2/workspaces/{workspace_id}/peers/{peer_id}/context
+````yaml get /v3/workspaces/{workspace_id}/peers/{peer_id}/context
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/peers/{peer_id}/context:
+  /v3/workspaces/{workspace_id}/peers/{peer_id}/context:
     get:
       tags:
         - peers
@@ -50,8 +49,8 @@ paths:
         Get context for a peer, including their representation and peer card.
 
 
-        This endpoint returns the working representation and peer card for a
-        peer.
+        This endpoint returns a curated subset of the representation and peer
+        card for a peer.
 
         If a target is specified, returns the context for the target from the
 
@@ -64,24 +63,22 @@ paths:
 
         making multiple API calls.
       operationId: >-
-        get_peer_context_v2_workspaces__workspace_id__peers__peer_id__context_get
+        get_peer_context_v3_workspaces__workspace_id__peers__peer_id__context_get
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
         - name: peer_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the peer (observer)
+            description: ID of the observer peer
             title: Peer Id
-          description: ID of the peer (observer)
+          description: ID of the observer peer
         - name: target
           in: query
           required: false
@@ -90,12 +87,14 @@ paths:
               - type: string
               - type: 'null'
             description: >-
-              The target peer to get context for. If not provided, returns the
-              peer's own context (self-observation)
+              Optional target peer to get context for, from the observer's
+              perspective. If not provided, returns the observer's own context
+              (self-observation)
             title: Target
           description: >-
-            The target peer to get context for. If not provided, returns the
-            peer's own context (self-observation)
+            Optional target peer to get context for, from the observer's
+            perspective. If not provided, returns the observer's own context
+            (self-observation)
         - name: search_query
           in: query
           required: false
@@ -121,11 +120,11 @@ paths:
               - type: 'null'
             description: >-
               Only used if `search_query` is provided. Number of
-              semantic-search-retrieved observations to include
+              semantic-search-retrieved conclusions to include
             title: Search Top K
           description: >-
             Only used if `search_query` is provided. Number of
-            semantic-search-retrieved observations to include
+            semantic-search-retrieved conclusions to include
         - name: search_max_distance
           in: query
           required: false
@@ -137,25 +136,25 @@ paths:
               - type: 'null'
             description: >-
               Only used if `search_query` is provided. Maximum distance for
-              semantically relevant observations
+              semantically relevant conclusions
             title: Search Max Distance
           description: >-
             Only used if `search_query` is provided. Maximum distance for
-            semantically relevant observations
-        - name: include_most_derived
+            semantically relevant conclusions
+        - name: include_most_frequent
           in: query
           required: false
           schema:
             type: boolean
             description: >-
-              Whether to include the most derived observations in the
+              Whether to include the most frequent conclusions in the
               representation
             default: true
-            title: Include Most Derived
+            title: Include Most Frequent
           description: >-
-            Whether to include the most derived observations in the
+            Whether to include the most frequent conclusions in the
             representation
-        - name: max_observations
+        - name: max_conclusions
           in: query
           required: false
           schema:
@@ -164,9 +163,9 @@ paths:
                 maximum: 100
                 minimum: 1
               - type: 'null'
-            description: Maximum number of observations to include in the representation
-            title: Max Observations
-          description: Maximum number of observations to include in the representation
+            description: Maximum number of conclusions to include in the representation
+            title: Max Conclusions
+          description: Maximum number of conclusions to include in the representation
       responses:
         '200':
           description: Successful Response
@@ -196,11 +195,12 @@ components:
           description: The ID of the target peer being observed
         representation:
           anyOf:
-            - $ref: '#/components/schemas/Representation'
+            - type: string
             - type: 'null'
+          title: Representation
           description: >-
-            The working representation of the target peer from the observer's
-            perspective
+            A curated subset of the representation of the target peer from the
+            observer's perspective
         peer_card:
           anyOf:
             - items:
@@ -224,58 +224,6 @@ components:
           title: Detail
       type: object
       title: HTTPValidationError
-    Representation:
-      properties:
-        explicit:
-          items:
-            $ref: '#/components/schemas/ExplicitObservation'
-          type: array
-          title: Explicit
-          description: >-
-            Facts LITERALLY stated by the user - direct quotes or clear
-            paraphrases only, no interpretation or inference. Example: ['The
-            user is 25 years old', 'The user has a dog']
-        deductive:
-          items:
-            $ref: '#/components/schemas/DeductiveObservation'
-          type: array
-          title: Deductive
-          description: >-
-            Conclusions that MUST be true given explicit facts and premises -
-            strict logical necessities. Each deduction should have premises and
-            a single conclusion.
-      type: object
-      title: Representation
-      description: >-
-        A Representation is a traversable and diffable map of observations.
-
-        At the base, we have a list of explicit observations, derived from a
-        peer's messages.
-
-
-        From there, deductive observations can be made by establishing logical
-        relationships between explicit observations.
-
-
-        In the future, we can add more levels of reasoning on top of these.
-
-
-        All of a peer's observations are stored as documents in a collection.
-        These documents can be queried in various ways
-
-        to produce this Representation object.
-
-
-        Additionally, a "working representation" is a version of this data
-        structure representing the most recent observations
-
-        within a single session.
-
-
-        A representation can have a maximum number of observations, which is
-        applied individually to each level of reasoning.
-
-        If a maximum is set, observations are added and removed in FIFO order.
     ValidationError:
       properties:
         loc:
@@ -291,72 +239,17 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc
         - msg
         - type
       title: ValidationError
-    ExplicitObservation:
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        message_ids:
-          items:
-            type: integer
-          type: array
-          title: Message Ids
-        session_name:
-          type: string
-          title: Session Name
-        content:
-          type: string
-          title: Content
-          description: The explicit observation
-      type: object
-      required:
-        - created_at
-        - message_ids
-        - session_name
-        - content
-      title: ExplicitObservation
-      description: Explicit observation with content and metadata.
-    DeductiveObservation:
-      properties:
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-        message_ids:
-          items:
-            type: integer
-          type: array
-          title: Message Ids
-        session_name:
-          type: string
-          title: Session Name
-        premises:
-          items:
-            type: string
-          type: array
-          title: Premises
-          description: Supporting premises or evidence for this conclusion
-        conclusion:
-          type: string
-          title: Conclusion
-          description: The deductive conclusion
-      type: object
-      required:
-        - created_at
-        - message_ids
-        - session_name
-        - conclusion
-      title: DeductiveObservation
-      description: >-
-        Deductive observation with multiple premises and one conclusion, plus
-        metadata.
   securitySchemes:
     HTTPBearer:
       type: http

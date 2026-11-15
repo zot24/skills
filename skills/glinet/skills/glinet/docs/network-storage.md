@@ -1,17 +1,6 @@
 > Source: https://docs.gl-inet.com/router/en/4/interface_guide/network_storage
 
 
-<a href="#network-storage" class="md-skip">Skip to content</a>
-
-
-Initializing search
-
-
-<a href="https://github.com/gl-inet/docs4.x" class="md-source" data-md-component="source" title="Go to repository"></a>
-
-
-gl-inet/docs4.x
-
 
 <a href="../../faq/" class="md-nav__link"><span class="md-ellipsis"> FAQ </span></a> <span class="md-nav__icon md-icon"></span>
 
@@ -80,7 +69,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <col style="width: 16%" />
 </colgroup>
 <thead>
-<tr class="header">
+<tr>
 <th style="text-align: left;">Router Model</th>
 <th style="text-align: center;">Samba</th>
 <th style="text-align: center;">Webdav</th>
@@ -90,7 +79,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-MT6000 (Fortify)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -98,7 +87,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">GL-MG1300 (Mango 2)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
@@ -106,7 +95,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-BE14000 (Flint 4)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -114,7 +103,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">GL-BE10000 (Slate 7 Pro)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -122,7 +111,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-E5800 (Mudi 7)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -130,7 +119,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">GL-MT3600BE (Beryl 7)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -138,7 +127,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-MT5000 (Brume 3)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -146,7 +135,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">GL-BE9300 (Flint 3)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -154,7 +143,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-BE6500 (Flint 3e)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -162,7 +151,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">GL-BE3600 (Slate 7)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -170,7 +159,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-X2000 (Spitz Plus)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -178,7 +167,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">GL-MT6000 (Flint 2)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -186,7 +175,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-XE3000 (Puli AX)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -194,7 +183,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">GL-X3000 (Spitz AX)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -202,7 +191,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-MT3000 (Beryl AX)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -210,7 +199,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">GL-MT2500/GL-MT2500A (Brume 2)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -218,7 +207,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-AXT1800 (Slate AX)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -226,7 +215,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">GL-AX1800 (Flint)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -234,7 +223,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-A1300 (Slate Plus)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -242,7 +231,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">GL-S1300 (Convexa-S)</td>
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
@@ -250,7 +239,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-SFT1200 (Opal)<br />
 <strong>FW 4.8+</strong></td>
 <td style="text-align: center;">√</td>
@@ -259,7 +248,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">-</td>
 </tr>
-<tr class="even">
+<tr>
 <td style="text-align: left;">GL-E750V2 (Mudi V2)<br />
 <strong>FW 4.8+</strong></td>
 <td style="text-align: center;">√</td>
@@ -268,7 +257,7 @@ For devices with flash storage of 32MB or less, Network Storage is not yet suppo
 <td style="text-align: center;">√</td>
 <td style="text-align: center;">√</td>
 </tr>
-<tr class="odd">
+<tr>
 <td style="text-align: left;">GL-AR750S-EXT (Slate)<br />
 <strong>FW 4.7+</strong></td>
 <td style="text-align: center;">√</td>
@@ -620,5 +609,4 @@ Thanks for your feedback! Help us improve this page by <a href="https://glinet.f
 
 
 Back to top
-
 

@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,9 +13,7 @@ Self-Hosting Wealthfolio
 Run Wealthfolio on your own infrastructure or choose managed hosting with PikaPods. Explore Docker, Unraid, Proxmox, and Coolify setup guides.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
 Wealthfolio is local-first by design. The desktop app keeps everything on your machine. The **web edition** packages the same engine into a single Docker image so you can run it on a homelab, NAS, or VPS and access it from any browser.
@@ -115,14 +38,14 @@ Pin to a specific tag (e.g. `3.3.0`) in production rather than `latest`.
 ## Pick your platform
 
 
-| You already use…                          | Read this                                                                                                                                            |
-|-------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Plain Docker on a Linux box               | <a href="/docs/guide/self-hosting/docker/" class="font-medium underline underline-offset-4"><strong>Docker</strong></a>                              |
-| Docker Compose / a `compose.yml` workflow | <a href="/docs/guide/self-hosting/docker-compose/" class="font-medium underline underline-offset-4"><strong>Docker Compose</strong></a>              |
-| **Unraid** (NAS / homelab)                | <a href="/docs/guide/self-hosting/unraid/" class="font-medium underline underline-offset-4"><strong>Unraid</strong></a>                              |
-| **Proxmox VE** (LXC or VMs)               | <a href="/docs/guide/self-hosting/proxmox/" class="font-medium underline underline-offset-4"><strong>Proxmox</strong></a>                            |
-| **Coolify** (self-hosted PaaS)            | <a href="/docs/guide/self-hosting/coolify/" class="font-medium underline underline-offset-4"><strong>Coolify</strong></a>                            |
-| Something else                            | <a href="/docs/guide/self-hosting/docker/" class="font-medium underline underline-offset-4"><strong>Docker</strong></a> (works anywhere Docker runs) |
+| You already use… | Read this |
+|----|----|
+| Plain Docker on a Linux box | <a href="/docs/guide/self-hosting/docker/" class="font-medium underline underline-offset-4"><strong>Docker</strong></a> |
+| Docker Compose / a `compose.yml` workflow | <a href="/docs/guide/self-hosting/docker-compose/" class="font-medium underline underline-offset-4"><strong>Docker Compose</strong></a> |
+| **Unraid** (NAS / homelab) | <a href="/docs/guide/self-hosting/unraid/" class="font-medium underline underline-offset-4"><strong>Unraid</strong></a> |
+| **Proxmox VE** (LXC or VMs) | <a href="/docs/guide/self-hosting/proxmox/" class="font-medium underline underline-offset-4"><strong>Proxmox</strong></a> |
+| **Coolify** (self-hosted PaaS) | <a href="/docs/guide/self-hosting/coolify/" class="font-medium underline underline-offset-4"><strong>Coolify</strong></a> |
+| Something else | <a href="/docs/guide/self-hosting/docker/" class="font-medium underline underline-offset-4"><strong>Docker</strong></a> (works anywhere Docker runs) |
 
 
 After install, all platforms share the same configuration:
@@ -215,21 +138,21 @@ Three likely causes, in order of frequency:
 
 ### Why is my self-hosted instance hitting `wealthfolio.app`?
 
-The release-check ping. It asks the public site whether a newer version is available and carries no portfolio data. To disable it, toggle off **Settings → General → Check for updates automatically** in the app — the setting is stored per instance as `auto_update_check_enabled`.
+The release-check ping. It asks the public site whether a newer version is available and carries no portfolio data. To disable it, turn off **Enable automatic update checks** under **Settings → General → Automatic updates** in the app – the setting is stored per instance as `auto_update_check_enabled`. Since 3.13, the web app skips the check when it can’t read the setting, for example after a reload while it starts, so a check you turned off stays off.
 
 ### Required environment variables
 
 The container won’t start without these:
 
 
-| Variable                | What it is                                                                                                   |
-|-------------------------|--------------------------------------------------------------------------------------------------------------|
-| `WF_SECRET_KEY`         | 32-byte secret (base64). Encrypts stored API keys + signs JWTs. Losing it locks you out of broker creds.     |
-| `WF_AUTH_PASSWORD_HASH` | Argon2id PHC hash of your login password. Use `printf '…' | argon2 …`, never `echo -n`.                      |
-| `WF_LISTEN_ADDR`        | Bind address inside the container (typically `0.0.0.0:8088`).                                                |
-| `WF_DB_PATH`            | Existing SQLite file path (typically `/data/wealthfolio.db`); its parent selects the installation directory. |
-| `WF_DATA_DIR`           | Optional explicit installation directory for the profile registry, profile databases, and encrypted vault.   |
-| `WF_CORS_ALLOW_ORIGINS` | Comma-separated origins allowed to call the API (set to your reverse-proxy URL).                             |
+| Variable | What it is |
+|----|----|
+| `WF_SECRET_KEY` | 32-byte secret (base64). Encrypts stored API keys + signs JWTs. Losing it locks you out of broker creds. |
+| `WF_AUTH_PASSWORD_HASH` | Argon2id PHC hash of your login password. Use `printf '…' | argon2 …`, never `echo -n`. |
+| `WF_LISTEN_ADDR` | Bind address inside the container (typically `0.0.0.0:8088`). |
+| `WF_DB_PATH` | Existing SQLite file path (typically `/data/wealthfolio.db`); its parent selects the installation directory. |
+| `WF_DATA_DIR` | Optional explicit installation directory for the profile registry, profile databases, and encrypted vault. |
+| `WF_CORS_ALLOW_ORIGINS` | Comma-separated origins allowed to call the API (set to your reverse-proxy URL). |
 
 
 Full reference: <a href="/docs/guide/self-hosting/configuration/" class="font-medium underline underline-offset-4">Configuration</a>.
@@ -237,18 +160,18 @@ Full reference: <a href="/docs/guide/self-hosting/configuration/" class="font-me
 ### Which Docker image should I pull?
 
 
-| Registry   | Image                             | Notes                                                  |
-|------------|-----------------------------------|--------------------------------------------------------|
-| Docker Hub | `wealthfolio/wealthfolio`         | Primary, recommended.                                  |
-| GHCR       | `ghcr.io/wealthfolio/wealthfolio` | Mirror on every release.                               |
-| Legacy     | `afadil/wealthfolio`              | Still published as a mirror so old compose files work. |
+| Registry | Image | Notes |
+|----|----|----|
+| Docker Hub | `wealthfolio/wealthfolio` | Primary, recommended. |
+| GHCR | `ghcr.io/wealthfolio/wealthfolio` | Mirror on every release. |
+| Legacy | `afadil/wealthfolio` | Still published as a mirror so old compose files work. |
 
 
 Pin to a specific tag in production (e.g. `wealthfolio/wealthfolio:3.4.0`). `latest` will follow new majors and can ship breaking changes.
 
 ### OIDC / SSO
 
-Supported on the web edition. Sign in through any OpenID Connect provider (Authentik, PocketID, Authelia, Keycloak, …) alongside or instead of the shared password — a successful SSO login mints the same session. Enable it with the `WF_OIDC_*` variables; see <a href="/docs/guide/self-hosting/configuration/#single-sign-on-oidc" class="font-medium underline underline-offset-4">Configuration → Single Sign-On (OIDC)</a>. Closes <a href="https://github.com/wealthfolio/wealthfolio/issues/592" class="font-medium underline underline-offset-4">#592</a>.
+Supported on the web edition. Sign in through any OpenID Connect provider (Authentik, PocketID, Authelia, Keycloak, …) alongside or instead of the shared password – a successful SSO login mints the same session. Enable it with the `WF_OIDC_*` variables; see <a href="/docs/guide/self-hosting/configuration/#single-sign-on-oidc" class="font-medium underline underline-offset-4">Configuration → Single Sign-On (OIDC)</a>. Closes <a href="https://github.com/wealthfolio/wealthfolio/issues/592" class="font-medium underline underline-offset-4">#592</a>.
 
 ## Getting help
 
@@ -257,13 +180,10 @@ Supported on the web edition. Sign in through any OpenID Connect provider (Authe
 - **Source**: <a href="https://github.com/wealthfolio/wealthfolio" class="font-medium underline underline-offset-4">github.com/wealthfolio/wealthfolio</a> (AGPL-3.0)
 
 
-------------------------------------------------------------------------
+<a href="/docs/guide/mobile/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Mobile</a> <a href="/docs/guide/self-hosting/configuration/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Configuration</a>
 
 
-<a href="/docs/guide/mobile/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Mobile</a> <a href="/docs/guide/self-hosting/configuration/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Configuration</a>
-
-
-On This Page
+On this page
 
 - <a href="#image" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Image</a>
 - <a href="#pick-your-platform" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Pick your platform</a>

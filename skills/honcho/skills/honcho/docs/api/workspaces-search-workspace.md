@@ -6,56 +6,67 @@
 
 # Search Workspace
 
-> Search a Workspace
+> Search messages in a Workspace using optional filters. Use `limit` to control the number of
+results returned.
+
+Pass `scope` to restrict the search to a scope's member sessions. A scope
+with no member sessions returns no results (fail-closed).
 
 
 ## OpenAPI
 
-````yaml post /v2/workspaces/{workspace_id}/search
+````yaml post /v3/workspaces/{workspace_id}/search
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/search:
+  /v3/workspaces/{workspace_id}/search:
     post:
       tags:
         - workspaces
       summary: Search Workspace
-      description: Search a Workspace
-      operationId: search_workspace_v2_workspaces__workspace_id__search_post
+      description: >-
+        Search messages in a Workspace using optional filters. Use `limit` to
+        control the number of
+
+        results returned.
+
+
+        Pass `scope` to restrict the search to a scope's member sessions. A
+        scope
+
+        with no member sessions returns no results (fail-closed).
+      operationId: search_workspace_v3_workspaces__workspace_id__search_post
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace to search
             title: Workspace Id
-          description: ID of the workspace to search
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MessageSearchOptions'
-              description: 'Message search parameters '
+              $ref: '#/components/schemas/WorkspaceMessageSearchOptions'
+              description: Message search parameters
       responses:
         '200':
           description: Successful Response
@@ -66,7 +77,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/Message'
                 title: >-
-                  Response Search Workspace V2 Workspaces  Workspace Id  Search
+                  Response Search Workspace V3 Workspaces  Workspace Id  Search
                   Post
         '422':
           description: Validation Error
@@ -78,7 +89,7 @@ paths:
         - HTTPBearer: []
 components:
   schemas:
-    MessageSearchOptions:
+    WorkspaceMessageSearchOptions:
       properties:
         query:
           type: string
@@ -98,10 +109,20 @@ components:
           title: Limit
           description: Number of results to return
           default: 10
+        scope:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Scope
+          description: >-
+            Optional (unprefixed) scope name restricting search to the scope's
+            member sessions. A scope with no member sessions returns no results.
+            Mutually exclusive with a 'session_id' key in `filters`.
       type: object
       required:
         - query
-      title: MessageSearchOptions
+      title: WorkspaceMessageSearchOptions
+      description: Workspace-level message search options, extended with `scope`.
     Message:
       properties:
         id:
@@ -164,6 +185,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

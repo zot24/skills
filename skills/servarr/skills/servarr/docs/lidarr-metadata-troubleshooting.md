@@ -191,15 +191,15 @@ To add a Spotify relationship on MusicBrainz, open the release and go to **Edit*
 
 ## <a href="#retry-or-wait" class="toc-anchor">¶</a> Retry or wait
 
-| Situation                                                             | Action                                                                                                                                                       |
-|-----------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| You just submitted an edit at MusicBrainz                             | Wait ~3 hours, then **Refresh Artist** in Lidarr                                                                                                             |
-| You just uploaded cover art to the Cover Art Archive                  | Allow days, not hours — covers propagate slower than metadata                                                                                                |
-| A release status was `unknown` and you changed it                     | Wait ~3 hours after the edit's visible on MusicBrainz, then **Refresh Artist**                                                                               |
-| A scripted import left the album type blank                           | Fix the type on MusicBrainz first; the release is invisible to Lidarr until then                                                                             |
-| Lidarr matched the wrong release                                      | Use the release dropdown on the album detail page — no waiting needed                                                                                        |
-| You already waited 3+ hours and refreshed and the data is still wrong | Request a cache-bust on the Servarr Discord with `!refresh album/<release-group-mbid>` or `!refresh artist/<artist-mbid>`                                    |
-| The release doesn't exist on MusicBrainz at all                       | Add it with <a href="https://harmony.pulsewidth.org.uk/" class="is-external-link">Harmony</a> or the MusicBrainz web editor, then follow the first row above |
+| Situation | Action |
+|----|----|
+| You just submitted an edit at MusicBrainz | Wait ~3 hours, then **Refresh Artist** in Lidarr |
+| You just uploaded cover art to the Cover Art Archive | Allow days, not hours — covers propagate slower than metadata |
+| A release status was `unknown` and you changed it | Wait ~3 hours after the edit's visible on MusicBrainz, then **Refresh Artist** |
+| A scripted import left the album type blank | Fix the type on MusicBrainz first; the release is invisible to Lidarr until then |
+| Lidarr matched the wrong release | Use the release dropdown on the album detail page — no waiting needed |
+| You already waited 3+ hours and refreshed and the data is still wrong | Request a cache-bust on the Servarr Discord with `!refresh album/<release-group-mbid>` or `!refresh artist/<artist-mbid>` |
+| The release doesn't exist on MusicBrainz at all | Add it with <a href="https://harmony.pulsewidth.org.uk/" class="is-external-link">Harmony</a> or the MusicBrainz web editor, then follow the first row above |
 
 ## <a href="#see-also" class="toc-anchor">¶</a> See also
 

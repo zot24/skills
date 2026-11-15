@@ -4,7 +4,7 @@
 
 ## Japanese
 
-- [Japanese / v2 (247 pages)](https://docs.firecrawl.dev/_llms/ja/v2.txt): Documentation for Japanese / v2.
+- [Japanese / v2 (246 pages)](https://docs.firecrawl.dev/_llms/ja/v2.txt): ドキュメント, SDK, APIリファレンス, AIで構築.
 
 ### v1
 

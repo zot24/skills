@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,12 +13,10 @@ Spending & Budgets
 Track cash flow alongside your investments. Categorize transactions, build budgets, mark life events, and read narrative spending insights.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
-Spending & Budgets, introduced in **3.5**, brings your day-to-day cash flow into Wealthfolio, right next to your investments. Categorize transactions automatically, set budgets that fit how you actually spend, tag life events, and read an insights page that explains where your money went.
+Spending & Budgets, introduced in **3.5**, brings your day-to-day cash flow into Wealthfolio, right next to your investments. Categorize transactions automatically, set budgets that fit how you actually spend, tag life events, and read spending insights that explain where your money went.
 
 > Everything here is computed locally from activities already in your accounts. Nothing about your spending leaves your device.
 
@@ -104,7 +27,7 @@ Spending & Budgets, introduced in **3.5**, brings your day-to-day cash flow into
 
 ## Transaction amounts
 
-A transaction’s amount is the final cash paid or received, including any fees and taxes. Those charge fields do not reduce cash a second time. After the 3.8 upgrade, check **Activities → Needs review** for older amounts that need comparison with your statement. Correcting an amount can also change historical spending totals. See <a href="/docs/concepts/activity-fields/" class="font-medium underline underline-offset-4">Activity Fields</a>.
+A transaction’s amount is the cash actually paid or received, with fees and taxes already applied. Those charge fields do not reduce cash a second time. After the 3.8 upgrade, check **Activities → Needs review** for older amounts that need comparison with your statement. Correcting an amount can also change historical spending totals. See <a href="/docs/concepts/activity-fields/" class="font-medium underline underline-offset-4">Activity Fields</a>.
 
 ## Choosing spending accounts
 
@@ -114,6 +37,14 @@ Spending features work across the accounts you opt in. You can include multiple 
 - **Refunds / credits** reduce spending.
 - **Credit-card payments** move money between your own accounts, so they stay visible without double-counting as spending.
 - Money moving from a cash account into an investing account is classified as **Saving**, kept in its own bucket rather than counted as spend.
+- A linked transfer between two credit cards or loans doesn’t count as **Saved**, even when the other account isn’t in Spending. A transfer from a card to an investment account still counts. After the 3.13 update, past months with such a transfer show less saved.
+- Money brought back from a savings or investment account by a linked transfer counts against saving. Totals show **Net saved**: what went to savings minus what came back, negative when more came back.
+- Transfers between your spending accounts stay neutral.
+- Credits imported into a cash account without a subtype are listed in **Activities → Spending**. They change the balance but count as neither spending nor income.
+
+A deposit or withdrawal that is really a transfer between your own accounts can become one. Use **Make it a transfer…** in the transaction’s row menu, or under **Transfer** in its edit sheet. Pick the matching activity in the other account, within 7 days, or choose **Create it in another account**. The pair then stops counting as an expense and an income.
+
+The edit sheet’s type list no longer has Transfer In and Transfer Out. To change only the type, use **Change to Transfer In** or **Change to Transfer Out** instead. The transaction becomes an external transfer, and **Change to Deposit** or **Change to Withdrawal** turns it back. A linked transfer has to be unlinked first.
 
 
 Credit cards are fully supported. Track card spending, payments, and transfers in one place without inflating your totals.
@@ -122,6 +53,13 @@ Credit cards are fully supported. Track card spending, payments, and transfers i
 ## Categorizing transactions
 
 Every transaction can be assigned to a category. You set up rules once, and Wealthfolio categorizes new transactions for you, with AI to help with whatever’s left.
+
+### Categories
+
+Manage categories in **Settings → Spending tracker**. The category picker shows them as a tree, each parent followed by its own children, with their icons. Category fields and transaction rows and cards show the icon too.
+
+- **Move a category** under another parent, or to the top level, from its edit dialog: change **Parent category**, or pick **None (top level)**. Its transactions keep their category, and reports and budgets count it under its new parent. A category with subcategories can’t be moved, and a top-level category with budget targets can’t be moved until you remove them.
+- **Delete** a category you never used. Deleting one you’ve used merges it into another category of the same kind (expense, income, or savings): pick it under **Move into…**, check the review, then press **Move and delete**. Its transactions, split lines, rules, and budget amounts move over, and the review shows each budget as **Current** + **Added** = **New total**. Past reports use the new category, and the merge can’t be undone. Some merges are blocked until you fix the cause, for example a category with subcategories or with saved rollover settings.
 
 ### Rules
 
@@ -137,7 +75,9 @@ A rule matches a transaction’s description and assigns a category. Each rule h
 | Taxonomy   | Spending category, income source, or savings category   |
 
 
-You can start from **rule presets** (a library of common merchant/category rules), then tweak them. Rules can be **re-run** against all transactions or only the uncategorized ones, and Wealthfolio tracks how each assignment was made (rule, AI suggestion, or your own override).
+You can start from **rule presets** (a library of common merchant/category rules), then tweak them. Presets are available for the United States, Canada, the United Kingdom, Spain, Germany, France, the Netherlands, Australia, New Zealand, Sweden, and Italy. The Italy preset, for Italian banks, covers supermarkets, utilities, telecom and home internet, streaming, fuel, transport, tolls and parking, healthcare, shopping, taxes and PagoPA, bank fees, and income. Refunds aren’t filed as spending.
+
+Rules can be **re-run** against all transactions or only the uncategorized ones, and Wealthfolio tracks how each assignment was made (rule, AI suggestion, or your own override).
 
 <figure class="not-prose my-6">
 <img src="https://assets.wealthfolio.app/images/screenshots/spending/spending-rules.png" class="block h-auto w-full dark:hidden" loading="lazy" decoding="async" alt="Categorization rules with match types, priorities, and presets" /> <img src="https://assets.wealthfolio.app/images/screenshots/spending/spending-rules-dark.png" class="hidden h-auto w-full dark:block" loading="lazy" decoding="async" alt="Categorization rules with match types, priorities, and presets" />
@@ -152,6 +92,12 @@ For transactions no rule covers, the AI assistant can propose categories. Review
 A single transaction can hold more than one assignment. For example, it can be split across a spending category and a savings category, each with its own weight.
 
 
+Recategorizing or editing a split transaction shows what happens to the split, and asks before removing it. To give a split transaction a single category again, use **Replace splits with one category** in the split editor.
+
+### Editing many transactions in a grid
+
+**Activities → Spending** has the same view switch as the Investments tab: **View mode** shows the list and **Edit mode** a grid. In the grid, change the date, account, type, category, amount, currency, or comment of many rows, paste or fill across cells, then **Save** them together. Phones and narrow screens keep the list.
+
 ## Budgets
 
 Open **Budgets** to plan a month and watch actuals fill in against your targets.
@@ -163,10 +109,17 @@ Categories are organized into **budget groups**: Needs, Wants, Savings, Giving, 
 - **Category targets**: a monthly target per category.
 - **Group buffer**: an extra amount at the group level. The group total is the sum of its category targets plus its buffer.
 
+Any group except Other can be deleted with **Delete group** in the group’s menu, built-in groups included. Its categories and monthly buffers move to a group you pick, and monthly budgets add up instead of replacing the other group’s. **Reset to defaults** brings the built-in groups back.
+
+### Savings goals
+
+Savings categories appear in Budgets and in the default plan (**Settings → Spending tracker → Default monthly budget plan**), each with a **Savings goal**. The goal fills with the money you moved to savings that month, and groups and totals show what you saved. A savings goal never shows as overspent. You can move a savings category to another group, and roll an unmet goal into the next month.
+
 ### Monthly periods, rollovers, and copy
 
 - Budgets are scoped to a month (a `YYYY-MM` period). Default targets apply to every month, and you can **override** any single month.
 - **Rollover** carries an unused or overspent balance forward into the next month. Enable it per category or per group.
+- **Remove rollover setting**, in the group’s menu, clears a group’s saved rollover after a confirmation. Rollover balances are recalculated for all months, and categories and targets are kept. A group can’t be deleted until its rollover setting is removed.
 - **Copy last month** clones a previous month’s plan into the current one in a click, so you don’t rebuild your budget every month.
 
 The budget snapshot shows, per category and group: the target, the actual spend, the remaining amount (`target − actual`), and an **overspent** flag when you’ve gone over.
@@ -191,13 +144,18 @@ Mark events like a vacation, a wedding, or a home renovation on a timeline and t
 
 ## Spending insights
 
-The **Insights** page reads like a short narrative in three stages.
+Spending insights is the **Spending** tab in **Insights**, next to **Overview**, **Performance**, and **Income**, with the same cards and period selector as the other tabs. It shows only when spending is turned on. It reads like a short narrative in three stages.
+
+The period buttons are 1W, This month, 3M, 6M, YTD, and 1Y. The **Previous period** and **Next period** arrows step through the period you picked, and the calendar’s **Month** and **Year** tabs jump to any completed month or calendar year. **Last month** is gone: press **Previous period** from **This month**, or pick the month under **Month**.
+
+To see last period’s bars beside this period’s, use **Compare to prior period** on the dashboard’s Spending tab. See <a href="/docs/guide/dashboards/#spending" class="font-medium underline underline-offset-4">Portfolio Dashboards</a>.
 
 ### 1 · Where I am
 
 - **Pace**: your trailing 7-day average daily spend, days elapsed and remaining, and projected total for the period, compared against your budgeted pace. A health status reads `on track`, `approaching`, `over`, or `cashflow negative`.
-- **Spent this period**: the period total with a change versus the previous period, plus the category breakdown and top movers.
-- **Net cash flow**: income minus outflow minus saved, over time.
+- **Spent this period**: the period total with a change versus the previous period, plus the category breakdown and top movers. A calendar month is compared with the whole previous month.
+- **Net cash flow**: income minus outflow minus net saved, over time.
+- **Money flow**: where your money came from and where it went. Money brought back from savings shows as **From savings** beside income, and money moved to savings as **To savings**.
 - **Breakdown**: a hierarchical category table of actual versus budget.
 
 ### 2 · What changed
@@ -235,21 +193,21 @@ Almost every number is clickable:
 - <a href="/docs/guide/allocation-targets/" class="font-medium underline underline-offset-4">Allocation Targets &amp; Rebalancing</a>: the other major 3.5 module.
 
 
-------------------------------------------------------------------------
+<a href="/docs/guide/accounts/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Accounts &amp; Portfolios</a> <a href="/docs/guide/allocation-targets/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Allocation Targets &amp; Rebalancing</a>
 
 
-<a href="/docs/guide/accounts/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Accounts &amp; Portfolios</a> <a href="/docs/guide/allocation-targets/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Allocation Targets &amp; Rebalancing</a>
-
-
-On This Page
+On this page
 
 - <a href="#transaction-amounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Transaction amounts</a>
 - <a href="#choosing-spending-accounts" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Choosing spending accounts</a>
 - <a href="#categorizing-transactions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Categorizing transactions</a>
+  - <a href="#categories" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Categories</a>
   - <a href="#rules" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Rules</a>
   - <a href="#ai-suggestions" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">AI suggestions</a>
+  - <a href="#editing-many-transactions-in-a-grid" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Editing many transactions in a grid</a>
 - <a href="#budgets" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Budgets</a>
   - <a href="#groups-and-targets" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Groups and targets</a>
+  - <a href="#savings-goals" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Savings goals</a>
   - <a href="#monthly-periods-rollovers-and-copy" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Monthly periods, rollovers, and copy</a>
 - <a href="#life-events" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Life events</a>
 - <a href="#spending-insights" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Spending insights</a>

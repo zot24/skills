@@ -62,13 +62,15 @@ https://api.firecrawl.dev
 
 ## Authentication
 
-Every request requires an `Authorization` header with your API key:
+Requests need an `Authorization` header with your API key, except on the keyless endpoints described below:
 
 ```bash theme={null}
 Authorization: Bearer fc-YOUR-API-KEY
 ```
 
-Include this header in all API calls. You can find your API key in the [Firecrawl dashboard](https://www.firecrawl.dev/app/api-keys).
+You can find your API key in the [Firecrawl dashboard](https://www.firecrawl.dev/app/api-keys).
+
+A few endpoints, including `/v2/scrape`, `/v2/search` and `/v2/parse`, also work without a key, with limits. To call them keyless, leave the `Authorization` header out entirely, because a header with an empty token returns `401`. See [No API key (keyless)](https://docs.firecrawl.dev/authentication.md#no-api-key-keyless) for the full list.
 
 To let users connect their own Firecrawl account to your app instead, use [OAuth for apps](https://docs.firecrawl.dev/oauth.md). [Authentication](https://docs.firecrawl.dev/authentication.md) compares every option.
 

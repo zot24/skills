@@ -4,7 +4,7 @@
 title: Actions
 description: Handle button clicks and interactive card events across platforms.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: guide
 prerequisites:
   - /docs/cards
@@ -165,7 +165,8 @@ The POST body sent to the `callbackUrl`:
   "actionId": "approve",
   "user": { "id": "U123", "name": "alice" },
   "threadId": "slack:C123:1234567890.123",
-  "messageId": "1234567890.456"
+  "messageId": "1234567890.456",
+  "receipt": "3f2b8c1e-5d4a-4e7b-9c6f-1a2b3c4d5e6f"
 }
 ```
 
@@ -180,9 +181,12 @@ If the card carried inputs, the payload includes what the user typed as `"values
   "values": { "notes": "ship it" },
   "user": { "id": "U123", "name": "alice" },
   "threadId": "teams:MTk6YWJjMTIzQHRocmVhZC50YWN2Mg:aHR0cHM6Ly9zbWJhLnRyYWZmaWNtYW5hZ2VyLm5ldC9hbWVyLw",
-  "messageId": "1700000012345"
+  "messageId": "1700000012345",
+  "receipt": "8a7d6c5b-4e3f-4a2b-8c1d-0e9f8a7b6c5d"
 }
 ```
+
+`receipt` is an opaque identifier for a record of the click that Chat SDK stores in your state adapter for 24 hours, built from the platform's verified event rather than from this body. If Chat SDK can't store the receipt, it doesn't call the callback URL, and the button keeps working so the user can click again. Anyone who knows a callback URL can POST to it, so a request arriving at the URL doesn't prove that someone clicked the button, and a receiver that acts on who clicked shouldn't trust fields like `user` or `actionId` from the body. For approvals, use [`requestApproval`](/docs/approvals#who-can-approve), which redeems the receipt and verifies each click for you. Chat SDK doesn't export a way to redeem receipts in your own receivers.
 
 > Platform limits apply to encoded button data. Discord's `custom_id` has a
 > 100-character limit, and posting the card throws a `ValidationError` if the

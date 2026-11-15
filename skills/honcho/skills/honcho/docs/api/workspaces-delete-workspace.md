@@ -6,56 +6,74 @@
 
 # Delete Workspace
 
-> Delete a Workspace
+> Delete a Workspace. This accepts the deletion request and processes it in the background,
+permanently deleting all peers, messages, conclusions, and other resources associated
+with the workspace.
+
+Returns 409 Conflict if the workspace contains active sessions.
+Delete all sessions first, then delete the workspace.
+
+This action cannot be undone.
 
 
 ## OpenAPI
 
-````yaml delete /v2/workspaces/{workspace_id}
+````yaml delete /v3/workspaces/{workspace_id}
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}:
+  /v3/workspaces/{workspace_id}:
     delete:
       tags:
         - workspaces
       summary: Delete Workspace
-      description: Delete a Workspace
-      operationId: delete_workspace_v2_workspaces__workspace_id__delete
+      description: >-
+        Delete a Workspace. This accepts the deletion request and processes it
+        in the background,
+
+        permanently deleting all peers, messages, conclusions, and other
+        resources associated
+
+        with the workspace.
+
+
+        Returns 409 Conflict if the workspace contains active sessions.
+
+        Delete all sessions first, then delete the workspace.
+
+
+        This action cannot be undone.
+      operationId: delete_workspace_v3_workspaces__workspace_id__delete
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace to delete
             title: Workspace Id
-          description: ID of the workspace to delete
       responses:
-        '200':
+        '202':
           description: Successful Response
           content:
             application/json:
-              schema:
-                $ref: '#/components/schemas/Workspace'
+              schema: {}
         '422':
           description: Validation Error
           content:
@@ -66,28 +84,6 @@ paths:
         - HTTPBearer: []
 components:
   schemas:
-    Workspace:
-      properties:
-        id:
-          type: string
-          title: Id
-        metadata:
-          additionalProperties: true
-          type: object
-          title: Metadata
-        configuration:
-          additionalProperties: true
-          type: object
-          title: Configuration
-        created_at:
-          type: string
-          format: date-time
-          title: Created At
-      type: object
-      required:
-        - id
-        - created_at
-      title: Workspace
     HTTPValidationError:
       properties:
         detail:
@@ -112,6 +108,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

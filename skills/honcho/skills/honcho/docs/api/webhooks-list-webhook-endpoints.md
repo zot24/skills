@@ -11,35 +11,34 @@
 
 ## OpenAPI
 
-````yaml get /v2/workspaces/{workspace_id}/webhooks
+````yaml get /v3/workspaces/{workspace_id}/webhooks
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/webhooks:
+  /v3/workspaces/{workspace_id}/webhooks:
     get:
       tags:
         - webhooks
       summary: List Webhook Endpoints
       description: List all webhook endpoints, optionally filtered by workspace.
-      operationId: list_webhook_endpoints_v2_workspaces__workspace_id__webhooks_get
+      operationId: list_webhook_endpoints_v3_workspaces__workspace_id__webhooks_get
       parameters:
         - name: workspace_id
           in: path
@@ -54,11 +53,12 @@ paths:
           required: false
           schema:
             type: integer
+            maximum: 2147483647
             minimum: 1
-            description: Page number
+            description: Page number (offset mode)
             default: 1
             title: Page
-          description: Page number
+          description: Page number (offset mode)
         - name: size
           in: query
           required: false
@@ -70,13 +70,35 @@ paths:
             default: 50
             title: Size
           description: Page size
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            description: >-
+              Opt in to cursor pagination. Send an empty value for the first
+              page, then the `next_page` value from each response. When set,
+              `page` is ignored and the response is a cursor page with no
+              `total`.
+            title: Cursor
+          description: >-
+            Opt in to cursor pagination. Send an empty value for the first page,
+            then the `next_page` value from each response. When set, `page` is
+            ignored and the response is a cursor page with no `total`.
       responses:
         '200':
           description: Successful Response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page_WebhookEndpoint_'
+                anyOf:
+                  - $ref: '#/components/schemas/Page_WebhookEndpoint_'
+                  - $ref: '#/components/schemas/CursorPage_WebhookEndpoint_'
+                title: >-
+                  Response List Webhook Endpoints V3 Workspaces  Workspace Id 
+                  Webhooks Get
         '422':
           description: Validation Error
           content:
@@ -95,35 +117,75 @@ components:
           type: array
           title: Items
         total:
-          anyOf:
-            - type: integer
-              minimum: 0
-            - type: 'null'
+          type: integer
+          minimum: 0
           title: Total
+          description: >-
+            Number of matching rows, exact up to the server's
+            PAGINATION_COUNT_LIMIT (default 100000) and reported as that limit
+            plus one when there are more. While a next page exists it is at
+            least one more than this page's last row, so `pages` always reaches
+            the end of the list.
         page:
-          anyOf:
-            - type: integer
-              minimum: 1
-            - type: 'null'
+          type: integer
+          minimum: 1
           title: Page
         size:
-          anyOf:
-            - type: integer
-              minimum: 1
-            - type: 'null'
+          type: integer
+          minimum: 1
           title: Size
         pages:
-          anyOf:
-            - type: integer
-              minimum: 0
-            - type: 'null'
+          type: integer
+          minimum: 0
           title: Pages
       type: object
       required:
         - items
+        - total
         - page
         - size
+        - pages
       title: Page[WebhookEndpoint]
+    CursorPage_WebhookEndpoint_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/WebhookEndpoint'
+          type: array
+          title: Items
+        total:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Total
+        current_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Current Page
+          description: Cursor to refetch the current page
+        current_page_backwards:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Current Page Backwards
+          description: Cursor to refetch the current page starting from the last item
+        previous_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Previous Page
+          description: Cursor for the previous page
+        next_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Next Page
+          description: Cursor for the next page
+      type: object
+      required:
+        - items
+      title: CursorPage[WebhookEndpoint]
     HTTPValidationError:
       properties:
         detail:
@@ -146,6 +208,14 @@ components:
         url:
           type: string
           title: Url
+        event_types:
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
+          title: Event Types
+          description: Event types this endpoint receives; null receives every type.
         created_at:
           type: string
           format: date-time
@@ -172,6 +242,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

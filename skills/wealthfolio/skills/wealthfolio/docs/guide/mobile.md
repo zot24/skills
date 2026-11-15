@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,14 +13,12 @@ Mobile App (iOS & Android)
 Install Wealthfolio on iOS and Android, or use a self-hosted instance as a Progressive Web App on your phone.
 
 
-------------------------------------------------------------------------
+Last updated November 12, 2026
 
-Last updated October 31, 2026
-
-Wealthfolio is available as a native app for iOS and Android. Self-hosted users can also access their instance as a Progressive Web App (PWA) on either platform. This guide covers installation, local data storage, and optional device sync.
+Wealthfolio is available as a native app for iOS and Android. Self-hosted users can also access their instance as a Progressive Web App (PWA) on either platform. This guide covers installation, getting around on a phone, local data storage, and optional device sync.
 
 <figure class="my-6">
-<img src="https://assets.wealthfolio.app/images/screenshots/app/mobile-store.png" class="block w-full rounded-lg" alt="Wealthfolio on iOS — dashboard, net worth, AI assistant, holdings, and allocation" />
+<img src="https://assets.wealthfolio.app/images/screenshots/app/mobile-store.png" class="block w-full rounded-lg" alt="Wealthfolio on iOS – dashboard, net worth, AI assistant, holdings, and allocation" />
 <figcaption>Wealthfolio for iOS</figcaption>
 </figure>
 
@@ -119,7 +42,7 @@ Each iOS device runs its own SQLite database in the app’s sandbox storage. If 
 
 ### Multi-device with Connect
 
-Sign into Connect on the iOS app under **Settings → Connect**. Changes flow to your other devices via E2E-encrypted blobs. See the <a href="/docs/guide/connect-broker-sync/" class="font-medium underline underline-offset-4">Connect &amp; Broker Sync guide</a> for the full setup.
+Sign into Connect on the iOS app under **Settings → Wealthfolio Connect**. Changes flow to your other devices via E2E-encrypted blobs. See the <a href="/docs/guide/connect-broker-sync/" class="font-medium underline underline-offset-4">Connect &amp; Broker Sync guide</a> for the full setup.
 
 ------------------------------------------------------------------------
 
@@ -135,11 +58,41 @@ Each Android device keeps its own SQLite database in the app’s private storage
 
 ### Multi-device with Connect
 
-Sign into Connect in the Android app under **Settings → Connect** to sync with your other devices using end-to-end encryption. See the <a href="/docs/guide/connect-broker-sync/" class="font-medium underline underline-offset-4">Connect &amp; Broker Sync guide</a> for the full setup.
+Sign into Connect in the Android app under **Settings → Wealthfolio Connect** to sync with your other devices using end-to-end encryption. See the <a href="/docs/guide/connect-broker-sync/" class="font-medium underline underline-offset-4">Connect &amp; Broker Sync guide</a> for the full setup.
 
 ------------------------------------------------------------------------
 
-## 3 · Self-hosted on mobile (PWA)
+## 3 · Getting around on a phone
+
+The bottom bar shows Dashboard, Insights, and Holdings, then Search and More. Activities is first in More. A pinned add-on takes Holdings’ place. On Android, the bar is a Material navigation bar: full width along the bottom, with a label under each icon, in the theme’s colours.
+
+Each tab of the bar keeps its own stack of screens:
+
+- Going back returns to the screen as you left it, with its scroll position, filters, and unsaved drafts.
+- Switching tabs returns to where each tab was left.
+- Tapping the tab you’re on scrolls it to the top, or returns it to its first screen.
+- Screens slide in and out. In the iOS app, swipe from the left edge to go back.
+- On Android, Back steps back through the tab, then goes to the Dashboard, then leaves the app.
+- Leaving a CSV import part-way asks before discarding it.
+
+Text size follows your phone’s system setting until you pick one in <a href="/docs/guide/settings/#appearance" class="font-medium underline underline-offset-4">Settings → Appearance</a>.
+
+### Forms and sheets
+
+- Sheets and dialogs stay above the keyboard and inside the screen’s safe areas. The field you tapped scrolls back into view.
+- Pickers for accounts, lists, dates, and symbols open as a screen inside the sheet. Tap **Back** to return to the form.
+- **Add expense** and **Add income** start with a large amount, then rows for the account, date, category, and event.
+- **Add existing holdings** gives each holding its own card.
+- Closing a form with something typed asks **Discard changes?** first.
+- Health issues, activity details, and asset details open as bottom sheets.
+
+### Dashboard
+
+Actions that add things, such as **Add Asset** or **Add expense**, are in the dashboard’s ⋮ menu. Health issues show as one badge beside the total. Tap it to open the Health Center.
+
+------------------------------------------------------------------------
+
+## 4 · Self-hosted on mobile (PWA)
 
 A self-hosted Wealthfolio instance works as a Progressive Web App. On iOS Safari or Android Chrome:
 
@@ -159,7 +112,7 @@ For most self-hosters this is a perfectly fine setup.
 
 ------------------------------------------------------------------------
 
-## 4 · Tips & limitations
+## 5 · Tips & limitations
 
 - **Imports on iOS:** to import a CSV, share it from Files / iCloud Drive / Dropbox into the Wealthfolio app. The mapping flow is identical to desktop.
 - **Custom providers on iOS:** custom JSON / HTML providers work the same; bear in mind that scraping endpoints that block mobile user-agents may need an HTTP-level `User-Agent` override (configurable in the provider settings).
@@ -170,13 +123,11 @@ For most self-hosters this is a perfectly fine setup.
 
 **Next step:** if you’re using self-hosting + PWA, the <a href="/docs/guide/self-hosting/#troubleshooting" class="font-medium underline underline-offset-4">Self-Hosting troubleshooting section</a> covers the most-common server-side hiccups. If you’re using the native iOS or Android app + Connect, the <a href="/docs/guide/connect-broker-sync/" class="font-medium underline underline-offset-4">Connect &amp; Broker Sync guide</a> is where to go next.
 
-------------------------------------------------------------------------
+
+<a href="/docs/guide/mcp-server/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">MCP Server (Agent Access)</a> <a href="/docs/guide/self-hosting/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Overview</a>
 
 
-<a href="/docs/guide/mcp-server/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">MCP Server (Agent Access)</a> <a href="/docs/guide/self-hosting/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Overview</a>
-
-
-On This Page
+On this page
 
 - <a href="#1--ios-app" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · iOS app</a>
   - <a href="#where-your-ios-data-lives" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Where your iOS data lives</a>
@@ -184,8 +135,11 @@ On This Page
 - <a href="#2--android-app" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · Android app</a>
   - <a href="#where-your-android-data-lives" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Where your Android data lives</a>
   - <a href="#multi-device-with-connect-1" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Multi-device with Connect</a>
-- <a href="#3--self-hosted-on-mobile-pwa" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Self-hosted on mobile (PWA)</a>
+- <a href="#3--getting-around-on-a-phone" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">3 · Getting around on a phone</a>
+  - <a href="#forms-and-sheets" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Forms and sheets</a>
+  - <a href="#dashboard" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Dashboard</a>
+- <a href="#4--self-hosted-on-mobile-pwa" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · Self-hosted on mobile (PWA)</a>
   - <a href="#what-you-give-up-vs-the-native-mobile-apps" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">What you give up vs. the native mobile apps</a>
-- <a href="#4--tips--limitations" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">4 · Tips &amp; limitations</a>
+- <a href="#5--tips--limitations" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">5 · Tips &amp; limitations</a>
 
 

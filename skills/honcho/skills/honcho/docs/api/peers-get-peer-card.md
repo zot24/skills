@@ -14,29 +14,28 @@ If no target is specified, returns the observer's own peer card.
 
 ## OpenAPI
 
-````yaml get /v2/workspaces/{workspace_id}/peers/{peer_id}/card
+````yaml get /v3/workspaces/{workspace_id}/peers/{peer_id}/card
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/peers/{peer_id}/card:
+  /v3/workspaces/{workspace_id}/peers/{peer_id}/card:
     get:
       tags:
         - peers
@@ -49,16 +48,14 @@ paths:
         it exists.
 
         If no target is specified, returns the observer's own peer card.
-      operationId: get_peer_card_v2_workspaces__workspace_id__peers__peer_id__card_get
+      operationId: get_peer_card_v3_workspaces__workspace_id__peers__peer_id__card_get
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
         - name: peer_id
           in: path
           required: true
@@ -75,12 +72,12 @@ paths:
               - type: string
               - type: 'null'
             description: >-
-              The peer whose card to retrieve. If not provided, returns the
-              observer's own card
+              Optional target peer to retrieve a card for, from the observer's
+              perspective. If not provided, returns the observer's own card
             title: Target
           description: >-
-            The peer whose card to retrieve. If not provided, returns the
-            observer's own card
+            Optional target peer to retrieve a card for, from the observer's
+            perspective. If not provided, returns the observer's own card
       responses:
         '200':
           description: Successful Response
@@ -134,6 +131,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

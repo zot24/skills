@@ -1,17 +1,6 @@
 > Source: https://docs.gl-inet.com/router/en/4/interface_guide/clients
 
 
-<a href="#clients" class="md-skip">Skip to content</a>
-
-
-Initializing search
-
-
-<a href="https://github.com/gl-inet/docs4.x" class="md-source" data-md-component="source" title="Go to repository"></a>
-
-
-gl-inet/docs4.x
-
 
 <a href="../../faq/" class="md-nav__link"><span class="md-ellipsis"> FAQ </span></a> <span class="md-nav__icon md-icon"></span>
 
@@ -28,6 +17,8 @@ gl-inet/docs4.x
 
 <a href="#remove-clients" class="md-nav__link"><span class="md-ellipsis"> Remove Clients </span></a>
 
+<a href="#isolate-clients" class="md-nav__link"><span class="md-ellipsis"> Isolate Clients </span></a>
+
 
 <a href="../../features_update/" class="md-nav__link"><span class="md-ellipsis"> Features Update </span></a> <span class="md-nav__icon md-icon"></span>
 
@@ -43,6 +34,8 @@ gl-inet/docs4.x
 <a href="#settings" class="md-nav__link"><span class="md-ellipsis"> Settings </span></a>
 
 <a href="#remove-clients" class="md-nav__link"><span class="md-ellipsis"> Remove Clients </span></a>
+
+<a href="#isolate-clients" class="md-nav__link"><span class="md-ellipsis"> Isolate Clients </span></a>
 
 
 # Clients<a href="#clients" class="headerlink" title="Permanent link">¶</a>
@@ -233,6 +226,26 @@ If you want to remove specific client, click the three-dot icon in the Action co
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/remove_offline.png" class="glboxshadow" alt="remove offline clients" />
 
+## Isolate Clients<a href="#isolate-clients" class="headerlink" title="Permanent link">¶</a>
+
+If you want to prevent Wi-Fi clients on the same network from communicating with one another, enable **AP Isolation** in the Network settings rather than on the Clients page.
+
+**Note**: AP Isolation applies only to Wi-Fi clients, not wired devices.
+
+The following example shows how to enable AP Isolation for Wi-Fi client devices in the main network on a GL-MT3000 running firmware v4.11.
+
+1.  In the web Admin Panel, go to **Network** -\> **LAN** -\> **Main Network**. The configuration path varies depending on your firmware version.
+
+    Click **Edit** in the lower-right corner.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/ap-isolation-1.png" class="glboxshadow" alt="ap isolation 1" />
+
+2.  Turn on **AP Isolation** and click **Apply**.
+
+    <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/clients/ap-isolation-2.png" class="glboxshadow" width="650" alt="ap isolation 2" />
+
+    The Wi‑Fi clients on the main network will no longer be able to communicate with one another.
+
 ------------------------------------------------------------------------
 
 Still have questions? Visit our <a href="https://forum.gl-inet.com" target="_blank">Community Forum</a> or <a href="https://www.gl-inet.com/contacts/" target="_blank">Contact us</a>.
@@ -247,5 +260,4 @@ Thanks for your feedback! Help us improve this page by <a href="https://glinet.f
 
 
 Back to top
-
 

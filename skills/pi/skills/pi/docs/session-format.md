@@ -25,12 +25,12 @@ On this page
 
 Sessions are stored as JSONL (JSON Lines) files. Each line is a JSON object with a `type` field. Session entries form a tree structure via `id`/`parentId` fields, enabling in-place branching without creating new files.
 
-For programmatic creation, persistence, and tree navigation, see the [`SessionManager` API](/docs/latest/sdk#sessionmanager-api).
+For programmatic creation, persistence, and tree navigation, see the [`SessionManager` API](/latest/latest/sdk#sessionmanager-api).
 
 
 ## File Location
 
-<a href="#file-location" class="heading-anchor" aria-label="Permalink: File Location" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#file-location"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#file-location" class="heading-anchor" aria-label="Permalink: File Location" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#file-location"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -43,7 +43,7 @@ By default, `<session-id>` is a UUID. Callers can supply a custom ID through the
 
 ## Deleting Sessions
 
-<a href="#deleting-sessions" class="heading-anchor" aria-label="Permalink: Deleting Sessions" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#deleting-sessions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#deleting-sessions" class="heading-anchor" aria-label="Permalink: Deleting Sessions" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#deleting-sessions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Sessions can be removed by deleting their `.jsonl` files under `~/.pi/agent/sessions/`.
@@ -53,7 +53,7 @@ Pi also supports deleting sessions interactively from `/resume` (select a sessio
 
 ## Session Version
 
-<a href="#session-version" class="heading-anchor" aria-label="Permalink: Session Version" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#session-version"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#session-version" class="heading-anchor" aria-label="Permalink: Session Version" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#session-version"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Sessions have a version field in the header:
@@ -67,13 +67,13 @@ Existing sessions are automatically migrated to the current version (v3) when lo
 
 ## Source Files
 
-<a href="#source-files" class="heading-anchor" aria-label="Permalink: Source Files" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#source-files"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#source-files" class="heading-anchor" aria-label="Permalink: Source Files" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#source-files"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Source on GitHub ([pi](https://github.com/earendil-works/pi)):
 
 - [`packages/coding-agent/src/core/session-manager.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts) - Session entry types and SessionManager
-- [Message Types](/docs/latest/message-types) - Shared message and content-block reference
+- [Message Types](/latest/latest/message-types) - Shared message and content-block reference
 - [`packages/coding-agent/src/core/messages.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/messages.ts) - Extended message types
 - [`packages/ai/src/types.ts`](https://github.com/earendil-works/pi/blob/main/packages/ai/src/types.ts) - Base message and content-block types
 - [`packages/agent/src/types.ts`](https://github.com/earendil-works/pi/blob/main/packages/agent/src/types.ts) - Extensible `AgentMessage` union
@@ -83,17 +83,17 @@ For TypeScript definitions in your project, inspect `node_modules/@earendil-work
 
 ## Messages
 
-<a href="#messages" class="heading-anchor" aria-label="Permalink: Messages" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#messages" class="heading-anchor" aria-label="Permalink: Messages" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-A `message` entry stores an [`AgentMessage`](/docs/latest/message-types). Message content blocks, roles, usage, and message timestamps are defined in [Message Types](/docs/latest/message-types).
+A `message` entry stores an [`AgentMessage`](/latest/latest/message-types). Message content blocks, roles, usage, and message timestamps are defined in [Message Types](/latest/latest/message-types).
 
 Session entry timestamps are ISO 8601 strings. The nested message timestamp is a Unix timestamp in milliseconds.
 
 
 ## Entry Base
 
-<a href="#entry-base" class="heading-anchor" aria-label="Permalink: Entry Base" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#entry-base"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#entry-base" class="heading-anchor" aria-label="Permalink: Entry Base" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#entry-base"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 All entries (except `SessionHeader`) extend `SessionEntryBase`:
@@ -111,12 +111,12 @@ interface SessionEntryBase {
 
 ## Entry Types
 
-<a href="#entry-types" class="heading-anchor" aria-label="Permalink: Entry Types" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#entry-types"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#entry-types" class="heading-anchor" aria-label="Permalink: Entry Types" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#entry-types"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ### SessionHeader
 
-<a href="#sessionheader" class="heading-anchor" aria-label="Permalink: SessionHeader" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#sessionheader"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#sessionheader" class="heading-anchor" aria-label="Permalink: SessionHeader" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#sessionheader"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 First line of the file. Metadata only, not part of the tree (no `id`/`parentId`).
@@ -137,7 +137,7 @@ For sessions with a parent (created via `/fork`, `/clone`, or `newSession({ pare
 
 ### SessionMessageEntry
 
-<a href="#sessionmessageentry" class="heading-anchor" aria-label="Permalink: SessionMessageEntry" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#sessionmessageentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#sessionmessageentry" class="heading-anchor" aria-label="Permalink: SessionMessageEntry" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#sessionmessageentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A message in the conversation. The `message` field contains an `AgentMessage`. System messages carry the prompt and tool loadout: the first request of a session persists one with every prompt section and tool declaration, and later changes persist as system messages that patch `sections` by name (`null` removes one) and list `toolsAdded`/`toolsRemoved`. Replaying them in order yields the current prompt and tools; there is no separate prompt state entry.
@@ -164,10 +164,10 @@ Assistant messages name the model that produced them. Newer messages also record
 
 ### ModelChangeEntry
 
-<a href="#modelchangeentry" class="heading-anchor" aria-label="Permalink: ModelChangeEntry" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#modelchangeentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#modelchangeentry" class="heading-anchor" aria-label="Permalink: ModelChangeEntry" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#modelchangeentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-Emitted when the user switches models mid-session. The latest entry is the selected model, which may be a [virtual model](/docs/latest/virtual-models); assistant messages then name the physical model that answered.
+Emitted when the user switches models mid-session. The latest entry is the selected model, which may be a [virtual model](/latest/latest/virtual-models); assistant messages then name the physical model that answered.
 
 
 ``` shiki
@@ -177,7 +177,7 @@ Emitted when the user switches models mid-session. The latest entry is the selec
 
 ### ThinkingLevelChangeEntry
 
-<a href="#thinkinglevelchangeentry" class="heading-anchor" aria-label="Permalink: ThinkingLevelChangeEntry" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#thinkinglevelchangeentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#thinkinglevelchangeentry" class="heading-anchor" aria-label="Permalink: ThinkingLevelChangeEntry" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#thinkinglevelchangeentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Emitted when the user changes the thinking/reasoning level.
@@ -190,7 +190,7 @@ Emitted when the user changes the thinking/reasoning level.
 
 ### UsageEntry
 
-<a href="#usageentry" class="heading-anchor" aria-label="Permalink: UsageEntry" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#usageentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#usageentry" class="heading-anchor" aria-label="Permalink: UsageEntry" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#usageentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Records model-attributed usage that is not an assistant message and does not participate in LLM context. `kind` is an arbitrary string identifying the operation; for example, cache warming uses `"cache_warm"`.
@@ -206,7 +206,7 @@ Usage entries contribute to session token and cost totals. Pi hides them from th
 
 ### CompactionEntry
 
-<a href="#compactionentry" class="heading-anchor" aria-label="Permalink: CompactionEntry" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#compactionentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#compactionentry" class="heading-anchor" aria-label="Permalink: CompactionEntry" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#compactionentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Created when context is compacted. Stores a summary of earlier messages and a complete system prompt/tool checkpoint.
@@ -229,7 +229,7 @@ Optional fields:
 
 ### ContextEditEntry
 
-<a href="#contexteditentry" class="heading-anchor" aria-label="Permalink: ContextEditEntry" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#contexteditentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#contexteditentry" class="heading-anchor" aria-label="Permalink: ContextEditEntry" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#contexteditentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Append-only edit of one earlier context-producing entry. It changes only future model context; the target entry and its metadata remain unchanged in raw history, UI, exports, and session accounting.
@@ -245,7 +245,7 @@ Targets may be user, assistant, tool-result, or custom-message entries. `replace
 
 ### BranchSummaryEntry
 
-<a href="#branchsummaryentry" class="heading-anchor" aria-label="Permalink: BranchSummaryEntry" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#branchsummaryentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#branchsummaryentry" class="heading-anchor" aria-label="Permalink: BranchSummaryEntry" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#branchsummaryentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Created when switching branches via `/tree` with an LLM generated summary of the left branch up to the common ancestor. Captures context from the abandoned path.
@@ -267,7 +267,7 @@ Optional fields:
 
 ### CustomEntry
 
-<a href="#customentry" class="heading-anchor" aria-label="Permalink: CustomEntry" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#customentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#customentry" class="heading-anchor" aria-label="Permalink: CustomEntry" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#customentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Extension state persistence. Does NOT participate in LLM context.
@@ -280,12 +280,12 @@ Extension state persistence. Does NOT participate in LLM context.
 
 Use `customType` to identify your extension's entries on reload. Interactive mode can render custom entries via `pi.registerEntryRenderer(customType, renderer)`, but they still do not participate in LLM context.
 
-Pi stores [virtual model](/docs/latest/virtual-models) router state as custom entries with `customType` `pi.virtual-model-state` and `data` `{ provider, modelId, state }`.
+Pi stores [virtual model](/latest/latest/virtual-models) router state as custom entries with `customType` `pi.virtual-model-state` and `data` `{ provider, modelId, state }`.
 
 
 ### CustomMessageEntry
 
-<a href="#custommessageentry" class="heading-anchor" aria-label="Permalink: CustomMessageEntry" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#custommessageentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#custommessageentry" class="heading-anchor" aria-label="Permalink: CustomMessageEntry" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#custommessageentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Extension-injected messages that DO participate in LLM context.
@@ -305,7 +305,7 @@ Fields:
 
 ### LabelEntry
 
-<a href="#labelentry" class="heading-anchor" aria-label="Permalink: LabelEntry" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#labelentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#labelentry" class="heading-anchor" aria-label="Permalink: LabelEntry" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#labelentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 User-defined bookmark/marker on an entry.
@@ -321,7 +321,7 @@ Set `label` to `undefined` to clear a label.
 
 ### SessionInfoEntry
 
-<a href="#sessioninfoentry" class="heading-anchor" aria-label="Permalink: SessionInfoEntry" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#sessioninfoentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#sessioninfoentry" class="heading-anchor" aria-label="Permalink: SessionInfoEntry" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#sessioninfoentry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Session metadata (e.g., user-defined display name). Set via `/name`, `--name` / `-n`, or `pi.setSessionName()` in extensions.
@@ -337,7 +337,7 @@ The session name is displayed in the session selector (`/resume`) instead of the
 
 ## Tree Structure
 
-<a href="#tree-structure" class="heading-anchor" aria-label="Permalink: Tree Structure" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#tree-structure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#tree-structure" class="heading-anchor" aria-label="Permalink: Tree Structure" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#tree-structure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Entries normally form one tree, but navigation APIs can create multiple roots:
@@ -358,7 +358,7 @@ Entries normally form one tree, but navigation APIs can create multiple roots:
 
 ## Context Building
 
-<a href="#context-building" class="heading-anchor" aria-label="Permalink: Context Building" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#context-building"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#context-building" class="heading-anchor" aria-label="Permalink: Context Building" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#context-building"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `buildContextEntries()` walks from the current leaf to the root, producing the active entry list while honoring compaction:
@@ -388,7 +388,7 @@ The compaction summary replaces entries before `firstKeptEntryId`. Pre-compactio
 
 ## Parsing Example
 
-<a href="#parsing-example" class="heading-anchor" aria-label="Permalink: Parsing Example" data-copy="" data-copy-text="https://pi.dev/docs/latest/session-format#parsing-example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#parsing-example" class="heading-anchor" aria-label="Permalink: Parsing Example" data-copy="" data-copy-text="https://docs.pi.dev/latest/session-format#parsing-example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki

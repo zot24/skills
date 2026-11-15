@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,9 +13,7 @@ Wealthfolio User Guide
 Comprehensive guide on using Wealthfolio to track and manage your investments.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
 This guide will walk you through the main features of Wealthfolio and how to use them effectively.
@@ -106,7 +29,7 @@ This guide will walk you through the main features of Wealthfolio and how to use
 ### Add Your Accounts
 
 1.  Go to **Settings → Accounts** and click **Add account**.
-2.  Fill out the form — **Account Name**, **Account Group** (optional), **Account Type** (Securities, Cash, Credit Card, or Crypto), **Currency**, and **Tracking Mode** (Transactions or Holdings).
+2.  Fill out the form – **Account Name**, **Account Group** (optional), **Account Type** (Securities, Cash, Credit Card, or Crypto), **Currency**, and **Tracking Mode** (Transactions or Holdings).
 3.  Click **Save**, and repeat for each account.
 
 See <a href="/docs/guide/accounts/" class="font-medium underline underline-offset-4">Accounts &amp; Portfolios</a> for the full field reference and account status (Active / Hidden / Archived).
@@ -120,19 +43,19 @@ Activities in Wealthfolio represent all your financial transactions, including b
 Wealthfolio supports the following activity types to track your investments and their impact on your portfolio:
 
 
-| Activity Type | Description                                                                                                                                                                                                                                                     | Impact                                                                                        |
-|---------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------|
-| BUY           | Purchase securities or other assets.                                                                                                                                                                                                                            | Decreases cash, increases holdings                                                            |
-| SELL          | Sell securities or other assets.                                                                                                                                                                                                                                | Increases cash, decreases holdings                                                            |
-| DIVIDEND      | Record dividend payments received from investments.                                                                                                                                                                                                             | Increases cash                                                                                |
-| INTEREST      | Track interest income earned, typically from cash balances or fixed-income securities.                                                                                                                                                                          | Increases cash                                                                                |
-| DEPOSIT       | Add funds to an account from an external source.                                                                                                                                                                                                                | Increases cash                                                                                |
-| WITHDRAWAL    | Remove funds from an account to an external source.                                                                                                                                                                                                             | Decreases cash                                                                                |
-| TRANSFER_IN   | Transfer cash or assets into this account. Internal: paired with TRANSFER_OUT from another Wealthfolio account, cost basis preserved. External (External flag): seeds an opening balance, gift, inheritance, or RSU at the cost basis you provide.              | If cash: Increases cash. If assets: Increases holdings; cash may decrease by transaction fee. |
-| TRANSFER_OUT  | Transfer cash or assets out of this account. Internal: cost basis exported to the destination Wealthfolio account. External (External flag): assets leave Wealthfolio (write-off, crypto sent to untracked wallet); lots closed via FIFO with no realised gain. | If cash: Decreases cash. If assets: Decreases holdings; cash may decrease by transaction fee. |
-| FEE           | Record account-related fees or transaction charges not included in a buy/sell activity.                                                                                                                                                                         | Decreases cash                                                                                |
-| TAX           | Record tax payments related to investment activities (e.g., withholding tax on dividends, capital gains tax paid).                                                                                                                                              | Decreases cash                                                                                |
-| SPLIT         | Record stock splits or reverse splits. Adjusts the quantity and per-share cost basis of a holding.                                                                                                                                                              | Adjusts holdings (quantity and cost per share); no direct impact on cash or total value.      |
+| Activity Type | Description | Impact |
+|----|----|----|
+| BUY | Purchase securities or other assets. | Decreases cash, increases holdings |
+| SELL | Sell securities or other assets. | Increases cash, decreases holdings |
+| DIVIDEND | Record dividend payments received from investments. | Increases cash |
+| INTEREST | Track interest income earned, typically from cash balances or fixed-income securities. | Increases cash |
+| DEPOSIT | Add funds to an account from an external source. | Increases cash |
+| WITHDRAWAL | Remove funds from an account to an external source. | Decreases cash |
+| TRANSFER_IN | Transfer cash or assets into this account. Internal: paired with TRANSFER_OUT from another Wealthfolio account, cost basis preserved. External (External flag): seeds an opening balance, gift, inheritance, or RSU at the cost basis you provide. | If cash: Increases cash. If assets: Increases holdings; cash may decrease by transaction fee. |
+| TRANSFER_OUT | Transfer cash or assets out of this account. Internal: cost basis exported to the destination Wealthfolio account. External (External flag): assets leave Wealthfolio (write-off, crypto sent to untracked wallet); lots closed via FIFO with no realised gain. | If cash: Decreases cash. If assets: Decreases holdings; cash may decrease by transaction fee. |
+| FEE | Record account-related fees or transaction charges not included in a buy/sell activity. | Decreases cash |
+| TAX | Record tax payments related to investment activities (e.g., withholding tax on dividends, capital gains tax paid). | Decreases cash |
+| SPLIT | Record stock splits or reverse splits. Adjusts the quantity and per-share cost basis of a holding. | Adjusts holdings (quantity and cost per share); no direct impact on cash or total value. |
 
 
 ### Managing Assets and Securities
@@ -146,7 +69,7 @@ See <a href="/docs/guide/assets/" class="font-medium underline underline-offset-
 This method is ideal for entering one-off trades or transactions as they occur.
 
 1.  Click on “Activities” in the main sidebar of the app.
-2.  Click “Add Activity” to record a new transaction.
+2.  Click **Add Activities**, then **Add Transaction**.
 3.  Fill out the activity form:
     - Select the account from the dropdown menu.
     - Choose the activity type (`BUY`, `SELL`, `DIVIDEND`, `INTEREST`, `DEPOSIT`, `WITHDRAWAL`, `TRANSFER_IN`, `TRANSFER_OUT`, `CREDIT`, `SPLIT`, `FEE`, `TAX`).
@@ -155,8 +78,9 @@ This method is ideal for entering one-off trades or transactions as they occur.
     - Input the quantity (number of shares or units).
     - Enter the unit price.
     - Select the currency.
-    - Enter fees and taxes, and check the final amount paid or received. Charges already included in the amount are not deducted again. See <a href="/docs/concepts/activity-fields/" class="font-medium underline underline-offset-4">Activity Fields</a>.
-4.  Review the entered information and click “Add Activity” to save, or “Cancel” to discard.
+    - For a cash dividend or interest, enter the **Amount before tax** and the **Withholding tax**. Wealthfolio works out the **Received amount**. If your statement shows the amount after tax, type it into **Received amount** instead.
+    - Enter fees and taxes, and check the final amount paid or received. Charges already applied to the amount are not deducted again. See <a href="/docs/concepts/activity-fields/" class="font-medium underline underline-offset-4">Activity Fields</a>.
+4.  Review the entered information and click the form’s add button (for example **Add Buy** or **Add Dividend**) to save, or **Cancel** to discard.
 
 #### CSV Import
 
@@ -210,7 +134,7 @@ The dashboards provides a quick snapshot of your portfolio:
 
 **Asset allocation**
 
-<img src="https://assets.wealthfolio.app/images/landing/holdings-charts.webp" class="h-full w-full overflow-hidden object-cover dark:hidden" loading="lazy" decoding="async" data-fetchpriority="auto" width="718" height="404" alt="Wealthfolio Holdings" /><img src="https://assets.wealthfolio.app/images/landing/holdings-charts-dark.webp" class="hidden h-full w-full overflow-hidden object-cover dark:block" loading="lazy" decoding="async" data-fetchpriority="auto" width="718" height="404" alt="Wealthfolio Holdings" />
+<img src="https://assets.wealthfolio.app/images/landing/holdings-charts.webp" class="h-full w-full overflow-hidden object-cover dark:hidden" loading="lazy" decoding="async" data-fetchpriority="auto" width="718" height="404" alt="Wealthfolio portfolio insights: allocation and holdings composition" /><img src="https://assets.wealthfolio.app/images/landing/holdings-charts-dark.webp" class="hidden h-full w-full overflow-hidden object-cover dark:block" loading="lazy" decoding="async" data-fetchpriority="auto" width="718" height="404" alt="Wealthfolio portfolio insights: allocation and holdings composition" />
 
 **Income Dashboard**
 
@@ -226,25 +150,15 @@ For more detailed information on specific features or troubleshooting, please re
 
 ## Tracking Contribution Limits
 
-Wealthfolio helps you track your contribution limits for tax-advantaged accounts like IRAs, 401(k)s, or TFSAs. You can set contribution limits for each account and track your available contribution room. To do this:
-
-1.  Go to the settings/Limits tab.
-2.  Click on “Add Limit”.
-3.  Create a the contribution limit with an identifiable name (e.g. `2025 RRSP` or `2025 Roth IRA`), Year and set the contribution limit in base currency.
-4.  Save the limit
-5.  Select all accounts you want to track for this limit and click “Save selected accounts”.
-6.  You can now track your contribution limits and available contribution room in each account page or in the limits settings page.
+Wealthfolio helps you track your contribution limits for tax-advantaged accounts like IRAs, 401(k)s, or TFSAs. Go to **Settings → Contribution limits**, click **Add limit**, and set the cap, its year or dates, and the accounts that count. Each limit shows how much room you’ve used and how much is left. See <a href="/docs/guide/contribution-limits/" class="font-medium underline underline-offset-4">Contribution Limits</a> for the details page, repeating limits, and which activities count.
 
 <img src="https://assets.wealthfolio.app/images/landing/contribution-limits.webp" class="h-full w-full overflow-hidden object-cover dark:hidden" loading="lazy" decoding="async" data-fetchpriority="auto" width="718" height="404" alt="Wealthfolio Contribution Limits" /><img src="https://assets.wealthfolio.app/images/landing/contribution-limits-dark.webp" class="hidden h-full w-full overflow-hidden object-cover dark:block" loading="lazy" decoding="async" data-fetchpriority="auto" width="718" height="404" alt="Wealthfolio Contribution Limits" />
 
 
-------------------------------------------------------------------------
+<a href="/docs/quick-start/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Quick Start</a>
 
 
-<a href="/docs/quick-start/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Quick Start</a>
-
-
-On This Page
+On this page
 
 - <a href="#initial-setup" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Initial Setup</a>
   - <a href="#set-your-main-currency" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Set Your Main Currency</a>

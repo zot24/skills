@@ -4,19 +4,19 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Migrating from Mem0
+# Migrating from Mem0 to Honcho
 
-> A guide to migrate from Mem0 to Honcho
+> Move your agent's AI memory from Mem0 to Honcho: export memories, import them as conclusions or raw messages, and map each Mem0 API call to Honcho.
 
 Interested in transferring your data from Mem0 to Honcho? This guide covers why to switch, how to migrate your data, and differences between the two products.
 
 ## Why Honcho?
 
-Mem0 & Honcho both store your data. Only Honcho reasons about it. [Read more about our approach](https://blog.plasticlabs.ai/blog/Memory-as-Reasoning).
+Mem0 & Honcho both store your data. Only Honcho reasons about it. [Read more about our approach](https://honcho.dev/blog/blog/memory-as-reasoning).
 
 **Compounding Insights** - Honcho extracts insights that build on each other over time. The more your users interact, the richer and more accurate their profiles become.
 
-**Superior Performance** - Higher accuracy on memory retrieval benchmarks with faster inference times (more details soon!).
+**Superior Performance** - State of the art on long-term memory benchmarks: 90.4% on LongMem S, 89.9% on LoCoMo, and Pareto-dominant on accuracy, cost and tokens across BEAM from 100K to 10M tokens. [See the benchmarks](https://honcho.dev/evals/).
 
 **Competitive Pricing** - Mem0 charges for retrieval, not ingestion. Meaning you pay to access your own data. Honcho offers straightforward pricing with a generous free tier.
 
@@ -30,7 +30,7 @@ Mem0 & Honcho both store your data. Only Honcho reasons about it. [Read more abo
 
 For the best results, we recommend importing your raw messages directly into Honcho. This gives Honcho the full context to build rich, accurate representations and enables features like session summaries.
 
-However, if you'd like to get started quickly, you can migrate your existing Mem0 memories directly as **observations**.
+However, if you'd like to get started quickly, you can migrate your existing Mem0 memories directly as **conclusions**.
 
 > [!NOTE]
 >
@@ -51,18 +51,18 @@ user = honcho.peer("user123")
 session = honcho.session("imported")
 session.add_peers([user])
 
-# Import memories directly as observations
-observations = []
+# Import memories directly as conclusions
+conclusions = []
 for memory in memories['results']:
     content = memory.get("memory") or memory.get("messages", [{}])[0].get("content", "")
     if content:
-        observations.append({"content": content, "session_id": "imported"})
+        conclusions.append({"content": content, "session_id": "imported"})
 
-# Batch create observations (up to 100 at a time)
-if observations:
-    user.observations.create(observations)
+# Batch create conclusions (up to 100 at a time)
+if conclusions:
+    user.conclusions.create(conclusions)
 
-print(f"Migrated {len(observations)} memories as observations!")
+print(f"Migrated {len(conclusions)} memories as conclusions!")
 ```
 
 ```typescript TypeScript theme={null}
@@ -80,23 +80,23 @@ const user = await honcho.peer("user123");
 const session = await honcho.session("imported");
 await session.addPeers([user]);
 
-// Import memories directly as observations
-const observations = memories.results
+// Import memories directly as conclusions
+const conclusions = memories.results
   .map(memory => ({
     content: memory.memory || memory.messages?.[0]?.content || "",
-    session_id: "imported"
+    sessionId: "imported"
   }))
-  .filter(obs => obs.content);
+  .filter(c => c.content);
 
-// Batch create observations (up to 100 at a time)
-if (observations.length > 0) {
-  await user.observations.create(observations);
+// Batch create conclusions (up to 100 at a time)
+if (conclusions.length > 0) {
+  await user.conclusions.create(conclusions);
 }
 
-console.log(`Migrated ${observations.length} memories as observations!`);
+console.log(`Migrated ${conclusions.length} memories as conclusions!`);
 ```
 
-That's it! The user's Mem0 memories are now searchable in Honcho as observations. For richer representations with deductive reasoning and session summaries, consider importing your raw messages as described in the [Step-by-Step Migration](#step-by-step-migration) section.
+That's it! The user's Mem0 memories are now searchable in Honcho as conclusions. For richer representations with deductive reasoning and session summaries, consider importing your raw messages as described in the [Step-by-Step Migration](#step-by-step-migration) section.
 
 For more details on replacing Mem0 API calls with Honcho equivalents go to [API Comparison](#api-comparison).
 
@@ -245,23 +245,23 @@ Reference the [API Comparison](#api-comparison) to replace your Mem0 API calls w
 | **Initialize** | `MemoryClient(api_key=...)` | `Honcho(api_key=...)` | |
 | **Identity** | `user_id` string param | `peer = honcho.peer("id")` | Peers can be users or AI agents |
 | **Add messages** | `client.add(messages, user_id=...)` | `session.add_messages([peer.message(...)])` | Session-scoped, triggers reasoning |
-| **Add observations** | | `peer.observations.create([...])` | Direct observation or "memory" import, no processing |
-| **Search** | `client.search(query, filters={"user_id": ...})` | `peer.search(query)` or `peer.observations.query(...)` | Scoped to peer or session |
-| **List all** | `client.get_all(filters={"user_id": ...})` | `session.get_messages()` or `peer.observations.list()` | Messages or observations |
+| **Add conclusions** | | `peer.conclusions.create([...])` | Direct conclusion or "memory" import, no processing |
+| **Search** | `client.search(query, filters={"user_id": ...})` | `peer.search(query)` or `peer.conclusions.query(...)` | Scoped to peer or session |
+| **List all** | `client.get_all(filters={"user_id": ...})` | `session.messages()` or `peer.conclusions.list()` | Messages or conclusions |
 | **Update** | `client.update(memory_id, data=...)` | `honcho.update_message(message, metadata=...)` | Metadata updates only |
-| **Delete** | `client.delete(memory_id)` | `peer.observations.delete(id)` or `session.delete()` | Observation or session-level |
+| **Delete** | `client.delete(memory_id)` | `peer.conclusions.delete(id)` or `session.delete()` | Conclusion or session-level |
 
 ### Honcho-Only Capabilities
 
-Mem0 requires manual assembly of context from `search()` results. Honcho's `session.get_context()` returns a ready-to-use `SessionContext` object with built-in token limits, auto-included summaries, and format helpers (`.to_openai()`, `.to_anthropic()`).
+Mem0 requires manual assembly of context from `search()` results. Honcho's `session.context()` returns a ready-to-use `SessionContext` object with built-in token limits, auto-included summaries, and format helpers (`.to_openai()`, `.to_anthropic()`).
 
-> [card] [Get Context](../../documentation/core-concepts/features/get-context)
+> [card] [Get Context](https://honcho.dev/docs/v3/documentation/features/get-context.md)
 >
 > Learn more about token-optimized context retrieval
 
 Mem0's `search()` returns basic vector, semantic, or raw memory matches. Honcho's `peer.chat()` enables your agent to *reason* about what it knows—returning synthesized natural language insights with streaming support and scoped queries.
 
-> [card] [Dialectic Endpoint](../../documentation/core-concepts/features/dialectic-endpoint)
+> [card] [Chat Endpoint](https://honcho.dev/docs/v3/documentation/features/chat.md)
 >
 > Learn more about inference-powered queries
 
@@ -269,22 +269,22 @@ Additional features with **no Mem0 equivalent**:
 
 | Honcho Method | Description | Use Case |
 | - | - | - |
-| `peer.card()` | Stable biographical facts (name, preferences, background) | User profiles, personalization |
-| `session.working_rep(peer)` | Cached psychological analysis (mental state, intentions) | Real-time adaptation |
-| `session.get_summaries()` | Auto-generated short/long session summaries | Conversation continuity |
+| `peer.get_card()` / `peer.set_card()` | Stable biographical facts (name, preferences, background) | User profiles, personalization |
+| `session.representation(peer)` | Cached psychological analysis (mental state, intentions) | Real-time adaptation |
+| `session.summaries()` | Auto-generated short/long session summaries | Conversation continuity |
 | `SessionPeerConfig` | Configure observation settings (who learns about whom) | Privacy controls, role-based learning |
 
 ## Next Steps
 
-> [card] [Architecture](../../documentation/core-concepts/architecture)
+> [card] [Architecture](https://honcho.dev/docs/v3/documentation/core-concepts/architecture.md)
 >
 > Understand peers and sessions
 
-> [card] [Dialectic API](../../documentation/core-concepts/features/dialectic-endpoint)
+> [card] [Chat API](https://honcho.dev/docs/v3/documentation/features/chat.md)
 >
 > Inference responses
 
-> [card] [Guides](../../guides/overview)
+> [card] [Guides](https://honcho.dev/docs/v3/guides/overview.md)
 >
 > Integration examples
 

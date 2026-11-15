@@ -1,18 +1,5 @@
 > Source: https://flueframework.com/docs/guide/tools
 
-<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
-
-
-<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
-
-
-Esc
-
-
-Start typing to search the documentation.
-
-
-<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Tools
@@ -99,14 +86,14 @@ Optional flags on the definition extend the context further: `harness: true` add
 
 An agent with a [sandbox](/docs/guide/sandboxes/) gains a standard set of built-in tools that operate on it (without one, these tools aren’t in the set — the model can’t call what isn’t there):
 
-| Tool    | What it does                                                         |
-|---------|----------------------------------------------------------------------|
-| `read`  | Read a file (truncated to 2000 lines or 50KB; supports offset/limit) |
-| `write` | Write a file, creating it and parent directories as needed           |
-| `edit`  | Edit a file by exact text replacement                                |
-| `bash`  | Execute a shell command and return stdout/stderr                     |
-| `grep`  | Search file contents for a regex pattern                             |
-| `glob`  | Find files by filename pattern                                       |
+| Tool | What it does |
+|----|----|
+| `read` | Read a file (truncated to 2000 lines or 50KB; supports offset/limit) |
+| `write` | Write a file, creating it and parent directories as needed |
+| `edit` | Edit a file by exact text replacement |
+| `bash` | Execute a shell command and return stdout/stderr |
+| `grep` | Search file contents for a regex pattern |
+| `glob` | Find files by filename pattern |
 
 Each tool’s parameters, truncation limits, and error behavior are documented in [Agent Behavior — Built-in tools](/docs/reference/agent-behavior/#built-in-tools).
 

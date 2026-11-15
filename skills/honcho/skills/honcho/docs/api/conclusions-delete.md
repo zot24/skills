@@ -8,7 +8,9 @@
 
 > Delete a single Conclusion by ID.
 
-This action cannot be undone.
+Also deletes any copy Representation History kept of it, so it reads as
+`unavailable` in every dream that references it. A conclusion a dream has
+already removed can be deleted this way too. This action cannot be undone.
 
 
 ## OpenAPI
@@ -28,7 +30,7 @@ info:
   license:
     name: GNU Affero General Public License v3.0
     url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
-  version: 3.5.0
+  version: 3.6.1
 servers:
   - url: https://api.honcho.dev
     description: Production SaaS Platform
@@ -39,10 +41,17 @@ paths:
       tags:
         - conclusions
       summary: Delete Conclusion
-      description: |-
+      description: >-
         Delete a single Conclusion by ID.
 
-        This action cannot be undone.
+
+        Also deletes any copy Representation History kept of it, so it reads as
+
+        `unavailable` in every dream that references it. A conclusion a dream
+        has
+
+        already removed can be deleted this way too. This action cannot be
+        undone.
       operationId: >-
         delete_conclusion_v3_workspaces__workspace_id__conclusions__conclusion_id__delete
       parameters:

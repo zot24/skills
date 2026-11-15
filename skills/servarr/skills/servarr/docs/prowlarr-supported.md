@@ -90,7 +90,7 @@ Prowlarr can automatically sync indexers with various applications
 - <span id="email">Email</span>
   - Simply send yourself or somebody you want to annoy with email. If you're using Gmail, you need to enable less secure apps. If you're using Gmail and have 2-factor authentication enabled you need to use an App Specific password.
 
-  - You can use a "pretty address" like `SomePrettyName <email@example.org>`
+  - > You can use a "pretty address" like `SomePrettyName <email@example.org>`
 - <span id="gotify">Gotify</span>
 - <span id="join">Join</span>
 - <span id="mailgun">Mailgun</span>

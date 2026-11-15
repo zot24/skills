@@ -4,76 +4,72 @@
 > Fetch the complete documentation index at: https://honcho.dev/docs/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Delete Observation
+# Delete Conclusion
 
-> Delete a specific observation.
+> Delete a single Conclusion by ID.
 
-This permanently deletes the observation (document) from the theory-of-mind system.
-This action cannot be undone.
+Also deletes any copy Representation History kept of it, so it reads as
+`unavailable` in every dream that references it. A conclusion a dream has
+already removed can be deleted this way too. This action cannot be undone.
 
 
 ## OpenAPI
 
-````yaml delete /v2/workspaces/{workspace_id}/observations/{observation_id}
+````yaml delete /v3/workspaces/{workspace_id}/conclusions/{conclusion_id}
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/observations/{observation_id}:
+  /v3/workspaces/{workspace_id}/conclusions/{conclusion_id}:
     delete:
       tags:
-        - observations
-      summary: Delete Observation
+        - conclusions
+      summary: Delete Conclusion
       description: >-
-        Delete a specific observation.
+        Delete a single Conclusion by ID.
 
 
-        This permanently deletes the observation (document) from the
-        theory-of-mind system.
+        Also deletes any copy Representation History kept of it, so it reads as
 
-        This action cannot be undone.
+        `unavailable` in every dream that references it. A conclusion a dream
+        has
+
+        already removed can be deleted this way too. This action cannot be
+        undone.
       operationId: >-
-        delete_observation_v2_workspaces__workspace_id__observations__observation_id__delete
+        delete_conclusion_v3_workspaces__workspace_id__conclusions__conclusion_id__delete
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
-        - name: observation_id
+        - name: conclusion_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the observation to delete
-            title: Observation Id
-          description: ID of the observation to delete
+            title: Conclusion Id
       responses:
-        '200':
+        '204':
           description: Successful Response
-          content:
-            application/json:
-              schema: {}
         '422':
           description: Validation Error
           content:
@@ -108,6 +104,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

@@ -4,7 +4,7 @@
 
 ## Chinese
 
-- [Chinese / v2 (247 pages)](https://docs.firecrawl.dev/_llms/zh/v2.txt): Documentation for Chinese / v2.
+- [Chinese / v2 (246 pages)](https://docs.firecrawl.dev/_llms/zh/v2.txt): 文档, SDK, API 参考, 使用 AI 构建.
 
 ### v1
 

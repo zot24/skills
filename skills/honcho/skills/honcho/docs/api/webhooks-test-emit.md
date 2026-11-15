@@ -11,35 +11,34 @@
 
 ## OpenAPI
 
-````yaml get /v2/workspaces/{workspace_id}/webhooks/test
+````yaml get /v3/workspaces/{workspace_id}/webhooks/test
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/webhooks/test:
+  /v3/workspaces/{workspace_id}/webhooks/test:
     get:
       tags:
         - webhooks
       summary: Test Emit
       description: Test publishing a webhook event.
-      operationId: test_emit_v2_workspaces__workspace_id__webhooks_test_get
+      operationId: test_emit_v3_workspaces__workspace_id__webhooks_test_get
       parameters:
         - name: workspace_id
           in: path
@@ -89,6 +88,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

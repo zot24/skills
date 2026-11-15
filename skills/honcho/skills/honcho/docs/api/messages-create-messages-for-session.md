@@ -11,36 +11,35 @@
 
 ## OpenAPI
 
-````yaml post /v2/workspaces/{workspace_id}/sessions/{session_id}/messages/
+````yaml post /v3/workspaces/{workspace_id}/sessions/{session_id}/messages
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/sessions/{session_id}/messages/:
+  /v3/workspaces/{workspace_id}/sessions/{session_id}/messages:
     post:
       tags:
         - messages
       summary: Create Messages For Session
       description: Add new message(s) to a session.
       operationId: >-
-        create_messages_for_session_v2_workspaces__workspace_id__sessions__session_id__messages__post
+        create_messages_for_session_v3_workspaces__workspace_id__sessions__session_id__messages_post
       parameters:
         - name: workspace_id
           in: path
@@ -61,7 +60,7 @@ paths:
             schema:
               $ref: '#/components/schemas/MessageBatchCreate'
       responses:
-        '200':
+        '201':
           description: Successful Response
           content:
             application/json:
@@ -70,8 +69,8 @@ paths:
                 items:
                   $ref: '#/components/schemas/Message'
                 title: >-
-                  Response Create Messages For Session V2 Workspaces  Workspace
-                  Id  Sessions  Session Id  Messages  Post
+                  Response Create Messages For Session V3 Workspaces  Workspace
+                  Id  Sessions  Session Id  Messages Post
         '422':
           description: Validation Error
           content:
@@ -189,6 +188,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc
@@ -197,18 +201,11 @@ components:
       title: ValidationError
     MessageConfiguration:
       properties:
-        deriver:
+        reasoning:
           anyOf:
-            - $ref: '#/components/schemas/DeriverConfiguration'
+            - $ref: '#/components/schemas/ReasoningConfiguration'
             - type: 'null'
-          description: Configuration for deriver functionality.
-        peer_card:
-          anyOf:
-            - $ref: '#/components/schemas/PeerCardConfiguration'
-            - type: 'null'
-          description: >-
-            Configuration for peer card functionality. If deriver is disabled,
-            peer cards will also be disabled and these settings will be ignored.
+          description: Configuration for reasoning functionality.
       type: object
       title: MessageConfiguration
       description: >-
@@ -218,42 +215,25 @@ components:
 
         All fields are optional. Message-level configuration overrides all other
         configurations.
-    DeriverConfiguration:
+    ReasoningConfiguration:
       properties:
         enabled:
           anyOf:
             - type: boolean
             - type: 'null'
           title: Enabled
-          description: Whether to enable deriver functionality.
+          description: Whether to enable reasoning functionality.
         custom_instructions:
           anyOf:
             - type: string
             - type: 'null'
           title: Custom Instructions
           description: >-
-            TODO: currently unused. Custom instructions to use for the deriver
-            on this workspace/session/message.
+            Custom instructions for the deriver. Overrides the top-level
+            custom_instructions at the same level. Set to an empty string to
+            explicitly use none.
       type: object
-      title: DeriverConfiguration
-    PeerCardConfiguration:
-      properties:
-        use:
-          anyOf:
-            - type: boolean
-            - type: 'null'
-          title: Use
-          description: >-
-            Whether to use peer card related to this peer during deriver
-            process.
-        create:
-          anyOf:
-            - type: boolean
-            - type: 'null'
-          title: Create
-          description: Whether to generate peer card based on content.
-      type: object
-      title: PeerCardConfiguration
+      title: ReasoningConfiguration
   securitySchemes:
     HTTPBearer:
       type: http

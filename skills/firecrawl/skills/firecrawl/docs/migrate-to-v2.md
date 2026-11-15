@@ -4,429 +4,82 @@
 > Fetch the complete documentation index at: https://docs.firecrawl.dev/llms.txt
 > Use this file to discover all available pages before exploring further.
 
-# Introduction
+# Migrate from v1 to v2
 
-> The context API for AI agents. Search the web, scrape any page, and interact with it through one API.
+> The v1 API shuts down on December 10, 2026. Copy one prompt into your coding agent to move to v2.
 
-Firecrawl is the context API for AI agents. Search, scrape, and interact with the live web to get clean Markdown or structured data.
+The v1 scrape, crawl, batch scrape, search, map, and account endpoints stop working on **Thursday, December 10, 2026, 15:00 UTC**, and from then on they return HTTP 410.
 
-## Get started
+## Migrate with your coding agent
 
-Connect over Streamable HTTP. The keyless server URL (Search, Scrape, and Parse; no credential required) is `https://mcp.firecrawl.dev/v2/mcp`.
+Copy this prompt into Claude Code, Cursor, or Codex, run from your project's root:
 
-* Codex CLI: `codex mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp`
-* Claude Code: `claude mcp add --transport http firecrawl https://mcp.firecrawl.dev/v2/mcp`
-* Cursor or any JSON-config client: `{"mcpServers": {"firecrawl": {"url": "https://mcp.firecrawl.dev/v2/mcp"}}}`
-* OpenCode (`opencode.json`): `{"mcp": {"firecrawl": {"type": "remote", "url": "https://mcp.firecrawl.dev/v2/mcp", "enabled": true}}}`
-* ChatGPT or Claude.ai: use the native Firecrawl connector — [ChatGPT](https://chatgpt.com/plugins?q=firecrawl) or [Claude](https://claude.ai/directory/connectors/firecrawl).
+```text Prompt expandable wrap theme={null}
+Migrate this codebase from the Firecrawl v1 API to v2. v1 stops working on December 10, 2026.
 
-Both setup paths and API-key setup: [MCP Get Started](https://docs.firecrawl.dev/mcp-server.md), [For Agents](https://docs.firecrawl.dev/mcp-server/keyless.md), and [For Humans](https://docs.firecrawl.dev/mcp-server/oauth.md).
+1. Find every Firecrawl v1 call: raw HTTP to https://api.firecrawl.dev/v1/..., old SDK versions (Node @mendable/firecrawl-js or firecrawl 1.x, Python firecrawl-py or firecrawl 1.x and 2.x, Go github.com/mendableai/firecrawl-go, Rust firecrawl crate 1.x, firecrawl-mcp 1.x), and explicit v1 clients on any version (firecrawl.v1, FirecrawlAppV1, V1FirecrawlApp, AsyncV1FirecrawlApp).
+2. Upgrade the Firecrawl SDK to the latest version: npm install @mendable/firecrawl-js@latest, pip install -U firecrawl-py, go get github.com/firecrawl/firecrawl/apps/go-sdk@latest (new import path), or firecrawl = "2" in Cargo.toml.
+3. Rewrite each call to its v2 equivalent with the mapping below. Keep behavior the same.
+4. Run the project's tests and fix what breaks.
+5. Calls to /v1/extract, /v1/deep-research, or /v1/llmstxt are not part of this migration. List them and leave them unchanged.
 
-### Build directly with the API
+REST mapping:
+- Base URL https://api.firecrawl.dev/v1 -> https://api.firecrawl.dev/v2. Every path stays the same except GET /v1/crawl/ongoing -> GET /v2/crawl/active.
+- formats "extract" with extract: { prompt, schema }, or "json" with jsonOptions: { prompt, schema } -> { "type": "json", "prompt": ..., "schema": ... } in formats. Read results from data.json, not data.extract. systemPrompt is not accepted: merge it into prompt.
+- "screenshot@fullPage" -> { "type": "screenshot", "fullPage": true }.
+- "changeTracking" with changeTrackingOptions: { modes, schema, prompt, tag } -> { "type": "changeTracking", "modes": ..., "schema": ..., "prompt": ..., "tag": ... } in formats. Keep "markdown" in formats.
+- parsePDF: false -> parsers: []. parsePDF: true is the default: drop it.
+- geolocation -> location. __experimental_cache is removed: use maxAge.
+- Crawl allowBackwardLinks -> crawlEntireDomain. Crawl and map ignoreSitemap: true -> sitemap: "skip". Map sitemapOnly: true -> sitemap: "only". Map no longer accepts maxDepth or allowBackwardLinks: remove them.
+- Crawl maxDepth N has no v2 option. Keep regexOnFullURL false and add includePaths ["^(/+[^/]+){0,N}/*$", "^(/+[^/]+){0,N}/+index\\.(html|php)/*$"] with N written as a number. If the crawl already has includePaths, add excludePaths ["^(/+[^/]+){N+1}"] instead. maxDiscoveryDepth is not a substitute: it counts link hops, not path segments.
+- Map links are objects: read link.url instead of a string.
+- Search results move from data to data.web (data.news and data.images when requested with sources). The default limit is now 10, was 5: pass limit: 5 where the code relied on the default.
+- Batch scrape ignoreInvalidURLs now defaults to true: pass false where the code relied on the request failing.
+- With location.country set, proxy now defaults to "auto", was "basic": pass proxy: "basic" to keep it.
+- /team/credit-usage and /team/token-usage return camelCase: remaining_credits -> remainingCredits, plan_credits -> planCredits, remaining_tokens -> remainingTokens, plan_tokens -> planTokens, billing_period_start -> billingPeriodStart, billing_period_end -> billingPeriodEnd.
 
-Scrape your first page now. No account or API key is required for this request.
+Node SDK: import Firecrawl from "@mendable/firecrawl-js"; const firecrawl = new Firecrawl({ apiKey }). scrapeUrl -> scrape, mapUrl -> map, crawlUrl(url, params, pollInterval) -> crawl(url, { ...options, pollInterval }), asyncCrawlUrl -> startCrawl, checkCrawlStatus -> getCrawlStatus, checkCrawlErrors -> getCrawlErrors, batchScrapeUrls(urls, params) -> batchScrape(urls, { options: params }), asyncBatchScrapeUrls(urls, params) -> startBatchScrape(urls, { options: params }), checkBatchScrapeStatus -> getBatchScrapeStatus, checkBatchScrapeErrors -> getBatchScrapeErrors, crawlUrlAndWatch and batchScrapeUrlsAndWatch -> startCrawl or startBatchScrape, then watcher(id). Search results are under .web. v2 methods return the data directly, with no success field, and throw on failure.
 
-```bash cURL theme={null}
-# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "url": "https://firecrawl.dev",
-    "formats": ["markdown", "html"]
-  }'
+Python SDK: from firecrawl import Firecrawl; firecrawl = Firecrawl(api_key=...), and AsyncFirecrawl for async code. scrape_url -> scrape, map_url -> map, crawl_url -> crawl, async_crawl_url -> start_crawl, check_crawl_status -> get_crawl_status, check_crawl_errors -> get_crawl_errors, batch_scrape_urls -> batch_scrape, async_batch_scrape_urls -> start_batch_scrape, check_batch_scrape_status -> get_batch_scrape_status, check_batch_scrape_errors -> get_batch_scrape_errors, crawl_url_and_watch and batch_scrape_urls_and_watch -> start_crawl or start_batch_scrape, then watcher(id). Pass options as snake_case keyword arguments, not a params dict (crawl_entire_domain=True, sitemap="skip"). Search results are under .web.
+
+Go SDK: import github.com/firecrawl/firecrawl/apps/go-sdk and its option package. NewFirecrawlApp(key, url) -> NewClient(option.WithAPIKey(key)). ScrapeURL -> Scrape(ctx, url, *ScrapeOptions), CrawlURL -> Crawl(ctx, url, *CrawlOptions). Every method takes a context.Context first. CrawlParams.AllowBackwardLinks -> CrawlOptions.CrawlEntireDomain, IgnoreSitemap -> Sitemap.
+
+Rust SDK: FirecrawlApp::new(key) -> Client::new(key). scrape_url -> scrape, with formats as the Format enum. crawl_url -> crawl.
+
+MCP server: run npx -y firecrawl-mcp@latest in the MCP client config.
+
+Latest version of this prompt: https://docs.firecrawl.dev/migrate-to-v2.md
 ```
 
-Add an [API key](https://www.firecrawl.dev/app/api-keys) when you need higher limits. See the [Python SDK](https://docs.firecrawl.dev/sdks/python.md), [Node SDK](https://docs.firecrawl.dev/sdks/node.md), or [API reference](https://docs.firecrawl.dev/api-reference/endpoint/scrape.md) to build it into your application.
-
-## Other ways to get started
-
-### Install the Firecrawl CLI
-
-One command installs the Firecrawl CLI, authenticates in your browser, and adds skills to every detected coding agent.
-
-```bash theme={null}
-npx -y firecrawl-cli@latest init --all --browser
-```
-
-> [!NOTE]
->
-> Restart your coding agent after setup so it can discover the new skills. See
-> [CLI](https://docs.firecrawl.dev/sdks/cli.md) for the full setup.
-
-### Set up with an agent
-
-Provide your agent with this Firecrawl setup prompt, or see [all MCP setup options](https://docs.firecrawl.dev/mcp-server.md).
-
-> [!NOTE]
->
-> **For AI agents:** Use [llms.txt](https://docs.firecrawl.dev/llms.txt) for an index of the documentation, or [llms-full.txt](https://docs.firecrawl.dev/llms-full.txt) for the full text.
-
-### Build and test directly
-
-> [card] [Get your API key](https://www.firecrawl.dev/app/api-keys)
->
-> Create a free account for direct API access and higher limits
-
-> [card] [Try it in the Playground](https://www.firecrawl.dev/playground)
->
-> Test Firecrawl in the browser without writing code
-
-***
-
-## What can Firecrawl do?
-
-> [card] [Search](#search)
->
-> Search the web and get full page content from results
-
-> [card] [Scrape](#scrape)
->
-> Extract content from any URL as markdown, HTML, or structured JSON
-
-> [card] [Interact](#interact)
->
-> Continue working with any scraped page: click, fill forms, extract dynamic
-> content
-
-### Why Firecrawl?
-
-* **LLM-ready output**: Clean markdown, structured JSON, screenshots, and more.
-* **Handles the hard stuff**: Proxies, anti-bot, JavaScript rendering, and dynamic content.
-* **Reliable**: Built for production with high uptime and consistent results.
-* **Fast**: Results in seconds, optimized for high throughput.
-* **MCP Server**: Connect Firecrawl to any AI tool via the [Model Context Protocol](https://docs.firecrawl.dev/mcp-server.md).
-
-Bounty: 5,000 credit reward
-&#x20;for solid feedback on Alexandria
-
-To qualify, complete a high-signal interview (thoughtful, concrete use cases, etc) with our Firecrawl Feedback Assistant. Only takes a few minutes, can be stopped at any time, and is both human/agent-friendly (just paste the link into your agentic harness!). Haven't used Alexandria yet? Your take still counts.
-
-[Start the interview](https://www.firecrawl.dev/survey/uilpn?src=docs-alexandria)
-
-Include your email to be eligible. Interviews are reviewed for quality at the end of each week.
-
-***
-
-## Search
-
-Search the web and get full page content from results in one call. See the [Search feature docs](https://docs.firecrawl.dev/features/search.md) for all options.
-
-```python Python theme={null}
-from firecrawl import Firecrawl
-
-firecrawl = Firecrawl(
-  # No API key needed to get started — add one for higher rate limits:
-  # api_key="fc-YOUR-API-KEY",
-)
-
-results = firecrawl.search(
-    query="firecrawl",
-    limit=3,
-)
-print(results)
-```
-
-```js Node theme={null}
-import { Firecrawl } from 'firecrawl';
-
-const firecrawl = new Firecrawl({
-  // No API key needed to get started — add one for higher rate limits:
-  // apiKey: "fc-YOUR-API-KEY",
-});
-
-const results = await firecrawl.search('firecrawl', {
-  limit: 3,
-  scrapeOptions: { formats: ['markdown'] }
-});
-console.log(results);
-```
-
-```bash cURL theme={null}
-# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-curl -s -X POST "https://api.firecrawl.dev/v2/search" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "query": "firecrawl",
-    "limit": 3
-  }'
-```
-
-```bash CLI theme={null}
-# Search the web
-firecrawl search "firecrawl web scraping" --limit 5 --pretty
-```
-
-> [accordion] Response
->
-> SDKs will return the data object directly. cURL will return the complete payload.
->
-> ```json JSON
-> {
->   "success": true,
->   "data": {
->     "web": [
->       {
->         "url": "https://www.firecrawl.dev/",
->         "title": "Firecrawl - The context API for AI agents",
->         "description": "The web crawling, scraping, and search API for AI. Built for scale. Firecrawl delivers the entire internet to AI agents and builders.",
->         "position": 1
->       },
->       {
->         "url": "https://github.com/firecrawl/firecrawl",
->         "title": "firecrawl/firecrawl: Turn entire websites into LLM-ready ... - GitHub",
->         "description": "Firecrawl is an API service that takes a URL, crawls it, and converts it into clean markdown or structured data.",
->         "position": 2
->       },
->       ...
->     ],
->     "images": [
->       {
->         "title": "Quickstart | Firecrawl",
->         "imageUrl": "https://mintlify.s3.us-west-1.amazonaws.com/firecrawl/logo/logo.png",
->         "imageWidth": 5814,
->         "imageHeight": 1200,
->         "url": "https://docs.firecrawl.dev/",
->         "position": 1
->       },
->       ...
->     ],
->     "news": [
->       {
->         "title": "Y Combinator startup Firecrawl is ready to pay $1M to hire three AI agents as employees",
->         "url": "https://techcrunch.com/2025/05/17/y-combinator-startup-firecrawl-is-ready-to-pay-1m-to-hire-three-ai-agents-as-employees/",
->         "snippet": "It's now placed three new ads on YC's job board for “AI agents only” and has set aside a $1 million budget total to make it happen.",
->         "date": "3 months ago",
->         "position": 1
->       },
->       ...
->     ]
->   }
-> }
-> ```
-
-## Scrape
-
-Scrape any URL and get its content in markdown, HTML, or other formats. See the [Scrape feature docs](https://docs.firecrawl.dev/features/scrape.md) for all options.
-
-```python Python theme={null}
-from firecrawl import Firecrawl
-
-firecrawl = Firecrawl(
-  # No API key needed to get started — add one for higher rate limits:
-  # api_key="fc-YOUR-API-KEY",
-)
-
-# Scrape a website:
-doc = firecrawl.scrape("https://firecrawl.dev", formats=["markdown", "html"])
-print(doc)
-```
-
-```js Node theme={null}
-import { Firecrawl } from 'firecrawl';
-
-const firecrawl = new Firecrawl({
-  // No API key needed to get started — add one for higher rate limits:
-  // apiKey: "fc-YOUR-API-KEY",
-});
-
-// Scrape a website:
-const doc = await firecrawl.scrape('https://firecrawl.dev', { formats: ['markdown', 'html'] });
-console.log(doc);
-```
-
-```bash cURL theme={null}
-# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "url": "https://firecrawl.dev",
-    "formats": ["markdown", "html"]
-  }'
-```
-
-```bash CLI theme={null}
-# Scrape a URL and get markdown
-firecrawl https://firecrawl.dev
-
-# With multiple formats (returns JSON)
-firecrawl https://firecrawl.dev --format markdown,html,links --pretty
-```
-
-> [accordion] Response
->
-> SDKs will return the data object directly. cURL will return the payload exactly as shown below.
->
-> ```json
-> {
->   "success": true,
->   "data" : {
->     "markdown": "Launch Week I is here! [See our Day 2 Release 🚀](https://www.firecrawl.dev/blog/launch-week-i-day-2-doubled-rate-limits)[💥 Get 2 months free...",
->     "html": "<!DOCTYPE html><html lang=\"en\" class=\"light\" style=\"color-scheme: light;\"><body class=\"__variable_36bd41 __variable_d7dc5d font-inter ...",
->     "metadata": {
->       "title": "Home - Firecrawl",
->       "description": "Firecrawl crawls and converts any website into clean markdown.",
->       "language": "en",
->       "keywords": "Firecrawl,Markdown,Data,Mendable,Langchain",
->       "robots": "follow, index",
->       "ogTitle": "Firecrawl",
->       "ogDescription": "The API to search, scrape, and interact with the web at scale.",
->       "ogUrl": "https://www.firecrawl.dev/",
->       "ogImage": "https://www.firecrawl.dev/og.png?123",
->       "ogLocaleAlternate": [],
->       "ogSiteName": "Firecrawl",
->       "sourceURL": "https://firecrawl.dev",
->       "statusCode": 200,
->       "contentType": "text/html"
->     }
->   }
-> }
-> ```
-
-## Interact
-
-Scrape a page, then keep working with it: click buttons, fill forms, extract dynamic content, or navigate deeper. Describe what you want in plain English or write code for full control. See the [Interact feature docs](https://docs.firecrawl.dev/features/interact.md) for all options.
-
-```python Python theme={null}
-from firecrawl import Firecrawl
-
-app = Firecrawl(
-  # No API key needed to get started — add one for higher rate limits:
-  # api_key="fc-YOUR-API-KEY",
-)
-
-# 1. Scrape Amazon's homepage
-result = app.scrape("https://www.amazon.com", formats=["markdown"])
-scrape_id = result.metadata.scrape_id
-
-# 2. Interact — search for a product and get its price
-app.interact(scrape_id, prompt="Search for iPhone 16 Pro Max")
-response = app.interact(scrape_id, prompt="Click on the first result and tell me the price")
-print(response.output)
-
-# 3. Stop the session
-app.stop_interaction(scrape_id)
-```
-
-```js Node theme={null}
-import { Firecrawl } from 'firecrawl';
-
-const app = new Firecrawl({
-  // No API key needed to get started — add one for higher rate limits:
-  // apiKey: 'fc-YOUR-API-KEY',
-});
-
-// 1. Scrape Amazon's homepage
-const result = await app.scrape('https://www.amazon.com', { formats: ['markdown'] });
-const scrapeId = result.metadata?.scrapeId;
-
-// 2. Interact — search for a product and get its price
-await app.interact(scrapeId, { prompt: 'Search for iPhone 16 Pro Max' });
-const response = await app.interact(scrapeId, { prompt: 'Click on the first result and tell me the price' });
-console.log(response.output);
-
-// 3. Stop the session
-await app.stopInteraction(scrapeId);
-```
-
-```bash cURL theme={null}
-# 1. Scrape Amazon's homepage
-# No API key needed to get started — add -H "Authorization: Bearer $FIRECRAWL_API_KEY" for higher rate limits:
-RESPONSE=$(curl -s -X POST "https://api.firecrawl.dev/v2/scrape" \
-  -H "Content-Type: application/json" \
-  -d '{"url": "https://www.amazon.com", "formats": ["markdown"]}')
-
-SCRAPE_ID=$(echo $RESPONSE | jq -r '.data.metadata.scrapeId')
-
-# 2. Interact — search for a product and get its price
-curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-  -H "Content-Type: application/json" \
-  -d '{"prompt": "Search for iPhone 16 Pro Max"}'
-
-curl -s -X POST "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact" \
-  -H "Content-Type: application/json" \
-  -d '{"prompt": "Click on the first result and tell me the price"}'
-
-# 3. Stop the session
-curl -s -X DELETE "https://api.firecrawl.dev/v2/scrape/$SCRAPE_ID/interact"
-```
-
-```bash CLI theme={null}
-# 1. Scrape Amazon's homepage (scrape ID is saved automatically)
-firecrawl scrape https://www.amazon.com
-
-# 2. Interact — search for a product and get its price
-firecrawl interact "Search for iPhone 16 Pro Max"
-firecrawl interact "Click on the first result and tell me the price"
-
-# 3. Stop the session
-firecrawl interact stop
-```
-
-> [accordion] Response
->
-> ```json Response
-> {
->   "success": true,
->   "cdpUrl": "wss://browser.firecrawl.dev/...",
->   "liveViewUrl": "https://liveview.firecrawl.dev/...",
->   "interactiveLiveViewUrl": "https://liveview.firecrawl.dev/...",
->   "output": "The iPhone 16 Pro Max (256GB) is priced at $1,199.00.",
->   "exitCode": 0,
->   "killed": false
-> }
-> ```
-
-***
-
-## More capabilities
-
-> [card] [Agent](https://docs.firecrawl.dev/features/agent.md)
->
-> Autonomous web data gathering powered by AI
-
-> [card] [Interact](https://docs.firecrawl.dev/features/interact.md)
->
-> Click, fill forms, extract dynamic content
-
-> [card] [Webhooks](https://docs.firecrawl.dev/webhooks.md)
->
-> Async event delivery
-
-> [card] [Browser Sandbox](https://docs.firecrawl.dev/features/browser.md)
->
-> Managed browser sessions for interactive workflows
-
-> [card] [Parse](https://docs.firecrawl.dev/features/parse.md)
->
-> Turn local PDFs, DOCX, XLSX, HTML, and more into Markdown or structured JSON
-
-> [card] [Map](https://docs.firecrawl.dev/features/map.md)
->
-> Discover all URLs on a website
-
-> [card] [Crawl](https://docs.firecrawl.dev/features/crawl.md)
->
-> Recursively gather content from entire sites
-
-***
-
-## Resources
-
-> [card] [API Reference](https://docs.firecrawl.dev/api-reference/v2-introduction.md)
->
-> Complete API documentation with interactive examples
-
-> [card] [SDKs](https://docs.firecrawl.dev/sdks/overview.md)
->
-> Python, Node.js, CLI, and community SDKs
-
-> [card] [Open Source](https://docs.firecrawl.dev/contributing/open-source-or-cloud.md)
->
-> Self-host Firecrawl or contribute to the project
-
-> [card] [Integrations](https://docs.firecrawl.dev/developer-guides/llm-sdks-and-frameworks/openai.md)
->
-> LangChain, LlamaIndex, OpenAI, and more
+## Migrate by hand
+
+Change `https://api.firecrawl.dev/v1` to `https://api.firecrawl.dev/v2`, upgrade your SDK to the latest version, then apply these changes:
+
+| v1 | v2 |
+| - | - |
+| `GET /v1/crawl/ongoing` | `GET /v2/crawl/active` |
+| `"extract"` or `"json"` format with `extract` or `jsonOptions` | `{ "type": "json", "prompt": "...", "schema": {...} }` in `formats`, read from `data.json` |
+| `"screenshot@fullPage"` | `{ "type": "screenshot", "fullPage": true }` |
+| `"changeTracking"` with `changeTrackingOptions` | `{ "type": "changeTracking", ... }` in `formats` |
+| `parsePDF: false` | `parsers: []` |
+| `geolocation` | `location` |
+| Crawl `allowBackwardLinks` | `crawlEntireDomain` |
+| Crawl and map `ignoreSitemap: true` | `sitemap: "skip"` |
+| Map `sitemapOnly: true` | `sitemap: "only"` |
+| Crawl `maxDepth` | No v2 option. Use the `includePaths` patterns in the prompt above. |
+| Map `links` as strings | Objects with `url`, `title`, and `description` |
+| Search results in `data` | `data.web`. The default `limit` is now 10, was 5. |
+| Batch scrape `ignoreInvalidURLs` default `false` | Default `true` |
+| `remaining_credits`, `plan_credits`, `billing_period_start` | `remainingCredits`, `planCredits`, `billingPeriodStart`. Token fields change the same way. |
+| Node `FirecrawlApp`, `scrapeUrl`, `crawlUrl`, `mapUrl` | `Firecrawl`, `scrape`, `crawl`, `map` |
+| Python `FirecrawlApp`, `scrape_url`, `crawl_url`, `map_url` | `Firecrawl`, `scrape`, `crawl`, `map` |
+| Go `github.com/mendableai/firecrawl-go` | `github.com/firecrawl/firecrawl/apps/go-sdk` |
+| Rust `firecrawl` 1.x | `firecrawl` 2.x |
+| `firecrawl-mcp` 1.x | `firecrawl-mcp@latest` |
+
+Using n8n, Zapier, Make, or another no-code tool? Update the Firecrawl node or app to its latest version. In n8n, also set the Firecrawl credential's **Base URL** to `https://api.firecrawl.dev/v2`, change any `/v1/` URL in an HTTP Request node to `/v2/`, and replace the community node `n8n-nodes-firecrawl` with the official `@mendable/n8n-nodes-firecrawl`.
+
+Questions? Email [help@firecrawl.com](mailto:help@firecrawl.com).
 
 
 This documentation is built and hosted on [Mintlify](https://mintlify.com), a developer documentation platform.

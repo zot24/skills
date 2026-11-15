@@ -30,7 +30,7 @@ You can isolate the complete Pi process or keep Pi on the host and route selecte
 
 ## Choose an isolation method
 
-<a href="#choose-an-isolation-method" class="heading-anchor" aria-label="Permalink: Choose an isolation method" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#choose-an-isolation-method"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#choose-an-isolation-method" class="heading-anchor" aria-label="Permalink: Choose an isolation method" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#choose-an-isolation-method"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Method | Where Pi runs | What is isolated | Credential handling | Best for |
@@ -45,7 +45,7 @@ The method changes where extensions run. When the complete Pi process runs insid
 
 ## Decide what Pi can access
 
-<a href="#decide-what-pi-can-access" class="heading-anchor" aria-label="Permalink: Decide what Pi can access" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#decide-what-pi-can-access"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#decide-what-pi-can-access" class="heading-anchor" aria-label="Permalink: Decide what Pi can access" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#decide-what-pi-can-access"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 An isolated process can still affect resources you expose to it:
@@ -61,7 +61,7 @@ Expose only the working folder, credentials, and network destinations needed for
 
 ## Run Pi in plain Docker
 
-<a href="#run-pi-in-plain-docker" class="heading-anchor" aria-label="Permalink: Run Pi in plain Docker" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#run-pi-in-plain-docker"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#run-pi-in-plain-docker" class="heading-anchor" aria-label="Permalink: Run Pi in plain Docker" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#run-pi-in-plain-docker"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Plain Docker provides the simplest whole-process container boundary.
@@ -69,7 +69,7 @@ Plain Docker provides the simplest whole-process container boundary.
 
 ### Build the image
 
-<a href="#build-the-image" class="heading-anchor" aria-label="Permalink: Build the image" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#build-the-image"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#build-the-image" class="heading-anchor" aria-label="Permalink: Build the image" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#build-the-image"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Create `Dockerfile.pi`:
@@ -98,7 +98,7 @@ docker build -t pi-sandbox -f Dockerfile.pi .
 
 ### Start Pi
 
-<a href="#start-pi" class="heading-anchor" aria-label="Permalink: Start Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#start-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#start-pi" class="heading-anchor" aria-label="Permalink: Start Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#start-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 From the working folder you want Pi to access, run:
@@ -120,7 +120,7 @@ Do not mount the host's `~/.pi/agent` unless the container should have access to
 
 ### Verify the workspace
 
-<a href="#verify-the-workspace" class="heading-anchor" aria-label="Permalink: Verify the workspace" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#verify-the-workspace"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#verify-the-workspace" class="heading-anchor" aria-label="Permalink: Verify the workspace" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#verify-the-workspace"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Inside Pi, run:
@@ -136,7 +136,7 @@ The command should report `/workspace`. Changes under `/workspace` write through
 
 ## Run Pi with Docker Sandboxes
 
-<a href="#run-pi-with-docker-sandboxes" class="heading-anchor" aria-label="Permalink: Run Pi with Docker Sandboxes" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#run-pi-with-docker-sandboxes"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#run-pi-with-docker-sandboxes" class="heading-anchor" aria-label="Permalink: Run Pi with Docker Sandboxes" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#run-pi-with-docker-sandboxes"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 [Docker Sandboxes](https://docs.docker.com/ai/sandboxes/) runs the complete Pi process inside a managed sandbox. Its proxy can keep the real provider credential on the host and substitute it when requests leave the sandbox.
@@ -146,7 +146,7 @@ Configure credentials before creating the sandbox. Do not run `/login` inside th
 
 ### Use a Claude Pro or Max token
 
-<a href="#use-a-claude-pro-or-max-token" class="heading-anchor" aria-label="Permalink: Use a Claude Pro or Max token" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#use-a-claude-pro-or-max-token"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#use-a-claude-pro-or-max-token" class="heading-anchor" aria-label="Permalink: Use a Claude Pro or Max token" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#use-a-claude-pro-or-max-token"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Generate the token with `claude setup-token` on a machine with Claude Code. If an `anthropic` secret is already configured, remove it first so the proxy does not add an API-key header alongside the bearer token:
@@ -169,7 +169,7 @@ For an Anthropic API key, use `sbx secret set anthropic` instead.
 
 ### Start Pi
 
-<a href="#start-pi-1" class="heading-anchor" aria-label="Permalink: Start Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#start-pi-1"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#start-pi-1" class="heading-anchor" aria-label="Permalink: Start Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#start-pi-1"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Run this from the working folder you want mounted:
@@ -193,7 +193,7 @@ See the [Pi kit documentation](https://github.com/docker/sbx-kits-contrib/tree/m
 
 ## Run Pi with OpenShell
 
-<a href="#run-pi-with-openshell" class="heading-anchor" aria-label="Permalink: Run Pi with OpenShell" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#run-pi-with-openshell"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#run-pi-with-openshell" class="heading-anchor" aria-label="Permalink: Run Pi with OpenShell" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#run-pi-with-openshell"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 [NVIDIA OpenShell](https://docs.nvidia.com/openshell/about/overview) provides local or remote sandboxes with filesystem, process, network, credential, and inference policies.
@@ -201,7 +201,7 @@ See the [Pi kit documentation](https://github.com/docker/sbx-kits-contrib/tree/m
 
 ### Select a gateway
 
-<a href="#select-a-gateway" class="heading-anchor" aria-label="Permalink: Select a gateway" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#select-a-gateway"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#select-a-gateway" class="heading-anchor" aria-label="Permalink: Select a gateway" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#select-a-gateway"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Every sandbox requires an active gateway:
@@ -215,7 +215,7 @@ openshell gateway select <name>
 
 ### Create the sandbox
 
-<a href="#create-the-sandbox" class="heading-anchor" aria-label="Permalink: Create the sandbox" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#create-the-sandbox"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#create-the-sandbox" class="heading-anchor" aria-label="Permalink: Create the sandbox" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#create-the-sandbox"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -228,7 +228,7 @@ Pi, its built-in tools, `!` commands, and extension tools run inside the OpenShe
 
 ### Transfer files to a remote sandbox
 
-<a href="#transfer-files-to-a-remote-sandbox" class="heading-anchor" aria-label="Permalink: Transfer files to a remote sandbox" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#transfer-files-to-a-remote-sandbox"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#transfer-files-to-a-remote-sandbox" class="heading-anchor" aria-label="Permalink: Transfer files to a remote sandbox" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#transfer-files-to-a-remote-sandbox"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A remote gateway does not bind-mount your host working folder. Clone the repository inside the sandbox or transfer files explicitly:
@@ -245,7 +245,7 @@ OpenShell inference routing can keep raw model credentials outside the sandbox. 
 
 ## Route tools through Gondolin
 
-<a href="#route-tools-through-gondolin" class="heading-anchor" aria-label="Permalink: Route tools through Gondolin" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#route-tools-through-gondolin"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#route-tools-through-gondolin" class="heading-anchor" aria-label="Permalink: Route tools through Gondolin" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#route-tools-through-gondolin"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 [Gondolin](https://github.com/earendil-works/gondolin) is a local Linux micro-VM. Its example extension keeps the Pi process and file-based provider credentials on the host while routing the built-in tools and user `!` commands into the VM.
@@ -257,7 +257,7 @@ Gondolin requires Node.js 23.6 or newer and QEMU installed through your operatin
 
 ### Install the extension
 
-<a href="#install-the-extension" class="heading-anchor" aria-label="Permalink: Install the extension" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#install-the-extension"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#install-the-extension" class="heading-anchor" aria-label="Permalink: Install the extension" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#install-the-extension"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 From a Pi source checkout:
@@ -273,7 +273,7 @@ npm install --ignore-scripts
 
 ### Start Pi
 
-<a href="#start-pi-2" class="heading-anchor" aria-label="Permalink: Start Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/containerization#start-pi-2"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#start-pi-2" class="heading-anchor" aria-label="Permalink: Start Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/containerization#start-pi-2"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Run Pi from the working folder you want mounted:

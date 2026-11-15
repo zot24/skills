@@ -91,7 +91,7 @@ This page is the disambiguation page for all "supported" wiki links (i.e. typica
     - <a href="https://github.com/Sonarr/Sonarr/issues/4614" class="is-external-link">Nyaa seeders/leechers not parsed properly anymore. #4614</a>
       - This can be fixed when / if <a href="https://github.com/Sonarr/Sonarr/pull/4637" class="is-external-link">Pull Request #4637</a> is merged
 
-  - Nyaa frowns upon automation and frequently will ban your IP.
+  - > Nyaa frowns upon automation and frequently will ban your IP.
 
   - <a href="/sonarr/settings#indexer-settings" class="is-internal-link is-valid-page">Refer to the Settings Page</a>
 

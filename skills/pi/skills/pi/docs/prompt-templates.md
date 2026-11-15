@@ -30,7 +30,7 @@ A template can accept arguments and appear in command completion. Pi can load te
 
 ## Create a template
 
-<a href="#create-a-template" class="heading-anchor" aria-label="Permalink: Create a template" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#create-a-template"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#create-a-template" class="heading-anchor" aria-label="Permalink: Create a template" data-copy="" data-copy-text="https://docs.pi.dev/latest/prompt-templates#create-a-template"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Create `~/.pi/agent/prompts/review.md`:
@@ -54,7 +54,7 @@ Run `/reload` after adding or changing a template in an active session.
 
 ## Use a template
 
-<a href="#use-a-template" class="heading-anchor" aria-label="Permalink: Use a template" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#use-a-template"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#use-a-template" class="heading-anchor" aria-label="Permalink: Use a template" data-copy="" data-copy-text="https://docs.pi.dev/latest/prompt-templates#use-a-template"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Type the template command in the editor:
@@ -84,13 +84,13 @@ Arguments follow shell-like quoting, so `/review "API compatibility"` supplies o
 
 ## Add it to Pi
 
-<a href="#add-it-to-pi" class="heading-anchor" aria-label="Permalink: Add it to Pi" data-copy="" data-copy-text="https://pi.dev/docs/latest/prompt-templates#add-it-to-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#add-it-to-pi" class="heading-anchor" aria-label="Permalink: Add it to Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/prompt-templates#add-it-to-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Place the template in your user or project prompt directory. Conventional prompt directories load direct `.md` children only.
 
-Settings and packages can select nested Markdown files; a package manifest can narrow discovery with explicit paths and globs. See [Settings](/docs/latest/settings#resources) and [Pi Packages](/docs/latest/packages) for these options.
+Settings and packages can select nested Markdown files; a package manifest can narrow discovery with explicit paths and globs. See [Settings](/latest/latest/settings#resources) and [Pi Packages](/latest/latest/packages) for these options.
 
-Project templates become commands in the editor after trust is granted. Review their content before trusting an unfamiliar project. See [Security](/docs/latest/security#understand-project-trust).
+Project templates become commands in the editor after trust is granted. Review their content before trusting an unfamiliar project. See [Security](/latest/latest/security#understand-project-trust).
 
 

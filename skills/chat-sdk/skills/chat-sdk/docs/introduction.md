@@ -4,7 +4,7 @@
 title: Introduction
 description: A unified SDK for building chat bots across Slack, Microsoft Teams, Google Chat, Discord, Telegram, and more.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: overview
 related:
   - /docs/getting-started

@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,19 +13,17 @@ Proxmox VE
 Three install paths on Proxmox (community-scripts LXC, Docker inside an LXC, or Docker inside a VM). Pick based on how you already run services.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
 There are three sensible ways to run Wealthfolio on Proxmox. Pick based on how you already run other services.
 
 
-| Approach                                                                                        | Pros                                                                         | Cons                                                                                                                                                                                                 |
-|-------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| <a href="#lxc" class="font-medium underline underline-offset-4">LXC via community-scripts</a>   | Native execution, lowest overhead, fits the Proxmox idiom (no Docker-in-LXC) | Builds from source (~15–25 min on a typical homelab CPU on first install, <a href="https://github.com/wealthfolio/wealthfolio/issues/563" class="font-medium underline underline-offset-4">#563</a>) |
-| <a href="#docker-lxc" class="font-medium underline underline-offset-4">Docker inside an LXC</a> | Fast install (image pull only), easy updates                                 | Docker-in-LXC needs nesting + a couple of LXC tweaks                                                                                                                                                 |
-| <a href="#docker-vm" class="font-medium underline underline-offset-4">Docker inside a VM</a>    | Most isolated, no LXC quirks                                                 | Higher RAM/CPU overhead than LXC                                                                                                                                                                     |
+| Approach | Pros | Cons |
+|----|----|----|
+| <a href="#lxc" class="font-medium underline underline-offset-4">LXC via community-scripts</a> | Native execution, lowest overhead, fits the Proxmox idiom (no Docker-in-LXC) | Builds from source (~15–25 min on a typical homelab CPU on first install, <a href="https://github.com/wealthfolio/wealthfolio/issues/563" class="font-medium underline underline-offset-4">#563</a>) |
+| <a href="#docker-lxc" class="font-medium underline underline-offset-4">Docker inside an LXC</a> | Fast install (image pull only), easy updates | Docker-in-LXC needs nesting + a couple of LXC tweaks |
+| <a href="#docker-vm" class="font-medium underline underline-offset-4">Docker inside a VM</a> | Most isolated, no LXC quirks | Higher RAM/CPU overhead than LXC |
 
 
 If you’re already a community-scripts user, **stick with the LXC path**. If you already run a Docker host VM on Proxmox, **just deploy the container there** like any other service. See <a href="/docs/guide/self-hosting/docker-compose/" class="font-medium underline underline-offset-4"><strong>Docker Compose</strong></a>.
@@ -120,14 +43,14 @@ bash -c "$(curl -fsSL https://raw.githubusercontent.com/community-scripts/Proxmo
 The script prompts for resources. The defaults are sensible:
 
 
-| Resource   | Default   | Notes                                                             |
-|------------|-----------|-------------------------------------------------------------------|
-| OS         | Debian 13 |                                                                   |
-| CPU        | 4 cores   | Used heavily during the initial Rust build, can be lowered after. |
-| RAM        | 4096 MB   | Same: the build is the peak; ~256 MB at runtime.                  |
-| Disk       | 10 GB     |                                                                   |
-| Privileged | No        | Unprivileged container                                            |
-| Port       | 8080      | Note: the official Docker image uses 8088, this script uses 8080. |
+| Resource | Default | Notes |
+|----|----|----|
+| OS | Debian 13 |  |
+| CPU | 4 cores | Used heavily during the initial Rust build, can be lowered after. |
+| RAM | 4096 MB | Same: the build is the peak; ~256 MB at runtime. |
+| Disk | 10 GB |  |
+| Privileged | No | Unprivileged container |
+| Port | 8080 | Note: the official Docker image uses 8088, this script uses 8080. |
 
 
 When the script finishes:
@@ -139,11 +62,11 @@ When the script finishes:
 ### Layout inside the LXC
 
 
-| Path                                      | Purpose                                         |
-|-------------------------------------------|-------------------------------------------------|
-| `/opt/wealthfolio`                        | Source + built static assets (`dist/`)          |
-| `/opt/wealthfolio_data/wealthfolio.db`    | SQLite database                                 |
-| `/usr/local/bin/wealthfolio-server`       | Compiled server binary                          |
+| Path | Purpose |
+|----|----|
+| `/opt/wealthfolio` | Source + built static assets (`dist/`) |
+| `/opt/wealthfolio_data/wealthfolio.db` | SQLite database |
+| `/usr/local/bin/wealthfolio-server` | Compiled server binary |
 | `/etc/systemd/system/wealthfolio.service` | Systemd unit (holds env vars including the key) |
 
 
@@ -214,12 +137,12 @@ docker compose --env-file .env up -d
 WebUI: `http://<lxc-ip>:8088`. Data lives in the `wealthfolio-data` Docker volume.
 
 
-**Upgrading from a pre-`v3.4.0` image?** The container now runs as non-root UID `1000`. Existing volumes were written by the old `root` image — chown once before starting the new image using the snippet below.
+**Upgrading from a pre-`v3.4.0` image?** The container now runs as non-root UID `1000`. Existing volumes were written by the old `root` image – chown once before starting the new image using the snippet below.
 
 
 ``` mb-4
 # Compose prefixes the volume with the project name (the directory you ran
-# `docker compose` from). Run `docker volume ls` to confirm — the name is
+# `docker compose` from). Run `docker volume ls` to confirm – the name is
 # usually `wealthfolio_wealthfolio-data`. Substitute it below if different.
 docker compose down
 docker run --rm -v wealthfolio_wealthfolio-data:/data alpine chown -R 1000:1000 /data
@@ -239,12 +162,12 @@ For HTTPS and a real domain, see <a href="/docs/guide/self-hosting/reverse-proxy
 ## Troubleshooting
 
 
-| Symptom                                            | Fix                                                                                 |
-|----------------------------------------------------|-------------------------------------------------------------------------------------|
-| LXC install fails near `cargo build` with OOM      | Bump RAM to 6–8 GB during the build, drop it back after.                            |
-| Docker container restarts: `WF_SECRET_KEY` missing | The variable wasn’t picked up. Check `.env` has single-quoted values.               |
-| Login screen rejects the right password            | Hash captured a trailing newline (use `printf`, not `echo`) or `$` chars got eaten. |
-| LXC runs but isn’t reachable on the LAN            | Check the LXC’s network bridge and firewall; the service binds `0.0.0.0`.           |
+| Symptom | Fix |
+|----|----|
+| LXC install fails near `cargo build` with OOM | Bump RAM to 6–8 GB during the build, drop it back after. |
+| Docker container restarts: `WF_SECRET_KEY` missing | The variable wasn’t picked up. Check `.env` has single-quoted values. |
+| Login screen rejects the right password | Hash captured a trailing newline (use `printf`, not `echo`) or `$` chars got eaten. |
+| LXC runs but isn’t reachable on the LAN | Check the LXC’s network bridge and firewall; the service binds `0.0.0.0`. |
 
 
 ## Reference
@@ -254,13 +177,10 @@ For HTTPS and a real domain, see <a href="/docs/guide/self-hosting/reverse-proxy
 - Prebuilt-binary tracking issue: <a href="https://github.com/wealthfolio/wealthfolio/issues/563" class="font-medium underline underline-offset-4">#563</a>
 
 
-------------------------------------------------------------------------
+<a href="/docs/guide/self-hosting/unraid/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Unraid</a> <a href="/docs/guide/self-hosting/coolify/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Coolify</a>
 
 
-<a href="/docs/guide/self-hosting/unraid/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Unraid</a> <a href="/docs/guide/self-hosting/coolify/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Coolify</a>
-
-
-On This Page
+On this page
 
 - <a href="#a-idlxca1-lxc-via-community-scripts-recommended" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1. LXC via community-scripts (recommended)</a>
   - <a href="#install" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Install</a>

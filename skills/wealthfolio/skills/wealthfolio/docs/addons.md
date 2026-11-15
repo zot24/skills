@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,9 +13,7 @@ Wealthfolio Addon Development
 Learn how to build addons for Wealthfolio to extend its functionality with custom tools and integrations.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 
 Wealthfolio addons are TypeScript modules that extend the application’s functionality through a sandboxed runtime. This guide covers how to build, test, and distribute addons for Wealthfolio 3.7 and later. Existing 3.6 addons remain supported; see <a href="/docs/addons/v3-7-assets/" class="font-medium underline underline-offset-4">v3.7 compatibility and assets</a> before adopting the new asset API.
@@ -107,7 +30,7 @@ Addons are TypeScript/React-based extensions that provide access to Wealthfolio�
 Each addon is an ES module that exports an `enable(ctx)` function. Wealthfolio loads the module inside a sandboxed iframe and passes an `AddonContext` object with access to APIs, route rendering, private packaged assets, events, logging, secrets, and network access.
 
 **Integration Capabilities**  
-Addons declare their pages and navigation in `manifest.json` (`contributes.routes` + `contributes.links`), so the host builds the sidebar and knows every route **without running addon code**. Routes must live under the addon’s own namespace, such as `/addons/hello-world-addon` for `hello-world-addon`. An addon with declared routes boots **lazily** — its `enable(ctx)` runs on the first visit to one of its routes, then renders inside its own iframe.
+Addons declare their pages and navigation in `manifest.json` (`contributes.routes` + `contributes.links`), so the host builds the sidebar and knows every route **without running addon code**. Routes must live under the addon’s own namespace, such as `/addons/hello-world-addon` for `hello-world-addon`. An addon with declared routes boots **lazily** – its `enable(ctx)` runs on the first visit to one of its routes, then renders inside its own iframe.
 
 **Development Environment**  
 Built with TypeScript, React, and modern web APIs. Includes hot-reload development server, comprehensive type definitions, and host-provided dependencies to keep addon bundles small.
@@ -160,7 +83,7 @@ function MyAddonPage({ ctx }: { ctx: AddonContext }) {
 
 // The host owns a single React root per addon and mounts the route `component`
 // itself. Capture the context at enable time so the route wrapper can hand it
-// down. (Do NOT call createRoot yourself — the host manages the lifecycle.)
+// down. (Do NOT call createRoot yourself – the host manages the lifecycle.)
 let addonCtx: AddonContext | undefined;
 
 const MyAddonRoute = () => (
@@ -213,26 +136,30 @@ const accounts = await ctx.api.accounts.getAll();
 #### 2. Permission Categories
 
 
-| Category              | Risk Level | Common Functions                                                     |
-|-----------------------|------------|----------------------------------------------------------------------|
-| `accounts`            | High       | getAll, create                                                       |
-| `portfolio`           | High       | getHoldings, getHolding, update, recalculate                         |
-| `activities`          | High       | getAll, search, create, update, saveMany, import                     |
-| `market-data`         | Low        | searchTicker, syncHistory, sync, getProviders, fetchDividends        |
-| `assets`              | Medium     | getProfile, updateProfile, updateQuoteMode                           |
-| `quotes`              | Low        | update, getHistory                                                   |
-| `performance`         | Medium     | calculateHistory, calculateSummary, calculateAccountsSimple          |
-| `currency`            | Low        | getAll, update, add, getRatesForDates                                |
-| `spending`            | Medium     | isEnabled, getCategories, getRules, saveRule, deleteRule, rerunRules |
-| `financial-planning`  | Medium     | getAll, create, update, getFunding, saveFunding                      |
-| `contribution-limits` | Medium     | getAll, create, update, calculateDeposits                            |
-| `settings`            | Medium     | get, update, backupDatabase                                          |
-| `files`               | Medium     | openCsvDialog, openSaveDialog                                        |
-| `snapshots`           | High       | getAll, getByDate, save, checkImport, importSnapshots                |
-| `events`              | Low        | onDrop, onUpdateComplete, onSyncComplete                             |
-| `network`             | High       | request                                                              |
-| `secrets`             | High       | set, get, use, delete                                                |
+| Category | Risk Level | Common Functions |
+|----|----|----|
+| `accounts` | High | getAll, create |
+| `allocation-targets` | High | getAll, getDrift |
+| `portfolio` | High | getHoldings, getHolding, update, recalculate |
+| `activities` | High | getAll, search, create, update, saveMany, import |
+| `market-data` | Low | searchTicker, syncHistory, sync, getProviders, fetchDividends |
+| `assets` | Medium | getProfile, updateProfile, updateQuoteMode |
+| `quotes` | Low | update, getHistory |
+| `performance` | Medium | calculateHistory, calculateSummary, calculateAccountsSimple |
+| `currency` | Low | getAll, update, add, getRatesForDates |
+| `spending` | Medium | isEnabled, getCategories, getContext, getBudget, getReport, saveRule |
+| `budgets` | High | upsertBudgetTarget |
+| `financial-planning` | Medium | getAll, create, update, getFunding, saveFunding |
+| `contribution-limits` | Medium | getAll, create, update, calculateDeposits |
+| `settings` | Medium | get, update, backupDatabase |
+| `files` | Medium | openCsvDialog, openSaveDialog |
+| `snapshots` | High | getAll, getByDate, save, checkImport, importSnapshots |
+| `events` | Low | onDrop, onUpdateComplete, onSyncComplete |
+| `network` | High | request |
+| `secrets` | High | set, get, use, delete |
 
+
+Some `ctx.api.spending` functions sit in other categories: `searchCashActivities`, `assignCategory`, `unassignCategory`, and `setEvent` need `activities` grants, and `upsertBudgetTarget` needs a `budgets` grant. See the <a href="/docs/addons/api-reference/#spend-categorization-api" class="font-medium underline underline-offset-4">Spend Categorization API</a>.
 
 **Baseline capabilities are implicit.** `ui` (sidebar/router/navigation), private packaged `assets`, `query`, `toast`, `logger`, and `storage` are granted to every addon and are **not** declared in `permissions`. Only the data domains above plus `files`, `network`, `secrets`, `events`, `snapshots`, and `settings` need a declaration.
 
@@ -259,6 +186,7 @@ interface AddonContext {
     activities: ActivitiesAPI;
     market: MarketDataAPI;
     assets: AssetsAPI;
+    allocationTargets: AllocationTargetsAPI;
     quotes: QuotesAPI;
     performance: PerformanceAPI;
     exchangeRates: ExchangeRatesAPI;
@@ -379,6 +307,8 @@ hello-world-addon/
 
 A **route** (`contributes.routes`) is a durable addon page the host can render before the addon boots; a **link** (`contributes.links`, only the `"sidebar"` slot is consumed today) places a declared route in a host slot. The runtime `router.add({ id })` must use the same `id` as its declared route. Navigation and the baseline `ui` capability need no `permissions` entry.
 
+Set `minWealthfolioVersion` to the oldest Wealthfolio release that has every API and shared library your addon uses. New addons from the templates declare `3.13.0`, the first release that shares Lucide 1.x. An addon that uses a Lucide 1.x icon must declare `3.13.0` or newer, so it can’t be installed on a host that only has Lucide 0.561.
+
 ## Packaged Assets
 
 Wealthfolio 3.7 indexes non-JavaScript/CSS files below `assets/**` and `dist/assets/**` automatically. JavaScript and CSS in those roots remain runtime modules and styles. There is no manifest asset list and no asset permission.
@@ -429,7 +359,7 @@ See <a href="/docs/addons/v3-7-assets/" class="font-medium underline underline-o
 
 Addons that declare `contributes.routes` boot **lazily**: the host reads the manifest and builds the sidebar and route table without executing any addon code, then calls `enable(ctx)` only when one of the addon’s routes is first visited. Because navigation comes from the manifest, a route survives reloads and deep links even before the addon has run.
 
-Sandbox failures degrade gracefully rather than crashing the host — blocked storage, an unknown API call, or an unavailable route surface as a toast plus an inline panel in the addon’s frame, and errors in one addon never affect another.
+Sandbox failures degrade gracefully rather than crashing the host – blocked storage, an unknown API call, or an unavailable route surface as a toast plus an inline panel in the addon’s frame, and errors in one addon never affect another.
 
 ### Context Isolation
 
@@ -450,13 +380,13 @@ Addons have access to Wealthfolio’s UI component library:
 ``` mb-4
 import { Button, Card, Dialog, Input, Table } from '@wealthfolio/ui';
 import { AmountDisplay, GainAmount, CurrencyInput } from '@wealthfolio/ui/financial';
-import { TrendingUp, DollarSign } from 'lucide-react';
+import { TrendUp, CurrencyDollar } from '@phosphor-icons/react';
 
 function MyComponent() {
   return (
     <Card className="p-6">
       <div className="flex items-center space-x-2">
-        <TrendingUp className="h-4 w-4" />
+        <TrendUp className="h-4 w-4" />
         <span>Portfolio Growth</span>
       </div>
 
@@ -473,11 +403,15 @@ Available libraries:
 
 - All Radix UI components
 - **Financial components** (`components/financial`) for amounts, gains, and currency inputs
-- Lucide React and Phosphor icons — for rendering **inside your own page** (any icon you like)
+- Lucide React and Phosphor icons – for rendering **inside your own page** (any icon you like)
 - Tailwind CSS utilities
 - Recharts for data visualization
 - React Query for data fetching
 - date-fns for date manipulation
+
+From Wealthfolio 3.13, the host shares `lucide-react` 1.x (was 0.561). Lucide 1.0 removed the brand icons, such as `Github`, `Twitter`, and `Youtube`, with their `*Icon` and `Lucide*` names. An addon that imports one from the host’s `lucide-react` fails to load, so bundle your own icon instead. Other icon names still work, including deprecated aliases such as `Trash2` and `Loader2`.
+
+Wealthfolio 3.13 also shares Recharts 3.10.1, so charts with default animation stop animating when the system asks for reduced motion. In 3.13, `@wealthfolio/ui` adds `ExternalLink`, a link that opens through the `openUrl` you give it or its `ExternalLinkProvider`, and `useNumericDraft`, for editing a number field in the user’s region format.
 
 
 The **sidebar** icon is different: it’s named by a string from a curated set (typed as `AddonIconName`), not a component you import. See <a href="/docs/addons/api-reference/#sidebar-icons" class="font-medium underline underline-offset-4">Sidebar icons</a> for the full list.
@@ -604,13 +538,10 @@ Explore available addons
 <a href="https://wealthfolio.app/addons/" class="absolute inset-0"><span class="sr-only">View</span></a>
 
 
-------------------------------------------------------------------------
+<a href="/docs/guide/self-hosting/pikapods/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">PikaPods</a> <a href="/docs/addons/getting-started/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Getting Started</a>
 
 
-<a href="/docs/guide/self-hosting/pikapods/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">PikaPods</a> <a href="/docs/addons/getting-started/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Getting Started</a>
-
-
-On This Page
+On this page
 
 - <a href="#what-are-wealthfolio-addons" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">What are Wealthfolio Addons?</a>
 - <a href="#architecture-overview" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Architecture Overview</a>

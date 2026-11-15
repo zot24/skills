@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,9 +13,7 @@ Cost Basis & Lots
 How Wealthfolio tracks the cost basis of long and short lots, through splits, transfers, DRIPs, and partial sales.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 Every share you buy creates a **long lot**; every explicit Sell Short creates a signed **short lot**. A lot is a unit of cost basis that follows that position until it’s closed. Lot accounting is what makes the difference between “you sold some Apple, here’s your gain” and “you sold these specific shares bought on this date at this price, here’s your gain and your remaining basis.”
 
@@ -111,9 +34,9 @@ Total:               35 shares                       $5,800
 Average cost:                                        $165.71
 ```
 
-The **average cost** line is a convenience display — total cost basis of your open lots divided by the shares you hold. It is *not* a moving-average accounting method: Wealthfolio doesn’t keep a running moving-average price, and the figure simply re-derives from whatever lots are still open. (See <a href="#9--why-not-lifo-weighted-average-or-specific-identification" class="font-medium underline underline-offset-4">the note for moving-average jurisdictions</a> below.)
+The **average cost** line is a convenience display – total cost basis of your open lots divided by the shares you hold. It is *not* a moving-average accounting method: Wealthfolio doesn’t keep a running moving-average price, and the figure simply re-derives from whatever lots are still open. (See <a href="#9--why-not-lifo-weighted-average-or-specific-identification" class="font-medium underline underline-offset-4">the note for moving-average jurisdictions</a> below.)
 
-Lots only exist when you track real activities. A **manually-entered holding** (a manual account snapshot) stores just a quantity and the average cost you type in — there’s no per-lot history behind it, so FIFO and realized-gain tracking only kick in once the position is built from actual `BUY` / `SELL` / `TRANSFER` activities.
+Lots only exist when you track real activities. A **manually-entered holding** (a manual account snapshot) stores just a quantity and the average cost you type in – there’s no per-lot history behind it, so FIFO and realized-gain tracking only kick in once the position is built from actual `BUY` / `SELL` / `TRANSFER` activities.
 
 Every `SELL`, **Buy to Cover**, or `TRANSFER_OUT` closes shares from one or more lots. Wealthfolio decides **which** lots to close using a method called **FIFO**.
 
@@ -151,19 +74,19 @@ Why FIFO?
 ## 3 · How activities change lots
 
 
-| Activity                                                                | Effect on lots                                                                                                                                                                                      |
-|-------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `BUY`                                                                   | Opens a new long lot using the saved final amount as its cost, including fees and taxes.                                                                                                            |
-| `SELL`                                                                  | Closes shares from the oldest long lot(s) first. Fee reduces proceeds. Plain sells do not open short lots.                                                                                          |
-| `SELL` (Sell Short)                                                     | Opens or extends a signed short lot for stocks and ETFs.                                                                                                                                            |
-| `BUY` (Buy to Cover)                                                    | Closes shares from the oldest short lot(s) first.                                                                                                                                                   |
-| `SPLIT`                                                                 | Adjusts quantity and per-share cost on every existing lot. Total cost basis is unchanged.                                                                                                           |
-| `DIVIDEND` (DRIP subtype)                                               | Opens a new lot using the saved reinvested amount as its cost.                                                                                                                                      |
-| `DIVIDEND in Kind`                                                      | Opens a new lot for additional units of the same security at the broker-reported cost basis.                                                                                                        |
-| `TRANSFER_IN`                                                           | Restores the original lots (cost basis preserved) when paired with a `TRANSFER_OUT` from another Wealthfolio account. With the **External** flag, opens a single lot at the cost basis you provide. |
-| `TRANSFER_OUT`                                                          | Closes lots oldest-first; no gain is realised. Internal: basis travels to the destination account. External: basis simply leaves Wealthfolio with the asset.                                        |
-| `ADJUSTMENT` (Option Expiry)                                            | Closes the option lot to zero, realizing the premium paid as a loss.                                                                                                                                |
-| `DEPOSIT` / `WITHDRAWAL` / `INTEREST` / `FEE` / `TAX` / cash `DIVIDEND` | No effect on lots. These move your cash balance only — cost basis lives entirely in share lots.                                                                                                     |
+| Activity | Effect on lots |
+|----|----|
+| `BUY` | Opens a new long lot using the saved final amount as its cost, including fees and taxes. |
+| `SELL` | Closes shares from the oldest long lot(s) first. Fee reduces proceeds. Plain sells do not open short lots. |
+| `SELL` (Sell Short) | Opens or extends a signed short lot for stocks and ETFs. |
+| `BUY` (Buy to Cover) | Closes shares from the oldest short lot(s) first. |
+| `SPLIT` | Adjusts quantity and per-share cost on every existing lot. Total cost basis is unchanged. |
+| `DIVIDEND` (DRIP subtype) | Opens a new lot using the saved reinvested amount as its cost. |
+| `DIVIDEND in Kind` | Opens a new lot for additional units of the same security at the broker-reported cost basis. |
+| `TRANSFER_IN` | Restores the original lots (cost basis preserved) when paired with a `TRANSFER_OUT` from another Wealthfolio account. With the **External** flag, opens a single lot at the cost basis you provide. |
+| `TRANSFER_OUT` | Closes lots oldest-first; no gain is realised. Internal: basis travels to the destination account. External: basis simply leaves Wealthfolio with the asset. |
+| `ADJUSTMENT` (Option Expiry) | Closes the option lot to zero, realizing the premium paid as a loss. |
+| `DEPOSIT` / `WITHDRAWAL` / `INTEREST` / `FEE` / `TAX` / cash `DIVIDEND` | No effect on lots. These move your cash balance only – cost basis lives entirely in share lots. |
 
 
 ------------------------------------------------------------------------
@@ -201,9 +124,9 @@ For a normal long purchase, the saved final amount becomes the lot’s cost. For
 When you move shares between two Wealthfolio accounts:
 
 ``` mb-4
-Account A (Brokerage)        Account B (Roth IRA — *don't actually do this*)
+Account A (Brokerage)        Account B (Roth IRA – *don't actually do this*)
 
-Lot:  100 shares @ $150      —
+Lot:  100 shares @ $150      –
 
          ↓ TRANSFER_OUT 50 shares
 
@@ -238,9 +161,9 @@ Lots are tracked to 8 decimal places. DRIP fractions, crypto satoshis, and broke
 
 ## 8 · Cost basis and currency
 
-Each lot’s cost basis is stored in the **asset’s own currency**. A lot of a USD-listed stock carries a USD cost basis; a EUR-listed stock carries EUR — regardless of your account’s base currency. If you enter a trade in a different currency than the asset, Wealthfolio converts it at the trade’s FX rate and remembers the rate it used.
+Each lot’s cost basis is stored in the **asset’s own currency**. A lot of a USD-listed stock carries a USD cost basis; a EUR-listed stock carries EUR – regardless of your account’s base currency. If you enter a trade in a different currency than the asset, Wealthfolio converts it at the trade’s FX rate and remembers the rate it used.
 
-What matters for tax: when you **sell**, the realized gain reported in your base currency is built from two different FX rates —
+What matters for tax: when you **sell**, the realized gain reported in your base currency is built from two different FX rates –
 
 - **Cost basis** is converted at the **acquisition-date** rate.
 - **Proceeds** are converted at the **disposal-date** rate.
@@ -249,7 +172,7 @@ What matters for tax: when you **sell**, the realized gain reported in your base
 Buy  10 shares @ $100   when 1 EUR = 1.10 USD  → basis  €909
 Sell 10 shares @ $100   when 1 EUR = 1.00 USD  → proceeds €1,000
 
-Realized gain (EUR): €91  — even though the price in USD never moved.
+Realized gain (EUR): €91  – even though the price in USD never moved.
 ```
 
 In other words, **currency movement is folded into your realized gain**, not broken out separately. The share price can be flat in its local currency and you’ll still show a gain or loss in your base currency from the FX swing. This is the standard treatment in most jurisdictions, but it’s worth knowing before you reconcile against a broker statement denominated in the asset’s currency.
@@ -258,10 +181,10 @@ In other words, **currency movement is folded into your realized gain**, not bro
 
 ## 9 · Why not LIFO, weighted-average, or specific-identification?
 
-FIFO is opinionated by design — but it’s the starting point, not the end state. **Additional cost-basis methods will be added in future versions.** The most-requested alternatives on the roadmap:
+FIFO is opinionated by design – but it’s the starting point, not the end state. **Additional cost-basis methods will be added in future versions.** The most-requested alternatives on the roadmap:
 
 - **LIFO (last in, first out):** common in certain US tax strategies. Not implemented yet; planned for a future version.
-- **Weighted-average / moving-average cost (WAC — called ACB in Canada, *gleitender Durchschnittspreis* in Austria/Germany):** several jurisdictions require a moving average rather than FIFO. Canada uses ACB by default; Austria taxes realized gains on a moving average. The “average cost” shown on a holding is *not* this method — it’s a display figure derived from your open FIFO lots, so after a partial sale it reflects the remaining lots rather than a running moving average. Until WAC ships, your Wealthfolio realized-gain numbers will diverge from a moving-average tax calculation, so you’ll need to reconcile manually in the meantime.
+- **Weighted-average / moving-average cost (WAC – called ACB in Canada, *gleitender Durchschnittspreis* in Austria/Germany):** several jurisdictions require a moving average rather than FIFO. Canada uses ACB by default; Austria taxes realized gains on a moving average. The “average cost” shown on a holding is *not* this method – it’s a display figure derived from your open FIFO lots, so after a partial sale it reflects the remaining lots rather than a running moving average. Until WAC ships, your Wealthfolio realized-gain numbers will diverge from a moving-average tax calculation, so you’ll need to reconcile manually in the meantime.
 - **Specific identification:** picking which lots to close on each sale. Powerful for tax-loss harvesting, but adds a lot of UI complexity. Planned.
 
 The honest answer: we’d rather ship FIFO well first and add the other methods in later versions than ship three half-finished accounting modes at once. Vote on what should come next in <a href="https://github.com/wealthfolio/wealthfolio/discussions" class="font-medium underline underline-offset-4">GitHub Discussions</a>.
@@ -278,13 +201,11 @@ The same view powers the **realized vs. unrealized** breakdown on the Performanc
 
 **Next step:** <a href="/docs/concepts/performance-metrics/" class="font-medium underline underline-offset-4">Performance Metrics</a> walks through how realized and unrealized gains combine into the TWR and MWR numbers on your dashboard.
 
-------------------------------------------------------------------------
+
+<a href="/docs/concepts/activity-fields/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Activity Fields</a> <a href="/docs/concepts/performance-metrics/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Performance Metrics</a>
 
 
-<a href="/docs/concepts/activity-fields/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Activity Fields</a> <a href="/docs/concepts/performance-metrics/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Performance Metrics</a>
-
-
-On This Page
+On this page
 
 - <a href="#1--the-mental-model" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">1 · The mental model</a>
 - <a href="#2--fifo-first-in-first-out" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">2 · FIFO: first in, first out</a>

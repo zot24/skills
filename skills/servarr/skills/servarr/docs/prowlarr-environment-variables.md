@@ -21,49 +21,49 @@ The config namespaces are shared between all Servarr apps and correspond to the 
 
 ## <a href="#environment-variables-table" class="toc-anchor">¶</a> Environment Variables Table
 
-| Config Option                    | Namespace  | Variable Name            | Full Environment Variable                    |
-|----------------------------------|------------|--------------------------|----------------------------------------------|
-| `InstanceName`                   | `APP`      | `INSTANCENAME`           | `PROWLARR__APP__INSTANCENAME`                |
-| `Theme`                          | `APP`      | `THEME`                  | `PROWLARR__APP__THEME`                       |
-| `LaunchBrowser`                  | `APP`      | `LAUNCHBROWSER`          | `PROWLARR__APP__LAUNCHBROWSER`               |
-| `ApiKey`                         | `AUTH`     | `APIKEY`                 | `PROWLARR__AUTH__APIKEY`                     |
-| `AuthenticationEnabled`          | `AUTH`     | `ENABLED`                | `PROWLARR__AUTH__ENABLED`                    |
-| `AuthenticationMethod`           | `AUTH`     | `METHOD`                 | `PROWLARR__AUTH__METHOD`                     |
-| `AuthenticationRequired`         | `AUTH`     | `REQUIRED`               | `PROWLARR__AUTH__REQUIRED`                   |
-| `TrustCgnatIpAddresses`          | `AUTH`     | `TRUSTCGNATIPADDRESSES`  | `PROWLARR__AUTH__TRUSTCGNATIPADDRESSES`      |
-| `LogLevel`                       | `LOG`      | `LEVEL`                  | `PROWLARR__LOG__LEVEL`                       |
-| `FilterSentryEvents`             | `LOG`      | `FILTERSENTRYEVENTS`     | `PROWLARR__LOG__FILTERSENTRYEVENTS`          |
-| `LogRotate`                      | `LOG`      | `ROTATE`                 | `PROWLARR__LOG__ROTATE`                      |
-| `LogSizeLimit`                   | `LOG`      | `SIZELIMIT`              | `PROWLARR__LOG__SIZELIMIT`                   |
-| `LogSql`                         | `LOG`      | `SQL`                    | `PROWLARR__LOG__SQL`                         |
-| `ConsoleLogLevel`                | `LOG`      | `CONSOLELEVEL`           | `PROWLARR__LOG__CONSOLELEVEL`                |
-| `ConsoleLogFormat`               | `LOG`      | `CONSOLEFORMAT`          | `PROWLARR__LOG__CONSOLEFORMAT`               |
-| `AnalyticsEnabled`               | `LOG`      | `ANALYTICSENABLED`       | `PROWLARR__LOG__ANALYTICSENABLED`            |
-| `SyslogServer`                   | `LOG`      | `SYSLOGSERVER`           | `PROWLARR__LOG__SYSLOGSERVER`                |
-| `SyslogPort`                     | `LOG`      | `SYSLOGPORT`             | `PROWLARR__LOG__SYSLOGPORT`                  |
-| `SyslogLevel`                    | `LOG`      | `SYSLOGLEVEL`            | `PROWLARR__LOG__SYSLOGLEVEL`                 |
-| `LogDbEnabled`                   | `LOG`      | `DBENABLED`              | `PROWLARR__LOG__DBENABLED`                   |
-| `PostgresHost`                   | `POSTGRES` | `HOST`                   | `PROWLARR__POSTGRES__HOST`                   |
-| `PostgresPort`                   | `POSTGRES` | `PORT`                   | `PROWLARR__POSTGRES__PORT`                   |
-| `PostgresUser`                   | `POSTGRES` | `USER`                   | `PROWLARR__POSTGRES__USER`                   |
-| `PostgresPassword`               | `POSTGRES` | `PASSWORD`               | `PROWLARR__POSTGRES__PASSWORD`               |
-| `PostgresMainDb`                 | `POSTGRES` | `MAINDB`                 | `PROWLARR__POSTGRES__MAINDB`                 |
-| `PostgresLogDb`                  | `POSTGRES` | `LOGDB`                  | `PROWLARR__POSTGRES__LOGDB`                  |
+| Config Option | Namespace | Variable Name | Full Environment Variable |
+|----|----|----|----|
+| `InstanceName` | `APP` | `INSTANCENAME` | `PROWLARR__APP__INSTANCENAME` |
+| `Theme` | `APP` | `THEME` | `PROWLARR__APP__THEME` |
+| `LaunchBrowser` | `APP` | `LAUNCHBROWSER` | `PROWLARR__APP__LAUNCHBROWSER` |
+| `ApiKey` | `AUTH` | `APIKEY` | `PROWLARR__AUTH__APIKEY` |
+| `AuthenticationEnabled` | `AUTH` | `ENABLED` | `PROWLARR__AUTH__ENABLED` |
+| `AuthenticationMethod` | `AUTH` | `METHOD` | `PROWLARR__AUTH__METHOD` |
+| `AuthenticationRequired` | `AUTH` | `REQUIRED` | `PROWLARR__AUTH__REQUIRED` |
+| `TrustCgnatIpAddresses` | `AUTH` | `TRUSTCGNATIPADDRESSES` | `PROWLARR__AUTH__TRUSTCGNATIPADDRESSES` |
+| `LogLevel` | `LOG` | `LEVEL` | `PROWLARR__LOG__LEVEL` |
+| `FilterSentryEvents` | `LOG` | `FILTERSENTRYEVENTS` | `PROWLARR__LOG__FILTERSENTRYEVENTS` |
+| `LogRotate` | `LOG` | `ROTATE` | `PROWLARR__LOG__ROTATE` |
+| `LogSizeLimit` | `LOG` | `SIZELIMIT` | `PROWLARR__LOG__SIZELIMIT` |
+| `LogSql` | `LOG` | `SQL` | `PROWLARR__LOG__SQL` |
+| `ConsoleLogLevel` | `LOG` | `CONSOLELEVEL` | `PROWLARR__LOG__CONSOLELEVEL` |
+| `ConsoleLogFormat` | `LOG` | `CONSOLEFORMAT` | `PROWLARR__LOG__CONSOLEFORMAT` |
+| `AnalyticsEnabled` | `LOG` | `ANALYTICSENABLED` | `PROWLARR__LOG__ANALYTICSENABLED` |
+| `SyslogServer` | `LOG` | `SYSLOGSERVER` | `PROWLARR__LOG__SYSLOGSERVER` |
+| `SyslogPort` | `LOG` | `SYSLOGPORT` | `PROWLARR__LOG__SYSLOGPORT` |
+| `SyslogLevel` | `LOG` | `SYSLOGLEVEL` | `PROWLARR__LOG__SYSLOGLEVEL` |
+| `LogDbEnabled` | `LOG` | `DBENABLED` | `PROWLARR__LOG__DBENABLED` |
+| `PostgresHost` | `POSTGRES` | `HOST` | `PROWLARR__POSTGRES__HOST` |
+| `PostgresPort` | `POSTGRES` | `PORT` | `PROWLARR__POSTGRES__PORT` |
+| `PostgresUser` | `POSTGRES` | `USER` | `PROWLARR__POSTGRES__USER` |
+| `PostgresPassword` | `POSTGRES` | `PASSWORD` | `PROWLARR__POSTGRES__PASSWORD` |
+| `PostgresMainDb` | `POSTGRES` | `MAINDB` | `PROWLARR__POSTGRES__MAINDB` |
+| `PostgresLogDb` | `POSTGRES` | `LOGDB` | `PROWLARR__POSTGRES__LOGDB` |
 | `PostgresMainDbConnectionString` | `POSTGRES` | `MAINDBCONNECTIONSTRING` | `PROWLARR__POSTGRES__MAINDBCONNECTIONSTRING` |
-| `PostgresLogDbConnectionString`  | `POSTGRES` | `LOGDBCONNECTIONSTRING`  | `PROWLARR__POSTGRES__LOGDBCONNECTIONSTRING`  |
-| `UrlBase`                        | `SERVER`   | `URLBASE`                | `PROWLARR__SERVER__URLBASE`                  |
-| `BindAddress`                    | `SERVER`   | `BINDADDRESS`            | `PROWLARR__SERVER__BINDADDRESS`              |
-| `AllowedHosts`                   | `SERVER`   | `ALLOWEDHOSTS`           | `PROWLARR__SERVER__ALLOWEDHOSTS`             |
-| `Port`                           | `SERVER`   | `PORT`                   | `PROWLARR__SERVER__PORT`                     |
-| `EnableSsl`                      | `SERVER`   | `ENABLESSL`              | `PROWLARR__SERVER__ENABLESSL`                |
-| `SslPort`                        | `SERVER`   | `SSLPORT`                | `PROWLARR__SERVER__SSLPORT`                  |
-| `SslCertPath`                    | `SERVER`   | `SSLCERTPATH`            | `PROWLARR__SERVER__SSLCERTPATH`              |
-| `SslCertPassword`                | `SERVER`   | `SSLCERTPASSWORD`        | `PROWLARR__SERVER__SSLCERTPASSWORD`          |
-| `TrustedNetworks`                | `SERVER`   | `TRUSTEDNETWORKS`        | `PROWLARR__SERVER__TRUSTEDNETWORKS`          |
-| `UpdateMechanism`                | `UPDATE`   | `MECHANISM`              | `PROWLARR__UPDATE__MECHANISM`                |
-| `UpdateAutomatically`            | `UPDATE`   | `AUTOMATICALLY`          | `PROWLARR__UPDATE__AUTOMATICALLY`            |
-| `UpdateScriptPath`               | `UPDATE`   | `SCRIPTPATH`             | `PROWLARR__UPDATE__SCRIPTPATH`               |
-| `Branch`                         | `UPDATE`   | `BRANCH`                 | `PROWLARR__UPDATE__BRANCH`                   |
+| `PostgresLogDbConnectionString` | `POSTGRES` | `LOGDBCONNECTIONSTRING` | `PROWLARR__POSTGRES__LOGDBCONNECTIONSTRING` |
+| `UrlBase` | `SERVER` | `URLBASE` | `PROWLARR__SERVER__URLBASE` |
+| `BindAddress` | `SERVER` | `BINDADDRESS` | `PROWLARR__SERVER__BINDADDRESS` |
+| `AllowedHosts` | `SERVER` | `ALLOWEDHOSTS` | `PROWLARR__SERVER__ALLOWEDHOSTS` |
+| `Port` | `SERVER` | `PORT` | `PROWLARR__SERVER__PORT` |
+| `EnableSsl` | `SERVER` | `ENABLESSL` | `PROWLARR__SERVER__ENABLESSL` |
+| `SslPort` | `SERVER` | `SSLPORT` | `PROWLARR__SERVER__SSLPORT` |
+| `SslCertPath` | `SERVER` | `SSLCERTPATH` | `PROWLARR__SERVER__SSLCERTPATH` |
+| `SslCertPassword` | `SERVER` | `SSLCERTPASSWORD` | `PROWLARR__SERVER__SSLCERTPASSWORD` |
+| `TrustedNetworks` | `SERVER` | `TRUSTEDNETWORKS` | `PROWLARR__SERVER__TRUSTEDNETWORKS` |
+| `UpdateMechanism` | `UPDATE` | `MECHANISM` | `PROWLARR__UPDATE__MECHANISM` |
+| `UpdateAutomatically` | `UPDATE` | `AUTOMATICALLY` | `PROWLARR__UPDATE__AUTOMATICALLY` |
+| `UpdateScriptPath` | `UPDATE` | `SCRIPTPATH` | `PROWLARR__UPDATE__SCRIPTPATH` |
+| `Branch` | `UPDATE` | `BRANCH` | `PROWLARR__UPDATE__BRANCH` |
 
 ## <a href="#usage-examples" class="toc-anchor">¶</a> Usage Examples
 
@@ -138,25 +138,25 @@ Branch=master
 
 ### <a href="#available-keys" class="toc-anchor">¶</a> Available Keys
 
-| Key                    | Description                                | Example                      |
-|------------------------|--------------------------------------------|------------------------------|
-| `PackageVersion`       | Custom package version identifier          | `1.0.0-custom`               |
-| `PackageAuthor`        | Package maintainer name                    | `Community Package`          |
-| `PackageGlobalMessage` | Message displayed in UI                    | `Custom build for Debian 11` |
-| `UpdateMethod`         | How updates are handled (see values below) | `External`                   |
-| `UpdateMethodMessage`  | Custom message about update method         | `Updates managed by apt`     |
-| `Branch`               | Default branch to use                      | `master` or `develop`        |
-| `ReleaseVersion`       | Override release version                   | `1.0.0.0`                    |
+| Key | Description | Example |
+|----|----|----|
+| `PackageVersion` | Custom package version identifier | `1.0.0-custom` |
+| `PackageAuthor` | Package maintainer name | `Community Package` |
+| `PackageGlobalMessage` | Message displayed in UI | `Custom build for Debian 11` |
+| `UpdateMethod` | How updates are handled (see values below) | `External` |
+| `UpdateMethodMessage` | Custom message about update method | `Updates managed by apt` |
+| `Branch` | Default branch to use | `master` or `develop` |
+| `ReleaseVersion` | Override release version | `1.0.0.0` |
 
 ### <a href="#updatemethod-values" class="toc-anchor">¶</a> UpdateMethod Values
 
-| Value      | Numeric | Description                   | Use Case                    |
-|------------|---------|-------------------------------|-----------------------------|
-| `BuiltIn`  | 0       | Default built-in updater      | Standard installations      |
-| `Script`   | 1       | Updates via custom script     | Advanced custom setups      |
-| `External` | 10      | Updates managed externally    | Package managers, Docker    |
-| `Apt`      | 11      | Debian/Ubuntu package manager | Used by package maintainers |
-| `Docker`   | 12      | Docker container updates      | Used by Docker maintainers  |
+| Value | Numeric | Description | Use Case |
+|----|----|----|----|
+| `BuiltIn` | 0 | Default built-in updater | Standard installations |
+| `Script` | 1 | Updates via custom script | Advanced custom setups |
+| `External` | 10 | Updates managed externally | Package managers, Docker |
+| `Apt` | 11 | Debian/Ubuntu package manager | Used by package maintainers |
+| `Docker` | 12 | Docker container updates | Used by Docker maintainers |
 
 ### <a href="#real-world-example" class="toc-anchor">¶</a> Real-World Example
 

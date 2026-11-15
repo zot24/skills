@@ -11,6 +11,7 @@
 - [Firecrawl in Claude & Claude Code](https://docs.firecrawl.dev/quickstarts/claude-code.md): Search the web and read pages from Claude or your Claude Code session.
 - [Firecrawl in Claude Desktop and Cowork](https://docs.firecrawl.dev/quickstarts/claude-desktop.md): Connect Firecrawl once and use it in Claude Desktop chat, Cowork, and the Code tab.
 - [MCP Web Search & Scrape in Cursor](https://docs.firecrawl.dev/quickstarts/cursor.md): Add web scraping and search to Cursor in 2 minutes
+- [MCP Web Search & Scrape in Factory Droid](https://docs.firecrawl.dev/quickstarts/factory-droid.md): Add Firecrawl web search and scraping to Factory Droid
 - [CLI](https://docs.firecrawl.dev/sdks/cli.md): Firecrawl skills are an easy way for AI agents such as Codex, Claude Code, Cursor, and OpenCode to use Firecrawl through the CLI.
 - [Advanced Scraping Guide](https://docs.firecrawl.dev/advanced-scraping-guide.md): Configure scrape options, browser actions, crawl, map, and the agent endpoint with Firecrawl's full API surface.
 

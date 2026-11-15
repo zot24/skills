@@ -1,17 +1,6 @@
 > Source: https://docs.gl-inet.com/router/en/4/interface_guide/adguardhome
 
 
-<a href="#adguard-home" class="md-skip">Skip to content</a>
-
-
-Initializing search
-
-
-<a href="https://github.com/gl-inet/docs4.x" class="md-source" data-md-component="source" title="Go to repository"></a>
-
-
-gl-inet/docs4.x
-
 
 <a href="../../faq/" class="md-nav__link"><span class="md-ellipsis"> FAQ </span></a> <span class="md-nav__icon md-icon"></span>
 
@@ -96,7 +85,7 @@ Toggle the switch to enable AdGuard Home and click **Apply**.
 
 <img src="https://static.gl-inet.com/docs/router/en/4/interface_guide/adguard_home/apply.png" class="glboxshadow" alt="adguard home apply" />
 
-- **AdGuard Home Handle Client Requests**: If enabled, DNS queries from client devices will be processed directly by AdGuard Home. This will render domain-based VPN policies and parental control rules ineffective.
+- **AdGuard Home Handle Client Requests**: If enabled, firewall rules redirect DNS queries from client devices directly to AdGuard Home, bypassing the router's DNS service (dnsmasq). This will render domain-based VPN policies and parental control rules ineffective. Local hostnames normally resolved by dnsmasq may require additional configuration in AdGuard Home.
 
 Once enabled, the page shows statistics including DNS queries and blocked domains via the API provided by AdGuard Home.
 
@@ -124,5 +113,4 @@ Thanks for your feedback! Help us improve this page by <a href="https://glinet.f
 
 
 Back to top
-
 

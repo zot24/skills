@@ -25,17 +25,17 @@ On this page
 
 RPC mode runs Pi as a long-lived subprocess controlled through JSON records on stdin and stdout. Use it for language-independent integrations, process isolation, IDEs, and custom user interfaces.
 
-For an in-process Node.js or Bun integration, prefer the [SDK](/docs/latest/sdk). For a subprocess-based TypeScript integration, prefer the exported `RpcClient`, which starts Pi, correlates responses, exposes typed command methods, and delivers events to listeners.
+For an in-process Node.js or Bun integration, prefer the [SDK](/latest/latest/sdk). For a subprocess-based TypeScript integration, prefer the exported `RpcClient`, which starts Pi, correlates responses, exposes typed command methods, and delivers events to listeners.
 
 | Interface | Process boundary | Control model | Best fit |
 |----|----|----|----|
-| [SDK](/docs/latest/sdk) | In process | Direct TypeScript methods and events | Node.js or Bun hosts that want complete API access |
+| [SDK](/latest/latest/sdk) | In process | Direct TypeScript methods and events | Node.js or Bun hosts that want complete API access |
 | RPC | Child process | JSONL commands, responses, and events | Other languages, isolated processes, IDEs, or custom clients |
 
 
 ## Start RPC mode
 
-<a href="#start-rpc-mode" class="heading-anchor" aria-label="Permalink: Start RPC mode" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#start-rpc-mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#start-rpc-mode" class="heading-anchor" aria-label="Permalink: Start RPC mode" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc#start-rpc-mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 ``` shiki
@@ -43,14 +43,14 @@ pi --mode rpc --no-session
 ```
 
 
-Normal CLI options still select the working folder, model, tools, resources, and session behavior. Common choices include `--provider`, `--model`, `--name`, `--no-session`, and `--session-dir`. See [Command Line](/docs/latest/cli) for the complete, version-specific interface; `pi --help` is authoritative for the installed version.
+Normal CLI options still select the working folder, model, tools, resources, and session behavior. Common choices include `--provider`, `--model`, `--name`, `--no-session`, and `--session-dir`. See [Command Line](/latest/latest/cli) for the complete, version-specific interface; `pi --help` is authoritative for the installed version.
 
-RPC mode rejects `@file` prompt arguments. Send prompts through the [`prompt`](/docs/latest/rpc-commands#prompt) command instead.
+RPC mode rejects `@file` prompt arguments. Send prompts through the [`prompt`](/latest/latest/rpc-commands#prompt) command instead.
 
 
 ## Protocol records
 
-<a href="#protocol-records" class="heading-anchor" aria-label="Permalink: Protocol records" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#protocol-records"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#protocol-records" class="heading-anchor" aria-label="Permalink: Protocol records" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc#protocol-records"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The protocol has four record families:
@@ -62,12 +62,12 @@ The protocol has four record families:
 | stdout | Session event | Stream run, message, tool, queue, compaction, and retry activity |
 | Both | Extension UI record | Forward supported extension interactions between Pi and the client |
 
-See [RPC Commands](/docs/latest/rpc-commands), [JSON Event Stream](/docs/latest/json), and [RPC Extension UI](/docs/latest/rpc-extension-ui) for the canonical record definitions.
+See [RPC Commands](/latest/latest/rpc-commands), [JSON Event Stream](/latest/latest/json), and [RPC Extension UI](/latest/latest/rpc-extension-ui) for the canonical record definitions.
 
 
 ### Correlate commands and responses
 
-<a href="#correlate-commands-and-responses" class="heading-anchor" aria-label="Permalink: Correlate commands and responses" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#correlate-commands-and-responses"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#correlate-commands-and-responses" class="heading-anchor" aria-label="Permalink: Correlate commands and responses" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc#correlate-commands-and-responses"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Every command accepts an optional string `id`. A matching response repeats it:
@@ -81,14 +81,14 @@ Every command accepts an optional string `id`. A matching response repeats it:
 
 Use unique IDs whenever more than one command can be outstanding. Command handling is asynchronous, so clients should correlate by ID rather than response order.
 
-Session events generally have no command ID because they describe session activity. `bash_execution_update` is the exception: when the originating [`bash`](/docs/latest/rpc-commands#bash) command has an ID, its output events repeat that ID.
+Session events generally have no command ID because they describe session activity. `bash_execution_update` is the exception: when the originating [`bash`](/latest/latest/rpc-commands#bash) command has an ID, its output events repeat that ID.
 
 An `extension_ui_response` uses the ID supplied by its `extension_ui_request`. It does not produce a normal command response.
 
 
 ## Framing
 
-<a href="#framing" class="heading-anchor" aria-label="Permalink: Framing" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#framing"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#framing" class="heading-anchor" aria-label="Permalink: Framing" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc#framing"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 RPC uses strict JSONL framing. Write one complete JSON object per record and terminate it with LF (`\n`). Read stdout as a byte or UTF-8 stream and split records only on LF. Strip an optional preceding carriage return to accept CRLF input.
@@ -100,7 +100,7 @@ Read stdout continuously. Pi honors stdout backpressure, but a client that stops
 
 ## Run lifecycle
 
-<a href="#run-lifecycle" class="heading-anchor" aria-label="Permalink: Run lifecycle" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#run-lifecycle"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#run-lifecycle" class="heading-anchor" aria-label="Permalink: Run lifecycle" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc#run-lifecycle"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A successful `prompt` response means the prompt was accepted, queued, or handled. It does not mean model work completed:
@@ -112,16 +112,16 @@ A successful `prompt` response means the prompt was accepted, queued, or handled
 ```
 
 
-`data.disposition` reports what happened to the prompt. If it is `"handled"`, no run started for this prompt, so don't wait for `agent_settled`. See [RPC Commands](/docs/latest/rpc-commands#prompt) for all values.
+`data.disposition` reports what happened to the prompt. If it is `"handled"`, no run started for this prompt, so don't wait for `agent_settled`. See [RPC Commands](/latest/latest/rpc-commands#prompt) for all values.
 
-Continue consuming [events](/docs/latest/json) after that response. `agent_end` marks the end of one low-level agent run, but retries, overflow recovery, compaction, steering, or follow-up work can still follow. Wait for `agent_settled` when the client needs to know Pi will not continue automatically.
+Continue consuming [events](/latest/latest/json) after that response. `agent_end` marks the end of one low-level agent run, but retries, overflow recovery, compaction, steering, or follow-up work can still follow. Wait for `agent_settled` when the client needs to know Pi will not continue automatically.
 
 Subscribe before sending a prompt to avoid missing a fast completion. `RpcClient.promptAndWait()` does this internally. If using separate `RpcClient` calls, install the event listener before `prompt()` and call `waitForIdle()` only while a run is active.
 
 
 ## Errors
 
-<a href="#errors" class="heading-anchor" aria-label="Permalink: Errors" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#errors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#errors" class="heading-anchor" aria-label="Permalink: Errors" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc#errors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A failed command returns one response with `success: false`:
@@ -147,7 +147,7 @@ Clients must also handle child-process startup failures, unexpected exits, stder
 
 ## Shutdown
 
-<a href="#shutdown" class="heading-anchor" aria-label="Permalink: Shutdown" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#shutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#shutdown" class="heading-anchor" aria-label="Permalink: Shutdown" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc#shutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Close the child's stdin to request an orderly shutdown. Pi disposes the active runtime and waits for pending work to finish before exiting, so give it time to exit before killing it. Clients should still handle process signals and unexpected exits.
@@ -159,7 +159,7 @@ An extension can also request shutdown with `ctx.shutdown()`. If the session is 
 
 ## Minimal client
 
-<a href="#minimal-client" class="heading-anchor" aria-label="Permalink: Minimal client" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#minimal-client"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#minimal-client" class="heading-anchor" aria-label="Permalink: Minimal client" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc#minimal-client"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 This Python example uses a binary pipe reader, which splits on LF without treating Unicode separators as protocol boundaries:
@@ -202,32 +202,32 @@ For maintained TypeScript clients, use the checked [RPC client example](https://
 
 ## Reference
 
-<a href="#reference" class="heading-anchor" aria-label="Permalink: Reference" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#reference"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#reference" class="heading-anchor" aria-label="Permalink: Reference" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc#reference"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
-- [RPC Commands](/docs/latest/rpc-commands): every stdin command and response
-- [JSON Event Stream](/docs/latest/json): shared stdout session events and streaming reconstruction
-- [RPC Extension UI](/docs/latest/rpc-extension-ui): dialogs, notifications, responses, and limitations
-- [Message Types](/docs/latest/message-types): messages and content blocks used by responses and events
-- [Session File Format](/docs/latest/session-format): entries returned by session commands
+- [RPC Commands](/latest/latest/rpc-commands): every stdin command and response
+- [JSON Event Stream](/latest/latest/json): shared stdout session events and streaming reconstruction
+- [RPC Extension UI](/latest/latest/rpc-extension-ui): dialogs, notifications, responses, and limitations
+- [Message Types](/latest/latest/message-types): messages and content blocks used by responses and events
+- [Session File Format](/latest/latest/session-format): entries returned by session commands
 - [`rpc-types.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/rpc/rpc-types.ts): exported TypeScript protocol definitions
 - [`RpcClient`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/rpc/rpc-client.ts): subprocess client implementation
 
 
 ## Moved reference anchors
 
-<a href="#moved-reference-anchors" class="heading-anchor" aria-label="Permalink: Moved reference anchors" data-copy="" data-copy-text="https://pi.dev/docs/latest/rpc#moved-reference-anchors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
+<a href="#moved-reference-anchors" class="heading-anchor" aria-label="Permalink: Moved reference anchors" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc#moved-reference-anchors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The detailed references formerly on this page now have dedicated pages. These anchors preserve existing links.
 
 
-Command details moved to [RPC Commands](/docs/latest/rpc-commands).
+Command details moved to [RPC Commands](/latest/latest/rpc-commands).
 
 
-Event details moved to [JSON Event Stream](/docs/latest/json).
+Event details moved to [JSON Event Stream](/latest/latest/json).
 
 
-Extension interaction details moved to [RPC Extension UI](/docs/latest/rpc-extension-ui).
+Extension interaction details moved to [RPC Extension UI](/latest/latest/rpc-extension-ui).
 
 

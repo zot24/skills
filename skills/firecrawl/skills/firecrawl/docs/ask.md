@@ -16,12 +16,11 @@ Firecrawl `/support/ask` is an AI support agent exposed as an API. Describe your
 >
 > The Ask API is designed primarily for **AI agent callers**. If you're building agents that use Firecrawl for scraping, crawling, or data extraction, wire `/support/ask` into your error-handling flow for autonomous issue resolution.
 
-## Two endpoints
+## Endpoint
 
 | Endpoint | Auth | Who it's for | What it does |
 | - | - | - | - |
 | `POST /support/ask` | Your Firecrawl API key | Your agents and apps | Full diagnostic loop scoped to your team |
-| `POST /support/docs-search` | Your Firecrawl API key | Your agents and apps | Docs-grounded answers from Firecrawl's public documentation |
 
 ## Quick start
 
@@ -33,17 +32,6 @@ curl -X POST https://api.firecrawl.dev/v2/support/ask \
   -H "Content-Type: application/json" \
   -d '{
     "question": "my crawl returned 3 pages but I expected 50"
-  }'
-```
-
-### Search the docs
-
-```bash theme={null}
-curl -X POST https://api.firecrawl.dev/v2/support/docs-search \
-  -H "Authorization: Bearer fc-YOUR_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "question": "how do I set up webhook signature verification?"
   }'
 ```
 
@@ -219,12 +207,6 @@ if not doc.markdown or len(doc.markdown) < 100:
 | `rationale` | string | No | Recommended for AI callers. What the end user is trying to accomplish. Helps prioritize evidence gathering. |
 | `context` | object | No | Free-form metadata from your agent, included in the debugging prompt |
 
-### `/support/docs-search`
-
-| Parameter | Type | Required | Description |
-| - | - | - | - |
-| `question` | string | Yes | The question to answer (1–8,000 characters) |
-
 ## Response
 
 ### `/support/ask` response
@@ -247,20 +229,6 @@ if not doc.markdown or len(doc.markdown) < 100:
 
 The actual `answer`, `fixParameters`, and `validation.evidence` are produced per request by the agent based on your specific run; the example above shows the response shape, not a real diagnosis.
 
-### `/support/docs-search` response
-
-```json theme={null}
-{
-  "requestId": "req_...",
-  "answer": "The signature is sent in the X-Firecrawl-Signature header...",
-  "evidence": [
-    { "pathOrUrl": "webhooks/security.mdx#L1-L52", "reason": "..." }
-  ],
-  "usage": { "inputTokens": 4356, "outputTokens": 688, "totalTokens": 5044 },
-  "durationMs": 11252
-}
-```
-
 ## Performance
 
 | Metric | Typical | Maximum |
@@ -270,7 +238,6 @@ The actual `answer`, `fixParameters`, and `validation.evidence` are produced per
 ## API Reference
 
 * [Ask endpoint API Reference](https://docs.firecrawl.dev/api-reference/endpoint/ask.md)
-* [Docs Search endpoint API Reference](https://docs.firecrawl.dev/api-reference/endpoint/docs-search.md)
 
 Have feedback or need help? Email [help@firecrawl.com](mailto:help@firecrawl.com).
 

@@ -1,18 +1,5 @@
 > Source: https://flueframework.com/docs/cli/run
 
-<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
-
-
-<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
-
-
-Esc
-
-
-Start typing to search the documentation.
-
-
-<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # flue run
@@ -35,17 +22,17 @@ Conversations persist between invocations, so `--id` continues a conversation an
 
 ## Options
 
-| Option                 | Description                                                                                                                                                                                                                             |
-|------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `<path>`               | The agent module to run, as a file path resolved from the current working directory.                                                                                                                                                    |
-| `-m, --message <text>` | The user message submitted to the agent. Required.                                                                                                                                                                                      |
-| `--name <agent>`       | Which agent to run when the module defines several. Matches the agent’s name — its `agentName` static when set, otherwise the exported function name. Required when the module exports more than one agent; there is no silent default. |
-| `--id <id>`            | Conversation id to create or continue. Defaults to a fresh generated ULID, printed on stderr.                                                                                                                                           |
-| `--data <json>`        | Instance-creation data, read inside the agent with [`useInitialData()`](/docs/guide/agent-hooks/). Consulted only when this run creates the conversation; silently ignored on continues. Cannot be combined with `--uid`.               |
-| `--uid <uid>`          | Continue only the conversation instance with this uid. Cannot be combined with `--new` or `--data`.                                                                                                                                     |
-| `--new`                | Create only: the run is rejected when the conversation id already exists.                                                                                                                                                               |
-| `--json`               | Print a JSON result envelope to stdout instead of the reply text.                                                                                                                                                                       |
-| `--env <path>`         | Load one alternate `.env`-format file before the run instead of the default `.env`.                                                                                                                                                     |
+| Option | Description |
+|----|----|
+| `<path>` | The agent module to run, as a file path resolved from the current working directory. |
+| `-m, --message <text>` | The user message submitted to the agent. Required. |
+| `--name <agent>` | Which agent to run when the module defines several. Matches the agent’s name — its `agentName` static when set, otherwise the exported function name. Required when the module exports more than one agent; there is no silent default. |
+| `--id <id>` | Conversation id to create or continue. Defaults to a fresh generated ULID, printed on stderr. |
+| `--data <json>` | Instance-creation data, read inside the agent with [`useInitialData()`](/docs/guide/agent-hooks/). Consulted only when this run creates the conversation; silently ignored on continues. Cannot be combined with `--uid`. |
+| `--uid <uid>` | Continue only the conversation instance with this uid. Cannot be combined with `--new` or `--data`. |
+| `--new` | Create only: the run is rejected when the conversation id already exists. |
+| `--json` | Print a JSON result envelope to stdout instead of the reply text. |
+| `--env <path>` | Load one alternate `.env`-format file before the run instead of the default `.env`. |
 
 ## Output
 

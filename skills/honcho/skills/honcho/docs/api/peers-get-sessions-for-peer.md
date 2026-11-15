@@ -6,68 +6,73 @@
 
 # Get Sessions For Peer
 
-> Get All Sessions for a Peer
+> Get all Sessions for a Peer, paginated with optional filters.
 
 
 ## OpenAPI
 
-````yaml post /v2/workspaces/{workspace_id}/peers/{peer_id}/sessions
+````yaml post /v3/workspaces/{workspace_id}/peers/{peer_id}/sessions
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/peers/{peer_id}/sessions:
+  /v3/workspaces/{workspace_id}/peers/{peer_id}/sessions:
     post:
       tags:
         - peers
       summary: Get Sessions For Peer
-      description: Get All Sessions for a Peer
+      description: Get all Sessions for a Peer, paginated with optional filters.
       operationId: >-
-        get_sessions_for_peer_v2_workspaces__workspace_id__peers__peer_id__sessions_post
+        get_sessions_for_peer_v3_workspaces__workspace_id__peers__peer_id__sessions_post
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
         - name: peer_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the peer
             title: Peer Id
-          description: ID of the peer
+        - name: reverse
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: Whether to reverse the order of results
+            default: false
+            title: Reverse
+          description: Whether to reverse the order of results
         - name: page
           in: query
           required: false
           schema:
             type: integer
+            maximum: 2147483647
             minimum: 1
-            description: Page number
+            description: Page number (offset mode)
             default: 1
             title: Page
-          description: Page number
+          description: Page number (offset mode)
         - name: size
           in: query
           required: false
@@ -79,6 +84,23 @@ paths:
             default: 50
             title: Size
           description: Page size
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            description: >-
+              Opt in to cursor pagination. Send an empty value for the first
+              page, then the `next_page` value from each response. When set,
+              `page` is ignored and the response is a cursor page with no
+              `total`.
+            title: Cursor
+          description: >-
+            Opt in to cursor pagination. Send an empty value for the first page,
+            then the `next_page` value from each response. When set, `page` is
+            ignored and the response is a cursor page with no `total`.
       requestBody:
         content:
           application/json:
@@ -94,7 +116,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page_Session_'
+                anyOf:
+                  - $ref: '#/components/schemas/Page_Session_'
+                  - $ref: '#/components/schemas/CursorPage_Session_'
+                title: >-
+                  Response Get Sessions For Peer V3 Workspaces  Workspace Id 
+                  Peers  Peer Id  Sessions Post
         '422':
           description: Validation Error
           content:
@@ -123,35 +150,75 @@ components:
           type: array
           title: Items
         total:
-          anyOf:
-            - type: integer
-              minimum: 0
-            - type: 'null'
+          type: integer
+          minimum: 0
           title: Total
+          description: >-
+            Number of matching rows, exact up to the server's
+            PAGINATION_COUNT_LIMIT (default 100000) and reported as that limit
+            plus one when there are more. While a next page exists it is at
+            least one more than this page's last row, so `pages` always reaches
+            the end of the list.
         page:
-          anyOf:
-            - type: integer
-              minimum: 1
-            - type: 'null'
+          type: integer
+          minimum: 1
           title: Page
         size:
-          anyOf:
-            - type: integer
-              minimum: 1
-            - type: 'null'
+          type: integer
+          minimum: 1
           title: Size
         pages:
-          anyOf:
-            - type: integer
-              minimum: 0
-            - type: 'null'
+          type: integer
+          minimum: 0
           title: Pages
       type: object
       required:
         - items
+        - total
         - page
         - size
+        - pages
       title: Page[Session]
+    CursorPage_Session_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Session'
+          type: array
+          title: Items
+        total:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Total
+        current_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Current Page
+          description: Cursor to refetch the current page
+        current_page_backwards:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Current Page Backwards
+          description: Cursor to refetch the current page starting from the last item
+        previous_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Previous Page
+          description: Cursor for the previous page
+        next_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Next Page
+          description: Cursor for the next page
+      type: object
+      required:
+        - items
+      title: CursorPage[Session]
     HTTPValidationError:
       properties:
         detail:
@@ -166,6 +233,12 @@ components:
         id:
           type: string
           title: Id
+        uid:
+          type: string
+          title: Uid
+          description: >-
+            Immutable identifier Honcho assigns to this session. `id` is the
+            name the client chose; `uid` is generated by the server.
         is_active:
           type: boolean
           title: Is Active
@@ -184,9 +257,20 @@ components:
           type: string
           format: date-time
           title: Created At
+        scopes:
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
+          title: Scopes
+          description: >-
+            Names of the scopes this session is an active member of. Only
+            returned by the session list when `include_scopes` is true.
       type: object
       required:
         - id
+        - uid
         - is_active
         - workspace_id
         - created_at
@@ -206,6 +290,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

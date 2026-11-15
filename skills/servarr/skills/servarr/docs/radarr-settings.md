@@ -637,16 +637,16 @@ Profiles is where Custom Format Scores are configured.
 
 #### <a href="#indexer-flags" class="toc-anchor">¶</a> Indexer Flags
 
-| Flag             | Symbol | Description                                                                                                                                                                                                                 |
-|------------------|--------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `G_Freeleech`    | ⬇⬇     | Sometimes, torrent sites set a torrent to be freeleech. This means, that the download of this torrent will not count towards your download quota or ratio. This is really useful if you have not built up a good ratio yet. |
-| `G_Halfleech`    | ⇩⇩     | Similar to `G_Freeleech`, `G_Halfleech` signifies that only half of the size of this torrent will count towards your download quota or ratio.                                                                               |
-| `G_DoubleUpload` | ⬆      | Similar to `G_Freeleech`, `G_DoubleUpload` signifies that any amount of data you upload via seeding is counted twice towards your upload quota and ratio. This is very useful, if you want to build up a ratio buffer.      |
-| `PTP_Golden`     | 🌟     | On PassThePopcorn, some torrents are given the *Golden* tag, when they meet certain encoding standards. These are usually the best encodes, with almost no perceptible quality loss. You can learn more on their wiki page. |
-| `PTP_Approved`   | ✔      | On PassThePopcorn, some torrents are approved, when they meet the minimum standards for encoding (e.g., no low bitrates). See their wiki for more information.                                                              |
-| `G_Scene`        | ☠      | Signifies a release from a SCENE group.                                                                                                                                                                                     |
-| `G_Freeleech75`  | ⇩⬇     | Similar to `G_Freeleech`, `G_Freeleech75` signifies that only 25% of the size of this torrent will count towards your download quota or ratio.                                                                              |
-| `G_Freeleech25`  | ⇩      | Similar to `G_Freeleech`, `G_Freeleech25` signifies that only 75% of the size of this torrent will count towards your download quota or ratio.                                                                              |
+| Flag | Symbol | Description |
+|----|----|----|
+| `G_Freeleech` | ⬇⬇ | Sometimes, torrent sites set a torrent to be freeleech. This means, that the download of this torrent will not count towards your download quota or ratio. This is really useful if you have not built up a good ratio yet. |
+| `G_Halfleech` | ⇩⇩ | Similar to `G_Freeleech`, `G_Halfleech` signifies that only half of the size of this torrent will count towards your download quota or ratio. |
+| `G_DoubleUpload` | ⬆ | Similar to `G_Freeleech`, `G_DoubleUpload` signifies that any amount of data you upload via seeding is counted twice towards your upload quota and ratio. This is very useful, if you want to build up a ratio buffer. |
+| `PTP_Golden` | 🌟 | On PassThePopcorn, some torrents are given the *Golden* tag, when they meet certain encoding standards. These are usually the best encodes, with almost no perceptible quality loss. You can learn more on their wiki page. |
+| `PTP_Approved` | ✔ | On PassThePopcorn, some torrents are approved, when they meet the minimum standards for encoding (e.g., no low bitrates). See their wiki for more information. |
+| `G_Scene` | ☠ | Signifies a release from a SCENE group. |
+| `G_Freeleech75` | ⇩⬇ | Similar to `G_Freeleech`, `G_Freeleech75` signifies that only 25% of the size of this torrent will count towards your download quota or ratio. |
+| `G_Freeleech25` | ⇩ | Similar to `G_Freeleech`, `G_Freeleech25` signifies that only 75% of the size of this torrent will count towards your download quota or ratio. |
 
 - (Advanced Option) Indexer Priority - Priority of this indexer to prefer one indexer over another in release tiebreaker scenarios. 1 is highest priority and 50 is lowest priority.
 - (Advanced Option) Download Client - Select and specify which download client is used for grabs from this indexer
@@ -749,19 +749,19 @@ Select the download client you wish to add, and there will be a pop-up box to en
 
 - Radarr is only able to set the seed ratio/time on clients that support setting this value via their API when the torrent is added. Seed goals can be set globally in the client itself or per tracker in \*Arr settings for each indexer. See the table below for client compatibility.
 
-|      Client       |                                        Ratio                                         |                                         Time                                         |
-|:-----------------:|:------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------:|
-|       Aria2       | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
-|      Deluge       | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
-| Download Station  | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
-|       Flood       | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
-|     Hadouken      | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
-|    qBittorrent    | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
-|     rTorrent      | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
+| Client | Ratio | Time |
+|:--:|:--:|:--:|
+| Aria2 | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
+| Deluge | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
+| Download Station | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
+| Flood | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
+| Hadouken | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
+| qBittorrent | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
+| rTorrent | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
 | Torrent Blackhole | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> | <img src="/_assets/svg/twemoji/274c.svg" class="emoji" draggable="false" alt="❌" /> |
-|   Transmission    | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |      ![Idle Limit](https://img.shields.io/badge/Supported-Idle%20Limit*-blue)\*      |
-|     uTorrent      | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
-|       Vuze        | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
+| Transmission | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | ![Idle Limit](https://img.shields.io/badge/Supported-Idle%20Limit*-blue)\* |
+| uTorrent | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
+| Vuze | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> | <img src="/_assets/svg/twemoji/2705.svg" class="emoji" draggable="false" alt="✅" /> |
 
 > ![Idle Limit](https://img.shields.io/badge/Supported-Idle%20Limit*-blue) - Transmission internally has an Idle Time check, but Radarr compares it with the seeding time if the idle limit is set on a per-torrent basis. This is done as workaround to Transmission’s api limitations.
 

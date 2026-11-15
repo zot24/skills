@@ -177,6 +177,21 @@ components:
           type: string
         abstract:
           type: string
+        authors:
+          type: array
+          items:
+            type: string
+          description: >-
+            First 20 author names. GET /search/research/papers/{id} returns the
+            full list.
+        createdDate:
+          type: string
+          format: date
+          description: Creation date, YYYY-MM-DD.
+        updateDate:
+          type: string
+          format: date
+          description: Last update date, YYYY-MM-DD.
         score:
           type: number
           format: double

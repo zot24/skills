@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -85,26 +10,24 @@ Investment Terms Glossary
 
 # Investment Terms Glossary
 
-Plain-English definitions of the investment and portfolio-accounting terms used in Wealthfolio — TWR, MWR, FIFO, ACB, cost basis, drawdown, and more.
+Plain-English definitions of the investment and portfolio-accounting terms used in Wealthfolio – TWR, MWR, FIFO, ACB, cost basis, drawdown, and more.
 
 
-------------------------------------------------------------------------
+Last updated November 12, 2026
 
-Last updated October 31, 2026
-
-A short reference for the terms used across Wealthfolio’s app and docs. Use it when a metric or concept is unfamiliar — every entry links out to the deeper concept doc where applicable.
+A short reference for the terms used across Wealthfolio’s app and docs. Use it when a metric or concept is unfamiliar – every entry links out to the deeper concept doc where applicable.
 
 ------------------------------------------------------------------------
 
 ## Performance & returns
 
-### TWR — Time-Weighted Return
+### TWR – Time-Weighted Return
 
 The return of your underlying investments with the impact of contributions and withdrawals stripped out. Comparable to a benchmark (e.g. SPY). Wealthfolio shows TWR at the **total portfolio** level by default. See <a href="/docs/concepts/performance-metrics/" class="font-medium underline underline-offset-4">Performance Metrics</a>.
 
-### MWR — Money-Weighted Return
+### MWR – Money-Weighted Return
 
-The return of *you as an investor* — includes the impact of when you bought and sold (timing decisions). Equivalent to the IRR of your cash flows. Wealthfolio shows MWR at the **per-account** level by default.
+The return of *you as an investor* – includes the impact of when you bought and sold (timing decisions). Equivalent to the IRR of your cash flows. Wealthfolio shows MWR at the **per-account** level by default.
 
 ### Modified Dietz
 
@@ -116,7 +39,7 @@ The profit or loss locked in when you sell. Computed as proceeds minus the cost 
 
 ### Unrealised gain / loss
 
-The on-paper profit or loss on positions you still hold — current market value minus cost basis. Becomes realised when you sell.
+The on-paper profit or loss on positions you still hold – current market value minus cost basis. Becomes realised when you sell.
 
 ### Drawdown
 
@@ -148,23 +71,23 @@ What you paid for a position, used to compute realised gain/loss when you sell. 
 
 ### Lot
 
-A single unit of cost basis — usually one BUY, explicit Sell Short, DRIP, staking reward, or transferred-in position. Selling or covering closes lots in FIFO order. See <a href="/docs/concepts/cost-basis-and-lots/" class="font-medium underline underline-offset-4">Cost Basis &amp; Lots</a>.
+A single unit of cost basis – usually one BUY, explicit Sell Short, DRIP, staking reward, or transferred-in position. Selling or covering closes lots in FIFO order. See <a href="/docs/concepts/cost-basis-and-lots/" class="font-medium underline underline-offset-4">Cost Basis &amp; Lots</a>.
 
-### FIFO — First In, First Out
+### FIFO – First In, First Out
 
 The lot-selection method Wealthfolio uses: when you sell, the oldest lot is closed first. The default in most jurisdictions; matches what your broker typically reports for tax purposes.
 
-### LIFO — Last In, First Out
+### LIFO – Last In, First Out
 
 An alternative cost-basis method (sell the newest lots first). Used in some US tax strategies. Not yet supported in Wealthfolio; planned for a future version.
 
-### ACB — Adjusted Cost Base
+### ACB – Adjusted Cost Base
 
 Canadian tax accounting’s term for the weighted-average cost per share. Not natively computed today (FIFO is used); planned for a future version.
 
 ### Weighted-Average Cost (WAC)
 
-The cost basis method where every share carries the same per-unit cost, recomputed as a running total cost ÷ total quantity after each buy — also called moving-average cost (*gleitender Durchschnittspreis* in Austria/Germany). Common in mutual fund and Canadian tax accounting, and mandatory in some jurisdictions. Not yet computed in Wealthfolio, which uses FIFO (planned for a future version); the “average cost” shown on a holding is a display figure over your open FIFO lots, not a moving average.
+The cost basis method where every share carries the same per-unit cost, recomputed as a running total cost ÷ total quantity after each buy – also called moving-average cost (*gleitender Durchschnittspreis* in Austria/Germany). Common in mutual fund and Canadian tax accounting, and mandatory in some jurisdictions. Not yet computed in Wealthfolio, which uses FIFO (planned for a future version); the “average cost” shown on a holding is a display figure over your open FIFO lots, not a moving average.
 
 ### Specific identification
 
@@ -180,13 +103,13 @@ A position quantity that isn’t a whole number. Wealthfolio tracks lots to eigh
 
 ### Activity
 
-Wealthfolio’s atomic event: every BUY, SELL, dividend, transfer, fee, etc. Activities are the source of truth — all portfolio state is derived from them. See <a href="/docs/concepts/activity-types/" class="font-medium underline underline-offset-4">Activity Types</a>.
+Wealthfolio’s atomic event: every BUY, SELL, dividend, transfer, fee, etc. Activities are the source of truth – all portfolio state is derived from them. See <a href="/docs/concepts/activity-types/" class="font-medium underline underline-offset-4">Activity Types</a>.
 
 ### Subtype
 
 A semantic variation on an activity type (e.g. DRIP on DIVIDEND, Staking Reward on INTEREST, Option Expiry on ADJUSTMENT, Position Open/Close on BUY or SELL). Wealthfolio expands subtypes into canonical postings under the hood.
 
-### DRIP — Dividend Reinvestment Plan
+### DRIP – Dividend Reinvestment Plan
 
 A dividend automatically reinvested into more shares of the same security. In Wealthfolio: DIVIDEND activity with the DRIP subtype.
 
@@ -212,7 +135,7 @@ A BUY activity with Close Position intent. Reduces or closes an existing short s
 
 ### External flow
 
-A `TRANSFER_IN` or `TRANSFER_OUT` with the External flag checked — represents an asset or cash moving in from / out to a world Wealthfolio doesn’t track (opening balances, gifts, write-offs, crypto sent to a wallet).
+A `TRANSFER_IN` or `TRANSFER_OUT` with the External flag checked – represents an asset or cash moving in from / out to a world Wealthfolio doesn’t track (opening balances, gifts, write-offs, crypto sent to a wallet).
 
 ### Internal flow
 
@@ -230,11 +153,11 @@ The sum of capital actually deposited into your portfolio (deposits + external t
 
 A short identifier for a security (e.g. `AAPL`, `RY`, `BTC`). Wealthfolio stores a canonical ticker per asset.
 
-### MIC — Market Identifier Code
+### MIC – Market Identifier Code
 
 An ISO 10383 four-letter exchange code (e.g. `XNAS` for NASDAQ, `XTSE` for Toronto, `XLON` for London). Wealthfolio uses MIC + ticker as the provider-agnostic identifier for an asset.
 
-### ISIN — International Securities Identification Number
+### ISIN – International Securities Identification Number
 
 A 12-character globally-unique identifier (e.g. `US0378331005` for Apple). Required by some providers (OpenFIGI) and a fallback when ticker disambiguation is hard.
 
@@ -242,21 +165,21 @@ A 12-character globally-unique identifier (e.g. `US0378331005` for Apple). Requi
 
 A 9-character US/Canada securities identifier, often used for bonds.
 
-### FIGI — Financial Instrument Global Identifier
+### FIGI – Financial Instrument Global Identifier
 
 A 12-character Bloomberg-standard global identifier. Used by the OpenFIGI provider for bond and identifier lookup.
 
 ### Provider
 
-A source of market data — Yahoo Finance, Alpha Vantage, Finnhub, OpenFIGI, Börse Frankfurt, Metal Price API, US Treasury Calc, and user-defined custom providers. See <a href="/docs/concepts/market-data-and-fx/" class="font-medium underline underline-offset-4">Market Data &amp; FX</a>.
+A source of market data – Yahoo Finance, Alpha Vantage, Finnhub, OpenFIGI, Börse Frankfurt, Metal Price API, US Treasury (Calculated), Moscow Exchange, AMFI, and user-defined custom providers. See <a href="/docs/concepts/market-data-and-fx/" class="font-medium underline underline-offset-4">Market Data &amp; FX</a>.
 
 ### Preferred provider
 
-The provider Wealthfolio prefers when fetching quotes for a given asset. Set per asset under the Market Data tab.
+The provider Wealthfolio prefers when fetching quotes for a given asset. Set per asset under the Market data tab.
 
 ### Per-provider override
 
-A symbol override stored on an asset for a specific provider — used when a provider expects a different symbol format than the canonical one (e.g. `SHOP-CA` instead of `SHOP`).
+A symbol override stored on an asset for a specific provider – used when a provider expects a different symbol format than the canonical one (e.g. `SHOP-CA` instead of `SHOP`).
 
 ### Circuit breaker
 
@@ -304,7 +227,7 @@ The annual dividend per share divided by your *cost basis* per share, not the cu
 
 ### Withholding tax
 
-Tax deducted at source on dividends or interest, typically by the broker for the issuing jurisdiction. Recorded in Wealthfolio as a TAX activity.
+Tax deducted at source on dividends or interest, typically by the broker for the issuing jurisdiction. In Wealthfolio, enter it in the Withholding tax field of the DIVIDEND or INTEREST activity, next to the Amount before tax. The form works out the Received amount, the cash after withholding, which is saved as the activity’s amount. If your statement lists it as a separate cash movement, record a TAX activity instead.
 
 ### Ex-dividend date
 
@@ -314,15 +237,15 @@ The cutoff date for owning a security to receive an upcoming dividend. Buy on or
 
 ## Account types & contribution limits
 
-### TFSA — Tax-Free Savings Account
+### TFSA – Tax-Free Savings Account
 
 A Canadian registered account where contributions are after-tax but growth and withdrawals are tax-free. Has an annual contribution limit.
 
-### RRSP — Registered Retirement Savings Plan
+### RRSP – Registered Retirement Savings Plan
 
 A Canadian registered account where contributions are tax-deductible and growth is tax-deferred until withdrawal. Annual contribution limit based on earned income.
 
-### FHSA — First Home Savings Account
+### FHSA – First Home Savings Account
 
 A Canadian registered account combining TFSA-like growth with RRSP-like deductibility, earmarked for a first home purchase.
 
@@ -346,7 +269,7 @@ Unused contribution room from prior years that you can use in the current year (
 
 ## Portfolio planning
 
-### FIRE — Financial Independence, Retire Early
+### FIRE – Financial Independence, Retire Early
 
 A movement / planning style focused on saving aggressively to reach financial independence well before traditional retirement age.
 
@@ -356,7 +279,7 @@ The percentage of your portfolio you can withdraw annually with high confidence 
 
 ### Glide path
 
-How your asset allocation shifts as you age — typically more equity early, more bonds later.
+How your asset allocation shifts as you age – typically more equity early, more bonds later.
 
 ### Monte Carlo simulation
 
@@ -376,7 +299,7 @@ An account tracking style where positions are seeded with External `TRANSFER_IN`
 
 ### Transactions mode
 
-The full account tracking style — every BUY, SELL, DIVIDEND, INTEREST recorded. Precise performance math.
+The full account tracking style – every BUY, SELL, DIVIDEND, INTEREST recorded. Precise performance math.
 
 ### Snapshot
 
@@ -392,19 +315,17 @@ Wealthfolio’s optional paid service. Adds automatic broker sync (via SnapTrade
 
 ------------------------------------------------------------------------
 
-**Need a term that isn’t here?** Open an issue on <a href="https://github.com/wealthfolio/wealthfolio/issues" class="font-medium underline underline-offset-4">GitHub</a> — the glossary grows from real questions.
-
-------------------------------------------------------------------------
+**Need a term that isn’t here?** Open an issue on <a href="https://github.com/wealthfolio/wealthfolio/issues" class="font-medium underline underline-offset-4">GitHub</a> – the glossary grows from real questions.
 
 
-<a href="/docs/faq/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">FAQ</a> <a href="/changelog/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Changelog</a>
+<a href="/docs/faq/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">FAQ</a> <a href="/changelog/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Changelog</a>
 
 
-On This Page
+On this page
 
 - <a href="#performance--returns" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Performance &amp; returns</a>
-  - <a href="#twr--time-weighted-return" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">TWR — Time-Weighted Return</a>
-  - <a href="#mwr--money-weighted-return" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">MWR — Money-Weighted Return</a>
+  - <a href="#twr--time-weighted-return" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">TWR – Time-Weighted Return</a>
+  - <a href="#mwr--money-weighted-return" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">MWR – Money-Weighted Return</a>
   - <a href="#modified-dietz" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Modified Dietz</a>
   - <a href="#realised-gain--loss" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Realised gain / loss</a>
   - <a href="#unrealised-gain--loss" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Unrealised gain / loss</a>
@@ -416,16 +337,16 @@ On This Page
 - <a href="#cost-basis--lots" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Cost basis &amp; lots</a>
   - <a href="#cost-basis" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Cost basis</a>
   - <a href="#lot" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Lot</a>
-  - <a href="#fifo--first-in-first-out" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">FIFO — First In, First Out</a>
-  - <a href="#lifo--last-in-first-out" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">LIFO — Last In, First Out</a>
-  - <a href="#acb--adjusted-cost-base" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">ACB — Adjusted Cost Base</a>
+  - <a href="#fifo--first-in-first-out" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">FIFO – First In, First Out</a>
+  - <a href="#lifo--last-in-first-out" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">LIFO – Last In, First Out</a>
+  - <a href="#acb--adjusted-cost-base" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">ACB – Adjusted Cost Base</a>
   - <a href="#weighted-average-cost-wac" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Weighted-Average Cost (WAC)</a>
   - <a href="#specific-identification" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Specific identification</a>
   - <a href="#fractional-share" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Fractional share</a>
 - <a href="#activities--subtypes" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Activities &amp; subtypes</a>
   - <a href="#activity" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Activity</a>
   - <a href="#subtype" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Subtype</a>
-  - <a href="#drip--dividend-reinvestment-plan" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">DRIP — Dividend Reinvestment Plan</a>
+  - <a href="#drip--dividend-reinvestment-plan" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">DRIP – Dividend Reinvestment Plan</a>
   - <a href="#dividend-in-kind" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Dividend in Kind</a>
   - <a href="#staking-reward" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Staking reward</a>
   - <a href="#position-intent" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Position intent</a>
@@ -436,10 +357,10 @@ On This Page
   - <a href="#net-contribution" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Net contribution</a>
 - <a href="#symbols--market-data" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Symbols &amp; market data</a>
   - <a href="#ticker" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Ticker</a>
-  - <a href="#mic--market-identifier-code" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">MIC — Market Identifier Code</a>
-  - <a href="#isin--international-securities-identification-number" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">ISIN — International Securities Identification Number</a>
+  - <a href="#mic--market-identifier-code" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">MIC – Market Identifier Code</a>
+  - <a href="#isin--international-securities-identification-number" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">ISIN – International Securities Identification Number</a>
   - <a href="#cusip" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">CUSIP</a>
-  - <a href="#figi--financial-instrument-global-identifier" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">FIGI — Financial Instrument Global Identifier</a>
+  - <a href="#figi--financial-instrument-global-identifier" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">FIGI – Financial Instrument Global Identifier</a>
   - <a href="#provider" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Provider</a>
   - <a href="#preferred-provider" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Preferred provider</a>
   - <a href="#per-provider-override" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Per-provider override</a>
@@ -457,15 +378,15 @@ On This Page
   - <a href="#withholding-tax" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Withholding tax</a>
   - <a href="#ex-dividend-date" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Ex-dividend date</a>
 - <a href="#account-types--contribution-limits" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Account types &amp; contribution limits</a>
-  - <a href="#tfsa--tax-free-savings-account" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">TFSA — Tax-Free Savings Account</a>
-  - <a href="#rrsp--registered-retirement-savings-plan" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">RRSP — Registered Retirement Savings Plan</a>
-  - <a href="#fhsa--first-home-savings-account" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">FHSA — First Home Savings Account</a>
+  - <a href="#tfsa--tax-free-savings-account" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">TFSA – Tax-Free Savings Account</a>
+  - <a href="#rrsp--registered-retirement-savings-plan" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">RRSP – Registered Retirement Savings Plan</a>
+  - <a href="#fhsa--first-home-savings-account" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">FHSA – First Home Savings Account</a>
   - <a href="#401k--roth-401k" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">401(k) / Roth 401(k)</a>
   - <a href="#ira--roth-ira" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">IRA / Roth IRA</a>
   - <a href="#contribution-limit" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Contribution limit</a>
   - <a href="#carry-forward-room" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Carry-forward room</a>
 - <a href="#portfolio-planning" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Portfolio planning</a>
-  - <a href="#fire--financial-independence-retire-early" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">FIRE — Financial Independence, Retire Early</a>
+  - <a href="#fire--financial-independence-retire-early" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">FIRE – Financial Independence, Retire Early</a>
   - <a href="#safe-withdrawal-rate" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Safe withdrawal rate</a>
   - <a href="#glide-path" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Glide path</a>
   - <a href="#monte-carlo-simulation" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">Monte Carlo simulation</a>

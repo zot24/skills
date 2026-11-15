@@ -1,18 +1,5 @@
 > Source: https://flueframework.com/docs/guide/routing
 
-<a href="#main-content" class="fixed left-4 -top-16 z-[100] rounded-lg bg-blue-500 px-3 py-2 text-white focus:top-4">Skip to content</a>
-
-
-<a href="https://flueframework.com" class="flex items-center gap-2" aria-label="Flue homepage"><span class="text-2xl font-extrabold tracking-tight text-gray-950 leading-8">Flue</span></a>
-
-
-Esc
-
-
-Start typing to search the documentation.
-
-
-<a href="https://github.com/withastro/flue" class="hidden text-gray-500 transition-colors hover:text-gray-950 focus-visible:text-gray-950 docs-desktop:inline-flex" target="_blank" rel="noopener noreferrer" aria-label="GitHub"></a>
 
 
 # Routing
@@ -90,13 +77,13 @@ A few properties worth knowing:
 
 Each conversation lives at the mount path plus a conversation id you choose: `/agents/support/ticket-8472`. The id is the same caller-chosen identifier described in the [Agents guide](/docs/guide/building-agents/) — a user id, a ticket number, any string — and the conversation is created on the first message it receives. Relative to the mount, the router serves:
 
-| Route                                | Purpose                                                    |
-|--------------------------------------|------------------------------------------------------------|
-| `POST /:id`                          | Deliver one message (`202` admission).                     |
-| `GET /:id`                           | Read the conversation (snapshot, updates, or live stream). |
-| `HEAD /:id`                          | Read conversation stream metadata.                         |
-| `POST /:id/abort`                    | Abort in-flight and queued work.                           |
-| `GET /:id/attachments/:attachmentId` | Download one attachment’s bytes.                           |
+| Route | Purpose |
+|----|----|
+| `POST /:id` | Deliver one message (`202` admission). |
+| `GET /:id` | Read the conversation (snapshot, updates, or live stream). |
+| `HEAD /:id` | Read conversation stream metadata. |
+| `POST /:id/abort` | Abort in-flight and queued work. |
+| `GET /:id/attachments/:attachmentId` | Download one attachment’s bytes. |
 
 ### Sending a message
 

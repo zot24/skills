@@ -2,81 +2,6 @@
 
 
 
-<a href="/" class="group flex select-none items-center" aria-label="Wealthfolio homepage"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="h-8 w-8 transition-transform duration-1000 ease-in-out will-change-transform group-hover:rotate-90 motion-reduce:transition-none" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="32" height="32" alt="Wealthfolio logo" /> <span class="ml-2 hidden font-display text-lg font-semibold tracking-display-sm transition-colors group-hover:text-primary min-[375px]:inline"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="group flex select-none items-center space-x-3"><img src="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png" class="dark:shadow-inner-xs size-9 transition-transform duration-1000 ease-in-out will-change-transform hover:rotate-90 motion-reduce:transition-none dark:shadow-white" srcset="/cdn-cgi/image/width=36,quality=85,format=auto/logo.png 1x, /cdn-cgi/image/width=72,quality=85,format=auto/logo.png 2x, /cdn-cgi/image/width=108,quality=85,format=auto/logo.png 3x" loading="lazy" decoding="async" width="36" height="36" alt="Wealthfolio logo" /> <span class="hidden font-display text-xl font-semibold tracking-display-sm transition-colors group-hover:text-primary sm:inline-block"> Wealthfolio </span></a>
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Discord"></a> <a href="https://github.com/wealthfolio/wealthfolio" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="GitHub"></a> <a href="https://twitter.com/wealthfolioApp" class="rounded-lg p-2 transition-colors duration-200 hover:bg-muted/50 hover:text-foreground/80" target="_blank" rel="noreferrer" aria-label="Twitter"></a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-4 text-[0.8125rem] font-semibold">Download</a>
-
-
-<a href="/download/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full font-medium ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-white/15 bg-foreground text-background shadow-solid dark:border-black/15 dark:shadow-solid-dark transition-transform duration-200 hover:text-background hover:shadow-surface-hover dark:hover:shadow-surface-hover-dark motion-safe:hover:-translate-y-0.5 motion-safe:active:translate-y-0 motion-reduce:transition-none h-9 px-3.5 text-xs">Download</a>
-
-
-<a href="/" class="text-lg font-bold tracking-tight" aria-label="Home">Wealthfolio</a>
-
-
-#### Getting Started
-
-
-<a href="/docs/introduction/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Introduction</a> <a href="/docs/quick-start/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Quick Start</a>
-
-
-#### Concepts
-
-
-<a href="/docs/concepts/tracking-modes/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Tracking Modes</a> <a href="/docs/concepts/activity-types/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Types</a> <a href="/docs/concepts/activity-fields/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activity Fields</a> <a href="/docs/concepts/cost-basis-and-lots/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Cost Basis &amp; Lots</a> <a href="/docs/concepts/performance-metrics/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Performance Metrics</a> <a href="/docs/concepts/market-data-and-fx/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data &amp; FX</a>
-
-
-#### User Guide
-
-
-<a href="/docs/guide/dashboards/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Dashboards</a> <a href="/docs/guide/activities/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Activities</a> <a href="/docs/guide/assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Assets &amp; Securities</a> <a href="/docs/guide/csv-import/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">CSV Import</a> <a href="/docs/guide/accounts/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Accounts &amp; Portfolios</a> <a href="/docs/guide/spending-budgets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Spending &amp; Budgets</a> <a href="/docs/guide/allocation-targets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Allocation Targets &amp; Rebalancing</a> <a href="/docs/guide/goals/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Goals &amp; Save-Up Planner</a> <a href="/docs/guide/retirement-planning/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Retirement &amp; FIRE Planning</a> <a href="/docs/guide/contribution-limits/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Contribution Limits</a> <a href="/docs/guide/custom-providers/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Market Data Providers</a> <a href="/docs/guide/health-center/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Health Center</a> <a href="/docs/guide/settings/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Settings</a> <a href="/docs/guide/data-export/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Export &amp; Backup</a>
-
-
-#### Sync & AI
-
-
-<a href="/docs/guide/connect-broker-sync/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Connect &amp; Broker Sync</a> <a href="/docs/guide/ai-assistant/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">AI Assistant</a> <a href="/docs/guide/mcp-server/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">MCP Server (Agent Access)</a> <a href="/docs/guide/mobile/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Mobile</a>
-
-
-#### Self-Hosting
-
-
-<a href="/docs/guide/self-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/guide/self-hosting/configuration/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Configuration</a> <a href="/docs/guide/self-hosting/docker/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker</a> <a href="/docs/guide/self-hosting/docker-compose/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Docker Compose</a> <a href="/docs/guide/self-hosting/unraid/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Unraid</a> <a href="/docs/guide/self-hosting/proxmox/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Proxmox</a> <a href="/docs/guide/self-hosting/coolify/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Coolify</a> <a href="/docs/guide/self-hosting/reverse-proxy/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Reverse Proxy</a> <a href="/docs/guide/self-hosting/third-party-hosting/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Third-party Hosting</a> <a href="/docs/guide/self-hosting/pikapods/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">PikaPods</a>
-
-
-#### Addon Development
-
-
-<a href="/docs/addons/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Overview</a> <a href="/docs/addons/getting-started/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Getting Started</a> <a href="/docs/addons/v3-7-assets/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">v3.7 Compatibility &amp; Assets</a> <a href="/docs/addons/localization/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Localization</a> <a href="/docs/addons/api-reference/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">API Reference</a>
-
-
-#### Reference
-
-
-<a href="/docs/faq/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">FAQ</a> <a href="/docs/glossary/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Glossary</a> <a href="/changelog/" class="text-sm text-muted-foreground transition-colors hover:text-foreground">Changelog</a>
-
-
-#### Connect
-
-
-<a href="https://discord.gg/WDMCY6aPWK" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Discord</span></a> <a href="https://www.reddit.com/r/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noopener noreferrer"><span>Reddit</span></a> <a href="https://github.com/wealthfolio/wealthfolio" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>GitHub</span></a> <a href="https://twitter.com/wealthfolioApp" class="flex items-center space-x-3 text-muted-foreground transition-colors hover:text-foreground" target="_blank" rel="noreferrer"><span>Twitter</span></a>
-
-
 Docs
 
 
@@ -88,9 +13,7 @@ Market Data & FX
 How Wealthfolio resolves symbols, fetches prices, and converts between currencies, and where to expect gain/loss to move when the FX rate moves.
 
 
-------------------------------------------------------------------------
-
-Last updated October 31, 2026
+Last updated November 12, 2026
 
 ### How symbols work
 
@@ -102,25 +25,45 @@ When you add an asset you can type either:
 - A Yahoo-style suffix (`RY.TO`): Wealthfolio parses the suffix into a ticker + MIC.
 - A MIC-qualified form (`RY @ XTSE`): same outcome.
 
-If a specific provider expects a different symbol for an asset (one of your custom scrapers fetches `SHOP` as `SHOP-CA`, say), set a **per-provider override** on the asset’s Market Data tab. The canonical symbol stays clean; the override is used only when querying that one provider.
+If a specific provider expects a different symbol for an asset (one of your custom scrapers fetches `SHOP` as `SHOP-CA`, say), set a **per-provider override** on the asset’s Market data tab. The canonical symbol stays clean; the override is used only when querying that one provider.
 
 ### Built-in providers
 
 
-| Provider             | Covers                                  | Symbol format                                                                                                              |
-|----------------------|-----------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| **Yahoo Finance**    | Equities, ETFs, crypto, FX, commodities | Ticker + Yahoo suffix (`RY.TO`, `BTC-USD`, `EURUSD=X`)                                                                     |
-| **Alpha Vantage**    | Equities, crypto, FX (BYO key)          | Ticker + Alpha Vantage exchange code                                                                                       |
-| **Finnhub**          | Equities, company profiles (BYO key)    | Bare ticker                                                                                                                |
-| **MarketData.app**   | Equities (BYO key)                      | Bare ticker                                                                                                                |
-| **OpenFIGI**         | Bonds, identifier lookup                | ISIN (e.g. `US912797KL68`)                                                                                                 |
-| **Börse Frankfurt**  | German exchange listings                | `MIC:ticker` (e.g. `XETR:SAP`)                                                                                             |
-| **Metal Price API**  | Precious metals spot                    | Metal code                                                                                                                 |
-| **US Treasury Calc** | US Treasuries                           | CUSIP                                                                                                                      |
-| **Custom providers** | Anything you can hit with HTTP          | User-defined template (<a href="/docs/guide/custom-providers/" class="font-medium underline underline-offset-4">guide</a>) |
+| Provider | Covers | Symbol format |
+|----|----|----|
+| **Yahoo Finance** | Equities, ETFs, crypto, FX, commodities | Ticker + Yahoo suffix (`RY.TO`, `BTC-USD`, `EURUSD=X`) |
+| **Alpha Vantage** | Equities, crypto, FX (BYO key) | Ticker + Alpha Vantage exchange code |
+| **Finnhub** | Equities, company profiles (BYO key) | Bare ticker |
+| **MarketData.app** | Equities (BYO key) | Bare ticker |
+| **OpenFIGI** | Bonds, identifier lookup | ISIN (e.g. `US912797KL68`) |
+| **Börse Frankfurt** | German exchange listings | `MIC:ticker` (e.g. `XETR:SAP`) |
+| **Metal Price API** | Precious metals spot | Metal code |
+| **US Treasury (Calculated)** | US Treasuries | CUSIP or ISIN |
+| **Moscow Exchange** | Shares, ETFs, funds and depositary receipts on MOEX | MOEX security code, exchange `MISX` (e.g. `SBER`) |
+| **AMFI** | Indian mutual funds | ISIN or AMFI scheme code (e.g. `122639`) |
+| **Custom providers** | Anything you can hit with HTTP | User-defined template (<a href="/docs/guide/custom-providers/" class="font-medium underline underline-offset-4">guide</a>) |
 
+
+**Settings → Market data** lists the built-in providers that are on, in the order they’re tried, each with arrows to move it and a switch. When more than one provider covers an asset, the higher one is tried first. **Add provider** lists the rest, with a search. Moscow Exchange and AMFI are off until you add them, and get no requests before that.
 
 You pick the **preferred provider** per asset. If the preferred one is unhealthy or rate-limited, the resolver falls through to other capable providers.
+
+#### Indian mutual funds (AMFI)
+
+AMFI prices Indian mutual funds from AMFI’s daily NAVs, with no API key. After adding it, search for a fund’s ISIN or AMFI scheme code, such as `122639`, when you add a security or an activity, and pick AMFI’s result. The fund takes AMFI’s name for the scheme, plan and option.
+
+For a fund you already track, choose **AMFI** as the **Preferred provider** on the fund’s **Market data** tab. AMFI finds the fund by its ISIN, or by a symbol that is an ISIN or a scheme code; otherwise, add an AMFI symbol mapping. A fund that has closed or merged is priced by its ISIN too. AMFI prices only the funds you choose it for or map a symbol for, so adding it doesn’t change how other securities are priced.
+
+AMFI funds listed under a debt category, such as liquid, overnight, or money market funds, are classified as fixed income.
+
+#### Moscow Exchange (MOEX)
+
+Moscow Exchange prices shares, ETFs, funds and depositary receipts traded on MOEX, with delayed quotes and daily history, delisted securities included, and no API key. With it on, a new Moscow Exchange security is priced by MOEX instead of a foreign listing with the same ticker. A MOEX symbol is the security code with no prefix or suffix, such as `SBER` or `AFLT`, on the Moscow Exchange (`MISX`). Bonds and dividends aren’t covered.
+
+#### US Treasuries
+
+US Treasury (Calculated) calculates US Treasury bond prices from yield curve data published by the US Treasury Department. Treasury notes and bonds added by CUSIP or ISIN get their terms from TreasuryDirect, so their price can be calculated.
 
 ### Yahoo Finance suffix table
 
@@ -172,11 +115,15 @@ You can also track assets that do not have automatic market prices. See <a href=
 2.  Ticker + suffix (`RY.TO`).
 3.  First Yahoo Finance hit.
 
+With AMFI on, a fund’s ISIN or AMFI scheme code also finds AMFI’s result. With Moscow Exchange on, search also includes MOEX listings.
+
 ## FX rates
 
 - Pulled with the other market data from the default market data provider.
 - View/edit and add manual rates via `Settings→General→Exchange Rates`.
 - Manual rates you define take precedence over automatically fetched market data for the specified currency pairs and will be used by the system until you modify or remove them.
+- Crypto pairs such as BTC/USD are fetched with Yahoo’s crypto symbol (`BTC-USD`). A pair added before 3.13 keeps the old symbol and fails to sync. To fix it, open the pair’s history from Settings → General → Exchange rates, choose **Edit**, and under **Market data** → **Symbol mapping** set its Yahoo symbol to `BTC-USD`.
+- A property, vehicle, liability, or other alternative asset in a currency other than your base currency gets its exchange rate fetched too.
 
 ### Levels of Currency
 
@@ -184,7 +131,7 @@ The application handles currencies at four distinct levels to provide accurate a
 
 1.  **Base Currency**: This is the primary currency for your entire portfolio. All aggregated reports and overall wealth summaries are presented in this currency. You set this once, typically when you first set up the application.
 2.  **Account Currency**: Each account (e.g., a specific bank account, brokerage account) can have its own designated currency. This is the currency in which the account itself is denominated. For example, you might have a USD-denominated brokerage account and a EUR-denominated bank account.
-3.  **Asset/Holding Currency**: This refers to the currency in which a specific asset or holding is traded or valued. For instance, if you own shares of a company listed on the Tokyo Stock Exchange, the asset currency would likely be JPY.
+3.  **Asset/Holding Currency**: This refers to the currency in which a specific asset or holding is traded or valued. For instance, if you own shares of a company listed on the Tokyo Stock Exchange, the asset currency would likely be JPY. A listing quoted in a currency other than its exchange’s usual one, such as a USD-traded London ETF, keeps that currency after its profile is fetched.
 4.  **Activity Currency**: This is the currency used for a specific transaction or activity, such as a buy/sell order, dividend payment, or fee. For example, if you buy US stocks using your CAD bank account, the activity of purchasing might involve a CAD to USD conversion, and the activity currency for the purchase itself would be USD.
 
 Enter **unit price, amount, fee, and tax in the activity currency**. An asset quoted in USD can still have a trade entered in CAD if the broker reports its trade details in CAD. The asset quote currency does not change how the trade total is calculated.
@@ -197,6 +144,8 @@ For a BUY or SELL, a positive supplied FX rate books cash in the account currenc
 
 Wealthfolio automatically handles minor currency units and normalizes them to their major currency equivalents. This means you don’t need to manually configure exchange rates for these conversions.
 
+Conversions look up a minor unit through its major currency’s rate. A manual rate in a minor unit, such as GBp/USD, is refused with a message to enter the major currency’s rate (GBP/USD) instead.
+
 For example, market data from sources like Yahoo Finance often provides prices for securities traded on the London Stock Exchange (LSE) in pence (GBp or GBX, where GBX is the official currency code for Penny Sterling) rather than pounds (GBP). The application automatically recognizes these minor units and converts them to the major currency (GBP) using the correct conversion factor.
 
 #### Supported Minor Currency Units
@@ -206,7 +155,8 @@ The system automatically normalizes the following minor currency units:
 - **GBp, GBX** (Pence) → **GBP** (British Pound) at 0.01 conversion factor
 - **ZAc, ZAC** (South African Cents) → **ZAR** (South African Rand) at 0.01 conversion factor
 - **ILA** (Agorot) → **ILS** (Israeli New Shekel) at 0.01 conversion factor
-- **KWF** → **KWD** (Kuwaiti Dinar) at 0.01 conversion factor
+- **KWF** (Fils) → **KWD** (Kuwaiti Dinar) at 0.001 conversion factor
+- **USX** (US Cents) → **USD** (US Dollar) at 0.01 conversion factor
 
 When prices are quoted in these minor units, the application automatically converts them to the major currency for accurate valuation and reporting. This resolves common discrepancies without requiring manual intervention, as previously discussed in community threads (see <a href="https://github.com/wealthfolio/wealthfolio/issues/107" class="font-medium underline underline-offset-4">GitHub Issue #107</a> and <a href="https://github.com/wealthfolio/wealthfolio/issues/134" class="font-medium underline underline-offset-4">GitHub Issue #134</a>).
 
@@ -260,15 +210,15 @@ The most common reasons your base-currency gain moved without any trade activity
 
 ### Manual FX rates
 
-To pin a rate (e.g. you know your broker used 1.378, not the public mid-market): **Settings → General → Exchange Rates → Add manual rate**. Your rate replaces the fetched rate for that date and forward, until you remove it.
+To pin a rate (e.g. you know your broker used 1.378, not the public mid-market): **Settings → General → Exchange rates → Add rate**. Your rate replaces the fetched rate for that date and forward, until you remove it.
 
-------------------------------------------------------------------------
-
-
-<a href="/docs/concepts/performance-metrics/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2">Performance Metrics</a> <a href="/docs/guide/dashboards/" class="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 border border-input bg-background hover:bg-accent hover:border-accent hover:text-accent-foreground h-10 px-4 py-2 ml-auto">Dashboards</a>
+Enter the rate in the major currency. A rate in a minor unit such as GBp, GBX, ZAc, ILA, KWF, or USX is refused: for a London listing priced in pence, add the GBP rate.
 
 
-On This Page
+<a href="/docs/concepts/performance-metrics/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08]">Performance Metrics</a> <a href="/docs/guide/dashboards/" class="inline-flex h-10 items-center rounded-full bg-tile px-5 text-sm font-medium transition-colors hover:bg-foreground/[0.06] dark:hover:bg-white/[0.08] ml-auto">Dashboards</a>
+
+
+On this page
 
 - <span class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground"></span>
   - <a href="#how-symbols-work" class="inline-block leading-snug no-underline transition-colors text-muted-foreground/80 hover:text-foreground">How symbols work</a>

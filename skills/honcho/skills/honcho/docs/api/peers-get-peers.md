@@ -6,59 +6,76 @@
 
 # Get Peers
 
-> Get All Peers for a Workspace
+> Get all Peers for a Workspace, paginated with optional filters.
+
+Scope peers are excluded by default; set `kind` to "scope" for scope peers
+only, or "all" for everything.
 
 
 ## OpenAPI
 
-````yaml post /v2/workspaces/{workspace_id}/peers/list
+````yaml post /v3/workspaces/{workspace_id}/peers/list
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/peers/list:
+  /v3/workspaces/{workspace_id}/peers/list:
     post:
       tags:
         - peers
       summary: Get Peers
-      description: Get All Peers for a Workspace
-      operationId: get_peers_v2_workspaces__workspace_id__peers_list_post
+      description: >-
+        Get all Peers for a Workspace, paginated with optional filters.
+
+
+        Scope peers are excluded by default; set `kind` to "scope" for scope
+        peers
+
+        only, or "all" for everything.
+      operationId: get_peers_v3_workspaces__workspace_id__peers_list_post
       parameters:
         - name: workspace_id
           in: path
           required: true
           schema:
             type: string
-            description: ID of the workspace
             title: Workspace Id
-          description: ID of the workspace
+        - name: reverse
+          in: query
+          required: false
+          schema:
+            type: boolean
+            description: Whether to reverse the order of results
+            default: false
+            title: Reverse
+          description: Whether to reverse the order of results
         - name: page
           in: query
           required: false
           schema:
             type: integer
+            maximum: 2147483647
             minimum: 1
-            description: Page number
+            description: Page number (offset mode)
             default: 1
             title: Page
-          description: Page number
+          description: Page number (offset mode)
         - name: size
           in: query
           required: false
@@ -70,6 +87,23 @@ paths:
             default: 50
             title: Size
           description: Page size
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            anyOf:
+              - type: string
+              - type: 'null'
+            description: >-
+              Opt in to cursor pagination. Send an empty value for the first
+              page, then the `next_page` value from each response. When set,
+              `page` is ignored and the response is a cursor page with no
+              `total`.
+            title: Cursor
+          description: >-
+            Opt in to cursor pagination. Send an empty value for the first page,
+            then the `next_page` value from each response. When set, `page` is
+            ignored and the response is a cursor page with no `total`.
       requestBody:
         content:
           application/json:
@@ -85,7 +119,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Page_Peer_'
+                anyOf:
+                  - $ref: '#/components/schemas/Page_Peer_'
+                  - $ref: '#/components/schemas/CursorPage_Peer_'
+                title: >-
+                  Response Get Peers V3 Workspaces  Workspace Id  Peers List
+                  Post
         '422':
           description: Validation Error
           content:
@@ -104,6 +143,18 @@ components:
               type: object
             - type: 'null'
           title: Filters
+        kind:
+          anyOf:
+            - type: string
+              enum:
+                - scope
+                - all
+            - type: 'null'
+          title: Kind
+          description: >-
+            Which kinds of peers to list. Omitted (default): regular peers only
+            (scope peers are excluded). 'scope': scope peers only. 'all': every
+            peer.
       type: object
       title: PeerGet
     Page_Peer_:
@@ -114,35 +165,75 @@ components:
           type: array
           title: Items
         total:
-          anyOf:
-            - type: integer
-              minimum: 0
-            - type: 'null'
+          type: integer
+          minimum: 0
           title: Total
+          description: >-
+            Number of matching rows, exact up to the server's
+            PAGINATION_COUNT_LIMIT (default 100000) and reported as that limit
+            plus one when there are more. While a next page exists it is at
+            least one more than this page's last row, so `pages` always reaches
+            the end of the list.
         page:
-          anyOf:
-            - type: integer
-              minimum: 1
-            - type: 'null'
+          type: integer
+          minimum: 1
           title: Page
         size:
-          anyOf:
-            - type: integer
-              minimum: 1
-            - type: 'null'
+          type: integer
+          minimum: 1
           title: Size
         pages:
-          anyOf:
-            - type: integer
-              minimum: 0
-            - type: 'null'
+          type: integer
+          minimum: 0
           title: Pages
       type: object
       required:
         - items
+        - total
         - page
         - size
+        - pages
       title: Page[Peer]
+    CursorPage_Peer_:
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Peer'
+          type: array
+          title: Items
+        total:
+          anyOf:
+            - type: integer
+            - type: 'null'
+          title: Total
+        current_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Current Page
+          description: Cursor to refetch the current page
+        current_page_backwards:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Current Page Backwards
+          description: Cursor to refetch the current page starting from the last item
+        previous_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Previous Page
+          description: Cursor for the previous page
+        next_page:
+          anyOf:
+            - type: string
+            - type: 'null'
+          title: Next Page
+          description: Cursor for the next page
+      type: object
+      required:
+        - items
+      title: CursorPage[Peer]
     HTTPValidationError:
       properties:
         detail:
@@ -157,6 +248,12 @@ components:
         id:
           type: string
           title: Id
+        uid:
+          type: string
+          title: Uid
+          description: >-
+            Immutable identifier Honcho assigns to this peer. `id` is the name
+            the client chose; `uid` is generated by the server.
         workspace_id:
           type: string
           title: Workspace Id
@@ -175,6 +272,7 @@ components:
       type: object
       required:
         - id
+        - uid
         - workspace_id
         - created_at
       title: Peer
@@ -193,6 +291,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc

@@ -186,6 +186,22 @@ with that label is closed. `bd ready`, `bd blocked`, and `bd dep tree` resolve
 the capability at query time; an unconfigured or unavailable project remains
 blocking.
 
+A bare ID whose prefix names another rig (`bd dep add bd-abc gt-123`) is
+stored even when bd cannot find it in this database or through routes. `bd dep
+add` then warns on stderr that the ID was not found, or says why it could not
+be verified (the lookup itself failed, or the routed rig matches it only to
+other IDs), and prints the `bd dep remove` command that deletes the edge if the
+ID was a typo (`--quiet` silences the warning). Prefix routing cannot open a
+rig in proxied-server mode yet
+([#5861](https://github.com/gastownhall/beads/issues/5861)), so bd cannot check
+an ID routed to such a rig and stores it without a warning.
+
+`bd doctor` cannot check such an edge either: it counts it as a
+cross-repository edge not verifiable here instead of reporting it as an
+orphaned dependency, and `bd doctor --fix` keeps it. An edge whose target is
+under this database's own `issue_prefix` or `allowed_prefixes` and is gone is
+still reported and removed.
+
 ## Gates
 
 Gates are special issues that block dependent work until an external

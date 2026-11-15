@@ -4,7 +4,7 @@
 title: Overview
 description: AI utilities that ship with Chat SDK, including agent tools, message conversion, and supporting types.
 docs_index: /llms.txt
-lastUpdated: 2026-10-22
+lastUpdated: 2026-11-12
 type: overview
 ---
 

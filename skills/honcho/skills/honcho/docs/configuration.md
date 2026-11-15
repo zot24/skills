@@ -536,6 +536,8 @@ DREAM_BUDGET_ENABLED=false  # budget line + write window for deduction/induction
 DREAM_NOTES_MODE=off  # working notes between dreams: off | shadow | on
 DREAM_NOTES_MAX_TOKENS=3000
 # DREAM_WRITE_WINDOW_ITERATIONS=2  # default: 15% of each specialist's limit
+DREAM_HISTORY_ENABLED=true  # Representation History: record each dream's changes
+# DREAM_HISTORY_RETENTION_DAYS=30  # default: unset, history is kept forever
 
 # Specialist model configs (each is independent)
 DREAM_DEDUCTION_MODEL_CONFIG__TRANSPORT=openai
@@ -555,8 +557,10 @@ Optional subsystem for identifying unusual observations during dreaming:
 > extra rather than as a base dependency (it pulls in scipy, \~200MB installed on
 > Linux, for a subsystem that is disabled by default). Install it with
 > `uv sync --extra surprisal`. The default Docker image does **not** include it,
-> so enabling surprisal in a container requires adding the extra to the
-> `uv sync` line in the Dockerfile.
+> so build from source with `docker build --build-arg INSTALL_SURPRISAL=true .`
+> or `INSTALL_SURPRISAL=true docker compose up -d --build` when using the example
+> Compose file. This installs the dependencies; also set
+> `DREAM_SURPRISAL__ENABLED=true` to enable sampling.
 >
 > `rptree`, `covertree` and `lsh` need only numpy and work out of the box. With
 > `DREAM_SURPRISAL__ENABLED=false` (the default) none of this applies.
@@ -582,11 +586,14 @@ SESSION_OBSERVERS_LIMIT=10
 GET_CONTEXT_MAX_TOKENS=100000
 MAX_MESSAGE_SIZE=25000
 MAX_FILE_SIZE=5242880  # 5MB
+PAGINATION_COUNT_LIMIT=100000
 EMBED_MESSAGES=true
 EMBEDDING_MAX_INPUT_TOKENS=8192
 EMBEDDING_MAX_TOKENS_PER_REQUEST=300000
 NAMESPACE=honcho
 ```
+
+`PAGINATION_COUNT_LIMIT` caps the rows a list endpoint counts for `total`. Up to the limit `total` is exact; beyond it, `total` is the limit plus one (`100001` by default), raised just past the current page while a next page exists, so `pages` still carries a client to the end of the list. Cursor pagination (`?cursor=`) never counts.
 
 **Optional Integrations:**
 
@@ -615,6 +622,8 @@ server does not accept its traces.
 ```bash theme={null}
 # Connection (required)
 DB_CONNECTION_URI=postgresql+psycopg://postgres:postgres@localhost:5432/postgres
+# Role that owns the schema and runs migrations; defaults to DB_CONNECTION_URI
+# DB_OWNER_CONNECTION_URI=postgresql+psycopg://owner:owner@localhost:5432/postgres
 
 # Pool settings
 DB_SCHEMA=public

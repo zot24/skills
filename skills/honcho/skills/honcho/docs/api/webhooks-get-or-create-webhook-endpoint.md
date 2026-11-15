@@ -11,36 +11,35 @@
 
 ## OpenAPI
 
-````yaml post /v2/workspaces/{workspace_id}/webhooks
+````yaml post /v3/workspaces/{workspace_id}/webhooks
 openapi: 3.1.0
 info:
   title: Honcho API
   summary: The Identity Layer for the Agentic World
   description: >-
     Honcho is a platform for giving agents user-centric memory and social
-    cognition
+    cognition.
   contact:
     name: Plastic Labs
     url: https://honcho.dev/
     email: hello@plasticlabs.ai
-  version: 2.5.1
+  license:
+    name: GNU Affero General Public License v3.0
+    url: https://github.com/plastic-labs/honcho/blob/main/LICENSE
+  version: 3.6.1
 servers:
-  - url: http://localhost:8000
-    description: Local Development Server
-  - url: https://demo.honcho.dev
-    description: Demo Server
   - url: https://api.honcho.dev
     description: Production SaaS Platform
 security: []
 paths:
-  /v2/workspaces/{workspace_id}/webhooks:
+  /v3/workspaces/{workspace_id}/webhooks:
     post:
       tags:
         - webhooks
       summary: Get Or Create Webhook Endpoint
       description: Get or create a webhook endpoint URL.
       operationId: >-
-        get_or_create_webhook_endpoint_v2_workspaces__workspace_id__webhooks_post
+        get_or_create_webhook_endpoint_v3_workspaces__workspace_id__webhooks_post
       parameters:
         - name: workspace_id
           in: path
@@ -79,6 +78,21 @@ components:
         url:
           type: string
           title: Url
+        event_types:
+          anyOf:
+            - items:
+                type: string
+                const: queue.empty
+              type: array
+              minItems: 1
+            - type: 'null'
+          title: Event Types
+          description: >-
+            Event types this endpoint receives. Omit or send null to receive
+            every event type. Registering a URL that already exists with this
+            field set replaces its event types; null resets it to every type,
+            and omitting the field leaves it unchanged. `test.event` reaches
+            every endpoint.
       type: object
       required:
         - url
@@ -96,6 +110,14 @@ components:
         url:
           type: string
           title: Url
+        event_types:
+          anyOf:
+            - items:
+                type: string
+              type: array
+            - type: 'null'
+          title: Event Types
+          description: Event types this endpoint receives; null receives every type.
         created_at:
           type: string
           format: date-time
@@ -131,6 +153,11 @@ components:
         type:
           type: string
           title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
       type: object
       required:
         - loc
