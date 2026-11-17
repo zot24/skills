@@ -4361,7 +4361,7 @@ Every key under `terminal:` has an env-var override of the form `TERMINAL_<KEY_U
 | `TERMINAL_CONTAINER_PERSISTENT` | `container_persistent` | `true` / `false` — controls the bind-mount workspace dirs, distinct from `docker_persist_across_processes` |
 | `TERMINAL_LIFETIME_SECONDS` | `lifetime_seconds` | Idle reaper window |
 | `TERMINAL_TEMP_DIR` | `temp_dir` | Session temp root (local backend) |
-| `TERMINAL_TIMEOUT` | `timeout` | Per-command timeout |
+| `TERMINAL_TIMEOUT` | `timeout` | Per-command timeout. A foreground command (up to the 600 s foreground cap) and a `process_manage` wait run to this window even when it exceeds the generic per-tool deadline (`timeouts.tools.sequential_call`, 420 s), so the tool's own timeout fires and returns the partial output |
 | `HERMES_DOCKER_BINARY` | _none_ | Force a specific docker/podman binary path |
 
 ### SSH Backend
@@ -5374,11 +5374,25 @@ The one explicit knob is the cache TTL tier Hermes requests on Anthropic-style b
 ```yaml
 prompt_caching:
   cache_ttl: "5m"   # "5m", "1h" (Anthropic-supported tiers) or "auto"; other values are ignored
+  route_ttl_ceilings: {}   # per-provider cap, e.g. {nous: "5m"} or {nous: "1h"} to lift a shipped cap
 ```
 
 `cache_ttl` selects the breakpoint TTL Hermes attaches for Claude via the native Anthropic API, OpenRouter, and Nous Portal. The two Anthropic tiers (`"5m"`, `"1h"`) are sent as-is; any other value is ignored. Providers with their own caps (e.g. Qwen Cloud, which maxes at 5 minutes) still clamp to what the upstream allows.
 
 The 1h tier writes at 2x the base input price (5m writes at 1.25x) and only pays off when your turns are more than five minutes apart — otherwise every tool result is written at the dearer rate for retention nobody uses. `"auto"` picks the tier per session from who paces it: `1h` for sessions a person types into (CLI, TUI, Desktop, Telegram/Discord/Slack and the other messaging platforms), `5m` for machine-paced ones (subagents, cron, `hermes -q` one-shots, webhooks, Kanban workers, the API server, tool-invoked and batch runs). On an install where interactive sessions are parked and resumed through the day, `auto` cut the interactive cache-write bill by roughly 40% while leaving fan-out subagent spend untouched. Delegated subagents are always clamped to `5m`, whatever the setting.
+
+`prompt_caching.route_ttl_ceilings` caps the tier per provider, so a route that silently keeps less than it is asked for is neither asked for (nor billed for) the dearer tier. A provider's profile can ship a ceiling too; the config entry overrides it. Nous Portal ships `5m`: its upstream currently drops 1h entries after about seven minutes and bills them at the 5m rate. Once that is fixed, `route_ttl_ceilings: {nous: "1h"}` lifts it with no code change. A `custom` endpoint pointed at a known provider's host gets that provider's ceiling.
+
+`/context` shows where the session stands against the window, from one shared prompt-cache clock that records, per request, the tier actually sent, the tier the response proved, and a deadline for every tier the cached prompt holds:
+
+- `Prompt cache: warm until 14:32 (58m 10s left; 1h, proven).` Before this time the whole cached prompt is guaranteed warm: the documented minimum or the proven tier, counted from the last request that read or wrote the cache. When one response wrote two tiers (part 5m, part 1h), the guarantee follows the shorter one.
+- `Prompt cache: may still be warm until 09:10 (at most 23h 5m more; 30m, declared).` The guaranteed window has passed but the provider may keep the entry longer. OpenAI's 30-minute and 12-hour lifetimes are minimums ("may retain entries longer"; at most 24 hours), and GPT-5.5 and earlier give no guarantee at all.
+- `Prompt cache: expired 15m ago (5m, declared); the next message re-processes the full prompt.` Only shown once the entry is certainly gone: past an Anthropic-style tier, or past OpenAI's 24-hour ceiling.
+- `Prompt cache: unknown (…)` when the provider publishes no retention (DeepSeek, Gemini implicit, xAI and similar), the cache moved since the last cached request (`/model` switch, fallback, another endpoint URL, or compaction), or the runtime sets its own cache options (Codex app-server).
+
+How a read refreshes the window follows the provider: Anthropic-style caches restart the tier on every read; OpenAI GPT-5.6+ refreshes to at least 30 minutes after the read and never restarts a 12-hour write, whose deadline stays at write time + 12h. `proven` means the response named the tier (Anthropic's `ephemeral_5m/1h_input_tokens`, OpenAI Responses' `ttl_30m/12h_tokens`). `declared` is the tier sent on a route known to honour it (OpenRouter Claude, a route ceiling, OpenAI's documented minimum). `assumed` has no guarantee (other Anthropic-wire gateways asked for 1h, OpenAI before GPT-5.6, a resumed session with no stored clock).
+
+The clock is saved with the session (`sessions.prompt_cache_clock`), so a resumed session (and `/context` on a session with no running agent) shows the same window. A compaction committed since the clock was saved makes it unknown, even across a restart.
 
 ## Auxiliary Models
 
@@ -6946,7 +6960,7 @@ security:
     shared_files: []
 ```
 
-- `redact_secrets` — when `true`, automatically detects and redacts patterns that look like API keys, tokens, and passwords in tool output before it enters the conversation context and logs. **On by default**. Set to `false` explicitly only when you need raw credential-like strings for debugging or redactor development. Reading a secret-bearing file (`.env`-style files, shell rc/profile files, the Hermes `config.yaml` under `HERMES_HOME` and its `backups/config/` copies) with `read_file`, `search_files` or a terminal `cat`/`grep` also masks credential-shaped assignments (`SOME_API_TOKEN: …`) with a non-reusable `«redacted-secret»` marker, whatever the value looks like; ordinary source and project config files keep only the vendor-prefix patterns so fixtures such as `MAX_TOKENS: 100` are never mangled.
+- `redact_secrets` — when `true`, automatically detects and redacts patterns that look like API keys, tokens, and passwords in tool output before it enters the conversation context and logs. **On by default**. Set to `false` explicitly only when you need raw credential-like strings for debugging or redactor development. Reading a secret-bearing file (`.env`-style files, shell rc/profile files, credential stores such as `~/.aws/credentials`, `~/.aws/config`, `.netrc` (`_netrc`), `.pgpass`, `.npmrc`, `.pypirc` and `.git-credentials`, the Hermes `config.yaml` under `HERMES_HOME` and its `backups/config/` copies) with `read_file`, `search_files` or a terminal `cat`/`grep` also masks credential-shaped assignments (`SOME_API_TOKEN: …`) and the password field of those credential stores with a non-reusable `«redacted-secret»` marker, whatever the value looks like; ordinary source and project config files keep only the vendor-prefix patterns so fixtures such as `MAX_TOKENS: 100` are never mangled.
 - `redact_phone_numbers` — when `true` (default), phone numbers in E.164 form (`+15551234567`) are masked (`+155****4567`) in the agent's replies and in everything the gateway sends to a chat platform, even with `redact_secrets: false`. Set it to `false` on a trusted single-operator setup whose assistant must show exact phone numbers (a contact list, a call log). Only E.164 numbers are affected: API keys, bot tokens, bearer tokens, passwords and every other secret pattern stay masked in chat, and logs and tool output keep masking phone numbers. Any value other than `true` or `false` keeps them masked and logs a warning.
 
 Earlier releases also had `tirith_*` keys for a bundled command scanner; it was removed and upgrading drops those keys. Content-level command checks are described in [Content-Level Command Checks](security.md#content-level-command-checks).
@@ -10868,7 +10882,7 @@ The full set of keys:
 
 | Mode | Behavior |
 |------|----------|
-| **smart** (default) | Use an auxiliary LLM to assess risk. Low-risk commands (e.g., `python -c "print('hello')"`) are auto-approved for that command only. Genuinely dangerous commands are auto-denied. Uncertain cases escalate to a manual prompt. |
+| **smart** (default) | Use an auxiliary LLM to assess risk. Low-risk commands (e.g., `python -c "print('hello')"`) are auto-approved for that command only. Genuinely dangerous commands are auto-denied. Uncertain cases escalate to a manual prompt. One class never reaches the auxiliary LLM: `osascript` that can destroy work the agent did not create (closing a document with `saving no`, quitting an app, deleting files, sending keystrokes, `do shell script`), or whose script is not visible on the command line. Only the operator can consent to that, so it always prompts, and the answer covers that one command. |
 | **manual** | Always prompt the user for approval on dangerous commands. |
 | **off** | Disable all approval checks — equivalent to running with `--yolo`. All commands execute without prompts, and write calls on `trust: untrusted` MCP servers run without the trust prompt. An MCP server's declared spend limit still asks (see [YOLO mode](#yolo-mode)). |
 
@@ -10959,7 +10973,7 @@ Some commands are so catastrophic — irreversible filesystem wipes, fork bombs,
 - Cron jobs running in headless `approve` mode
 - User explicitly clicking "allow always"
 
-The blocklist is the floor below `--yolo`. It trips **before** the approval layer even sees the command, and there's no override flag. Patterns currently covered (not exhaustive; kept in sync with `tools/approval.py::UNRECOVERABLE_BLOCKLIST`):
+The blocklist is the floor below `--yolo`. It trips **before** the approval layer even sees the command, and there's no override flag. Patterns currently covered (not exhaustive; kept in sync with `tools/approval_detection.py::HARDLINE_PATTERNS`):
 
 | Pattern | Why it's hardline |
 |---|---|
@@ -10968,6 +10982,8 @@ The blocklist is the floor below `--yolo`. It trips **before** the approval laye
 | `:(){ :\|:& };:` (bash fork bomb) | Pegs the host until reboot |
 | `mkfs.*` on a mounted root device | Formats the live system |
 | `dd if=/dev/zero of=/dev/sd*` | Zeroes a physical disk |
+| `format C:`, `Format-Volume`, `Clear-Disk`, `rd /s /q C:\`, `Remove-Item -Recurse C:\` (a literal `-Include *.tmp` filter and a plain `Clear-Disk -WhatIf` preview stay approvable) | Windows analogues: format/wipe a volume or recursively delete a drive root |
+| `Restart-Computer` / `Stop-Computer` (a plain `-WhatIf` preview stays approvable) | Windows analogue of `shutdown`/`reboot` |
 | Piping untrusted URLs to `sh` at the rootfs top level | Remote-code-execution attack vector too broad to approve |
 
 If you hit the blocklist, the tool call returns an explanatory error to the agent and nothing runs. If a legitimate workflow needs one of these commands (you're the operator of a wipe-and-reinstall pipeline, for example), run it outside the agent.
@@ -11055,6 +11071,7 @@ The following patterns trigger approval prompts (defined in `tools/approval.py`)
 | `docker -H`/`--host`/`--context`, `DOCKER_HOST=`/`DOCKER_CONTEXT=` | Docker daemon redirect — the command targets a different (often remote) daemon |
 | `docker context use` | Switches the default daemon for all future docker commands |
 | `podman --remote`/`-r`/`--url`/`--connection`/`--identity`, `CONTAINER_HOST=` | Podman remote daemon redirect |
+| `osascript` or `osacompile` whose script closes, quits, saves, deletes, moves, writes, sends keystrokes/clicks or runs `do shell script` / Terminal's `do script` (any JXA `-l JavaScript` program counts; `¬` continuations and comments are read through), or whose script comes from a file, pipe, `$VAR`/`$(...)` expansion or a carrier (`sh -c`, `eval`, `ssh`, `xargs`, ...) | AppleScript can discard the operator's unsaved work in any app. Always a manual, one-time prompt, even in `smart` mode. Detection is a command-line heuristic, not a boundary. Read-only literal scripts (`get name of first application process whose frontmost is true`, `activate`, `display notification`) are not flagged |
 
 :::info
 **Container bypass**: When running in `docker`, `modal`, `daytona`, or `vercel_sandbox` backends (or a container plugin backend such as `singularity` or `sprites`), dangerous command checks are **skipped** because the container itself is the security boundary. Destructive commands inside a container can't harm the host.
@@ -12005,10 +12022,10 @@ checkpoints:
   max_file_size_mb: 10        # skip any single file larger than this
 
   # Auto-maintenance (on by default): sweep ~/.hermes/checkpoints/ in the
-  # background — the CLI on a helper thread right after launch, the gateway
-  # on its housekeeping tick — and delete project entries whose last_touch is
+  # background on the gateway's housekeeping tick (the CLI never runs it)
+  # and delete project entries whose last_touch is
   # older than retention_days. Runs at most once per min_interval_hours,
-  # tracked via a .last_prune marker. It never blocks the prompt or gateway
+  # tracked via a .last_prune marker. It never blocks gateway
   # startup: the `git gc` that reclaims space can take tens of seconds on a
   # large store. This sweep never deletes "orphan" entries (working directory
   # not found) — a missing workdir is ambiguous (deleted project vs. an
@@ -27679,7 +27696,7 @@ Your command template can reference these placeholders. Hermes substitutes them 
 |------------------|------------------------------------------------------|
 | `{input_path}`   | Path to the temp UTF-8 text file Hermes wrote        |
 | `{text_path}`    | Alias for `{input_path}`                             |
-| `{output_path}`  | Path the command must write audio to                 |
+| `{output_path}`  | Path the command must write audio to (a Hermes-named temp file, moved to the requested location afterwards) |
 | `{format}`       | `mp3` / `wav` / `ogg` / `flac`                       |
 | `{voice}`        | `tts.providers.<name>.voice`, empty when unset       |
 | `{model}`        | `tts.providers.<name>.model`                         |
@@ -27708,7 +27725,7 @@ Use `{{` and `}}` for literal braces.
 
 #### Security
 
-Command-type providers run whatever shell command you configure, with your user's permissions. Hermes quotes placeholder values and enforces the configured timeout, but the command template itself is trusted local input — treat it the same way you would a shell script on your PATH.
+Command-type providers run whatever shell command you configure, with your user's permissions. Hermes quotes placeholder values, never puts a caller-chosen output path into the command (the command writes a Hermes-named temp file), and enforces the configured timeout, but the command template itself is trusted local input — treat it the same way you would a shell script on your PATH.
 
 ### Python plugin providers
 
@@ -49657,6 +49674,7 @@ CREATE TABLE IF NOT EXISTS sessions (
     title TEXT,
     api_call_count INTEGER DEFAULT 0,
     -- ... additional gateway/workspace/handoff/compression columns ...
+    prompt_cache_clock TEXT,  -- JSON of the latest prompt-cache event (agent/prompt_cache_clock.py)
     FOREIGN KEY (parent_session_id) REFERENCES sessions(id)
 );
 
@@ -49666,6 +49684,20 @@ CREATE INDEX IF NOT EXISTS idx_sessions_started ON sessions(started_at DESC);
 CREATE UNIQUE INDEX IF NOT EXISTS idx_sessions_title_unique
     ON sessions(title) WHERE title IS NOT NULL;
 ```
+
+`prompt_cache_clock` is nullable JSON: the route (provider, normalized base URL, model), requested
+and granted cache tiers, one coverage deadline per tier, the guaranteed and estimated ends,
+confidence, send time, and the session's context generation when the last request read or wrote
+the provider's prompt cache. It rides the same queued token-count batch as the usage counters (no
+extra write on the turn loop). The context generation is the number of rows a compaction or prune
+archived (`active = 0, compacted = 1`): it only grows, so a saved clock recorded before an in-place
+compaction no longer validates after a restart; for a managed worker the owner stamps that count
+onto the clock inside the usage receipt that carries it. A resumed agent restores the clock before its first
+response is recorded, and the agentless `session.context_breakdown` reads it too, checked against
+the row's persisted model and `model_config` provider/base URL so a `/model` switch reports
+`unknown`. Every clock read is advisory: a failed store read reports `unknown` and never fails the
+turn. Sessions stored
+before the column fall back to the newest assistant row's timestamp (`assumed`, never guaranteed).
 
 `user_id` is the principal on the other end of the session: messaging adapters
 store the platform sender id, and `desktop` / dashboard sessions opened through
@@ -51173,7 +51205,7 @@ When you call `ctx.register_platform()`, the following integration points are ha
 | YAML config bridge | `apply_yaml_config_fn` translates `config.yaml` keys into env vars / extras |
 | Cron delivery | `cron_deliver_env_var` makes `deliver=<name>` work |
 | `hermes config` UI entries | `requires_env` / `optional_env` in `plugin.yaml` auto-populate |
-| send engine (`tools/send_message_tool.py`) | Routes through live gateway adapter |
+| send engine (`gateway/outbound/send.py`) | Routes through live gateway adapter |
 | Webhook cross-platform delivery | Registry checked for known platforms |
 | `/update` command access | `allow_update_command` flag |
 | Channel directory | Plugin platforms included in enumeration |
@@ -51816,7 +51848,7 @@ Six touchpoints:
 
 ### 7. Tools
 
-1. **`tools/send_message_tool.py`** — Add `"newplat": Platform.NEWPLAT` to platform map
+1. **`gateway/outbound/send.py`** — Add `"newplat": Platform.NEWPLAT` to platform map
 2. **`tools/cronjob_tools.py`** — Add `newplat` to the delivery target description string
 
 ### 8. Toolsets
@@ -52327,8 +52359,6 @@ hermes skills install owner/morning-brief
 ```
 
 Blueprints are one **source** of the unified Suggested Cron Jobs surface — the same place curated starter automations and (later) usage-pattern and integration suggestions appear. See [Suggested Cron Jobs](#suggested-cron-jobs) below.
-
-**Sharing an automation you built.** A blueprint loaded by a cron job (`hermes cron create --skill <name> ...`) can be exported back to a SKILL.md and published like any other skill, so an automation you tuned for yourself becomes a one-command install for someone else.
 
 The blueprint layer adds no new object type, store, or transport — the blueprint is a skill, the schedule is a cron job, and sharing is the existing publish/tap/index path.
 
@@ -53810,10 +53840,32 @@ Restore a previously created Hermes backup into your Hermes home directory. All 
 | Option | Description |
 |--------|-------------|
 | `-f`, `--force` | Skip the existing-installation confirmation prompt. |
+| `--keep-host` | Replace this agent with the backup but keep what its host set up (a Hermes Cloud agent's Nous Portal sign-in and platform settings). Takes a full backup of this agent first: the undo point. See below. |
+| `--messaging-off` | With `--keep-host`: every messaging bot the backup would run arrives switched off, with its token and settings. See below. |
 
 :::warning
-Stop the gateway before importing to avoid conflicts with running processes.
+Stop the gateway before importing to avoid conflicts with running processes. `--keep-host` inside the Docker image (Hermes Cloud) pauses and restarts the gateway itself.
 :::
+
+### `--keep-host`: replace an agent but keep its host's setup
+
+This is how Settings ▸ [Backup & Transfer](../user-guide/backup-and-transfer.md) replaces a Hermes Cloud agent with a local one. The backup's memory, persona, skills, conversations, scheduled jobs, settings, `.env` keys and `auth.json` logins all come over. The agent keeps:
+
+- **`auth.json`** (the root's and each profile's): its own Nous Portal sign-in (`providers.nous`, the `nous` credential-pool rows, and `active_provider` when either side uses Nous). The backup's Nous tokens are never written. `shared/nous_auth.json`, `webapp/` (the Webapp's sign-in state), `install_id` and lock files are never taken from the backup.
+- **`config.yaml`** (the root home's): its own top-level `model`, `providers`, `fallback_providers`, `fallback`, `auxiliary`, `nous`, `auth`, `web`, `image_gen`, `video_gen`, `tts`, `stt`, `dashboard`, `webapp`, `cron` (scheduler settings; the jobs come from the backup), `max_concurrent_sessions` and `max_live_sessions`. Every other key comes from the backup, and the file keeps the backup's comments.
+- **`.env`** (the root home's): its own `NOUS_*`, `HERMES_*`, `TOOL_GATEWAY_*` and `API_SERVER_KEY` lines.
+
+Only the root home is the host's: a named profile's `config.yaml` and `.env` arrive whole, and so does any other file with those names (a skill's `templates/config.yaml`).
+
+The result is a replacement, not a merge. In the root home and in every profile the backup carries, a file the backup does not have is removed, and when the backup has no `auth.json`, `.env` or `config.yaml`, the agent's copy keeps only its host-owned part. Databases, logs and the gateway's runtime records stay. A profile that only the agent has is left exactly as it is (the import lists it). A folder the backup writes into that is a symlink refuses the import before anything is written. Messaging bot tokens come over too. A bot token answers to one running Hermes at a time, so stop the gateway on the old machine, or add `--messaging-off`.
+
+`--messaging-off` (the Desktop transfer always passes it) brings every messaging bot over switched off. In the root home and in each profile the backup carries, a bot the backup would run (`platforms.<id>.enabled: true`, or a token in `.env` with no `enabled` setting) gets `platforms.<id>.enabled: false`, the switch the **Messaging** page turns on and off, written into the restored `config.yaml`. Its token, allowlists and other settings come over unchanged, and the gateway does not connect it until you switch it on. The import prints `Messaging switched off: Telegram, Discord`. Inbound endpoints (`api_server`, `webhook`) are left alone. An undo does not pass the flag, so it puts the agent's own bots back as they were.
+
+Once the gateway has drained, and before writing anything, it backs up the agent, the memory provider's files outside the home included, to `backups/pre-transfer-<time>.zip` and prints `Undo point: <path>`. The last three are kept. To put the agent back, run `hermes import <that zip> --force --keep-host`: that restores it with the same replace rule, so files the transfer added (the backup's scheduled jobs, its skills, a profile it brought) go again. If a restore fails part-way, the next `--keep-host` import (a retry) reuses that first undo point instead of backing up the half-restored agent.
+
+Inside the Docker image the gateway owns `state.db`, so a plain `hermes import` refuses the session database while it runs. `--keep-host` asks the gateway to finish its in-flight turns and exit (the `pause-for-update` control-socket request `hermes update` uses). It first marks the gateway's s6 slot run-once so the supervisor does not restart it during the restore, then starts the slot again afterwards. If it cannot tell whether that gateway is running, it refuses. Outside a container nothing is paused; stop the gateway first, as with any import.
+
+**Exit status** for `--keep-host`: `Import refused; no files restored` appears only when it stopped before the first write (a linked folder, the undo point could not be written, the gateway would not pause). Any later failure lists what was not restored and prints the undo point again.
 
 **Exit status:** `1` when the archive is damaged — before anything is written, every member is decompressed once and its CRC checked; if any fail, the command prints `Error: backup archive is damaged (N member(s) …)` with the offending members and stops with the Hermes home untouched. Also `1` when any file from the archive could not be restored (listed under `Warnings (N files skipped)` and summarised as `Import incomplete: …`). The files that did land stay in place, but a script or the dashboard will not report a partial restore as success. Runtime files the import deliberately keeps from this machine (`gateway.pid`, `gateway_state.json`, …) and the older-backup session warning below do not change the exit status.
 
@@ -53836,6 +53888,7 @@ Importing an older backup over newer work is still allowed, but it is no longer 
 ```bash
 hermes import ~/hermes-backup-20260423.zip           # Prompts before overwriting existing config
 hermes import ~/hermes-backup-20260423.zip --force   # Overwrite without prompting
+hermes import ~/hermes-backup-20260423.zip --keep-host --messaging-off   # Replace a cloud agent, keep its Nous sign-in, bots arrive off
 ```
 
 ## `hermes logs`
@@ -55058,7 +55111,7 @@ The messaging gateway supports the following built-in commands inside Telegram, 
 | `/branch [--here] [name]` (alias: `/fork`) | Branch the current session. Thread-capable platforms (Discord, Telegram, Slack, Matrix) open the branch in a new sibling thread and keep this chat on the original; `--here` switches this chat onto the branch. |
 | `/agents` (alias: `/tasks`) | Show active agents and running tasks. |
 | `/sessions` | Browse and resume previous sessions. |
-| `/context [all]` (alias: `/ctx`) | Context-window usage gauge and category breakdown (messaging-friendly text form). `/context all` adds per-skill / per-toolset cost detail. |
+| `/context [all]` (alias: `/ctx`) | Context-window usage gauge and category breakdown (messaging-friendly text form). `/context all` adds per-skill / per-toolset cost detail. A prompt-cache line says until when the cached prompt stays warm (with how sure Hermes is: proven, declared or assumed), how long ago it expired, or that it is unknown. |
 | `/egress [status]` | Show Docker egress proxy status. |
 | `/init [notes]` | Generate or update `AGENTS.md` from a repo scan. |
 | `/learn <what to learn from>` | Distill a reusable skill from anything you describe. |
@@ -68434,11 +68487,13 @@ meaning says otherwise.
 | `supports_vision` | API accepts images inside tool-result messages | `False` |
 | `supports_vision_tool_messages` | API accepts list-type (multipart) tool message content | `True` |
 | `supports_prompt_cache_key` | Chat Completions endpoint documents `prompt_cache_key` | `False` |
+| `prompt_cache_max_ttl` | Longest prompt-cache tier the route really keeps (`"5m"`/`"1h"`); Hermes never asks for, or believes, more. Config `prompt_caching.route_ttl_ceilings` overrides it | `None` |
 | `native_reasoning_details_type` | Namespaced `<provider>.native_assistant` reasoning carrier only this profile receives | `None` |
 | `process_command` | External-process default binary | `""` |
 | `process_args` | External-process default argv tail | `()` |
 | `process_command_env_vars` | Env vars overriding the binary, in priority order | `()` |
 | `process_args_env_var` | Env var overriding argv (shlex-split) | `""` |
+| `login_args` | External-process CLI's own sign-in, as an argv tail after the resolved binary; sign-in hints show it | `()` |
 | `fallback_models` | Curated picker list when the live fetch fails | `()` |
 | `model_aliases` | Short name → model id; `/model <alias>` resolves here first | `{}` |
 | `hostname` | Base hostname for URL → provider reverse mapping (derived from `base_url` when empty) | `""` |
@@ -68572,6 +68627,7 @@ An agent CLI driven over stdio is not an HTTP endpoint. Set `auth_type="external
 | `process_args` | Default argv tail, e.g. `("--mode", "acp")` |
 | `process_command_env_vars` | Env vars that override the binary, checked in order |
 | `process_args_env_var` | Env var that overrides argv (shlex-split) |
+| `login_args` | The CLI's own sign-in after the binary, e.g. `("auth", "login")`. Error replies, cron notices and the Desktop sign-in card show the binary plus these; empty keeps `hermes model`. Read from the declaration only, never by running the CLI |
 
 The `process_command_env_vars` and `process_args_env_var` names are executable authority: Hermes' generic env writers (dashboard, MCP and connector installs, `save_env_value`) refuse them, so set them in `.env` or the shell.
 
@@ -74446,7 +74502,7 @@ Build on the methods the gateway serves. The methods answered by an older handle
 
 **Refused (`-32601`)** (16): `agents.list`, `session.activate`, `session.archive`, `session.branch`, `session.branch_stored`, `session.branch_whole`, `session.close`, `session.compress`, `session.cwd.set`, `session.delete`, `session.set_hidden`, `session.status`, `session.title`, `session.undo`, `session.usage`, `session.workspace.move`
 
-**Served by the gateway** (110): `a2a.forward`, `approval.pending`, `approval.received`, `approval.respond`, `bot_relay.cancel`, `bot_relay.deliver`, `bot_relay.outbox.drain`, `bot_relay.reply`, `bot_relay.roster.sync`, `bot_relay.settle`, `clarify.lock`, `clarify.respond`, `command.dispatch`, `command.observe`, `commands.catalog`, `complete.path`, `complete.slash`, `config.get`, `config.set`, `cron.cancel`, `cron.recover`, `cron.status`, `cron.submit`, `delegation.pause`, `file.attach`, `groups.approve`, `groups.attachment.download`, `groups.attachment.upload`, `groups.capabilities`, `groups.context`, `groups.continue`, `groups.create`, `groups.disband`, `groups.discard`, `groups.list`, `groups.log`, `groups.peer.invite`, `groups.peer.register`, `groups.peer.revoke`, `groups.rename`, `groups.retry`, `groups.send`, `groups.state`, `groups.stop`, `handoff.fail`, `handoff.request`, `handoff.state`, `image.attach_bytes`, `kanban.run`, `llm.oneshot`, `message.react`, `model.options`, `onboarding.skip`, `onboarding.start`, `ping`, `plugins.list`, `preview.restart`, `process.kill`, `process.list`, `process.stop`, `profiles.list`, `prompt.background`, `prompt.btw`, `prompt.cancel`, `prompt.receipt`, `prompt.replace_queued`, `prompt.resolve_unknown`, `prompt.steer_queued`, `prompt.submit`, `reload.env`, `reload.mcp`, `rollback.diff`, `rollback.list`, `rollback.restore`, `rollback.session_diff`, `runtime.describe`, `session.active_list`, `session.automation`, `session.context_breakdown`, `session.control`, `session.control.read`, `session.create`, `session.detach`, `session.events.since`, `session.export`, `session.history`, `session.info`, `session.interrupt`, `session.list`, `session.mutate`, `session.prune`, `session.redirect`, `session.resume`, `session.save`, `session.stats`, `session.steer`, `session.transcript`, `setup.runtime_check`, `setup.status`, `shell.exec`, `skills.reload`, `slash.exec`, `subagent.interrupt`, `subagent.list`, `subagent.steer`, `subagent.tail`, `tools.show`, `worker.adopt`, `worker.persist`, `worker.register`
+**Served by the gateway** (111): `a2a.forward`, `approval.pending`, `approval.received`, `approval.respond`, `bot_relay.cancel`, `bot_relay.deliver`, `bot_relay.outbox.drain`, `bot_relay.reply`, `bot_relay.roster.sync`, `bot_relay.settle`, `clarify.lock`, `clarify.respond`, `command.dispatch`, `command.observe`, `commands.catalog`, `complete.path`, `complete.slash`, `config.get`, `config.set`, `cron.cancel`, `cron.recover`, `cron.status`, `cron.submit`, `delegation.pause`, `file.attach`, `groups.approve`, `groups.attachment.download`, `groups.attachment.upload`, `groups.capabilities`, `groups.context`, `groups.continue`, `groups.create`, `groups.disband`, `groups.discard`, `groups.list`, `groups.log`, `groups.peer.invite`, `groups.peer.register`, `groups.peer.revoke`, `groups.rename`, `groups.retry`, `groups.send`, `groups.state`, `groups.stop`, `handoff.fail`, `handoff.request`, `handoff.state`, `image.attach_bytes`, `kanban.run`, `llm.oneshot`, `message.react`, `model.options`, `onboarding.skip`, `onboarding.start`, `ping`, `plugins.list`, `preview.restart`, `process.kill`, `process.list`, `process.stop`, `profiles.list`, `prompt.background`, `prompt.btw`, `prompt.cancel`, `prompt.receipt`, `prompt.replace_queued`, `prompt.resolve_unknown`, `prompt.steer_queued`, `prompt.submit`, `reload.env`, `reload.mcp`, `rollback.diff`, `rollback.list`, `rollback.restore`, `rollback.session_diff`, `runtime.describe`, `session.account_usage`, `session.active_list`, `session.automation`, `session.context_breakdown`, `session.control`, `session.control.read`, `session.create`, `session.detach`, `session.events.since`, `session.export`, `session.history`, `session.info`, `session.interrupt`, `session.list`, `session.mutate`, `session.prune`, `session.redirect`, `session.resume`, `session.save`, `session.stats`, `session.steer`, `session.transcript`, `setup.runtime_check`, `setup.status`, `shell.exec`, `skills.reload`, `slash.exec`, `subagent.interrupt`, `subagent.list`, `subagent.steer`, `subagent.tail`, `tools.show`, `worker.adopt`, `worker.persist`, `worker.register`
 
 **Answered by an older handler** (160): `billing.auto_reload`, `billing.charge`, `billing.charge_status`, `billing.keep_going_on_credits`, `billing.state`, `billing.step_up`, `browser.manage`, `cli.exec`, `client.capabilities`, `clipboard.paste`, `command.resolve`, `config.show`, `connectors.accounts`, `connectors.accounts.remove`, `connectors.accounts.rename`, `connectors.catalog`, `connectors.list`, `connectors.policy.get`, `connectors.policy.set`, `connectors.tools`, `cron.manage`, `delegation.status`, `diagnostics.share_nous`, `display.install`, `display.lease.acquire`, `display.lease.release`, `display.observe`, `display.start`, `display.status`, `display.stop`, `display.switchSandboxImage`, `display.thumbnail`, `free_tier.ack_notice`, `free_tier.challenge_result`, `free_tier.claim_nudge`, `free_tier.provision`, `free_tier.status`, `gateway.capabilities`, `groups.demote`, `groups.promote`, `groups.replica_state`, `groups.replicate`, `i18n.catalog`, `i18n.languages`, `image.attach`, `image.detach`, `image.generate`, `image.render`, `input.detect_drop`, `insights.get`, `learning.delete`, `learning.detail`, `learning.edit`, `learning.frames`, `machine.facts`, `mcp.catalog`, `mcp.servers.add`, `mcp.servers.list`, `mcp.servers.oauth.callback`, `mcp.servers.oauth.cancel`, `mcp.servers.oauth.poll`, `mcp.servers.oauth.start`, `mcp.servers.remove`, `mcp.servers.set_api_key`, `mcp.servers.status`, `mcp.servers.test`, `model.disconnect`, `model.save_key`, `onboarding.set_run`, `onboarding.state`, `paste.collapse`, `pdf.attach`, `pet.cancel`, `pet.cells`, `pet.disable`, `pet.export`, `pet.gallery`, `pet.generate`, `pet.generate.status`, `pet.hatch`, `pet.info`, `pet.info.meta`, `pet.remove`, `pet.rename`, `pet.scale`, `pet.select`, `pet.thumb`, `plugins.catalog.lookup`, `plugins.manage`, `profiles.configure`, `profiles.create`, `profiles.describe`, `profiles.get_asset`, `profiles.set_asset`, `project.facts`, `projects.add_folder`, `projects.archive`, `projects.create`, `projects.delete`, `projects.discover_repos`, `projects.for_cwd`, `projects.get`, `projects.list`, `projects.project_sessions`, `projects.record_repos`, `projects.remove_folder`, `projects.set_active`, `projects.set_primary`, `projects.tree`, `projects.update`, `request.answer`, `session.events.stats`, `session.foreign.import`, `session.foreign.list`, `session.foreign.preview`, `session.most_recent`, `shared_metrics.desktop_daily`, `shared_metrics.desktop_dislike`, `shared_metrics.desktop_feature_use`, `shared_metrics.desktop_friction`, `shared_metrics.desktop_onboarding`, `shared_metrics.set`, `shared_metrics.slash_command`, `shared_metrics.startup_latency`, `shared_metrics.status`, `shared_metrics.update_run`, `skills.manage`, `spawn_tree.list`, `spawn_tree.load`, `spawn_tree.save`, `subagent.roster`, `subscription.change`, `subscription.preview`, `subscription.resume`, `subscription.state`, `subscription.upgrade`, `system.battery`, `terminal.resize`, `tools.configure`, `tools.list`, `toolsets.list`, `usage.bars`, `vault.add`, `vault.list`, `vault.lock`, `vault.preview.fill`, `vault.remove`, `vault.source.set`, `vault.sources`, `vault.unlock`, `verification.status`, `voice.record`, `voice.toggle`, `voice.tts`, `wake.feed`, `wake.pause`, `wake.resume`, `wake.start`, `wake.status`, `wake.stop`
 
@@ -78599,9 +78655,8 @@ local backend on this host, docker/ssh and `supports_streams` plugins through
 their exec prefix). Suspending a sandbox once its processes are idle-stopped,
 and network isolation between sandboxes, are yours.
 
-**Credentials** reach a hosted sandbox as broker references
-(`sandbox_scope.CredentialRef`), never as values from the secret store. No
-broker exists yet, so Hermes passes none.
+**Credentials** never reach a hosted sandbox as values from the secret store.
+No credential broker exists yet, so Hermes passes none.
 
 **Conformance.** `tools/environments/sandbox_conformance.py` holds the
 isolation checks Hermes runs against its recording stub backend
@@ -78932,7 +78987,7 @@ Each line in the file is a self-contained JSON object. There are two variants:
 ```
 
 The `tool_stats` and `tool_error_counts` dictionaries are normalized to include
-ALL possible tools (from `model_tools.TOOL_TO_TOOLSET_MAP`) with zero defaults,
+ALL possible tools (from `model_tools.get_all_tool_names()`) with zero defaults,
 ensuring consistent schema across entries for HuggingFace dataset loading.
 
 
@@ -87043,6 +87098,55 @@ download stays HTTPS-only.
 
 ---
 
+<!-- source: website/docs/user-guide/backup-and-transfer.md -->
+# Backup & Transfer
+
+# Backup & Transfer
+
+**Settings ▸ Backup & Transfer** in Hermes Desktop (and the Webapp) does two things:
+
+- **Back up** saves your whole agent to one file.
+- **Transfer to Hermes Cloud** replaces one of your Hermes Cloud agents with this agent. You can undo it.
+
+On a Webapp that Hermes Cloud itself serves, the section is called **Backup** and has only the backup. That tab already is a cloud agent.
+
+## Back up
+
+**Back up** runs [`hermes backup`](../reference/cli-commands.md#hermes-backup) on the agent Settings is showing, then asks where to save the zip. The zip holds the whole Hermes home: every profile, memory, persona, skills, conversations, scheduled jobs, settings, and your keys and logins (`.env`, `auth.json`). Keep it private. To restore it, run `hermes import <zip>`.
+
+## Transfer to Hermes Cloud
+
+1. Sign in to Nous Portal if the section asks you to. It then lists your Hermes Cloud agents.
+2. Pick the agent to replace.
+3. Read what gets replaced and what the agent keeps, tick **I understand this replaces &lt;agent&gt;**, and click **Replace &lt;agent&gt;**.
+
+Hermes checks that the cloud agent can receive a transfer (one older than this feature says it needs a Hermes update), backs up this agent, copies the backup to the cloud agent a few megabytes at a time, and the cloud agent restores it with `hermes import --keep-host --messaging-off`. Once its gateway has finished what it was doing, and before it changes anything, the cloud agent backs itself up. That backup is the undo point. **Cancel** is there while backing up and copying; once the restore has started it cannot be stopped, so the button goes away.
+
+**What comes over:** memory, persona (SOUL.md), skills, conversations, scheduled jobs, every profile, settings, and your API keys and logins (other than Nous Portal). It replaces the agent: what the backup does not have is removed. A profile only the cloud agent has stays as it is. Never removed: the cloud agent's workspace and its own dotfiles (`.ssh`, `.gitconfig`, `.config`).
+
+**What the cloud agent keeps:** its Nous Portal sign-in, its model and provider, its Hermes Cloud tools (web, images, voice), its dashboard sign-in, and its scheduler settings. Hermes Cloud set these up, and they already work there.
+
+**Messaging bots** (Telegram, Discord, Slack…) come over with their tokens, allowlists and settings, but switched off on the cloud agent: a bot token can only be used by one running Hermes at a time, so this computer keeps answering. The done screen names the bots that came over switched off. When you're ready, switch each one over on the **Messaging** page: off on this computer, on for the cloud agent. Undo puts the cloud agent's own bots back as they were.
+
+**Undo** on the done screen restores the cloud agent from its undo point, and removes what the transfer added. If a transfer fails part-way, the error screen offers **Undo** as well as **Retry**; Undo always uses the first undo point, taken before anything changed. **Start again** goes back to the agent list.
+
+**Signing in from the Webapp:** the Webapp uses this install's own Nous Portal sign-in (Settings ▸ Providers). If the browser is on another computer, the sign-in to the cloud agent ends on an address that computer can't open; paste that address into the field the section shows to finish.
+
+**New cloud agent** opens Nous Portal, where you create one. Hermes Desktop cannot create agents yet.
+
+## From the command line
+
+```bash
+hermes backup -o my-agent.zip                 # on this computer
+# copy my-agent.zip to the cloud agent, then on it:
+hermes import my-agent.zip --keep-host        # prints the undo point
+hermes import <undo point> --force --keep-host   # undo
+```
+
+[`hermes import --keep-host`](../reference/cli-commands.md#--keep-host-replace-an-agent-but-keep-its-hosts-setup) lists exactly what it keeps.
+
+---
+
 <!-- source: website/docs/user-guide/bot-mode.md -->
 # Bot Mode
 
@@ -88537,6 +88641,18 @@ desktop:
 ```
 
 Use single quotes or no quotes so the backslashes stay literal. The key goes two spaces under `desktop:`, like the launch keys above. It has no effect on macOS or Linux.
+
+### SSH remote: the connection times out on a slow link
+
+The app gives SSH 15 seconds to connect and 15 seconds to set up its port forward. It passes the connect limit to `ssh` on the command line, so a `ConnectTimeout` in `~/.ssh/config` does not raise it. If your network needs longer (a VPN that takes a while to come up, a jump host, a lossy link) and boot keeps failing with `ssh timed out after 15000ms`, raise the limits in `config.yaml` and restart the app:
+
+```yaml
+desktop:
+  ssh_connect_timeout: 60
+  ssh_forward_timeout: 60
+```
+
+Both take a whole number of seconds, up to 120. Anything else (`60s`, `1.5`, `0`) is ignored and the app logs `desktop.ssh_connect_timeout was ignored` at startup. The keys go two spaces under `desktop:`, like the launch keys above.
 
 ### "The host key has CHANGED since you last connected" (SSH remote)
 
@@ -105001,7 +105117,7 @@ using the default listener's existing credentials.
   is enabled only on a secondary profile. A shared-bot satellite (no bot of
   its own, reached through `profile_routes`) delivers through the shared bot
   only to a chat a route maps to it, the same rule as its cron jobs and its
-  `send_message` sends and reactions; any other target, including an unrouted
+  `send_message` sends; any other target, including an unrouted
   home channel, fails (502). On every platform except Telegram, Slack, Matrix
   and Mattermost (whose thread ids are scoped to a chat), a `thread_id` target
   needs a route that names that `thread_id`; a chat-only route does not cover
@@ -105164,7 +105280,7 @@ are resolved per profile as well. Kanban, profile-scoped skills/memory/SOUL, and
 model routing all behave per-profile exactly as they do with separate gateways.
 
 Outbound identity is per profile too. A turn running for profile `P` that calls
-the `send_message` tool (send, react, media) posts through `P`'s own bot;
+the `send_message` tool (send, media) posts through `P`'s own bot;
 so do the "Gateway shutting down/restarted" and `/update` notices for `P`'s
 sessions, `/loop` wakeups set from `P`'s chats, and the Discord
 unauthorized-slash operator alert of `P`'s Discord bot (to `P`'s home
@@ -105416,7 +105532,7 @@ delivery to that user's DM without an extra route. The routed profile does not n
 own `platforms.<platform>` block for this: the shared bot's authorization comes
 from the route, not from the satellite's config.
 
-A routed profile's `send_message` sends and reactions, and plugin
+A routed profile's `send_message` sends, and plugin
 `ctx.platform_actions`, follow the same target rule, with one addition: during a
 turn, the conversation that turn came from also qualifies whenever the inbound
 route matcher would hand it to that profile. That covers guild-only routes, a

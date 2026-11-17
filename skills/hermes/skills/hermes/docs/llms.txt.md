@@ -31,6 +31,7 @@ Repo: https://github.com/NousResearch/hermes-agent
 - [Docker Backend](https://hermes-agent.nousresearch.com/docs/user-guide/docker): Running Hermes Agent in Docker and using Docker as a terminal backend
 - [Security](https://hermes-agent.nousresearch.com/docs/user-guide/security): Security model, dangerous command approval, user authorization, container isolation, and production deployment best practices
 - [Checkpoints & Rollback](https://hermes-agent.nousresearch.com/docs/user-guide/checkpoints-and-rollback): Filesystem safety nets for destructive operations using shadow git repos and automatic snapshots
+- [Backup & Transfer](https://hermes-agent.nousresearch.com/docs/user-guide/backup-and-transfer): Back up your whole agent, or replace a Hermes Cloud agent with it, from Settings
 - [Bot Mode](https://hermes-agent.nousresearch.com/docs/user-guide/bot-mode): Turn your Hermes profiles into a roster of named Bots — each with its own chat, role, model, memory, skills, and avatar. Bots run routines, share group chats, and message each other.
 - [Hermes Desktop](https://hermes-agent.nousresearch.com/docs/user-guide/desktop): The native Hermes desktop app — a polished experience for chatting with Hermes, with streaming tool output, side-by-side previews, a file browser, voice, cron, profiles, skills, and settings. macOS, Windows, and Linux.
 - [Egress proxy](https://hermes-agent.nousresearch.com/docs/user-guide/egress)
