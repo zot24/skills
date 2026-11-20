@@ -76,7 +76,7 @@ source ~/.bashrc   # or source ~/.zshrc
 ```
 
 
-### 2. Run Quick Setup<a href="#2-run-quick-setup" class="hash-link" aria-label="Direct link to 2. Run Quick Setup" translate="no" title="Direct link to 2. Run Quick Setup">​</a>
+### 2. Run setup<a href="#2-run-setup" class="hash-link" aria-label="Direct link to 2. Run setup" translate="no" title="Direct link to 2. Run setup">​</a>
 
 
 ``` prism-code
@@ -84,7 +84,7 @@ hermes setup
 ```
 
 
-Select **Quick Setup**. Hermes opens a browser tab and waits for you to finish the next steps.
+At **How do you want to power Hermes?**, select **Sign in to Nous Portal**. Hermes opens a browser tab and waits for you to finish the next steps.
 
 ### 3. Create a Nous Portal account<a href="#3-create-a-nous-portal-account" class="hash-link" aria-label="Direct link to 3. Create a Nous Portal account" translate="no" title="Direct link to 3. Create a Nous Portal account">​</a>
 
@@ -108,7 +108,7 @@ The `:free` tag is what keeps it on the no-cost tier, so make sure you pick that
 
 ### 6. Start chatting<a href="#6-start-chatting" class="hash-link" aria-label="Direct link to 6. Start chatting" translate="no" title="Direct link to 6. Start chatting">​</a>
 
-Complete the remaining Quick Setup prompts, then run:
+Setup finishes with a short list of next steps. Then run:
 
 
 ``` prism-code
@@ -146,7 +146,7 @@ Already set up with another model?
   - <a href="#4-start-chatting" class="table-of-contents__link toc-highlight">4. Start chatting</a>
 - <a href="#option-b--command-line" class="table-of-contents__link toc-highlight">Option B — Command line</a>
   - <a href="#1-install-hermes-agent" class="table-of-contents__link toc-highlight">1. Install Hermes Agent</a>
-  - <a href="#2-run-quick-setup" class="table-of-contents__link toc-highlight">2. Run Quick Setup</a>
+  - <a href="#2-run-setup" class="table-of-contents__link toc-highlight">2. Run setup</a>
   - <a href="#3-create-a-nous-portal-account" class="table-of-contents__link toc-highlight">3. Create a Nous Portal account</a>
   - <a href="#4-connect-your-account" class="table-of-contents__link toc-highlight">4. Connect your account</a>
   - <a href="#5-select-the-free-nemotron-3-ultra-model" class="table-of-contents__link toc-highlight">5. Select the free Nemotron 3 Ultra model</a>
