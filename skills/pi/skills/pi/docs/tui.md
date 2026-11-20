@@ -2,35 +2,15 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Terminal UI
 
 
 `@earendil-works/pi-tui` provides the terminal component system used by Pi. Extensions use it when built-in dialogs, notifications, status text, and widgets are not enough for the interaction they need.
 
-Start with `ctx.ui` methods from an [extension](/latest/latest/extensions#interact-with-the-user). Build a custom component only when the UI needs its own rendering, keyboard or mouse input, focus, layout, or lifecycle.
+Start with `ctx.ui` methods from an <a href="/latest/extensions#interact-with-the-user" class="link-module_root__svb26">extension</a>. Build a custom component only when the UI needs its own rendering, keyboard or mouse input, focus, layout, or lifecycle.
 
 
 ## Choose an integration point
-
-<a href="#choose-an-integration-point" class="heading-anchor" aria-label="Permalink: Choose an integration point" data-copy="" data-copy-text="https://docs.pi.dev/latest/tui#choose-an-integration-point"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Need | Use |
@@ -42,15 +22,16 @@ Start with `ctx.ui` methods from an [extension](/latest/latest/extensions#intera
 | Temporary interactive screen or overlay | `ctx.ui.custom()` |
 | Custom rendering for a tool or session entry | An extension renderer |
 
+
 These APIs receive Pi’s active theme and keybindings where needed. Do not create a second terminal renderer inside an extension.
 
 
 ## Understand the component model
 
-<a href="#understand-the-component-model" class="heading-anchor" aria-label="Permalink: Understand the component model" data-copy="" data-copy-text="https://docs.pi.dev/latest/tui#understand-the-component-model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 A component renders an array of terminal lines for an available width. It can optionally handle keyboard and mouse input, and it must invalidate cached output when its state or theme-dependent content changes.
+
+Treat lines returned by `render()` as read-only, including `super.render()` in a subclass. Built-in components such as `Container`, `Box`, `Text`, and `Markdown` return the same cached array while nothing changed, so modifying it in place corrupts later frames. Copy first, for example `const lines = [...super.render(width)]`, and cache the result if it is expensive. Return a new array when your output changes: parents reuse an unchanged array without reading it again.
 
 Every rendered line must fit within the supplied width. Measure visible terminal columns rather than string length because ANSI escapes, wide characters, emoji, and combining characters change display width.
 
@@ -60,8 +41,6 @@ After changing component state, invalidate the affected component and call the i
 
 
 ## Compose built-in components
-
-<a href="#compose-built-in-components" class="heading-anchor" aria-label="Permalink: Compose built-in components" data-copy="" data-copy-text="https://docs.pi.dev/latest/tui#compose-built-in-components"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The package includes components for common layouts and controls:
@@ -79,8 +58,6 @@ Prefer these components over rebuilding selection, scrolling, text editing, or w
 
 ## Handle keyboard input and focus
 
-<a href="#handle-keyboard-input-and-focus" class="heading-anchor" aria-label="Permalink: Handle keyboard input and focus" data-copy="" data-copy-text="https://docs.pi.dev/latest/tui#handle-keyboard-input-and-focus"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Use `matchesKey()` and `Key` for terminal keyboard input. The parser accounts for supported terminal protocols and key modifiers. Extension components should use the injected `KeybindingsManager` for configurable application actions.
 
@@ -95,8 +72,6 @@ Forward keys your editor does not own to the base implementation, and restore th
 
 ## Handle mouse input
 
-<a href="#handle-mouse-input" class="heading-anchor" aria-label="Permalink: Handle mouse input" data-copy="" data-copy-text="https://docs.pi.dev/latest/tui#handle-mouse-input"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fullscreen mode routes normalized mouse events to components. A handler can mark an event handled, capture a drag sequence, request focus, or request a render.
 
@@ -107,21 +82,16 @@ Regular mode leaves mouse input to the terminal because the terminal owns scroll
 
 ## Use custom screens and overlays
 
-<a href="#use-custom-screens-and-overlays" class="heading-anchor" aria-label="Permalink: Use custom screens and overlays" data-copy="" data-copy-text="https://docs.pi.dev/latest/tui#use-custom-screens-and-overlays"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 `ctx.ui.custom()` temporarily gives one component control of the interactive area and resolves when that component calls the supplied completion callback.
 
 
 ### Build a minimal custom screen
 
-<a href="#build-a-minimal-custom-screen" class="heading-anchor" aria-label="Permalink: Build a minimal custom screen" data-copy="" data-copy-text="https://docs.pi.dev/latest/tui#build-a-minimal-custom-screen"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 This complete extension shows the custom-component lifecycle: render within the supplied width, use injected keybindings, invalidate cached output after state changes, request a render, and finish through `done()`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { truncateToWidth } from "@earendil-works/pi-tui";
 
@@ -185,10 +155,9 @@ export default function (pi: ExtensionAPI) {
 }
 ```
 
-
 This component does not display a text cursor, so it does not need `Focusable`. A component containing `Input` or `Editor` must implement `Focusable` and propagate its `focused` value to that child.
 
-Custom components do not report pi as waiting for the user, because `ctx.ui.custom()` also hosts loaders and other non-blocking UI. When a component waits for an answer, pass `blocked: { kind: "question", message: "Pick a color" }` so terminals that support [program status](/latest/latest/terminal-setup#program-status) show pi as blocked. `kind` is `"question"`, `"permission"`, or `"auth"`. An inline component reports blocked while it is visible: a newer dialog or component shown in its place reports its own status instead. An overlay reports blocked from when it is shown until it calls `done()`, also while it is hidden with `setHidden()` or covered by another overlay. When several blocking prompts are open, the most recently shown one supplies `kind` and `message`.
+Custom components do not report pi as waiting for the user, because `ctx.ui.custom()` also hosts loaders and other non-blocking UI. When a component waits for an answer, pass `blocked: { kind: "question", message: "Pick a color" }` so terminals that support <a href="/latest/terminal-setup#program-status" class="link-module_root__svb26">program status</a> show pi as blocked. `kind` is `"question"`, `"permission"`, or `"auth"`. An inline component reports blocked while it is visible: a newer dialog or component shown in its place reports its own status instead. An overlay reports blocked from when it is shown until it calls `done()`, also while it is hidden with `setHidden()` or covered by another overlay. When several blocking prompts are open, the most recently shown one supplies `kind` and `message`.
 
 Pass `overlay: true` to draw above existing content. Overlay options control size, anchors, offsets, margins, and responsive visibility. An overlay handle can change focus or temporarily hide and show the overlay with `setHidden()` while the interaction remains active.
 
@@ -198,20 +167,17 @@ Treat each custom component instance as belonging to one interaction. Create a n
 
 Finish the interaction with the completion callback supplied to the component factory. It resolves the `ctx.ui.custom()` promise and disposes the component. Do not call `OverlayHandle.hide()` on an overlay created by `ctx.ui.custom()`.
 
-See [`overlay-qa-tests.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/overlay-qa-tests.ts) for positioning, stacking, focus, responsive visibility, and animation behavior.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/overlay-qa-tests.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">overlay-qa-tests.ts</code></a> for positioning, stacking, focus, responsive visibility, and animation behavior.
 
 
 ## Apply themes correctly
-
-<a href="#apply-themes-correctly" class="heading-anchor" aria-label="Permalink: Apply themes correctly" data-copy="" data-copy-text="https://docs.pi.dev/latest/tui#apply-themes-correctly"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Use the theme passed to the extension or component callback. Theme helpers produce ANSI-styled strings for semantic colors such as accent, muted text, success, warnings, errors, tool output, and Markdown.
 
 Use `theme.style()` to combine foreground and background colors with text attributes:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 return new Text(
   theme.style("Done!", {
     fg: "success",
@@ -223,7 +189,6 @@ return new Text(
 );
 ```
 
-
 A style color can be a semantic theme token or a concrete `Color`. Foreground tokens are accepted as `fg` and background tokens as `bg`; to use a token's color in the other position, pass its concrete color, for example `{ fg: theme.colors.userMessageBg }`. Access concrete colors through `theme.colors` and use utilities such as `mixColors()` from `@earendil-works/pi-tui` when color math is needed. Tokens that a theme sets to the terminal default render with the terminal's own color; `theme.colors` reports the color the terminal announced for them, or a guess when it did not. Use `theme.appearance` (`"dark"` or `"light"`) to decide, for example, whether to lighten or darken a color. Pi converts the result to truecolor or 256-color output based on terminal capabilities. Theme tokens are converted once per theme; compute concrete colors outside the render path when possible.
 
 The existing `theme.fg()` and `theme.bg()` helpers remain available for applying one semantic color.
@@ -232,12 +197,10 @@ Do not permanently store strings with theme colors unless `invalidate()` rebuild
 
 Theme callbacks evaluated during rendering do not need special rebuilding. Stateless components can also calculate themed output on every render.
 
-Use [Themes](/latest/latest/themes) to create terminal palettes. Use Pi’s `getMarkdownTheme()` when rendering Markdown that should match the active application theme.
+Use <a href="/latest/themes" class="link-module_root__svb26">Themes</a> to create terminal palettes. Use Pi’s `getMarkdownTheme()` when rendering Markdown that should match the active application theme.
 
 
 ## Keep rendering responsive
-
-<a href="#keep-rendering-responsive" class="heading-anchor" aria-label="Permalink: Keep rendering responsive" data-copy="" data-copy-text="https://docs.pi.dev/latest/tui#keep-rendering-responsive"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Rendering runs on the interactive path. Cache expensive layout and highlighting work by width and content, then clear that cache from `invalidate()`.
@@ -249,18 +212,16 @@ Use `PI_TUI_WRITE_LOG` to capture the raw ANSI stream when diagnosing rendering 
 
 ## Examples and source
 
-<a href="#examples-and-source" class="heading-anchor" aria-label="Permalink: Examples and source" data-copy="" data-copy-text="https://docs.pi.dev/latest/tui#examples-and-source"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 The checked extension examples cover the main patterns:
 
-- [`preset.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/preset.ts) and [`tools.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/tools.ts) use selection and settings lists.
-- [`qna.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/qna.ts) uses cancellable asynchronous UI.
-- [`modal-editor.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/modal-editor.ts) replaces the editor.
-- [`custom-footer.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/custom-footer.ts) replaces the footer.
-- [`widget-placement.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/widget-placement.ts) places persistent content around the editor.
-- [`doom-overlay/`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/doom-overlay) demonstrates a continuously rendered overlay.
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/preset.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">preset.ts</code></a> and <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/tools.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">tools.ts</code></a> use selection and settings lists.
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/qna.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">qna.ts</code></a> uses cancellable asynchronous UI.
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/modal-editor.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">modal-editor.ts</code></a> replaces the editor.
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/custom-footer.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">custom-footer.ts</code></a> replaces the footer.
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/widget-placement.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">widget-placement.ts</code></a> places persistent content around the editor.
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/doom-overlay" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">doom-overlay/</code></a> demonstrates a continuously rendered overlay.
 
-The public exports are defined in [`packages/tui/src/index.ts`](https://github.com/earendil-works/pi/blob/main/packages/tui/src/index.ts). See [Extensions](/latest/latest/extensions) for extension lifecycle, state, tools, events, and mode behavior.
+The public exports are defined in <a href="https://github.com/earendil-works/pi/blob/main/packages/tui/src/index.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">packages/tui/src/index.ts</code></a>. See <a href="/latest/extensions" class="link-module_root__svb26">Extensions</a> for extension lifecycle, state, tools, events, and mode behavior.
 
 

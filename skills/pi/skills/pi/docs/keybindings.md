@@ -2,43 +2,22 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Keybindings Reference
 
 
-Pi exposes named actions, such as `app.session.new`, that can be assigned keybindings. You can change default assignments or bind unassigned actions in Pi's [user configuration](/latest/latest/configuration#agent-directory).
+Pi exposes named actions, such as `app.session.new`, that can be assigned keybindings. You can change default assignments or bind unassigned actions in Pi's <a href="/latest/configuration#agent-directory" class="link-module_root__svb26">user configuration</a>.
 
 Run `/hotkeys` to see the active shortcuts for the main editor and application.
 
 
 ## Assign keybindings
 
-<a href="#assign-keybindings" class="heading-anchor" aria-label="Permalink: Assign keybindings" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#assign-keybindings"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Create `<agent-dir>/keybindings.json`. The agent directory defaults to `~/.pi/agent` and is described in [Agent directory](/latest/latest/configuration#agent-directory).
+Create `<agent-dir>/keybindings.json`. The agent directory defaults to `~/.pi/agent` and is described in <a href="/latest/configuration#agent-directory" class="link-module_root__svb26">Agent directory</a>.
 
 Map each action identifier to one key or a list of keys:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "$schema": "https://pi.dev/schemas/keybindings.schema.json",
   "app.session.new": "ctrl+shift+n",
@@ -46,23 +25,18 @@ Map each action identifier to one key or a list of keys:
 }
 ```
 
-
 A configured value replaces the default for that action. Use an empty list to disable an action's keybindings:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "tui.altScreen.pageUp": []
 }
 ```
 
-
 After editing the file, run `/reload` to apply the changes to the active session.
 
 
 ## Key syntax
-
-<a href="#key-syntax" class="heading-anchor" aria-label="Permalink: Key syntax" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#key-syntax"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Write a key as `modifier+key`. Modifiers are `ctrl`, `shift`, `alt`, and `super`. You can combine modifiers. Valid keys are:
@@ -80,17 +54,11 @@ Examples: `ctrl+shift+x`, `alt+ctrl+x`, `ctrl+shift+alt+x`, `super+k`, `ctrl+sup
 
 ## Actions
 
-<a href="#actions" class="heading-anchor" aria-label="Permalink: Actions" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#actions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### Terminal UI
 
-<a href="#terminal-ui" class="heading-anchor" aria-label="Permalink: Terminal UI" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#terminal-ui"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 #### Cursor movement
-
-<a href="#cursor-movement" class="heading-anchor" aria-label="Permalink: Cursor movement" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#cursor-movement"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Keybinding id | Default | Description |
@@ -110,12 +78,11 @@ Examples: `ctrl+shift+x`, `alt+ctrl+x`, `ctrl+shift+alt+x`, `super+k`, `ctrl+sup
 | `tui.editor.pageUp` | `pageUp`, `ctrl+pageUp` | Scroll up by page |
 | `tui.editor.pageDown` | `pageDown`, `ctrl+pageDown` | Scroll down by page |
 
+
 The dedicated history actions browse prompt history regardless of cursor position and take precedence over application actions using the same key.
 
 
 #### Text editing
-
-<a href="#text-editing" class="heading-anchor" aria-label="Permalink: Text editing" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#text-editing"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Keybinding id | Default | Description |
@@ -132,8 +99,6 @@ The dedicated history actions browse prompt history regardless of cursor positio
 
 
 #### Input and selection
-
-<a href="#input-and-selection" class="heading-anchor" aria-label="Permalink: Input and selection" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#input-and-selection"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Keybinding id         | Default                 | Description         |
@@ -152,10 +117,9 @@ The dedicated history actions browse prompt history regardless of cursor positio
 
 #### Fullscreen
 
-<a href="#fullscreen" class="heading-anchor" aria-label="Permalink: Fullscreen" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#fullscreen"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 In fullscreen mode, these actions control the transcript and take precedence over editor actions using the same key. While an overlay or a scrollable list such as autocomplete, `/settings`, or the model selector has focus, the scrolling and prompt-jump actions go to it instead of the transcript, so `tui.select.pageUp` and `tui.select.pageDown` move the list selection. Transcript search actions keep working.
+
 
 | Keybinding id | Default | Description |
 |----|----|----|
@@ -177,8 +141,6 @@ In fullscreen mode, these actions control the transcript and take precedence ove
 
 ### Application
 
-<a href="#application" class="heading-anchor" aria-label="Permalink: Application" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#application"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 | Keybinding id | Default | Description |
 |----|----|----|
@@ -189,12 +151,11 @@ In fullscreen mode, these actions control the transcript and take precedence ove
 | `app.editor.external` | `ctrl+g` | Open in external editor (`externalEditor`, `$VISUAL`, `$EDITOR`, Notepad on Windows, or `nano` elsewhere) |
 | `app.clipboard.pasteImage` | `ctrl+v` (`alt+v`, `ctrl+v` on Windows and WSL) | Paste files on macOS, images, or text from clipboard |
 
+
 On native Windows, `app.suspend` has no default because Windows terminals do not support Unix job control. If you assign it manually, Pi shows a status message instead of suspending. WSL uses the normal `ctrl+z` and `fg` behavior.
 
 
 ### Sessions
-
-<a href="#sessions" class="heading-anchor" aria-label="Permalink: Sessions" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#sessions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Keybinding id | Default | Description |
@@ -213,8 +174,6 @@ On native Windows, `app.suspend` has no default because Windows terminals do not
 
 ### Models and Thinking
 
-<a href="#models-and-thinking" class="heading-anchor" aria-label="Permalink: Models and Thinking" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#models-and-thinking"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 | Keybinding id | Default | Description |
 |----|----|----|
@@ -229,8 +188,6 @@ On native Windows, `app.suspend` has no default because Windows terminals do not
 
 ### Display and Message Queue
 
-<a href="#display-and-message-queue" class="heading-anchor" aria-label="Permalink: Display and Message Queue" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#display-and-message-queue"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 | Keybinding id | Default | Description |
 |----|----|----|
@@ -241,8 +198,6 @@ On native Windows, `app.suspend` has no default because Windows terminals do not
 
 
 ### Tree Navigation
-
-<a href="#tree-navigation" class="heading-anchor" aria-label="Permalink: Tree Navigation" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#tree-navigation"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Keybinding id | Default | Description |
@@ -262,10 +217,9 @@ On native Windows, `app.suspend` has no default because Windows terminals do not
 
 ### Scoped Models Selector
 
-<a href="#scoped-models-selector" class="heading-anchor" aria-label="Permalink: Scoped Models Selector" data-copy="" data-copy-text="https://docs.pi.dev/latest/keybindings#scoped-models-selector"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Used inside the scoped models selector (opened via `/scoped-models`).
+
 
 | Keybinding id | Default | Description |
 |----|----|----|

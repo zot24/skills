@@ -2,24 +2,6 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Run Pi safely
 
 
@@ -32,10 +14,9 @@ Safety comes from limiting the files, credentials, processes, and network servic
 
 ## Choose how to run Pi
 
-<a href="#choose-how-to-run-pi" class="heading-anchor" aria-label="Permalink: Choose how to run Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#choose-how-to-run-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Different ways of running Pi place different limits on what generated commands can access:
+
 
 | How Pi runs | What remains protected |
 |----|----|
@@ -43,16 +24,15 @@ Different ways of running Pi place different limits on what generated commands c
 | Entirely inside a container, virtual machine, or sandbox | Host files and processes that you do not expose to the environment. Credentials and network services remain accessible if you make them available inside it. This is usually the strongest practical option. |
 | Outside the isolated environment, with only its built-in tools running inside | Host resources are protected from actions performed through those tools. Pi itself and other extensions remain outside the boundary, so this is a narrower form of isolation. |
 
+
 The working folder controls resource discovery and the default location for tools, but it does not prevent commands from accessing other paths available to the Pi process.
 
 Whichever option you choose, only provide the files and services required for the task. Keep credentials outside the environment where possible, or use narrowly scoped, short-lived credentials. Restrict network access when commands do not need it.
 
-For setup instructions and the limitations of each isolation method, see [Run Pi in an isolated environment](/latest/latest/containerization).
+For setup instructions and the limitations of each isolation method, see <a href="/latest/containerization" class="link-module_root__svb26">Run Pi in an isolated environment</a>.
 
 
 ## Understand project trust
-
-<a href="#understand-project-trust" class="heading-anchor" aria-label="Permalink: Understand project trust" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#understand-project-trust"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Project trust controls whether Pi loads most settings and resources supplied by a working folder. It prevents a folder from silently loading executable extensions before you approve it.
@@ -63,8 +43,6 @@ Project trust does not limit what tool calls can access or affect. After Pi star
 
 
 ### Resources protected by project trust
-
-<a href="#resources-protected-by-project-trust" class="heading-anchor" aria-label="Permalink: Resources protected by project trust" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#resources-protected-by-project-trust"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Pi requires a project-trust decision when it finds any of these resources from the current working directory:
@@ -92,8 +70,6 @@ Context files such as `AGENTS.override.md`, `AGENTS.md`, and `CLAUDE.md` load re
 
 ### How Pi chooses a trust decision
 
-<a href="#how-pi-chooses-a-trust-decision" class="heading-anchor" aria-label="Permalink: How Pi chooses a trust decision" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#how-pi-chooses-a-trust-decision"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 A command-line `--approve` or `--no-approve` override applies first. When protected resources exist and there is no command-line override:
 
@@ -103,18 +79,14 @@ A command-line `--approve` or `--no-approve` override applies first. When protec
 
 Saved decisions use canonical directory paths and live in:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 ~/.pi/agent/trust.json
 ```
-
 
 Use `/trust` to save a decision for future Pi processes.
 
 
 ### Project trust without an interactive prompt
-
-<a href="#project-trust-without-an-interactive-prompt" class="heading-anchor" aria-label="Permalink: Project trust without an interactive prompt" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#project-trust-without-an-interactive-prompt"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Print, JSON, and RPC modes cannot show the built-in trust prompt. If no command-line override, extension, or saved decision applies:
@@ -126,8 +98,6 @@ Use `--approve` or `--no-approve` when an automated run needs an explicit one-ti
 
 
 ## Reduce impact and improve recovery
-
-<a href="#reduce-impact-and-improve-recovery" class="heading-anchor" aria-label="Permalink: Reduce impact and improve recovery" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#reduce-impact-and-improve-recovery"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 These practices do not replace isolation, but they reduce exposure or make recovery easier:
@@ -142,10 +112,8 @@ These practices do not replace isolation, but they reduce exposure or make recov
 
 ## Report a security issue
 
-<a href="#report-a-security-issue" class="heading-anchor" aria-label="Permalink: Report a security issue" data-copy="" data-copy-text="https://docs.pi.dev/latest/security#report-a-security-issue"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Follow the repository [Security Policy](https://github.com/earendil-works/pi/blob/main/SECURITY.md). Do not open a public issue for a security-sensitive report.
+Follow the repository <a href="https://github.com/earendil-works/pi/blob/main/SECURITY.md" class="link-module_root__svb26">Security Policy</a>. Do not open a public issue for a security-sensitive report.
 
 Expected local-agent behavior, prompt injection from untrusted content, lack of a built-in sandbox, and behavior from user-installed extensions or skills are generally outside the security boundary unless the report demonstrates a privilege-boundary bypass or access that the local user did not already have.
 

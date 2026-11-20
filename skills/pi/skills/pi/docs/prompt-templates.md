@@ -2,24 +2,6 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Prompt Templates
 
 
@@ -30,20 +12,16 @@ A template can accept arguments and appear in command completion. Pi can load te
 
 ## Create a template
 
-<a href="#create-a-template" class="heading-anchor" aria-label="Permalink: Create a template" data-copy="" data-copy-text="https://docs.pi.dev/latest/prompt-templates#create-a-template"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Create `~/.pi/agent/prompts/review.md`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 ---
 description: Review staged git changes
 argument-hint: "[focus]"
 ---
 Review the staged changes. Focus on ${1:-correctness, security, and error handling}.
 ```
-
 
 The filename becomes the command name, so this template is available as `/review`. The `description` appears in command completion. If it is omitted, Pi uses the first non-empty line.
 
@@ -54,21 +32,18 @@ Run `/reload` after adding or changing a template in an active session.
 
 ## Use a template
 
-<a href="#use-a-template" class="heading-anchor" aria-label="Permalink: Use a template" data-copy="" data-copy-text="https://docs.pi.dev/latest/prompt-templates#use-a-template"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Type the template command in the editor:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 /review
 /review concurrency
 ```
 
-
 Pi expands the template before the resulting text enters the agent. Extensions receive the raw input first through the `input` event unless an extension command with the same name handles it.
 
 Templates support these substitutions:
+
 
 | Syntax               | Result                                 |
 |----------------------|----------------------------------------|
@@ -79,18 +54,17 @@ Templates support these substitutions:
 | `${@:N}`             | Arguments starting at position `N`     |
 | `${@:N:L}`           | `L` arguments starting at position `N` |
 
+
 Arguments follow shell-like quoting, so `/review "API compatibility"` supplies one argument containing a space. A quote only starts quoting at the beginning of an argument, so apostrophes inside words such as `doesn't` stay as text, and a quote with no closing match is kept as text. Inside a quoted argument, a backslash before the same quote character keeps it as text, so `/review "the \"fast\" path"` supplies `the "fast" path`; other backslashes are kept as typed.
 
 
 ## Add it to Pi
 
-<a href="#add-it-to-pi" class="heading-anchor" aria-label="Permalink: Add it to Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/prompt-templates#add-it-to-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Place the template in your user or project prompt directory. Conventional prompt directories load direct `.md` children only.
 
-Settings and packages can select nested Markdown files; a package manifest can narrow discovery with explicit paths and globs. See [Settings](/latest/latest/settings#resources) and [Pi Packages](/latest/latest/packages) for these options.
+Settings and packages can select nested Markdown files; a package manifest can narrow discovery with explicit paths and globs. See <a href="/latest/settings#resources" class="link-module_root__svb26">Settings</a> and <a href="/latest/packages" class="link-module_root__svb26">Pi Packages</a> for these options.
 
-Project templates become commands in the editor after trust is granted. Review their content before trusting an unfamiliar project. See [Security](/latest/latest/security#understand-project-trust).
+Project templates become commands in the editor after trust is granted. Review their content before trusting an unfamiliar project. See <a href="/latest/security#understand-project-trust" class="link-module_root__svb26">Security</a>.
 
 

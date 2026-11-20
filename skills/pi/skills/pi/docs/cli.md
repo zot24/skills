@@ -2,31 +2,12 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Command Line
 
 
 This page documents Pi's built-in command-line commands and options. Run `pi --help` or append `--help` to a command for the exact interface in your installed version. The top-level help also includes options registered by loaded extensions.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi [options] [--] [@files...] [messages...]
 pi install <source> [options]
 pi remove <source> [options]
@@ -43,18 +24,16 @@ pi mcp <add|remove|list|login|logout> [options]
 
 ## Invocation and output
 
-<a href="#invocation-and-output" class="heading-anchor" aria-label="Permalink: Invocation and output" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#invocation-and-output"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi
 pi --print "Summarize this repository"
 git diff | pi --print "Review this change"
 pi --mode json "Inspect this repository" > events.jsonl
 ```
 
+With terminal stdin and stdout, Pi opens the terminal UI unless `--print`, `--mode json`, or `--mode rpc` selects another interface. When either stream is redirected and neither JSON nor RPC mode is selected, Pi uses print mode. See <a href="/latest/cli-integration" class="link-module_root__svb26">CLI Integration</a> for choosing between interactive, print, JSON, RPC, and SDK integration.
 
-With terminal stdin and stdout, Pi opens the terminal UI unless `--print`, `--mode json`, or `--mode rpc` selects another interface. When either stream is redirected and neither JSON nor RPC mode is selected, Pi uses print mode. See [CLI Integration](/latest/latest/cli-integration) for choosing between interactive, print, JSON, RPC, and SDK integration.
 
 | Input       | Behavior                                           |
 |-------------|----------------------------------------------------|
@@ -63,9 +42,11 @@ With terminal stdin and stdout, Pi opens the terminal UI unless `--print`, `--mo
 | Piped stdin | Prepend its contents to the first prompt           |
 | `--`        | Stop option parsing so a prompt can begin with `-` |
 
+
 Pi resolves `@path` from the current working directory. The working directory also controls project configuration, resource discovery, and session grouping.
 
 `--print` controls whether Pi runs once and exits. `--mode` selects the output interface. `--mode text` does not force one-shot execution when stdin and stdout are terminals; use `--print` for that behavior.
+
 
 | Option | Behavior |
 |----|----|
@@ -75,20 +56,18 @@ Pi resolves `@path` from the current working directory. The working directory al
 | `--mode rpc` | Read JSONL commands from stdin and write responses and events to stdout until shutdown |
 | `--export <input> [output]` | Export a session file to HTML and exit; derive the destination when `output` is omitted |
 
-RPC mode rejects `@file` arguments. JSON and RPC modes reserve stdout for protocol records. See [JSON Event Stream](/latest/latest/json) and [RPC Protocol](/latest/latest/rpc).
+
+RPC mode rejects `@file` arguments. JSON and RPC modes reserve stdout for protocol records. See <a href="/latest/json" class="link-module_root__svb26">JSON Event Stream</a> and <a href="/latest/rpc" class="link-module_root__svb26">RPC Protocol</a>.
 
 
 ## Models
 
-<a href="#models" class="heading-anchor" aria-label="Permalink: Models" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --model sonnet:high
 ```
 
-
-See [Choose a Model](/latest/latest/models) for model selection and [Providers](/latest/latest/providers) for credentials.
+See <a href="/latest/models" class="link-module_root__svb26">Choose a Model</a> for model selection and <a href="/latest/providers" class="link-module_root__svb26">Providers</a> for credentials.
 
 - `--provider <name>`  
   Restricts `--model` lookup to one provider. It requires `--model`.
@@ -106,15 +85,12 @@ See [Choose a Model](/latest/latest/models) for model selection and [Providers](
 
 ## Sessions
 
-<a href="#sessions" class="heading-anchor" aria-label="Permalink: Sessions" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#sessions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --continue
 ```
 
-
-See [Sessions and Context](/latest/latest/sessions) for resuming, forking, naming, and storing sessions.
+See <a href="/latest/sessions" class="link-module_root__svb26">Sessions and Context</a> for resuming, forking, naming, and storing sessions.
 
 - `-c`, `--continue`  
   Continues the most recent session for the current directory.
@@ -142,18 +118,15 @@ Constraints:
 
 ## Tools
 
-<a href="#tools" class="heading-anchor" aria-label="Permalink: Tools" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --tools read,grep,find,ls --print "Review this project"
 ```
 
-
-See [Settings](/latest/latest/settings#tools) for configuring the default tool selection.
+See <a href="/latest/settings#tools" class="link-module_root__svb26">Settings</a> for configuring the default tool selection.
 
 - `-t`, `--tools <list>`  
-  Replaces the default selection with a comma-separated allowlist of built-in, extension, or custom tools. Entries are tool names or patterns where `*` matches any characters. MCP tools are kept unless an entry starts with `mcp__` (see [MCP tools](#mcp-tools)). A list of only `+name` and `-name` entries is not an allowlist; it changes the default selection instead.
+  Replaces the default selection with a comma-separated allowlist of built-in, extension, or custom tools. Entries are tool names or patterns where `*` matches any characters. MCP tools are kept unless an entry starts with `mcp__` (see <a href="#mcp-tools" class="link-module_root__svb26">MCP tools</a>). A list of only `+name` and `-name` entries is not an allowlist; it changes the default selection instead.
 - `-xt`, `--exclude-tools <list>`  
   Disables comma-separated tool names or patterns after all other selection options, MCP tools included.
 - `-nbt`, `--no-builtin-tools`  
@@ -164,15 +137,14 @@ See [Settings](/latest/latest/settings#tools) for configuring the default tool s
 Default enabled tools are `read`, `bash`, `edit`, and `write`, unless `defaultTools` changes them. `--tools` with plain names replaces the whole selection, so name every tool you want. Like `defaultTools`, it also accepts a list of only `+name` and `-name` entries, which adds tools to or removes them from the default selection: `pi --tools +codemode,-write` keeps the other default tools, enables `codemode`, and disables `write`. These entries take exact tool names, not `*` patterns; use `--exclude-tools` to disable tools by pattern. Plain names and `+name`/`-name` entries cannot be mixed. `/reload` enables tools newly added to `defaultTools`, but a tool removed with `-name` stays removed.
 
 
-`--tools` selects the tools declared to the model. It does not remove MCP tools, whose reach is set by their [exposure](/latest/latest/mcp#control-tool-exposure): `pi --tools read,codemode` keeps every MCP tool callable from codemode scripts. An MCP tool that no entry names or matches is never declared directly, whatever its exposure; only `tool_search`, if listed, can load it. Once an entry starts with `mcp__`, `--tools` filters MCP tools too, so this keeps only the tools of the `radius` server:
+`--tools` selects the tools declared to the model. It does not remove MCP tools, whose reach is set by their <a href="/latest/mcp#control-tool-exposure" class="link-module_root__svb26">exposure</a>: `pi --tools read,codemode` keeps every MCP tool callable from codemode scripts. An MCP tool that no entry names or matches is never declared directly, whatever its exposure; only `tool_search`, if listed, can load it. Once an entry starts with `mcp__`, `--tools` filters MCP tools too, so this keeps only the tools of the `radius` server:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --tools read,bash,codemode,'mcp__radius__*'
 ```
 
+The MCP resource tools (`list_mcp_resources`, `list_mcp_resource_templates`, `read_mcp_resource`) count as MCP tools. To remove MCP tools, use `--exclude-tools 'mcp__*'` or <a href="#resource-options" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">--no-mcp</code></a>.
 
-The MCP resource tools (`list_mcp_resources`, `list_mcp_resource_templates`, `read_mcp_resource`) count as MCP tools. To remove MCP tools, use `--exclude-tools 'mcp__*'` or [`--no-mcp`](#resource-options).
 
 | Built-in     | Purpose                                           |
 |--------------|---------------------------------------------------|
@@ -185,7 +157,9 @@ The MCP resource tools (`list_mcp_resources`, `list_mcp_resource_templates`, `re
 | `find`       | Find paths using glob patterns                    |
 | `ls`         | List directory contents                           |
 
-Built-in extensions add two more tools. They are off by default; the MCP extension turns them on when an MCP server needs them (see [MCP](/latest/latest/mcp#control-tool-exposure)). To enable them yourself, name them in `--tools` or `defaultTools`.
+
+Built-in extensions add two more tools. They are off by default; the MCP extension turns them on when an MCP server needs them (see <a href="/latest/mcp#control-tool-exposure" class="link-module_root__svb26">MCP</a>). To enable them yourself, name them in `--tools` or `defaultTools`.
+
 
 | Built-in extension | Purpose |
 |----|----|
@@ -195,41 +169,31 @@ Built-in extensions add two more tools. They are off by default; the MCP extensi
 
 ### Enable codemode
 
-<a href="#enable-codemode" class="heading-anchor" aria-label="Permalink: Enable codemode" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#enable-codemode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 To turn on `codemode` for every session, add it to the default tools in `~/.pi/agent/settings.json` or a project's `.pi/settings.json`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "defaultTools": ["+codemode"]
 }
 ```
 
-
 This keeps `read`, `bash`, `edit`, and `write` and adds `codemode`. For one invocation, add it with `--tools`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --tools +codemode
 ```
 
-
-Codemode is useful without MCP: scripts can run several tool calls in parallel, filter large output before it reaches the model, call classifier models such as TypeSafe's Jev through `models.classify()` (see [Classifier models](/latest/latest/models#use-classifier-models)), and generate images through `models.generateImages()` (see [Image models](/latest/latest/models#use-image-models)).
+Codemode is useful without MCP: scripts can run several tool calls in parallel, filter large output before it reaches the model, call classifier models such as TypeSafe's Jev through `models.classify()` (see <a href="/latest/models#use-classifier-models" class="link-module_root__svb26">Classifier models</a>), and generate images through `models.generateImages()` (see <a href="/latest/models#use-image-models" class="link-module_root__svb26">Image models</a>).
 
 
 ### How codemode works
 
-<a href="#how-codemode-works" class="heading-anchor" aria-label="Permalink: How codemode works" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#how-codemode-works"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Scripts run in a QuickJS sandbox and reach the other tools through `tools.<name>(args)`. [Codemode](/latest/latest/codemode) describes the script API, how tools are listed and found, the `store()` and `models` globals, and the limits.
+Scripts run in a QuickJS sandbox and reach the other tools through `tools.<name>(args)`. <a href="/latest/codemode" class="link-module_root__svb26">Codemode</a> describes the script API, how tools are listed and found, the `store()` and `models` globals, and the limits.
 
 
 ### Tool search
-
-<a href="#tool-search" class="heading-anchor" aria-label="Permalink: Tool search" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#tool-search"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `tool_search` is off by default; enable it with `"defaultTools": ["+tool_search"]` or `--tools`. It uses the same ranking as `searchTools()` over tools that are not declared yet and declares the matches for the next model call. Loaded tools are recorded in the session like other tool changes, so they stay declared on that branch.
@@ -237,15 +201,12 @@ Scripts run in a QuickJS sandbox and reach the other tools through `tools.<name>
 
 ## Resources
 
-<a href="#resources" class="heading-anchor" aria-label="Permalink: Resources" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --extension ./review.ts
 ```
 
-
-See [Configuration](/latest/latest/configuration) for conventional directories and project trust, [Settings](/latest/latest/settings#resources) for configured paths, and [Pi Packages](/latest/latest/packages) for package sources.
+See <a href="/latest/configuration" class="link-module_root__svb26">Configuration</a> for conventional directories and project trust, <a href="/latest/settings#resources" class="link-module_root__svb26">Settings</a> for configured paths, and <a href="/latest/packages" class="link-module_root__svb26">Pi Packages</a> for package sources.
 
 - `-e`, `--extension <path>`  
   Loads an extension file or directory, or a built-in extension such as `builtin:mcp`, and is repeatable.
@@ -275,15 +236,12 @@ Resource paths apply only to the current process. Relative paths resolve from th
 
 ## Prompts and process
 
-<a href="#prompts-and-process" class="heading-anchor" aria-label="Permalink: Prompts and process" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#prompts-and-process"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --append-system-prompt ./instructions.md
 ```
 
-
-See [Configuration](/latest/latest/configuration) for saved configuration, [Security](/latest/latest/security#understand-project-trust) for project trust, and [Environment Variables](/latest/latest/environment-variables) for process controls.
+See <a href="/latest/configuration" class="link-module_root__svb26">Configuration</a> for saved configuration, <a href="/latest/security#understand-project-trust" class="link-module_root__svb26">Security</a> for project trust, and <a href="/latest/environment-variables" class="link-module_root__svb26">Environment Variables</a> for process controls.
 
 - `--system-prompt <text|path>`  
   Replaces the default system prompt with text or the contents of an existing file.
@@ -309,20 +267,15 @@ Extensions may register additional long-form options. Unknown short options are 
 
 ## Package commands
 
-<a href="#package-commands" class="heading-anchor" aria-label="Permalink: Package commands" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#package-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi install npm:@scope/package
 ```
 
-
-See [Pi Packages](/latest/latest/packages) for source formats, filtering, installation, and project scope.
+See <a href="/latest/packages" class="link-module_root__svb26">Pi Packages</a> for source formats, filtering, installation, and project scope.
 
 
 ### Common tasks
-
-<a href="#common-tasks" class="heading-anchor" aria-label="Permalink: Common tasks" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#common-tasks"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Task                                    | Command               |
@@ -332,15 +285,15 @@ See [Pi Packages](/latest/latest/packages) for source formats, filtering, instal
 | Remove a package and its settings entry | `pi remove <source>`  |
 | Configure which package resources load  | `pi config`           |
 
+
 Add `--local` or `-l` to `install`, `remove`, `uninstall`, or `config` to use project settings instead of global settings.
 
 
 ### Update Pi or packages
 
-<a href="#update-pi-or-packages" class="heading-anchor" aria-label="Permalink: Update Pi or packages" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#update-pi-or-packages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Running `pi update` without a target updates Pi itself.
+
 
 | Task                                 | Command                  |
 |--------------------------------------|--------------------------|
@@ -350,6 +303,7 @@ Running `pi update` without a target updates Pi itself.
 | Refresh model catalogs               | `pi update --models`     |
 | Update Pi and all installed packages | `pi update --all`        |
 
+
 Add `--force` to reinstall Pi when the selected update includes Pi.
 
 `pi update` cannot update Pi when another package manager provides it, such as Nix. Update Pi with that package manager, for example `nix profile upgrade pi`. Package and model catalog updates still work.
@@ -357,23 +311,17 @@ Add `--force` to reinstall Pi when the selected update includes Pi.
 
 #### Custom update command
 
-<a href="#custom-update-command" class="heading-anchor" aria-label="Permalink: Custom update command" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#custom-update-command"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 If a wrapper or another package manager provides Pi, set `PI_SELF_UPDATE_COMMAND` so `pi update` runs its update command:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 export PI_SELF_UPDATE_COMMAND="mise use -g npm:{packageName}@{version}"
 ```
-
 
 `pi update` runs it only when pi.dev has a newer release, replacing `{packageName}`, `{version}`, and `{installSpec}` (`{packageName}@{version}`) with that release. The value is split on spaces. For arguments with spaces, use the `selfUpdateCommand` setting in `~/.pi/agent/settings.json` instead, an argv array such as `["nix", "profile", "upgrade", "pi"]`.
 
 
 ### Aliases and command options
-
-<a href="#aliases-and-command-options" class="heading-anchor" aria-label="Permalink: Aliases and command options" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#aliases-and-command-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - `pi uninstall <source>` is an alias for `pi remove <source>`.
@@ -385,33 +333,33 @@ export PI_SELF_UPDATE_COMMAND="mise use -g npm:{packageName}@{version}"
 
 ## Credential commands
 
-<a href="#credential-commands" class="heading-anchor" aria-label="Permalink: Credential commands" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#credential-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 `pi auth login <provider>` logs in to a provider in the terminal and exits, without starting a session. It signs in with an account and opens the browser, like `/login <provider>`. Providers without account sign-in ask for an API key. Logging in to Radius also adds the Radius MCP server to `~/.pi/agent/mcp.json` when no global server uses that login yet. It requires an interactive terminal.
+
 
 | Option | Description |
 |----|----|
 | `--api-key` | Save an API key instead of signing in with an account; the key is read without echoing it |
 | `--no-browser` | Do not open a browser; use the provider's other sign-in method, such as a device code, for example over SSH. Asks when there are several. Not allowed with `--api-key` |
 
+
 `pi auth logout <provider>` removes the credentials that `pi auth login` or `/login` stored, like `/logout`. Environment variables and `models.json` config are unchanged. It exits with status `0` when nothing is stored, so it is safe to repeat.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi auth login radius
 pi auth logout radius
 pi auth check --provider openai --json
 ```
 
+The other authentication commands require `--provider <provider>` or `--model <model>`. See <a href="/latest/providers" class="link-module_root__svb26">Providers</a> for supported methods.
 
-The other authentication commands require `--provider <provider>` or `--model <model>`. See [Providers](/latest/latest/providers) for supported methods.
 
 | Command | Description |
 |----|----|
 | `pi auth check` | Print `ready`, `not_ready`, or `invalid`; exit with status `0`, `1`, or `2`, respectively |
 | `pi auth print-api-key` | Print the resolved API key |
 | `pi auth print-bearer-token` | Print a resolved OAuth bearer token |
+
 
 | Option | Applies to | Description |
 |----|----|----|
@@ -422,15 +370,15 @@ The other authentication commands require `--provider <provider>` or `--model <m
 | `--no-refresh` | `auth check` | Do not refresh expired OAuth credentials; refresh is the default |
 | `--min-expiry <duration>` | `print-bearer-token` | Require remaining token lifetime using `ms`, `s`, `m`, or `h`, such as `30m` |
 
+
 Credential-printing commands write secrets to stdout.
 
 
 ## MCP commands
 
-<a href="#mcp-commands" class="heading-anchor" aria-label="Permalink: MCP commands" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli#mcp-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+These commands work outside a session, so agents can run them through `bash`. See <a href="/latest/mcp" class="link-module_root__svb26">MCP Servers</a>.
 
-These commands work outside a session, so agents can run them through `bash`. See [MCP Servers](/latest/latest/mcp).
 
 | Command | Description |
 |----|----|
@@ -441,7 +389,8 @@ These commands work outside a session, so agents can run them through `bash`. Se
 | `pi mcp login <server> [-l] [--timeout <seconds>]` | Sign in to an OAuth server: open the authorization page and wait for the browser; a terminal also accepts the pasted redirect URL. `--timeout` limits the whole sign-in, including requests to the authorization server (default 300 seconds). `-l` requires the server to be defined in the project's `.pi/mcp.json` |
 | `pi mcp logout <server> [-l]` | Delete the stored OAuth credentials of a server |
 
-`add` and `remove` change `~/.pi/agent/mcp.json`, or `.pi/mcp.json` in the current directory with `--local` (`-l`). `add` also takes `--exposure <mode>` (see [Exposure](/latest/latest/mcp#control-tool-exposure)) and `--description <text>` and does not connect; run `pi mcp list` to check the server.
+
+`add` and `remove` change `~/.pi/agent/mcp.json`, or `.pi/mcp.json` in the current directory with `--local` (`-l`). `add` also takes `--exposure <mode>` (see <a href="/latest/mcp#control-tool-exposure" class="link-module_root__svb26">Exposure</a>) and `--description <text>` and does not connect; run `pi mcp list` to check the server.
 
 Project `.pi/mcp.json` files are only read for projects that are already trusted.
 

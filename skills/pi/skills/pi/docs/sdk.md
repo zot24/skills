@@ -2,33 +2,14 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # SDK
 
 
 `@earendil-works/pi-coding-agent` embeds Pi in a Node.js or Bun process. It provides direct TypeScript access to the agent, sessions, tools, models, and resources used by the command-line application.
 
-Use the SDK for in-process TypeScript integration. For a language-independent or isolated subprocess, see [CLI Integration](/latest/latest/cli-integration).
+Use the SDK for in-process TypeScript integration. For a language-independent or isolated subprocess, see <a href="/latest/cli-integration" class="link-module_root__svb26">CLI Integration</a>.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { createAgentSession } from "@earendil-works/pi-coding-agent";
 
 const { session } = await createAgentSession();
@@ -41,15 +22,12 @@ try {
 }
 ```
 
-
 This uses the working directory, discovered resources, stored settings, and configured credentials. `prompt()` resolves when the run finishes.
 
-The [complete minimal example](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/01-minimal.ts) also streams text events. All [SDK examples](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk) are typechecked with the repository.
+The <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/01-minimal.ts" class="link-module_root__svb26">complete minimal example</a> also streams text events. All <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk" class="link-module_root__svb26">SDK examples</a> are typechecked with the repository.
 
 
 ## Session lifecycle
-
-<a href="#session-lifecycle" class="heading-anchor" aria-label="Permalink: Session lifecycle" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#session-lifecycle"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `createAgentSession()` creates an `AgentSession`. The session owns one conversation, its model and tools, queued messages, compaction state, and extension runtime.
@@ -61,8 +39,6 @@ Read current state through `session.messages`, `session.model`, `session.thinkin
 
 ### Session storage
 
-<a href="#session-storage" class="heading-anchor" aria-label="Permalink: Session storage" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#session-storage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Sessions are persistent by default. `SessionManager` owns the persisted or in-memory entry tree and tracks its active leaf. Branching changes that leaf without deleting abandoned branches. When Pi reconstructs model context, the manager selects the active branch and applies compaction.
 
@@ -70,8 +46,7 @@ Sessions are persistent by default. `SessionManager` owns the persisted or in-me
 
 Use an in-memory manager when the host does not want session files:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { createAgentSession, SessionManager } from "@earendil-works/pi-coding-agent";
 
 const { session } = await createAgentSession({
@@ -79,8 +54,7 @@ const { session } = await createAgentSession({
 });
 ```
 
-
-See the checked [sessions example](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/11-sessions.ts) for creating, opening, continuing, listing, and forking sessions. [Session File Format](/latest/latest/session-format) defines the persisted JSONL contract, and [Message Types](/latest/latest/message-types) defines transcript values. For exact methods and signatures, use the exported TypeScript declarations or [`session-manager.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts).
+See the checked <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/11-sessions.ts" class="link-module_root__svb26">sessions example</a> for creating, opening, continuing, listing, and forking sessions. <a href="/latest/session-format" class="link-module_root__svb26">Session File Format</a> defines the persisted JSONL contract, and <a href="/latest/message-types" class="link-module_root__svb26">Message Types</a> defines transcript values. For exact methods and signatures, use the exported TypeScript declarations or <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">session-manager.ts</code></a>.
 
 `cwd` selects the workspace used for project resource discovery, context files, session grouping, and built-in tool paths. Pass it explicitly when the target differs from `process.cwd()`.
 
@@ -88,12 +62,10 @@ See the checked [sessions example](https://github.com/earendil-works/pi/blob/mai
 
 `AgentSessionRuntime` adds `newSession()`, `switchSession()`, `fork()`, and `importFromJsonl()`. Each operation replaces the active `AgentSession` and recreates services for the target working directory.
 
-After a runtime replacement, subscriptions belong to the old `AgentSession` and must be rebound. See the [session runtime example](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/13-session-runtime.ts).
+After a runtime replacement, subscriptions belong to the old `AgentSession` and must be rebound. See the <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/13-session-runtime.ts" class="link-module_root__svb26">session runtime example</a>.
 
 
 ## Prompting
-
-<a href="#prompting" class="heading-anchor" aria-label="Permalink: Prompting" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#prompting"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `prompt()` handles extension commands and expands file-based prompt templates before ordinary user messages enter the agent. For an accepted agent run, it resolves after the run finishes, including automatic retries.
@@ -107,13 +79,10 @@ A steering message enters after the current assistant turn and its tool calls. A
 
 ## Subscribing to events
 
-<a href="#subscribing-to-events" class="heading-anchor" aria-label="Permalink: Subscribing to events" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#subscribing-to-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Subscribe before prompting when the host needs streamed output:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const unsubscribe = session.subscribe((event) => {
   if (event.type === "message_update" && event.assistantMessageEvent.type === "text_delta") {
     process.stdout.write(event.assistantMessageEvent.delta);
@@ -127,7 +96,6 @@ try {
 }
 ```
 
-
 Session events report message updates, tool execution, queues, compaction, retries, and run lifecycle changes.
 
 `message_end` contains the authoritative completed message. `agent_end` marks the end of one low-level agent run, but automatic recovery or queued work can still follow.
@@ -136,8 +104,6 @@ Use `agent_settled` when the host needs to know that Pi will not continue automa
 
 
 ## Configuring a session
-
-<a href="#configuring-a-session" class="heading-anchor" aria-label="Permalink: Configuring a session" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#configuring-a-session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Without overrides, the factory creates a `ModelRuntime`, file-backed `SettingsManager`, persistent `SessionManager`, `DefaultResourceLoader`, and the configured default tools.
@@ -156,43 +122,39 @@ Use `DefaultResourceLoader` when you want standard discovery with selected overr
 Inline extension factories can be supplied through `DefaultResourceLoader`. Give one an `InlineExtension` name only when it needs a stable name in diagnostics and startup output. A named inline extension with `replaceable: true` is left out when another extension registers a tool, command, or flag with a name it registers during loading, instead of both loading with a conflict. The CLI's built-in codemode, tool search, and MCP extensions are replaceable. A named entry with `builtin: true` is not an inline extension: it supplies the code of the `builtin:<name>` extension, which loads like a configured extension file. It loads by default, is listed in `pi config`, and is disabled by `-builtin:<name>` in the `extensions` setting or by `noExtensions`; `additionalExtensionPaths: ["builtin:<name>"]` loads it explicitly. It loads after project trust is resolved, so it cannot handle `project_trust`. The CLI's built-in extensions use it.
 
 
-The CLI loads `codemode`, `tool_search`, and MCP as built-in extensions. SDK sessions do not; add `createCodemodeExtension()`, `createToolSearchExtension()`, and `createMcpExtension()` to the `extensionFactories` of `DefaultResourceLoader`. `codemode` and `tool_search` are registered inactive: enable them through the `defaultTools` setting (`["+codemode", "+tool_search"]` keeps the other default tools), or let the MCP extension activate them: `codemode` for servers with `codemode` exposure, `tool_search` for servers with `deferred` exposure. The MCP extension connects its servers on `session_start`, so call `session.bindExtensions()`. See [Codemode and MCP](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/14-codemode-mcp.ts).
+The CLI loads `codemode`, `tool_search`, and MCP as built-in extensions. SDK sessions do not; add `createCodemodeExtension()`, `createToolSearchExtension()`, and `createMcpExtension()` to the `extensionFactories` of `DefaultResourceLoader`. `codemode` and `tool_search` are registered inactive: enable them through the `defaultTools` setting (`["+codemode", "+tool_search"]` keeps the other default tools), or let the MCP extension activate them: `codemode` for servers with `codemode` exposure, `tool_search` for servers with `deferred` exposure. The MCP extension connects its servers on `session_start`, so call `session.bindExtensions()`. See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/14-codemode-mcp.ts" class="link-module_root__svb26">Codemode and MCP</a>.
 
-See the focused examples for [models](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/02-custom-model.ts), [tools](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/05-tools.ts), [extensions](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/06-extensions.ts), and [full control](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/12-full-control.ts).
+See the focused examples for <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/02-custom-model.ts" class="link-module_root__svb26">models</a>, <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/05-tools.ts" class="link-module_root__svb26">tools</a>, <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/06-extensions.ts" class="link-module_root__svb26">extensions</a>, and <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/12-full-control.ts" class="link-module_root__svb26">full control</a>.
 
 
 ## Examples
 
-<a href="#examples" class="heading-anchor" aria-label="Permalink: Examples" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#examples"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 | Example | Purpose |
 |----|----|
-| [Minimal](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/01-minimal.ts) | Create, prompt, observe, and dispose a session |
-| [Custom model](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/02-custom-model.ts) | Select a model and thinking level |
-| [System prompt](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/03-custom-prompt.ts) | Replace or append to the system prompt |
-| [Skills](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/04-skills.ts) | Discover, filter, and add skills |
-| [Tools](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/05-tools.ts) | Select built-in tools and their working directory |
-| [Extensions](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/06-extensions.ts) | Load file-based and inline extensions |
-| [Context files](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/07-context-files.ts) | Add or replace project instructions |
-| [Prompt templates](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/08-prompt-templates.ts) | Add file-style prompt templates |
-| [Credentials](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/09-api-keys-and-oauth.ts) | Configure credential and model storage |
-| [Settings](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/10-settings.ts) | Supply file-backed or in-memory settings |
-| [Sessions](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/11-sessions.ts) | Control session persistence and restoration |
-| [Full control](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/12-full-control.ts) | Replace default discovery and state services |
-| [Session runtime](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/13-session-runtime.ts) | Replace the active session safely |
-| [Codemode and MCP](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/14-codemode-mcp.ts) | Add the `codemode`, `tool_search`, and MCP extensions |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/01-minimal.ts" class="link-module_root__svb26">Minimal</a> | Create, prompt, observe, and dispose a session |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/02-custom-model.ts" class="link-module_root__svb26">Custom model</a> | Select a model and thinking level |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/03-custom-prompt.ts" class="link-module_root__svb26">System prompt</a> | Replace or append to the system prompt |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/04-skills.ts" class="link-module_root__svb26">Skills</a> | Discover, filter, and add skills |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/05-tools.ts" class="link-module_root__svb26">Tools</a> | Select built-in tools and their working directory |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/06-extensions.ts" class="link-module_root__svb26">Extensions</a> | Load file-based and inline extensions |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/07-context-files.ts" class="link-module_root__svb26">Context files</a> | Add or replace project instructions |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/08-prompt-templates.ts" class="link-module_root__svb26">Prompt templates</a> | Add file-style prompt templates |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/09-api-keys-and-oauth.ts" class="link-module_root__svb26">Credentials</a> | Configure credential and model storage |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/10-settings.ts" class="link-module_root__svb26">Settings</a> | Supply file-backed or in-memory settings |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/11-sessions.ts" class="link-module_root__svb26">Sessions</a> | Control session persistence and restoration |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/12-full-control.ts" class="link-module_root__svb26">Full control</a> | Replace default discovery and state services |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/13-session-runtime.ts" class="link-module_root__svb26">Session runtime</a> | Replace the active session safely |
+| <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk/14-codemode-mcp.ts" class="link-module_root__svb26">Codemode and MCP</a> | Add the `codemode`, `tool_search`, and MCP extensions |
 
 
 ## Resources
 
-<a href="#resources" class="heading-anchor" aria-label="Permalink: Resources" data-copy="" data-copy-text="https://docs.pi.dev/latest/sdk#resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-- [Choose a Model](/latest/latest/models) covers model selection and compatible endpoints; [Providers](/latest/latest/providers) covers credentials and provider-specific setup.
-- [Configuration](/latest/latest/configuration) explains normal discovery and settings; [Settings](/latest/latest/settings) lists every setting.
-- [Sessions and Context](/latest/latest/sessions) explains session behavior; [Session Format](/latest/latest/session-format) defines persisted entries; [Message Types](/latest/latest/message-types) defines shared transcript values.
-- [Extensions](/latest/latest/extensions), [Skills](/latest/latest/skills), and [Prompt Templates](/latest/latest/prompt-templates) document resources supplied through a `ResourceLoader`.
-- [CLI Integration](/latest/latest/cli-integration) covers print, JSON, and RPC alternatives to an in-process SDK integration.
+- <a href="/latest/models" class="link-module_root__svb26">Choose a Model</a> covers model selection and compatible endpoints; <a href="/latest/providers" class="link-module_root__svb26">Providers</a> covers credentials and provider-specific setup.
+- <a href="/latest/configuration" class="link-module_root__svb26">Configuration</a> explains normal discovery and settings; <a href="/latest/settings" class="link-module_root__svb26">Settings</a> lists every setting.
+- <a href="/latest/sessions" class="link-module_root__svb26">Sessions and Context</a> explains session behavior; <a href="/latest/session-format" class="link-module_root__svb26">Session Format</a> defines persisted entries; <a href="/latest/message-types" class="link-module_root__svb26">Message Types</a> defines shared transcript values.
+- <a href="/latest/extensions" class="link-module_root__svb26">Extensions</a>, <a href="/latest/skills" class="link-module_root__svb26">Skills</a>, and <a href="/latest/prompt-templates" class="link-module_root__svb26">Prompt Templates</a> document resources supplied through a `ResourceLoader`.
+- <a href="/latest/cli-integration" class="link-module_root__svb26">CLI Integration</a> covers print, JSON, and RPC alternatives to an in-process SDK integration.
 
 

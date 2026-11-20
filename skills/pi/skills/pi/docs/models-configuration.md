@@ -2,38 +2,19 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Models Configuration
 
 
-This reference lists the fields of `models.json`. See [Configure a compatible endpoint](/latest/latest/models#configure-a-compatible-endpoint) for examples and [Configuration](/latest/latest/configuration#agent-directory) for the file location.
+This reference lists the fields of `models.json`. See <a href="/latest/models#configure-a-compatible-endpoint" class="link-module_root__svb26">Configure a compatible endpoint</a> for examples and <a href="/latest/configuration#agent-directory" class="link-module_root__svb26">Configuration</a> for the file location.
 
 Add `"$schema": "https://pi.dev/schemas/models.schema.json"` to `models.json` for editor validation and completion.
 
 
 ## Providers
 
-<a href="#providers" class="heading-anchor" aria-label="Permalink: Providers" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#providers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Each key under `providers` is a provider ID. A built-in provider ID changes that provider. Any other ID adds a provider, which needs `baseUrl` and an `api` at provider or model level.
+
 
 | Field | Type | Default | Description |
 |----|----|----|----|
@@ -43,18 +24,17 @@ Each key under `providers` is a provider ID. A built-in provider ID changes that
 | `api` | string |  | API for the provider's models, such as "openai-completions", "openai-responses", "anthropic-messages", or "google-generative-ai". |
 | `oauth` | `"radius"` |  | OAuth login flow. Requires baseUrl. |
 | `headers` | object |  | Request headers. Values resolve like apiKey. |
-| `compat` | [object](#compatibility) |  | Provider and model compatibility overrides. |
+| `compat` | <a href="#compatibility" class="link-module_root__svb26">object</a> |  | Provider and model compatibility overrides. |
 | `authHeader` | boolean | `false` | Whether to send the resolved API key as Authorization: Bearer. |
-| `models` | [`object[]`](#models) |  |  |
-| `modelOverrides` | [object](#model-overrides) |  |  |
+| `models` | <a href="#models" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">object[]</code></a> |  |  |
+| `modelOverrides` | <a href="#model-overrides" class="link-module_root__svb26">object</a> |  |  |
 
 
 ## Models
 
-<a href="#models" class="heading-anchor" aria-label="Permalink: Models" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Each `models` entry adds a model to the provider. An entry whose `id` matches an existing model replaces it.
+
 
 | Field | Type | Default | Description |
 |----|----|----|----|
@@ -65,7 +45,7 @@ Each `models` entry adds a model to the provider. An entry whose `id` matches an
 | `reasoning` | boolean | `false` | Whether the model supports thinking. |
 | `thinkingLevelMap` | object |  | Provider value sent for each thinking level. null marks a level unsupported. Levels the model does not map use the provider's default value through high; xhigh and max are unsupported. |
 | `input` | `("text" | "image")[]` | `["text"]` |  |
-| `inputLimits` | [object](#input-limits) |  |  |
+| `inputLimits` | <a href="#input-limits" class="link-module_root__svb26">object</a> |  |  |
 | `cost` | object |  |  |
 | `cost.input` | number |  | Required. Input cost in USD per million tokens. |
 | `cost.output` | number |  | Required. Output cost in USD per million tokens. |
@@ -83,15 +63,14 @@ Each `models` entry adds a model to the provider. An entry whose `id` matches an
 | `samplingParams` | object |  | Fields merged into every request body. Applies only to OpenAI-compatible APIs. |
 | `samplingParamsByThinkingLevel` | object |  | samplingParams per thinking level, merged over samplingParams. |
 | `headers` | object |  | Request headers. Values resolve like apiKey. |
-| `compat` | [object](#compatibility) |  | Provider and model compatibility overrides. |
+| `compat` | <a href="#compatibility" class="link-module_root__svb26">object</a> |  | Provider and model compatibility overrides. |
 
 
 ## Model overrides
 
-<a href="#model-overrides" class="heading-anchor" aria-label="Permalink: Model overrides" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#model-overrides"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Each `modelOverrides` key is the ID of a built-in or extension model. Unknown IDs are ignored. Object fields, such as `cost`, merge with the model's value field by field; other fields replace it.
+
 
 | Field | Type | Default | Description |
 |----|----|----|----|
@@ -99,7 +78,7 @@ Each `modelOverrides` key is the ID of a built-in or extension model. Unknown ID
 | `reasoning` | boolean |  | Whether the model supports thinking. |
 | `thinkingLevelMap` | object |  | Provider value sent for each thinking level. null marks a level unsupported. Levels the model does not map use the provider's default value through high; xhigh and max are unsupported. |
 | `input` | `("text" | "image")[]` |  |  |
-| `inputLimits` | [object](#input-limits) |  |  |
+| `inputLimits` | <a href="#input-limits" class="link-module_root__svb26">object</a> |  |  |
 | `cost` | object |  |  |
 | `cost.input` | number |  | Input cost in USD per million tokens. |
 | `cost.output` | number |  | Output cost in USD per million tokens. |
@@ -117,15 +96,14 @@ Each `modelOverrides` key is the ID of a built-in or extension model. Unknown ID
 | `samplingParams` | object |  | Fields merged into every request body. Applies only to OpenAI-compatible APIs. |
 | `samplingParamsByThinkingLevel` | object |  | samplingParams per thinking level, merged over samplingParams. |
 | `headers` | object |  | Request headers. Values resolve like apiKey. |
-| `compat` | [object](#compatibility) |  | Provider and model compatibility overrides. |
+| `compat` | <a href="#compatibility" class="link-module_root__svb26">object</a> |  | Provider and model compatibility overrides. |
 
 
 ## Input limits
 
-<a href="#input-limits" class="heading-anchor" aria-label="Permalink: Input limits" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#input-limits"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+See <a href="/latest/models#describe-model-input-and-caching" class="link-module_root__svb26">Describe model input and caching</a>.
 
-See [Describe model input and caching](/latest/latest/models#describe-model-input-and-caching).
 
 | Field | Type | Default | Description |
 |----|----|----|----|
@@ -142,21 +120,17 @@ See [Describe model input and caching](/latest/latest/models#describe-model-inpu
 
 ## Compatibility
 
-<a href="#compatibility" class="heading-anchor" aria-label="Permalink: Compatibility" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#compatibility"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 `compat` describes verified differences from an API's standard request and response behavior. Model values override provider values per field. The fields that apply depend on the model's `api`.
 
 
 ### `openai-completions`
 
-<a href="#openai-completions" class="heading-anchor" aria-label="Permalink: openai-completions" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#openai-completions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 | Field | Type | Default | Description |
 |----|----|----|----|
 | `supportsStore` | boolean |  | Whether the provider supports the store field. Default: auto-detected from URL. |
-| `supportsDeveloperRole` | boolean |  | Whether the provider supports the developer role instead of system. Default: auto-detected from URL. |
+| `supportsDeveloperRole` | boolean |  | Whether to send system messages of reasoning models (the system prompt and mid-conversation system messages) with the developer role instead of system. Default: true only for api.openai.com. |
 | `supportsReasoningEffort` | boolean |  | Whether the provider supports reasoning_effort. Default: auto-detected from URL. |
 | `supportsUsageInStreaming` | boolean | `true` | Whether the provider supports stream_options.include_usage for token usage in streaming responses. |
 | `supportsFinishReason` | boolean | `true` | Whether streamed responses include finish_reason. When false, pi infers stop or toolUse when the stream ends. |
@@ -170,8 +144,8 @@ See [Describe model input and caching](/latest/latest/models#describe-model-inpu
 | `thinkingFormat` | `"openai" | "openrouter" | "deepseek" | "together" | "baseten" | "zai" | "qwen" | "chat-template" | "qwen-chat-template" | "string-thinking" | "ant-ling"` |  | Format for reasoning or thinking parameters. When omitted, Pi auto-detects the format from the provider URL. "openai" uses reasoning_effort, "openrouter" uses reasoning.effort, "deepseek" uses thinking.type plus reasoning_effort when supported, "together" uses reasoning.enabled plus reasoning_effort when supported, "baseten" uses configurable chat_template_args plus reasoning_effort when supported, "zai" uses thinking.type, "qwen" uses top-level enable_thinking, "qwen-chat-template" uses chat_template_kwargs.enable_thinking and preserve_thinking, "chat-template" uses configurable chat_template_kwargs, "string-thinking" uses top-level thinking, and "ant-ling" uses reasoning.effort only when the mapped effort is non-null. |
 | `chatTemplateKwargs` | object |  | Kwargs sent as chat_template_kwargs when thinkingFormat is "chat-template". Use \$var with "thinking.enabled", "thinking.effort", or "thinking.budget" for pi-controlled values. |
 | `chatTemplateArgs` | object |  | Arguments sent as chat_template_args when thinkingFormat is "baseten". Use \$var with "thinking.enabled", "thinking.effort", or "thinking.budget" for pi-controlled values. |
-| `openRouterRouting` | object |  | OpenRouter provider routing preferences. Controls which upstream providers OpenRouter routes requests to. Sent as the provider field in the OpenRouter API request body. See <https://openrouter.ai/docs/guides/routing/provider-selection>. |
-| `vercelGatewayRouting` | object |  | Vercel AI Gateway routing preferences. Controls which upstream providers the gateway routes requests to. See <https://vercel.com/docs/ai-gateway/models-and-providers/provider-options>. |
+| `openRouterRouting` | object |  | OpenRouter provider routing preferences. Controls which upstream providers OpenRouter routes requests to. Sent as the provider field in the OpenRouter API request body. See <a href="https://openrouter.ai/docs/guides/routing/provider-selection" class="link-module_root__svb26">https://openrouter.ai/docs/guides/routing/provider-selection</a>. |
+| `vercelGatewayRouting` | object |  | Vercel AI Gateway routing preferences. Controls which upstream providers the gateway routes requests to. See <a href="https://vercel.com/docs/ai-gateway/models-and-providers/provider-options" class="link-module_root__svb26">https://vercel.com/docs/ai-gateway/models-and-providers/provider-options</a>. |
 | `zaiToolStream` | boolean | `false` | Whether z.ai supports top-level tool_stream for streaming tool call deltas. |
 | `thinkingTokenBudgetField` | `"thinking_token_budget" | "thinking_budget" | "thinking_budget_tokens"` |  | Top-level request field used to cap reasoning tokens from thinkingBudgets. Reasoning and the answer share max_tokens on these endpoints. "thinking_token_budget" is vLLM, "thinking_budget" is Qwen, DashScope, or SGLang, and "thinking_budget_tokens" is llama.cpp. Off by default and not set on the generated catalog. |
 | `supportsThinkingTokenBudget` | boolean | `false` | Alias for thinkingTokenBudgetField: "thinking_token_budget" (vLLM). Prefer thinkingTokenBudgetField. |
@@ -189,10 +163,9 @@ See [Describe model input and caching](/latest/latest/models#describe-model-inpu
 
 ### `openai-responses`
 
-<a href="#openai-responses" class="heading-anchor" aria-label="Permalink: openai-responses" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#openai-responses"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Also applies to `azure-openai-responses` and `openai-codex-responses`.
+
 
 | Field | Type | Default | Description |
 |----|----|----|----|
@@ -206,13 +179,11 @@ Also applies to `azure-openai-responses` and `openai-codex-responses`.
 | `supportsAdditionalTools` | boolean | `false` | Whether the model supports message-anchored additional_tools input items. |
 | `supportsToolSearch` | boolean | `false` | Whether the model supports client-executed tool search for transcript-anchored additions. |
 | `supportsExplicitPromptCacheMode` | boolean | `false` | Whether the model accepts prompt_cache_options. Older OpenAI models reject the parameter. |
-| `supportsMidConvoEffort` | boolean | `false` | Whether thinking level changes are sent as configuration_update input items instead of changing reasoning.effort, so a change keeps the prompt cache. Only used by the openai-responses API, and ignored with Sign in with ChatGPT on the openai provider. |
+| `supportsMidConvoEffort` | boolean | `false` | Whether thinking level changes are sent as configuration_update input items instead of changing reasoning.effort, so a change keeps the prompt cache. Used by the openai-responses and openai-codex-responses APIs, and ignored with Sign in with ChatGPT on the openai provider. |
 | `supportsMaxOutputTokens` | boolean | `true` | Whether the provider accepts max_output_tokens. Some Codex-protocol gateways reject it. |
 
 
 ### `anthropic-messages`
-
-<a href="#anthropic-messages" class="heading-anchor" aria-label="Permalink: anthropic-messages" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#anthropic-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Field | Type | Default | Description |
@@ -235,8 +206,6 @@ Also applies to `azure-openai-responses` and `openai-codex-responses`.
 
 ### `bedrock-converse-stream`
 
-<a href="#bedrock-converse-stream" class="heading-anchor" aria-label="Permalink: bedrock-converse-stream" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#bedrock-converse-stream"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 | Field | Type | Default | Description |
 |----|----|----|----|
@@ -245,20 +214,18 @@ Also applies to `azure-openai-responses` and `openai-codex-responses`.
 
 ### `mistral-conversations`
 
-<a href="#mistral-conversations" class="heading-anchor" aria-label="Permalink: mistral-conversations" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#mistral-conversations"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 | Field | Type | Default | Description |
 |----|----|----|----|
 | `supportsMidConvoSystemMessages` | boolean | `false` | Whether the exact model accepts system messages after the conversation has started. When false, later system messages are folded into the leading system message. |
+| `supportsStrictMode` | boolean | `false` | Whether the model supports strict (schema-constrained) function tools. |
 
 
 ### `typesafe-system-one`
 
-<a href="#typesafe-system-one" class="heading-anchor" aria-label="Permalink: typesafe-system-one" data-copy="" data-copy-text="https://docs.pi.dev/latest/models-configuration#typesafe-system-one"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Also applies to `cloudflare-workers-ai-system-one`.
+
 
 | Field | Type | Default | Description |
 |----|----|----|----|

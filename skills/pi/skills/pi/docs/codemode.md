@@ -2,44 +2,22 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Codemode
 
 
-The `codemode` tool lets the model write a JavaScript script that calls pi's other tools and runs non-LLM models, such as classifiers and image models. Only the script's output reaches the model, so a script can run calls in parallel and filter large results before the model sees them. To turn it on, see [Enable codemode](/latest/latest/cli#enable-codemode).
+The `codemode` tool lets the model write a JavaScript script that calls pi's other tools and runs non-LLM models, such as classifiers and image models. Only the script's output reaches the model, so a script can run calls in parallel and filter large results before the model sees them. To turn it on, see <a href="/latest/cli#enable-codemode" class="link-module_root__svb26">Enable codemode</a>.
 
 
 ## Scripts
-
-<a href="#scripts" class="heading-anchor" aria-label="Permalink: Scripts" data-copy="" data-copy-text="https://docs.pi.dev/latest/codemode#scripts"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The tool input is raw JavaScript source, not JSON and not a markdown code fence. It runs as the body of an async function in a QuickJS sandbox, so top-level `await` and `return` work. The sandbox has no Node APIs, file system, network, or timers; scripts reach the outside world only through tools and `models`.
 
 A script may start with an options line. It must be the first line; an options line anywhere else fails the call before the script runs:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 // @options: {"max_output_tokens": 2000, "timeout_ms": 60000}
 ```
-
 
 - `max_output_tokens` (default 10000) limits the output. Longer output keeps its start and end, and the full text is written to a temp file whose path is included in the result. A script fails when its output passes 16777216 characters of text and base64 image data or 100000 `text()`, `image()`, and `console` calls; write large data to a file with a tool instead.
 - `timeout_ms` is a hard deadline for the whole script, including any wait for a free worker. It is unset by default. Image generation can take minutes, so do not set a short deadline for scripts that generate images.
@@ -49,28 +27,24 @@ The result starts with `Script completed` or `Script failed`, the wall time, and
 
 ## Globals
 
-<a href="#globals" class="heading-anchor" aria-label="Permalink: Globals" data-copy="" data-copy-text="https://docs.pi.dev/latest/codemode#globals"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 | Global | Purpose |
 |----|----|
-| `tools.<name>(args)` | Call a tool. See [Call tools](#call-tools). |
+| `tools.<name>(args)` | Call a tool. See <a href="#call-tools" class="link-module_root__svb26">Call tools</a>. |
 | `text(value)` | Add a text item to the output. Strings are added as is, other values as JSON. |
 | `image(value)` | Add an image to the output: a base64 `data:` URL, an `{ image_url }` object, or an image block `{ type: "image", data, mimeType }` such as those returned by MCP tools and `models.generateImages()`. Remote URLs are not supported. PNG, JPEG, GIF, and WebP are accepted. Each image is also saved to a temp file, and the result names the path before the image. |
 | `console.log(...)` | Add a line to the `<console_output>` block after the other output. Arguments are joined with spaces; `info`, `warn`, `error`, and `debug` do the same. |
 | `return value` | A top-level `return` adds the value like `text()`. |
 | `exit()` | End the script successfully. |
-| `store(key, value)` / `load(key)` | Keep small JSON values across `codemode` calls. See [Store values](#store-values). |
+| `store(key, value)` / `load(key)` | Keep small JSON values across `codemode` calls. See <a href="#store-values" class="link-module_root__svb26">Store values</a>. |
 | `ALL_TOOLS` | Every callable tool as `{ name, description }`, including tools the description does not list. |
 | `searchTools(query, { limit?, namespace? })` | Rank callable tools by relevance (BM25, default limit 8). Resolves to `{ name, description }[]`. |
 | `describeTool(name)` | Resolves to a tool's description and TypeScript declaration, or `undefined`. |
 | `describeNamespace(name)` | Resolves to `{ name, description?, instructions?, tools }` for a namespace such as an MCP server, or `undefined`. |
-| `models` | List and run non-LLM models. See [Models](#models). |
+| `models` | List and run non-LLM models. See <a href="#models" class="link-module_root__svb26">Models</a>. |
 
 
 ## Call tools
-
-<a href="#call-tools" class="heading-anchor" aria-label="Permalink: Call tools" data-copy="" data-copy-text="https://docs.pi.dev/latest/codemode#call-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Every tool the session can call is a method of `tools`, named by its identifier: characters that are not valid in a JavaScript identifier become `_`, so the MCP tool `mcp__dev-radius__search` is `tools.mcp__dev_radius__search`. Each method takes one object with the tool's arguments.
@@ -84,14 +58,12 @@ What a call resolves to depends on the tool:
 
 A call that fails, is blocked, or gets invalid arguments rejects with an `Error` that carries the tool's error text. Use `Promise.allSettled()` to keep the results of the calls that succeed.
 
-The `codemode` description lists tools with their TypeScript declarations, grouped by namespace (for example one MCP server). Tools with `deferred` exposure, which includes MCP tools with the default `codemode` exposure, are not listed, so the description stays the same while MCP servers connect. Listed declarations share a budget of 3000 estimated tokens (`codemode.inlineBudget` in [settings](/latest/latest/settings#tools)). Scripts find the other tools with `searchTools()`, `describeTool()`, `describeNamespace()`, or by filtering `ALL_TOOLS`.
+The `codemode` description lists tools with their TypeScript declarations, grouped by namespace (for example one MCP server). Tools with `deferred` exposure, which includes MCP tools with the default `codemode` exposure, are not listed, so the description stays the same while MCP servers connect. Listed declarations share a budget of 3000 estimated tokens (`codemode.inlineBudget` in <a href="/latest/settings#tools" class="link-module_root__svb26">settings</a>). Scripts find the other tools with `searchTools()`, `describeTool()`, `describeNamespace()`, or by filtering `ALL_TOOLS`.
 
-While `codemode` is active, `codemode.mode` in [settings](/latest/latest/settings#tools) decides how the other tools are presented. With `on` (default) declared tools stay declared, and their descriptions say how to call them from scripts. With `only` they are hidden from the model and listed in the `codemode` description instead, so the model calls them through scripts. Tool declarations in the `codemode` description, `describeTool()`, and `ALL_TOOLS` carry the tools' prompt guidelines, since the system prompt rules only cover declared tools.
+While `codemode` is active, `codemode.mode` in <a href="/latest/settings#tools" class="link-module_root__svb26">settings</a> decides how the other tools are presented. With `on` (default) declared tools stay declared, and their descriptions say how to call them from scripts. With `only` they are hidden from the model and listed in the `codemode` description instead, so the model calls them through scripts. Tool declarations in the `codemode` description, `describeTool()`, and `ALL_TOOLS` carry the tools' prompt guidelines, since the system prompt rules only cover declared tools.
 
 
 ## Store values
-
-<a href="#store-values" class="heading-anchor" aria-label="Permalink: Store values" data-copy="" data-copy-text="https://docs.pi.dev/latest/codemode#store-values"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `store(key, value)` keeps a JSON value under a string key for later `codemode` calls; storing `undefined` deletes the key. `load(key)` returns the value, or `undefined`. Writes are kept only when the script succeeds: each successful script that stores values appends a `codemode-store` custom entry to the session, so resumed sessions keep the values and each branch sees only the values written on its path.
@@ -101,13 +73,10 @@ The store is for small state such as IDs, cursors, or summaries. One value may h
 
 ## Models
 
-<a href="#models" class="heading-anchor" aria-label="Permalink: Models" data-copy="" data-copy-text="https://docs.pi.dev/latest/codemode#models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+`models` reaches the model catalog and runs non-LLM models with the session's credentials: classifiers, which answer typed questions about JSON state and, for some models, images, and image models, which generate images. Chat models are listed but cannot be run from scripts. Which classifier and image models exist is described in <a href="/latest/models#use-classifier-models" class="link-module_root__svb26">Use classifier models</a> and <a href="/latest/models#use-image-models" class="link-module_root__svb26">Use image models</a>.
 
-`models` reaches the model catalog and runs non-LLM models with the session's credentials: classifiers, which answer typed questions about JSON state and, for some models, images, and image models, which generate images. Chat models are listed but cannot be run from scripts. Which classifier and image models exist is described in [Use classifier models](/latest/latest/models#use-classifier-models) and [Use image models](/latest/latest/models#use-image-models).
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 type ModelType = "chat" | "image" | "classifier";
 
 /** A catalog entry. `provider` and `id` identify it; other fields depend on the type. */
@@ -136,7 +105,6 @@ declare const models: {
 };
 ```
 
-
 `classify()` and `generateImages()` use only the `provider` and `id` of `model`, so `{ provider, id }` works as well. They do not throw on provider errors: check `stopReason` and `errorMessage`. At most four such calls run at once per script; more calls wait for a free slot, so `Promise.all()` over many items is fine. Their usage is added to the `codemode` tool result and counts toward the session cost.
 
 Model IDs differ between providers, for example `typesafe/jev-latest` and `openrouter/typesafe/jev-1.13`. Use `models.getAvailableOfType(type)` to find the IDs that work with the current credentials.
@@ -144,10 +112,8 @@ Model IDs differ between providers, for example `typesafe/jev-latest` and `openr
 
 ### Classify
 
-<a href="#classify" class="heading-anchor" aria-label="Permalink: Classify" data-copy="" data-copy-text="https://docs.pi.dev/latest/codemode#classify"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface ClassifierContext {
   /** The data to classify. */
   state: Record<string, unknown>;
@@ -186,11 +152,9 @@ type ClassifierAnswer =
 type ModelUsage = { input: number; output: number; totalTokens: number; cost: { total: number } };
 ```
 
-
 Classify several items by calling `classify()` once per item. This script sorts feedback messages, for example ones a tool returned earlier in the script:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const jev = await models.getModelOfType("classifier", "typesafe", "jev-latest");
 const results = await Promise.all(
   messages.map((message) =>
@@ -218,11 +182,9 @@ return results.map((result, i) =>
 );
 ```
 
-
 Classifiers whose `input` includes `"image"` also judge images. `tools.read()` returns an image file as an image block that `images` accepts. Other classifiers return an error result when `images` is not empty.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const luna = await models.getModelOfType("classifier", "openai", "gpt-6-luna");
 const photo = await tools.read({ path: "screenshot.png" });
 const result = await models.classify(luna, {
@@ -241,10 +203,8 @@ const result = await models.classify(luna, {
 
 ### Generate images
 
-<a href="#generate-images" class="heading-anchor" aria-label="Permalink: Generate images" data-copy="" data-copy-text="https://docs.pi.dev/latest/codemode#generate-images"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface ImagesContext {
   /** The prompt as text blocks, plus image blocks to edit or use as references. */
   input: (TextBlock | ImageBlock)[];
@@ -265,11 +225,9 @@ type TextBlock = { type: "text"; text: string };
 type ImageBlock = { type: "image"; data: string; mimeType: string };
 ```
 
-
 Show generated images with `image(block)`. Do not print `data` with `text()`, `console`, or `return`: it is large and the model cannot read it as text. `image()` also saves each image to a temp file and puts its path in the result, so a later turn can copy or move the file.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 // @options: {"timeout_ms": 300000}
 const painter = await models.getModelOfType("image", "openrouter", "google/gemini-2.5-flash-image");
 const result = await models.generateImages(painter, {
@@ -284,8 +242,6 @@ for (const block of result.output) {
 
 
 ## Limits
-
-<a href="#limits" class="heading-anchor" aria-label="Permalink: Limits" data-copy="" data-copy-text="https://docs.pi.dev/latest/codemode#limits"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - A script's VM has 256 MB of memory. Running out throws `InternalError: out of memory`; filter or aggregate large data instead of accumulating it.

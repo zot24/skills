@@ -2,24 +2,6 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Environment Variables
 
 
@@ -29,12 +11,10 @@ Pi uses environment variables in three ways:
 - Pi sets process markers so child processes can identify Pi as the launching agent.
 - Commands run by the LLM-callable shell tools receive `PI_*` variables describing the current session.
 
-Provider API-key variables are documented separately in [Providers](/latest/latest/providers#use-an-api-key-from-the-environment).
+Provider API-key variables are documented separately in <a href="/latest/providers#use-an-api-key-from-the-environment" class="link-module_root__svb26">Providers</a>.
 
 
 ## Process Marker
-
-<a href="#process-marker" class="heading-anchor" aria-label="Permalink: Process Marker" data-copy="" data-copy-text="https://docs.pi.dev/latest/environment-variables#process-marker"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The CLI and RPC entry points set two process markers:
@@ -47,10 +27,9 @@ Child processes inherit both markers. They are not session-specific and are not 
 
 ## Shell Tool Session Environment
 
-<a href="#shell-tool-session-environment" class="heading-anchor" aria-label="Permalink: Shell Tool Session Environment" data-copy="" data-copy-text="https://docs.pi.dev/latest/environment-variables#shell-tool-session-environment"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Commands run by the `bash` and `powershell` tools receive the current Pi session state:
+
 
 | Variable | Description |
 |----|----|
@@ -60,39 +39,33 @@ Commands run by the `bash` and `powershell` tools receive the current Pi session
 | `PI_MODEL` | Currently selected model ID |
 | `PI_REASONING_LEVEL` | Current effective reasoning level: `off`, `minimal`, `low`, `medium`, `high`, `xhigh`, or `max` |
 
+
 The values are resolved when each command starts. Switching models or changing the reasoning level therefore affects the next shell command without restarting Pi. `PI_PROVIDER` and `PI_MODEL` identify the selected Pi model, not a different upstream model that a router may choose internally.
 
 When asked which model or provider is running, inspect these variables instead of inferring the answer from the system prompt:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 printf '%s/%s\n' "$PI_PROVIDER" "$PI_MODEL"
 printf 'reasoning=%s session=%s\n' "$PI_REASONING_LEVEL" "$PI_SESSION_ID"
 ```
 
-
 The session file can be inspected directly when the session is persistent:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 if [ -n "$PI_SESSION_FILE" ]; then
   tail -n 1 "$PI_SESSION_FILE"
 fi
 ```
-
 
 These variables are injected into the LLM-callable `bash` and `powershell` tools. They are not injected into user-entered `!` or `!!` commands.
 
 
 ### Custom Shell Tools
 
-<a href="#custom-shell-tools" class="heading-anchor" aria-label="Permalink: Custom Shell Tools" data-copy="" data-copy-text="https://docs.pi.dev/latest/environment-variables#custom-shell-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Tools created with `createBashTool()` or `createPowerShellTool()` expose the session environment by default when registered with Pi. Injection happens before `spawnHook`, so a hook receives the variables in `ctx.env`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const bashTool = createBashTool(cwd, {
   spawnHook: (ctx) => ({
     ...ctx,
@@ -101,27 +74,23 @@ const bashTool = createBashTool(cwd, {
 });
 ```
 
-
 Disable session metadata independently of the spawn hook:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const powershellTool = createPowerShellTool(cwd, {
   exposeSessionEnvironment: false,
   spawnHook: (ctx) => ctx,
 });
 ```
 
-
 When disabled, Pi removes inherited values for these variables so nested Pi processes do not expose stale parent-session metadata.
 
 
 ## Pi Process Configuration
 
-<a href="#pi-process-configuration" class="heading-anchor" aria-label="Permalink: Pi Process Configuration" data-copy="" data-copy-text="https://docs.pi.dev/latest/environment-variables#pi-process-configuration"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 These variables are read by Pi itself:
+
 
 | Variable | Description |
 |----|----|
@@ -130,23 +99,24 @@ These variables are read by Pi itself:
 | `PI_PACKAGE_DIR` | Override the package directory, useful for Nix/Guix store paths |
 | `PI_OFFLINE` | Disable automatic network activity, including model catalog refreshes |
 | `PI_SKIP_VERSION_CHECK` | Disable the `pi.dev` latest-version request |
-| `PI_SELF_UPDATE_COMMAND` | Command `pi update` runs to update Pi itself, split on whitespace, with `{packageName}`, `{version}`, and `{installSpec}` placeholders. Takes precedence over the `selfUpdateCommand` setting. See [Custom update command](/latest/latest/cli#custom-update-command) |
+| `PI_SELF_UPDATE_COMMAND` | Command `pi update` runs to update Pi itself, split on whitespace, with `{packageName}`, `{version}`, and `{installSpec}` placeholders. Takes precedence over the `selfUpdateCommand` setting. See <a href="/latest/cli#custom-update-command" class="link-module_root__svb26">Custom update command</a> |
 | `PI_TELEMETRY` | Override install/update telemetry and provider attribution headers: `1`/`true`/`yes` or `0`/`false`/`no` |
-| `PI_CODEMODE_MAX_WORKERS` | Maximum codemode workers alive at once across all sessions in the process; default `2`. Each worker's script may use up to 256 MB. Raise it when one process runs several sessions, such as in-process subagents. Further scripts wait for a free worker. See [Codemode](/latest/latest/codemode) |
+| `PI_CODEMODE_MAX_WORKERS` | Maximum codemode workers alive at once across all sessions in the process; default `2`. Each worker's script may use up to 256 MB. Raise it when one process runs several sessions, such as in-process subagents. Further scripts wait for a free worker. See <a href="/latest/codemode" class="link-module_root__svb26">Codemode</a> |
 | `PI_CACHE_RETENTION` | Set to `long` for extended provider prompt caching where supported |
 | `PI_SHARE_VIEWER_URL` | Override the base URL used by `/share` |
 | `PI_RADIUS_GATEWAY` | Override the Radius gateway origin used by `/bug` uploads |
-| `PI_CLEAR_ON_SHRINK` | Set to `1` to clear empty rows when rendered content shrinks; the `terminal.clearOnShrink` setting takes precedence. See [Settings](/latest/latest/settings) |
-| `PI_HARDWARE_CURSOR` | Set to `1` to show the hardware cursor; see [Terminal setup](/latest/latest/terminal-setup) |
+| `PI_CLEAR_ON_SHRINK` | Set to `1` to clear empty rows when rendered content shrinks; the `terminal.clearOnShrink` setting takes precedence. See <a href="/latest/settings" class="link-module_root__svb26">Settings</a> |
+| `PI_HARDWARE_CURSOR` | Set to `1` to show the hardware cursor; see <a href="/latest/terminal-setup" class="link-module_root__svb26">Terminal setup</a> |
 | `PI_CLIPBOARD_OSC52` | Set to `1` to also send copied text to the terminal with OSC 52 after the local clipboard write, as Pi does over SSH. Use it when a remote client reaches Pi without SSH variables, such as a multiplexer attached from another machine or a remote IDE daemon |
 | `PI_HYPERLINKS` | Override OSC 8 hyperlink detection with `1`, `0`, or `auto` |
-| `PI_PROGRAM_STATUS` | Override OSC 7501 program status detection: `1` always reports, `0` never reports; otherwise Pi reports only after the terminal confirms support. See [Terminal setup](/latest/latest/terminal-setup#program-status) |
+| `PI_PROGRAM_STATUS` | Override OSC 7501 program status detection: `1` always reports, `0` never reports; otherwise Pi reports only after the terminal confirms support. See <a href="/latest/terminal-setup#program-status" class="link-module_root__svb26">Terminal setup</a> |
 | `PI_IMAGE_PROTOCOL` | Override inline image detection with `kitty`, `iterm2`, `none`, or `auto` |
 | `PI_TRUE_COLOR` | Override truecolor detection with `1`, `0`, or `auto` |
 | `PI_TUI_ESC_TIMEOUT` | How long to wait after a lone ESC before treating it as Escape, in milliseconds; defaults to `100` over SSH and `10` otherwise. Increase if Alt-key input is misread as Escape |
 | `VISUAL`, `EDITOR` | External editor fallback when `externalEditor` is unset |
 | `HTTP_PROXY`, `HTTPS_PROXY` | Proxy outbound HTTP requests |
 
-Provider credentials such as `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, and provider-specific configuration are listed in [Providers](/latest/latest/providers#use-an-api-key-from-the-environment).
+
+Provider credentials such as `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, and provider-specific configuration are listed in <a href="/latest/providers#use-an-api-key-from-the-environment" class="link-module_root__svb26">Providers</a>.
 
 

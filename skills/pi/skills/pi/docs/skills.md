@@ -2,24 +2,6 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Skills
 
 
@@ -27,18 +9,15 @@ Skills give Pi specialized instructions and supporting files for a particular ki
 
 Use a skill when a workflow needs more context than a prompt template but does not need a new executable integration point. Skills can bundle scripts, references, and assets alongside their instructions.
 
-Pi implements the [Agent Skills specification](https://agentskills.io/specification). Most invalid fields produce warnings rather than stopping startup.
+Pi implements the <a href="https://agentskills.io/specification" class="link-module_root__svb26">Agent Skills specification</a>. Most invalid fields produce warnings rather than stopping startup.
 
 
 ## Create a skill
 
-<a href="#create-a-skill" class="heading-anchor" aria-label="Permalink: Create a skill" data-copy="" data-copy-text="https://docs.pi.dev/latest/skills#create-a-skill"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 A skill is a directory containing `SKILL.md`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pdf-tools/
 ├── SKILL.md
 ├── scripts/
@@ -49,11 +28,9 @@ pdf-tools/
     └── template.json
 ```
 
-
 Start `SKILL.md` with frontmatter followed by direct instructions:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 ---
 name: pdf-tools
 description: Extract text and tables from PDF files. Use when reading, converting, or inspecting PDFs.
@@ -64,15 +41,12 @@ description: Extract text and tables from PDF files. Use when reading, convertin
 Read `references/formats.md` before converting a document. Run scripts relative to this skill directory.
 ```
 
-
 The description determines when the model considers loading the skill. State both what the skill does and when it applies. Avoid descriptions such as “Helps with PDFs,” which do not provide enough routing information.
 
 Use relative paths from the skill directory when referring to bundled files. Pi tells the model where the skill lives so it can resolve those paths.
 
 
 ## Understand how skills load
-
-<a href="#understand-how-skills-load" class="heading-anchor" aria-label="Permalink: Understand how skills load" data-copy="" data-copy-text="https://docs.pi.dev/latest/skills#understand-how-skills-load"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 At startup, Pi scans configured skill locations and adds each skill’s name, description, and path to the system prompt. It does not add the full instructions.
@@ -81,35 +55,30 @@ When a task matches, the model reads `SKILL.md` and follows its instructions. Th
 
 Arguments after `/skill:name` are appended to the loaded instructions as a user request:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 /skill:pdf-tools extract report.pdf
 ```
 
-
-Set `disable-model-invocation: true` in frontmatter when a skill should be available only through its explicit command. The `enableSkillCommands` [setting](/latest/latest/settings) controls whether skill commands appear in interactive command discovery; manually entered `/skill:name` commands still work.
+Set `disable-model-invocation: true` in frontmatter when a skill should be available only through its explicit command. The `enableSkillCommands` <a href="/latest/settings" class="link-module_root__svb26">setting</a> controls whether skill commands appear in interactive command discovery; manually entered `/skill:name` commands still work.
 
 
 ## Add it to Pi
-
-<a href="#add-it-to-pi" class="heading-anchor" aria-label="Permalink: Add it to Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/skills#add-it-to-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Place the skill in your user or project skills directory. Directories containing `SKILL.md` are discovered recursively.
 
 Pi also supports the Agent Skills locations `~/.agents/skills/` and `.agents/skills/`. Project `.agents/skills/` directories are discovered from the working directory through its ancestors, stopping at the repository root when one exists.
 
-Pi accepts some standalone Markdown skills, but a directory containing `SKILL.md` is the portable form and should be preferred. See [Settings](/latest/latest/settings#resources) and [Pi Packages](/latest/latest/packages) for additional locations.
+Pi accepts some standalone Markdown skills, but a directory containing `SKILL.md` is the portable form and should be preferred. See <a href="/latest/settings#resources" class="link-module_root__svb26">Settings</a> and <a href="/latest/packages" class="link-module_root__svb26">Pi Packages</a> for additional locations.
 
 Project skills can instruct the model to run scripts or modify files. Review unfamiliar skills and their supporting files before granting project trust.
 
 
 ## Write portable frontmatter
 
-<a href="#write-portable-frontmatter" class="heading-anchor" aria-label="Permalink: Write portable frontmatter" data-copy="" data-copy-text="https://docs.pi.dev/latest/skills#write-portable-frontmatter"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 The Agent Skills specification defines these fields:
+
 
 | Field                      | Purpose                                       |
 |----------------------------|-----------------------------------------------|
@@ -121,6 +90,7 @@ The Agent Skills specification defines these fields:
 | `allowed-tools`            | Experimental pre-approved tool list           |
 | `disable-model-invocation` | Hide the skill from automatic model selection |
 
+
 Names use lowercase letters, numbers, and hyphens, with no leading, trailing, or consecutive hyphens. They can contain at most 64 characters; descriptions can contain at most 1024.
 
 Pi neither requires nor warns when the declared name differs from the parent directory. Other Agent Skills implementations may enforce that requirement, so matching names remain the portable choice.
@@ -130,13 +100,11 @@ Malformed `SKILL.md` files and declared skills without descriptions are not load
 
 ## Validate and share a skill
 
-<a href="#validate-and-share-a-skill" class="heading-anchor" aria-label="Permalink: Validate and share a skill" data-copy="" data-copy-text="https://docs.pi.dev/latest/skills#validate-and-share-a-skill"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Run Pi from a location where the skill is discoverable, then inspect the startup diagnostics and `/skill:name` command. Run `/reload` after editing a skill during an active session.
 
-Use a [Pi package](/latest/latest/packages) to distribute one or more skills through npm or git. Keep environment setup inside the skill and declare any required runtime dependencies in the package.
+Use a <a href="/latest/packages" class="link-module_root__svb26">Pi package</a> to distribute one or more skills through npm or git. Keep environment setup inside the skill and declare any required runtime dependencies in the package.
 
-For examples, see the [Anthropic skills collection](https://github.com/anthropics/skills) and [Pi skills collection](https://github.com/badlogic/pi-skills).
+For examples, see the <a href="https://github.com/anthropics/skills" class="link-module_root__svb26">Anthropic skills collection</a> and <a href="https://github.com/badlogic/pi-skills" class="link-module_root__svb26">Pi skills collection</a>.
 
 

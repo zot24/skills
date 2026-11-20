@@ -2,24 +2,6 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Pi Packages
 
 
@@ -30,20 +12,16 @@ A package is an ordinary directory or npm package. It can expose conventional re
 
 ## Install and manage packages
 
-<a href="#install-and-manage-packages" class="heading-anchor" aria-label="Permalink: Install and manage packages" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#install-and-manage-packages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Install from npm, git, or a local path:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi install npm:@example/pi-tools@1.0.0
 pi install git:github.com/example/pi-tools@v1
 pi install ./local-package
 ```
 
-
-`pi list` shows configured packages. Use `pi remove <source>` to remove one and `pi update --extensions` to reconcile package installations. See [Command Line](/latest/latest/cli#package-commands) for every package command and option.
+`pi list` shows configured packages. Use `pi remove <source>` to remove one and `pi update --extensions` to reconcile package installations. See <a href="/latest/cli#package-commands" class="link-module_root__svb26">Command Line</a> for every package command and option.
 
 If a configured package fails to install at startup, for example because npm cannot reach the registry, Pi warns about it, skips that package's resources, and keeps running. Pi tries to install it again on the next start or `/reload`. `pi install` and `pi update --extensions` still report the failure and exit non-zero.
 
@@ -53,18 +31,14 @@ Project packages are installed and loaded only after project trust is resolved. 
 
 Use `--extension` or `-e` to try a package for one invocation without adding it to settings:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi -e npm:@example/pi-tools
 ```
-
 
 Pi caches `-e` packages under `~/.pi/agent/tmp/extensions/` and checks them on every start and `/reload`. An npm package is reinstalled when the registry has a newer version that matches the specification. A version pinned to an exact number, such as `@1.2.3`, is not checked. A git package is fetched and reset to the remote branch or ref. A ref that is a commit hash already checked out is not fetched. If the check fails or offline mode is on, Pi loads the cached copy.
 
 
 ## Choose a source
-
-<a href="#choose-a-source" class="heading-anchor" aria-label="Permalink: Choose a source" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#choose-a-source"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Source | Example | Behavior |
@@ -74,6 +48,7 @@ Pi caches `-e` packages under `~/.pi/agent/tmp/extensions/` and checks them on e
 | URL | `https://github.com/example/pi-tools` | Treated as a git source |
 | Local | `./pi-tools` | Loaded from the resolved path without copying |
 
+
 Versioned npm specifications are pinned. Git tags and commits are also pinned; package updates reconcile the checkout but do not move a configured ref.
 
 Relative local paths resolve from the settings file that contains them. A file path loads one extension. A directory follows normal package discovery rules.
@@ -81,13 +56,10 @@ Relative local paths resolve from the settings file that contains them. A file p
 
 ## Create a package
 
-<a href="#create-a-package" class="heading-anchor" aria-label="Permalink: Create a package" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#create-a-package"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 The simplest package uses conventional directories:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 my-pi-package/
 ├── package.json
 ├── extensions/
@@ -96,13 +68,11 @@ my-pi-package/
 └── themes/
 ```
 
-
 Without a `pi` manifest, Pi discovers TypeScript and JavaScript extensions, skill directories, Markdown prompts, and JSON themes from those directories.
 
 Use an explicit manifest when resources live elsewhere or need filtering:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "name": "my-pi-package",
   "keywords": ["pi-package"],
@@ -115,15 +85,12 @@ Use an explicit manifest when resources live elsewhere or need filtering:
 }
 ```
 
-
 Paths are relative to the package root. Arrays accept glob patterns and exclusions. List dot-prefixed or symlinked resource roots directly when traversal through a glob would not discover them.
 
-The `pi-package` keyword makes an npm package eligible for discovery in the [Pi package gallery](https://pi.dev/packages). Optional `pi.image` and `pi.video` fields add gallery previews.
+The `pi-package` keyword makes an npm package eligible for discovery in the <a href="https://pi.dev/packages" class="link-module_root__svb26">Pi package gallery</a>. Optional `pi.image` and `pi.video` fields add gallery previews.
 
 
 ## Show a changelog
-
-<a href="#show-a-changelog" class="heading-anchor" aria-label="Permalink: Show a changelog" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#show-a-changelog"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 After a package update, Pi can show what changed. On the next fresh launch, Pi reads the package changelog and shows entries newer than the last seen version under "Extension Updates", the same way it shows its own changelog. The first time Pi sees a package, it records the version without showing anything.
@@ -132,8 +99,7 @@ This applies to packages that load at least one extension. Packages that only pr
 
 By default Pi reads `CHANGELOG.md` from the package root. Point `pi.changelogPath` at another file inside the package, or set it to `""` to disable the changelog:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "name": "my-pi-package",
   "version": "1.2.0",
@@ -143,13 +109,10 @@ By default Pi reads `CHANGELOG.md` from the package root. Point `pi.changelogPat
 }
 ```
 
-
 Use version headings in the same format as Pi's changelog, such as `## [1.2.0]` or `## 1.2.0 - 2026-01-01`. Entries are matched against the `version` field in `package.json`, so a git package only shows a changelog when that field increases. The `collapseChangelog` setting condenses the section to one line per package, such as `Updated my-pi-package to v1.2.0.` Unlike Pi's own changelog, `/changelog` does not show package changelogs, so read the package's changelog file or repository for details.
 
 
 ## Declare dependencies
-
-<a href="#declare-dependencies" class="heading-anchor" aria-label="Permalink: Declare dependencies" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#declare-dependencies"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Put runtime packages imported by extensions in `dependencies`. Pi installs package dependencies when it installs an npm or git source.
@@ -171,13 +134,10 @@ Installed packages load with separate module roots. Do not rely on two packages 
 
 ## Select package resources
 
-<a href="#select-package-resources" class="heading-anchor" aria-label="Permalink: Select package resources" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#select-package-resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 The object form in settings narrows which resources load from a package:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "packages": [
     {
@@ -189,7 +149,6 @@ The object form in settings narrows which resources load from a package:
   ]
 }
 ```
-
 
 For each resource type:
 
@@ -206,13 +165,11 @@ Run `pi config` to enable or disable discovered resources and pi's built-in exte
 
 ## Understand scope and identity
 
-<a href="#understand-scope-and-identity" class="heading-anchor" aria-label="Permalink: Understand scope and identity" data-copy="" data-copy-text="https://docs.pi.dev/latest/packages#understand-scope-and-identity"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 The same package can appear in personal and project settings. A project entry normally replaces the personal entry. With `autoload: false`, the project entry instead acts as a filtering delta over the personal package.
 
 Pi identifies npm packages by package name, git packages by repository URL without the ref, and local packages by resolved absolute path. This prevents the same package from loading twice through equivalent declarations.
 
-Use [Extensions](/latest/latest/extensions), [Skills](/latest/latest/skills), [Prompt Templates](/latest/latest/prompt-templates), and [Themes](/latest/latest/themes) to design each resource before packaging it.
+Use <a href="/latest/extensions" class="link-module_root__svb26">Extensions</a>, <a href="/latest/skills" class="link-module_root__svb26">Skills</a>, <a href="/latest/prompt-templates" class="link-module_root__svb26">Prompt Templates</a>, and <a href="/latest/themes" class="link-module_root__svb26">Themes</a> to design each resource before packaging it.
 
 

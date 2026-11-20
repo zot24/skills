@@ -2,63 +2,35 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # RPC Commands
 
 
-This reference lists commands accepted on stdin in [RPC mode](/latest/latest/rpc). Each command and response is one JSON object. Shared message values use the [message types](/latest/latest/message-types).
+This reference lists commands accepted on stdin in <a href="/latest/rpc" class="link-module_root__svb26">RPC mode</a>. Each command and response is one JSON object. Shared message values use the <a href="/latest/message-types" class="link-module_root__svb26">message types</a>.
 
 
 ## Prompting
 
-<a href="#prompting" class="heading-anchor" aria-label="Permalink: Prompting" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#prompting"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### prompt
-
-<a href="#prompt" class="heading-anchor" aria-label="Permalink: prompt" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#prompt"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Send a user prompt to the agent. The command response is emitted after the prompt is accepted, queued, or handled. Events continue streaming asynchronously after acceptance.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"id": "req-1", "type": "prompt", "message": "Hello, world!"}
 ```
 
-
 With images:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "prompt", "message": "What's in this image?", "images": [{"type": "image", "data": "base64-encoded-data", "mimeType": "image/png"}]}
 ```
 
-
 **During streaming**: If the agent is already streaming, you must specify `streamingBehavior` to queue the message:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "prompt", "message": "New instruction", "streamingBehavior": "steer"}
 ```
-
 
 - `"steer"`: Queue the message while the agent is running. It is delivered after the current assistant turn finishes executing its tool calls, before the next LLM call.
 - `"followUp"`: Wait until the agent finishes. Message is delivered only when agent stops.
@@ -71,11 +43,9 @@ If the agent is streaming and no `streamingBehavior` is specified, the command r
 
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"id": "req-1", "type": "response", "command": "prompt", "success": true, "data": {"disposition": "started"}}
 ```
-
 
 `data.disposition` is `"handled"` if an extension command or input handler consumed the prompt, `"queued"` if Pi queued it during a run, or `"started"` if Pi accepted it to start a run. This describes the submitted prompt, not independent work started by an extension or a guarantee of completion.
 
@@ -86,114 +56,88 @@ The `images` field is optional. Each image uses `ImageContent` format: `{"type":
 
 ### steer
 
-<a href="#steer" class="heading-anchor" aria-label="Permalink: steer" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#steer"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Queue a steering message while the agent is running. It is delivered after the current assistant turn finishes executing its tool calls, before the next LLM call. Skill commands and prompt templates are expanded. Extension commands are not allowed (use `prompt` instead).
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "steer", "message": "Stop and do this instead"}
 ```
 
-
 With images:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "steer", "message": "Look at this instead", "images": [{"type": "image", "data": "base64-encoded-data", "mimeType": "image/png"}]}
 ```
-
 
 The `images` field is optional. Each image uses `ImageContent` format (same as `prompt`).
 
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "steer", "success": true, "data": {"disposition": "queued"}}
 ```
 
-
 `data.disposition` is `"handled"` if an input handler consumed this steer, or `"queued"` if Pi queued it (including after a handler transformed it). It does not guarantee this message remains queued.
 
-See [set_steering_mode](#set_steering_mode) for controlling how steering messages are processed.
+See <a href="#set_steering_mode" class="link-module_root__svb26">set_steering_mode</a> for controlling how steering messages are processed.
 
 
 ### follow_up
 
-<a href="#follow_up" class="heading-anchor" aria-label="Permalink: follow_up" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#follow_up"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Queue a follow-up message to be processed after the agent finishes. Delivered only when agent has no more tool calls or steering messages. Skill commands and prompt templates are expanded. Extension commands are not allowed (use `prompt` instead).
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "follow_up", "message": "After you're done, also do this"}
 ```
 
-
 With images:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "follow_up", "message": "Also check this image", "images": [{"type": "image", "data": "base64-encoded-data", "mimeType": "image/png"}]}
 ```
-
 
 The `images` field is optional. Each image uses `ImageContent` format (same as `prompt`).
 
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "follow_up", "success": true, "data": {"disposition": "queued"}}
 ```
 
-
 `data.disposition` has the same `"handled"` or `"queued"` meaning as for `steer`, applied to this follow-up.
 
-See [set_follow_up_mode](#set_follow_up_mode) for controlling how follow-up messages are processed.
+See <a href="#set_follow_up_mode" class="link-module_root__svb26">set_follow_up_mode</a> for controlling how follow-up messages are processed.
 
 
 ### abort
 
-<a href="#abort" class="heading-anchor" aria-label="Permalink: abort" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#abort"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Abort the current operation and wait for the session to become idle before responding.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "abort"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "abort", "success": true}
 ```
 
 
 ### clear_queue
 
-<a href="#clear_queue" class="heading-anchor" aria-label="Permalink: clear_queue" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#clear_queue"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Remove queued steering and follow-up messages and return their text.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "clear_queue"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "clear_queue",
@@ -205,69 +149,52 @@ Response:
 }
 ```
 
-
 To implement interactive Esc behavior, send `clear_queue` before `abort`, then restore the returned text in the client editor. `abort` continues queued messages when they remain in the session.
 
 
 ### new_session
 
-<a href="#new_session" class="heading-anchor" aria-label="Permalink: new_session" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#new_session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Start a fresh session. Can be canceled by a `session_before_switch` extension event handler.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "new_session"}
 ```
 
-
 With optional parent session tracking:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "new_session", "parentSession": "/path/to/parent-session.jsonl"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "new_session", "success": true, "data": {"cancelled": false}}
 ```
 
-
 If an extension canceled:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "new_session", "success": true, "data": {"cancelled": true}}
 ```
 
 
 ## State
 
-<a href="#state" class="heading-anchor" aria-label="Permalink: State" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#state"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### get_state
-
-<a href="#get_state" class="heading-anchor" aria-label="Permalink: get_state" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#get_state"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get current session state.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "get_state"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "get_state",
@@ -289,27 +216,21 @@ Response:
 }
 ```
 
-
-The `model` field is a full [Model](#model-object) object, or omitted when no model is selected. The `sessionName` field is the display name set via `set_session_name`, or omitted if not set.
+The `model` field is a full <a href="#model-object" class="link-module_root__svb26">Model</a> object, or omitted when no model is selected. The `sessionName` field is the display name set via `set_session_name`, or omitted if not set.
 
 
 ### get_messages
 
-<a href="#get_messages" class="heading-anchor" aria-label="Permalink: get_messages" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#get_messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Get all messages in the conversation.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "get_messages"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "get_messages",
@@ -318,32 +239,24 @@ Response:
 }
 ```
 
-
-Messages are `AgentMessage` objects (see [Message Types](/latest/latest/message-types)).
+Messages are `AgentMessage` objects (see <a href="/latest/message-types" class="link-module_root__svb26">Message Types</a>).
 
 
 ## Model
 
-<a href="#model" class="heading-anchor" aria-label="Permalink: Model" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### set_model
-
-<a href="#set_model" class="heading-anchor" aria-label="Permalink: set_model" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#set_model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Switch to a specific model.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "set_model", "provider": "anthropic", "modelId": "claude-sonnet-4-20250514"}
 ```
 
+Response contains the full <a href="#model-object" class="link-module_root__svb26">Model</a> object:
 
-Response contains the full [Model](#model-object) object:
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "set_model",
@@ -355,21 +268,16 @@ Response contains the full [Model](#model-object) object:
 
 ### cycle_model
 
-<a href="#cycle_model" class="heading-anchor" aria-label="Permalink: cycle_model" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#cycle_model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Cycle to the next available model. Returns `null` data if only one model available.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "cycle_model"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "cycle_model",
@@ -382,27 +290,21 @@ Response:
 }
 ```
 
-
-The `model` field is a full [Model](#model-object) object.
+The `model` field is a full <a href="#model-object" class="link-module_root__svb26">Model</a> object.
 
 
 ### get_available_models
 
-<a href="#get_available_models" class="heading-anchor" aria-label="Permalink: get_available_models" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#get_available_models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 List all configured models.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "get_available_models"}
 ```
 
+Response contains an array of full <a href="#model-object" class="link-module_root__svb26">Model</a> objects:
 
-Response contains an array of full [Model](#model-object) objects:
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "get_available_models",
@@ -416,21 +318,15 @@ Response contains an array of full [Model](#model-object) objects:
 
 ## Thinking
 
-<a href="#thinking" class="heading-anchor" aria-label="Permalink: Thinking" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#thinking"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### set_thinking_level
-
-<a href="#set_thinking_level" class="heading-anchor" aria-label="Permalink: set_thinking_level" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#set_thinking_level"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Set the reasoning/thinking level for models that support it.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "set_thinking_level", "level": "high"}
 ```
-
 
 Levels: `"off"`, `"minimal"`, `"low"`, `"medium"`, `"high"`, `"xhigh"`, `"max"`
 
@@ -438,29 +334,23 @@ Levels: `"off"`, `"minimal"`, `"low"`, `"medium"`, `"high"`, `"xhigh"`, `"max"`
 
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "set_thinking_level", "success": true}
 ```
 
 
 ### cycle_thinking_level
 
-<a href="#cycle_thinking_level" class="heading-anchor" aria-label="Permalink: cycle_thinking_level" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#cycle_thinking_level"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Cycle through available thinking levels. Returns `null` data if model doesn't support thinking.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "cycle_thinking_level"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "cycle_thinking_level",
@@ -472,21 +362,16 @@ Response:
 
 ### get_available_thinking_levels
 
-<a href="#get_available_thinking_levels" class="heading-anchor" aria-label="Permalink: get_available_thinking_levels" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#get_available_thinking_levels"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 List the thinking levels supported by the current model. Returns `["off"]` for a model without reasoning support.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "get_available_thinking_levels"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "get_available_thinking_levels",
@@ -500,21 +385,15 @@ Response:
 
 ## Queue modes
 
-<a href="#queue-modes" class="heading-anchor" aria-label="Permalink: Queue modes" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#queue-modes"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### set_steering_mode
-
-<a href="#set_steering_mode" class="heading-anchor" aria-label="Permalink: set_steering_mode" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#set_steering_mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Control how steering messages (from `steer`) are delivered.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "set_steering_mode", "mode": "one-at-a-time"}
 ```
-
 
 Modes:
 
@@ -523,24 +402,19 @@ Modes:
 
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "set_steering_mode", "success": true}
 ```
 
 
 ### set_follow_up_mode
 
-<a href="#set_follow_up_mode" class="heading-anchor" aria-label="Permalink: set_follow_up_mode" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#set_follow_up_mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Control how follow-up messages (from `follow_up`) are delivered.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "set_follow_up_mode", "mode": "one-at-a-time"}
 ```
-
 
 Modes:
 
@@ -549,42 +423,32 @@ Modes:
 
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "set_follow_up_mode", "success": true}
 ```
 
 
 ## Compaction
 
-<a href="#compaction" class="heading-anchor" aria-label="Permalink: Compaction" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#compaction"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### compact
-
-<a href="#compact" class="heading-anchor" aria-label="Permalink: compact" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#compact"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Manually compact conversation context to reduce token usage.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "compact"}
 ```
 
-
 With custom instructions:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "compact", "customInstructions": "Focus on code changes"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "compact",
@@ -607,95 +471,71 @@ Response:
 }
 ```
 
-
 `estimatedTokensAfter` is a heuristic estimate over the rebuilt message context immediately after compaction, not a provider-exact token count. `usage` reports the LLM call or calls that generated the summary and may be omitted by custom compaction handlers.
 
 
 ### set_auto_compaction
 
-<a href="#set_auto_compaction" class="heading-anchor" aria-label="Permalink: set_auto_compaction" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#set_auto_compaction"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Enable or disable automatic compaction when context is nearly full.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "set_auto_compaction", "enabled": true}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "set_auto_compaction", "success": true}
 ```
 
 
 ## Retry
 
-<a href="#retry" class="heading-anchor" aria-label="Permalink: Retry" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#retry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### set_auto_retry
-
-<a href="#set_auto_retry" class="heading-anchor" aria-label="Permalink: set_auto_retry" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#set_auto_retry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Enable or disable automatic retry on transient errors (overloaded, rate limit, 5xx).
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "set_auto_retry", "enabled": true}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "set_auto_retry", "success": true}
 ```
 
 
 ### abort_retry
 
-<a href="#abort_retry" class="heading-anchor" aria-label="Permalink: abort_retry" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#abort_retry"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Abort an in-progress retry (cancel the delay and stop retrying).
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "abort_retry"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "abort_retry", "success": true}
 ```
 
 
 ## Bash
 
-<a href="#bash" class="heading-anchor" aria-label="Permalink: Bash" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#bash"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### bash
-
-<a href="#bash-1" class="heading-anchor" aria-label="Permalink: bash" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#bash-1"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Execute a shell command and add output to conversation context. Output streams as `bash_execution_update` events while the command runs; the response contains the final result.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"id": "req-1", "type": "bash", "command": "ls -la"}
 ```
-
 
 Set `excludeFromContext` to `true` when the command output should be stored in the session but omitted from the model context on the next prompt.
 
@@ -703,8 +543,7 @@ Include an `id` to associate streamed `bash_execution_update` events with this c
 
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "id": "req-1",
   "type": "response",
@@ -719,11 +558,9 @@ Response:
 }
 ```
 
-
 If output was truncated, includes `fullOutputPath`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "bash",
@@ -738,22 +575,19 @@ If output was truncated, includes `fullOutputPath`:
 }
 ```
 
-
 **How bash results reach the LLM:**
 
 The `bash` command executes immediately and returns a `BashResult`. Internally, a `BashExecutionMessage` is created and stored in the agent's message state.
 
 When the next `prompt` command is sent, Pi transforms context messages before sending them to the model. Unless `excludeFromContext` is true, the `BashExecutionMessage` becomes a `UserMessage` with this format:
 
-
-```` shiki
+```` code-snippet-module_root__tK5do
 Ran `ls -la`
 ```
 total 48
 drwxr-xr-x ...
 ```
 ````
-
 
 This means:
 
@@ -763,47 +597,35 @@ This means:
 
 ### abort_bash
 
-<a href="#abort_bash" class="heading-anchor" aria-label="Permalink: abort_bash" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#abort_bash"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Abort a running bash command.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "abort_bash"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "abort_bash", "success": true}
 ```
 
 
 ## Session
 
-<a href="#session" class="heading-anchor" aria-label="Permalink: Session" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### get_session_stats
-
-<a href="#get_session_stats" class="heading-anchor" aria-label="Permalink: get_session_stats" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#get_session_stats"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get token usage, cost statistics, and current context window usage.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "get_session_stats"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "get_session_stats",
@@ -833,7 +655,6 @@ Response:
 }
 ```
 
-
 `tokens` and `cost` include assistant messages, usage reported by tools, and compaction/branch-summary generation across the full session. `contextUsage` contains the actual current context-window estimate used for compaction and footer display.
 
 `contextUsage` is omitted when no model or context window is available. `contextUsage.tokens` and `contextUsage.percent` are `null` immediately after compaction until a fresh post-compaction assistant response provides valid usage data.
@@ -841,29 +662,22 @@ Response:
 
 ### export_html
 
-<a href="#export_html" class="heading-anchor" aria-label="Permalink: export_html" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#export_html"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Export session to an HTML file.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "export_html"}
 ```
 
-
 With custom path:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "export_html", "outputPath": "/tmp/session.html"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "export_html",
@@ -875,50 +689,38 @@ Response:
 
 ### switch_session
 
-<a href="#switch_session" class="heading-anchor" aria-label="Permalink: switch_session" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#switch_session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Load a different session file. Can be canceled by a `session_before_switch` extension event handler.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "switch_session", "sessionPath": "/path/to/session.jsonl"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "switch_session", "success": true, "data": {"cancelled": false}}
 ```
 
-
 If an extension canceled the switch:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "response", "command": "switch_session", "success": true, "data": {"cancelled": true}}
 ```
 
 
 ### fork
 
-<a href="#fork" class="heading-anchor" aria-label="Permalink: fork" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#fork"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Create a new fork from a previous user message on the active branch. Can be canceled by a `session_before_fork` extension event handler. Returns the text of the message being forked from.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "fork", "entryId": "abc123"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "fork",
@@ -927,11 +729,9 @@ Response:
 }
 ```
 
-
 If an extension canceled the fork:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "fork",
@@ -943,21 +743,16 @@ If an extension canceled the fork:
 
 ### clone
 
-<a href="#clone" class="heading-anchor" aria-label="Permalink: clone" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#clone"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Duplicate the current active branch into a new session at the current position. Can be canceled by a `session_before_fork` extension event handler.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "clone"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "clone",
@@ -966,11 +761,9 @@ Response:
 }
 ```
 
-
 If an extension canceled the clone:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "clone",
@@ -982,21 +775,16 @@ If an extension canceled the clone:
 
 ### get_fork_messages
 
-<a href="#get_fork_messages" class="heading-anchor" aria-label="Permalink: get_fork_messages" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#get_fork_messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Get user messages available for forking.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "get_fork_messages"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "get_fork_messages",
@@ -1013,29 +801,22 @@ Response:
 
 ### get_entries
 
-<a href="#get_entries" class="heading-anchor" aria-label="Permalink: get_entries" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#get_entries"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Get all session entries in append order (excluding the session header). The session is an append-only tree of entries with stable ids, so an entry id works as a durable cursor: pass the last entry id you have seen as `since` to get only entries strictly after it, even across client restarts. Unlike `get_messages`, this includes pre-compaction history and abandoned branches.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "get_entries"}
 ```
 
-
 With a cursor:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "get_entries", "since": "abc123"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "get_entries",
@@ -1049,27 +830,21 @@ Response:
 }
 ```
 
-
 `leafId` is the id of the current leaf entry (`null` for an empty session), so a client can tell in one round trip whether the active branch moved. If `since` does not match any entry id, the response is `success: false`.
 
 
 ### get_tree
 
-<a href="#get_tree" class="heading-anchor" aria-label="Permalink: get_tree" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#get_tree"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Get the session as a tree of entries. Each node is `{entry, children, label?, labelTimestamp?}`. The result is an array because navigation APIs can create multiple roots; orphaned entries with broken parent chains also appear as roots.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "get_tree"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "get_tree",
@@ -1091,21 +866,16 @@ Response:
 
 ### get_last_assistant_text
 
-<a href="#get_last_assistant_text" class="heading-anchor" aria-label="Permalink: get_last_assistant_text" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#get_last_assistant_text"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Get the text content of the last assistant message. Messages without text from an aborted or failed turn, or that only call tools, are skipped.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "get_last_assistant_text"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "get_last_assistant_text",
@@ -1114,27 +884,21 @@ Response:
 }
 ```
 
-
 The `text` value is `null` if no assistant text exists.
 
 
 ### set_session_name
 
-<a href="#set_session_name" class="heading-anchor" aria-label="Permalink: set_session_name" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#set_session_name"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Set a display name for the current session. The name appears in session listings and helps identify sessions.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "set_session_name", "name": "my-feature-work"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "set_session_name",
@@ -1142,32 +906,24 @@ Response:
 }
 ```
 
-
 The current session name is available via `get_state` in the `sessionName` field. To set the initial name when starting RPC mode, pass `--name <name>` or `-n <name>` to the `pi --mode rpc` process.
 
 
 ## Discoverable commands
 
-<a href="#discoverable-commands" class="heading-anchor" aria-label="Permalink: Discoverable commands" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#discoverable-commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### get_commands
-
-<a href="#get_commands" class="heading-anchor" aria-label="Permalink: get_commands" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#get_commands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Get available commands (extension commands, prompt templates, and skills). Run one through the `prompt` command by prefixing its name with `/`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "get_commands"}
 ```
 
-
 Response:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "response",
   "command": "get_commands",
@@ -1190,7 +946,6 @@ Response:
 }
 ```
 
-
 Each command has:
 
 - `name`: Command name (use `/name`)
@@ -1211,13 +966,10 @@ Each command has:
 
 ## Model object
 
-<a href="#model-object" class="heading-anchor" aria-label="Permalink: Model object" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-commands#model-object"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Model commands return the complete configured model definition. Costs are in US dollars per million tokens.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "id": "claude-sonnet-4-20250514",
   "name": "Claude Sonnet 4",
@@ -1237,7 +989,6 @@ Model commands return the complete configured model definition. Costs are in US 
 }
 ```
 
-
-For model configuration, see [Configure a compatible endpoint](/latest/latest/models#configure-a-compatible-endpoint). For TypeScript, use the exported `Model` type from `@earendil-works/pi-ai`.
+For model configuration, see <a href="/latest/models#configure-a-compatible-endpoint" class="link-module_root__svb26">Configure a compatible endpoint</a>. For TypeScript, use the exported `Model` type from `@earendil-works/pi-ai`.
 
 

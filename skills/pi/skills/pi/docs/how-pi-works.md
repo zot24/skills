@@ -2,24 +2,6 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # How Pi Works
 
 
@@ -30,8 +12,6 @@ Messages and events in a session form a tree. Each path through that tree is a b
 
 ## Agent loop
 
-<a href="#agent-loop" class="heading-anchor" aria-label="Permalink: Agent loop" data-copy="" data-copy-text="https://docs.pi.dev/latest/how-pi-works#agent-loop"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 A submitted message is added to the active branch. Pi builds a model request from the system prompt, active branch, available tools, and model settings, then sends it through the selected provider.
 
@@ -41,8 +21,6 @@ Steering messages enter after the current assistant turn. Follow-up messages ent
 
 
 ## Context
-
-<a href="#context" class="heading-anchor" aria-label="Permalink: Context" data-copy="" data-copy-text="https://docs.pi.dev/latest/how-pi-works#context"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The active branch supplies conversation history. Pi converts its session entries into model-compatible user, assistant, and tool-result messages.
@@ -56,8 +34,6 @@ Prompt templates expand editor input before it becomes a user message. Selected 
 
 ## Sessions
 
-<a href="#sessions" class="heading-anchor" aria-label="Permalink: Sessions" data-copy="" data-copy-text="https://docs.pi.dev/latest/how-pi-works#sessions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Persistent sessions are JSONL files. Each tree entry has an ID and refers to its parent. The current entry identifies the active branch.
 
@@ -67,8 +43,6 @@ Model context is reconstructed from the active branch. Compaction inserts a summ
 
 
 ## Interfaces
-
-<a href="#interfaces" class="heading-anchor" aria-label="Permalink: Interfaces" data-copy="" data-copy-text="https://docs.pi.dev/latest/how-pi-works#interfaces"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Interactive mode renders session and agent events in the terminal. Print mode runs a prompt and writes the final response. JSON mode writes agent events as JSONL.
@@ -80,8 +54,6 @@ All interfaces use the same agent and session mechanisms.
 
 ## Extensions and resources
 
-<a href="#extensions-and-resources" class="heading-anchor" aria-label="Permalink: Extensions and resources" data-copy="" data-copy-text="https://docs.pi.dev/latest/how-pi-works#extensions-and-resources"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Extensions are TypeScript modules loaded into the Pi process. Their factory functions register tools, commands, shortcuts, providers, event handlers, renderers, and terminal UI.
 
@@ -89,8 +61,6 @@ Skills provide on-demand instructions and supporting files. Prompt templates pro
 
 
 ## Trust and permissions
-
-<a href="#trust-and-permissions" class="heading-anchor" aria-label="Permalink: Trust and permissions" data-copy="" data-copy-text="https://docs.pi.dev/latest/how-pi-works#trust-and-permissions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Pi resolves project trust before loading project settings and resources. After the trust decision and project-resource loading, Pi loads context files. Enabled tools use the operating-system permissions of the Pi process. Extensions execute inside that process.

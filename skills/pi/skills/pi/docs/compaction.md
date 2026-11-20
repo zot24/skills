@@ -2,72 +2,48 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Compaction Reference
 
 
-This reference describes automatic compaction, branch summarization, persisted entries, and extension hooks. For the user workflow, see [Sessions and Context](/latest/latest/sessions#manage-conversation-context).
+This reference describes automatic compaction, branch summarization, persisted entries, and extension hooks. For the user workflow, see <a href="/latest/sessions#manage-conversation-context" class="link-module_root__svb26">Sessions and Context</a>.
 
-**Source files** ([pi](https://github.com/earendil-works/pi)):
+**Source files** (<a href="https://github.com/earendil-works/pi" class="link-module_root__svb26">pi</a>):
 
-- [`packages/coding-agent/src/core/compaction/compaction.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/compaction.ts) - Auto-compaction logic
-- [`packages/coding-agent/src/core/compaction/branch-summarization.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/branch-summarization.ts) - Branch summarization
-- [`packages/coding-agent/src/core/compaction/utils.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/utils.ts) - Shared utilities (file tracking, serialization)
-- [`packages/coding-agent/src/core/session-manager.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts) - Entry types (`CompactionEntry`, `BranchSummaryEntry`)
-- [`packages/coding-agent/src/core/extensions/types.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/extensions/types.ts) - Extension event types
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/compaction.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">packages/coding-agent/src/core/compaction/compaction.ts</code></a> - Auto-compaction logic
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/branch-summarization.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">packages/coding-agent/src/core/compaction/branch-summarization.ts</code></a> - Branch summarization
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/utils.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">packages/coding-agent/src/core/compaction/utils.ts</code></a> - Shared utilities (file tracking, serialization)
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">packages/coding-agent/src/core/session-manager.ts</code></a> - Entry types (`CompactionEntry`, `BranchSummaryEntry`)
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/extensions/types.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">packages/coding-agent/src/core/extensions/types.ts</code></a> - Extension event types
 
 For TypeScript definitions in your project, inspect `node_modules/@earendil-works/pi-coding-agent/dist/`.
 
 
 ## Overview
 
-<a href="#overview" class="heading-anchor" aria-label="Permalink: Overview" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#overview"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Pi has two summarization mechanisms:
+
 
 | Mechanism | Trigger | Purpose |
 |----|----|----|
 | Compaction | Context exceeds threshold, or `/compact` | Summarize old messages to free up context |
 | Branch summarization | `/tree` navigation | Preserve context when switching branches |
 
+
 Both use closely related structured formats and track file operations cumulatively. Summarization requests disable prompt-cache writes because these one-off prompts are unlikely to be reused.
 
 
 ## Compaction
 
-<a href="#compaction" class="heading-anchor" aria-label="Permalink: Compaction" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#compaction"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### When It Triggers
-
-<a href="#when-it-triggers" class="heading-anchor" aria-label="Permalink: When It Triggers" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#when-it-triggers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Auto-compaction triggers when:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 contextTokens > contextWindow - reserveTokens
 ```
-
 
 By default, `reserveTokens` is 16384 tokens (configurable in `~/.pi/agent/settings.json` or `<project-dir>/.pi/settings.json`). It only decides when compaction starts. Summary requests use the model's output limit, reduced when needed so input and output fit the context window.
 
@@ -80,8 +56,6 @@ You can also trigger manually with `/compact [instructions]`, where optional ins
 
 ### How It Works
 
-<a href="#how-it-works" class="heading-anchor" aria-label="Permalink: How It Works" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#how-it-works"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 1.  **Find cut point**: Walk backwards through the finalized session projection, accumulating token estimates until `keepRecentTokens` (default 20k, configurable in `~/.pi/agent/settings.json` or `<project-dir>/.pi/settings.json`) is reached
 2.  **Extract messages**: Collect projected messages from the previous kept boundary (or session start) up to the cut point
@@ -89,8 +63,7 @@ You can also trigger manually with `/compact [instructions]`, where optional ins
 4.  **Append entry**: Save `CompactionEntry` with summary and `firstKeptEntryId`
 5.  **Rebuilds context**: Session rebuilds the context for the next request, using summary + messages from `firstKeptEntryId` onwards
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 Before compaction:
 
   entry:  0     1     2     3      4     5     6      7      8     9
@@ -122,19 +95,15 @@ What the LLM sees:
     prompt   from cmp          messages from firstKeptEntryId
 ```
 
-
 On repeated compactions, the summarized span starts at the previous compaction's kept boundary (`firstKeptEntryId`), not at the compaction entry itself, falling back to the entry after the previous compaction if that kept entry cannot be found in the path. A retain-none compaction records its own ID as `firstKeptEntryId`; repeated compaction starts after that entry. This preserves messages that survived the earlier compaction by including them in the next summarization pass as well. Pi also recalculates `tokensBefore` from the rebuilt, context-edited session projection before writing the new `CompactionEntry`, so the token count reflects the actual pre-compaction context being replaced. Omitted raw entries remain stored but do not affect cut selection, summaries, checkpoints, or token estimates.
 
 
 ### Overflow and Length Recovery Ordering
 
-<a href="#overflow-and-length-recovery-ordering" class="heading-anchor" aria-label="Permalink: Overflow and Length Recovery Ordering" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#overflow-and-length-recovery-ordering"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Recovery preserves the existing lifecycle and queue order. The completed attempt remains visible to `turn_end` and `agent_end`; post-run recovery then repairs persisted model context before a fresh retry:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 persist final assistant response
 → extension/public turn_end
 → extension/public agent_end
@@ -143,21 +112,17 @@ persist final assistant response
 → start the retry as a fresh run
 ```
 
-
 If recovery compaction fails or is cancelled, Pi keeps the omission edits, appends no compaction, and schedules no internal retry. Existing queued work remains governed by ordinary steering and follow-up rules. `agent_before_settle` sees the repaired projection after recovery processing. Raw transcript history, exports, billing totals, and history-search extensions can still inspect the omitted attempt.
 
 
 ### Split user-message spans
-
-<a href="#split-user-message-spans" class="heading-anchor" aria-label="Permalink: Split user-message spans" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#split-user-message-spans"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A user-message span starts with a user message and includes all turns until the next user message. Normally, compaction cuts at user-message boundaries.
 
 When one user-message span exceeds `keepRecentTokens`, the cut point lands within that span at an assistant message. This is a split user-message span:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 Split user-message span (one span exceeds budget):
 
   entry:  0     1     2      3     4      5      6     7      8
@@ -175,7 +140,6 @@ Split user-message span (one span exceeds budget):
   turnPrefixMessages = [usr, ass, tool, ass, tool, tool]
 ```
 
-
 For split user-message spans, Pi generates two summaries and merges them:
 
 1.  **History summary**: Previous context (if any)
@@ -183,8 +147,6 @@ For split user-message spans, Pi generates two summaries and merges them:
 
 
 ### Cut Point Rules
-
-<a href="#cut-point-rules" class="heading-anchor" aria-label="Permalink: Cut Point Rules" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#cut-point-rules"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Valid cut points are:
@@ -201,13 +163,10 @@ Preparation advances the kept boundary into a context-invisible suffix only when
 
 ### CompactionEntry Structure
 
-<a href="#compactionentry-structure" class="heading-anchor" aria-label="Permalink: CompactionEntry Structure" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#compactionentry-structure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Defined in <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">session-manager.ts</code></a>:
 
-Defined in [`session-manager.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts):
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface CompactionEntry<T = unknown> {
   type: "compaction";
   id: string;
@@ -228,28 +187,21 @@ interface CompactionDetails {
 }
 ```
 
-
 Extensions can store any JSON-serializable data in `details`. The default compaction tracks file operations, but custom extension implementations can use their own structure. Generated and extension-provided summaries store their LLM `usage` when available so session totals include summarization work.
 
-See [`prepareCompaction()`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/compaction.ts) and [`compact()`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/compaction.ts) for the implementation. For direct programmatic summarization, `generateSummary()` returns the summary text and `generateSummaryWithUsage()` returns `{ text, usage }`.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/compaction.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">prepareCompaction()</code></a> and <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/compaction.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">compact()</code></a> for the implementation. For direct programmatic summarization, `generateSummary()` returns the summary text and `generateSummaryWithUsage()` returns `{ text, usage }`.
 
 
 ## Branch Summarization
 
-<a href="#branch-summarization" class="heading-anchor" aria-label="Permalink: Branch Summarization" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#branch-summarization"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### When It Triggers
-
-<a href="#when-it-triggers-1" class="heading-anchor" aria-label="Permalink: When It Triggers" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#when-it-triggers-1"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 When you use `/tree` to navigate to a different branch, Pi offers to summarize the work you're leaving. This injects context from the left branch into the new branch.
 
 
 ### How It Works
-
-<a href="#how-it-works-1" class="heading-anchor" aria-label="Permalink: How It Works" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#how-it-works-1"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 1.  **Find common ancestor**: Deepest node shared by old and new positions
@@ -258,8 +210,7 @@ When you use `/tree` to navigate to a different branch, Pi offers to summarize t
 4.  **Generate summary**: Call LLM with structured format
 5.  **Append entry**: Save `BranchSummaryEntry` at navigation point
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 Tree before navigation:
 
          ┌─ B ─ C ─ D (old leaf, being abandoned)
@@ -279,8 +230,6 @@ After navigation with summary:
 
 ### Cumulative File Tracking
 
-<a href="#cumulative-file-tracking" class="heading-anchor" aria-label="Permalink: Cumulative File Tracking" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#cumulative-file-tracking"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Default compaction and branch summarization track files cumulatively. Both extract file operations from tool calls in the messages being summarized. Compaction also carries file lists from the previous Pi-generated compaction. Branch summarization carries file lists from Pi-generated branch summaries in the entries it summarizes.
 
@@ -289,13 +238,10 @@ File tracking therefore accumulates across default compactions and nested defaul
 
 ### BranchSummaryEntry Structure
 
-<a href="#branchsummaryentry-structure" class="heading-anchor" aria-label="Permalink: BranchSummaryEntry Structure" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#branchsummaryentry-structure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Defined in <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">session-manager.ts</code></a>:
 
-Defined in [`session-manager.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/session-manager.ts):
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface BranchSummaryEntry<T = unknown> {
   type: "branch_summary";
   id: string;
@@ -315,23 +261,19 @@ interface BranchSummaryDetails {
 }
 ```
 
-
 Same as compaction, extensions can store custom data in `details`.
 
-See [`collectEntriesForBranchSummary()`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/branch-summarization.ts), [`prepareBranchEntries()`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/branch-summarization.ts), and [`generateBranchSummary()`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/branch-summarization.ts) for the implementation.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/branch-summarization.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">collectEntriesForBranchSummary()</code></a>, <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/branch-summarization.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">prepareBranchEntries()</code></a>, and <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/branch-summarization.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">generateBranchSummary()</code></a> for the implementation.
 
 
 ## Summary Format
-
-<a href="#summary-format" class="heading-anchor" aria-label="Permalink: Summary Format" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#summary-format"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Both formats include Goal, Constraints & Preferences, Progress, Key Decisions, and Next Steps. Compaction summaries also include Critical Context. Branch summaries stop after Next Steps. Pi appends file lists to either format when relevant.
 
 Compaction summaries use this format:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 ## Goal
 [What the user is trying to accomplish]
 
@@ -370,19 +312,15 @@ path/to/changed.ts
 
 ### Message Serialization
 
-<a href="#message-serialization" class="heading-anchor" aria-label="Permalink: Message Serialization" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#message-serialization"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Before summarization, messages are serialized to text via <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/utils.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">serializeConversation()</code></a>:
 
-Before summarization, messages are serialized to text via [`serializeConversation()`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/compaction/utils.ts):
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 [User]: What they said
 [Assistant]: Response text
 [Assistant tool calls]: read(path="foo.ts"); edit(path="bar.ts", ...)
 [Tool result]: Output from tool
 ```
-
 
 This prevents the model from treating it as a conversation to continue.
 
@@ -393,21 +331,16 @@ Tool results are truncated to 2000 characters during serialization. Content beyo
 
 ## Custom Summarization via Extensions
 
-<a href="#custom-summarization-via-extensions" class="heading-anchor" aria-label="Permalink: Custom Summarization via Extensions" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#custom-summarization-via-extensions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Extensions can intercept and customize both compaction and branch summarization. See [`extensions/types.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/extensions/types.ts) for event type definitions.
+Extensions can intercept and customize both compaction and branch summarization. See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/extensions/types.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">extensions/types.ts</code></a> for event type definitions.
 
 
 ### session_before_compact
 
-<a href="#session_before_compact" class="heading-anchor" aria-label="Permalink: session_before_compact" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#session_before_compact"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired before auto-compaction or `/compact`. Can cancel or provide custom summary. See `SessionBeforeCompactEvent` and `CompactionPreparation` in the types file.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("session_before_compact", async (event, ctx) => {
   const { preparation, branchEntries, customInstructions, reason, willRetry, signal } = event;
 
@@ -443,13 +376,10 @@ pi.on("session_before_compact", async (event, ctx) => {
 
 #### Converting Messages to Text
 
-<a href="#converting-messages-to-text" class="heading-anchor" aria-label="Permalink: Converting Messages to Text" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#converting-messages-to-text"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 To generate a summary with your own model, convert messages to text using `serializeConversation`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { convertToLlm, serializeConversation } from "@earendil-works/pi-coding-agent";
 
 pi.on("session_before_compact", async (event, ctx) => {
@@ -479,19 +409,15 @@ pi.on("session_before_compact", async (event, ctx) => {
 });
 ```
 
-
-See [custom-compaction.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/custom-compaction.ts) for a complete example using a different model.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/custom-compaction.ts" class="link-module_root__svb26">custom-compaction.ts</a> for a complete example using a different model.
 
 
 ### session_compact_failed
 
-<a href="#session_compact_failed" class="heading-anchor" aria-label="Permalink: session_compact_failed" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#session_compact_failed"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired when manual or automatic compaction fails or is aborted. This is useful for telemetry extensions that need to pair `session_before_compact` attempts with terminal outcomes.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("session_compact_failed", async (event, ctx) => {
   const { reason, errorMessage, aborted, willRetry, fromExtension } = event;
   // reason - "manual" (/compact), "threshold", or "overflow"
@@ -505,13 +431,10 @@ pi.on("session_compact_failed", async (event, ctx) => {
 
 ### session_before_tree
 
-<a href="#session_before_tree" class="heading-anchor" aria-label="Permalink: session_before_tree" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#session_before_tree"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired before `/tree` navigation. Always fires regardless of whether user chose to summarize. Can cancel navigation or provide custom summary.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("session_before_tree", async (event, ctx) => {
   const { preparation, signal } = event;
 
@@ -537,19 +460,15 @@ pi.on("session_before_tree", async (event, ctx) => {
 });
 ```
 
-
 See `SessionBeforeTreeEvent` and `TreePreparation` in the types file.
 
 
 ## Settings
 
-<a href="#settings" class="heading-anchor" aria-label="Permalink: Settings" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#settings"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Configure compaction in `~/.pi/agent/settings.json` or `<project-dir>/.pi/settings.json`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "compaction": {
     "enabled": true,
@@ -566,18 +485,16 @@ Configure compaction in `~/.pi/agent/settings.json` or `<project-dir>/.pi/settin
 | `reserveTokens` | `16384` | Free context tokens below which auto-compaction starts |
 | `keepRecentTokens` | `20000` | Recent tokens to keep (not summarized) |
 
+
 Disable auto-compaction with `"enabled": false`. You can still compact manually with `/compact`.
 
 
 ### Per-model overrides
 
-<a href="#per-model-overrides" class="heading-anchor" aria-label="Permalink: Per-model overrides" data-copy="" data-copy-text="https://docs.pi.dev/latest/compaction#per-model-overrides"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Use `compaction.modelOverrides` to tune token budgets for different models:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "compaction": {
     "reserveTokens": 16384,
@@ -591,13 +508,12 @@ Use `compaction.modelOverrides` to tune token budgets for different models:
 }
 ```
 
-
 For a model with a 1M context window, this override triggers compaction above 600K tokens and keeps the ordinary 20000 recent tokens. Other models retain the ordinary 16384-token reserve.
 
 Keys are exact, case-sensitive `provider/modelId` values, including any slashes within the model ID. Each `reserveTokens` and `keepRecentTokens` value falls back independently from the model override to the ordinary setting to the built-in default. Values must be non-negative safe integers. Invalid values in the matching model override produce an error when read; only omitted fields fall back to the ordinary setting. Model override entries must be objects. Invalid ordinary token settings produce an error when read, even if the active model has a valid override. Only omitted ordinary values use built-in defaults. `enabled` remains global, not model-specific.
 
 These resolved values are used for manual compaction, all automatic threshold checks, overflow recovery, and extension-visible `preparation.settings`. Model switches affect subsequent checks and compactions without changing ordinary settings. Compaction already in progress uses the model and settings captured for that operation. Branch summarization settings are unaffected.
 
-Overrides work in both global and project settings. The files merge recursively before lookup, so a global model-specific value beats a project-wide fallback; a project must override that model entry to change it. See [Settings](/latest/latest/settings#per-model-compaction-overrides) for details.
+Overrides work in both global and project settings. The files merge recursively before lookup, so a global model-specific value beats a project-wide fallback; a project must override that model entry to change it. See <a href="/latest/settings#per-model-compaction-overrides" class="link-module_root__svb26">Settings</a> for details.
 
 
