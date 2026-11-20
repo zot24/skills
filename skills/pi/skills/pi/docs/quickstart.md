@@ -2,219 +2,162 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Quickstart
 
 
 Pi runs in your terminal and works with files on your machine. To use it, you need access to a model through a supported provider. This can be a subscription, an API key, or a local model.
 
-For native Windows setup, read [Windows Setup](/latest/latest/windows). For Android, read [Termux Setup](/latest/latest/termux).
+For native Windows setup, read <a href="/latest/windows" class="link-module_root__svb26">Windows Setup</a>. For Android, read <a href="/latest/termux" class="link-module_root__svb26">Termux Setup</a>.
 
 
 ## 1. Install Pi
 
-<a href="#1-install-pi" class="heading-anchor" aria-label="Permalink: 1. Install Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/quickstart#1-install-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Install Pi with the installer on macOS, Linux, or Windows:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 curl -fsSL https://pi.dev/install.sh | sh
 ```
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 powershell -c "irm https://pi.dev/install.ps1 | iex"
 ```
 
-
 Both installers pin all dependencies and update Pi with `pi update`. Alternatively, install Pi from npm, which does not pin transitive dependencies. This requires Node.js 22.19 or newer:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 npm install -g --ignore-scripts @earendil-works/pi-coding-agent
 ```
-
 
 Pi does not require dependency lifecycle scripts for a normal npm installation.
 
 With Nix on macOS or Linux, install the latest release from Pi's flake. Nix builds Pi from source:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 nix profile add github:earendil-works/pi/stable
 ```
-
 
 Older Nix versions use `nix profile install` instead. Update with `nix profile upgrade pi`; `pi update` cannot update a Nix installation. To pin a release, use a tag such as `github:earendil-works/pi/v1.0.0`.
 
 Verify the installation:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --version
 ```
 
 
 ## 2. Start Pi
 
-<a href="#2-start-pi" class="heading-anchor" aria-label="Permalink: 2. Start Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/quickstart#2-start-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Change to the folder you want Pi to work with, then start it:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 cd /path/to/folder
 pi
 ```
 
-
 The working folder helps Pi discover relevant files, instructions, and configuration. Pi also uses it to group saved sessions.
 
-<img src="/latest/images/interactive-mode.png" width="750" alt="Pi running in a terminal with a conversation, input editor, and status footer" />
+<img src="/latest/images/interactive-mode.png" class="image-module_root__h-f8n" decoding="async" width="750" alt="Pi running in a terminal with a conversation, input editor, and status footer" />
 
-The interface shows your conversation, an editor for prompts and commands, and a footer with the current folder, model, and session status. See [Use Pi in the terminal](/latest/latest/usage) to learn how to add files, run commands, direct ongoing work, and manage results.
+The interface shows your conversation, an editor for prompts and commands, and a footer with the current folder, model, and session status. See <a href="/latest/usage" class="link-module_root__svb26">Use Pi in the terminal</a> to learn how to add files, run commands, direct ongoing work, and manage results.
 
 
 ## 3. Choose a model
-
-<a href="#3-choose-a-model" class="heading-anchor" aria-label="Permalink: 3. Choose a model" data-copy="" data-copy-text="https://docs.pi.dev/latest/quickstart#3-choose-a-model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A **model** generates Pi's responses. A **provider** is the service or account Pi uses to access that model.
 
 In Pi, run:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 /login
 ```
 
-
 Choose a provider, then follow the prompts to use a subscription or store an API key. Run `/model` afterward if you want to select a different available model.
 
-See [Choose a model and provider](/latest/latest/models) for supported providers, environment-variable authentication, local models, and custom endpoints.
+See <a href="/latest/models" class="link-module_root__svb26">Choose a model and provider</a> for supported providers, environment-variable authentication, local models, and custom endpoints.
 
 
 ## 4. Give Pi a task
-
-<a href="#4-give-pi-a-task" class="heading-anchor" aria-label="Permalink: 4. Give Pi a task" data-copy="" data-copy-text="https://docs.pi.dev/latest/quickstart#4-give-pi-a-task"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Pi shows each file read, search, command, and edit it performs. It does not ask before every tool call.
 
 Enter a task that matches your work, for example:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 Summarize @meeting-notes.md and save the action items to action-items.md.
 ```
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 Explain how this repository is structured and how to run its checks.
 ```
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 Compare @previous.csv with @current.csv and summarize the important changes.
 ```
 
-
-Type `@` in the editor to search for a file instead of entering its full path. When Pi finishes, review its response and any changed files. Use version control or backups for important work. For untrusted or unattended work, use a container or another sandbox. See [Security](/latest/latest/security).
+Type `@` in the editor to search for a file instead of entering its full path. When Pi finishes, review its response and any changed files. Use version control or backups for important work. For untrusted or unattended work, use a container or another sandbox. See <a href="/latest/security" class="link-module_root__svb26">Security</a>.
 
 
 ## Continue later
 
-<a href="#continue-later" class="heading-anchor" aria-label="Permalink: Continue later" data-copy="" data-copy-text="https://docs.pi.dev/latest/quickstart#continue-later"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Pi saves sessions automatically. Exit Pi, then resume the most recent session for the same working folder with:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --continue
 ```
 
-
-Use `/resume` to choose another saved session. See [Continue or branch a session](/latest/latest/sessions) for session naming, branching, compaction, export, and sharing.
+Use `/resume` to choose another saved session. See <a href="/latest/sessions" class="link-module_root__svb26">Continue or branch a session</a> for session naming, branching, compaction, export, and sharing.
 
 
 ## Next steps
 
-<a href="#next-steps" class="heading-anchor" aria-label="Permalink: Next steps" data-copy="" data-copy-text="https://docs.pi.dev/latest/quickstart#next-steps"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-- [Use Pi interactively](/latest/latest/usage) to learn input, commands, shortcuts, and queued messages.
-- [Add instructions](/latest/latest/configuration#context-files) that Pi should follow whenever it works in a folder.
-- [Choose a model and provider](/latest/latest/models).
+- <a href="/latest/usage" class="link-module_root__svb26">Use Pi interactively</a> to learn input, commands, shortcuts, and queued messages.
+- <a href="/latest/configuration#context-files" class="link-module_root__svb26">Add instructions</a> that Pi should follow whenever it works in a folder.
+- <a href="/latest/models" class="link-module_root__svb26">Choose a model and provider</a>.
 
 
 ### Choose how to customize Pi
 
-<a href="#choose-how-to-customize-pi" class="heading-anchor" aria-label="Permalink: Choose how to customize Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/quickstart#choose-how-to-customize-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Start with the least powerful mechanism that meets your need:
 
+
 | Need | Start with |
 |----|----|
-| Give Pi persistent instructions for a folder | [`AGENTS.md`](/latest/latest/configuration#context-files) |
-| Reuse a prompt from the `/` menu | [Prompt template](/latest/latest/prompt-templates) |
-| Add task-specific instructions and supporting files | [Skill](/latest/latest/skills) |
-| Add executable tools, commands, or event handlers | [Extension](/latest/latest/extensions) |
-| Build a custom terminal component | [Terminal UI](/latest/latest/tui) |
-| Connect an unsupported model service | [Custom provider](/latest/latest/custom-provider) |
-| Install or distribute several resources | [Pi package](/latest/latest/packages) |
+| Give Pi persistent instructions for a folder | <a href="/latest/configuration#context-files" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">AGENTS.md</code></a> |
+| Reuse a prompt from the `/` menu | <a href="/latest/prompt-templates" class="link-module_root__svb26">Prompt template</a> |
+| Add task-specific instructions and supporting files | <a href="/latest/skills" class="link-module_root__svb26">Skill</a> |
+| Add executable tools, commands, or event handlers | <a href="/latest/extensions" class="link-module_root__svb26">Extension</a> |
+| Build a custom terminal component | <a href="/latest/tui" class="link-module_root__svb26">Terminal UI</a> |
+| Connect an unsupported model service | <a href="/latest/custom-provider" class="link-module_root__svb26">Custom provider</a> |
+| Install or distribute several resources | <a href="/latest/packages" class="link-module_root__svb26">Pi package</a> |
 
 
 ## Uninstall Pi
 
-<a href="#uninstall-pi" class="heading-anchor" aria-label="Permalink: Uninstall Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/quickstart#uninstall-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 If you installed Pi with npm, run:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 npm uninstall -g @earendil-works/pi-coding-agent
 ```
 
-
 If you used the installer, run it again and choose **Uninstall Pi**:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 curl -fsSL https://pi.dev/install.sh | sh
 ```
 
-
 If you installed Pi with Nix, run:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 nix profile remove pi
 ```
-
 
 None of these methods removes configuration, credentials, sessions, or installed Pi packages from `~/.pi/agent/`.
 

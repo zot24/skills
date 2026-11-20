@@ -2,24 +2,6 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Extensions
 
 
@@ -54,54 +36,49 @@ An extension runs inside the Pi process with the same operating-system permissio
 - External integrations (file watchers, webhooks, CI triggers)
 - Games while you wait (see `snake.ts` example)
 
-See [examples/extensions/](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions) for working implementations.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions" class="link-module_root__svb26">examples/extensions/</a> for working implementations.
 
 
 ## Table of Contents
 
-<a href="#table-of-contents" class="heading-anchor" aria-label="Permalink: Table of Contents" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#table-of-contents"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-- [Quick Start](#quick-start)
-- [Extension Locations](#extension-locations)
-- [Available Imports](#available-imports)
-- [Writing an Extension](#writing-an-extension)
-  - [Extension Styles](#extension-styles)
-- [Events](#events)
-  - [Lifecycle Overview](#lifecycle-overview)
-  - [Handler Composition](#handler-composition)
-  - [Startup Events](#startup-events)
-  - [Resource Events](#resource-events)
-  - [Session Events](#session-events)
-  - [Agent Events](#agent-events)
-  - [Model Events](#model-events)
-  - [Tool Events](#tool-events)
-  - [User Bash Events](#user-bash-events)
-  - [Input Events](#input-events)
-- [ExtensionContext](#extensioncontext)
-- [ExtensionCommandContext](#extensioncommandcontext)
-- [ExtensionAPI Methods](#extensionapi-methods)
-- [State Management](#state-management)
-- [Custom Tools](#custom-tools)
-  - [Tool Exposure](#tool-exposure)
-  - [Calling Other Tools](#calling-other-tools)
-  - [Dynamic Tool Loading](#dynamic-tool-loading)
-- [MCP Servers](#mcp-servers)
-- [Custom UI](#custom-ui)
-- [Error Handling](#error-handling)
-- [Mode Behavior](#mode-behavior)
-- [Examples Reference](#examples-reference)
+- <a href="#quick-start" class="link-module_root__svb26">Quick Start</a>
+- <a href="#extension-locations" class="link-module_root__svb26">Extension Locations</a>
+- <a href="#available-imports" class="link-module_root__svb26">Available Imports</a>
+- <a href="#writing-an-extension" class="link-module_root__svb26">Writing an Extension</a>
+  - <a href="#extension-styles" class="link-module_root__svb26">Extension Styles</a>
+- <a href="#events" class="link-module_root__svb26">Events</a>
+  - <a href="#lifecycle-overview" class="link-module_root__svb26">Lifecycle Overview</a>
+  - <a href="#handler-composition" class="link-module_root__svb26">Handler Composition</a>
+  - <a href="#startup-events" class="link-module_root__svb26">Startup Events</a>
+  - <a href="#resource-events" class="link-module_root__svb26">Resource Events</a>
+  - <a href="#session-events" class="link-module_root__svb26">Session Events</a>
+  - <a href="#agent-events" class="link-module_root__svb26">Agent Events</a>
+  - <a href="#model-events" class="link-module_root__svb26">Model Events</a>
+  - <a href="#tool-events" class="link-module_root__svb26">Tool Events</a>
+  - <a href="#user-bash-events" class="link-module_root__svb26">User Bash Events</a>
+  - <a href="#input-events" class="link-module_root__svb26">Input Events</a>
+- <a href="#extensioncontext" class="link-module_root__svb26">ExtensionContext</a>
+- <a href="#extensioncommandcontext" class="link-module_root__svb26">ExtensionCommandContext</a>
+- <a href="#extensionapi-methods" class="link-module_root__svb26">ExtensionAPI Methods</a>
+- <a href="#state-management" class="link-module_root__svb26">State Management</a>
+- <a href="#custom-tools" class="link-module_root__svb26">Custom Tools</a>
+  - <a href="#tool-exposure" class="link-module_root__svb26">Tool Exposure</a>
+  - <a href="#calling-other-tools" class="link-module_root__svb26">Calling Other Tools</a>
+  - <a href="#dynamic-tool-loading" class="link-module_root__svb26">Dynamic Tool Loading</a>
+- <a href="#mcp-servers" class="link-module_root__svb26">MCP Servers</a>
+- <a href="#custom-ui" class="link-module_root__svb26">Custom UI</a>
+- <a href="#error-handling" class="link-module_root__svb26">Error Handling</a>
+- <a href="#mode-behavior" class="link-module_root__svb26">Mode Behavior</a>
+- <a href="#examples-reference" class="link-module_root__svb26">Examples Reference</a>
 
 
 ## Quick Start
 
-<a href="#quick-start" class="heading-anchor" aria-label="Permalink: Quick Start" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#quick-start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Create `~/.pi/agent/extensions/my-extension.ts`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { type ExtensionAPI, isToolCallEventType } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
 
@@ -144,23 +121,20 @@ export default function (pi: ExtensionAPI) {
 }
 ```
 
-
 Test with `--extension` (or `-e`) flag:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi -e ./my-extension.ts
 ```
 
 
 ## Extension Locations
 
-<a href="#extension-locations" class="heading-anchor" aria-label="Permalink: Extension Locations" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#extension-locations"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 > **Security:** Extensions run with your full system permissions and can execute arbitrary code. Only install from sources you trust.
 
 Extensions are auto-discovered from trusted locations. Project-local `.pi/extensions` entries load only after the project is trusted.
+
 
 | Location | Scope |
 |----|----|
@@ -169,12 +143,12 @@ Extensions are auto-discovered from trusted locations. Project-local `.pi/extens
 | `~/.pi/agent/extensions/*/package.json` with a `pi.extensions` field | Global (subdirectory with manifest) |
 | `.pi/extensions/...` | Project-local, same layouts |
 
+
 Discovery goes one level deep. Larger packages declare their entry points in a `package.json` manifest.
 
 Additional paths via `settings.json`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "packages": [
     "npm:@foo/bar@1.0.0",
@@ -187,13 +161,10 @@ Additional paths via `settings.json`:
 }
 ```
 
-
-Settings also accept built-in extensions as `builtin:<name>` entries; see [Settings](/latest/latest/settings#resources). To share extensions via npm or git as Pi packages, see [packages.md](/latest/latest/packages).
+Settings also accept built-in extensions as `builtin:<name>` entries; see <a href="/latest/settings#resources" class="link-module_root__svb26">Settings</a>. To share extensions via npm or git as Pi packages, see <a href="/latest/packages" class="link-module_root__svb26">packages.md</a>.
 
 
 ## Available Imports
-
-<a href="#available-imports" class="heading-anchor" aria-label="Permalink: Available Imports" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#available-imports"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Package | Purpose |
@@ -205,16 +176,15 @@ Settings also accept built-in extensions as `builtin:<name>` entries; see [Setti
 | `@earendil-works/pi-ai/compat`, `/models`, `/oauth`, `/providers/all` | Provider construction, built-in APIs, and OAuth helpers |
 | `@earendil-works/pi-tui` | TUI components for custom rendering |
 
+
 Pi maps these imports to its own copies, so extensions share Pi's classes and registries. The legacy `@mariozechner/*` and `@sinclair/typebox` names map to the same modules.
 
 npm dependencies work too. Add a `package.json` next to your extension (or in a parent directory), run `npm install`, and imports from `node_modules/` are resolved automatically.
 
-For distributed Pi packages installed with `pi install` (npm or git), runtime deps must be in `dependencies`; `devDependencies` are not installed. Do not list the host-provided packages above in `dependencies`. See [Declare dependencies](/latest/latest/packages#declare-dependencies).
+For distributed Pi packages installed with `pi install` (npm or git), runtime deps must be in `dependencies`; `devDependencies` are not installed. Do not list the host-provided packages above in `dependencies`. See <a href="/latest/packages#declare-dependencies" class="link-module_root__svb26">Declare dependencies</a>.
 
 
 ### Tool parameter schemas and TypeBox
-
-<a href="#tool-parameter-schemas-and-typebox" class="heading-anchor" aria-label="Permalink: Tool parameter schemas and TypeBox" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool-parameter-schemas-and-typebox"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Pi validates tool arguments as JSON Schema with `@earendil-works/pi-schema`, whatever built the schema; TypeBox schemas are JSON Schema and work unchanged. Before validation, loosely typed arguments are coerced: numeric strings to numbers, `"true"` to `true`, a single value to a one-item array, `null` in an optional property dropped. TypeBox features outside JSON Schema do not apply to tool arguments:
@@ -232,13 +202,10 @@ Node.js built-ins (`node:fs`, `node:path`, etc.) are also available.
 
 ## Writing an Extension
 
-<a href="#writing-an-extension" class="heading-anchor" aria-label="Permalink: Writing an Extension" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#writing-an-extension"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 An extension exports a default factory function that receives `ExtensionAPI`. The factory can be synchronous or asynchronous:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 export default function (pi: ExtensionAPI) {
@@ -259,21 +226,17 @@ export default function (pi: ExtensionAPI) {
 }
 ```
 
-
-Extensions are loaded via [jiti](https://github.com/unjs/jiti), so TypeScript works without compilation.
+Extensions are loaded via <a href="https://github.com/unjs/jiti" class="link-module_root__svb26">jiti</a>, so TypeScript works without compilation.
 
 If the factory returns a `Promise`, Pi awaits it before continuing startup. That means async initialization completes before `session_start`, before `resources_discover`, and before provider registrations queued via `pi.registerProvider()` are flushed.
 
 
 ### Async factory functions
 
-<a href="#async-factory-functions" class="heading-anchor" aria-label="Permalink: Async factory functions" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#async-factory-functions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Use an async factory for one-time startup work such as fetching remote configuration or dynamically discovering available models.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 export default async function (pi: ExtensionAPI) {
@@ -304,13 +267,10 @@ export default async function (pi: ExtensionAPI) {
 }
 ```
 
-
-This pattern makes the fetched models available during normal startup and to `pi --list-models`. For model lists that change while Pi runs, implement `refreshModels` instead; see [pi.registerProvider()](#piregisterprovidername-config).
+This pattern makes the fetched models available during normal startup and to `pi --list-models`. For model lists that change while Pi runs, implement `refreshModels` instead; see <a href="#piregisterprovidername-config" class="link-module_root__svb26">pi.registerProvider()</a>.
 
 
 ### Long-lived resources and shutdown
-
-<a href="#long-lived-resources-and-shutdown" class="heading-anchor" aria-label="Permalink: Long-lived resources and shutdown" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#long-lived-resources-and-shutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Extension factories may run in invocations that never start a session. Do not start background resources such as processes, sockets, file watchers, or timers from the factory.
@@ -320,22 +280,17 @@ Defer background resource startup until `session_start` or the command/tool/even
 
 ### Extension Styles
 
-<a href="#extension-styles" class="heading-anchor" aria-label="Permalink: Extension Styles" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#extension-styles"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 **Single file** - simplest, for small extensions:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 ~/.pi/agent/extensions/
 └── my-extension.ts
 ```
 
-
 **Directory with index.ts** - for multi-file extensions:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 ~/.pi/agent/extensions/
 └── my-extension/
     ├── index.ts        # Entry point (exports default function)
@@ -343,11 +298,9 @@ Defer background resource startup until `session_start` or the command/tool/even
     └── utils.ts        # Helper module
 ```
 
-
 **Package with dependencies** - for extensions that need npm packages:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 ~/.pi/agent/extensions/
 └── my-extension/
     ├── package.json    # Declares dependencies and entry points
@@ -357,8 +310,7 @@ Defer background resource startup until `session_start` or the command/tool/even
         └── index.ts
 ```
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 // package.json
 {
   "name": "my-extension",
@@ -372,18 +324,13 @@ Defer background resource startup until `session_start` or the command/tool/even
 }
 ```
 
-
 Run `npm install` in the extension directory, then imports from `node_modules/` work automatically.
 
 
 ## Events
 
-<a href="#events" class="heading-anchor" aria-label="Permalink: Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### Lifecycle Overview
-
-<a href="#lifecycle-overview" class="heading-anchor" aria-label="Permalink: Lifecycle Overview" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#lifecycle-overview"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A prompt starts a run. Input handling comes first:
@@ -395,7 +342,8 @@ A prompt starts a run. Input handling comes first:
 
 The run repeats turns, then checks whether more work starts another low-level agent run:
 
-``` markdown-mermaid-source
+
+``` code-snippet-module_root__tK5do
 flowchart TD
     Input["input"] --> Before["before_agent_start"]
     Before --> AgentStart["agent_start"]
@@ -414,7 +362,8 @@ More work means a retry, final-attempt recovery, a compaction retry, or queued m
 
 Each turn sends one model request and executes the tool calls in the assistant response:
 
-``` markdown-mermaid-source
+
+``` code-snippet-module_root__tK5do
 flowchart TD
     TurnStart["turn_start"] --> Request[["model request"]]
     Request --> ToolDecision{"Tool calls?"}
@@ -450,7 +399,8 @@ Calls that do not execute end early. An unknown tool or invalid arguments skip `
 
 Session startup and replacement follow a separate lifecycle:
 
-``` markdown-mermaid-source
+
+``` code-snippet-module_root__tK5do
 flowchart TD
     Startup["Process startup"] --> Trust["project_trust when needed"]
     Trust --> SessionStart["session_start"]
@@ -473,6 +423,7 @@ flowchart TD
 
 Other operations change the current session without replacing the runtime:
 
+
 | Operation | Events |
 |----|----|
 | `/compact` or automatic compaction | `session_before_compact` (can cancel or customize), then `session_compact` or `session_compact_failed` |
@@ -488,10 +439,9 @@ Other operations change the current session without replacing the runtime:
 
 ### Handler Composition
 
-<a href="#handler-composition" class="heading-anchor" aria-label="Permalink: Handler Composition" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#handler-composition"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Handlers run in extension load order, then registration order. Some events notify; others transform data, replace results, or cancel an operation:
+
 
 | Pattern | Behavior |
 |----|----|
@@ -502,23 +452,19 @@ Handlers run in extension load order, then registration order. Some events notif
 | Actionable boundary | Each `turn_end` or `agent_before_settle` handler sees the entries and continuation decision proposed so far. |
 | Last override | The last `cache_warming_decision` handler that returns an action wins. |
 
+
 Notification handlers should not perform slow work on a streaming event. Transform handlers should preserve fields they do not intentionally own, and gate handlers should fail closed when their safety decision cannot be made.
 
 
 ### Startup Events
 
-<a href="#startup-events" class="heading-anchor" aria-label="Permalink: Startup Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#startup-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 #### project_trust
-
-<a href="#project_trust" class="heading-anchor" aria-label="Permalink: project_trust" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#project_trust"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired before Pi decides whether to trust a project with dynamic configs (`.pi` or `.agents/skills`). It runs during startup and when session replacement (for example `/resume`) enters a cwd whose trust has not been resolved in the current process. Only user/global extensions and CLI `-e` extensions participate; project-local extensions are not loaded until after trust is resolved.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("project_trust", async (event, ctx) => {
   // event.cwd - current working directory
   // ctx has a limited trust context: cwd, mode, hasUI, and select/confirm/input/notify UI helpers
@@ -529,24 +475,18 @@ pi.on("project_trust", async (event, ctx) => {
 });
 ```
 
-
 A `project_trust` handler must return `{ trusted: "yes" | "no" | "undecided" }`. A user/global or CLI extension that returns `"yes"` or `"no"` owns the decision; the first yes/no decision wins and suppresses the built-in trust prompt. Use `remember: true` to persist a yes/no decision; otherwise it applies only to the current process. Return `"undecided"` to let later handlers or the built-in trust flow decide. Check `ctx.hasUI` before prompting. If no handler returns yes/no, normal trust resolution continues: saved `trust.json` decisions apply first, then `defaultProjectTrust` controls whether Pi asks, trusts, or declines by default.
 
 
 ### Resource Events
 
-<a href="#resource-events" class="heading-anchor" aria-label="Permalink: Resource Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#resource-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 #### resources_discover
-
-<a href="#resources_discover" class="heading-anchor" aria-label="Permalink: resources_discover" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#resources_discover"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired after `session_start` so extensions can contribute additional skill, prompt, and theme paths. The startup path uses `reason: "startup"`. Reload uses `reason: "reload"`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("resources_discover", async (event, _ctx) => {
   // event.cwd - current working directory
   // event.reason - "startup" | "reload"
@@ -561,29 +501,22 @@ pi.on("resources_discover", async (event, _ctx) => {
 
 #### mcp_servers_change
 
-<a href="#mcp_servers_change" class="heading-anchor" aria-label="Permalink: mcp_servers_change" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#mcp_servers_change"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Fired when an extension registers or unregisters an MCP server after extensions are bound. `event.servers` lists every registered server after the change. Handling this event marks the extension as the one that connects registered servers; see [MCP Servers](#mcp-servers).
+Fired when an extension registers or unregisters an MCP server after extensions are bound. `event.servers` lists every registered server after the change. Handling this event marks the extension as the one that connects registered servers; see <a href="#mcp-servers" class="link-module_root__svb26">MCP Servers</a>.
 
 
 ### Session Events
 
-<a href="#session-events" class="heading-anchor" aria-label="Permalink: Session Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-See [Session Format](/latest/latest/session-format) for session storage internals and the SessionManager API.
+See <a href="/latest/session-format" class="link-module_root__svb26">Session Format</a> for session storage internals and the SessionManager API.
 
 
 #### session_start
 
-<a href="#session_start" class="heading-anchor" aria-label="Permalink: session_start" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired when a session is started, loaded, or reloaded.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("session_start", async (event, ctx) => {
   // event.reason - "startup" | "reload" | "new" | "resume" | "fork"
   // event.previousSessionFile - present for "new", "resume", and "fork"
@@ -594,13 +527,10 @@ pi.on("session_start", async (event, ctx) => {
 
 #### session_info_changed
 
-<a href="#session_info_changed" class="heading-anchor" aria-label="Permalink: session_info_changed" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_info_changed"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired when the current session display name is set via `/name`, RPC, or `pi.setSessionName()`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("session_info_changed", async (event, ctx) => {
   // event.name - current normalized name, or undefined if cleared
   ctx.ui.notify(`Session renamed: ${event.name ?? "(none)"}`, "info");
@@ -610,13 +540,10 @@ pi.on("session_info_changed", async (event, ctx) => {
 
 #### session_before_switch
 
-<a href="#session_before_switch" class="heading-anchor" aria-label="Permalink: session_before_switch" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_before_switch"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired before starting a new session (`/new`) or switching sessions (`/resume`).
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("session_before_switch", async (event, ctx) => {
   // event.reason - "new" or "resume"
   // event.targetSessionFile - session we're switching to (only for "resume")
@@ -628,19 +555,15 @@ pi.on("session_before_switch", async (event, ctx) => {
 });
 ```
 
-
 After a successful switch or new-session action, Pi emits `session_shutdown` for the old extension instance, reloads and rebinds extensions for the new session, then emits `session_start` with `reason: "new" | "resume"` and `previousSessionFile`. Do cleanup work in `session_shutdown`, then reestablish any in-memory state in `session_start`.
 
 
 #### session_before_fork
 
-<a href="#session_before_fork" class="heading-anchor" aria-label="Permalink: session_before_fork" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_before_fork"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired when forking via `/fork` or cloning via `/clone`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("session_before_fork", async (event, ctx) => {
   // event.entryId - ID of the selected entry
   // event.position - "before" for /fork, "at" for /clone
@@ -650,19 +573,15 @@ pi.on("session_before_fork", async (event, ctx) => {
 });
 ```
 
-
 After a successful fork or clone, Pi emits `session_shutdown` for the old extension instance, reloads and rebinds extensions for the new session, then emits `session_start` with `reason: "fork"` and `previousSessionFile`. Do cleanup work in `session_shutdown`, then reestablish any in-memory state in `session_start`.
 
 
 #### session_before_compact / session_compact / session_compact_failed
 
-<a href="#session_before_compact--session_compact--session_compact_failed" class="heading-anchor" aria-label="Permalink: session_before_compact / session_compact / session_compact_failed" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_before_compact--session_compact--session_compact_failed"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Fired on compaction. See <a href="/latest/compaction" class="link-module_root__svb26">compaction.md</a> for details.
 
-Fired on compaction. See [compaction.md](/latest/latest/compaction) for details.
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("session_before_compact", async (event, ctx) => {
   const { preparation, branchEntries, customInstructions, reason, willRetry, signal } = event;
 
@@ -702,13 +621,10 @@ pi.on("session_compact_failed", async (event, ctx) => {
 
 #### session_before_tree / session_tree
 
-<a href="#session_before_tree--session_tree" class="heading-anchor" aria-label="Permalink: session_before_tree / session_tree" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_before_tree--session_tree"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Fired on `/tree` navigation. See <a href="/latest/sessions" class="link-module_root__svb26">Sessions</a> for tree navigation concepts.
 
-Fired on `/tree` navigation. See [Sessions](/latest/latest/sessions) for tree navigation concepts.
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("session_before_tree", async (event, ctx) => {
   const { preparation, signal } = event;
   // preparation.targetId, oldLeafId, commonAncestorId, entriesToSummarize,
@@ -733,13 +649,10 @@ pi.on("session_tree", async (event, ctx) => {
 
 #### session_shutdown
 
-<a href="#session_shutdown" class="heading-anchor" aria-label="Permalink: session_shutdown" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session_shutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired before a started session runtime is torn down. Use this to clean up resources opened from `session_start` or other session-scoped hooks.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("session_shutdown", async (event, ctx) => {
   // event.reason - "quit" | "reload" | "new" | "resume" | "fork"
   // event.targetSessionFile - destination session for session replacement flows
@@ -750,20 +663,15 @@ pi.on("session_shutdown", async (event, ctx) => {
 
 ### Agent Events
 
-<a href="#agent-events" class="heading-anchor" aria-label="Permalink: Agent Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#agent-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 #### before_agent_start
-
-<a href="#before_agent_start" class="heading-anchor" aria-label="Permalink: before_agent_start" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#before_agent_start"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired before a run starts, after input handling and expansion. Can inject a message and/or modify the system prompt.
 
 `event.messageType` says what started the run: `"user"` for a prompt or `pi.sendUserMessage()`, with `prompt` and `images`; `"custom"` for `pi.sendMessage(..., { triggerTurn: true })` while idle, with the starting `message` and no `prompt`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("before_agent_start", async (event, ctx) => {
   // event.messageType - "user" | "custom"
   // event.prompt, event.images - user's prompt text and images (messageType "user")
@@ -797,7 +705,6 @@ pi.on("before_agent_start", async (event, ctx) => {
 });
 ```
 
-
 A returned `message` is added to either kind of run; check `messageType` to skip runs started by custom messages.
 
 The `systemPromptOptions` field gives extensions access to the same structured data Pi uses to build the system prompt. Collections are mutable. Prefer changing `sections`, `selectedTools`, or `promptGuidelines`: Pi diffs the resulting prompt sections against what the model already has and appends one system message patching only the changed sections. Returning `systemPrompt`, or setting `forceSystemPrompt`, replaces the whole prompt for the run: every provider receives the forced text as its leading system prompt (a cache miss when it changes), and the session transcript keeps recording the structured sections. Tool selection changes update both the prompt contributions and executable provider tools; calling `pi.setActiveTools()` inside the handler has the same effect as editing `selectedTools`. Models that accept system messages mid-conversation receive the patch in place and keep their cached prefix; other models get the replayed prompt as their system prompt, which is a cache miss once per change.
@@ -807,13 +714,10 @@ Inside `before_agent_start`, `event.systemPrompt` and `ctx.getSystemPrompt()` bo
 
 #### agent_start / agent_end / agent_before_settle / agent_settled
 
-<a href="#agent_start--agent_end--agent_before_settle--agent_settled" class="heading-anchor" aria-label="Permalink: agent_start / agent_end / agent_before_settle / agent_settled" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#agent_start--agent_end--agent_before_settle--agent_settled"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 `agent_start` fires when a low-level agent run begins. `agent_end` fires when that run ends, but Pi may still auto-retry, auto-compact and retry, or continue with queued follow-up messages. `agent_before_settle` is the final actionable boundary: it can append session entries and request one continuation. `agent_settled` is final and notification-only; use it for status integrations that need to know Pi will not continue running automatically.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("agent_start", async (_event, ctx) => {});
 
 pi.on("agent_end", async (event, ctx) => {
@@ -841,21 +745,17 @@ pi.on("agent_settled", async (event, ctx) => {
 });
 ```
 
-
 If the run is aborted while `agent_before_settle` handlers are running, valid returned entries are still committed, but requested continuation is suppressed. Work requested from `agent_settled` is deferred until every settled handler completes, so notification dispatch is non-reentrant.
 
 
 #### ui_prompt_start / ui_prompt_end
-
-<a href="#ui_prompt_start--ui_prompt_end" class="heading-anchor" aria-label="Permalink: ui_prompt_start / ui_prompt_end" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ui_prompt_start--ui_prompt_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Notification-only lifecycle events for blocking user-facing extension UI prompts. They fire around `ctx.ui.select()`, `ctx.ui.confirm()`, `ctx.ui.input()`, `ctx.ui.editor()`, and `ctx.ui.custom()` so host/status integrations can report "waiting for user" instead of just "running".
 
 Nested or overlapping prompts are coalesced into one outer waiting span. Handlers are invoked best-effort and are not awaited before showing or closing the prompt.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("ui_prompt_start", async (event, ctx) => {
   // event.reason === "ui_prompt"
   // event.kind: "select" | "confirm" | "input" | "editor" | "custom"
@@ -870,13 +770,10 @@ pi.on("ui_prompt_end", async (event, ctx) => {
 
 #### turn_start / turn_end
 
-<a href="#turn_start--turn_end" class="heading-anchor" aria-label="Permalink: turn_start / turn_end" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#turn_start--turn_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired for each turn (one LLM response + tool calls).
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("turn_start", async (event, ctx) => {
   // event.turnIndex, event.timestamp
 });
@@ -903,7 +800,6 @@ pi.on("turn_end", async (event, ctx) => {
 });
 ```
 
-
 `turn_end` runs after the assistant and tool-result messages have been persisted and before the low-level `turn_end` event. Retry backoff and final-attempt recovery still happen after `agent_end`, preserving their existing lifecycle and queue ordering; `agent_before_settle` sees the repaired projection after that work completes. Boundary handlers run in extension load and registration order. Each handler sees prior proposals in `event.entries` and sees `event.context` rebuilt from them. Returning `entries` or `continue` replaces only that field; omitted fields preserve the current proposal. Allowed draft entry types are `custom`, `custom_message`, `context_edit`, and `compaction`. The complete proposal is validated before it is appended in list order after all handlers finish; a handler error is reported and later handlers still run. Validation prevents partially applied semantic errors, but persistence is not transactional.
 
 `continue: true` ensures one next provider request for that boundary invocation. If tool results, steering, or a follow-up already cause that request, they satisfy the decision and no additional request is made; otherwise Pi makes one context-only request. Error and aborted responses remain hard exits. `continue: false` never suppresses natural work. Guard continuation conditions: an unconditional `continue: true` is evaluated again after the next response and can create an endless loop. A `custom_message` draft contributes a user-role model message but is extension-authored: it does not run human input hooks, slash commands, skills, or prompt templates.
@@ -913,8 +809,6 @@ Host integrations that construct `TurnEndEvent` values must provide `messageEntr
 
 #### message_start / message_update / message_end
 
-<a href="#message_start--message_update--message_end" class="heading-anchor" aria-label="Permalink: message_start / message_update / message_end" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#message_start--message_update--message_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired for message lifecycle updates.
 
@@ -922,8 +816,7 @@ Fired for message lifecycle updates.
 - `message_update` fires for assistant streaming updates.
 - `message_end` handlers can return `{ message }` to replace the finalized message. The replacement must keep the same `role`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("message_start", async (event, ctx) => {
   // event.message
 });
@@ -954,8 +847,6 @@ pi.on("message_end", async (event, ctx) => {
 
 #### tool_execution_start / tool_execution_update / tool_execution_end
 
-<a href="#tool_execution_start--tool_execution_update--tool_execution_end" class="heading-anchor" aria-label="Permalink: tool_execution_start / tool_execution_update / tool_execution_end" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool_execution_start--tool_execution_update--tool_execution_end"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired for tool execution lifecycle updates.
 
@@ -966,8 +857,7 @@ In parallel tool mode:
 - `tool_execution_end` is emitted in tool completion order after each tool is finalized
 - final `toolResult` message events are still emitted later in assistant source order
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("tool_execution_start", async (event, ctx) => {
   // event.toolCallId, event.toolName, event.args
 });
@@ -982,19 +872,15 @@ pi.on("tool_execution_end", async (event, ctx) => {
 });
 ```
 
-
-All three events, `tool_call`, and `tool_result` carry `parentToolCallId` when another tool made the call; see [Calling Other Tools](#calling-other-tools).
+All three events, `tool_call`, and `tool_result` carry `parentToolCallId` when another tool made the call; see <a href="#calling-other-tools" class="link-module_root__svb26">Calling Other Tools</a>.
 
 
 #### context
 
-<a href="#context" class="heading-anchor" aria-label="Permalink: context" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#context"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Fired before each LLM call. Modify messages non-destructively. See <a href="/latest/session-format" class="link-module_root__svb26">Session Format</a> for message types.
 
-Fired before each LLM call. Modify messages non-destructively. See [Session Format](/latest/latest/session-format) for message types.
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("context", async (event, ctx) => {
   // event.messages - deep copy without system messages, safe to modify
   const filtered = event.messages.filter(m => !shouldPrune(m));
@@ -1002,19 +888,15 @@ pi.on("context", async (event, ctx) => {
 });
 ```
 
-
-`event.messages` holds the conversation without system messages. The prompt and tool declarations belong to Pi and are not part of this hook: when the handler returns a changed list, Pi replays the current prompt sections and tool declarations into one leading system message ahead of the returned messages. Filtering, windowing, or slicing from a compaction summary therefore cannot drop the prompt or the tools. An unchanged list keeps mid-conversation system messages in place, so models that accept them retain their cached prefix. System messages a handler adds are kept after Pi's head. To change the prompt or the tool set durably, use [`before_agent_start`](#before_agent_start) or `pi.setActiveTools()`; to edit system messages for one request, use [`context_with_system`](#context_with_system).
+`event.messages` holds the conversation without system messages. The prompt and tool declarations belong to Pi and are not part of this hook: when the handler returns a changed list, Pi replays the current prompt sections and tool declarations into one leading system message ahead of the returned messages. Filtering, windowing, or slicing from a compaction summary therefore cannot drop the prompt or the tools. An unchanged list keeps mid-conversation system messages in place, so models that accept them retain their cached prefix. System messages a handler adds are kept after Pi's head. To change the prompt or the tool set durably, use <a href="#before_agent_start" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">before_agent_start</code></a> or `pi.setActiveTools()`; to edit system messages for one request, use <a href="#context_with_system" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">context_with_system</code></a>.
 
 
 #### context_with_system
 
-<a href="#context_with_system" class="heading-anchor" aria-label="Permalink: context_with_system" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#context_with_system"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Fired before each LLM call, after every `context` handler has run and Pi has restored the prompt and tool state. `event.messages` is the full transcript, including the leading system message and any mid-conversation prompt or tool patches (see <a href="/latest/session-format#sessionmessageentry" class="link-module_root__svb26">Session Format</a>). The returned messages are sent as they are: this hook owns the prompt and tool declarations for the request.
 
-Fired before each LLM call, after every `context` handler has run and Pi has restored the prompt and tool state. `event.messages` is the full transcript, including the leading system message and any mid-conversation prompt or tool patches (see [Session Format](/latest/latest/session-format#sessionmessageentry)). The returned messages are sent as they are: this hook owns the prompt and tool declarations for the request.
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { getCurrentSystemMessage } from "@earendil-works/pi-ai";
 
 pi.on("context_with_system", async (event, ctx) => {
@@ -1025,21 +907,17 @@ pi.on("context_with_system", async (event, ctx) => {
 });
 ```
 
-
 Rules: keep a system message at index 0 (providers read the prompt and initial tool declarations there; Pi reports an error if a handler drops it). Removing a system message removes the tool declarations and section patches it carries. Check your output with `getCurrentSystemPrompt()` and `getCurrentTools()` from `@earendil-works/pi-ai`. Handlers run in extension load order; a `systemPrompt` forced from `before_agent_start` is still projected onto the request afterwards.
 
 
 #### before_provider_headers
-
-<a href="#before_provider_headers" class="heading-anchor" aria-label="Permalink: before_provider_headers" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#before_provider_headers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired after the outgoing HTTP headers are assembled. Use it to add, override, or remove request headers.
 
 Handlers mutate `event.headers` in place. Set a key to a string to add or override it, or to `null` to delete it.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("before_provider_headers", (event, ctx) => {
   // Add or override — e.g. a session id for gateway tracing/attribution
   event.headers["x-session-id"] = ctx.sessionManager.getSessionId();
@@ -1049,21 +927,17 @@ pi.on("before_provider_headers", (event, ctx) => {
 });
 ```
 
-
 Runs once per provider request; retries reuse the same headers rather than re-firing the hook.
 
 
 #### before_provider_request
-
-<a href="#before_provider_request" class="heading-anchor" aria-label="Permalink: before_provider_request" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#before_provider_request"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired after the provider-specific payload is built, right before the request is sent. Handlers run in extension load order. Returning `undefined` keeps the payload unchanged. Returning any other value replaces the payload for later handlers and for the actual request.
 
 This hook can rewrite provider-level system instructions or remove them entirely. Those payload-level changes are not reflected by `ctx.getSystemPrompt()`, which reports Pi's system prompt string rather than the final serialized provider payload.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("before_provider_request", (event, ctx) => {
   console.log(JSON.stringify(event.payload, null, 2));
 
@@ -1072,7 +946,6 @@ pi.on("before_provider_request", (event, ctx) => {
 });
 ```
 
-
 This is mainly useful for debugging provider serialization and cache behavior.
 
 The payload is the full request. Providers that continue from a previous response (OpenAI Codex over WebSocket, Anthropic message threads) may send only the part that is new since the previous request.
@@ -1080,13 +953,10 @@ The payload is the full request. Providers that continue from a previous respons
 
 #### after_provider_response
 
-<a href="#after_provider_response" class="heading-anchor" aria-label="Permalink: after_provider_response" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#after_provider_response"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired after an HTTP response is received and before its stream body is consumed. Handlers run in extension load order.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("after_provider_response", (event, ctx) => {
   // event.status - HTTP status code
   // event.headers - normalized response headers
@@ -1096,38 +966,30 @@ pi.on("after_provider_response", (event, ctx) => {
 });
 ```
 
-
 Header availability depends on provider and transport. Providers that abstract HTTP responses may not expose headers.
 
 
 #### provider_stream_event
 
-<a href="#provider_stream_event" class="heading-anchor" aria-label="Permalink: provider_stream_event" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#provider_stream_event"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired for each parsed provider stream event before Pi normalizes it. Notification-only and not persisted.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("provider_stream_event", (event, ctx) => {
   // event.provider, event.api, event.model
   // event.data - earliest structured value available to Pi (read-only)
 });
 ```
 
-
-`event.data` is not necessarily the original HTTP bytes or SSE frame. Treat it as read-only because mutation can affect normalization. Handlers are awaited in stream order, so slow handlers delay stream consumption. Handler errors are reported without changing the provider response. See [`debug-provider.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/debug-provider.ts) for an opt-in viewer that groups raw events by assistant message.
+`event.data` is not necessarily the original HTTP bytes or SSE frame. Treat it as read-only because mutation can affect normalization. Handlers are awaited in stream order, so slow handlers delay stream consumption. Handler errors are reported without changing the provider response. See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/debug-provider.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">debug-provider.ts</code></a> for an opt-in viewer that groups raw events by assistant message.
 
 
 #### cache_warming_decision
 
-<a href="#cache_warming_decision" class="heading-anchor" aria-label="Permalink: cache_warming_decision" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#cache_warming_decision"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired before each prompt-cache refresh with Pi's decision filled in. The event carries only Pi's cost estimates; use `ctx.model`, `ctx.isIdle()`, and `ctx.getContextUsage()` for everything else.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("cache_warming_decision", (event, ctx) => {
   // event.warmCost: price of this refresh
   // event.missCost: extra price of the next request if the entry is lost
@@ -1140,24 +1002,18 @@ pi.on("cache_warming_decision", (event, ctx) => {
 });
 ```
 
-
 Return `{ action: "warm" }` or `{ action: "stop" }` to override; the last handler that returns an action wins. `"stop"` ends warming until the next real request.
 
 
 ### Model Events
 
-<a href="#model-events" class="heading-anchor" aria-label="Permalink: Model Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#model-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 #### model_select
-
-<a href="#model_select" class="heading-anchor" aria-label="Permalink: model_select" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#model_select"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when the model changes via `/model` command, model cycling (`Ctrl+P`), or `pi.setModel()`. Restoring a session does not fire it; read `ctx.model` in `session_start` to initialize model-dependent state.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("model_select", async (event, ctx) => {
   // event.model - newly selected model
   // event.previousModel - previous model (undefined if first selection)
@@ -1172,19 +1028,15 @@ pi.on("model_select", async (event, ctx) => {
 });
 ```
 
-
 Use this to update UI elements (status bars, footers) or perform model-specific initialization when the active model changes.
 
 
 #### thinking_level_select
 
-<a href="#thinking_level_select" class="heading-anchor" aria-label="Permalink: thinking_level_select" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#thinking_level_select"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fired when the thinking level changes. This is notification-only; handler return values are ignored.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("thinking_level_select", async (event, ctx) => {
   // event.level - newly selected thinking level
   // event.previousLevel - previous thinking level
@@ -1193,18 +1045,13 @@ pi.on("thinking_level_select", async (event, ctx) => {
 });
 ```
 
-
 Use this to update extension UI when `pi.setThinkingLevel()`, model changes, or built-in thinking-level controls change the active thinking level.
 
 
 ### Tool Events
 
-<a href="#tool-events" class="heading-anchor" aria-label="Permalink: Tool Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 #### tool_call
-
-<a href="#tool_call" class="heading-anchor" aria-label="Permalink: tool_call" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool_call"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired after `tool_execution_start`, before the tool executes. **Can block.** Use `isToolCallEventType` to narrow and get typed inputs.
@@ -1223,8 +1070,7 @@ Behavior guarantees:
 - Return values from `tool_call` control blocking via `{ block: true, reason?: string, terminate?: boolean }`
 - `terminate` only applies to a blocked call; the agent stops early only when every finalized result in the batch is terminating
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { isToolCallEventType } from "@earendil-works/pi-coding-agent";
 
 pi.on("tool_call", async (event, ctx) => {
@@ -1252,13 +1098,10 @@ pi.on("tool_call", async (event, ctx) => {
 
 #### Typing custom tool input
 
-<a href="#typing-custom-tool-input" class="heading-anchor" aria-label="Permalink: Typing custom tool input" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#typing-custom-tool-input"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Custom tools should export their input type:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 // my-tool.ts
 import { type Static, Type } from "typebox";
 
@@ -1266,11 +1109,9 @@ export const myToolSchema = Type.Object({ action: Type.String() });
 export type MyToolInput = Static<typeof myToolSchema>;
 ```
 
-
 Use `isToolCallEventType` with explicit type parameters:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { isToolCallEventType } from "@earendil-works/pi-coding-agent";
 import type { MyToolInput } from "./my-tool.ts";
 
@@ -1283,8 +1124,6 @@ pi.on("tool_call", (event) => {
 
 
 #### tool_result
-
-<a href="#tool_result" class="heading-anchor" aria-label="Permalink: tool_result" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool_result"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired after tool execution finishes and before `tool_execution_end` plus the final tool result message events are emitted. **Can modify result.**
@@ -1300,8 +1139,7 @@ In parallel tool mode, `tool_result` and `tool_execution_end` may interleave in 
 
 Use `ctx.signal` for nested async work inside the handler. This lets Esc cancel model calls, `fetch()`, and other abort-aware operations started by the extension.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { isBashToolResult } from "@earendil-works/pi-coding-agent";
 
 pi.on("tool_result", async (event, ctx) => {
@@ -1326,18 +1164,13 @@ pi.on("tool_result", async (event, ctx) => {
 
 ### User Bash Events
 
-<a href="#user-bash-events" class="heading-anchor" aria-label="Permalink: User Bash Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#user-bash-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 #### user_bash
-
-<a href="#user_bash" class="heading-anchor" aria-label="Permalink: user_bash" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#user_bash"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when user executes `!` or `!!` commands. **Can intercept.**
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { createLocalBashOperations } from "@earendil-works/pi-coding-agent";
 
 pi.on("user_bash", (event, ctx) => {
@@ -1363,18 +1196,13 @@ pi.on("user_bash", (event, ctx) => {
 });
 ```
 
-
 Returning `undefined` continues to the next handler, then local execution if none handles the event. A valid result stops propagation: `operations` executes the command through the supplied backend, while `result` records the completed command without executing it.
 
 
 ### Input Events
 
-<a href="#input-events" class="heading-anchor" aria-label="Permalink: Input Events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#input-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 #### input
-
-<a href="#input" class="heading-anchor" aria-label="Permalink: input" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#input"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Fired when user input is received, after extension commands are checked but before skill and template expansion. The event sees the raw input text, so `/skill:foo` and `/template` are not yet expanded.
@@ -1387,8 +1215,7 @@ Fired when user input is received, after extension commands are checked but befo
 4.  If not handled: prompt templates (`/template`) expanded to template content
 5.  Agent processing begins (`before_agent_start`, etc.)
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("input", async (event, ctx) => {
   // event.text - raw input (before skill/template expansion)
   // event.images - attached images, if any
@@ -1419,35 +1246,28 @@ pi.on("input", async (event, ctx) => {
 });
 ```
 
-
 **Results:**
 
 - `continue` - pass through unchanged (default if handler returns nothing)
 - `transform` - modify text/images, then continue to expansion
 - `handled` - skip agent entirely (first handler to return this wins)
 
-Transforms chain across handlers. See [input-transform.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/input-transform.ts) and [input-transform-streaming.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/input-transform-streaming.ts) for `streamingBehavior`-aware routing.
+Transforms chain across handlers. See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/input-transform.ts" class="link-module_root__svb26">input-transform.ts</a> and <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/input-transform-streaming.ts" class="link-module_root__svb26">input-transform-streaming.ts</a> for `streamingBehavior`-aware routing.
 
 
 ## ExtensionContext
 
-<a href="#extensioncontext" class="heading-anchor" aria-label="Permalink: ExtensionContext" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#extensioncontext"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-All handlers receive `ctx: ExtensionContext`. Tool `execute()` receives `ExtensionToolContext`, which adds `ctx.tools` and `ctx.executeTool()` (see [Calling Other Tools](#calling-other-tools)). Command handlers receive [`ExtensionCommandContext`](#extensioncommandcontext).
+All handlers receive `ctx: ExtensionContext`. Tool `execute()` receives `ExtensionToolContext`, which adds `ctx.tools` and `ctx.executeTool()` (see <a href="#calling-other-tools" class="link-module_root__svb26">Calling Other Tools</a>). Command handlers receive <a href="#extensioncommandcontext" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">ExtensionCommandContext</code></a>.
 
 
 ### ctx.ui
 
-<a href="#ctxui" class="heading-anchor" aria-label="Permalink: ctx.ui" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxui"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-UI methods for user interaction. See [Custom UI](#custom-ui) for full details.
+UI methods for user interaction. See <a href="#custom-ui" class="link-module_root__svb26">Custom UI</a> for full details.
 
 
 ### ctx.mode
-
-<a href="#ctxmode" class="heading-anchor" aria-label="Permalink: ctx.mode" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxmode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Current run mode: `"tui"`, `"rpc"`, `"json"`, or `"print"`. Use `ctx.mode === "tui"` to guard terminal-only features such as `custom()`, component factories, terminal input, and direct TUI rendering.
@@ -1455,23 +1275,18 @@ Current run mode: `"tui"`, `"rpc"`, `"json"`, or `"print"`. Use `ctx.mode === "t
 
 ### ctx.hasUI
 
-<a href="#ctxhasui" class="heading-anchor" aria-label="Permalink: ctx.hasUI" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxhasui"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-`true` in TUI and RPC modes. `false` in print mode (`-p`) and JSON mode. Use this to guard dialog methods (`select`, `confirm`, `input`, `editor`) and fire-and-forget methods (`notify`, `setStatus`, `setWidget`, `setTitle`, `setEditorText`) that work in both TUI and RPC modes. In RPC mode, some TUI-specific methods are no-ops or return defaults (see [RPC Extension UI](/latest/latest/rpc-extension-ui)).
+`true` in TUI and RPC modes. `false` in print mode (`-p`) and JSON mode. Use this to guard dialog methods (`select`, `confirm`, `input`, `editor`) and fire-and-forget methods (`notify`, `setStatus`, `setWidget`, `setTitle`, `setEditorText`) that work in both TUI and RPC modes. In RPC mode, some TUI-specific methods are no-ops or return defaults (see <a href="/latest/rpc-extension-ui" class="link-module_root__svb26">RPC Extension UI</a>).
 
 
 ### ctx.cwd
-
-<a href="#ctxcwd" class="heading-anchor" aria-label="Permalink: ctx.cwd" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxcwd"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Current working directory.
 
 Use `CONFIG_DIR_NAME` instead of hardcoding `.pi` when constructing project-local config paths. Rebranded distributions can use a different config directory name.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { CONFIG_DIR_NAME, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { join } from "node:path";
 
@@ -1486,8 +1301,6 @@ export default function (pi: ExtensionAPI) {
 
 ### ctx.isProjectTrusted()
 
-<a href="#ctxisprojecttrusted" class="heading-anchor" aria-label="Permalink: ctx.isProjectTrusted()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxisprojecttrusted"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Returns whether project-local trust is active for the current session context. This includes temporary trust decisions and CLI trust overrides, not just saved decisions in the global trust store.
 
@@ -1496,15 +1309,12 @@ Use this before reading project-local extension configuration that should only b
 
 ### ctx.sessionManager
 
-<a href="#ctxsessionmanager" class="heading-anchor" aria-label="Permalink: ctx.sessionManager" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxsessionmanager"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Read-only access to session state: `getCwd()`, `getSessionDir()`, `getSessionId()`, `getSessionFile()`, `getSessionName()`, `getHeader()`, `getEntries()`, `getEntry()`, `getBranch()`, `getTree()`, `getLeafId()`, `getLeafEntry()`, `getLabel()`, `buildContextEntries()`, and `buildSessionProjection()`. See [Session Format](/latest/latest/session-format) for entry types.
+Read-only access to session state: `getCwd()`, `getSessionDir()`, `getSessionId()`, `getSessionFile()`, `getSessionName()`, `getHeader()`, `getEntries()`, `getEntry()`, `getBranch()`, `getTree()`, `getLeafId()`, `getLeafEntry()`, `getLabel()`, `buildContextEntries()`, and `buildSessionProjection()`. See <a href="/latest/session-format" class="link-module_root__svb26">Session Format</a> for entry types.
 
 For `tool_call`, this state is synchronized through the current assistant message before handlers run. In parallel tool execution mode it is still not guaranteed to include sibling tool results from the same assistant message.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 ctx.sessionManager.getEntries()             // All entries
 ctx.sessionManager.getBranch()              // Current branch
 ctx.sessionManager.buildContextEntries()    // Active branch entries with compaction applied
@@ -1514,8 +1324,6 @@ ctx.sessionManager.getLeafId()              // Current leaf entry ID
 
 ### ctx.modelRegistry / ctx.model / ctx.thinkingLevel / ctx.scopedModels
 
-<a href="#ctxmodelregistry--ctxmodel--ctxthinkinglevel--ctxscopedmodels" class="heading-anchor" aria-label="Permalink: ctx.modelRegistry / ctx.model / ctx.thinkingLevel / ctx.scopedModels" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxmodelregistry--ctxmodel--ctxthinkinglevel--ctxscopedmodels"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Access to models, providers, and resolved authentication. `ctx.modelRegistry.getProvider(id)` returns the effective pi-ai provider, while `getProviderAuth(id)` resolves its current API key, headers, base URL, and provider-scoped environment without requiring a loaded model. `ctx.model` is the active model, and `ctx.thinkingLevel` is its current effective thinking level.
 
@@ -1524,19 +1332,15 @@ Access to models, providers, and resolved authentication. `ctx.modelRegistry.get
 
 #### Streaming model calls
 
-<a href="#streaming-model-calls" class="heading-anchor" aria-label="Permalink: Streaming model calls" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#streaming-model-calls"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Use `ctx.modelRegistry.streamSimple(model, context, options)` for provider-neutral options such as `reasoning`, or `complete(model, context, options)` to await the final assistant message with API-specific options. Both use configured providers and resolve authentication, including for providers registered with `pi.registerProvider()`. Use these instead of `pi-ai/compat` streaming functions, which cannot see extension provider registrations.
 
 `streamSimple()` returns an `AssistantMessageEventStream`. Iterate it for response events and await `.result()` for the final message. Setup failures produce error events and error results.
 
-For non-chat models, `findOfType()`, `getModelsOfType()`, `getAvailableOfType()`, and `getModelOfType()` look up image and classifier models, and `classify()` and `generateImages()` call them. See [Use classifier models](/latest/latest/models#use-classifier-models) and [Use image models](/latest/latest/models#use-image-models).
+For non-chat models, `findOfType()`, `getModelsOfType()`, `getAvailableOfType()`, and `getModelOfType()` look up image and classifier models, and `classify()` and `generateImages()` call them. See <a href="/latest/models#use-classifier-models" class="link-module_root__svb26">Use classifier models</a> and <a href="/latest/models#use-image-models" class="link-module_root__svb26">Use image models</a>.
 
 
 ### ctx.signal
-
-<a href="#ctxsignal" class="heading-anchor" aria-label="Permalink: ctx.signal" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxsignal"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The current agent abort signal, or `undefined` when no agent turn is active.
@@ -1549,8 +1353,7 @@ Use this for abort-aware nested work started by extension handlers, for example:
 
 `ctx.signal` is typically defined during active turn events such as `tool_call`, `tool_result`, `message_update`, and `turn_end`. It is usually `undefined` in idle or non-turn contexts such as session events, extension commands, and shortcuts fired while Pi is idle.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("tool_result", async (event, ctx) => {
   const response = await fetch("https://example.com/api", {
     method: "POST",
@@ -1566,15 +1369,11 @@ pi.on("tool_result", async (event, ctx) => {
 
 ### ctx.isIdle() / ctx.abort() / ctx.hasPendingMessages()
 
-<a href="#ctxisidle--ctxabort--ctxhaspendingmessages" class="heading-anchor" aria-label="Permalink: ctx.isIdle() / ctx.abort() / ctx.hasPendingMessages()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxisidle--ctxabort--ctxhaspendingmessages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Control flow helpers. `ctx.isIdle()` is false while Pi is processing an agent run, automatic retry, auto-compaction retry, or queued continuation.
 
 
 ### ctx.shutdown()
-
-<a href="#ctxshutdown" class="heading-anchor" aria-label="Permalink: ctx.shutdown()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxshutdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Request a graceful shutdown of pi.
@@ -1585,8 +1384,7 @@ Request a graceful shutdown of pi.
 
 Emits `session_shutdown` event to all extensions before exiting. Available in all contexts (event handlers, tools, commands, shortcuts).
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("tool_call", (event, ctx) => {
   if (isFatal(event.input)) {
     ctx.shutdown();
@@ -1597,13 +1395,10 @@ pi.on("tool_call", (event, ctx) => {
 
 ### ctx.getContextUsage()
 
-<a href="#ctxgetcontextusage" class="heading-anchor" aria-label="Permalink: ctx.getContextUsage()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxgetcontextusage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Returns current context usage for the active model. Uses last assistant usage when available, then estimates tokens for trailing messages.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const usage = ctx.getContextUsage();
 if (usage?.tokens != null && usage.tokens > 100_000) {
   // ...
@@ -1613,13 +1408,10 @@ if (usage?.tokens != null && usage.tokens > 100_000) {
 
 ### ctx.compact()
 
-<a href="#ctxcompact" class="heading-anchor" aria-label="Permalink: ctx.compact()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxcompact"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Trigger compaction without awaiting completion. Use `onComplete` and `onError` for follow-up actions.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 ctx.compact({
   customInstructions: "Focus on recent changes",
   onComplete: (result) => {
@@ -1634,8 +1426,6 @@ ctx.compact({
 
 ### ctx.getSystemPrompt()
 
-<a href="#ctxgetsystemprompt" class="heading-anchor" aria-label="Permalink: ctx.getSystemPrompt()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxgetsystemprompt"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Returns Pi's current system prompt string.
 
@@ -1644,8 +1434,7 @@ Returns Pi's current system prompt string.
 - It does not include `before_provider_request` payload rewrites.
 - If later-loaded extensions run after yours, they can still change what is ultimately sent.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("before_agent_start", (event, ctx) => {
   const prompt = ctx.getSystemPrompt();
   console.log(`System prompt length: ${prompt.length}`);
@@ -1655,25 +1444,19 @@ pi.on("before_agent_start", (event, ctx) => {
 
 ## ExtensionCommandContext
 
-<a href="#extensioncommandcontext" class="heading-anchor" aria-label="Permalink: ExtensionCommandContext" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#extensioncommandcontext"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Command handlers receive `ExtensionCommandContext`, which extends `ExtensionContext` with session control methods. These are only available in commands because they can deadlock if called from event handlers.
 
 
 ### ctx.getSystemPromptOptions()
 
-<a href="#ctxgetsystempromptoptions" class="heading-anchor" aria-label="Permalink: ctx.getSystemPromptOptions()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxgetsystempromptoptions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Returns the base inputs Pi currently uses to build the system prompt.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const options = ctx.getSystemPromptOptions();
 const contextPaths = options.contextFiles?.map((file) => file.path) ?? [];
 ```
-
 
 This has the same shape and mutability as `before_agent_start` `event.systemPromptOptions`: custom or forced prompt, active tools, tool snippets, per-tool and custom rules, custom sections, appended prompt text, cwd, loaded context files, and loaded skills. It may include full context file contents, so treat it as sensitive extension-local data and avoid exposing it through command lists, logs, or autocomplete metadata.
 
@@ -1682,13 +1465,10 @@ This reports the current base prompt inputs. It does not include per-turn `befor
 
 ### ctx.waitForIdle()
 
-<a href="#ctxwaitforidle" class="heading-anchor" aria-label="Permalink: ctx.waitForIdle()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxwaitforidle"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Wait for the agent to fully settle, including automatic retries, auto-compaction retries, and queued continuations:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerCommand("my-cmd", {
   handler: async (args, ctx) => {
     await ctx.waitForIdle();
@@ -1700,13 +1480,10 @@ pi.registerCommand("my-cmd", {
 
 ### ctx.newSession(options?)
 
-<a href="#ctxnewsessionoptions" class="heading-anchor" aria-label="Permalink: ctx.newSession(options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxnewsessionoptions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Create a new session:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const parentSession = ctx.sessionManager.getSessionFile();
 const kickoff = "Continue in the replacement session";
 
@@ -1730,23 +1507,19 @@ if (result.cancelled) {
 }
 ```
 
-
 Options:
 
 - `parentSession`: parent session file to record in the new session header
 - `setup`: mutate the new session's `SessionManager` before `withSession` runs
-- `withSession`: run post-switch work against a fresh replacement-session context. Do not use captured old `pi` / command `ctx`; see [Session replacement lifecycle and footguns](#session-replacement-lifecycle-and-footguns).
+- `withSession`: run post-switch work against a fresh replacement-session context. Do not use captured old `pi` / command `ctx`; see <a href="#session-replacement-lifecycle-and-footguns" class="link-module_root__svb26">Session replacement lifecycle and footguns</a>.
 
 
 ### ctx.fork(entryId, options?)
 
-<a href="#ctxforkentryid-options" class="heading-anchor" aria-label="Permalink: ctx.fork(entryId, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxforkentryid-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Fork from a specific entry, creating a new session file:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const result = await ctx.fork("entry-id-123", {
   withSession: async (ctx) => {
     // Use only the replacement-session ctx here.
@@ -1763,23 +1536,19 @@ if (cloneResult.cancelled) {
 }
 ```
 
-
 Options:
 
 - `position`: `"before"` (default) forks before the selected user message, restoring that prompt into the editor
 - `position`: `"at"` duplicates the active path through the selected entry without restoring editor text
-- `withSession`: run post-switch work against a fresh replacement-session context. Do not use captured old `pi` / command `ctx`; see [Session replacement lifecycle and footguns](#session-replacement-lifecycle-and-footguns).
+- `withSession`: run post-switch work against a fresh replacement-session context. Do not use captured old `pi` / command `ctx`; see <a href="#session-replacement-lifecycle-and-footguns" class="link-module_root__svb26">Session replacement lifecycle and footguns</a>.
 
 
 ### ctx.navigateTree(targetId, options?)
 
-<a href="#ctxnavigatetreetargetid-options" class="heading-anchor" aria-label="Permalink: ctx.navigateTree(targetId, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxnavigatetreetargetid-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Navigate to a different point in the session tree. Rejects while an agent response, manual or automatic compaction, or another tree navigation is active, even with `summarize: false`. These conflicts leave the active branch unchanged and reject the promise rather than returning `{ cancelled: true }`. Wait for the active operation to finish (for example, with `await ctx.waitForIdle()` in a command handler) and retry. It also rejects when `summarize` is set without an available model, or when the target entry does not exist:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const result = await ctx.navigateTree("entry-id-456", {
   summarize: true,
   customInstructions: "Focus on error handling changes",
@@ -1787,7 +1556,6 @@ const result = await ctx.navigateTree("entry-id-456", {
   label: "review-checkpoint",
 });
 ```
-
 
 Options:
 
@@ -1799,13 +1567,10 @@ Options:
 
 ### ctx.switchSession(sessionPath, options?)
 
-<a href="#ctxswitchsessionsessionpath-options" class="heading-anchor" aria-label="Permalink: ctx.switchSession(sessionPath, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxswitchsessionsessionpath-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Switch to a different session file:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const result = await ctx.switchSession("/path/to/session.jsonl", {
   withSession: async (ctx) => {
     await ctx.sendUserMessage("Resume work in the replacement session");
@@ -1816,15 +1581,13 @@ if (result.cancelled) {
 }
 ```
 
-
 Options:
 
-- `withSession`: run post-switch work against a fresh replacement-session context. Do not use captured old `pi` / command `ctx`; see [Session replacement lifecycle and footguns](#session-replacement-lifecycle-and-footguns).
+- `withSession`: run post-switch work against a fresh replacement-session context. Do not use captured old `pi` / command `ctx`; see <a href="#session-replacement-lifecycle-and-footguns" class="link-module_root__svb26">Session replacement lifecycle and footguns</a>.
 
 To discover available sessions, use the static `SessionManager.list()` or `SessionManager.listAll()` methods:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { SessionManager } from "@earendil-works/pi-coding-agent";
 
 pi.registerCommand("switch", {
@@ -1850,8 +1613,6 @@ pi.registerCommand("switch", {
 
 ### Session replacement lifecycle and footguns
 
-<a href="#session-replacement-lifecycle-and-footguns" class="heading-anchor" aria-label="Permalink: Session replacement lifecycle and footguns" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#session-replacement-lifecycle-and-footguns"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 `withSession` receives a fresh `ReplacedSessionContext`, which extends `ExtensionCommandContext` with async `sendMessage()` and `sendUserMessage()` helpers bound to the replacement session.
 
@@ -1865,8 +1626,7 @@ Lifecycle and footguns:
 
 Safe pattern:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerCommand("handoff", {
   handler: async (_args, ctx) => {
     const kickoff = "Continue from the replacement session";
@@ -1879,11 +1639,9 @@ pi.registerCommand("handoff", {
 });
 ```
 
-
 Unsafe pattern:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerCommand("handoff", {
   handler: async (_args, ctx) => {
     const oldSessionManager = ctx.sessionManager;
@@ -1901,13 +1659,10 @@ pi.registerCommand("handoff", {
 
 ### ctx.reload()
 
-<a href="#ctxreload" class="heading-anchor" aria-label="Permalink: ctx.reload()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#ctxreload"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Run the same reload flow as `/reload`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerCommand("reload-runtime", {
   description: "Reload extensions, skills, prompts, themes, and context files",
   handler: async (_args, ctx) => {
@@ -1916,7 +1671,6 @@ pi.registerCommand("reload-runtime", {
   },
 });
 ```
-
 
 Important behavior:
 
@@ -1931,8 +1685,7 @@ For predictable behavior, treat reload as terminal for that handler (`await ctx.
 
 Tools run with `ExtensionToolContext`, not `ExtensionCommandContext`, so they cannot call `ctx.reload()`, and Pi cannot reload while the agent is running. To let the LLM trigger a reload, have the tool record the request and run the command from `agent_settled`, where messages sent by handlers are processed after all settled handlers finish:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 let reloadRequested = false;
 
 pi.registerTool({
@@ -1957,42 +1710,33 @@ pi.on("agent_settled", () => {
 });
 ```
 
-
-`expandPromptTemplates: true` dispatches the text as a command. Without it, or when queued with `deliverAs`, the text reaches the model as a plain user message. See [reload-runtime.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/reload-runtime.ts).
+`expandPromptTemplates: true` dispatches the text as a command. Without it, or when queued with `deliverAs`, the text reaches the model as a plain user message. See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/reload-runtime.ts" class="link-module_root__svb26">reload-runtime.ts</a>.
 
 
 ## ExtensionAPI Methods
 
-<a href="#extensionapi-methods" class="heading-anchor" aria-label="Permalink: ExtensionAPI Methods" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#extensionapi-methods"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### pi.on(event, handler)
 
-<a href="#pionevent-handler" class="heading-anchor" aria-label="Permalink: pi.on(event, handler)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pionevent-handler"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Subscribe to events. Returns an unsubscribe function that removes only that registration. See <a href="#events" class="link-module_root__svb26">Events</a> for event types and return values.
 
-Subscribe to events. Returns an unsubscribe function that removes only that registration. See [Events](#events) for event types and return values.
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const unsubscribe = pi.on("agent_end", async (event) => {
   unsubscribe();
   await updateIntegration(event.messages);
 });
 ```
 
-
 Handlers run in extension load order, then registration order within each extension. Adding or removing a handler does not affect a dispatch already in progress.
 
 
 ### pi.registerTool(definition)
 
-<a href="#piregistertooldefinition" class="heading-anchor" aria-label="Permalink: pi.registerTool(definition)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistertooldefinition"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Register a custom tool callable by the LLM. See <a href="#custom-tools" class="link-module_root__svb26">Custom Tools</a> for full details.
 
-Register a custom tool callable by the LLM. See [Custom Tools](#custom-tools) for full details.
-
-`pi.registerTool()` works both during extension load and after startup. You can call it inside `session_start`, command handlers, or other event handlers. New tools are refreshed immediately in the same session, so they appear in `pi.getAllTools()` without `/reload`. Registering a tool activates it unless it sets `defaultActive: false` or an [exposure](#tool-exposure) other than `direct` or `model-only`.
+`pi.registerTool()` works both during extension load and after startup. You can call it inside `session_start`, command handlers, or other event handlers. New tools are refreshed immediately in the same session, so they appear in `pi.getAllTools()` without `/reload`. Registering a tool activates it unless it sets `defaultActive: false` or an <a href="#tool-exposure" class="link-module_root__svb26">exposure</a> other than `direct` or `model-only`.
 
 Use `pi.setActiveTools()` to enable or disable tools (including dynamically added tools) at runtime.
 
@@ -2000,10 +1744,9 @@ Use `promptSnippet` to opt a custom tool into a one-line entry in the `<tools>` 
 
 **Important:** `promptGuidelines` bullets are appended flat to the `<rules>` section with no tool name prefix. Each guideline must name the tool it refers to — avoid "Use this tool when..." because the LLM cannot tell which tool "this" means. Write "Use my_tool when..." instead.
 
-See [dynamic-tools.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/dynamic-tools.ts) for a full example.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/dynamic-tools.ts" class="link-module_root__svb26">dynamic-tools.ts</a> for a full example.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { Type } from "typebox";
 import { StringEnum } from "@earendil-works/pi-ai";
 
@@ -2037,13 +1780,10 @@ pi.registerTool({
 
 ### pi.sendMessage(message, options?)
 
-<a href="#pisendmessagemessage-options" class="heading-anchor" aria-label="Permalink: pi.sendMessage(message, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pisendmessagemessage-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Inject a custom message into the session. Custom messages participate in LLM context. For durable TUI-only content that should not be sent to the LLM, use <a href="#piappendentrycustomtype-data" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">pi.appendEntry()</code></a> with <a href="#piregisterentryrenderercustomtype-renderer" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">pi.registerEntryRenderer()</code></a>.
 
-Inject a custom message into the session. Custom messages participate in LLM context. For durable TUI-only content that should not be sent to the LLM, use [`pi.appendEntry()`](#piappendentrycustomtype-data) with [`pi.registerEntryRenderer()`](#piregisterentryrenderercustomtype-renderer).
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.sendMessage({
   customType: "my-extension",
   content: "Message text",
@@ -2054,7 +1794,6 @@ pi.sendMessage({
   deliverAs: "steer",
 });
 ```
-
 
 **Options:**
 
@@ -2068,13 +1807,10 @@ pi.sendMessage({
 
 ### pi.sendUserMessage(content, options?)
 
-<a href="#pisendusermessagecontent-options" class="heading-anchor" aria-label="Permalink: pi.sendUserMessage(content, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pisendusermessagecontent-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Send a user message to the agent. Unlike `sendMessage()` which sends custom messages, this sends an actual user message that appears as if typed by the user. It starts or queues a turn unless an `input` handler handles it or, with `expandPromptTemplates: true`, it runs an extension command.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 // Simple text message
 pi.sendUserMessage("What is 2+2?");
 
@@ -2092,7 +1828,6 @@ pi.sendUserMessage("And then summarize", { deliverAs: "followUp" });
 pi.sendUserMessage("/review src/index.ts", { expandPromptTemplates: true });
 ```
 
-
 **Options:**
 
 - `deliverAs` - Required when agent is streaming:
@@ -2102,18 +1837,15 @@ pi.sendUserMessage("/review src/index.ts", { expandPromptTemplates: true });
 
 When not streaming, the message is sent immediately and triggers a new turn. When streaming without `deliverAs`, the message is rejected and Pi reports an extension error.
 
-See [send-user-message.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/send-user-message.ts) for a complete example.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/send-user-message.ts" class="link-module_root__svb26">send-user-message.ts</a> for a complete example.
 
 
 ### pi.appendEntry(customType, data?)
 
-<a href="#piappendentrycustomtype-data" class="heading-anchor" aria-label="Permalink: pi.appendEntry(customType, data?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piappendentrycustomtype-data"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Persist extension data. Custom entries do NOT participate in LLM context. In interactive mode, they can also render inside the chat transcript when paired with `pi.registerEntryRenderer()`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.appendEntry("my-state", { count: 42 });
 pi.appendEntry("status-card", { title: "Indexed files", count: 17 });
 
@@ -2130,26 +1862,20 @@ pi.on("session_start", async (_event, ctx) => {
 
 ### pi.setSessionName(name)
 
-<a href="#pisetsessionnamename" class="heading-anchor" aria-label="Permalink: pi.setSessionName(name)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pisetsessionnamename"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Set the session display name (shown in session selector instead of first message).
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.setSessionName("Refactor auth module");
 ```
 
 
 ### pi.getSessionName()
 
-<a href="#pigetsessionname" class="heading-anchor" aria-label="Permalink: pi.getSessionName()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pigetsessionname"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Get the current session name, if set.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const name = pi.getSessionName();
 if (name) {
   console.log(`Session: ${name}`);
@@ -2159,13 +1885,10 @@ if (name) {
 
 ### pi.setLabel(entryId, label)
 
-<a href="#pisetlabelentryid-label" class="heading-anchor" aria-label="Permalink: pi.setLabel(entryId, label)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pisetlabelentryid-label"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Set or clear a label on an entry. Labels are user-defined markers for bookmarking and navigation (shown in `/tree` selector).
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 // Set a label
 pi.setLabel(entryId, "checkpoint-before-refactor");
 
@@ -2176,21 +1899,17 @@ pi.setLabel(entryId, undefined);
 const label = ctx.sessionManager.getLabel(entryId);
 ```
 
-
 Labels persist in the session and survive restarts. Use them to mark important points (turns, checkpoints) in the conversation tree.
 
 
 ### pi.registerCommand(name, options)
-
-<a href="#piregistercommandname-options" class="heading-anchor" aria-label="Permalink: pi.registerCommand(name, options)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistercommandname-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register a command.
 
 If multiple extensions register the same command name, Pi keeps them all and assigns numeric invocation suffixes in load order, for example `/review:1` and `/review:2`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerCommand("stats", {
   description: "Show session statistics",
   handler: async (args, ctx) => {
@@ -2200,11 +1919,9 @@ pi.registerCommand("stats", {
 });
 ```
 
-
 Optional: add argument auto-completion for `/command ...`. `getArgumentCompletions` can also return a `Promise`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
 
 pi.registerCommand("deploy", {
@@ -2224,23 +1941,18 @@ pi.registerCommand("deploy", {
 
 ### pi.getCommands()
 
-<a href="#pigetcommands" class="heading-anchor" aria-label="Permalink: pi.getCommands()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pigetcommands"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Get the slash commands available for invocation via `prompt` in the current session. Includes extension commands, prompt templates, and skill commands. The list matches the RPC `get_commands` ordering: extensions first, then templates, then skills. Skill commands are named `skill:<name>`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const commands = pi.getCommands();
 const bySource = commands.filter((command) => command.source === "extension");
 const userScoped = commands.filter((command) => command.sourceInfo.scope === "user");
 ```
 
-
 Each entry has this shape:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   name: string; // Invokable command name without the leading slash. May be suffixed like "review:1"
   description?: string;
@@ -2255,7 +1967,6 @@ Each entry has this shape:
 }
 ```
 
-
 Use `sourceInfo` as the canonical provenance field. Do not infer ownership from command names or from ad hoc path parsing.
 
 Built-in interactive commands (like `/model` and `/settings`) are not included here. They are handled only in interactive mode and would not execute if sent via `prompt`.
@@ -2263,20 +1974,17 @@ Built-in interactive commands (like `/model` and `/settings`) are not included h
 
 ### pi.registerMessageRenderer(customType, renderer)
 
-<a href="#piregistermessagerenderercustomtype-renderer" class="heading-anchor" aria-label="Permalink: pi.registerMessageRenderer(customType, renderer)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistermessagerenderercustomtype-renderer"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Register a custom TUI renderer for custom messages with your `customType`. Custom messages are created with `pi.sendMessage()` and participate in LLM context. See [Custom UI](#custom-ui).
+Register a custom TUI renderer for custom messages with your `customType`. Custom messages are created with `pi.sendMessage()` and participate in LLM context. See <a href="#custom-ui" class="link-module_root__svb26">Custom UI</a>.
 
 
 ### pi.registerMarkdownTransformer(transformer, options?)
-
-<a href="#piregistermarkdowntransformertransformer-options" class="heading-anchor" aria-label="Permalink: pi.registerMarkdownTransformer(transformer, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistermarkdowntransformertransformer-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register a transformer for Markdown before Pi renders it in interactive mode. Transformers run in extension load order, and each transformer receives the Markdown returned by the previous transformer. After the chain finishes, Pi renders the transformed content with its built-in renderer.
 
 By default a transformer runs on normal user text, assistant text, and thinking blocks. `options.messageTypes` lists the surfaces it runs on instead:
+
 
 | `messageType` | Surface |
 |----|----|
@@ -2284,6 +1992,7 @@ By default a transformer runs on normal user text, assistant text, and thinking 
 | `"custom"` | Custom messages from `pi.sendMessage()` without a registered message renderer, and expanded skill blocks (their content, without Pi's header) |
 | `"summary"` | Expanded branch and compaction summaries (the summary, without Pi's header) |
 | `"changelog"` | Pi's changelog ("What's New" at startup and `/changelog`), the startup "Extension Updates" notice, and the release note of the "Update Available" notice |
+
 
 The transformer receives the Markdown string and a context with:
 
@@ -2294,8 +2003,7 @@ The transformer receives the Markdown string and a context with:
 
 Return the transformed Markdown:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerMarkdownTransformer((markdown, { messageType, isStreaming }) => {
   if (isStreaming || messageType === "assistant-thinking") return markdown;
   return markdown.replaceAll("-->", "→");
@@ -2307,19 +2015,15 @@ pi.registerMarkdownTransformer((markdown) => markdown.replaceAll(":warning:", "�
 });
 ```
 
-
 If a transformer throws, Pi keeps the Markdown produced so far and continues with the next transformer. The hook is display-only: the original message remains unchanged in the session and model context. It runs for new messages, assistant streaming updates, restored session messages, and terminal width changes, so transformers should remain synchronous and inexpensive. An extension has one transformer; registering again replaces it.
 
 
 ### pi.registerEntryRenderer(customType, renderer)
 
-<a href="#piregisterentryrenderercustomtype-renderer" class="heading-anchor" aria-label="Permalink: pi.registerEntryRenderer(customType, renderer)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregisterentryrenderercustomtype-renderer"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Register a custom TUI renderer for custom entries with your `customType`. Custom entries are created with `pi.appendEntry()` and do not participate in LLM context.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { Box, Text } from "@earendil-works/pi-tui";
 
 pi.registerEntryRenderer("status-card", (entry, { expanded }, theme) => {
@@ -2338,13 +2042,10 @@ pi.appendEntry("status-card", { title: "Indexed files", count: 17 });
 
 ### pi.registerShortcut(shortcut, options)
 
-<a href="#piregistershortcutshortcut-options" class="heading-anchor" aria-label="Permalink: pi.registerShortcut(shortcut, options)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistershortcutshortcut-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Register a keyboard shortcut. See <a href="/latest/keybindings" class="link-module_root__svb26">keybindings.md</a> for the shortcut format and built-in keybindings.
 
-Register a keyboard shortcut. See [keybindings.md](/latest/latest/keybindings) for the shortcut format and built-in keybindings.
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerShortcut("ctrl+shift+p", {
   description: "Toggle plan mode",
   handler: async (ctx) => {
@@ -2356,13 +2057,10 @@ pi.registerShortcut("ctrl+shift+p", {
 
 ### pi.registerFlag(name, options)
 
-<a href="#piregisterflagname-options" class="heading-anchor" aria-label="Permalink: pi.registerFlag(name, options)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregisterflagname-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Register a CLI flag.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerFlag("plan", {
   description: "Start in plan mode",
   type: "boolean",
@@ -2380,30 +2078,23 @@ pi.on("session_start", () => {
 
 ### pi.exec(command, args, options?)
 
-<a href="#piexeccommand-args-options" class="heading-anchor" aria-label="Permalink: pi.exec(command, args, options?)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piexeccommand-args-options"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Execute a command without a shell.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const result = await pi.exec("git", ["status"], { signal, timeout: 5000 });
 // result.stdout, result.stderr, result.code, result.killed, result.truncated
 ```
-
 
 Options: `signal` and `timeout` terminate the command, `cwd` sets the working directory, and `maxBuffer` limits stdout and stderr combined (default 256 MiB). When output exceeds `maxBuffer`, pi terminates the command and returns the output up to the limit with `truncated: true`, `killed: true`, and a nonzero `code`. `killed` is true whenever pi terminated the command: timeout, abort, or `maxBuffer`. A command that ignores SIGTERM gets SIGKILL after 5 seconds. A command terminated by a signal, by pi or otherwise, reports 128 + the signal number as `code`, like a shell: 143 for SIGTERM, 137 for SIGKILL.
 
 
 ### pi.getActiveTools() / pi.getAllTools() / pi.setActiveTools(names)
 
-<a href="#pigetactivetools--pigetalltools--pisetactivetoolsnames" class="heading-anchor" aria-label="Permalink: pi.getActiveTools() / pi.getAllTools() / pi.setActiveTools(names)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pigetactivetools--pigetalltools--pisetactivetoolsnames"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Manage active tools. This works for both built-in tools and dynamically registered tools. `pi.getActiveTools()` returns the active tool names as `string[]`; `pi.getAllTools()` returns metadata for all configured tools.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const active = pi.getActiveTools(); // ["read", "bash", ...]
 const all = pi.getAllTools();
 // all = [{
@@ -2422,7 +2113,6 @@ pi.setActiveTools([...new Set([...active, "my_custom_tool"])]); // Keep current 
 pi.setActiveTools(["read", "bash"]); // Only read and bash
 ```
 
-
 `pi.getAllTools()` returns `name`, `description`, `parameters`, `promptGuidelines`, `exposure`, `sourceInfo`, and, when set, `namespace`, `annotations`, and `reachesTools`.
 
 Typical `sourceInfo` values:
@@ -2436,13 +2126,10 @@ Typical `sourceInfo` values:
 
 ### pi.setModel(model)
 
-<a href="#pisetmodelmodel" class="heading-anchor" aria-label="Permalink: pi.setModel(model)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pisetmodelmodel"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Set the model for the current session. The change is recorded in session history and restored when that session is resumed, but it does not change the configured `defaultProvider` or `defaultModel` used by new sessions. Returns `false` if authentication is not configured for the model's provider. See <a href="/latest/models" class="link-module_root__svb26">models.md</a> for configuring custom models.
 
-Set the model for the current session. The change is recorded in session history and restored when that session is resumed, but it does not change the configured `defaultProvider` or `defaultModel` used by new sessions. Returns `false` if authentication is not configured for the model's provider. See [models.md](/latest/latest/models) for configuring custom models.
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const model = ctx.modelRegistry.find("anthropic", "claude-sonnet-4-5");
 if (model) {
   const success = await pi.setModel(model);
@@ -2455,15 +2142,12 @@ if (model) {
 
 ### pi.getThinkingLevel() / pi.setThinkingLevel(level)
 
-<a href="#pigetthinkinglevel--pisetthinkinglevellevel" class="heading-anchor" aria-label="Permalink: pi.getThinkingLevel() / pi.setThinkingLevel(level)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pigetthinkinglevel--pisetthinkinglevellevel"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Get the current thinking level. Level is clamped to model capabilities (non-reasoning models always use "off"). Changes emit `thinking_level_select`.
 
 `pi.setThinkingLevel()` changes the thinking level for the current session. The change is recorded in session history and restored when that session is resumed, but it does not change the configured default used by new sessions.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const current = pi.getThinkingLevel();  // "off" | "minimal" | "low" | "medium" | "high" | "xhigh" | "max"
 pi.setThinkingLevel("high");
 ```
@@ -2471,21 +2155,16 @@ pi.setThinkingLevel("high");
 
 ### pi.events
 
-<a href="#pievents" class="heading-anchor" aria-label="Permalink: pi.events" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pievents"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Shared event bus for communication between extensions:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.events.on("my:event", (data) => { ... });
 pi.events.emit("my:event", { ... });
 ```
 
 
 ### pi.registerProvider(name, config)
-
-<a href="#piregisterprovidername-config" class="heading-anchor" aria-label="Permalink: pi.registerProvider(name, config)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregisterprovidername-config"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register or override a model provider dynamically. Useful for proxies, custom endpoints, or team-wide model configurations.
@@ -2498,8 +2177,7 @@ Dynamic providers can implement `refreshModels`. Pi calls it during model refres
 
 Extensions that need native provider auth, filtering, refresh, or stream behavior can register a complete `Provider` from `@earendil-works/pi-ai`. The provider becomes the composition base and `models.json` overrides still apply above it.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { createProvider, openAICompletionsApi } from "@earendil-works/pi-ai/compat";
 
 const provider = createProvider({
@@ -2597,7 +2275,6 @@ pi.registerProvider("corporate-ai", {
 });
 ```
 
-
 The object form accepts a complete pi-ai `Provider`, including native `auth`, `getModels`, `refreshModels`, `filterModels`, `stream`, and `streamSimple` behavior.
 
 **Legacy config options:**
@@ -2613,20 +2290,17 @@ The object form accepts a complete pi-ai `Provider`, including native `auth`, `g
 - `oauth` - OAuth provider config for `/login` support. When provided, the provider appears in the login menu.
 - `streamSimple` - Custom streaming implementation for non-standard APIs.
 
-See [custom-provider.md](/latest/latest/custom-provider) for advanced topics: custom streaming APIs, OAuth details, model definition reference.
+See <a href="/latest/custom-provider" class="link-module_root__svb26">custom-provider.md</a> for advanced topics: custom streaming APIs, OAuth details, model definition reference.
 
 
 ### pi.unregisterProvider(name)
-
-<a href="#piunregisterprovidername" class="heading-anchor" aria-label="Permalink: pi.unregisterProvider(name)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piunregisterprovidername"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Remove a previously registered provider and its models. Built-in models that were overridden by the provider are restored. Has no effect if the provider was not registered.
 
 Like `registerProvider`, this takes effect immediately when called after the initial load phase, so a `/reload` is not required.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerCommand("my-setup-teardown", {
   description: "Remove the custom proxy provider",
   handler: async (_args, _ctx) => {
@@ -2638,29 +2312,22 @@ pi.registerCommand("my-setup-teardown", {
 
 ### pi.registerVirtualModel(model) / pi.unregisterVirtualModel(provider, id)
 
-<a href="#piregistervirtualmodelmodel--piunregistervirtualmodelprovider-id" class="heading-anchor" aria-label="Permalink: pi.registerVirtualModel(model) / pi.unregisterVirtualModel(provider, id)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistervirtualmodelmodel--piunregistervirtualmodelprovider-id"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Register a selectable catalog entry that routes each request to a physical model. `ctx.model` and the session's model selection name the virtual model; assistant messages record the physical model and thinking level the router picked. Registering the same provider and ID again replaces the virtual model. See [Virtual Models](/latest/latest/virtual-models).
+Register a selectable catalog entry that routes each request to a physical model. `ctx.model` and the session's model selection name the virtual model; assistant messages record the physical model and thinking level the router picked. Registering the same provider and ID again replaces the virtual model. See <a href="/latest/virtual-models" class="link-module_root__svb26">Virtual Models</a>.
 
 
 ### pi.registerMcpServer(name, config) / pi.unregisterMcpServer(name) / pi.getMcpServers()
 
-<a href="#piregistermcpservername-config--piunregistermcpservername--pigetmcpservers" class="heading-anchor" aria-label="Permalink: pi.registerMcpServer(name, config) / pi.unregisterMcpServer(name) / pi.getMcpServers()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistermcpservername-config--piunregistermcpservername--pigetmcpservers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Register an MCP server for the current session. See [MCP Servers](#mcp-servers).
+Register an MCP server for the current session. See <a href="#mcp-servers" class="link-module_root__svb26">MCP Servers</a>.
 
 
 ### pi.registerToolRenderer(resolver)
 
-<a href="#piregistertoolrendererresolver" class="heading-anchor" aria-label="Permalink: pi.registerToolRenderer(resolver)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#piregistertoolrendererresolver"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Choose how calls to any tool are drawn, including tools that are not registered yet, such as MCP tools in a resumed session before their server connected. The resolver receives the tool name and `next()`, which returns what the remaining resolvers (in extension load order), then the registered tool, would use, so `next() ?? mine` only fills in.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerToolRenderer((toolName, next) => {
   if (!toolName.startsWith("mcp__")) return next();
   return next() ?? { renderCall: (args, theme) => new Text(theme.fg("toolTitle", toolName), 0, 0) };
@@ -2670,21 +2337,16 @@ pi.registerToolRenderer((toolName, next) => {
 
 ### pi.getSettings()
 
-<a href="#pigetsettings" class="heading-anchor" aria-label="Permalink: pi.getSettings()" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#pigetsettings"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Return a copy of the effective settings, with global and project settings merged and overrides applied.
 
 
 ## State Management
 
-<a href="#state-management" class="heading-anchor" aria-label="Permalink: State Management" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#state-management"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Extensions with state should store it in tool result `details` for proper branching support:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 export default function (pi: ExtensionAPI) {
   let items: string[] = [];
 
@@ -2716,13 +2378,10 @@ export default function (pi: ExtensionAPI) {
 }
 ```
 
-
-Rebuild from `getBranch()`, not from every entry: abandoned branches represent alternative histories. Use [`pi.appendEntry()`](#piappendentrycustomtype-data) for durable data that should not reach the model.
+Rebuild from `getBranch()`, not from every entry: abandoned branches represent alternative histories. Use <a href="#piappendentrycustomtype-data" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">pi.appendEntry()</code></a> for durable data that should not reach the model.
 
 
 ## Custom Tools
-
-<a href="#custom-tools" class="heading-anchor" aria-label="Permalink: Custom Tools" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#custom-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Register tools the LLM can call via `pi.registerTool()`. Tools appear in the system prompt and can have custom rendering.
@@ -2743,8 +2402,7 @@ Pass the real target file path to `withFileMutationQueue()`, not the raw user ar
 
 Queue the entire mutation window on that target path. That includes read-modify-write logic, not just the final write.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { withFileMutationQueue } from "@earendil-works/pi-coding-agent";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
@@ -2769,10 +2427,8 @@ async execute(_toolCallId, params, _signal, _onUpdate, ctx) {
 
 ### Tool Definition
 
-<a href="#tool-definition" class="heading-anchor" aria-label="Permalink: Tool Definition" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool-definition"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { type Static, Type } from "typebox";
 import { StringEnum } from "@earendil-works/pi-ai";
 
@@ -2831,17 +2487,15 @@ pi.registerTool({
 });
 ```
 
-
 **Result fields:** Every result, including partial results passed to `onUpdate`, needs model-facing `content` and a `details` value. Use `details: undefined` when there is nothing to store; the type of `details` must match across all results of the tool.
 
 **Usage accounting:** If a tool makes nested LLM calls, return their combined `Usage` as `usage`. Pi persists it on the tool result and includes it in footer, `/session`, and RPC session totals. `tool_result` handlers can inspect or replace this value.
 
 **Signaling errors:** To mark a tool execution as failed, throw an error from `execute`, or return a result with `isError: true`. Both report an error result to the LLM; a returned result also keeps `details` and `structuredContent` for rendering and scripts. Other returned values never set the error flag.
 
-**Early termination:** Return `terminate: true` from `execute()` to hint that the automatic follow-up LLM call should be skipped after the current tool batch. This only takes effect when every finalized tool result in that batch is terminating. See [examples/extensions/structured-output.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/structured-output.ts) for a minimal example where the agent ends on a final structured-output tool call.
+**Early termination:** Return `terminate: true` from `execute()` to hint that the automatic follow-up LLM call should be skipped after the current tool batch. This only takes effect when every finalized tool result in that batch is terminating. See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/structured-output.ts" class="link-module_root__svb26">examples/extensions/structured-output.ts</a> for a minimal example where the agent ends on a final structured-output tool call.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 // Correct: throw to signal an error
 async execute(toolCallId, params) {
   if (!isValid(params.input)) {
@@ -2851,7 +2505,6 @@ async execute(toolCallId, params) {
 }
 ```
 
-
 **String enums:** Prefer `StringEnum` from `@earendil-works/pi-ai`. It produces a plain `enum` schema that every provider accepts.
 
 **Structured output:** Declare `outputSchema` and return a matching `structuredContent` when the result is data. The model still receives `content`; programmatic callers such as codemode scripts receive `structuredContent` instead of the text. Tools without `outputSchema` are passed to scripts as their text content. To report a failure that still carries data, return the result with `isError: true` instead of throwing: the model sees an error, and scripts still receive `structuredContent`.
@@ -2860,12 +2513,14 @@ async execute(toolCallId, params) {
 
 **Other definition fields:**
 
+
 | Field | Purpose |
 |----|----|
 | `defaultActive` | Set `false` to register the tool inactive; `--tools`, the `defaultTools` setting, or `pi.setActiveTools()` activates it |
-| `exposure`, `namespace`, `annotations`, `reachesTools`, `prepareLoadout` | Control how the model and other tools reach the tool; see [Tool Exposure](#tool-exposure) |
-| `renderShell`, `renderCall`, `renderResult` | Custom rendering; see [Custom Rendering](#custom-rendering) |
+| `exposure`, `namespace`, `annotations`, `reachesTools`, `prepareLoadout` | Control how the model and other tools reach the tool; see <a href="#tool-exposure" class="link-module_root__svb26">Tool Exposure</a> |
+| `renderShell`, `renderCall`, `renderResult` | Custom rendering; see <a href="#custom-rendering" class="link-module_root__svb26">Custom Rendering</a> |
 | `constrainedSampling` | Optional provider-side constrained sampling request for the tool's arguments |
+
 
 Use `defineTool()` to keep parameter type inference when you assign a tool definition to a variable before registering it.
 
@@ -2873,8 +2528,7 @@ Use `defineTool()` to keep parameter type inference when you assign a tool defin
 
 Example: an older session may contain an `edit` tool call with top-level `oldText` and `newText`, while the current schema only accepts `edits: [{ oldText, newText }]`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const editSchema = Type.Object({
   path: Type.String(),
   edits: Type.Array(
@@ -2913,28 +2567,22 @@ pi.registerTool({
 
 ### Overriding Built-in Tools
 
-<a href="#overriding-built-in-tools" class="heading-anchor" aria-label="Permalink: Overriding Built-in Tools" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#overriding-built-in-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Extensions can override built-in tools (`read`, `bash`, `powershell`, `edit`, `write`, `grep`, `find`, `ls`) by registering a tool with the same name. The extension tool replaces the built-in without a warning.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 # Extension's read tool replaces built-in read
 pi -e ./tool-override.ts
 ```
 
-
 Alternatively, use `--no-builtin-tools` to start without any built-in tools while keeping extension tools enabled:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 # No built-in tools, only extension tools
 pi --no-builtin-tools -e ./my-extension.ts
 ```
 
-
-See [examples/extensions/tool-override.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/tool-override.ts) for a complete example that overrides `read` with logging and access control.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/tool-override.ts" class="link-module_root__svb26">examples/extensions/tool-override.ts</a> for a complete example that overrides `read` with logging and access control.
 
 **Rendering:** Built-in renderer inheritance is resolved per slot. Execution override and rendering override are independent. If your override omits `renderCall`, the built-in `renderCall` is used. If your override omits `renderResult`, the built-in `renderResult` is used. If your override omits both, the built-in renderer is used automatically (syntax highlighting, diffs, etc.). This lets you wrap built-in tools for logging or access control without reimplementing the UI.
 
@@ -2944,25 +2592,22 @@ See [examples/extensions/tool-override.ts](https://github.com/earendil-works/pi/
 
 Built-in tool implementations:
 
-- [read.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/read.ts) - `ReadToolDetails`
-- [bash.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/bash.ts) - `BashToolDetails`
-- [powershell.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/powershell.ts) - `PowerShellToolDetails`
-- [edit.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/edit.ts)
-- [write.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/write.ts)
-- [grep.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/grep.ts) - `GrepToolDetails`
-- [find.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/find.ts) - `FindToolDetails`
-- [ls.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/ls.ts) - `LsToolDetails`
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/read.ts" class="link-module_root__svb26">read.ts</a> - `ReadToolDetails`
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/bash.ts" class="link-module_root__svb26">bash.ts</a> - `BashToolDetails`
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/powershell.ts" class="link-module_root__svb26">powershell.ts</a> - `PowerShellToolDetails`
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/edit.ts" class="link-module_root__svb26">edit.ts</a>
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/write.ts" class="link-module_root__svb26">write.ts</a>
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/grep.ts" class="link-module_root__svb26">grep.ts</a> - `GrepToolDetails`
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/find.ts" class="link-module_root__svb26">find.ts</a> - `FindToolDetails`
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/tools/ls.ts" class="link-module_root__svb26">ls.ts</a> - `LsToolDetails`
 
 
 ### Remote Execution
 
-<a href="#remote-execution" class="heading-anchor" aria-label="Permalink: Remote Execution" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#remote-execution"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Built-in tools support pluggable operations for delegating to remote systems (SSH, containers, etc.):
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { createReadTool, type ReadOperations } from "@earendil-works/pi-coding-agent";
 
 const localRead = createReadTool(cwd);
@@ -2984,21 +2629,19 @@ pi.registerTool({
 });
 ```
 
-
 `ReadOperations.createReadStream` is optional. When it returns the file as an async iterable of chunks (a Node `Readable` works), `read` keeps only the lines it shows in memory, so large files can be read with `offset`/`limit`; without it, `read` loads the whole file through `readFile`.
 
-The `create*ToolDefinition()` factories, such as `createReadToolDefinition()`, return complete tool definitions, including the built-in prompt snippet and guidelines, for the same purpose. Rendering does not need copying: a tool registered under a built-in name inherits the built-in renderer for each slot it leaves out (see [Overriding Built-in Tools](#overriding-built-in-tools)).
+The `create*ToolDefinition()` factories, such as `createReadToolDefinition()`, return complete tool definitions, including the built-in prompt snippet and guidelines, for the same purpose. Rendering does not need copying: a tool registered under a built-in name inherits the built-in renderer for each slot it leaves out (see <a href="#overriding-built-in-tools" class="link-module_root__svb26">Overriding Built-in Tools</a>).
 
 **Operations interfaces:** `ReadOperations`, `WriteOperations`, `EditOperations`, `BashOperations`, `PowerShellOperations`, `LsOperations`, `GrepOperations`, `FindOperations`
 
-`GrepOperations` only covers the directory check: grep always runs the local `rg`. To search a remote system, override grep's `execute()` instead, as the [Gondolin example](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/gondolin/index.ts) does.
+`GrepOperations` only covers the directory check: grep always runs the local `rg`. To search a remote system, override grep's `execute()` instead, as the <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/gondolin/index.ts" class="link-module_root__svb26">Gondolin example</a> does.
 
 For `user_bash`, extensions can reuse Pi's local shell backend via `createLocalBashOperations()` (or `createLocalPowerShellOperations()`) instead of reimplementing local process spawning, shell resolution, and process-tree termination.
 
 The `bash` and `powershell` tools also support a spawn hook to adjust the command, cwd, or env before execution:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { createBashTool } from "@earendil-works/pi-coding-agent";
 
 const bashTool = createBashTool(cwd, {
@@ -3010,23 +2653,18 @@ const bashTool = createBashTool(cwd, {
 });
 ```
 
-
 `createBashTool()` and `createPowerShellTool()` expose the current session to commands through `PI_SESSION_ID`, `PI_SESSION_FILE`, `PI_PROVIDER`, `PI_MODEL`, and `PI_REASONING_LEVEL`. Injection happens before `spawnHook`, so hooks receive these values in `env` and preserve them when they spread the existing environment as above. Set `exposeSessionEnvironment: false` to disable them:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const bashTool = createBashTool(cwd, {
   exposeSessionEnvironment: false,
 });
 ```
 
-
-See [Shell tool session environment](/latest/latest/environment-variables#shell-tool-session-environment) for variable semantics. See [examples/extensions/ssh.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/ssh.ts) for a complete SSH example with `--ssh` flag.
+See <a href="/latest/environment-variables#shell-tool-session-environment" class="link-module_root__svb26">Shell tool session environment</a> for variable semantics. See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/ssh.ts" class="link-module_root__svb26">examples/extensions/ssh.ts</a> for a complete SSH example with `--ssh` flag.
 
 
 ### Output Truncation
-
-<a href="#output-truncation" class="heading-anchor" aria-label="Permalink: Output Truncation" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#output-truncation"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 **Tools MUST truncate their output** to avoid overwhelming the LLM context. Large outputs can cause:
@@ -3037,8 +2675,7 @@ See [Shell tool session environment](/latest/latest/environment-variables#shell-
 
 The built-in limit is **50KB** (~10k tokens) and **2000 lines**, whichever is hit first. Use the exported truncation utilities:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import {
   truncateHead,      // Keep first N lines/bytes (good for file reads, search results)
   truncateTail,      // Keep last N lines/bytes (good for logs, command output)
@@ -3073,7 +2710,6 @@ async execute(toolCallId, params, signal, onUpdate, ctx) {
 }
 ```
 
-
 **Key points:**
 
 - Use `truncateHead` for content where the beginning matters (search results, file reads)
@@ -3081,18 +2717,15 @@ async execute(toolCallId, params, signal, onUpdate, ctx) {
 - Always inform the LLM when output is truncated and where to find the full version
 - Document the truncation limits in your tool's description
 
-See [examples/extensions/truncated-tool.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/truncated-tool.ts) for a complete example wrapping `rg` (ripgrep) with proper truncation.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/truncated-tool.ts" class="link-module_root__svb26">examples/extensions/truncated-tool.ts</a> for a complete example wrapping `rg` (ripgrep) with proper truncation.
 
 
 ### Multiple Tools
 
-<a href="#multiple-tools" class="heading-anchor" aria-label="Permalink: Multiple Tools" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#multiple-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 One extension can register multiple tools with shared state:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 export default function (pi: ExtensionAPI) {
   let connection = null;
 
@@ -3109,17 +2742,14 @@ export default function (pi: ExtensionAPI) {
 
 ### Custom Rendering
 
-<a href="#custom-rendering" class="heading-anchor" aria-label="Permalink: Custom Rendering" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#custom-rendering"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Tools can provide `renderCall` and `renderResult` for custom TUI display. See [tui.md](/latest/latest/tui) for the full component API and [tool-execution.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/interactive/components/tool-execution.ts) for how tool rows are composed.
+Tools can provide `renderCall` and `renderResult` for custom TUI display. See <a href="/latest/tui" class="link-module_root__svb26">tui.md</a> for the full component API and <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/interactive/components/tool-execution.ts" class="link-module_root__svb26">tool-execution.ts</a> for how tool rows are composed.
 
 By default, tool output is wrapped in a `Box` that handles background and horizontal padding from the `outputPad` setting. Tool renderers are also used in HTML exports. A defined `renderCall` or `renderResult` must return a `Component`. If a slot renderer is not defined, `tool-execution.ts` uses fallback rendering for that slot.
 
 Set `renderShell: "self"` when the tool should render its own shell instead of using the default `Box`. This is useful for tools that need complete control over framing or background behavior, for example large previews that must stay visually stable after the tool settles.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerTool({
   name: "my_tool",
   label: "My Tool",
@@ -3135,7 +2765,6 @@ pi.registerTool({
 });
 ```
 
-
 `renderCall` and `renderResult` each receive a `context` object with:
 
 - `args` - the current tool call arguments
@@ -3145,20 +2774,17 @@ pi.registerTool({
 - `toolCallId`, `cwd`, `executionStarted`, `argsComplete`, `isPartial`, `expanded`, `showImages`, `isError`
 - `durationMs` - how long execution took, from the final result; `undefined` while running
 - `outputPad` - horizontal padding from the `outputPad` setting; renderers with `renderShell: "self"` apply it themselves
-- `keyText()`, `keyHint()` - format the user's configured keybindings, see [Keybinding Hints](#keybinding-hints)
+- `keyText()`, `keyHint()` - format the user's configured keybindings, see <a href="#keybinding-hints" class="link-module_root__svb26">Keybinding Hints</a>
 
 Use `context.state` for cross-slot shared state. Keep slot-local caches on the returned component instance when you want to reuse and mutate the same component across renders.
 
 
 #### renderCall
 
-<a href="#rendercall" class="heading-anchor" aria-label="Permalink: renderCall" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#rendercall"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Renders the tool call or header:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { Text } from "@earendil-works/pi-tui";
 
 renderCall(args, theme, context) {
@@ -3176,13 +2802,10 @@ renderCall(args, theme, context) {
 
 #### renderResult
 
-<a href="#renderresult" class="heading-anchor" aria-label="Permalink: renderResult" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#renderresult"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Renders the tool result or output:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 renderResult(result, { expanded, isPartial }, theme, context) {
   if (isPartial) {
     return new Text(theme.fg("warning", "Processing..."), 0, 0);
@@ -3202,19 +2825,15 @@ renderResult(result, { expanded, isPartial }, theme, context) {
 }
 ```
 
-
 If a slot intentionally has no visible content, return an empty `Component` such as an empty `Container`.
 
 
 #### Keybinding Hints
 
-<a href="#keybinding-hints" class="heading-anchor" aria-label="Permalink: Keybinding Hints" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#keybinding-hints"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Use `keyHint()` and `keyText()` from the render context to display keybinding hints that respect the user's keybinding configuration:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 renderResult(result, { expanded }, theme, context) {
   let text = theme.fg("success", "✓ Done");
   if (!expanded) {
@@ -3223,7 +2842,6 @@ renderResult(result, { expanded }, theme, context) {
   return new Text(text, 0, 0);
 }
 ```
-
 
 The same functions are available as `options.keyHint()`/`options.keyText()` in message and entry renderers:
 
@@ -3237,14 +2855,12 @@ Use namespaced keybinding ids:
 - Coding-agent ids use the `app.*` namespace, for example `app.tools.expand`, `app.editor.external`, `app.session.rename`
 - Shared TUI ids use the `tui.*` namespace, for example `tui.select.confirm`, `tui.select.cancel`, `tui.input.tab`
 
-For the exhaustive list of keybinding ids and defaults, see [keybindings.md](/latest/latest/keybindings). `keybindings.json` uses those same namespaced ids.
+For the exhaustive list of keybinding ids and defaults, see <a href="/latest/keybindings" class="link-module_root__svb26">keybindings.md</a>. `keybindings.json` uses those same namespaced ids.
 
 Custom editors and `ctx.ui.custom()` components receive `keybindings: KeybindingsManager` as an injected argument. They should use that injected manager directly instead of calling `getKeybindings()` or `setKeybindings()`.
 
 
 #### Best Practices
-
-<a href="#best-practices" class="heading-anchor" aria-label="Permalink: Best Practices" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#best-practices"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 - Use `Text` with padding `(0, 0)`. The default Box handles padding.
@@ -3260,8 +2876,6 @@ Custom editors and `ctx.ui.custom()` components receive `keybindings: Keybinding
 
 #### Fallback
 
-<a href="#fallback" class="heading-anchor" aria-label="Permalink: Fallback" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#fallback"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 If a slot renderer is not defined or throws:
 
@@ -3270,8 +2884,6 @@ If a slot renderer is not defined or throws:
 
 
 ### Dynamic Tool Loading
-
-<a href="#dynamic-tool-loading" class="heading-anchor" aria-label="Permalink: Dynamic Tool Loading" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#dynamic-tool-loading"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Extensions can register many tools while keeping only a small initial set active. A tool can then change the active set with `pi.setActiveTools()` during execution. Pi stores the initial prompt and tool loadout in the transcript's first system message, then appends tool and prompt deltas before the next model request. Providers that cannot represent a transition receive a complete transcript checkpoint, which may invalidate the cached prefix.
@@ -3282,18 +2894,15 @@ The lifecycle is:
 2.  Keep loader tools, such as `search_tools`, active.
 3.  During loader execution, call `pi.setActiveTools()` with the desired active tool names. Names must already be registered; unknown and `hidden` names are ignored.
 
-Pi also ships a built-in `tool_search` tool. Register tools with `exposure: "deferred"` to make them findable by it instead of writing your own loader; see [Tool Exposure](#tool-exposure).
+Pi also ships a built-in `tool_search` tool. Register tools with `exposure: "deferred"` to make them findable by it instead of writing your own loader; see <a href="#tool-exposure" class="link-module_root__svb26">Tool Exposure</a>.
 
 
 #### Search tool example
 
-<a href="#search-tool-example" class="heading-anchor" aria-label="Permalink: Search tool example" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#search-tool-example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 The following extension registers two inactive searchable tools and keeps `search_tools` active as their loader. The example uses simple keyword matching, but the search implementation could use BM25, embeddings, a remote catalog, or project-specific routing.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { Type } from "typebox";
 
@@ -3382,13 +2991,10 @@ export default function (pi: ExtensionAPI) {
 }
 ```
 
-
 When `search_tools` adds a match, the model receives the complete updated tool list on the immediately following request.
 
 
 ### Tool Exposure
-
-<a href="#tool-exposure" class="heading-anchor" aria-label="Permalink: Tool Exposure" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#tool-exposure"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 `exposure` controls how the model reaches a tool. "Callable" means callable from other tools through `ctx.executeTool()` (`ctx.tools`), as the `codemode` tool's scripts do:
@@ -3405,8 +3011,7 @@ Registering a `direct` or `model-only` tool activates it unless it sets `default
 
 `annotations` are hints about what a tool does, with the meaning of MCP tool annotations: `readOnlyHint`, `destructiveHint`, `idempotentHint`, and `openWorldHint`. MCP tools carry the hints their server declares. Missing hints take the MCP defaults: a tool is not read-only, and may be destructive and reach an open world. The hints are not verified, but a permission extension can use them to decide which calls to confirm. This confirms the calls Codex asks approval for:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("tool_call", async (event, ctx) => {
   const hints = pi.getAllTools().find((tool) => tool.name === event.toolName)?.annotations;
   const needsApproval =
@@ -3418,15 +3023,12 @@ pi.on("tool_call", async (event, ctx) => {
 });
 ```
 
-
 A tool that orchestrates other tools can adjust what the model sees while it is active with `prepareLoadout(loadout)`. It runs whenever the active tools change and receives the declared tools, the callable tools, and every registered tool with its exposure, namespace, and prompt guidelines. It returns replacement `descriptions` for declared tools (including its own) and `hiddenDeclarations`: active tools whose declarations requests leave out while they stay active and callable. The default system prompt leaves hidden tools out of its tool list and rules, and names no tool in the skills hint when the file reader is hidden, so the orchestrating tool should present their guidelines itself. `codemode` uses only this hook, `exposure`, `reachesTools`, and `ctx.executeTool()`, so another tool can implement the same behavior under a different name.
 
 A tool that reaches other tools declares which ones a call may reach with `reachesTools(input)`: `"all"`, or the words of the input that may name them, where a word refers to every tool or namespace whose name it contains. `codemode` returns `"all"` for scripts that search or list tools and the words of the script otherwise; `tool_search` always returns `"all"`. Extensions that register tools late use it from their `tool_call` handler to finish registering the tools a call needs before it runs, as the MCP extension does for servers that are still connecting. The MCP extension also activates `codemode` or `tool_search` for MCP tools only when the tool of that name declares `reachesTools`.
 
 
 ### Calling Other Tools
-
-<a href="#calling-other-tools" class="heading-anchor" aria-label="Permalink: Calling Other Tools" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#calling-other-tools"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A tool can run other tools with `ctx.executeTool(name, args, { signal, onUpdate })`. `ctx.tools` lists the tools it can call. The call never rejects for tool failures: unknown tools, validation errors, blocked calls, and thrown errors come back as results with `isError: true`.
@@ -3440,39 +3042,31 @@ The `usage` of nested results, at every depth, is added to the calling tool's re
 
 ## MCP Servers
 
-<a href="#mcp-servers" class="heading-anchor" aria-label="Permalink: MCP Servers" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#mcp-servers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+`pi.registerMcpServer(name, config)` adds an MCP server for the current session. `config` has the shape of an `mcpServers` entry in <a href="/latest/mcp" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">mcp.json</code></a>: `command`, `args`, `env`, and `cwd` for stdio servers, `url`, `headers`, and `oauth` for HTTP servers, plus `exposure`, `toolExposure`, `description`, `enabled`, and `timeout`.
 
-`pi.registerMcpServer(name, config)` adds an MCP server for the current session. `config` has the shape of an `mcpServers` entry in [`mcp.json`](/latest/latest/mcp): `command`, `args`, `env`, and `cwd` for stdio servers, `url`, `headers`, and `oauth` for HTTP servers, plus `exposure`, `toolExposure`, `description`, `enabled`, and `timeout`.
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerMcpServer("jira", { url: "https://mcp.example.com/jira", exposure: "codemode" });
 pi.unregisterMcpServer("jira");
 ```
 
-
 Servers registered while the extension loads connect when the session starts, together with the `mcp.json` servers; servers registered later connect right away, and `pi.unregisterMcpServer()` closes the connection and makes the server's tools unreachable. Registrations are not saved: register again on every load, for example based on the extension's own settings. A server in `mcp.json` with the same name takes precedence, and `/mcp` shows the override. Registering the same name again replaces the extension's earlier registration; names registered by another extension, invalid names, and invalid configs throw.
 
-The built-in MCP support connects registered servers. When nothing does, because another extension replaced it (see [MCP](/latest/latest/mcp#replace-the-built-in-mcp-support)), each registration is reported as an extension error. Other MCP extensions can connect registered servers too: read them with `pi.getMcpServers()` on `session_start` and handle the `mcp_servers_change` event for later changes.
+The built-in MCP support connects registered servers. When nothing does, because another extension replaced it (see <a href="/latest/mcp#replace-the-built-in-mcp-support" class="link-module_root__svb26">MCP</a>), each registration is reported as an extension error. Other MCP extensions can connect registered servers too: read them with `pi.getMcpServers()` on `session_start` and handle the `mcp_servers_change` event for later changes.
 
 
 ## Custom UI
 
-<a href="#custom-ui" class="heading-anchor" aria-label="Permalink: Custom UI" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#custom-ui"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Extensions can interact with users via `ctx.ui` methods and customize how messages/tools render.
 
-For custom components, focus, overlays, themes, and rendering performance, see [Terminal UI](/latest/latest/tui). The examples it lists show selection lists, settings toggles, cancellable loaders, footers, and widgets.
+For custom components, focus, overlays, themes, and rendering performance, see <a href="/latest/tui" class="link-module_root__svb26">Terminal UI</a>. The examples it lists show selection lists, settings toggles, cancellable loaders, footers, and widgets.
 
 
 ### Dialogs
 
-<a href="#dialogs" class="heading-anchor" aria-label="Permalink: Dialogs" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#dialogs"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 // Select from options
 const choice = await ctx.ui.select("Pick one:", ["A", "B", "C"]);
 
@@ -3492,13 +3086,10 @@ ctx.ui.notify("Done!", "info");  // "info" | "warning" | "error"
 
 #### Timed Dialogs with Countdown
 
-<a href="#timed-dialogs-with-countdown" class="heading-anchor" aria-label="Permalink: Timed Dialogs with Countdown" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#timed-dialogs-with-countdown"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Dialogs support a `timeout` option that auto-dismisses with a live countdown display:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 // Dialog shows "Title (5s)" → "Title (4s)" → ... → auto-dismisses at 0
 const confirmed = await ctx.ui.confirm(
   "Timed Confirmation",
@@ -3513,7 +3104,6 @@ if (confirmed) {
 }
 ```
 
-
 **Return values on timeout:**
 
 - `select()` returns `undefined`
@@ -3523,13 +3113,10 @@ if (confirmed) {
 
 #### Manual Dismissal with AbortSignal
 
-<a href="#manual-dismissal-with-abortsignal" class="heading-anchor" aria-label="Permalink: Manual Dismissal with AbortSignal" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#manual-dismissal-with-abortsignal"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 For more control (e.g., to distinguish timeout from user cancel), use `AbortSignal`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const controller = new AbortController();
 const timeoutId = setTimeout(() => controller.abort(), 5000);
 
@@ -3550,16 +3137,13 @@ if (confirmed) {
 }
 ```
 
-
-See [examples/extensions/timed-confirm.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/timed-confirm.ts) for complete examples.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/timed-confirm.ts" class="link-module_root__svb26">examples/extensions/timed-confirm.ts</a> for complete examples.
 
 
 ### Widgets, Status, and Footer
 
-<a href="#widgets-status-and-footer" class="heading-anchor" aria-label="Permalink: Widgets, Status, and Footer" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#widgets-status-and-footer"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 // Status in footer (persistent until cleared)
 ctx.ui.setStatus("my-ext", "Processing...");
 ctx.ui.setStatus("my-ext", undefined);  // Clear
@@ -3667,13 +3251,10 @@ ctx.ui.setTheme(lightTheme!);  // Or switch by Theme object
 ctx.ui.theme.fg("accent", "styled text");  // Access current theme
 ```
 
-
 Custom working-indicator frames are rendered verbatim. If you want colors, add them to the frame strings yourself, for example with `ctx.ui.theme.fg(...)`.
 
 
 ### Autocomplete Providers
-
-<a href="#autocomplete-providers" class="heading-anchor" aria-label="Permalink: Autocomplete Providers" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#autocomplete-providers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Use `ctx.ui.addAutocompleteProvider()` to stack custom autocomplete logic on top of the built-in slash-command and path provider. Set `triggerCharacters` for custom natural triggers such as `$`.
@@ -3685,8 +3266,7 @@ Typical pattern:
 - otherwise delegate to `current.getSuggestions(...)`
 - delegate `applyCompletion(...)` unless you need custom insertion behavior
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.on("session_start", (_event, ctx) => {
   ctx.ui.addAutocompleteProvider((current) => ({
     triggerCharacters: ["#"],
@@ -3718,19 +3298,15 @@ pi.on("session_start", (_event, ctx) => {
 });
 ```
 
-
-See [github-issue-autocomplete.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/github-issue-autocomplete.ts) for a complete example that preloads the latest open GitHub issues with `gh issue list` and filters them locally for fast `#...` completion. It requires GitHub CLI (`gh`) and a GitHub repository checkout.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/github-issue-autocomplete.ts" class="link-module_root__svb26">github-issue-autocomplete.ts</a> for a complete example that preloads the latest open GitHub issues with `gh issue list` and filters them locally for fast `#...` completion. It requires GitHub CLI (`gh`) and a GitHub repository checkout.
 
 
 ### Custom Components
 
-<a href="#custom-components" class="heading-anchor" aria-label="Permalink: Custom Components" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#custom-components"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 For complex UI, use `ctx.ui.custom()`. This temporarily replaces the editor with your component until `done()` is called:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { truncateToWidth } from "@earendil-works/pi-tui";
 
 const result = await ctx.ui.custom<boolean>((tui, theme, keybindings, done) => ({
@@ -3749,7 +3325,6 @@ if (result) {
 }
 ```
 
-
 The callback receives:
 
 - `tui` - TUI instance (for screen dimensions, focus management)
@@ -3757,29 +3332,24 @@ The callback receives:
 - `keybindings` - App keybinding manager (for checking shortcuts)
 - `done(value)` - Call to close component and return value
 
-The factory can also return a `Promise` of a component. See [Terminal UI](/latest/latest/tui#build-a-minimal-custom-screen) for a complete custom screen with cached rendering.
+The factory can also return a `Promise` of a component. See <a href="/latest/tui#build-a-minimal-custom-screen" class="link-module_root__svb26">Terminal UI</a> for a complete custom screen with cached rendering.
 
 
 #### Overlay Mode (Experimental)
 
-<a href="#overlay-mode-experimental" class="heading-anchor" aria-label="Permalink: Overlay Mode (Experimental)" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#overlay-mode-experimental"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Pass `{ overlay: true }` to render the component as a floating modal on top of existing content, without clearing the screen:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const result = await ctx.ui.custom<string | null>(
   (tui, theme, keybindings, done) => new MyOverlayComponent({ onClose: done }),
   { overlay: true }
 );
 ```
 
-
 For advanced positioning (anchors, margins, percentages, responsive visibility), pass `overlayOptions`. Use `onHandle` to control focus or visibility programmatically:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const result = await ctx.ui.custom<string | null>(
   (tui, theme, keybindings, done) => new MyOverlayComponent({ onClose: done }),
   {
@@ -3795,23 +3365,19 @@ const result = await ctx.ui.custom<string | null>(
 );
 ```
 
-
 `overlayOptions` can also be a function, re-evaluated for dynamic positioning. Finish the interaction with `done()`; do not call `handle.hide()` on an overlay created by `ctx.ui.custom()`.
 
 A focused visible overlay can reclaim input after temporary non-overlay custom UI closes. If you intentionally want another component to keep input while the overlay stays visible, call `handle.unfocus({ target })`. Passing `{ target: null }` releases the overlay without focusing another component.
 
-See [`OverlayOptions` and `OverlayHandle`](https://github.com/earendil-works/pi/blob/main/packages/tui/src/tui.ts) for the full API and [overlay-qa-tests.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/overlay-qa-tests.ts) for examples.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/tui/src/tui.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">OverlayOptions</code> and <code class="inline-code-module_root__fGvLx" data-variant="soft">OverlayHandle</code></a> for the full API and <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/overlay-qa-tests.ts" class="link-module_root__svb26">overlay-qa-tests.ts</a> for examples.
 
 
 ### Custom Editor
 
-<a href="#custom-editor" class="heading-anchor" aria-label="Permalink: Custom Editor" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#custom-editor"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Replace the main input editor with a custom implementation (vim mode, emacs mode, etc.):
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { CustomEditor, type ExtensionAPI } from "@earendil-works/pi-coding-agent";
 import { matchesKey } from "@earendil-works/pi-tui";
 
@@ -3840,7 +3406,6 @@ export default function (pi: ExtensionAPI) {
 }
 ```
 
-
 **Key points:**
 
 - Extend `CustomEditor` (not base `Editor`) to get app keybindings (escape to abort, ctrl+d, model switching)
@@ -3852,27 +3417,22 @@ export default function (pi: ExtensionAPI) {
 
 To compose with another extension that already replaced the editor, capture the previous factory before setting yours:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 const previous = ctx.ui.getEditorComponent();
 ctx.ui.setEditorComponent((tui, theme, keybindings) =>
   new MyEditor(tui, theme, keybindings, { base: previous?.(tui, theme, keybindings) })
 );
 ```
 
-
-See [modal-editor.ts](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/modal-editor.ts) for a complete example with a mode indicator.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/modal-editor.ts" class="link-module_root__svb26">modal-editor.ts</a> for a complete example with a mode indicator.
 
 
 ### Message and Entry Rendering
 
-<a href="#message-and-entry-rendering" class="heading-anchor" aria-label="Permalink: Message and Entry Rendering" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#message-and-entry-rendering"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Register a custom renderer for messages with your `customType`. Use message renderers for content that should participate in LLM context:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { Text } from "@earendil-works/pi-tui";
 
 pi.registerMessageRenderer("my-extension", (message, options, theme) => {
@@ -3890,11 +3450,9 @@ pi.registerMessageRenderer("my-extension", (message, options, theme) => {
 });
 ```
 
-
 Messages are sent via `pi.sendMessage()`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.sendMessage({
   customType: "my-extension",  // Matches registerMessageRenderer
   content: "Status update",
@@ -3903,11 +3461,9 @@ pi.sendMessage({
 });
 ```
 
-
 For TUI-only content that should not be sent to the LLM, render custom entries instead:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerEntryRenderer("my-card", (entry, options, theme) => {
   return new Text(theme.fg("accent", JSON.stringify(entry.data)));
 });
@@ -3918,13 +3474,10 @@ pi.appendEntry("my-card", { status: "done" });
 
 ### Theme Colors
 
-<a href="#theme-colors" class="heading-anchor" aria-label="Permalink: Theme Colors" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#theme-colors"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+All render functions receive a `theme` object. See <a href="/latest/themes" class="link-module_root__svb26">themes.md</a> for creating custom themes and the full color palette.
 
-All render functions receive a `theme` object. See [themes.md](/latest/latest/themes) for creating custom themes and the full color palette.
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 // Foreground colors
 theme.fg("toolTitle", text)   // Tool names
 theme.fg("accent", text)      // Highlights
@@ -3944,13 +3497,11 @@ theme.strikethrough(text)
 theme.style(text, { fg: "success", bg: "toolSuccessBg", bold: true })
 ```
 
-
-`theme.colors` exposes concrete colors and `theme.appearance` is `"dark"` or `"light"`. See [Apply themes correctly](/latest/latest/tui#apply-themes-correctly).
+`theme.colors` exposes concrete colors and `theme.appearance` is `"dark"` or `"light"`. See <a href="/latest/tui#apply-themes-correctly" class="link-module_root__svb26">Apply themes correctly</a>.
 
 For syntax highlighting in custom tool renderers:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import { highlightCode, getLanguageFromPath } from "@earendil-works/pi-coding-agent";
 
 // Highlight code with an explicit language; returns one string per line
@@ -3964,8 +3515,6 @@ const highlighted = highlightCode(code, lang);
 
 ## Error Handling
 
-<a href="#error-handling" class="heading-anchor" aria-label="Permalink: Error Handling" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#error-handling"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 - Extension errors are logged, agent continues
 - `tool_call` errors block the tool (fail-safe)
@@ -3975,25 +3524,23 @@ const highlighted = highlightCode(code, lang);
 
 ## Mode Behavior
 
-<a href="#mode-behavior" class="heading-anchor" aria-label="Permalink: Mode Behavior" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#mode-behavior"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 | Mode | `ctx.mode` | `ctx.hasUI` | Notes |
 |----|----|----|----|
 | Interactive | `"tui"` | `true` | Full TUI with terminal rendering |
-| RPC (`--mode rpc`) | `"rpc"` | `true` | Dialogs and notifications via JSON protocol; `custom()` returns `undefined`, component factories are ignored. See [RPC Extension UI](/latest/latest/rpc-extension-ui) |
+| RPC (`--mode rpc`) | `"rpc"` | `true` | Dialogs and notifications via JSON protocol; `custom()` returns `undefined`, component factories are ignored. See <a href="/latest/rpc-extension-ui" class="link-module_root__svb26">RPC Extension UI</a> |
 | JSON (`--mode json`) | `"json"` | `false` | Event stream to stdout; UI methods are no-ops |
 | Print (`-p`) | `"print"` | `false` | Extensions run but can't prompt |
+
 
 Use `ctx.mode === "tui"` before TUI-specific features (`custom()`, component factories, terminal input). Use `ctx.hasUI` before dialog and notification methods that work in both TUI and RPC modes.
 
 
 ## Examples Reference
 
-<a href="#examples-reference" class="heading-anchor" aria-label="Permalink: Examples Reference" data-copy="" data-copy-text="https://docs.pi.dev/latest/extensions#examples-reference"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+All examples in <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions" class="link-module_root__svb26">examples/extensions/</a>.
 
-All examples in [examples/extensions/](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions).
 
 | Example | Description | Key APIs |
 |----|----|----|

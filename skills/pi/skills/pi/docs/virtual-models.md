@@ -2,54 +2,34 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Virtual Models
 
 
 A virtual model is a selectable model that picks a physical model for each request. Use one to route by task, cost, or conversation state. For example, a router can send quick questions to a small model and hard problems to a large one, while the user selects a single model.
 
-Register virtual models from an [extension](/latest/latest/extensions). They appear in `/model`, `--model`, scoped models, and settings like any other model. A virtual model can be listed under any provider, including one with physical models, such as `openai-codex/auto`.
+Register virtual models from an <a href="/latest/extensions" class="link-module_root__svb26">extension</a>. They appear in `/model`, `--model`, scoped models, and settings like any other model. A virtual model can be listed under any provider, including one with physical models, such as `openai-codex/auto`.
 
 
 ## Selection and dispatch
 
-<a href="#selection-and-dispatch" class="heading-anchor" aria-label="Permalink: Selection and dispatch" data-copy="" data-copy-text="https://docs.pi.dev/latest/virtual-models#selection-and-dispatch"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 A virtual model selects a model and a thinking level. A router maps that pair to a physical pair for each request:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 selected (virtual model, virtual level)  ->  dispatched (physical model, physical level)
 jev/auto:low                             ->  anthropic/claude-sonnet-4-5:high
 ```
-
 
 The virtual thinking level is an input to the router. Its meaning is up to the router; it need not correspond to a reasoning budget.
 
 Pi keeps the two pairs apart:
 
+
 |  | Selection | Dispatch |
 |----|----|----|
 | Recorded in | `model_change` and `thinking_level_change` entries | Each assistant message: `provider`, `api`, `model`, `thinkingLevel` |
 | Visible as | `ctx.model`, `ctx.thinkingLevel`, `PI_MODEL`, `PI_REASONING_LEVEL`, `/model` | The assistant message of each response |
+
 
 Providers only receive physical models. Assistant messages name the physical model, so replaying a conversation across different physical models works the same as after a manual model switch. Resuming a session restores the virtual selection from its latest `model_change` entry. If the virtual model is no longer registered, Pi falls back to the physical model that answered last.
 
@@ -60,10 +40,8 @@ Context usage uses the limits of the physical model that produced the latest res
 
 ## Register a virtual model
 
-<a href="#register-a-virtual-model" class="heading-anchor" aria-label="Permalink: Register a virtual model" data-copy="" data-copy-text="https://docs.pi.dev/latest/virtual-models#register-a-virtual-model"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 import type { ExtensionAPI } from "@earendil-works/pi-coding-agent";
 
 export default function (pi: ExtensionAPI) {
@@ -85,7 +63,6 @@ export default function (pi: ExtensionAPI) {
 }
 ```
 
-
 - `provider` is the provider the model is listed under. It can be any provider ID. A provider can list several virtual models next to its physical ones. On a physical provider, the virtual model is available when that provider has credentials. Under an ID that no provider uses, it is always available.
 - `id` must not be the ID of a physical model of that provider. If a catalog refresh later adds a physical model with the same ID, the virtual model hides it.
 - `thinkingLevels` lists the levels offered for selection. It defaults to `["off"]`.
@@ -97,10 +74,9 @@ Registration follows the same queuing and reload rules as `pi.registerProvider()
 
 ## Route requests
 
-<a href="#route-requests" class="heading-anchor" aria-label="Permalink: Route requests" data-copy="" data-copy-text="https://docs.pi.dev/latest/virtual-models#route-requests"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 `route(request, ctx)` runs before every request made with the virtual model and returns `{ model, thinkingLevel }`. The model can be any physical model in the catalog whose provider has credentials; look it up with `ctx.modelRegistry`. A virtual model cannot route to another virtual model. Pi clamps the thinking level to the returned model.
+
 
 | Field | Meaning |
 |----|----|
@@ -112,12 +88,14 @@ Registration follows the same queuing and reload rules as `pi.registerProvider()
 | `messages` | The conversation for this request, including system messages |
 | `signal` | Abort signal of the request |
 
+
 | `reason` | Request |
 |----|----|
 | `user` | First request after a message the user wrote, including steering and follow-up messages |
 | `continuation` | Any other request in the agent loop, such as after tool results or extension messages |
 | `retry` | Automatic retry after a failed request, including after compaction for a context overflow |
 | `direct` | Request made outside the agent loop, such as a compaction summary or an extension calling `ctx.modelRegistry.streamSimple()` |
+
 
 Returning `previous` for `continuation` and `failed` for `retry` keeps prompt caches and thinking signatures valid. Switching models between turns is allowed but loses the prompt cache. A retry can also switch to another model, for example when `failed.message.errorMessage` reports that a provider is overloaded or the context overflowed.
 
@@ -126,13 +104,10 @@ If `route()` throws, or returns a virtual model or a model without credentials, 
 
 ## Keep routing state
 
-<a href="#keep-routing-state" class="heading-anchor" aria-label="Permalink: Keep routing state" data-copy="" data-copy-text="https://docs.pi.dev/latest/virtual-models#keep-routing-state"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 `route()` can return `state` next to the model. Pi stores it on the session branch and passes it back as `request.state` on later requests. Use it for decisions the transcript does not record, such as classifier results or a routing phase:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi.registerVirtualModel<{ phase: "plan" | "build" }>({
   provider: "router",
   id: "phased",
@@ -145,7 +120,6 @@ pi.registerVirtualModel<{ phase: "plan" | "build" }>({
 });
 ```
 
-
 - State must be JSON-serializable. Returning `undefined` or `request.state` itself keeps the current state.
 - Pi stores any other returned object as new state, before the request is sent, even when it equals the current state. Return a new object only when the state changes. The state stays stored if the request later fails.
 - State follows the session tree, so forks and `/tree` navigation see the state of their branch. It survives compaction.
@@ -155,6 +129,6 @@ The transcript already records the selection and every dispatched model, and `ct
 
 Routers can call other models through `ctx.modelRegistry`, for example `ctx.modelRegistry.classify()` with a classifier model from `ctx.modelRegistry.findOfType("classifier", provider, id)`. The call adds latency before the first token of the turn.
 
-See [`jev-router.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/jev-router.ts) for a complete router. It plans on a strong OpenAI Codex model chosen by the Jev classifier, lets that model make the first edit, and then switches once to a cheaper model, accepting a single prompt-cache miss. It keeps the phase as router state.
+See <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/jev-router.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">jev-router.ts</code></a> for a complete router. It plans on a strong OpenAI Codex model chosen by the Jev classifier, lets that model make the first edit, and then switches once to a cheaper model, accepting a single prompt-cache miss. It keeps the phase as router state.
 
 

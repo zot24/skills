@@ -2,24 +2,6 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Sessions and Context
 
 
@@ -28,27 +10,25 @@ Pi saves a conversation as a session. The active branch of that session supplies
 
 ## Continue or switch sessions
 
-<a href="#continue-or-switch-sessions" class="heading-anchor" aria-label="Permalink: Continue or switch sessions" data-copy="" data-copy-text="https://docs.pi.dev/latest/sessions#continue-or-switch-sessions"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Pi saves sessions automatically unless you start it with `--no-session`.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --continue
 pi --resume
 ```
 
-
 `--continue` opens the most recent session for the current directory. `--resume` opens the session picker. In interactive mode, `/resume` opens the same picker and `/new` starts a new session.
 
 Each session records the working directory it was created in and never changes it. Pi runs a session in its working directory, so tools, `@path` references, project configuration, and context files resolve from there.
+
 
 | Entry point | Working directory |
 |----|----|
 | `--continue` | The current directory |
 | `--resume`, `/resume`, `--session`, `/import` | The session's working directory, which can differ from the current directory |
 | `--fork`, or a `--session` ID from another directory that you choose to fork | The current directory, in a new session |
+
 
 If a session's working directory no longer exists, for example after the project folder was renamed, interactive mode asks how to open it:
 
@@ -60,15 +40,14 @@ Other modes exit with an error.
 
 Use `/name` or `--name` to assign a recognizable session name. Run `/session` to verify the current session file, ID, message count, token usage, and cost.
 
-The session picker lets you search, rename, and delete sessions. It can also show paths, change sorting, and limit results to named sessions. See [Keybindings](/latest/latest/keybindings#sessions) for its shortcuts.
+The session picker lets you search, rename, and delete sessions. It can also show paths, change sorting, and limit results to named sessions. See <a href="/latest/keybindings#sessions" class="link-module_root__svb26">Keybindings</a> for its shortcuts.
 
 
 ## Choose how to branch
 
-<a href="#choose-how-to-branch" class="heading-anchor" aria-label="Permalink: Choose how to branch" data-copy="" data-copy-text="https://docs.pi.dev/latest/sessions#choose-how-to-branch"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Pi stores entries as a tree, so returning to an earlier point does not erase the branch you leave.
+
 
 | Action | Result | Use it when |
 |----|----|----|
@@ -76,32 +55,29 @@ Pi stores entries as a tree, so returning to an earlier point does not erase the
 | `/fork` | Creates a new session from an earlier user message | The alternative should become separate work |
 | `/clone` | Copies the active branch into a new session | You want a separate copy of the current state |
 
+
 In `/tree`, select a user message to put its text back in the editor. Edit and submit it to create another branch. Selecting an assistant response or another entry continues after that entry with an empty editor.
 
 When you leave a branch, Pi can summarize it and attach that summary to the branch you enter. This preserves relevant work from the abandoned path without including every message from it.
 
-For the persisted tree and entry types, see [Session Format](/latest/latest/session-format).
+For the persisted tree and entry types, see <a href="/latest/session-format" class="link-module_root__svb26">Session Format</a>.
 
 
 ## Manage conversation context
 
-<a href="#manage-conversation-context" class="heading-anchor" aria-label="Permalink: Manage conversation context" data-copy="" data-copy-text="https://docs.pi.dev/latest/sessions#manage-conversation-context"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-The model receives the active branch, not every branch in the session file. Pi combines that history with the system prompt, discovered context files, available tools, and loaded skill descriptions. [How Pi Works](/latest/latest/how-pi-works#context) describes how those inputs are assembled.
+The model receives the active branch, not every branch in the session file. Pi combines that history with the system prompt, discovered context files, available tools, and loaded skill descriptions. <a href="/latest/how-pi-works#context" class="link-module_root__svb26">How Pi Works</a> describes how those inputs are assembled.
 
 The footer shows current context usage. When the active context approaches the model's limit, Pi normally compacts older history automatically. Compaction adds a summary and keeps recent messages. It does not delete the original session entries.
 
-Run `/compact` to compact manually. You can add instructions when the summary should preserve a particular topic or decision. Configure automatic compaction and retained history through [Settings](/latest/latest/settings#compaction).
+Run `/compact` to compact manually. You can add instructions when the summary should preserve a particular topic or decision. Configure automatic compaction and retained history through <a href="/latest/settings#compaction" class="link-module_root__svb26">Settings</a>.
 
 Compaction can fail if the provider is unavailable or cannot accept the summarization request. Correct the provider problem and run `/compact` again. Disabling automatic compaction does not disable the manual command.
 
-See [Compaction Reference](/latest/latest/compaction) for thresholds, retained boundaries, branch-summary behavior, and extension hooks.
+See <a href="/latest/compaction" class="link-module_root__svb26">Compaction Reference</a> for thresholds, retained boundaries, branch-summary behavior, and extension hooks.
 
 
 ## Control session storage
-
-<a href="#control-session-storage" class="heading-anchor" aria-label="Permalink: Control session storage" data-copy="" data-copy-text="https://docs.pi.dev/latest/sessions#control-session-storage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 By default, Pi stores sessions under `~/.pi/agent/sessions/`, grouped by working directory. Use `--session-dir`, `PI_CODING_AGENT_SESSION_DIR`, or the `sessionDir` setting to choose another location. The CLI option has highest precedence.
@@ -111,17 +87,13 @@ Use `--no-session` for an ephemeral run. An ephemeral session cannot be resumed 
 
 ## Export or share a session
 
-<a href="#export-or-share-a-session" class="heading-anchor" aria-label="Permalink: Export or share a session" data-copy="" data-copy-text="https://docs.pi.dev/latest/sessions#export-or-share-a-session"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Use `/export` to write the current session as HTML or JSONL. Use `/share` to upload it and get a viewer link. By default, Pi uses a Radius artifact when Radius authentication is configured; otherwise, it uses a private GitHub gist. Set [`sessionShareDestination`](/latest/latest/settings#sessions-and-context) to `gist` or `radius` to force one destination.
+Use `/export` to write the current session as HTML or JSONL. Use `/share` to upload it and get a viewer link. By default, Pi uses a Radius artifact when Radius authentication is configured; otherwise, it uses a private GitHub gist. Set <a href="/latest/settings#sessions-and-context" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">sessionShareDestination</code></a> to `gist` or `radius` to force one destination.
 
 Review exported or shared sessions first. They can contain prompts, model responses, tool arguments, command output, file contents, and extension messages.
 
 
 ## Report a bug
-
-<a href="#report-a-bug" class="heading-anchor" aria-label="Permalink: Report a bug" data-copy="" data-copy-text="https://docs.pi.dev/latest/sessions#report-a-bug"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Run `/bug [description]` to prepare a private report for the Pi developers. You can include the session transcript, omit it, or ask the current model to summarize the problem. Review any transcript or generated summary because it can contain sensitive conversation data.

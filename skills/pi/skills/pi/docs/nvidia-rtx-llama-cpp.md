@@ -2,46 +2,24 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Run Pi with NVIDIA RTX and llama.cpp
 
 
-[NVIDIA Local AI Inference Recipes](https://nvidia.github.io/local-ai-inference-recipes/index.html) provides llama.cpp settings tuned for specific NVIDIA hardware and models. Each recipe gives a single-model `llama-server` command. Pi works with the llama.cpp router, which can serve and manage several models, so this guide converts the recipe command into a router preset and starts it with `llama serve`. `llama serve` accepts the same options as `llama-server`.
+<a href="https://nvidia.github.io/local-ai-inference-recipes/index.html" class="link-module_root__svb26">NVIDIA Local AI Inference Recipes</a> provides llama.cpp settings tuned for specific NVIDIA hardware and models. Each recipe gives a single-model `llama-server` command. Pi works with the llama.cpp router, which can serve and manage several models, so this guide converts the recipe command into a router preset and starts it with `llama serve`. `llama serve` accepts the same options as `llama-server`.
 
-The examples below use Windows PowerShell. See [Local Models with llama.cpp](/latest/latest/llama-cpp) for Pi's complete router and model-management reference.
+The examples below use Windows PowerShell. See <a href="/latest/llama-cpp" class="link-module_root__svb26">Local Models with llama.cpp</a> for Pi's complete router and model-management reference.
 
 
 ## Before you begin
 
-<a href="#before-you-begin" class="heading-anchor" aria-label="Permalink: Before you begin" data-copy="" data-copy-text="https://docs.pi.dev/latest/nvidia-rtx-llama-cpp#before-you-begin"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-1.  Open the [recipe catalog](https://nvidia.github.io/local-ai-inference-recipes/index.html), select your hardware, operating system, and model, then choose **llama.cpp**. Check the prerequisites and memory requirements. Keep the recipe's launch command for the conversion below.
+1.  Open the <a href="https://nvidia.github.io/local-ai-inference-recipes/index.html" class="link-module_root__svb26">recipe catalog</a>, select your hardware, operating system, and model, then choose **llama.cpp**. Check the prerequisites and memory requirements. Keep the recipe's launch command for the conversion below.
 2.  Install llama.cpp with the recipe's setup instructions. The recipe's settings depend on its build, for example CUDA support or speculative decoding options.
 3.  Run `llama serve --help` and check that it lists `--models-preset`. If the build has no `llama` program or the option is missing, it cannot load the recipe as a router preset. Use a newer build that still meets the recipe's requirements.
-4.  Install Pi with the [Quickstart](/latest/latest/quickstart). On native Windows, also see [Run Pi on Windows](/latest/latest/windows).
+4.  Install Pi with the <a href="/latest/quickstart" class="link-module_root__svb26">Quickstart</a>. On native Windows, also see <a href="/latest/windows" class="link-module_root__svb26">Run Pi on Windows</a>.
 
 
 ## Convert the recipe to a preset
-
-<a href="#convert-the-recipe-to-a-preset" class="heading-anchor" aria-label="Permalink: Convert the recipe to a preset" data-copy="" data-copy-text="https://docs.pi.dev/latest/nvidia-rtx-llama-cpp#convert-the-recipe-to-a-preset"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 A preset lists the settings for one or more models. Each section name becomes the model ID shown in Pi. Save the preset in the llama.cpp folder, or pass its full path when starting the router.
@@ -55,6 +33,7 @@ Convert each option from the recipe command into one preset line:
 - Add `load-on-startup = true` so the router loads the model when it starts.
 - Replace short model-file options with their long preset keys:
 
+
 | Recipe option        | Preset key         |
 |----------------------|--------------------|
 | `-hf`                | `hf-repo`          |
@@ -62,10 +41,10 @@ Convert each option from the recipe command into one preset line:
 | `-hfrd`              | `hf-repo-draft`    |
 | `--spec-draft-model` | `spec-draft-model` |
 
+
 For example, this recipe command:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 llama-server.exe -hf "unsloth/Qwen3.8-27B-GGUF" `
   -hff "Qwen3.8-27B-UD-Q4_K_M.gguf" `
   -hfrd "z-lab/Qwen3.8-27B-DFlash2-GGUF" `
@@ -85,11 +64,9 @@ llama-server.exe -hf "unsloth/Qwen3.8-27B-GGUF" `
   --spec-draft-backend-sampling
 ```
 
-
 becomes `qwen3.8-27b.ini`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 version = 1
 
 [qwen3.8-27b]
@@ -114,28 +91,22 @@ spec-draft-backend-sampling = true
 
 ## Start the router
 
-<a href="#start-the-router" class="heading-anchor" aria-label="Permalink: Start the router" data-copy="" data-copy-text="https://docs.pi.dev/latest/nvidia-rtx-llama-cpp#start-the-router"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Open PowerShell in the llama.cpp folder and run:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 .\llama.exe serve --models-preset qwen3.8-27b.ini --host 127.0.0.1
 ```
 
-
 If the recipe requires a Hugging Face token, set `$env:HF_TOKEN` in the same PowerShell window before starting the router. On its first start, the router downloads the model files.
 
-Use the [router health checks](/latest/latest/llama-cpp#troubleshooting) to confirm that the server is ready. In Windows PowerShell, use `curl.exe` rather than `curl`, which PowerShell maps to a different command. The model is ready when `/models` lists `qwen3.8-27b` with the status `loaded`.
+Use the <a href="/latest/llama-cpp#troubleshooting" class="link-module_root__svb26">router health checks</a> to confirm that the server is ready. In Windows PowerShell, use `curl.exe` rather than `curl`, which PowerShell maps to a different command. The model is ready when `/models` lists `qwen3.8-27b` with the status `loaded`.
 
 
 ## Use the model in Pi
 
-<a href="#use-the-model-in-pi" class="heading-anchor" aria-label="Permalink: Use the model in Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/nvidia-rtx-llama-cpp#use-the-model-in-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Follow [Configure Pi](/latest/latest/llama-cpp#configure-pi) and connect to `http://127.0.0.1:9931`. The preset section name is the model ID, so select `qwen3.8-27b` in `/model` for this example.
+Follow <a href="/latest/llama-cpp#configure-pi" class="link-module_root__svb26">Configure Pi</a> and connect to `http://127.0.0.1:9931`. The preset section name is the model ID, so select `qwen3.8-27b` in `/model` for this example.
 
 NVIDIA recipe memory settings assume that only the selected model uses the GPU. If `/llama` shows other loaded models, unload them before using the recipe model.
 

@@ -2,69 +2,41 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Local Models with llama.cpp
 
 
-Pi supports the [llama.cpp](https://llama.app) router server. The router discovers multiple GGUF models and loads or unloads them on demand.
+Pi supports the <a href="https://llama.app" class="link-module_root__svb26">llama.cpp</a> router server. The router discovers multiple GGUF models and loads or unloads them on demand.
 
 
 ## Install llama.cpp
 
-<a href="#install-llamacpp" class="heading-anchor" aria-label="Permalink: Install llama.cpp" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#install-llamacpp"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Install llama.cpp with the <a href="https://llama.app/docs/installation" class="link-module_root__svb26">official installer</a>:
 
-Install llama.cpp with the [official installer](https://llama.app/docs/installation):
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 curl -LsSf https://llama.app/install.sh | sh
 ```
 
-
 Verify the installation:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 llama --version
 ```
 
-
-See [llama.app](https://llama.app) for other installation methods, including package managers and building from source.
+See <a href="https://llama.app" class="link-module_root__svb26">llama.app</a> for other installation methods, including package managers and building from source.
 
 
 ## Start the router
 
-<a href="#start-the-router" class="heading-anchor" aria-label="Permalink: Start the router" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#start-the-router"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Start `llama serve` without `--model`, `-m`, or `-hf`. Passing a model starts single-model mode instead of router mode. See the <a href="https://llama.app/docs/serve#serving-multiple-models-router-mode" class="link-module_root__svb26">llama.cpp server guide</a> for router configuration.
 
-Start `llama serve` without `--model`, `-m`, or `-hf`. Passing a model starts single-model mode instead of router mode. See the [llama.cpp server guide](https://llama.app/docs/serve#serving-multiple-models-router-mode) for router configuration.
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 llama serve \
   --no-models-autoload \
   -ngl all \
   -c 32768
 ```
-
 
 Important options:
 
@@ -74,8 +46,7 @@ Important options:
 
 A single-file model can sit directly in the model directory. Put multimodal and multi-shard models in separate subdirectories:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 ~/models/
 ├── llama-3.2-1b-Q4_K_M.gguf
 ├── gemma-3-4b-it-Q4_K_M/
@@ -87,22 +58,17 @@ A single-file model can sit directly in the model directory. Put multimodal and 
     └── large-model-Q4_K_M-00003-of-00003.gguf
 ```
 
-
-Restart the router after manually adding files. The router also supports cached models and preset files via `--models-preset`, as described in the [server guide](https://llama.app/docs/serve#serving-multiple-models-router-mode).
+Restart the router after manually adding files. The router also supports cached models and preset files via `--models-preset`, as described in the <a href="https://llama.app/docs/serve#serving-multiple-models-router-mode" class="link-module_root__svb26">server guide</a>.
 
 
 ## Configure Pi
 
-<a href="#configure-pi" class="heading-anchor" aria-label="Permalink: Configure Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#configure-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Start Pi and configure the provider:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 /login llama.cpp
 ```
-
 
 Enter the router URL and optional API key. The default URL is `http://127.0.0.1:9931`.
 
@@ -110,29 +76,23 @@ If you start the router with `--no-models-autoload`, `/login llama.cpp` only sto
 
 Environment variables can configure the same values without `/login`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 export LLAMA_BASE_URL=http://127.0.0.1:9931
 export LLAMA_API_KEY=optional-secret
 pi
 ```
-
 
 If the server uses an API key, start `llama serve` with the matching `--api-key` value. Keep `--host 127.0.0.1` for local-only access.
 
 
 ## Manage models
 
-<a href="#manage-models" class="heading-anchor" aria-label="Permalink: Manage models" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#manage-models"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Run:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 /llama
 ```
-
 
 - Select an unloaded model to load it.
 - Select a loaded model to unload it.
@@ -150,20 +110,16 @@ If the router disconnects, `/llama` shows **Retry** and **Close**. Retry reconne
 
 ## Classification
 
-<a href="#classification" class="heading-anchor" aria-label="Permalink: Classification" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#classification"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Classifier models answer typed `choice`, `bool`, and `score` questions about JSON state, like TypeSafe's Jev models. The model reaches them from <a href="/latest/cli#enable-codemode" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">codemode</code></a> scripts, and extensions through `ctx.modelRegistry.classify()`; see <a href="/latest/models#use-classifier-models" class="link-module_root__svb26">Classifier models</a>. Pi lists llama.cpp models as classifiers in two ways:
 
-Classifier models answer typed `choice`, `bool`, and `score` questions about JSON state, like TypeSafe's Jev models. The model reaches them from [`codemode`](/latest/latest/cli#enable-codemode) scripts, and extensions through `ctx.modelRegistry.classify()`; see [Classifier models](/latest/latest/models#use-classifier-models). Pi lists llama.cpp models as classifiers in two ways:
-
-- **Decision models** such as [Julia-1, Laya, Kev, lev, and OpenJev](https://huggingface.co/collections/ggml-org/decision-models-6abf80cca3c83f127060a769) answer natively through llama.cpp's `/v1/systemone` endpoint. They appear only as classifiers, with the `typesafe-system-one` API, and not in `/model`.
+- **Decision models** such as <a href="https://huggingface.co/collections/ggml-org/decision-models-6abf80cca3c83f127060a769" class="link-module_root__svb26">Julia-1, Laya, Kev, lev, and OpenJev</a> answer natively through llama.cpp's `/v1/systemone` endpoint. They appear only as classifiers, with the `typesafe-system-one` API, and not in `/model`.
 - **Chat models** are also listed as classifiers with the same ID and the `llama-cpp-classify` API, which reads answers from next-token probabilities as described below.
 
 llama.cpp 0.6.0 and later report decision models in the router's model list: their `architecture.output_modalities` contains `decisions`. The router reads this from the GGUF metadata without loading the model, so Pi recognizes unloaded and sleeping decision models too. Older llama.cpp builds do not report it, and Pi lists their decision models as chat models.
 
 
 ### Chat models as classifiers
-
-<a href="#chat-models-as-classifiers" class="heading-anchor" aria-label="Permalink: Chat models as classifiers" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#chat-models-as-classifiers"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The model does not generate an answer. Each question becomes one chat prompt: the state, every question of the request, the state again, and then the question with its answers under single-token labels. Labels are letters for a choice (up to 62 options), `Yes`/`No` for a bool, and digits for a score (up to 10 levels). The second copy of the state is read with the questions in view, which improved accuracy on JevBench with small models. Pi reads the probabilities of the labels as the next token and normalizes them. A choice returns every option's probability and a confidence of `(n * peak - 1) / (n - 1)`; a score returns the expected level.
@@ -176,23 +132,19 @@ The model does not generate an answer. Each question becomes one chat prompt: th
 
 ## Troubleshooting
 
-<a href="#troubleshooting" class="heading-anchor" aria-label="Permalink: Troubleshooting" data-copy="" data-copy-text="https://docs.pi.dev/latest/llama-cpp#troubleshooting"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Check that the router is reachable:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 curl http://127.0.0.1:9931/health
 curl http://127.0.0.1:9931/models
 ```
-
 
 - **No models in `/llama`:** Check `--models-dir`, the directory layout, and restart the router.
 - **Model missing from `/model` with `--no-models-autoload`:** Load it with `/llama` first.
 - **Load fails or uses too much memory:** Lower `-c` or unload another model.
 - **Server is not in router mode:** Start it without `--model`, `-m`, or `-hf`.
 
-To remove the `llama.cpp` provider and `/llama`, disable `llama.cpp` under Built-in in `pi config`, or set `"extensions": ["-builtin:llama.cpp"]` in [settings](/latest/latest/settings#resources).
+To remove the `llama.cpp` provider and `/llama`, disable `llama.cpp` under Built-in in `pi config`, or set `"extensions": ["-builtin:llama.cpp"]` in <a href="/latest/settings#resources" class="link-module_root__svb26">settings</a>.
 
 

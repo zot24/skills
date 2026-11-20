@@ -2,24 +2,6 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Pi
 
 
@@ -30,54 +12,44 @@ Use Pi for software development, research notes, writing projects, data files, o
 
 ## Start using Pi
 
-<a href="#start-using-pi" class="heading-anchor" aria-label="Permalink: Start using Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest#start-using-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-New to Pi? Follow the [Quickstart](/latest/latest/quickstart) to install Pi, connect a model, and complete your first task.
+New to Pi? Follow the <a href="/latest/quickstart" class="link-module_root__svb26">Quickstart</a> to install Pi, connect a model, and complete your first task.
 
 If Pi is already installed, choose what you want to do:
 
-- [Use Pi interactively](/latest/latest/usage) to add files, run commands, direct ongoing work, and export results.
-- [Choose a model](/latest/latest/models) or connect a subscription, API key, local model, or compatible endpoint.
-- [Continue or branch a session](/latest/latest/sessions) to resume work or explore another approach without losing history.
-- [Configure Pi](/latest/latest/configuration) for your preferences, working folders, instructions, and reusable resources.
-- [Understand how Pi works](/latest/latest/how-pi-works), including tools, context, sessions, and the agent loop.
+- <a href="/latest/usage" class="link-module_root__svb26">Use Pi interactively</a> to add files, run commands, direct ongoing work, and export results.
+- <a href="/latest/models" class="link-module_root__svb26">Choose a model</a> or connect a subscription, API key, local model, or compatible endpoint.
+- <a href="/latest/sessions" class="link-module_root__svb26">Continue or branch a session</a> to resume work or explore another approach without losing history.
+- <a href="/latest/configuration" class="link-module_root__svb26">Configure Pi</a> for your preferences, working folders, instructions, and reusable resources.
+- <a href="/latest/how-pi-works" class="link-module_root__svb26">Understand how Pi works</a>, including tools, context, sessions, and the agent loop.
 
 
 ## Customize Pi
 
-<a href="#customize-pi" class="heading-anchor" aria-label="Permalink: Customize Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest#customize-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Pi can reuse prompts, load specialized instructions, add executable integrations, change its terminal interface, connect model services, and distribute these resources as packages. Use the [Quickstart customization chooser](/latest/latest/quickstart#choose-how-to-customize-pi) to select the smallest mechanism that meets your need.
+Pi can reuse prompts, load specialized instructions, add executable integrations, change its terminal interface, connect model services, and distribute these resources as packages. Use the <a href="/latest/quickstart#choose-how-to-customize-pi" class="link-module_root__svb26">Quickstart customization chooser</a> to select the smallest mechanism that meets your need.
 
 
 ## Automate or embed Pi
 
-<a href="#automate-or-embed-pi" class="heading-anchor" aria-label="Permalink: Automate or embed Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest#automate-or-embed-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-- Use [print mode](/latest/latest/cli#invocation-and-output) for one-off and scripted tasks.
-- Use [JSON event stream mode](/latest/latest/json) to consume structured events from one run.
-- Use [RPC mode](/latest/latest/rpc) to control a separate Pi process.
-- Use the [TypeScript SDK](/latest/latest/sdk) to run Pi inside an application.
+- Use <a href="/latest/cli#invocation-and-output" class="link-module_root__svb26">print mode</a> for one-off and scripted tasks.
+- Use <a href="/latest/json" class="link-module_root__svb26">JSON event stream mode</a> to consume structured events from one run.
+- Use <a href="/latest/rpc" class="link-module_root__svb26">RPC mode</a> to control a separate Pi process.
+- Use the <a href="/latest/sdk" class="link-module_root__svb26">TypeScript SDK</a> to run Pi inside an application.
 
 
 ## Find reference and setup information
 
-<a href="#find-reference-and-setup-information" class="heading-anchor" aria-label="Permalink: Find reference and setup information" data-copy="" data-copy-text="https://docs.pi.dev/latest#find-reference-and-setup-information"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Use the reference pages to look up <a href="/latest/cli" class="link-module_root__svb26">CLI options</a>, <a href="/latest/settings" class="link-module_root__svb26">settings</a>, <a href="/latest/providers" class="link-module_root__svb26">providers</a>, <a href="/latest/keybindings" class="link-module_root__svb26">keybindings</a>, and <a href="/latest/environment-variables" class="link-module_root__svb26">environment variables</a>.
 
-Use the reference pages to look up [CLI options](/latest/latest/cli), [settings](/latest/latest/settings), [providers](/latest/latest/providers), [keybindings](/latest/latest/keybindings), and [environment variables](/latest/latest/environment-variables).
-
-For platform-specific help, see [Terminal Setup](/latest/latest/terminal-setup), [Windows](/latest/latest/windows), [tmux](/latest/latest/tmux), [Termux on Android](/latest/latest/termux), or [Containerization](/latest/latest/containerization).
+For platform-specific help, see <a href="/latest/terminal-setup" class="link-module_root__svb26">Terminal Setup</a>, <a href="/latest/windows" class="link-module_root__svb26">Windows</a>, <a href="/latest/tmux" class="link-module_root__svb26">tmux</a>, <a href="/latest/termux" class="link-module_root__svb26">Termux on Android</a>, or <a href="/latest/containerization" class="link-module_root__svb26">Containerization</a>.
 
 
 ## Work safely
 
-<a href="#work-safely" class="heading-anchor" aria-label="Permalink: Work safely" data-copy="" data-copy-text="https://docs.pi.dev/latest#work-safely"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-Pi's tools and extensions run with the permissions of the Pi process. Project trust controls which project resources Pi loads, but it does not sandbox tool calls. Review [Security](/latest/latest/security) before using untrusted files, repositories, extensions, or unattended automation.
+Pi's tools and extensions run with the permissions of the Pi process. Project trust controls which project resources Pi loads, but it does not sandbox tool calls. Review <a href="/latest/security" class="link-module_root__svb26">Security</a> before using untrusted files, repositories, extensions, or unattended automation.
 
 

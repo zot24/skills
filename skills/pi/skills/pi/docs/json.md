@@ -2,43 +2,21 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # JSON Event Stream
 
 
 JSON mode emits structured progress for one invocation:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --mode json "Review this repository"
 ```
 
+Pi writes one session header followed by session events, then exits after the supplied prompts finish. RPC mode emits the same session-event shapes but has no session header because it is a bidirectional, long-lived protocol. See <a href="/latest/rpc" class="link-module_root__svb26">RPC Mode</a>.
 
-Pi writes one session header followed by session events, then exits after the supplied prompts finish. RPC mode emits the same session-event shapes but has no session header because it is a bidirectional, long-lived protocol. See [RPC Mode](/latest/latest/rpc).
-
-This page is the canonical reference for events shared by JSON and RPC mode. Message values use the [shared message types](/latest/latest/message-types).
+This page is the canonical reference for events shared by JSON and RPC mode. Message values use the <a href="/latest/message-types" class="link-module_root__svb26">shared message types</a>.
 
 
 ## Framing and process I/O
-
-<a href="#framing-and-process-io" class="heading-anchor" aria-label="Permalink: Framing and process I/O" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#framing-and-process-io"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 The stream uses strict JSONL framing. Each record is one JSON object terminated by LF (`\n`). Split records only on LF and strip an optional preceding carriage return. Unicode line and paragraph separators are valid inside JSON strings and are not record boundaries.
@@ -50,29 +28,22 @@ Read stdout continuously. A reader that stops consuming records can stall Pi whe
 
 ## Session header
 
-<a href="#session-header" class="heading-anchor" aria-label="Permalink: Session header" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#session-header"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+The first JSON-mode record is the current <a href="/latest/session-format#sessionheader" class="link-module_root__svb26">session header</a>:
 
-The first JSON-mode record is the current [session header](/latest/latest/session-format#sessionheader):
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type":"session","version":3,"id":"uuid","timestamp":"2024-12-03T14:00:00.000Z","cwd":"/path"}
 ```
 
-
-RPC mode does not emit this record. Use [`get_state`](/latest/latest/rpc-commands#get_state) for its current session ID and file.
+RPC mode does not emit this record. Use <a href="/latest/rpc-commands#get_state" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">get_state</code></a> for its current session ID and file.
 
 
 ## Event sequence
 
-<a href="#event-sequence" class="heading-anchor" aria-label="Permalink: Event sequence" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#event-sequence"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 A basic run produces records like these:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type":"agent_start"}
 {"type":"turn_start"}
 {"type":"message_start","message":{"role":"user","content":"Review this repository","timestamp":1733234401000}}
@@ -85,13 +56,10 @@ A basic run produces records like these:
 {"type":"agent_settled","aborted":false}
 ```
 
-
 `agent_end` closes one low-level agent run. Automatic retry, overflow recovery, compaction retry, steering, or follow-up work can still continue. `agent_settled` means Pi has no remaining automatic work for that session-level run.
 
 
 ## Agent and turn events
-
-<a href="#agent-and-turn-events" class="heading-anchor" aria-label="Permalink: Agent and turn events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#agent-and-turn-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Event | Fields | Meaning |
@@ -102,12 +70,11 @@ A basic run produces records like these:
 | `turn_start` | None | One assistant turn started. |
 | `turn_end` | `message`, `toolResults` | One assistant response and its resulting tool calls finished. |
 
+
 A turn is one assistant response plus any tool calls and tool results produced by that response.
 
 
 ## Message events
-
-<a href="#message-events" class="heading-anchor" aria-label="Permalink: Message events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#message-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Event | Fields | Meaning |
@@ -119,12 +86,11 @@ A turn is one assistant response plus any tool calls and tool results produced b
 
 ### Reconstruct streaming messages
 
-<a href="#reconstruct-streaming-messages" class="heading-anchor" aria-label="Permalink: Reconstruct streaming messages" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#reconstruct-streaming-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Wire `message_update` records are delta-only. They omit the SDK event's cumulative `message` field and every `assistantMessageEvent.partial` snapshot so stream size remains linear.
 
 The nested event is one of:
+
 
 | Type | Fields in addition to `type` | Meaning |
 |----|----|----|
@@ -141,21 +107,19 @@ The nested event is one of:
 | `done` | `reason`, `message` | The provider stream completed successfully. |
 | `error` | `reason`, `error` | The provider stream ended with an error or abort message. |
 
+
 The normal agent loop translates provider-level `start`, `done`, and `error` into `message_start` and `message_end` session events rather than emitting them as `message_update`. They remain admitted by the exported `JsonAgentSessionEvent` transformation for callers that construct a matching session event.
 
 Use `contentIndex` to identify the content block. Buffer `delta` fields for a live display, but replace reconstructed data with the completed content in `text_end`, `thinking_end`, or `toolcall_end`. Replace the whole partial message with `message_end.message` when it arrives.
 
 The top-level `usage` is the latest cumulative provider-reported usage for the assistant response. It can remain zero until completion when a provider does not report usage while streaming.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type":"message_update","usage":{"input":100,"output":1,"cacheRead":0,"cacheWrite":0,"totalTokens":101,"cost":{"input":0,"output":0,"cacheRead":0,"cacheWrite":0,"total":0}},"assistantMessageEvent":{"type":"text_delta","contentIndex":0,"delta":"Hello "}}
 ```
 
 
 ## Tool execution events
-
-<a href="#tool-execution-events" class="heading-anchor" aria-label="Permalink: Tool execution events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#tool-execution-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Event | Fields | Meaning |
@@ -164,10 +128,10 @@ The top-level `usage` is the latest cumulative provider-reported usage for the a
 | `tool_execution_update` | `toolCallId`, `toolName`, `args`, `partialResult` | The tool reported a partial result. |
 | `tool_execution_end` | `toolCallId`, `toolName`, `result`, `isError`, `durationMs` | Tool execution finished. `durationMs` is how long the tool's `execute()` took, measured with a monotonic clock; absent when the tool did not run. |
 
+
 Use `toolCallId` to correlate the lifecycle. `partialResult` is the latest partial result supplied by the tool. Whether it replaces or extends an earlier update depends on that tool's result contract.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type":"tool_execution_start","toolCallId":"call_abc123","toolName":"bash","args":{"command":"ls -la"}}
 {"type":"tool_execution_update","toolCallId":"call_abc123","toolName":"bash","args":{"command":"ls -la"},"partialResult":{"content":[{"type":"text","text":"partial output"}],"details":{}}}
 {"type":"tool_execution_end","toolCallId":"call_abc123","toolName":"bash","result":{"content":[{"type":"text","text":"complete output"}],"details":{}},"isError":false}
@@ -175,8 +139,6 @@ Use `toolCallId` to correlate the lifecycle. `partialResult` is the latest parti
 
 
 ## Queue and state events
-
-<a href="#queue-and-state-events" class="heading-anchor" aria-label="Permalink: Queue and state events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#queue-and-state-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Event | Fields | Meaning |
@@ -186,28 +148,24 @@ Use `toolCallId` to correlate the lifecycle. `partialResult` is the latest parti
 | `session_info_changed` | `name` | The session display name changed. An absent `name` means it was cleared. |
 | `thinking_level_changed` | `level` | The active thinking level changed. |
 
-The `entry` value uses a persisted [session entry type](/latest/latest/session-format#entry-types).
+
+The `entry` value uses a persisted <a href="/latest/session-format#entry-types" class="link-module_root__svb26">session entry type</a>.
 
 
 ## Compaction events
 
-<a href="#compaction-events" class="heading-anchor" aria-label="Permalink: Compaction events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#compaction-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 `compaction_start` reports why compaction began:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type":"compaction_start","reason":"threshold"}
 ```
-
 
 `reason` is `"manual"`, `"threshold"`, or `"overflow"`.
 
 `compaction_end` contains the result when compaction succeeds:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "compaction_end",
   "reason": "threshold",
@@ -224,74 +182,58 @@ The `entry` value uses a persisted [session entry type](/latest/latest/session-f
 }
 ```
 
-
 If compaction was aborted, `result` is absent and `aborted` is true. If it failed, `result` is absent, `aborted` is false, and `errorMessage` describes the failure. Successful overflow recovery sets `willRetry` to true before Pi retries the prompt.
 
-See [Compaction and Branch Summaries](/latest/latest/compaction) for result semantics.
+See <a href="/latest/compaction" class="link-module_root__svb26">Compaction and Branch Summaries</a> for result semantics.
 
 
 ## Retry events
 
-<a href="#retry-events" class="heading-anchor" aria-label="Permalink: Retry events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#retry-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Assistant-turn retry emits:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type":"auto_retry_start","attempt":1,"maxAttempts":3,"delayMs":2000,"errorMessage":"529 overloaded"}
 {"type":"auto_retry_end","success":true,"attempt":2}
 ```
-
 
 On final failure, `auto_retry_end` has `success: false` and a `finalError` string.
 
 Compaction and branch-summary retry emit:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type":"summarization_retry_scheduled","attempt":1,"maxAttempts":3,"delayMs":2000,"errorMessage":"terminated"}
 {"type":"summarization_retry_attempt_start","source":"compaction","reason":"threshold"}
 {"type":"summarization_retry_finished"}
 ```
-
 
 For a branch summary, `source` is `"branchSummary"` and `reason` is absent. The `reason` on a compaction retry is `"manual"`, `"threshold"`, or `"overflow"`.
 
 
 ## RPC-only events
 
-<a href="#rpc-only-events" class="heading-anchor" aria-label="Permalink: RPC-only events" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#rpc-only-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+A direct RPC <a href="/latest/rpc-commands#bash" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">bash</code></a> command emits one `bash_execution_update` for each output chunk. Its optional `id` matches the command ID. The final command response can contain truncated output, but these events stream all output:
 
-A direct RPC [`bash`](/latest/latest/rpc-commands#bash) command emits one `bash_execution_update` for each output chunk. Its optional `id` matches the command ID. The final command response can contain truncated output, but these events stream all output:
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type":"bash_execution_update","id":"req-1","delta":"total 48\n"}
 ```
 
-
 RPC also adds `extension_error` when an extension handler throws:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type":"extension_error","extensionPath":"/path/to/extension.ts","event":"tool_call","error":"Error message"}
 ```
 
-
-Extension UI records are a separate RPC subprotocol, not `AgentSessionEvent` values. See [RPC Extension UI](/latest/latest/rpc-extension-ui).
+Extension UI records are a separate RPC subprotocol, not `AgentSessionEvent` values. See <a href="/latest/rpc-extension-ui" class="link-module_root__svb26">RPC Extension UI</a>.
 
 
 ## TypeScript types
 
-<a href="#typescript-types" class="heading-anchor" aria-label="Permalink: TypeScript types" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#typescript-types"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 The SDK's `AgentSessionEvent` contains cumulative streaming snapshots for in-process consumers. JSON and RPC transform only `message_update`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 type WithoutPartial<T> = T extends { partial: unknown } ? Omit<T, "partial"> : T;
 
 type JsonAssistantMessageEvent<T> = T extends { type: "toolcall_start"; partial: unknown }
@@ -307,19 +249,15 @@ type JsonAgentSessionEvent =
     };
 ```
 
-
-Use the exported `JsonAgentSessionEvent` type from `@earendil-works/pi-coding-agent`. Its implementation is in [`json-event.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/json-event.ts).
+Use the exported `JsonAgentSessionEvent` type from `@earendil-works/pi-coding-agent`. Its implementation is in <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/json-event.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">json-event.ts</code></a>.
 
 
 ## Example
 
-<a href="#example" class="heading-anchor" aria-label="Permalink: Example" data-copy="" data-copy-text="https://docs.pi.dev/latest/json#example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Print completed messages from a one-shot run:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --mode json "List files" 2>/dev/null | jq -c 'select(.type == "message_end")'
 ```
 

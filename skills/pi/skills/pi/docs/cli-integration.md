@@ -2,24 +2,6 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # CLI Integration
 
 
@@ -27,12 +9,10 @@ By default, running `pi` opens the interactive terminal interface. When input or
 
 All four modes use the same agent, sessions, resources, and tools. The mode determines how input enters Pi, how output is exposed, and whether the process remains available for more commands.
 
-The SDK is not a CLI mode. It embeds the agent directly in a Node.js or Bun process. See the [SDK](/latest/latest/sdk) when direct TypeScript access is preferable to a process boundary.
+The SDK is not a CLI mode. It embeds the agent directly in a Node.js or Bun process. See the <a href="/latest/sdk" class="link-module_root__svb26">SDK</a> when direct TypeScript access is preferable to a process boundary.
 
 
 ## Choose a mode
-
-<a href="#choose-a-mode" class="heading-anchor" aria-label="Permalink: Choose a mode" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli-integration#choose-a-mode"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 | Mode | Interface | Lifetime | Use it when |
@@ -42,21 +22,18 @@ The SDK is not a CLI mode. It embeds the agent directly in a Node.js or Bun proc
 | JSON | JSONL events on stdout | One invocation | A process needs structured progress from a run |
 | RPC | JSONL commands, responses, and events | Long-lived | A process needs bidirectional control |
 
-CLI options still select the working directory, model, tools, resources, and session persistence independently of the mode. See [Command Line](/latest/latest/cli) for the complete startup options.
+
+CLI options still select the working directory, model, tools, resources, and session persistence independently of the mode. See <a href="/latest/cli" class="link-module_root__svb26">Command Line</a> for the complete startup options.
 
 
 ## Print to stdout
 
-<a href="#print-to-stdout" class="heading-anchor" aria-label="Permalink: Print to stdout" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli-integration#print-to-stdout"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Print mode runs the supplied prompts, writes the final assistant text to stdout, and exits:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --print "Summarize the changes in this repository"
 ```
-
 
 Use print mode when only the final text is needed, including command substitution, pipelines, and one-shot jobs. Intermediate events are not exposed.
 
@@ -67,16 +44,12 @@ When no mode is selected explicitly, non-TTY stdin or stdout also selects print 
 
 ## Stream JSON events
 
-<a href="#stream-json-events" class="heading-anchor" aria-label="Permalink: Stream JSON events" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli-integration#stream-json-events"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 JSON mode writes a session header followed by agent and session events as newline-delimited JSON:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --mode json "Review this repository" > events.jsonl
 ```
-
 
 This is structured event output, not a single JSON result or a constraint on the format of the model’s response.
 
@@ -88,21 +61,17 @@ Streaming `message_update` records contain deltas rather than a growing message 
 
 `agent_end` can be followed by automatic recovery or queued work. `agent_settled` marks the end of automatic work for the current run.
 
-Stdout is reserved for JSONL. Diagnostics and application logging are written to stderr. See [JSON Event Stream](/latest/latest/json) for framing, event shapes, and reconstruction rules.
+Stdout is reserved for JSONL. Diagnostics and application logging are written to stderr. See <a href="/latest/json" class="link-module_root__svb26">JSON Event Stream</a> for framing, event shapes, and reconstruction rules.
 
 
 ## Control Pi with RPC
 
-<a href="#control-pi-with-rpc" class="heading-anchor" aria-label="Permalink: Control Pi with RPC" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli-integration#control-pi-with-rpc"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 RPC mode keeps Pi running while another process sends commands and receives responses and events:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 pi --mode rpc --no-session
 ```
-
 
 Commands are JSON objects written to stdin. Responses and events are JSON objects written to stdout. Every record occupies one line.
 
@@ -116,24 +85,21 @@ Extension dialogs form a request-response subprotocol. Other extension UI update
 
 For Node.js or TypeScript integrations, prefer `RpcClient` from `@earendil-works/pi-coding-agent`. It starts a Pi RPC child process, correlates requests, exposes typed command methods, and delivers session events to listeners.
 
-The [RPC client example](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/rpc-client.ts) sends one prompt, streams text and tool activity, waits for `agent_settled`, and shuts down the child process. It is included in the repository’s TypeScript checks.
+The <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/rpc-client.ts" class="link-module_root__svb26">RPC client example</a> sends one prompt, streams text and tool activity, waits for `agent_settled`, and shuts down the child process. It is included in the repository’s TypeScript checks.
 
 `RpcClient.promptAndWait()` installs its event listener before sending the prompt, avoiding a race with fast completions. For separate operations, subscribe before calling `prompt()` and call `waitForIdle()` only while a run is active.
 
 The client requires a path to a runnable Pi CLI. The repository example points at `dist/cli.js`, so the package must be built before that example runs from a checkout.
 
-If you are building a client without `RpcClient`, start with [RPC Protocol](/latest/latest/rpc), then use [RPC Commands](/latest/latest/rpc-commands) and [JSON Event Stream](/latest/latest/json) as the wire references.
+If you are building a client without `RpcClient`, start with <a href="/latest/rpc" class="link-module_root__svb26">RPC Protocol</a>, then use <a href="/latest/rpc-commands" class="link-module_root__svb26">RPC Commands</a> and <a href="/latest/json" class="link-module_root__svb26">JSON Event Stream</a> as the wire references.
 
 
 ## Fork and rebrand Pi
 
-<a href="#fork-and-rebrand-pi" class="heading-anchor" aria-label="Permalink: Fork and rebrand Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli-integration#fork-and-rebrand-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 A source fork can change the CLI name and configuration directory through `package.json`:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "piConfig": {
     "name": "my-agent",
@@ -142,22 +108,19 @@ A source fork can change the CLI name and configuration directory through `packa
 }
 ```
 
-
 Change the top-level `bin` field to set the executable name. These settings affect the CLI banner, configuration paths, and derived environment variable names.
 
 
 ## Examples and references
 
-<a href="#examples-and-references" class="heading-anchor" aria-label="Permalink: Examples and references" data-copy="" data-copy-text="https://docs.pi.dev/latest/cli-integration#examples-and-references"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-- [RPC client](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/rpc-client.ts): typed Node.js integration
-- [RPC extension UI](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/rpc-extension-ui.ts): custom terminal client with extension dialogs
-- [Command Line](/latest/latest/cli): startup options and mode selection
-- [JSON Event Stream](/latest/latest/json): JSON event reference
-- [RPC Protocol](/latest/latest/rpc): RPC lifecycle, framing, errors, and shutdown
-- [RPC Commands](/latest/latest/rpc-commands): command and response reference
-- [RPC Extension UI](/latest/latest/rpc-extension-ui): extension interaction subprotocol
-- [SDK examples](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk): in-process TypeScript integrations
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/rpc-client.ts" class="link-module_root__svb26">RPC client</a>: typed Node.js integration
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/rpc-extension-ui.ts" class="link-module_root__svb26">RPC extension UI</a>: custom terminal client with extension dialogs
+- <a href="/latest/cli" class="link-module_root__svb26">Command Line</a>: startup options and mode selection
+- <a href="/latest/json" class="link-module_root__svb26">JSON Event Stream</a>: JSON event reference
+- <a href="/latest/rpc" class="link-module_root__svb26">RPC Protocol</a>: RPC lifecycle, framing, errors, and shutdown
+- <a href="/latest/rpc-commands" class="link-module_root__svb26">RPC Commands</a>: command and response reference
+- <a href="/latest/rpc-extension-ui" class="link-module_root__svb26">RPC Extension UI</a>: extension interaction subprotocol
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/sdk" class="link-module_root__svb26">SDK examples</a>: in-process TypeScript integrations
 
 

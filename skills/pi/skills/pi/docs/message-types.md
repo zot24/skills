@@ -2,49 +2,27 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # Message Types
 
 
 Pi uses `AgentMessage` values in SDK state, lifecycle events, RPC responses, and persisted session message entries. This page defines those shared messages and their content blocks.
 
-Message timestamps are Unix timestamps in milliseconds. They are different from the ISO 8601 timestamps on [session entries](/latest/latest/session-format#entry-base).
+Message timestamps are Unix timestamps in milliseconds. They are different from the ISO 8601 timestamps on <a href="/latest/session-format#entry-base" class="link-module_root__svb26">session entries</a>.
 
 Source definitions:
 
-- [`packages/ai/src/types.ts`](https://github.com/earendil-works/pi/blob/main/packages/ai/src/types.ts) defines provider-facing messages and content blocks.
-- [`packages/agent/src/types.ts`](https://github.com/earendil-works/pi/blob/main/packages/agent/src/types.ts) defines the extensible `AgentMessage` union.
-- [`packages/coding-agent/src/core/messages.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/messages.ts) adds coding-agent message roles.
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/ai/src/types.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">packages/ai/src/types.ts</code></a> defines provider-facing messages and content blocks.
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/agent/src/types.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">packages/agent/src/types.ts</code></a> defines the extensible `AgentMessage` union.
+- <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/core/messages.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">packages/coding-agent/src/core/messages.ts</code></a> adds coding-agent message roles.
 
 
 ## Content blocks
 
-<a href="#content-blocks" class="heading-anchor" aria-label="Permalink: Content blocks" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#content-blocks"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### TextContent
 
-<a href="#textcontent" class="heading-anchor" aria-label="Permalink: TextContent" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#textcontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface TextContent {
   type: "text";
   text: string;
@@ -52,16 +30,13 @@ interface TextContent {
 }
 ```
 
-
 `textSignature` contains provider-specific message metadata. Treat it as opaque.
 
 
 ### ImageContent
 
-<a href="#imagecontent" class="heading-anchor" aria-label="Permalink: ImageContent" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#imagecontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface ImageContent {
   type: "image";
   data: string;
@@ -69,16 +44,13 @@ interface ImageContent {
 }
 ```
 
-
 `data` is base64-encoded image data. `mimeType` identifies its media type, such as `image/png` or `image/jpeg`.
 
 
 ### ThinkingContent
 
-<a href="#thinkingcontent" class="heading-anchor" aria-label="Permalink: ThinkingContent" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#thinkingcontent"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface ThinkingContent {
   type: "thinking";
   thinking: string;
@@ -87,16 +59,13 @@ interface ThinkingContent {
 }
 ```
 
-
 Thinking signatures contain provider-specific replay data. Treat them as opaque. A redacted block can have no visible thinking text while retaining an encrypted payload in `thinkingSignature`.
 
 
 ### ToolCall
 
-<a href="#toolcall" class="heading-anchor" aria-label="Permalink: ToolCall" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#toolcall"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface ToolCall {
   type: "toolCall";
   id: string;
@@ -107,19 +76,15 @@ interface ToolCall {
 }
 ```
 
-
 `thoughtSignature` is provider-specific. `namespace` identifies an OpenAI Responses namespace for dynamically loaded or namespaced tools.
 
 
 ## Usage
 
-<a href="#usage" class="heading-anchor" aria-label="Permalink: Usage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#usage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Assistant messages always contain usage. Tool results can contain usage when the tool performed nested model work.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface Usage {
   input: number;
   output: number;
@@ -138,21 +103,16 @@ interface Usage {
 }
 ```
 
-
 When present, `reasoning` is already included in `output`; do not add it again. `cacheWrite1h` is the subset of `cacheWrite` written with one-hour retention.
 
 
 ## Base messages
 
-<a href="#base-messages" class="heading-anchor" aria-label="Permalink: Base messages" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#base-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 ### SystemMessage
 
-<a href="#systemmessage" class="heading-anchor" aria-label="Permalink: SystemMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#systemmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface SystemMessage {
   role: "system";
   content: string | TextContent[];
@@ -163,16 +123,13 @@ interface SystemMessage {
 }
 ```
 
-
 The leading system message declares the initial prompt and tools. Later system messages can append instructions, replace or remove named prompt sections, and add or remove tools. Replaying them in order yields the current state.
 
 
 ### UserMessage
 
-<a href="#usermessage" class="heading-anchor" aria-label="Permalink: UserMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#usermessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface UserMessage {
   role: "user";
   content: string | (TextContent | ImageContent)[];
@@ -183,10 +140,8 @@ interface UserMessage {
 
 ### AssistantMessage
 
-<a href="#assistantmessage" class="heading-anchor" aria-label="Permalink: AssistantMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#assistantmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface AssistantMessage {
   role: "assistant";
   content: (TextContent | ThinkingContent | ToolCall)[];
@@ -208,15 +163,13 @@ interface AssistantMessage {
 }
 ```
 
-
 `responseModel` records the concrete model reported by the provider, when the provider reports one. It may equal the requested model. `responseId`, `providerThinkingLevel`, `thinkingLevel`, `diagnostics`, and `rawStopReason` preserve provider or runtime details.
 
 `"pending"` is used for a partial assistant message while it streams. The completed message in `message_end` has a terminal stop reason, and Pi does not persist `"pending"` assistant messages in session JSONL.
 
 A `"deferred"` response has a `DeferredHandle` with the provider data needed to retrieve it:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface DeferredHandle {
   provider: string;
   modelId: string;
@@ -231,10 +184,8 @@ interface DeferredHandle {
 
 ### ToolResultMessage
 
-<a href="#toolresultmessage" class="heading-anchor" aria-label="Permalink: ToolResultMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#toolresultmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface ToolResultMessage<TDetails = any> {
   role: "toolResult";
   toolCallId: string;
@@ -248,11 +199,9 @@ interface ToolResultMessage<TDetails = any> {
 }
 ```
 
-
 `details` is tool-specific. Optional `usage` reports nested model work performed by the tool and contributes to full-session statistics, but it is not part of the main model-call usage. `nestedCalls` records bounded metadata about calls this tool made to other tools:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface NestedToolCalls {
   calls: NestedToolCallRecord[];
   complete: boolean;
@@ -272,21 +221,16 @@ interface NestedToolCallRecord {
 
 ## Coding-agent messages
 
-<a href="#coding-agent-messages" class="heading-anchor" aria-label="Permalink: Coding-agent messages" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#coding-agent-messages"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 The coding-agent package extends `AgentMessage` with four roles.
 
 
 ### BashExecutionMessage
 
-<a href="#bashexecutionmessage" class="heading-anchor" aria-label="Permalink: BashExecutionMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#bashexecutionmessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+Created by direct shell commands, including the RPC <a href="/latest/rpc-commands#bash" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">bash</code></a> command. It is not an LLM tool result.
 
-Created by direct shell commands, including the RPC [`bash`](/latest/latest/rpc-commands#bash) command. It is not an LLM tool result.
-
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface BashExecutionMessage {
   role: "bashExecution";
   command: string;
@@ -300,19 +244,15 @@ interface BashExecutionMessage {
 }
 ```
 
-
 Unless `excludeFromContext` is true, Pi converts this message to user-role text before the next model request.
 
 
 ### CustomMessage
 
-<a href="#custommessage" class="heading-anchor" aria-label="Permalink: CustomMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#custommessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Created when an extension sends a context message.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface CustomMessage<T = unknown> {
   role: "custom";
   customType: string;
@@ -323,16 +263,13 @@ interface CustomMessage<T = unknown> {
 }
 ```
 
-
 Pi converts its content to a user message for model requests. `display` controls terminal rendering; `details` is not sent to the model.
 
 
 ### BranchSummaryMessage
 
-<a href="#branchsummarymessage" class="heading-anchor" aria-label="Permalink: BranchSummaryMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#branchsummarymessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface BranchSummaryMessage {
   role: "branchSummary";
   summary: string;
@@ -341,16 +278,13 @@ interface BranchSummaryMessage {
 }
 ```
 
-
 Pi creates this context message from a persisted `branch_summary` entry.
 
 
 ### CompactionSummaryMessage
 
-<a href="#compactionsummarymessage" class="heading-anchor" aria-label="Permalink: CompactionSummaryMessage" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#compactionsummarymessage"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 interface CompactionSummaryMessage {
   role: "compactionSummary";
   summary: string;
@@ -359,19 +293,15 @@ interface CompactionSummaryMessage {
 }
 ```
 
-
 Pi creates this context message from a persisted `compaction` entry.
 
 
 ## AgentMessage union
 
-<a href="#agentmessage-union" class="heading-anchor" aria-label="Permalink: AgentMessage union" data-copy="" data-copy-text="https://docs.pi.dev/latest/message-types#agentmessage-union"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 In the coding agent, the union is equivalent to:
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 type AgentMessage =
   | SystemMessage
   | UserMessage
@@ -382,7 +312,6 @@ type AgentMessage =
   | BranchSummaryMessage
   | CompactionSummaryMessage;
 ```
-
 
 At the lower-level agent package, `AgentMessage` is `Message | CustomAgentMessages[keyof CustomAgentMessages]`. Applications can add roles through TypeScript declaration merging, so consumers should tolerate unknown custom roles when they accept messages from an augmented host.
 

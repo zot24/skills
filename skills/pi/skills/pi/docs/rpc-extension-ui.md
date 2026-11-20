@@ -2,28 +2,10 @@
 
 
 
-Navigation
-
-
-On this page
-
-
-Documentation
-
-
-Search documentation
-
-
-<a href="#" class="docs-search-result-link"><span class="docs-search-result-meta"></span><strong></strong><span class="docs-search-result-excerpt"></span></a>
-
-
-On this page
-
-
 # RPC Extension UI
 
 
-Extensions can request user interaction through `ctx.ui`. In RPC mode, supported calls become a request/response subprotocol alongside normal [RPC commands](/latest/latest/rpc-commands) and [session events](/latest/latest/json).
+Extensions can request user interaction through `ctx.ui`. In RPC mode, supported calls become a request/response subprotocol alongside normal <a href="/latest/rpc-commands" class="link-module_root__svb26">RPC commands</a> and <a href="/latest/json" class="link-module_root__svb26">session events</a>.
 
 There are two categories of extension UI methods:
 
@@ -34,8 +16,6 @@ If a dialog method includes a `timeout` field, the agent-side will auto-resolve 
 
 
 ## Limitations
-
-<a href="#limitations" class="heading-anchor" aria-label="Permalink: Limitations" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#limitations"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
 
 Some `ExtensionUIContext` methods are not supported or degraded in RPC mode because they require direct terminal UI access:
@@ -54,21 +34,16 @@ Note: `ctx.mode` is `"rpc"` and `ctx.hasUI` is `true` in RPC mode because the di
 
 ## Requests from Pi
 
-<a href="#requests-from-pi" class="heading-anchor" aria-label="Permalink: Requests from Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#requests-from-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 All requests have `type: "extension_ui_request"`, a unique `id`, and a `method` field.
 
 
 ### select
 
-<a href="#select" class="heading-anchor" aria-label="Permalink: select" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#select"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Prompt the user to choose from a list. Dialog methods with a `timeout` field include the timeout in milliseconds; the agent auto-resolves with `undefined` if the client doesn't respond in time.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "extension_ui_request",
   "id": "uuid-1",
@@ -79,19 +54,15 @@ Prompt the user to choose from a list. Dialog methods with a `timeout` field inc
 }
 ```
 
-
 Expected response: `extension_ui_response` with `value` (the selected option string) or `cancelled: true`.
 
 
 ### confirm
 
-<a href="#confirm" class="heading-anchor" aria-label="Permalink: confirm" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#confirm"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Prompt the user for yes/no confirmation.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "extension_ui_request",
   "id": "uuid-2",
@@ -102,19 +73,15 @@ Prompt the user for yes/no confirmation.
 }
 ```
 
-
 Expected response: `extension_ui_response` with `confirmed: true/false` or `cancelled: true`.
 
 
 ### input
 
-<a href="#input" class="heading-anchor" aria-label="Permalink: input" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#input"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Prompt the user for free-form text.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "extension_ui_request",
   "id": "uuid-3",
@@ -124,19 +91,15 @@ Prompt the user for free-form text.
 }
 ```
 
-
 Expected response: `extension_ui_response` with `value` (the entered text) or `cancelled: true`.
 
 
 ### editor
 
-<a href="#editor" class="heading-anchor" aria-label="Permalink: editor" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#editor"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Open a multi-line text editor with optional prefilled content.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "extension_ui_request",
   "id": "uuid-4",
@@ -146,19 +109,15 @@ Open a multi-line text editor with optional prefilled content.
 }
 ```
 
-
 Expected response: `extension_ui_response` with `value` (the edited text) or `cancelled: true`.
 
 
 ### notify
 
-<a href="#notify" class="heading-anchor" aria-label="Permalink: notify" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#notify"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Display a notification. Fire-and-forget, no response expected.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "extension_ui_request",
   "id": "uuid-5",
@@ -168,19 +127,15 @@ Display a notification. Fire-and-forget, no response expected.
 }
 ```
 
-
 The `notifyType` field is `"info"`, `"warning"`, or `"error"`. Defaults to `"info"` if omitted.
 
 
 ### setStatus
 
-<a href="#setstatus" class="heading-anchor" aria-label="Permalink: setStatus" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#setstatus"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Set or clear a status entry in the footer/status bar. Fire-and-forget.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "extension_ui_request",
   "id": "uuid-6",
@@ -190,19 +145,15 @@ Set or clear a status entry in the footer/status bar. Fire-and-forget.
 }
 ```
 
-
 Send `statusText: undefined` (or omit it) to clear the status entry for that key.
 
 
 ### setWidget
 
-<a href="#setwidget" class="heading-anchor" aria-label="Permalink: setWidget" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#setwidget"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Set or clear a widget (block of text lines) displayed above or below the editor. Fire-and-forget.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "extension_ui_request",
   "id": "uuid-7",
@@ -213,19 +164,15 @@ Set or clear a widget (block of text lines) displayed above or below the editor.
 }
 ```
 
-
 Send `widgetLines: undefined` (or omit it) to clear the widget. The `widgetPlacement` field is `"aboveEditor"` (default) or `"belowEditor"`. Only string arrays are supported in RPC mode; component factories are ignored.
 
 
 ### setTitle
 
-<a href="#settitle" class="heading-anchor" aria-label="Permalink: setTitle" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#settitle"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Set the terminal window/tab title. Fire-and-forget.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "extension_ui_request",
   "id": "uuid-8",
@@ -237,13 +184,10 @@ Set the terminal window/tab title. Fire-and-forget.
 
 ### set_editor_text
 
-<a href="#set_editor_text" class="heading-anchor" aria-label="Permalink: set_editor_text" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#set_editor_text"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Set the text in the input editor. Fire-and-forget.
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {
   "type": "extension_ui_request",
   "id": "uuid-9",
@@ -255,52 +199,41 @@ Set the text in the input editor. Fire-and-forget.
 
 ## Responses to Pi
 
-<a href="#responses-to-pi" class="heading-anchor" aria-label="Permalink: Responses to Pi" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#responses-to-pi"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Responses are sent for dialog methods only (`select`, `confirm`, `input`, `editor`). The `id` must match the request.
 
 
 ### Value response (select, input, editor)
 
-<a href="#value-response-select-input-editor" class="heading-anchor" aria-label="Permalink: Value response (select, input, editor)" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#value-response-select-input-editor"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "extension_ui_response", "id": "uuid-1", "value": "Allow"}
 ```
 
 
 ### Confirmation response (confirm)
 
-<a href="#confirmation-response-confirm" class="heading-anchor" aria-label="Permalink: Confirmation response (confirm)" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#confirmation-response-confirm"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "extension_ui_response", "id": "uuid-2", "confirmed": true}
 ```
 
 
 ### Cancellation response (any dialog)
 
-<a href="#cancellation-response-any-dialog" class="heading-anchor" aria-label="Permalink: Cancellation response (any dialog)" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#cancellation-response-any-dialog"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
-
 
 Dismiss any dialog method. The extension receives `undefined` (for select/input/editor) or `false` (for confirm).
 
-
-``` shiki
+``` code-snippet-module_root__tK5do
 {"type": "extension_ui_response", "id": "uuid-3", "cancelled": true}
 ```
 
 
 ## Example
 
-<a href="#example" class="heading-anchor" aria-label="Permalink: Example" data-copy="" data-copy-text="https://docs.pi.dev/latest/rpc-extension-ui#example"><span class="anchor-link"></span> <span class="anchor-check"></span> <span class="anchor-copied-label">Copied</span></a>
 
+See the checked <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/rpc-extension-ui.ts" class="link-module_root__svb26">RPC extension UI client</a> and its <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/rpc-demo.ts" class="link-module_root__svb26">demo extension</a>.
 
-See the checked [RPC extension UI client](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/rpc-extension-ui.ts) and its [demo extension](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/examples/extensions/rpc-demo.ts).
-
-The exported request and response unions are defined in [`rpc-types.ts`](https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/rpc/rpc-types.ts). See [Extensions](/latest/latest/extensions#ui-and-modes) for mode-independent extension guidance.
+The exported request and response unions are defined in <a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/src/modes/rpc/rpc-types.ts" class="link-module_root__svb26"><code class="inline-code-module_root__fGvLx" data-variant="soft">rpc-types.ts</code></a>. See <a href="/latest/extensions#ui-and-modes" class="link-module_root__svb26">Extensions</a> for mode-independent extension guidance.
 
 
