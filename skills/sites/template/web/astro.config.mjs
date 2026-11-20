@@ -17,6 +17,8 @@ export default defineConfig({
   site: SITE,
   trailingSlash: 'never', // an existing site keeps its own: 'always' if its URLs end in /
   output: 'static', // pages prerender; API routes opt out with `export const prerender = false`
+  // No Astro sessions. Without this the adapter adds a SESSION KV binding that wrangler provisions.
+  session: false,
   // Images are optimised at build time; no runtime Images binding for a static site.
   adapter: cloudflare({ imageService: 'compile' }),
   integrations: [
@@ -25,6 +27,11 @@ export default defineConfig({
   ],
   vite: {
     plugins: [tailwindcss()],
-    define: { 'import.meta.env.PUBLIC_DEPLOY_ENV': JSON.stringify(deployEnv) },
+    define: {
+      'import.meta.env.PUBLIC_DEPLOY_ENV': JSON.stringify(deployEnv),
+      // Pages prerender inside workerd, where `new Date()` at module scope is 1970-01-01.
+      // Use this for sitemap lastmod and JSON-LD dateModified.
+      'import.meta.env.PUBLIC_BUILD_DATE': JSON.stringify(new Date().toISOString().slice(0, 10)),
+    },
   },
 });
