@@ -127,6 +127,10 @@ Each platform's setup page walks through what to do once you're there.
 - **[Plugin System](/docs/user-guide/features/plugins)** — Extend Hermes with custom tools, lifecycle hooks, and CLI commands without modifying core code. Plugins are discovered from `~/.hermes/plugins/`, project-local `.hermes/plugins/`, and pip-installed entry points.
 - **[Build a Plugin](/docs/developer-guide/plugins)** — Step-by-step guide for creating Hermes plugins with tools, hooks, and CLI commands.
 
+## Observability<a href="#observability" class="hash-link" aria-label="Direct link to Observability" translate="no" title="Direct link to Observability">​</a>
+
+- **[NeMo Relay](/docs/integrations/nemo-relay)** — Inspect model and tool calls, export ATOF or ATIF data, send OpenTelemetry traces, and configure Relay plugins.
+
 ## Training & Evaluation<a href="#training--evaluation" class="hash-link" aria-label="Direct link to Training &amp; Evaluation" translate="no" title="Direct link to Training &amp; Evaluation">​</a>
 
 - **[Batch Processing](/docs/user-guide/features/batch-processing)** — Run the agent across hundreds of prompts in parallel, generating structured ShareGPT-format trajectory data for training data generation or evaluation.
@@ -145,6 +149,7 @@ Each platform's setup page walks through what to do once you're there.
 - <a href="#collaboration-workspaces" class="table-of-contents__link toc-highlight">Collaboration Workspaces</a>
 - <a href="#home-automation" class="table-of-contents__link toc-highlight">Home Automation</a>
 - <a href="#plugins" class="table-of-contents__link toc-highlight">Plugins</a>
+- <a href="#observability" class="table-of-contents__link toc-highlight">Observability</a>
 - <a href="#training--evaluation" class="table-of-contents__link toc-highlight">Training &amp; Evaluation</a>
 
 

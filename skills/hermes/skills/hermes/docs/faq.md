@@ -723,16 +723,6 @@ If an MCP server crashes mid-request, Hermes will report a timeout. Check the se
 
 ------------------------------------------------------------------------
 
-### Skills Issues<a href="#skills-issues" class="hash-link" aria-label="Direct link to Skills Issues" translate="no" title="Direct link to Skills Issues">​</a>
-
-#### The Skills Hub page won't load in the desktop app (403 / blocked)<a href="#the-skills-hub-page-wont-load-in-the-desktop-app-403--blocked" class="hash-link" aria-label="Direct link to The Skills Hub page won&#39;t load in the desktop app (403 / blocked)" translate="no" title="Direct link to The Skills Hub page won&#39;t load in the desktop app (403 / blocked)">​</a>
-
-**Cause:** The docs site (`hermes-agent.nousresearch.com`) is served through Vercel, whose WAF denies some residential IP ranges it considers flagged. If your network is on such a range, every request to the domain returns a 403 block page.
-
-**Solution:** The Skills Hub picker probes the primary domain and automatically falls back to the equivalent GitHub Pages deployment (`nousresearch.github.io/hermes-agent`), which serves the same catalog. If the page still fails on both origins, check whether a proxy, DNS filter, or firewall is blocking both hosts — and report the affected range to the maintainers so it can be reviewed on the deployment side.
-
-------------------------------------------------------------------------
-
 ## Profiles<a href="#profiles" class="hash-link" aria-label="Direct link to Profiles" translate="no" title="Direct link to Profiles">​</a>
 
 ### How do profiles differ from just setting HERMES_HOME?<a href="#how-do-profiles-differ-from-just-setting-hermes_home" class="hash-link" aria-label="Direct link to How do profiles differ from just setting HERMES_HOME?" translate="no" title="Direct link to How do profiles differ from just setting HERMES_HOME?">​</a>
@@ -1062,7 +1052,6 @@ If your issue isn't covered here:
   - <a href="#messaging-issues" class="table-of-contents__link toc-highlight">Messaging Issues</a>
   - <a href="#performance-issues" class="table-of-contents__link toc-highlight">Performance Issues</a>
   - <a href="#mcp-issues" class="table-of-contents__link toc-highlight">MCP Issues</a>
-  - <a href="#skills-issues" class="table-of-contents__link toc-highlight">Skills Issues</a>
 - <a href="#profiles" class="table-of-contents__link toc-highlight">Profiles</a>
   - <a href="#how-do-profiles-differ-from-just-setting-hermes_home" class="table-of-contents__link toc-highlight">How do profiles differ from just setting HERMES_HOME?</a>
   - <a href="#can-two-profiles-share-the-same-bot-token" class="table-of-contents__link toc-highlight">Can two profiles share the same bot token?</a>
