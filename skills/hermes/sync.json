@@ -1,6 +1,6 @@
 {
   "name": "hermes",
-  "version": "1.1.63",
+  "version": "1.1.64",
   "description": "Expert knowledge about Hermes Agent — its memory system, skills, cron jobs, tools, and behavioral conventions",
   "sources": [
     {
