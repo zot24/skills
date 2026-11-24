@@ -764,6 +764,8 @@ Otherwise, report the issue.
 ```
 
 
+A whole reply that is a damaged marker also stays silent: one dropped, extra, swapped or wrong letter (`[SLENT]`, `[SLIENT]`), a missing closing bracket, padding or invisible characters inside the brackets, code formatting (`` `[SILENT]` ``), or a reply cut off mid-marker (`[`, `[SIL`). A reply with any other words in it (`[SLENT] extra words`) or a different bracketed word (`[URGENT]`, `[SILVER]`) is delivered.
+
 Failed jobs always deliver regardless of the `[SILENT]` marker — only successful runs can be silenced. For quiet monitoring jobs, prompt the agent to reply with only `[SILENT]` when there is nothing to report.
 
 ### Declaring a failed run<a href="#declaring-a-failed-run" class="hash-link" aria-label="Direct link to Declaring a failed run" translate="no" title="Direct link to Declaring a failed run">​</a>
