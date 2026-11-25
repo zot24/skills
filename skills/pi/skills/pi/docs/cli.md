@@ -184,7 +184,7 @@ This keeps `read`, `bash`, `edit`, and `write` and adds `codemode`. For one invo
 pi --tools +codemode
 ```
 
-Codemode is useful without MCP: scripts can run several tool calls in parallel, filter large output before it reaches the model, call classifier models such as TypeSafe's Jev through `models.classify()` (see <a href="/latest/models#use-classifier-models" class="link-module_root__svb26">Classifier models</a>), and generate images through `models.generateImages()` (see <a href="/latest/models#use-image-models" class="link-module_root__svb26">Image models</a>).
+Codemode is useful without MCP: scripts can run several tool calls in parallel, filter large output before it reaches the model, call decision models such as TypeSafe's Jev through `models.classify()` (see <a href="/latest/models#use-decision-models" class="link-module_root__svb26">Use decision models</a>), and generate images through `models.generateImages()` (see <a href="/latest/models#use-image-models" class="link-module_root__svb26">Use image models</a>).
 
 
 ### How codemode works
