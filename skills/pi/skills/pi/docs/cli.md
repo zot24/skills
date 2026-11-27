@@ -104,6 +104,8 @@ See <a href="/latest/sessions" class="link-module_root__svb26">Sessions and Cont
   Forks a session, chosen by file path or full/partial ID, into a new session in the current directory.
 - `--session-dir <dir>`  
   Overrides storage and lookup. It takes precedence over `PI_CODING_AGENT_SESSION_DIR` and the `sessionDir` setting.
+- `--agent-dir <dir>`  
+  Uses `<dir>` as the config directory (settings, auth, models, resources, and the default session storage) instead of `~/.pi/agent`. It takes precedence over `PI_CODING_AGENT_DIR` and is passed on to processes Pi starts. Works with subcommands too, such as `pi --agent-dir <dir> install <source>`.
 - `--no-session`  
   Uses an in-memory session that is not persisted.
 - `-n`, `--name <name>`  
