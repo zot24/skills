@@ -72,4 +72,6 @@ Drive it green; the PR grows as design and wiring land.
 - `/api/checkout` (Checkout Session) and `/api/stripe-webhook` (verified with Web Crypto), `/thanks`
   with the Umami revenue event
 - `.env.schema` for Varlock + 1Password; `.env` with public values only
-- CI: DESIGN.md lint, tokens in sync, type check and build, built-page audit, Lighthouse
+- CI: DESIGN.md lint (fails on warnings too), tokens in sync, type check and build, built-page audit
+  (a page whose canonical points elsewhere may share that page's title; titles outside 30–60
+  characters warn), Lighthouse mobile

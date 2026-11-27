@@ -11,8 +11,8 @@ owner does not have to answer. Read-only.
 | Existing site | `apps/web`, `site/`, `www/`, `landing/`, an Astro or Next config, a `wrangler.jsonc` with routes |
 | The product | `apps/app` or the main package: README, pricing in code, plan names, sign-up URL, auth provider |
 | Brand | logo files, colours and fonts in a theme, an existing `DESIGN.md`, app `tailwind` tokens |
-| Domains | `wrangler.jsonc` routes, `CNAME`, env files, README links, `site` in an Astro config |
-| Analytics | Umami script tags or website IDs; any GA or other tracker to remove |
+| Domains | `wrangler.jsonc` routes, `CNAME`, env files, README links, `site` in an Astro config; then the zone itself on Cloudflare (`cloudflare-domains`): where the records point, Email Routing, DNSSEC, Always Use HTTPS |
+| Analytics | Umami script tags or website IDs; any GA or other tracker to remove. IDs set only in the old host's env (`NEXT_PUBLIC_UMAMI_*` on Vercel) are not in the repo: read them from the live HTML or ask |
 | Payments | Stripe usage in the app (product and price IDs, webhooks), Payment Links in content |
 | Search | `robots.txt`, sitemap, verification files (`google*.html`, `BingSiteAuth.xml`) |
 | Project rules | `CLAUDE.md`, `AGENTS.md`, `CONTEXT.md`, contributing guides, PR template |
