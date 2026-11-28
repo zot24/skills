@@ -605,6 +605,8 @@ Execution and delivery are tracked separately. When the agent run succeeds but t
 
 Semantics: `all` expands to every platform with a configured home channel. Zero is fine; the job simply produces no delivery targets and is recorded as a delivery failure upstream.
 
+A home channel saved in `config.yaml` for a platform whose plugin is not loaded in that profile (not installed, disabled, or a platform that moved out of core) cannot be reached by `all` or by the origin-less `origin` fallback. The run reports it in `last_delivery_error` and logs one warning naming the platform and the command that fixes it, instead of skipping it silently.
+
 `all` composes with explicit targets. `origin,all` delivers to the origin chat *plus* every other connected home channel, de-duplicating by `(platform, chat_id, thread_id)`.
 
 ### Telegram cron topic (`TELEGRAM_CRON_THREAD_ID`)<a href="#telegram-cron-topic-telegram_cron_thread_id" class="hash-link" aria-label="Direct link to telegram-cron-topic-telegram_cron_thread_id" translate="no" title="Direct link to telegram-cron-topic-telegram_cron_thread_id">​</a>

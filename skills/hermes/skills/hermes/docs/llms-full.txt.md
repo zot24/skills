@@ -30,15 +30,20 @@ platform-gated features are supported), see **[Platform Support](./platform-supp
 Download the package for your platform from the
 [Hermes website](https://hermes-agent.nousresearch.com/).
 
-- **Windows:** open the `.appinstaller` download with Windows App Installer.
-  It installs the signed MSIX bundle and records its update source.
-  Microsoft Store packages have separate Store ownership.
-- **macOS:** open the DMG, then copy `Hermes.app` to Applications. The ZIP
-  artifact carries the signed app used by the automatic updater.
+- **Windows (Windows 11 22H2 / `10.0.22621.0` or later, x64 or ARM64):**
+  install from the Microsoft Store, or download the `.appinstaller` file and
+  open it with Windows App Installer to install the signed MSIX bundle and
+  register its update source. Microsoft Store packages have separate Store
+  ownership.
+- **macOS (macOS 13 Ventura or later, Apple Silicon `arm64`):** open the DMG,
+  then copy `Hermes Agent.app` to Applications. The ZIP artifact carries the
+  signed app used by the in-app updater.
 
 Bundled packages contain the agent, Python, supported dependencies, and prebuilt
 interfaces. First launch does not build that base runtime. Provider access and
-optional integrations can still require network access.
+optional integrations can still require network access. See
+[Bundled desktop updates](./updating.md#bundled-desktop-updates) for package
+sizes and expected download versus local install/swap times.
 
 A `Hermes-Setup` bootstrap installer is different: it downloads a source
 installation and builds the desktop app. See [Hermes Desktop](../user-guide/desktop.md).
@@ -48,8 +53,9 @@ backend on another machine, install one of the packages above and connect it
 from **Settings → Gateways**; see
 [Connecting to a remote backend](../user-guide/desktop.md#connecting-to-a-remote-backend).
 
-:::note
-The macOS installer is **Apple Silicon only**. macOS on x86 (Intel) processors is [not a supported platform](./platform-support.md#unsupported).
+:::note Desktop bundle OS requirements and fallbacks
+- **macOS Desktop Bundle:** requires **macOS 13 Ventura or later on Apple Silicon (`arm64`)**. Intel (x86_64) Macs and macOS 12 Monterey or earlier are not supported by the desktop bundle — use the [CLI / source installer (`install.sh`)](#linux--macos--wsl2) below.
+- **Windows Desktop Bundle (Microsoft Store & `.appinstaller` MSIX):** requires **Windows 11 22H2 or later (`10.0.22621.0`)**, x64 or ARM64. On Windows 10 or Windows 11 earlier than 22H2, use the [Windows source installer (`install.ps1`)](#windows-native) below or [WSL2](../user-guide/windows-wsl-quickstart.md).
 :::
 
 ### Without Hermes Desktop:
@@ -927,21 +933,43 @@ is baked into the package (see below).
 
 ### Bundled desktop updates
 
+Packaged desktop bundles require **macOS 13 Ventura or later on Apple Silicon
+(`arm64`)** (`Hermes Agent.app`) or **Windows 11 22H2 or later (`10.0.22621.0`)**,
+x64 or ARM64 (both Microsoft Store and `.appinstaller` MSIX). Intel Macs and
+macOS 12 or earlier use the CLI / source installer (`install.sh`); Windows 10
+and Windows 11 earlier than 22H2 use `install.ps1` or
+[WSL2](../user-guide/windows-wsl-quickstart.md).
+
 On Windows, the sideload app checks the registered App Installer source. Apply
 downloads the `.appinstaller` descriptor before stopping app-owned backends,
 opens that local file, and quits for Windows to replace the package.
 A detached waiter attempts automatic relaunch after the package version changes.
 A waiter-registration failure produces a manual-reopen warning.
 
-On macOS, apply downloads the ZIP update and waits for Squirrel.Mac to accept
-the signed app before stopping backends. Only that apply flow requests install
-and relaunch. An ordinary quit does not install a pending download.
-Download or verification failures leave backends running.
+On macOS, apply downloads the signed ZIP update and waits for Squirrel.Mac to
+accept the signed app before stopping backends. Only that apply
+flow requests install and relaunch. An ordinary quit does not install a pending
+download. Download or verification failures leave backends running.
 
 Store packages use the Store instead of either sideload feed. A broken or
 unavailable update check must not be interpreted as "already up to date."
 The application and its bundled base runtime update together; user data stays
 outside the package. See [Desktop installation](../user-guide/desktop.md#install).
+
+**Download sizes and update timing:** bundled updates split into network
+download time (which depends on your connection) and local verification/swap
+time. The sizes below are approximate and change between releases:
+
+- **macOS:** a fresh DMG install is ~948 MB, and choosing **Update** in the
+  app downloads the signed update ZIP (~983 MB in full). After the ZIP finishes
+  downloading, Squirrel.Mac unpack, code-signature verification, and bundle
+  swap take roughly **50 seconds** on Apple Silicon (measured on an M4 Mac)
+  before the app relaunches.
+- **Windows:** full per-architecture MSIX packages are ~1.89 GB (ARM64) to
+  ~2.86 GB (x64). Windows App Installer and the Microsoft Store download only
+  your host architecture and apply differential block updates between releases,
+  so incremental downloads are typically smaller than a fresh install, followed
+  by local package deployment.
 
 Stable and canary desktop bundles are separate applications. Installing canary
 does not replace stable, including on Windows with MSIX. Each application keeps
@@ -1496,7 +1524,9 @@ removes data. `--data` removes user data without deleting package-owned code.
 These modes are destructive; make a backup first.
 
 For MSIX/Store, use Windows Settings → Apps → Installed apps. For macOS,
-quit Hermes and move its app bundle to Trash. Docker, Nix, and Termux use the
+quit Hermes and move the app for your channel to Trash: `Hermes Agent.app`
+(stable), `Hermes Agent Canary.app` (canary), or `Hermes.app` for a
+source-built desktop. Docker, Nix, and Termux use the
 same manager that installed them. Their package files are not removed by the
 source uninstaller. Data deletion is separate from package removal.
 
@@ -2282,7 +2312,7 @@ Check it with `hermes webapp --status` (a gateway that has just restarted takes 
 - **A public address.** A backend reached through a proxy or tunnel at its own `https://` hostname has that address in `HERMES_DASHBOARD_PUBLIC_URL` or `settings.dashboard.public_url`. The Webapp reads neither: it builds its sign-in callback on `webapp.public_url`. When `settings.webapp.public_url` is unset, set it to the address the backend actually used, the first of these that is an `http://` or `https://` URL (a blank or malformed value is skipped): `HERMES_DASHBOARD_PUBLIC_URL` (from `environment` or `environmentFiles`, which the module writes into the Hermes home's `.env`), then `settings.dashboard.public_url`. `settings.dashboard.trusted_proxies` already applies to the Webapp.
 
 - **Sign-in.** Keep the sign-in the backend used, in `environmentFiles` (`HERMES_DASHBOARD_BASIC_AUTH_*`, `HERMES_DASHBOARD_OAUTH_CLIENT_ID`, `HERMES_DASHBOARD_OIDC_*`) or in `settings.dashboard`: the Webapp signs in with the same providers, and a non-loopback `host` needs one.
-- **The address.** `settings.webapp.host` takes `127.0.0.1`, `::1`, `localhost`, `0.0.0.0`, `::` or one IP address of this machine, not a hostname. A backend bound to a name (such as a Tailscale MagicDNS name) moves to that name's IP address. `settings.webapp` has no counterpart to `backend.waitFor` or `backend.interfaceName`, so the address must exist when the gateway starts.
+- **The address.** `settings.webapp.host` takes `127.0.0.1`, `::1`, `localhost`, `0.0.0.0`, `::` or one IP address of this machine, not a hostname. A backend bound to a name (such as a Tailscale MagicDNS name) moves to that name's IP address. `settings.webapp` has no counterpart to `backend.waitFor` or `backend.interfaceName`: the gateway service waits up to 20 seconds for the address to be assigned to an interface, then keeps running without the Webapp until it restarts.
 - **Desktop.** With `backend.mode = "none"`, the `programs.hermes-agent.desktop` wrapper no longer points the app at the backend (`HERMES_DESKTOP_REMOTE_URL`), and `backend.sessionTokenFile` has no effect. The app attaches to the gateway on this machine instead.
 
 See [What clients notice after the move](../user-guide/features/web-dashboard.md#after-the-move).
@@ -5044,6 +5074,8 @@ The value is the **first rung** of an escalating ladder, not a fixed interval: c
 
 `idle_compact_after_seconds` is an **opt-in, time-based** trigger that complements the size-based `threshold`. Default `0` (disabled). When set above 0, a session that resumes after at least that many seconds of inactivity compacts its accumulated history up front, before the first reply — so a long-lived thread (e.g. a Telegram conversation you come back to hours later) doesn't re-read its full stale context on every subsequent turn. It never fires when the context is already at or below the post-compression target (`threshold × target_ratio`), and it honors the same failure-cooldown, anti-thrash, and per-session lock guards as every automatic compaction. Example: `idle_compact_after_seconds: 1800` compacts after 30 minutes idle.
 
+In the messaging gateway the compaction does not wait for you to come back: the gateway's housekeeping tick (every 5 minutes) compacts a cached chat once it has been idle that long, on every model route (local models and custom endpoints included), so your next message starts on the compacted history. It is silent in the chat (the outcome goes to the gateway log), runs at most once per idle stretch, skips a chat with a turn running or a message waiting, and uses the same gates as above. A chat whose cached agent the gateway already released (it stays idle past the agent cache idle TTL, 1 hour by default) compacts at that release if it is due, otherwise when it resumes. A channel can override the value, or turn it off with `0`, via `platforms.<platform>.channel_overrides.<channel_id>.idle_compact_after_seconds` (see [per-channel overrides](messaging/index.md#per-channel-model--system-prompt-overrides)).
+
 **Compaction before the prompt cache expires** is step 2 of the prompt-cache lifecycle; see [Keeping the prompt cache warm](#keeping-the-prompt-cache-warm) below.
 
 `prepare_ahead` (default `false`) writes the next compaction summary in the background once the session is close to the trigger, while tools run and between turns. One summary is prepared per compaction. When automatic compaction fires and the summarized messages are still the same messages (text edits by plugins are fine; a dropped message or a rewind is not), the prepared summary is used instead of a summary call at that moment, and every message newer than it stays outside it, in the uncompressed tail. If the prepared summary is still being written when compaction fires, compaction waits for it (within the usual compression time limit) rather than writing it again. If there is no prepared summary or it no longer matches, compaction runs exactly as it does without the option. It spends an auxiliary summary call that may go unused, and it does not apply to manual `/compress`, plugin context engines, or native/app-server compaction. With a memory provider that adds context to compaction summaries it switches itself off after the first compaction, since every prepared summary would be discarded.
@@ -5447,7 +5479,7 @@ prompt_caching:
 
 `cache_ttl` selects the breakpoint TTL Hermes attaches for Claude via the native Anthropic API, OpenRouter, and Nous Portal. The two Anthropic tiers (`"5m"`, `"1h"`) are sent as-is; an off value (`"off"`, `false`, `none`) disables prompt caching; any other value falls back to `"5m"`. Providers with their own caps (e.g. Qwen Cloud, which maxes at 5 minutes) still clamp to what the upstream allows.
 
-The 1h tier writes at 2x the base input price (5m writes at 1.25x) and only pays off when your turns are more than five minutes apart — otherwise every tool result is written at the dearer rate for retention nobody uses. `"auto"` picks the tier per session from who paces it. A session a person types into (CLI, TUI, Desktop, Telegram/Discord/Slack and the other messaging platforms) starts on `5m` and moves to `1h` from the first message you send after a pause of more than five minutes; it then stays on `1h` for the rest of the session (also after a compaction or a gateway reloading the chat; `/new` starts on `5m` again). That message finds the 5-minute cache already expired, so the switch breaks no warm cache, and a chat that never pauses never pays the 1-hour premium. Before that first pause no idle keep-alive is sent (a long tool call is still kept warm), and `/context` adds `Tier: 5m until the first pause over 5 minutes, then 1h.` Machine-paced sessions stay on `5m` (subagents, cron, `hermes -q` one-shots, webhooks, Kanban workers, the API server, the skill curator, tool-invoked and batch runs). `"auto"` is the default; set `"5m"` or `"1h"` to pin one tier for every session. The v54 config migration removes `cache_ttl: "5m"` only when it is still the line the old config template wrote (with its `# use "1h" for long sessions with pauses between turns` comment), so that config follows `"auto"`; any other `"5m"` is kept as your pin, and the migration prints a notice saying so (a config without `_config_version` is not migrated). Under `"auto"`, side agents (`/background`, `/btw`) and background reviews routed to a different model stay on `5m`. On an install where interactive sessions are parked and resumed through the day, `auto` cut the interactive cache-write bill by roughly 40% while leaving fan-out subagent spend untouched. Delegated subagents are always clamped to `5m`, whatever the setting.
+The 1h tier writes at 2x the base input price (5m writes at 1.25x) and only pays off when your turns are more than five minutes apart — otherwise every tool result is written at the dearer rate for retention nobody uses. `"auto"` picks the tier per session from who paces it. A session a person types into (CLI, TUI, Desktop, Telegram/Discord/Slack and the other messaging platforms) starts on `5m`, and its idle keep-alives (below) run on the 5-minute cache too, so a pause they cover (about 17 minutes with 3 keep-alives) keeps the cheap tier. The chat moves to `1h` the first time its 5-minute cache expires, on the first message you send after that (also after the chat was compacted at the cache edge: the compacted prompt is written fresh either way). It then stays on `1h` for the rest of the session (also after a compaction or a gateway reloading the chat; `/new` starts on `5m` again). The tier never changes while the 5-minute cache is still warm, because a request asking for a different tier re-writes the whole prompt, and a chat that never pauses never pays the 1-hour premium. `/context` adds `Tier: 5m until the 5-minute cache first expires, then 1h.` Machine-paced sessions stay on `5m` (subagents, cron, `hermes -q` one-shots, webhooks, Kanban workers, the API server, the skill curator, tool-invoked and batch runs). `"auto"` is the default; set `"5m"` or `"1h"` to pin one tier for every session. The v54 config migration removes `cache_ttl: "5m"` only when it is still the line the old config template wrote (with its `# use "1h" for long sessions with pauses between turns` comment), so that config follows `"auto"`; any other `"5m"` is kept as your pin, and the migration prints a notice saying so (a config without `_config_version` is not migrated). Under `"auto"`, side agents (`/background`, `/btw`) and background reviews routed to a different model stay on `5m`. On an install where interactive sessions are parked and resumed through the day, `auto` cut the interactive cache-write bill by roughly 40% while leaving fan-out subagent spend untouched. Delegated subagents are always clamped to `5m`, whatever the setting.
 
 `prompt_caching.route_ttl_ceilings` caps the tier per provider, so a route that silently keeps less than it is asked for is neither asked for (nor billed for) the dearer tier. A provider's profile can ship a ceiling too; the config entry overrides it. A ceiling clamps what the cache clock believes too: a route capped at `5m` is warmed and expired on the 5-minute schedule even when the request asked for `1h`. Nous Portal ships `1h` (it keeps, and bills, Claude's 1-hour tier). On Nous Portal the model catalog decides which models get cache markers: every model priced with a cache-write rate (`input_cache_write` in `/v1/models`: Claude, Qwen 3.7, Gemini, GPT-6 and others) gets them, at the tier asked for, and a 1-hour write is billed at the catalog's own rate (Claude 2x input, Qwen 1.25x); a model without one caches automatically. A `custom` endpoint pointed at a known provider's host gets that provider's ceiling.
 
@@ -5471,8 +5503,8 @@ The cache rules follow the API spec. **Anthropic spec** (the request carries cac
 
 Two routes have no 30-minute expiry. A request that asks for 24-hour retention (`prompt_cache_retention: "24h"`, e.g. Meta's `api.meta.ai` and Bedrock Mantle GPT-5.x/4.1) is still warmed on the 30-minute schedule, but its cache is treated as alive for 24 hours, so it is not pruned as cold at minute 31 (ChatGPT Codex does not accept the field, Hermes strips it there, and 30 minutes stands). A local or self-hosted endpoint (loopback, private-network or `.local` host: llama.cpp, vLLM, Ollama) never expires on the clock; only a model or provider switch, or a compaction, offloads its history.
 
-1. **Warm.** At 5/6 of the lifetime (about 4 minutes 10 seconds on a 5-minute cache, 25 minutes on a 30-minute one, 50 minutes on a 1-hour one), Hermes re-sends the last request with the smallest output cap the model accepts (1 token; 16 for OpenAI's GPT-5 and o-series, which refuse less). One cache read keeps the entry alive for another lifetime. While the chat is idle it does this at most 3 times per message you send. While a tool call is running (the model is certain to send its next request when the tool returns), it keeps warming until the tool returns, with no count limit: only money bounds it, so the keep-alives of one tool wait together never cost more than the single full re-send they prevent (about 12 on a 5-minute Claude cache, about 20 on a 1-hour one, about 10 on a 30-minute automatic cache). Those do not use up the 3 idle keep-alives. A keep-alive that comes back without a cache hit is retried once: Nous Portal serves one Claude model from more than one upstream, each with its own cache, so a miss that came back from another upstream than the one that cached the prompt (the response id family changed, or a gateway names the upstream), or one that still read the system prompt, is routing, not an expired cache, and does not count. Two real misses in a row (or three misses of any kind) mean the entry does not live as long as assumed: warming stops for the rest of the conversation (your next messages, a gateway reloading the chat, and compactions do not restart it; a `/model` or provider switch does, since that is a different cache, and `/new` starts fresh), and the chat goes straight to step 2 or 3.
-2. **Compact.** A set of idle keep-alives ends at whichever comes first: all 3 are used, warming stops after its misses, the next one would cost more than the re-send it prevents, or Hermes releases the idle chat from memory (the messaging gateway evicts a chat idle for an hour, or past its cache-size cap; the TUI/Desktop backend closes a session idle past its time limit or over its session cap). At that point Hermes compacts the chat (the normal compaction, with the normal compression model, or a summary already prepared by `compression.prepare_ahead`) if all of these hold: the cache window is at least 30 minutes (Claude at `1h`, or any 30-minute automatic cache), the context is at least half of the compaction threshold, and the chat grew since its last compaction. Whether the old cache is still warm does not matter: the summary is a separate request that never re-reads the cached chat. After a compaction nothing more is sent: there is no warm cache to keep, so the next keep-alives start with your next message. This happens at most once per idle stretch.
+1. **Warm.** At 5/6 of the lifetime (about 4 minutes 10 seconds on a 5-minute cache, 25 minutes on a 30-minute one, 50 minutes on a 1-hour one), Hermes re-sends the last request with the smallest output cap the model accepts (1 token; 16 for OpenAI's GPT-5 and o-series, which refuse less). One cache read keeps the entry alive for another lifetime. While the chat is idle it does this at most 3 times per message you send. While a tool call is running (the model is certain to send its next request when the tool returns), it keeps warming until the tool returns, with no count limit: only money bounds it, so the keep-alives of one tool wait together never cost more than the single full re-send they prevent (about 12 on a 5-minute Claude cache, about 20 on a 1-hour one, about 10 on a 30-minute automatic cache). Those do not use up the 3 idle keep-alives. The same holds while a reply is still being generated: a reply that takes longer than the cache lives (a subagent writing one long file, a slow upstream) gets keep-alives of its own request, so the next request reads the prompt instead of re-sending all of it; a request with cache markers (Claude) is covered from its first send, while an automatic cache (OpenAI-style) needs an earlier reply that proved it caches.  A keep-alive that comes back without a cache hit is retried once: Nous Portal serves one Claude model from more than one upstream, each with its own cache, so a miss that came back from another upstream than the one that cached the prompt (the response id family changed, or a gateway names the upstream), or one that still read the system prompt, is routing, not an expired cache, and does not count. Two real misses in a row (or three misses of any kind) mean the entry does not live as long as assumed: warming stops for the rest of the conversation (your next messages, a gateway reloading the chat, and compactions do not restart it; a `/model` or provider switch does, since that is a different cache, and `/new` starts fresh), and the chat goes straight to step 2 or 3.
+2. **Compact.** A set of idle keep-alives ends at whichever comes first: all 3 are used, warming stops after its misses, the next one would cost more than the re-send it prevents, or Hermes releases the idle chat from memory (the messaging gateway evicts a chat idle for an hour, or past its cache-size cap; the TUI/Desktop backend closes a session idle past its time limit or over its session cap). At that point Hermes compacts the chat (the normal compaction, with the normal compression model, or a summary already prepared by `compression.prepare_ahead`) if all of these hold: the cache window is proven or declared (any tier: on a 5-minute cache that is about 17 minutes into the pause, after its 3 keep-alives), the context is at least half of the compaction threshold, and the chat grew since its last compaction. Whether the old cache is still warm does not matter: the summary is a separate request that never re-reads the cached chat. After a compaction nothing more is sent: there is no warm cache to keep, so the next keep-alives start with your next message. This happens at most once per idle stretch.
 3. **Expire and offload.** Otherwise Hermes lets the entry expire, and once the window has passed it saves old tool results to disk and replaces them with a pointer (see the prune section above; the messaging gateway checks every 5 minutes, so there it can land up to about 5 minutes after the window), so the chat is already small when you come back. A chat released from memory after its window is offloaded before it is released.
 4. **Coming back cold.** If your next message goes out after the clock says the cache has expired and the chat was not offloaded yet, the same offload runs first.
 
@@ -5484,7 +5516,7 @@ A keep-alive that goes out while a tool call is still running is a separate side
 
 If the clock cannot vouch for the window (`unknown` or `assumed` on `/context`), nothing is warmed and nothing is compacted at the cache edge. A keep-alive is sent only when its cache read, plus the output it may generate (1 token, or 16 on GPT-5/o-series) and any per-request fee, costs less than the full re-send it prevents and the keep-alives of one idle set, or of one tool wait, together cost no more than that re-send; there is no fixed dollar minimum, so cheap models are warmed too. It also needs known cache prices (an unpriced or subscription-included route is never warmed) and a cached prompt of at least 1,024 tokens (no smaller prompt is cached). Route ceilings apply: a route capped at `5m` is warmed on the 5-minute schedule. Requests with budget-based extended thinking are never warmed because a 1-token cap would change the budget Anthropic keys the cache on. A keep-alive only goes out through a client that really sends the small cap: native Gemini raises any cap to 65,535 tokens when thinking is on, so those chats are not warmed (with thinking off they are, at 1 token), and a long-decode budget is dropped from the replay. Every stop is logged at INFO (`prompt cache warming stopped: <reason>` in `agent.log`); keep-alives count toward the session totals (`session_cache_warm_calls`, `task=cache_warm` usage rows) but never enter the conversation, and a cache-edge compaction is recorded as a `cache_expiry` compression.
 
-Every compaction (automatic, prepared, `/compress`, gateway hygiene and the cache-edge one) summarizes the original tool results first, so the summary reads what the tools actually returned. Only after the summary is written does it save each tool result it removed or shortened to `$HERMES_HOME/cache/pruned/`, byte for byte, once, and leave a `— full result: <path>` pointer in its place, so the model can still reach the exact output; short and duplicate results the summary drops are saved too. Planning whether to compact writes nothing, and a summary that fails writes nothing. The committed summary ends with an `Archived tool output` list naming every saved file, so no file loses its last reference (the retention sweep keeps files a stored message names). A shortened result whose file cannot be written (disk full, read-only home) stays whole; one the summary replaces is then kept only by the summary and the original rows in `state.db`, and a warning is logged. The built-in sandboxed backends (docker, modal, ssh, daytona, vercel_sandbox) get the same archive at the path the sandbox reads (see above). On a backend that does not publish `cache/pruned` (plugin backends, a hosted sandbox) tool output is summarized and shortened without an archive: the removed text is gone from the live context (the original rows stay in `state.db`).
+Every compaction (automatic, prepared, `/compress`, gateway hygiene and the cache-edge one) summarizes the original tool results first, so the summary reads what the tools actually returned. Only after the summary is written does it save each tool result it removed or shortened to `$HERMES_HOME/cache/pruned/`, byte for byte, once, and leave a `— full result: <path>` pointer in its place, so the model can still reach the exact output; short and duplicate results the summary drops are saved too. Planning whether to compact writes nothing, and a summary that fails writes nothing. The committed summary ends with an `Archived tool output` list naming every saved file that would otherwise leave the live context (no kept message and no part of the generated summary still names it), so no file loses its last reference (the retention sweep keeps files a stored message names); an earlier summary's list is not repeated once that summary is stored in `state.db`, where it stays. A shortened result whose file cannot be written (disk full, read-only home) stays whole; one the summary replaces is then kept only by the summary and the original rows in `state.db`, and a warning is logged. The built-in sandboxed backends (docker, modal, ssh, daytona, vercel_sandbox) get the same archive at the path the sandbox reads (see above). On a backend that does not publish `cache/pruned` (plugin backends, a hosted sandbox) tool output is summarized and shortened without an archive: the removed text is gone from the live context (the original rows stay in `state.db`).
 
 ## Auxiliary Models
 
@@ -6304,6 +6336,8 @@ display:
   # blocking prompts) so Warp's tab status and notification mailbox track Hermes. No extra keys needed.
   program_status: true    # CLI + TUI: OSC 7501 Program Status reports (idle, working, blocked on approval/question/credential,
                           # done, error) so terminals that track them show each Hermes tab's state; others ignore it
+  program_resume: true    # CLI + TUI: OSC 7577 Program Resume reports (authenticated with OSC7577_TOKEN) so supporting
+                          # terminals can restore the active Hermes session across restarts; cleared on explicit exit
   show_reasoning: true    # Show model reasoning/thinking above each response (default: true; toggle with /reasoning show|hide). On a gateway reply that was streamed, it follows the answer as its own message
   streaming: false        # Stream tokens to terminal as they arrive (real-time output)
   show_cost: false        # Show estimated $ cost in the CLI status bar
@@ -7165,18 +7199,18 @@ delegation:
   # model: "google/gemini-3-flash-preview"  # Override model (empty = inherit parent)
   # provider: "openrouter"                  # Override provider (empty = inherit parent)
   # base_url: "http://localhost:1234/v1"    # Direct OpenAI-compatible endpoint (takes precedence over provider)
-  # api_key: "local-key"                    # API key for base_url (falls back to OPENAI_API_KEY)
+  # api_key: "local-key"                    # API key for base_url (omitted = the parent agent's key, or the named provider's own key)
   # api_mode: ""                            # Wire protocol for base_url: "chat_completions", "codex_responses", or "anthropic_messages". Empty = auto-detect from URL (e.g. /anthropic suffix → anthropic_messages). Set explicitly for non-standard endpoints the heuristic can't detect.
   compression_threshold_tokens: 0          # Optional absolute cap on a subagent's compaction trigger (>= 16000); 0 = off, children use the ratio threshold
   # request_overrides:                      # Per-child request settings sent on every subagent API call (all resolution branches).
   #   extra_body:                           # Merged into the request's extra_body — e.g. OpenRouter routing hints:
   #     provider:
   #       sort: throughput
-  max_concurrent_children: 3                # Parallel children per batch (floor 1, no ceiling). Also via DELEGATION_MAX_CONCURRENT_CHILDREN env var.
+  max_concurrent_children: 10               # Parallel children per batch and concurrent background units (floor 1, no ceiling).
   prefix_stagger_seconds: 0                 # Prompt-cache warm-up for batches: siblings start when the first child's response starts streaming; N (max 60) only caps that wait, it is not a fixed stagger. 0 = off.
   worktree_isolation: false                 # Give each child its own git worktree branched from HEAD (local backend + git repos only; inspired by Muse Code). See Subagent Delegation → Worktree Isolation.
-  max_spawn_depth: 1                        # Delegation tree depth cap (1-3, clamped). 1 = flat (default): parent spawns leaves that cannot delegate. 2 = orchestrator children can spawn leaf grandchildren. 3 = three levels.
-  orchestrator_enabled: true                # Global kill switch. When false, role="orchestrator" is ignored and every child is forced to leaf regardless of max_spawn_depth.
+  max_spawn_depth: 1                        # Delegation tree depth cap (floor 1, no ceiling). 1 = flat (default): parent spawns leaves that cannot delegate. 2 = orchestrator children can spawn leaf grandchildren. 3 = three levels.
+  orchestrator_enabled: true                # Global kill switch. When false, every child is a leaf regardless of max_spawn_depth.
   oneshot_max_children: 2                   # Total subagents a one-shot run (hermes chat -q / --oneshot) may spawn; 0 = unlimited. Interactive and gateway sessions are never capped by this.
   resumable_ttl_hours: 48                   # A child stopped by a restart, crash or provider failure stays continuable (delegate_task action=continue) this long, and its worktree is kept from the startup sweep.
   max_resumable: 32                         # Per profile, how many such children keep their worktree pinned; the oldest beyond it loses its pin (the record stays).
@@ -7191,7 +7225,7 @@ delegation:
 
 **Subagent fallback chain:** Set `delegation.fallback_providers` to give workers their own chain (same entry shape as the top-level list). An explicitly pinned child (by provider, endpoint, or model) uses that chain only when it is declared; otherwise it fails loudly instead of borrowing the parent agent's route. For an unpinned child, an absent or `null` setting preserves parent-chain inheritance. Use `fallback_providers: []` under `delegation:` to disable child fallback entirely.
 
-**Direct endpoint override:** If you want the obvious custom-endpoint path, set `delegation.base_url`, `delegation.api_key`, and `delegation.model`. That sends subagents directly to that OpenAI-compatible endpoint and takes precedence over `delegation.provider`. If `delegation.api_key` is omitted and `delegation.provider` names a provider (anything but `custom`/`auto`), `delegation.base_url` is that provider's endpoint override — the same as `model.base_url` for the main agent — and the subagent uses that provider's own key (e.g. `XIAOMI_API_KEY` for `provider: xiaomi` on a token-plan URL), never the parent agent's key. Without a named provider, an omitted `delegation.api_key` inherits the parent agent's key. When `delegation.provider` is set alongside `delegation.base_url` and `delegation.api_key`, the explicit endpoint and key win, but that provider's request settings (`extra_body` overrides and max output tokens from your `custom_providers` entry) are carried into the subagent.
+**Direct endpoint override:** If you want the obvious custom-endpoint path, set `delegation.base_url`, `delegation.api_key`, and `delegation.model`. That sends subagents directly to that OpenAI-compatible endpoint and takes precedence over `delegation.provider`. If `delegation.api_key` is omitted and `delegation.provider` names a provider (anything but `custom`/`auto`), `delegation.base_url` is that provider's endpoint override — the same as `model.base_url` for the main agent — and the subagent uses that provider's own key (e.g. `XIAOMI_API_KEY` for `provider: xiaomi` on a token-plan URL), never the parent agent's key. Without a named provider, an omitted `delegation.api_key` inherits the parent agent's key. When `delegation.provider` is set alongside `delegation.base_url` and `delegation.api_key`, the explicit endpoint and key win, but that provider's request settings (`extra_body` overrides from your `custom_providers` entry) are carried into the subagent.
 
 **Per-child request settings (`request_overrides`):** `delegation.request_overrides` is a dict of request settings sent on every subagent API call. Top-level keys are API kwargs (e.g. `service_tier`); an `extra_body` sub-dict is merged into the request's `extra_body`. It is honored on **all three** resolution branches — direct `base_url`, named `provider`, and pure inherit — so the key always takes effect. Precedence: explicit `request_overrides` values merge **over** any runtime- or parent-derived overrides — top-level explicit keys win, and `extra_body` is deep-merged one level so runtime `extra_body` keys (e.g. a provider's `thinking: {type: disabled}` personality) survive unless your key redefines them. The canonical use case is OpenRouter routing hints for delegation children:
 
@@ -7213,11 +7247,11 @@ The delegation provider uses the same credential resolution as CLI/gateway start
 
 **One-shot runs:** a finite `hermes chat -q` / `--oneshot` session has no later turn to consume delegated results and no later session to learn for, so it runs a smaller footprint: the skills prompt asks for domain skills only rather than process skills (`skill_manage` stays available, so the run can still author skills), and `oneshot_max_children` caps the total subagents the run may spawn (default `2`, `0` = unlimited). Past the cap `delegate_task` returns a tool error telling the agent to finish inline. Nobody can answer or steer a one-shot either, so it also runs without the `clarify` tool, without the system prompt's mid-turn steering note, and with a `delegate_task` schema that omits the live-control parameters (`action` list/steer/stop, `subagent_id`, `message`): its children are joined inside the call, so there is never a running child to control.
 
-**Width and depth:** `max_concurrent_children` caps how many subagents run in parallel per batch (default `3`, floor of 1, no ceiling). Can also be set via the `DELEGATION_MAX_CONCURRENT_CHILDREN` env var. When the model submits a `tasks` array longer than the cap, `delegate_task` returns a tool error explaining the limit rather than silently truncating. `max_spawn_depth` controls the delegation tree depth (clamped to 1-3). At the default `1`, delegation is flat: children cannot spawn grandchildren, and passing `role="orchestrator"` silently degrades to `leaf`. Raise to `2` so orchestrator children can spawn leaf grandchildren; `3` for three-level trees. The agent opts into orchestration per call via `role="orchestrator"`; `orchestrator_enabled: false` forces every child back to leaf regardless. Cost scales multiplicatively — at `max_spawn_depth: 3` with `max_concurrent_children: 3`, the tree can reach 3×3×3 = 27 concurrent leaf agents. See [Subagent Delegation → Depth Limit and Nested Orchestration](features/delegation.md#depth-limit-and-nested-orchestration) for usage patterns.
+**Width and depth:** `max_concurrent_children` caps how many subagents run in parallel per batch (default `10`, floor of 1, no ceiling). The `DELEGATION_MAX_CONCURRENT_CHILDREN` env var is read only when no config value is loaded (`--ignore-user-config`, `--safe-mode`, or the key set to `null`). When the model submits a `tasks` array longer than the cap, `delegate_task` returns a tool error explaining the limit rather than silently truncating. `max_spawn_depth` controls the delegation tree depth (floor of 1, no ceiling). At the default `1`, delegation is flat: children cannot spawn grandchildren. Raise to `2` so children can spawn leaf grandchildren; `3` for three-level trees. The runtime decides from depth which children may delegate (`delegate_task` has no `role` parameter); `orchestrator_enabled: false` makes every child a leaf regardless. Cost scales multiplicatively — at `max_spawn_depth: 3` with `max_concurrent_children: 3`, the tree can reach 3×3×3 = 27 concurrent leaf agents. See [Subagent Delegation → Depth Limit and Nested Orchestration](features/delegation.md#depth-limit-and-nested-orchestration) for usage patterns.
 
 **Child process notifications:** background processes started by subagents route their completion/watch notifications to the parent conversation, but those are **suppressed** there by default — the child's consolidated result is the deliverable. Set `delegation.surface_child_process_notifications: true` to deliver them (with subagent attribution). Delegation results themselves are never suppressed. See [Subagent Delegation → Child background-process notifications](features/delegation.md#child-background-process-notifications).
 
-**Prompt-cache warm-up for batches:** siblings in one `tasks` batch send the same tools and system-prompt scaffold; only the goal differs (and the end of the system prompt, when tasks carry different `context`). Started together, each child's first request misses the provider's prompt cache and pays the full prefix. With `prefix_stagger_seconds: N` the first child starts at once and the siblings on its provider/model wait until its first response starts streaming (by then its request has written the cache), until it finishes, or N seconds, whichever comes first. N is a cap on that one wait, not a spacing between children: siblings normally start about one time-to-first-token after the leader, whatever N is. The cost is roughly one time-to-first-token added to the batch; routes Hermes does not prompt-cache (most non-Anthropic models) and siblings routed to a different model start without waiting. The leader is always the batch's first task: when task 0 is on an uncached or different route, the batch is not gated even if later tasks share a cached route, and a one-task unit (e.g. under `independent_completions`) never waits. Off (`0`) by default.
+**Prompt-cache warm-up for batches:** siblings in one `tasks` batch send the same tools and system-prompt scaffold; only the first user message differs (it carries each task's `context` and goal). Started together, each child's first request misses the provider's prompt cache and pays the full prefix. With `prefix_stagger_seconds: N` the first child starts at once and the siblings on its provider/model wait until its first response starts streaming (by then its request has written the cache), until it finishes, or N seconds, whichever comes first. N is a cap on that one wait, not a spacing between children: siblings normally start about one time-to-first-token after the leader, whatever N is. The cost is roughly one time-to-first-token added to the batch; routes Hermes does not prompt-cache (most non-Anthropic models) and siblings routed to a different model start without waiting. The leader is always the batch's first task: when task 0 is on an uncached or different route, the batch is not gated even if later tasks share a cached route, and a one-task unit (e.g. under `independent_completions`) never waits. Off (`0`) by default.
 
 ## Clarify
 
@@ -7932,7 +7966,7 @@ Each session is tagged with its source platform:
 | Source | Description |
 |--------|-------------|
 | `cli` | Interactive CLI (`hermes` or `hermes chat`) |
-| `oneshot` | Finite non-interactive runs: `hermes chat --oneshot -q`, `-Q`, `hermes -z`, and `-q` on non-TTY stdio. Hidden from the TUI, Desktop and dashboard session pickers (like `kanban` and `tool`), even when launched from inside a TUI or Desktop session — the run inherits that transport's environment but is not that conversation. Still counts as CLI history: `hermes -c` / `--resume latest` continue the last one-shot, and `hermes sessions list` shows it. An explicit `--source <tag>` always wins (`hermes chat -q --source tui` is stored as `tui`). |
+| `oneshot` | Finite non-interactive runs: `hermes chat --oneshot -q`, `-Q`, `hermes -z`, and `-q` on non-TTY stdio. Hidden from the TUI, Desktop and dashboard session pickers (like `kanban` and `tool`), even when launched from inside a TUI or Desktop session — the run inherits that transport's environment but is not that conversation. Still counts as CLI history: `hermes -c` / `--resume latest` continue the last one-shot, and `hermes sessions list --all` (or `--source oneshot`) shows it. An explicit `--source <tag>` always wins (`hermes chat -q --source tui` is stored as `tui`). |
 | `telegram` | Telegram messenger |
 | `discord` | Discord server/DM |
 | `slack` | Slack workspace |
@@ -8175,6 +8209,9 @@ Hermes provides a full set of session management commands via `hermes sessions`:
 ### List Sessions
 
 ```bash
+# Pick a recent conversation with the arrow keys and resume it (prints the list when not on a terminal)
+hermes sessions
+
 # List recent sessions (default: last 20)
 hermes sessions list
 
@@ -8183,7 +8220,12 @@ hermes sessions list --source telegram
 
 # Show more sessions
 hermes sessions list --limit 50
+
+# Show every source (cron, webhook, push, kanban, tool, one-shot) and sessions with no messages
+hermes sessions list --all
 ```
+
+The list holds the conversations you resume: one row per thread, ranked by its last message. A thread that was compressed shows once, under the id of its live continuation (the one `hermes --resume` continues) and the title of the most recent part of the thread that has one. Subagent runs never appear here. Cron, webhook, push, kanban, tool and one-shot runs and empty sessions stay out unless you pass `--all` (or name a `--source`).
 
 When more sessions exist than `--limit` allows, the listing ends with a `… more not shown (use --limit N to see more)` footer, so a capped page is never mistaken for the full list.
 
@@ -10607,9 +10649,16 @@ dependencies) install on first use into PM dependency generations under
 `/opt/data/installs`, so they survive container recreation and image updates.
 The image's own `/opt/hermes/.venv` is never modified. On each boot the
 container re-resolves the recorded selection against the new image's lock
-before services start; if that fails (for example offline), it boots the
-image's own environment and keeps the recorded extras for the next boot or
-install. Set `security.allow_lazy_installs: false` to refuse on-demand
+before services start. A selection the image already ships boots the image's
+own environment, and its copy on the volume is collected once it is a day old. Otherwise it
+rebuilds, but only when the data volume has room for the rebuild (the image's
+uv cache it merges plus 256 MB). If the rebuild fails (for example offline),
+there is no room, or the check itself fails (for example an unreadable
+`config.yaml` or plugin manifest, even on a restart of the same image), it
+boots the image's own environment and keeps the recorded extras. Extras and
+plugin dependencies the image doesn't ship are then missing until a later boot
+or install rebuilds them; the generation that held them is collected once it
+is a day old. Set `security.allow_lazy_installs: false` to refuse on-demand
 installs. The old `lazy-packages` overlay is not used.
 
 Image provenance lives at `/etc/hermes/image-provenance.json`, outside both the
@@ -12470,7 +12519,7 @@ Hermes Agent includes a rich set of capabilities that extend far beyond basic ch
 ## Automation
 
 - **[Scheduled Tasks (Cron)](cron.md)** — Schedule tasks to run automatically with natural language or cron expressions. Jobs can attach skills, deliver results to any platform, and support pause/resume/edit operations.
-- **[Subagent Delegation](delegation.md)** — The `delegate_task` tool spawns child agent instances with isolated context, restricted toolsets, and their own terminal sessions. Run 3 concurrent subagents by default (configurable) for parallel workstreams.
+- **[Subagent Delegation](delegation.md)** — The `delegate_task` tool spawns child agent instances with isolated context, restricted toolsets, and their own terminal sessions. Run up to 10 concurrent subagents by default (configurable) for parallel workstreams.
 - **[Code Execution](code-execution.md)** — The `execute_code` tool lets the agent write Python scripts that call Hermes tools programmatically, collapsing multi-step workflows into a single LLM turn via sandboxed RPC execution.
 - **[Event Hooks](hooks.md)** — Run custom code at key lifecycle points. Gateway hooks handle logging, alerts, and webhooks; plugin hooks handle tool interception, metrics, and guardrails.
 - **[Batch Processing](batch-processing.md)** — Run the Hermes agent across hundreds or thousands of prompts in parallel, generating structured ShareGPT-format trajectory data for training data generation or evaluation.
@@ -16595,6 +16644,7 @@ Every `ctx.*` API below is available inside a plugin's `register(ctx)` function.
 | Add CLI commands | `ctx.register_cli_command(name, help, setup_fn, handler_fn)` — adds `hermes <plugin> <subcommand>` |
 | Inject messages | `ctx.inject_message(content, role="user", session_key=... \| origin=...)` - see [Injecting Messages](#injecting-messages) |
 | Post and edit a status message | `handle = ctx.post_message(text)`, then `handle.edit(text)` — see [Posting a live message](#posting-a-live-message) |
+| Post a card with no model turn | `ctx.post_card({"text": ..., "directive": ...}, session_key=...)` — see [Posting a card](#posting-a-card) |
 | Ship data files | `Path(__file__).parent / "data" / "file.yaml"` |
 | Bundle skills | `ctx.register_skill(name, path)` — namespaced as `plugin:skill`, loaded via `skill_view("plugin:skill")` |
 | Gate on env vars | `requires_env: [API_KEY]` in plugin.yaml — prompted during `hermes plugins install` |
@@ -17132,11 +17182,13 @@ working but are **deprecated** in favor of the consent flow:
 | `llm.profile_override` | `llm.allow_profile_override` |
 | `llm.task_override` | `llm.allow_task_override` |
 | `gateway.platform_actions` | `allow_platform_actions` |
+| `llm.side_question` | — |
+| `conversation.cards` | — |
 
 A gate is open when *either* the capability is granted *or* the legacy key is
 set — existing configs keep working unchanged.
-`llm.side_question` and `llm.session_fork` have no legacy key: each is open
-only when declared and granted through the consent flow.
+`llm.side_question`, `llm.session_fork` and `conversation.cards` have no legacy key: each is
+open only when declared and granted through the consent flow.
 
 :::warning Not a sandbox
 Capabilities are a **consent and audit layer**, not isolation. Plugins run as
@@ -17548,6 +17600,90 @@ because the message can only reach the conversation that already invoked the plu
 `ctx.post_message` is not available to plugins running in the out-of-process plugin host
 (`plugins.isolation: host`): the handle is bound to the gateway's event loop and live adapter.
 
+## Posting a card
+
+:::caution Experimental
+`ctx.post_card` is experimental, like [`ctx.fork_session`](../../developer-guide/plugin-llm-access.md#forking-the-sessions-own-agent-ctxfork_session):
+the card shape and the result codes may change in a later release. Keep the call inside one small
+function of your plugin that returns plain data. Treat a definite refusal as "no card", but never
+fall back on an uncertain result as described below.
+Under `plugins.isolation: host` a third-party plugin's `ctx.post_card` and `ctx.apost_card` exist but
+raise `PluginHostUnsupported` (a `RuntimeError`), as `post_message` and `fork_session` do: the card is
+admitted on the gateway's event loop into a session the Hermes process owns.
+:::
+
+A plugin can put a card into a conversation from anywhere, including a timer or its own background
+thread, without starting a model turn. The card is saved in the session's history, so it is still there
+after a reload. A card is display-only: people see it, and the model is told only that the plugin posted
+a card with a core-derived opaque reference (one line, `[<plugin id> posted a card <opaque id>]`).
+The reference is stable for that plugin and card id and saved in the row's content beside its display
+metadata, so clients can match them. The plugin-chosen `id` stays in display metadata for rendering and
+deduplication, never in model-facing content. A card saved by a Hermes version that wrote the plugin's
+own id in that line keeps its row as it is, and an unchanged retry of it is still a `duplicate`. The model never reads the card's
+text, directive or attrs. Hermes also strips those fields before handing transcript rows to memory
+providers through `on_session_end()` or `on_pre_compress()`:
+
+```python
+result = ctx.post_card(
+    {
+        "id": "sugg_8f2c1a",
+        "text": "Hermes thinks deploy-checklist could help your team.",
+        "directive": {"name": "wisdom-share", "attrs": {"id": "sugg_8f2c1a"}},
+    },
+    session_key=session_key,
+)
+```
+
+**Signature:** `ctx.post_card(card: dict, *, session_key: str | None = None, origin: Mapping | None = None) -> dict`,
+and `await ctx.apost_card(...)` on the gateway's event loop. It never raises.
+
+- `text` (1 to 2,000 characters) is required. It is what every surface without the plugin's card shows.
+  It is never shown to the model.
+- `directive` is optional. It names a [transcript directive](../../developer-guide/desktop-plugin-sdk.md) that
+  the plugin's Desktop half registers in `transcript.directives`. Desktop renders that component with
+  `attrs` (string values, at most 16 keys, 2,048 characters in all). If no plugin claims the name, the text
+  is shown. The model never sees `attrs` either.
+- `id` is optional. Posting the same `id` again with the same card does nothing (`status: "duplicate"`).
+  Posting it with a different card is refused (`card_conflict`). A card is never edited: the plugin's
+  component shows the current state for its `id`.
+
+**Which conversation.** `session_key` names an existing session, and `origin` resolves an existing private-chat
+session of the plugin's own profile. Unlike [`inject_message`](#injecting-messages), a card does not create a
+new messaging session: there is no committed conversation to record it in yet. Without either target, the
+session bound in the calling context is used. With no bound session either, the call is refused with
+`no_conversation`. Group chats are refused (`group_not_allowed`).
+
+**When it appears.** The card waits its place in the session's queue. An idle session shows it at once. A
+running turn finishes first, and a message the person sent before the card runs before it. Posting a card
+does not stop the session's background review or plugin forks, because no turn starts.
+
+| Surface | What it shows |
+|---|---|
+| Desktop | the plugin's directive component inline in the transcript, or the text as a system row |
+| Ink TUI, Web dashboard chat, and classic CLI | the text as a system line |
+| Messaging platforms | nothing from core: the card is recorded in the session's history and the plugin sends its own native card through its adapter |
+
+Result: `{"ok": True, "card_id", "status": "queued" | "duplicate"}`, or `{"ok": False, "error"}`.
+`cancelled`, `post_failed` and `timeout` are **UNCERTAIN** and include `"certain": false`: the card
+**may have landed**, even though no receipt reached the caller. Do not inject a fallback turn for
+these results. Retry the same `id` and unchanged card to recover the durable duplicate receipt
+without posting twice.
+Expected refusals are `consent_required`, `invalid_target`, `no_conversation`, `group_not_allowed`,
+`invalid_card`, `card_conflict`, `rate_limited` (more than 6 cards in 60 seconds for one session),
+`gateway_unavailable` (no live gateway, or its loop closed while the card was on its way) and `on_event_loop`.
+`cancelled` (the gateway stopped before answering), `post_failed` and `timeout` are uncertain as described
+above. An internal admission refusal is reported as `refused`, not raised into the plugin. `refused` is certain:
+nothing was queued, and the same card can be posted again. One expected case is a chat whose conversation moved
+(for example a `/resume`) while the card was being admitted: the retry lands on the conversation the chat now has.
+Like `inject_message`, the card is admitted from
+the gateway's own context, never the caller's: a card posted from a session fork's tool handler or from a
+hook inside a turn hands none of that turn's scopes to the session queue.
+
+Cards need the `conversation.cards` capability. Declare it in `plugin.yaml` and grant it on the consent
+screen. It is separate from `allow_gateway_injection` because a card runs no model and no tools, sends
+nothing to a platform, and puts no plugin-authored text in front of the model or a memory provider: the
+model is told a card was posted, never its text.
+
 ## Injecting Messages
 
 Plugins can inject messages into a CLI conversation, a known gateway session, or a new gateway session in a given chat using `ctx.inject_message()`:
@@ -17644,7 +17780,10 @@ Hooks, tools and injected turns of every chat and every local session (CLI, TUI,
 - `os.getcwd()` is the gateway's own directory, shared by every session; Hermes never changes it. Use `ctx.session_cwd()` for the working directory of the session the hook or tool runs for: the workspace a CLI/TUI/Desktop session was started in, or the profile's terminal cwd for a chat (`""` when there is none). Pass it as `cwd=` to subprocesses. It reads the session from the running turn, so it works in code that runs for a session: turn hooks, tool handlers and approval hooks. Ingress hooks such as `pre_gateway_dispatch` run before the message is admitted to any session; there it returns the profile's terminal cwd, or `""` when none is configured.
 - `ctx.session_surface()` names the calling session's client: `"cli"`, `"tui"`, `"desktop"`, `"acp"`, or the messaging platform (`"telegram"`, …); `""` outside a session.
 - `hermes_cli.plugin_session.session_client()` returns the client that created the calling local session, as it named itself on `session.create` (`{"name": "my-client", "version": "1.2.0"}`; `version` only when sent), or `None`: outside a session, for a messaging chat, and for a client that sent no name (the TUI, Desktop, the classic CLI and ACP send none today). Under `plugins.isolation: host` the plugin's process has no session context, so read `info["client"]` in a system prompt section instead. The name is a label the client chose, not an authentication: never grant anything, or skip a check, because of it.
-- `hermes_cli.plugin_session.turn_client()` (also `ctx.turn_client()`) returns the client that submitted the turn running now, as its connection announced itself (`{"name": "hermes-desktop", "version": "2.1.0", "kind": "desktop"}`; `version` and `kind` only when sent), or `None`: outside a turn, in a delegated child, for a client that announced nothing, and for a messaging, cron or other automation turn. `hermes_cli.plugin_session.session_viewers()` (also `ctx.session_viewers()`) lists the clients attached to the calling session right now, one dict per connection: `name` and `kind` (`None` when it announced nothing), `idle_seconds` since the user's last input there (`None` when none was seen), `basis` (`"system"`: the device's idle clock, `"page"`: input inside the Hermes window, `"input"`: only what the gateway saw itself) and `can_alert` (whether that client can get the user's attention itself; `None` while no report of that client counts for this session, and a report that leaves it out says `True`). It is `[]` when the calling code is bound to no session, in a delegated child, in a managed worker, and when the session is not live. Under `plugins.isolation: host` the two forms answer differently: the module-level `plugin_session.turn_client()` / `session_viewers()` run in the plugin's own process, which has no gateway and no turn, so they always return `None` / `[]` there, while `ctx.turn_client()` / `ctx.session_viewers()` call back into the gateway with the calling hook's context and answer as they would in-process. Use the `ctx` form in a plugin that may run hosted; the module-level form answers only inside the gateway process. Both read the calling context, so they answer for the right session in turn hooks such as `post_llm_call` and `on_session_end`. In the plugin's own slash command no turn is running: `turn_client()` is `None` there, and `session_viewers()` answers for the session the command was typed in. A notification plugin uses them to skip a phone alert while the user is active at the client that sent the turn. Detect them with `getattr(plugin_session, "turn_client", None)`. Like `session_client()`, these are labels and reports the clients chose: never grant anything on them.
+- `hermes_cli.plugin_session.turn_client()` (also `ctx.turn_client()`) returns the client that submitted the turn running now, as its connection announced itself (`{"name": "hermes-desktop", "version": "2.1.0", "kind": "desktop"}`; `version` and `kind` only when sent), or `None`: outside a turn, in a delegated child, for a client that announced nothing, and for a messaging, cron or other automation turn. `hermes_cli.plugin_session.session_viewers()` (also `ctx.session_viewers()`) lists the clients attached to the calling session right now, one dict per connection: `name` and `kind` (`None` when it announced nothing), `idle_seconds` since the user's last input there (`None` when none was seen), `basis` (`"system"`: the device's idle clock, `"page"`: input inside the Hermes window, `"input"`: only what the gateway saw itself) and `can_alert` (whether that client can get the user's attention itself; `None` while no report of that client counts for this session, and a report that leaves it out says `True`). It is `[]` when the calling code is bound to no session, in a delegated child, in a managed worker, and when the session is not live. `hermes_cli.plugin_session.turn_origin()` (also `ctx.turn_origin()`) names the Hermes producer of the turn running now, only where Hermes knows it: `"process_notification"` for a turn a background process's completion, watch match or liveness tick started, and `"delegation_result"` for an async delegation's result re-entering its parent session. It is `None` for every other turn, whoever started it: typed in a client (whether or not its connection announced itself), sent on a messaging chat, an API request, a Bot Chat delivery or `hermes peer dm`, a restart resuming an interrupted turn, a goal continuation, cron, Kanban and other automation wakes, a message a plugin injected, and a steer or interrupt text that runs as the next turn. It is `None` too outside a turn, in a delegated child, in a detached fork (a plugin fork, a side question or a background review: `fork_origin()` is not empty), in a managed worker and in a plugin's own slash command. Once a person's input joins the running turn (an accepted steer or redirect: Steer or `/steer` in a client, a steered or redirected chat message), it is `None` for the rest of that turn, since the reply now answers that person too; a steer that is refused changes nothing. More values may be added later, so compare against the ones you handle rather than testing for `None`. `turn_client()` is `None` both for a client that announced nothing and for a process or delegation wake; `turn_origin()` tells those two apart. Under `plugins.isolation: host` the two forms answer differently: the module-level `plugin_session.turn_client()` / `turn_origin()` / `session_viewers()` run in the plugin's own process, which has no gateway and no turn, so they always return `None` / `None` / `[]` there, while `ctx.turn_client()` / `ctx.turn_origin()` / `ctx.session_viewers()` call back into the gateway with the calling hook's context and answer as they would in-process. Use the `ctx` form in a plugin that may run hosted; the module-level form answers only inside the gateway process. Both read the calling context, so they answer for the right session in turn hooks such as `post_llm_call` and `on_session_end`. In the plugin's own slash command no turn is running: `turn_client()` is `None` there, and `session_viewers()` answers for the session the command was typed in. A notification plugin uses them to skip a phone alert while the user is active at the client that sent the turn. Detect them with `getattr(plugin_session, "turn_client", None)` (and `"turn_origin"`, which is newer). Like `session_client()`, these are labels and reports the clients chose: never grant anything on them.
+- `hermes_cli.plugin_session.session_source()` (also `ctx.session_source()`) returns the label the calling session was created with, its `source`: `"cli"`, `"tui"`, `"gui"` or `"acp"` for a chat opened in that client, `"tool"` for a run a third-party integration launched (`hermes chat --source tool`), `"oneshot"` for a finite `chat -q` / `-z` run. Any other non-empty value is a label Hermes gives a session it starts itself. It is a launch label, not proof that a person is waiting. `""` says only that no launch policy is bound, not who started the session: it is what you get outside a session, for a person's messaging chat turn (use `session_surface()` for the platform there) and for a cron run (use `ctx.current_cron_execution()` to recognize one). A delegated child reads its parent session's label. It reads only the running turn, never the process environment.
+- `hermes_cli.plugin_session.in_delegated_child()` (also `ctx.in_delegated_child()`) is `True` while the calling code runs for a `delegate_task` child, `False` otherwise. Pass `include_subprocesses=True` to also get `True` in a process a delegated child started, such as a terminal command it ran.
+- `hermes_cli.plugin_session.fork_origin()` (also `ctx.fork_origin()`) is `""` for a session's own agent and every other regular agent (CLI, gateway, cron, subagent). Inside a detached fork Hermes runs beside a turn it returns the fork's label: `"background_review"` (the self-improvement review), `"side_question"` (`/btw` or `ctx.side_question()`), or `"plugin_fork:<plugin id>"` for a fork started with `ctx.fork_session()`. A notification plugin uses these three to alert only for the user's own turn: `if ctx.in_delegated_child() or ctx.fork_origin(): return`. Under `plugins.isolation: host` use the `ctx` forms: they run in the gateway in the calling hook's context, while the module-level forms answer for the plugin's own process.
 - `print()` output goes to the gateway's `gateway-stdio.log`, not to your terminal. Use `logging` instead.
 - `input()` gets end-of-file: the gateway has no terminal. Ask through a tool result or a slash command.
 
@@ -18852,6 +18991,8 @@ error. A delivery failure does not count toward the job's `failure_streak`
 
 Semantics: `all` expands to every platform with a configured home channel. Zero is fine; the job simply produces no delivery targets and is recorded as a delivery failure upstream.
 
+A home channel saved in `config.yaml` for a platform whose plugin is not loaded in that profile (not installed, disabled, or a platform that moved out of core) cannot be reached by `all` or by the origin-less `origin` fallback. The run reports it in `last_delivery_error` and logs one warning naming the platform and the command that fixes it, instead of skipping it silently.
+
 `all` composes with explicit targets. `origin,all` delivers to the origin chat *plus* every other connected home channel, de-duplicating by `(platform, chat_id, thread_id)`.
 
 ### Telegram cron topic (`TELEGRAM_CRON_THREAD_ID`)
@@ -19663,7 +19804,7 @@ A `curl` that sends an `Authorization` header built from a secret variable is bl
 
 The `delegate_task` tool spawns child AIAgent instances with isolated context, inherited tool access, and their own terminal sessions. Each child gets a fresh conversation and works independently — only its final summary enters the parent's context.
 
-Top-level model calls run in the background automatically. Hermes returns a handle immediately so the conversation can continue, then posts the result back as a new message. An orchestrator subagent waits for its own workers so it can synthesize their results before returning.
+Top-level model calls run in the background wherever the session can receive a later message. Hermes returns a handle immediately so the conversation can continue, then posts the result back as a new message. One-shot runs, cron jobs, Kanban workers, stateless API requests and [inline gateway chats](#messaging-chats-without-interim-messages) wait for their children inside the call, as does a call made while the background pool is full. An orchestrator subagent waits for its own workers so it can synthesize their results before returning.
 
 ## Completion delivery
 
@@ -19682,7 +19823,7 @@ Setting background process notifications to `off` still drains pattern-watch eve
 
 ## Background process lifetime
 
-Background terminal processes belong to the agent that starts them. Closing a child during delegation teardown terminates its remaining processes, including work started in earlier turns, without stopping processes owned by the parent or sibling agents. Sharing a terminal environment does not transfer process ownership.
+Background terminal processes belong to the agent that starts them. Closing a child during delegation teardown terminates its remaining processes, including work started in earlier turns, without stopping processes owned by the parent or sibling agents. A process the child started with `persist_on_release=true` is left running. Sharing a terminal environment does not transfer process ownership.
 
 A child should wait for its builds, tests, and other bounded background commands before returning its final summary. Start a CI watcher or server in the parent session if it must continue after the child finishes; returning a process ID does not transfer ownership to the parent.
 
@@ -19715,7 +19856,7 @@ delegate_task(tasks=[
 
 ## Structured Output (`output_schema`)
 
-Each task can carry an optional `output_schema`, a JSON Schema object the child's final answer must validate against. The child sees the schema up front as an output contract ("return ONLY the JSON value — no prose, no code fence"); when the answer comes back the parent validates it, and on failure sends the child exactly one bounded correction turn carrying the validation errors verbatim (the schema is not re-pasted). The task's result then gains `schema_valid` (true/false) and, on failure, `schema_errors`.
+Each task can carry an optional `output_schema`, a JSON Schema object the child's final answer must validate against. The child sees the schema up front as an output contract ("Your FINAL response must be ONLY the JSON value that validates against this JSON Schema"); when the answer comes back the parent validates it, and on failure sends the child exactly one bounded correction turn carrying the validation errors verbatim, with the output contract and its schema appended again. The task's result then gains `schema_valid` (true/false) and, on failure, `schema_errors`.
 
 A contract miss after the retry does **not** discard the child's work: the result keeps `status: completed` with the child's raw final text in `summary`, `schema_valid: false`, the `schema_errors`, and a `schema_note` saying the text is unvalidated. The parent extracts what it needs from the raw text instead of re-running a task that may have taken an hour. Prose or a code fence around otherwise-valid JSON (object or array) is tolerated by the validator.
 
@@ -19744,7 +19885,7 @@ Keep schemas forgiving: require only the fields you will actually read. Tasks wi
 Subagents start with a **completely fresh conversation**. They have zero knowledge of the parent's conversation history, prior tool calls, or anything discussed before delegation. The subagent's only context comes from the `goal` and `context` fields the parent agent populates when it calls `delegate_task`.
 :::
 
-One exception: when the parent has a resolved workspace directory, every subagent's system prompt embeds that workspace's **project context files** (`.hermes.md` > AGENTS.md chain > CLAUDE.md > `.cursorrules` — the same discovery, priority, and size caps as the main agent's system prompt; SOUL.md is excluded). Subagents working in a repo operate under the repo's own conventions without having to rediscover them.
+One exception: when the parent has a resolved workspace directory, every subagent's system prompt embeds that workspace's **project context files** (`.hermes.md` > AGENTS.md chain > CLAUDE.md > `.cursorrules` — the same discovery and priority as the main agent's system prompt, each file capped at `context_file_max_chars` or 20,000 characters when that is unset; SOUL.md is excluded). Subagents working in a repo operate under the repo's own conventions without having to rediscover them.
 
 The `context` and `goal` arrive as the subagent's first user message, context first. Its system prompt carries nothing task-specific, so the subagents of one parent send an identical prompt prefix and can read each other's prompt cache, including a context they share. That first message is kept verbatim through context compression.
 
@@ -19846,7 +19987,7 @@ delegate_task(
 
 ## Batch Mode Details
 
-When a top-level agent provides a `tasks` array, Hermes returns one background handle and runs the subagents in parallel. By default the call returns **one** consolidated message once every task has finished. Results are delivered only between the parent's turns: the parent should finish anything that does not depend on the children, then end its turn rather than polling transcripts, artifacts, or CI while it waits.
+When a top-level agent provides a `tasks` array in a session that can receive a later message, Hermes returns one background handle and runs the subagents in parallel. By default the call returns **one** consolidated message once every task has finished. Results are delivered only between the parent's turns: the parent should finish anything that does not depend on the children, then end its turn rather than polling transcripts, artifacts, or CI while it waits.
 
 ### Independent completions (opt-in)
 
@@ -19859,7 +20000,7 @@ When independent completions are enabled:
 - A task gets its own `group` only when the parent will act on that result as soon as it lands. Each such result re-enters alone and costs the parent a turn.
 - Different groups report independently and can share one call. A task that arrives without a `group` (an older transcript, a model that ignores `required`) is still accepted and reports alone, as before.
 
-This is off by default because every unit is a new turn for the orchestrator: a 15-task call becomes up to 15 wake-ups, which fragmented long campaigns. Grouping controls **result delivery, not execution order**: all tasks still run in parallel. If task B needs task A's output to do its work, dispatch A first, then dispatch B with that output after A returns.
+This is off by default because every unit is a new turn for the orchestrator: a 10-task call becomes up to 10 wake-ups, which fragmented long campaigns. Grouping controls **result delivery, not execution order**: all tasks still run in parallel. If task B needs task A's output to do its work, dispatch A first, then dispatch B with that output after A returns.
 
 ```json
 {"tasks": [
@@ -19872,7 +20013,7 @@ This is off by default because every unit is a new turn for the orchestrator: a 
 
 The dispatch handle lists each unit (`units[].delegation_id`, `group`, `task_indexes`); unit ids are the call's id suffixed `-1`, `-2`, …, and every unit of one call shares a single slot of `delegation.max_concurrent_children`, so grouping never changes capacity accounting (the worker pool grows to the number of live units so no unit waits behind a full pool). An orchestrator subagent waits for its whole batch in the current turn so it can synthesize the results.
 
-- **Maximum concurrency:** 10 tasks by default (configurable via `delegation.max_concurrent_children` or the `DELEGATION_MAX_CONCURRENT_CHILDREN` env var; floor of 1, no hard ceiling). Batches larger than the limit return a tool error rather than being silently truncated.
+- **Maximum concurrency:** 10 tasks by default (configurable via `delegation.max_concurrent_children`; floor of 1, no hard ceiling). Batches larger than the limit return a tool error rather than being silently truncated.
 - **Thread pool:** Uses `ThreadPoolExecutor` with the configured concurrency limit as max workers
 - **Progress display:** In CLI mode, a tree-view shows tool calls from each subagent in real-time with per-task completion lines. In gateway mode, progress is batched and relayed to the parent's progress callback. CLI and TUI completion notices use task-first titles such as `Subagent Task Completed: Review changes`; multi-task groups use the group name and task count. Unsuccessful or incomplete work gets a corresponding status label. These compact notices do not replace the full results delivered to the parent agent.
 - **Result ordering:** Within a unit, results are sorted by task index to match input order regardless of completion order; `TASK i/N` labels index the whole call
@@ -19890,7 +20031,7 @@ consumers use a durable claim, so only the consumer that successfully accepts
 the synthetic turn acknowledges delivery; failed attempts release the claim for
 retry.
 
-This does not resume child execution after a crash. A delegation whose owner
+This does not resume child execution after a crash; resuming a child is `delegation.auto_resume`, off by default. A delegation whose owner
 process disappears while it is still running is recorded as `unknown`, because
 Hermes cannot prove whether its external side effects happened. Pending and
 delivered records are bounded and profile-local.
@@ -19917,7 +20058,7 @@ delegation:
 
 ### Handing a process to the parent
 
-A subagent's background processes are also **killed when the subagent finishes**, so a CI watcher or build a child starts with `notify=true` never reports to anyone. The child's `terminal` result says so (`notify_on_complete: false` plus a `subagent_note`), and the child has three honest options before it finishes:
+A subagent's background processes are also **killed when the subagent finishes** (unless the child started them with `persist_on_release=true`), so a CI watcher or build a child starts with `notify=true` never reports to anyone. The child's `terminal` result says so (`notify_on_complete: false` plus a `subagent_note`), and the child has three honest options before it finishes:
 
 - **wait** — `process_manage(action="wait", session_id=...)` and report the result itself;
 - **kill** — `process_manage(action="kill", ...)`;
@@ -19953,7 +20094,7 @@ delegation:
   provider: "openrouter"             # optional: route children to a different provider
 ```
 
-Resolution order: `delegation.base_url` (direct endpoint) takes precedence, then `delegation.provider` (full credential bundle resolved via the runtime provider system), and when neither is set children inherit the parent's provider and credentials; `delegation.model` applies in all cases, and when it is empty children inherit the parent's model. Setting `delegation.provider` alongside `delegation.base_url` keeps the explicit endpoint but carries that provider's request overrides and max output tokens into the child. An explicit `delegation.request_overrides` dict is honored on every branch and merges over those runtime-derived values (see [Configuration](#configuration) below).
+Resolution order: `delegation.base_url` (direct endpoint) takes precedence unless `delegation.provider` is a native-SDK provider (`bedrock`, `vertex`, `google`, `google-genai`), then `delegation.provider` (full credential bundle resolved via the runtime provider system), and when neither is set children inherit the parent's provider and credentials; `delegation.model` applies in all cases, and when it is empty children inherit the parent's model, except that a `delegation.provider` with its own default model supplies that one. Setting `delegation.provider` alongside `delegation.base_url` keeps the explicit endpoint but carries that provider's request overrides into the child. An explicit `delegation.request_overrides` dict is honored on every branch and merges over those runtime-derived values (see [Configuration](#configuration) below).
 
 Note that the pin is global: with the default strategy `delegate_task` has no per-task model parameter, so every child in a batch runs on the configured delegation model. For quality-sensitive subtasks that need a stronger model, either leave `delegation.model` unset for that session, use a delegation strategy plugin (below), or hand the task to the [kanban board](kanban.md#per-task-model-override), which does support a per-task model override.
 
@@ -20014,16 +20155,16 @@ What happens:
 
 1. The last 10 user/assistant messages are snapshotted as the reviewer's starting evidence (tool output and system messages are excluded). On the gateway they come from the session's stored transcript when its agent has been released (after `agent.agent_cache.idle_ttl_secs` of idling, one hour by default), so `/review` works on a session you left alone without sending a message first.
 2. A reviewer subagent is dispatched on the same background delegation rail as `delegate_task` — it gets the full normal subagent toolset (terminal, web, files, browser...), so it actually opens the PR, reads the diff, and runs code rather than judging from the excerpt.
-3. The reviewer inherits the primary agent's working context: any skills the primary agent had loaded (launch-preloaded or via `skill_view` during the session) are named in its briefing with an instruction to load them and judge the work against their conventions. Like every subagent, its system prompt also embeds the workspace's project context files (AGENTS.md / CLAUDE.md / .cursorrules) as binding conventions.
+3. The reviewer inherits the primary agent's working context: up to eight skills the primary agent had loaded (launch-preloaded or via `skill_view` during the session) are named in its briefing with an instruction to load them and judge the work against their conventions. Like every subagent, its system prompt also embeds the workspace's project context files (AGENTS.md / CLAUDE.md / .cursorrules) as binding conventions.
 4. When it finishes, its full review re-enters the same session as a normal background-subagent completion — your primary agent sees it and can act on it (fix the findings, push follow-ups, reply to you).
 
 The canonical flow: your main agent opens a PR, you type `/review`, and a second pair of eyes investigates it while you keep working; the review lands back in the chat addressed to the agent that created the PR.
 
-Dispatch prints only “Review started. Results will return here.” The live subagent viewer identifies the worker as **Review: your focus** (or **Review recent work** for bare `/review`), with a shortened single-line label; the reviewer still receives your full instructions. In the classic CLI, the dock above the composer shows elapsed time and latest activity; **Ctrl+T** (or **F6**) opens the roster with its model, transcript, steering, and stop controls. The same review label appears in the TUI and Desktop subagent viewers.
+Dispatch prints only “Review started. Results will return here.” A session that cannot receive a later message runs the review inside the command and prints its result instead. The live subagent viewer identifies the worker as **Review: your focus** (or **Review recent work** for bare `/review`), with a shortened single-line label; the reviewer still receives your full instructions. In the classic CLI, the dock above the composer shows elapsed time and latest activity; **Ctrl+T** (or **F6**) opens the roster with its transcript, steering, and stop controls. The same review label appears in the TUI and Desktop subagent viewers.
 
 ### Review model
 
-By default the reviewer runs on your main model. To pin a dedicated review model, set `auxiliary.review` in `config.yaml`:
+By default the reviewer is routed like any other subagent: on `delegation.model` / `delegation.provider` when those are set, otherwise on your main model. To pin a dedicated review model, set `auxiliary.review` in `config.yaml`:
 
 ```yaml
 auxiliary:
@@ -20041,11 +20182,11 @@ Credentials resolve exactly like a `delegation.provider` pin (full runtime-provi
 `delegate_task` does not accept a model-facing `toolsets` parameter. Each subagent inherits the parent's enabled toolsets so the model cannot grant a child capabilities that the parent does not have. Configure the parent's tools before starting the conversation if delegated work needs additional capabilities.
 
 Certain tools are blocked for subagents even when the parent has them:
-- `delegate_task` — blocked for leaf subagents (the default). Retained for `role="orchestrator"` children, bounded by `max_spawn_depth` — see [Depth Limit and Nested Orchestration](#depth-limit-and-nested-orchestration) below.
+- `delegate_task` — blocked for leaf subagents (the default). A child above the leaf depth keeps it when `max_spawn_depth` is 2 or more — see [Depth Limit and Nested Orchestration](#depth-limit-and-nested-orchestration) below.
 - `clarify` — subagents cannot interact with the user
 - `memory` — no writes to shared persistent memory
 - `send_message` — no cross-platform side effects
-- `cronjob` — no scheduling more work in the parent's name
+- `cronjob_manage` — no scheduling more work in the parent's name
 
 Both roles retain `execute_code` (programmatic tool calling) so children can batch mechanical work.
 
@@ -20094,19 +20235,19 @@ provider from a runaway), and `timeout_phase`
 
 A subagent that fails — non-retryable provider error (404/400), timeout, crash, or no usable output — is never silent:
 
-- **CLI**: the delegation tree prints a one-line reason: `⚠️ Subagent failed — "your goal": HTTP 404: model not found (after 12s)`. Batch runs append the reason to the per-task `✗` completion line.
+- **CLI**: the delegation tree prints a one-line reason: `⚠️ Subagent failed — "your goal" after 12s: <reason>. Details: /agents, or ask me to retry with a smaller task.` A timeout prints `⚠️ Subagent timed out — "your goal" after 12s without finishing.` with the same kind of next step. Batch runs append the reason to the per-task `✗` completion line.
 - **Gateway platforms** (Telegram, Discord, Slack, ...): the same clean line is delivered as a standalone chat notice, **even when `tool_progress` is off** for that platform.
-- **Parent agent**: the tool result entry carries `status: "failed"` plus the full `error` text, so the model can react (retry, re-route, report).
+- **Parent agent**: the tool result entry carries `status` `"failed"`, `"error"` (a crash) or `"timeout"` plus the full `error` text, so the model can react (retry, re-route, report).
 
 Error text is reduced to the single most informative line (the exception message, not a traceback wall) and capped in length.
 
 :::tip Diagnostic dump on zero-call timeout
-With a hard cap configured, if a subagent times out having made **zero** API calls (usually: provider unreachable, auth failure, or tool-schema rejection), `delegate_task` writes a structured diagnostic to `~/.hermes/logs/subagent-timeout-<session>-<timestamp>.log` containing the subagent's config snapshot, credential-resolution trace, any early error messages, and stack traces for **all** live threads (not just the child's own) — a child parked waiting on a nested helper thread is indistinguishable from a slow provider without the full picture.
+If a subagent times out having made **zero** API calls (usually: provider unreachable, auth failure, or tool-schema rejection), `delegate_task` writes a structured diagnostic to `~/.hermes/logs/subagent-timeout-<subagent_id>-<timestamp>.log` containing the subagent's config snapshot, toolsets, prompt and schema sizes, activity summary, and stack traces for the worker and other live threads (not just the child's own) — a child parked waiting on a nested helper thread is indistinguishable from a slow provider without the full picture.
 :::
 
 ## Stall Detection for Background Subagents
 
-Background delegations (`delegate_task(background=true)`) are watched by a
+Background delegations are watched by a
 **progress-based stall monitor** — on by default, zero config. Unlike a
 wall-clock timeout, it never touches a child that is making progress, no
 matter how long it runs.
@@ -20151,7 +20292,7 @@ The TUI ships a `/agents` overlay (alias `/tasks`) that turns recursive `delegat
 
 ### Live activity above the composer
 
-The classic CLI, TUI, and Desktop automatically show live subagents above the composer. You can keep writing while watching the live count, task names, elapsed time, and latest activity. The terminal dock limits visible rows according to screen height and shows how many additional workers are hidden; Desktop previews up to three workers.
+The classic CLI, TUI, and Desktop automatically show live subagents above the composer (Desktop's Simple interface mode hides the section). You can keep writing while watching the live count, task names, elapsed time, and latest activity. The terminal dock limits visible rows according to screen height and shows how many additional workers are hidden; Desktop lists every live worker in a scrolling section.
 
 | Surface | Expand and inspect | Control a selected worker |
 |---|---|---|
@@ -20169,19 +20310,23 @@ The live transcript tail is a bounded recent excerpt, not an unlimited conversat
 
 The classic CLI's `/agents` and `/tasks` commands still print a text summary; **Ctrl+T** (or **F6**) is the immediate interactive monitor, including while the parent is busy. See [TUI — Slash commands](../tui.md#slash-commands).
 
-On the classic CLI and every gateway platform (Telegram, Discord, Slack, ...),
+On every gateway platform (Telegram, Discord, Slack, ...),
 `/agents` also lists **background delegations with live per-child activity**,
 sampled directly from each running child:
 
 ```
-Background delegations: 1 running
-- deleg_ab12cd34 · running · research the delegation stall monitor
-  - child 1: 4 api calls · in web_search · active 12s ago
+**Background delegations:** 1
+- `deleg_ab12cd34` · running · research the delegation stall monitor
+  - child 1: 4 api calls · `web_search` · active 12s ago
   - child 2: 7 api calls · between turns · active 3s ago
 ```
 
+The classic CLI prints its own form of these rows when it runs the agent in
+its own process, and only the count (`Background delegations: 1 running`) when it is
+attached to a gateway session.
+
 A delegation the stall monitor has flagged shows as
-`stalling · no progress 450s — interrupting`, and long-quiet-but-healthy
+`stalling · no progress 450s`, and long-quiet-but-healthy
 children show their quiet time so you can tell "slow" from "stuck" at a
 glance.
 
@@ -20221,7 +20366,7 @@ A resumable child's worktree (where its terminal was when it stopped, plus any w
 
 ### Automatic resume (`delegation.auto_resume`, opt-in)
 
-With `delegation.auto_resume: true` the gateway continues stopped background children on its own, through the same claim and `continue` path as `action='continue'`, on the child's own conversation and worktree, with a message naming the real cause ("Your run was stopped by a provider limit; continue where you left off."). A gateway checks every profile it serves every 15 seconds, each under that profile's own configuration, credentials and `state.db`.
+With `delegation.auto_resume: true` the gateway continues stopped background children on its own, through the same claim and `continue` path as `action='continue'`, on the child's own conversation and worktree, with a message naming the real cause ("Your run was stopped by a provider limit (rate_limit); continue where you left off."). A gateway checks every profile it serves every 15 seconds, each under that profile's own configuration, credentials and `state.db`.
 
 - **What resumes:** `AUTO_AT` children once their limit's reset time has passed, and `AUTO_ON_BOOT` children (gateway shutdown, crash, hard kill) once the gateway is back up.
 - **What never resumes:** `ON_FIX`, `REPAIR_THEN_CONTINUE` and `HANDOFF` children (credits, auth, model not found, refusals, deterministic request errors), children you or the parent stopped, children whose stop did not promise a resume (stopped while `auto_resume` was off, or under a parent no gateway serves, such as a classic local CLI: those get the manual `continue` hint), expired records, records whose worktree pin was dropped by `max_resumable`, and nested children (an orchestrator subagent's own workers; that orchestrator resumes instead).
@@ -20240,7 +20385,7 @@ With `delegation.auto_resume: true` the gateway continues stopped background chi
 
 ### From the TUI / gateway (session-facing)
 
-`steer_subagent(subagent_id, text)` in `tools/delegate_tool_registry.py` is the redirection-side mirror of `interrupt_subagent()`: it queues text into a live child through the same mechanism as [`/steer`](../../reference/slash-commands.md) — the text is appended to the child's last tool result at its next iteration boundary, the in-flight tool call is never cut, and the child sees it as an out-of-band user message. Programmatic hosts reach it through the session-scoped `subagent.steer` gateway RPC, which sits beside `subagent.interrupt`:
+`steer_subagent(subagent_id, text)` in `tools/delegate_tool_registry.py` is the redirection-side mirror of `interrupt_subagent()`: it queues text into a live child through the same mechanism as [`/steer`](../../reference/slash-commands.md) — the text is delivered as a user message after the child's current tool batch, the in-flight tool call is never cut, and the child sees it as an out-of-band user message. Programmatic hosts reach it through the session-scoped `subagent.steer` gateway RPC, which sits beside `subagent.interrupt`:
 
 ```json
 {"method": "subagent.steer", "params": {"session_id": "owning-ui-session", "subagent_id": "sa-0-1a2b3c4d", "text": "focus on pricing instead"}}
@@ -20270,25 +20415,22 @@ The dispatch response includes the paths as `live_transcripts`, and the files ar
 tail -f ~/.hermes/cache/delegation/live/deleg_ab12cd34/task-0.log
 ```
 
-Each line is timestamped and shows the child's assistant text, thinking snippets, tool calls (`-> tool_name({args})`), tool results, and a final status marker. A `manifest.json` in the same directory describes the batch (goals, task count, per-task status). The logs persist after completion — they double as the full-fidelity operational record alongside the summary — and directories older than 7 days are pruned automatically on new dispatches. Because they live under `cache/delegation`, they are also readable from remote terminal backends (Docker/Modal/SSH).
+Each line is timestamped and shows the child's assistant text, thinking snippets, tool calls (`-> tool_name({args})`), tool results, and a final status marker. A `manifest.json` in the same directory describes the batch (goals, task count, per-task status). The logs persist after completion — they are a compact operational record alongside the summary (long lines are truncated and credentials redacted; the child's stored session holds the full text) — and directories older than 7 days are pruned automatically on new dispatches. Because they live under `cache/delegation`, they are also readable from remote terminal backends (Docker/Modal/SSH).
 
 ## Depth Limit and Nested Orchestration
 
 By default, delegation is **flat**: a parent (depth 0) spawns children (depth 1), and those children cannot delegate further. This prevents runaway recursive delegation.
 
-For multi-stage workflows (research → synthesis, or parallel orchestration over sub-problems), a parent can spawn **orchestrator** children that *can* delegate their own workers:
+For multi-stage workflows (research → synthesis, or parallel orchestration over sub-problems), raise `delegation.max_spawn_depth` so children become **orchestrators** that *can* delegate their own workers:
 
-```python
-delegate_task(
-    goal="Survey three code review approaches and recommend one",
-    role="orchestrator",  # Allows this child to spawn its own workers
-    context="...",
-)
+```yaml
+delegation:
+  max_spawn_depth: 2   # children (depth 1) may spawn leaf grandchildren (depth 2)
 ```
 
-- `role="leaf"` (default): child cannot delegate further — identical to the flat-delegation behavior.
-- `role="orchestrator"`: child retains the `delegation` toolset. Gated by `delegation.max_spawn_depth` (default **1** = flat, so `role="orchestrator"` is a no-op at defaults). Raise `max_spawn_depth` to 2 to allow orchestrator children to spawn leaf grandchildren; 3+ for deeper trees. There is no upper ceiling — cost is the practical limit.
-- `delegation.orchestrator_enabled: false`: global kill switch that forces every child to `leaf` regardless of the `role` parameter.
+- The runtime decides from depth: a child keeps the `delegation` toolset while its depth is below `max_spawn_depth`. `delegate_task` has no `role` parameter; a call that still passes one is accepted and the value is ignored.
+- `max_spawn_depth: 1` (default): flat, every child is a leaf. `2` lets children spawn leaf grandchildren; 3+ allows deeper trees. There is no upper ceiling — cost is the practical limit.
+- `delegation.orchestrator_enabled: false`: global kill switch that makes every child a leaf regardless of `max_spawn_depth`.
 
 **Cost warning:** With `max_spawn_depth: 3` and `max_concurrent_children: 3`, the tree can reach 3×3×3 = 27 concurrent leaf agents. Each extra level multiplies spend — raise `max_spawn_depth` intentionally.
 
@@ -20352,7 +20494,7 @@ Nested delegation is unchanged.
 
 Inline turns that run past `agent.gateway_notify_interval` (180 seconds by default) still
 get the periodic "still working" notice, which `display.long_running_notifications`
-controls separately and which is on by default for Telegram, Slack, Discord and WhatsApp.
+controls separately and which is on by default for Telegram, Discord and WhatsApp, and off for Slack.
 For a single message per turn, also set it to `off` for that platform (`generic` only
 changes the notice's wording):
 
@@ -20382,24 +20524,24 @@ and delegation follows the schema the model sees.
 Top-level model-facing `delegate_task` calls run in the background automatically where the session supports later delivery. Hermes returns a handle immediately, and the result re-enters the conversation after the child or batch finishes. Orchestrator subagents wait for their workers in the current turn because they must synthesize those results before returning. Stateless request/response endpoints fall back to synchronous execution when they cannot deliver a detached result later.
 
 - Normal follow-up messages do not cancel background children, and neither does stopping the current turn: Ctrl+C, Esc, the Desktop/TUI Stop button and an ACP cancel end only the turn. The `/stop` command (gateway `/stop` — also when the session is idle after the dispatching turn ended — or CLI `/stop`) ends the session's running background delegations, and closing or resetting the owning session does the same.
-- Explicit session close/reset interrupts that session's background children. In the CLI and TUI, the gateway owns the session and the client only views it: when the last viewer exits or runs `/new` (a TUI resume switch counts too), the gateway interrupts that session's background children at once and refuses new ones for it until a viewer opens the session again. A plain detach cancels nothing: closing Desktop, a dropped connection, or exiting while another viewer is still attached leaves the work running. Background processes (`terminal(background=True)`) keep running either way.
-- A background child's final result (including an interrupted one) or a `notify_on_complete` process exit for a CLI, TUI, Desktop or web session runs as the parent's turn whether or not a viewer is attached, so the work carries on while your laptop sleeps, the connection drops or the tab is closed. Results for a chat you closed (exit, `/new`, or a TUI resume or branch switch) are written into that session as a note instead, and the next turn reads it (for example after `hermes chat --resume`). A watch-pattern notice, the early per-task failure notice and a manual cron run's result (`cronjob(action='run')`) are also notes while no viewer is attached. A result with a failed child (an error, a timeout, a provider refusal, a stuck child a stall watchdog had to stop, or an unknown outcome after a restart) wakes the parent at most three times in a row while nobody is watching: a further failure is written as a note until you attach or send a message, so a parent that keeps re-dispatching into the same failure cannot loop. Successful results and `notify_on_complete` process exits (whatever their exit code) have no such limit. When a child failed for a reason that repeats on the same model (a safety-filter refusal `content_policy_blocked`, billing, authentication, an unknown model), the result tells the parent not to re-dispatch it unchanged: use a different model, or report it. Messaging chats have no viewers and are unchanged: their completions still start a turn.
-- A Hermes process restart does **not** resume a running child. Its attempt becomes `unknown` because Hermes cannot prove which side effects happened.
+- Explicit session close/reset interrupts that session's background children. In the CLI and TUI, the gateway owns the session and the client only views it: when the last viewer exits or runs `/new` (a TUI resume switch counts too), the gateway interrupts that session's background children at once and refuses new ones for it until a viewer opens the session again. A plain detach cancels nothing: closing Desktop, a dropped connection, or exiting while another viewer is still attached leaves the work running. Background processes (`terminal(background=true)`) end when their session ends, unless they were started with `persist_on_release=true`.
+- A background child's final result (including an interrupted one) or a `notify_on_complete` process exit for a CLI, TUI, Desktop or web session runs as the parent's turn whether or not a viewer is attached, so the work carries on while your laptop sleeps, the connection drops or the tab is closed. Results for a chat you closed (exit, `/new`, or a TUI resume or branch switch) are written into that session as a note instead, and the next turn reads it (for example after `hermes chat --resume`). A watch-pattern notice, the early per-task failure notice and a manual cron run's result (`cronjob_manage(action='run')`) are also notes while no viewer is attached. A result with a failed child (an error, a timeout, a provider refusal, a stuck child a stall watchdog had to stop, or an unknown outcome after a restart) wakes the parent at most three times in a row while nobody is watching: a further failure is written as a note until you attach or send a message, so a parent that keeps re-dispatching into the same failure cannot loop. Successful results and `notify_on_complete` process exits (whatever their exit code) have no such limit. When a child failed for a reason that repeats on the same model (a safety-filter refusal `content_policy_blocked`, billing, authentication, an unknown model), the result tells the parent not to re-dispatch it unchanged: use a different model, or report it. Messaging chats have no viewers and are unchanged: their completions still start a turn.
+- A Hermes process restart does **not** resume a running child unless `delegation.auto_resume` is on. Its attempt becomes `unknown` because Hermes cannot prove which side effects happened. The child stays continuable with `action="continue"` for `delegation.resumable_ttl_hours`.
 - A child that completed before restart but whose result was not delivered is restored and routed back through the owning session's normal checks.
 - Stopped children return a structured result (`status="interrupted"`, `exit_reason="interrupted"`) whose `summary` is the last text the child produced before the stop (the interrupt placeholder moves to `error`). The stop recurses down the spawn tree — an orchestrator child's synchronous workers are interrupted first and their partial results roll up into the child's own interrupted result — and each background unit's result re-enters the conversation right away as its normal completion notice (`Subagent Task Interrupted: …`), so nothing waits for the child to exhaust its budget.
 
 For **durable execution** that must survive session closure or process restart, use:
 
-- `cronjob` (action=`create`) — schedules a separate agent run; immune to parent-turn interrupts.
-- `terminal(background=True, notify_on_complete=True)` — long-running shell commands that keep running while the agent does other things.
+- `cronjob_manage` (action=`create`) — schedules a separate agent run; immune to parent-turn interrupts.
+- `terminal(background=true, persist_on_release=true)` — a shell command that outlives its session (session end, `/new`, compression). A gateway or host shutdown still ends it.
 :::
 
 ## Key Properties
 
 - Each subagent gets its **own terminal session** (separate from the parent)
 - Subagents inherit the parent's enabled toolsets; the model cannot select or widen them per call
-- **Nested delegation is opt-in** — only `role="orchestrator"` children can delegate further, and only when `max_spawn_depth` is raised from its default of 1 (flat). Disable globally with `orchestrator_enabled: false`.
-- Leaf subagents **cannot** call: `delegate_task`, `clarify`, `memory`, `send_message`, `cronjob`. Orchestrator subagents retain `delegate_task` but keep the other blocks. Both roles retain `execute_code` (programmatic tool calling) so children can batch mechanical work instead of burning reasoning iterations.
+- **Nested delegation is opt-in** — children can delegate further only when `max_spawn_depth` is raised from its default of 1 (flat); the runtime decides from depth. Disable globally with `orchestrator_enabled: false`.
+- Leaf subagents **cannot** call: `delegate_task`, `clarify`, `memory`, `send_message`, `cronjob_manage`. Orchestrator subagents retain `delegate_task` but keep the other blocks. Both roles retain `execute_code` (programmatic tool calling) so children can batch mechanical work instead of burning reasoning iterations.
 - **Cancellation follows ownership** — `/stop` or closing/resetting the owning session ends its background children and the synchronous descendants beneath them; each returns an interrupted completion carrying its partial output
 - Only the final summary enters the parent's context, keeping token usage efficient
 - Subagents inherit the parent's **API key, provider configuration, and credential pool** (enabling key rotation on rate limits)
@@ -20428,7 +20570,10 @@ With isolation on:
   `path`, `branch`, `commits` (ahead of the base), and `dirty`. The parent
   reviews or merges each branch (`git log <branch>`, `git merge <branch>`).
 - A worktree left with **no commits and a clean tree is pruned automatically**
-  (`pruned: true`); anything holding work is kept.
+  (`pruned: true`). A worktree holding commits or uncommitted edits is
+  archived to a `refs/hermes/archive/…` ref and removed, with its branch kept;
+  the entry's `note` gives the `hermes worktree restore` command. With
+  `worktrees.archive_dirty: false` such a worktree stays on disk.
 - Pruning requires proof. If a git inspection probe fails — or finalization
   itself errors — the worktree and branch are kept and the entry carries
   `inspection_failed: true` plus a `note` — `commits`/`dirty` are then
@@ -20472,7 +20617,6 @@ delegation:
   # auto_resume_deadline_minutes: 360       # Give up (one failure to the parent) this long after a child's first stop
   model: "google/gemini-3-flash-preview"             # Optional provider/model override
   provider: "openrouter"                             # Optional built-in provider
-  api_mode: anthropic_messages                       # optional; auto-detected from base_url for anthropic_messages endpoints
 
 # Or use a direct custom endpoint instead of provider:
 delegation:
@@ -20604,22 +20748,22 @@ They look similar; they are not the same primitive.
 
 | | `delegate_task` | Kanban |
 |---|---|---|
-| Shape | RPC call (fork → join) | Durable message queue + state machine |
-| Parent | Blocks until child returns | Fire-and-forget after `create` |
+| Shape | Tool call that runs child agents inside the calling session | Durable message queue + state machine |
+| Parent | Gets a handle at once and the result as a later message. Sessions that cannot receive a later message (one-shot runs, cron jobs, Kanban workers) and nested orchestrators wait in the call | Gets a task id at once. A gateway, TUI or Desktop chat that creates a task is subscribed to its completion and block events by default; a classic CLI, cron or scripted create is not, and the result's `subscribed` flag says which |
 | Child identity | Anonymous subagent | Named profile with persistent memory |
-| Resumability | None — failed = failed | Block → unblock → re-run; crash → reclaim |
-| Human in the loop | Not supported | Comment / unblock at any point |
-| Agents per task | One call = one subagent | N agents over task's life (retry, review, follow-up) |
-| Audit trail | Lost on context compression | Durable rows in SQLite forever |
-| Coordination | Hierarchical (caller → callee) | Peer — any profile reads/writes any task |
+| Resumability | A finished or stopped child continues on its own conversation with `action="continue"`. Automatic resume is opt-in (`delegation.auto_resume`) | Block → unblock → re-run; crash → reclaim |
+| Human in the loop | The child cannot ask questions. You can steer or stop it while it runs | Comment / unblock at any point |
+| Agents per task | One subagent per task; one call takes several tasks | N agents over task's life (retry, review, follow-up) |
+| Audit trail | Each child's transcript is stored as a session under the parent's. The parent's context holds only the child's summary | Rows in SQLite until the task is deleted. `hermes kanban gc` prunes old events of done and archived tasks |
+| Coordination | Hierarchical (caller → callee) | Any profile reads and comments on any task on the board. A dispatched worker changes only its own card |
 
-**One-sentence distinction:** `delegate_task` is a function call; Kanban is a work queue where every handoff is a row any profile (or human) can see and edit.
+**One-sentence distinction:** `delegate_task` runs child agents inside one conversation and returns their summaries to it; Kanban is a work queue where every handoff is a row any profile (or human) can read.
 
 :::caution Don't link a support card to the card it is meant to unblock
 A worker that is blocked on `t_parent` and creates a support card for the missing piece must **not** `kanban_link(t_parent, t_support)`: the link makes the support card a *child* of the blocked parent, so it is gated behind the parent it exists to unblock and neither card ever runs. Reference the parent id in the support card's body instead. `link`/`kanban_link` report `gated: true` and record a `dependency_wait` event when they demote a `ready` child (and `kanban_create` with `parents` does the same when it parks the new card), so the deadlock is visible on the board; `hermes kanban unlink <parent> <child>` releases it.
 :::
 
-**Use `delegate_task` when** the parent agent needs a short reasoning answer before continuing, no humans involved, result goes back into the parent's context.
+**Use `delegate_task` when** the result belongs in the parent's own context, the work can end with the session, and no other profile or person needs to pick it up.
 
 **Use Kanban when** work crosses agent boundaries, needs to survive restarts, might need human input, might be picked up by a different role, or needs to be discoverable after the fact.
 
@@ -28563,7 +28707,12 @@ probes (default 3), housekeeping, the cron scheduler and the embedded kanban
 dispatcher have all frozen with it, so the watchdog dumps every thread's stack
 to the log, stamps `gateway_state.json` with `gateway_state: degraded` and
 `exit_reason: loop_liveness_watchdog`, and exits with code `75` so the service
-supervisor restarts the process. `hermes gateway status` renders that record as
+supervisor restarts the process. The dump and the stamp are best effort: if
+writing them stalls in Python (a full stderr pipe, a wedged log handler, a held
+status lock), the watchdog still exits within about 5 seconds, and the stamp
+may be missing or partial. The dump file itself is written by `faulthandler`,
+which holds the interpreter lock while it writes, so a disk that stops
+answering mid-dump can still hold the process until the write returns. `hermes gateway status` renders that record as
 `⚠ Gateway exited degraded: event loop stopped dispatching …` until a new
 gateway process overwrites it, and the dashboard's gateway badge shows
 **Degraded** with the same reason. Set `gateway.loop_watchdog: false` in
@@ -28601,10 +28750,13 @@ behavior. This setting is Linux/systemd-only and does not treat an ordinary
 platform network disconnect as an event-loop failure.
 
 Under `Type=notify` the gateway reports ready only after every served profile's
-adapters connect, one profile at a time. Before each secondary profile's
-connect it sends systemd `EXTEND_TIMEOUT_USEC` for that connect's budget plus
-a margin. A large multi-profile boot can therefore run past systemd's default
-90 s start timeout, while a boot that stops making progress is still killed.
+adapters have made their first connect attempt. Secondary profiles are prepared
+one at a time, then connect together in waves that never put two profiles on
+one bot token or listener. Before each preparation step and before each
+connect wave the gateway sends systemd `EXTEND_TIMEOUT_USEC` for the largest
+connect budget involved plus a margin. A large multi-profile boot can therefore
+run past systemd's default 90 s start timeout, while a boot that stops making
+progress is still killed.
 
 ## Chat Commands (Inside Messaging)
 
@@ -28720,6 +28872,7 @@ Details:
 - Lookup order is exact channel/thread id first, then the **parent** channel/forum id — so Discord threads inherit their parent channel's override automatically.
 - Resolution priority for the model is: session `/model` override → `channel_overrides` → global config. A user running `/model` in a chat still wins over the channel default.
 - The `system_prompt` override replaces the global gateway prompt for that channel (it is ephemeral — injected per turn, not stored in history).
+- `idle_compact_after_seconds` sets [`compression.idle_compact_after_seconds`](../configuration.md#context-compression) for that channel only: a positive value compacts this channel's idle chats after that many seconds (in the background, before the next message), `0` turns idle compaction off there even when the global value is on. Unset keeps the global value. It is a channel policy, so it also applies after `/new`; like the other `channel_overrides` fields, an edit takes effect after a gateway restart.
 
 ## Per-Platform and Per-Room Intentional Silence
 
@@ -42177,7 +42330,8 @@ Your request
   → Pick key from pool (round_robin / least_used / fill_first / random)
   → Send to provider
   → 429 rate limit?
-      → Plan/usage limit reached (e.g. ChatGPT/Codex "usage limit reached")?
+      → Plan/usage limit reached (e.g. ChatGPT/Codex "usage limit reached", or a Claude plan
+        window the response marks `rejected`)?
           → Rotate to next pool key immediately (no retry — the cap won't clear on retry)
       → Generic / transient 429?
           → Retry same key once (transient blip)
@@ -42354,7 +42508,7 @@ The pool handles different errors differently:
 
 | Error | Behavior | Cooldown |
 |-------|----------|----------|
-| **429 Rate Limit** | Retry same key once (transient). Second consecutive 429 rotates to next key | 1 hour |
+| **429 Rate Limit** | Retry same key once (transient). Second consecutive 429 rotates to next key; a usage-limit or rejected Claude plan-window 429 rotates at once (see below) | 1 hour, or the provider's reset |
 | **402 Billing/Quota** | Immediately rotate to next key | 1 hour |
 | **401 Auth Expired** | Try refreshing the OAuth token first. Rotate only if refresh fails | 5 minutes |
 | **400 Codex model entitlement** (`The '<model>' model is not supported when using Codex with a ChatGPT account.`) | Bench this key for the rejected model only and rotate to the next key; other models keep using the key. Other 400s never rotate | Until `hermes auth reset` (per model; an entitlement is a plan property, not a window) |
@@ -42375,6 +42529,11 @@ does not trigger this; an explicit `/model` switch cancels a pending switch-back
 one Claude model cools that credential down for *that model only* — the same key keeps serving every
 other Claude model, and `ANTHROPIC_API_KEY` / borrowed Claude Code tokens honour the same per-model
 cooldown. Billing (`402`, usage-limit) and auth (`401`) failures still bench the whole credential.
+A Claude subscription 429 that names a spent plan window (`anthropic-ratelimit-unified-status: rejected`,
+window in `anthropic-ratelimit-unified-representative-claim`) rotates on the first 429 instead of retrying
+the spent seat. An account-wide window (`five_hour`, `seven_day`) benches the whole credential, for every
+model, until the window's `anthropic-ratelimit-unified-reset`; a model-family window (`seven_day_opus`, …)
+benches that model only.
 
 **A dead OAuth login is reported, not benched.** When a refresh token is rejected for good
 (`invalid_grant`, `invalid_token`, `refresh_token_reused` — the token was revoked, or another program
@@ -45979,7 +46138,7 @@ For the full feature reference, see [Subagent Delegation](../user-guide/features
 - Mechanical multi-step work with logic between steps → `execute_code`
 - Tasks needing user interaction → subagents can't use `clarify`
 - Quick file edits → do them directly
-- Durable long-running work that must survive session closure or process restart → `cronjob_manage` or `terminal(background=True, notify_on_complete=True)`. Top-level delegation is asynchronous but still process-local.
+- Durable long-running work that must survive session closure or process restart → `cronjob_manage` (survives both), or `terminal(background=true, persist_on_release=true)` (survives session closure; a gateway or host shutdown ends it). Top-level delegation is asynchronous but still process-local.
 
 ---
 
@@ -46155,7 +46314,7 @@ Subagents inherit the parent's enabled toolsets. `delegate_task` does not accept
 ## Constraints
 
 - **Default 10 parallel tasks**: batches default to 10 concurrent subagents (configurable via `delegation.max_concurrent_children` in config.yaml, no hard ceiling, only a floor of 1)
-- **Nested delegation is opt-in**: leaf subagents (default) cannot call `delegate_task`, `clarify`, `memory`, or `execute_code`. Orchestrator subagents (`role="orchestrator"`) retain `delegate_task` for further delegation, but only when `delegation.max_spawn_depth` is raised above the default of 1 (floor 1, no ceiling); the other three remain blocked. Disable globally via `delegation.orchestrator_enabled: false`.
+- **Nested delegation is opt-in**: leaf subagents (default) cannot call `delegate_task`, `clarify`, `memory`, `send_message`, or `cronjob_manage`. When `delegation.max_spawn_depth` is raised above the default of 1 (floor 1, no ceiling), children above the leaf depth keep `delegate_task` for further delegation; the other four remain blocked. Disable globally via `delegation.orchestrator_enabled: false`.
 
 ### Tuning Concurrency and Depth
 
@@ -46172,10 +46331,10 @@ delegation:
   max_spawn_depth: 2
 ```
 
-- **Separate terminals** — each subagent gets its own terminal session with separate working directory and state
+- **Separate terminals** — each subagent gets its own terminal session, which starts in the parent's working directory and tracks its own `cd`s (a separate checkout needs `delegation.worktree_isolation`)
 - **No conversation history** — subagents see only the `goal` and `context` the parent agent passes when calling `delegate_task`
 - **Default 250 iterations** — set `delegation.max_iterations` lower in `config.yaml` for fleets of simple tasks to save cost
-- **Not durable** — top-level delegation runs in the background and posts its result back later, but it remains tied to the owning session and Hermes process. Session closure, `/stop`, `/new`, or a process restart can cancel or strand in-progress work. Use `cronjob_manage` or `terminal(background=True, notify_on_complete=True)` for work that must survive those boundaries.
+- **Not durable** — top-level delegation runs in the background and posts its result back later, but it remains tied to the owning session and Hermes process. Session closure, `/stop`, `/new`, or a process restart can cancel or strand in-progress work. Use `cronjob_manage` for work that must survive those boundaries; `terminal(background=true, persist_on_release=true)` survives session closure, and a gateway or host shutdown ends it.
 
 ---
 
@@ -47449,7 +47608,7 @@ These tools modify agent state directly and return synthetic tool results withou
 The agent tracks iterations via `IterationBudget`:
 
 - Default: 500 iterations (configurable via `agent.max_turns`)
-- Each agent gets its own budget. Subagents get independent budgets capped at `delegation.max_iterations` (default 50) — total iterations across parent + subagents can exceed the parent's cap
+- Each agent gets its own budget. Subagents get independent budgets capped at `delegation.max_iterations` (default 250) — total iterations across parent + subagents can exceed the parent's cap
 - At 100%, the agent stops and returns a summary of work done
 
 ### Fallback Model
@@ -48204,7 +48363,7 @@ auxiliary:
 | `protect_last_n` | `20` | ≥1 | Minimum number of recent messages always preserved |
 | `min_tail_user_messages` | `1` | ≥1 | Minimum number of REAL (actionable) user messages guaranteed to survive in the uncompressed tail. `1` = the existing single last-user anchor (behavior-preserving default). Raise to e.g. `3` to keep the last 3 real user turns verbatim even when bulky tool outputs fill the tail token budget. Blank platform echoes, compaction handoffs, and synthetic continuation rows never count toward N. The guarantee wins over the tail token budget — the tail may exceed the budget when the anchor pulls the cut back |
 | `protect_first_n` | `3` | (hardcoded) | System prompt + first exchange always preserved |
-| `idle_compact_after_seconds` | `0` | ≥0 seconds | Opt-in: compact up front when a session resumes after this many seconds idle (0 = disabled). Skips when context ≤ threshold × target_ratio; honors cooldown/anti-thrash/lock guards |
+| `idle_compact_after_seconds` | `0` | ≥0 seconds | Opt-in: compact up front when a session resumes after this many seconds idle (0 = disabled); the gap is measured from the newest transcript row before the turn. The gateway also runs it in the background from its housekeeping tick (`gateway/run_watchers_idle.py`, the cache-edge job with the `idle` trigger) on every route; per channel via `channel_overrides.<id>.idle_compact_after_seconds`. Skips when context ≤ threshold × target_ratio; honors cooldown/anti-thrash/lock guards |
 | `codex_gpt55_autoraise` | `true` | bool | Raise the trigger to 85% for gpt-5.4/5.5/5.6 and gpt-6 Astra on the ChatGPT Codex OAuth route (see below). Set `false` to keep the global `threshold` |
 | `codex_gpt55_autoraise_notice` | `true` | bool | Show the one-time Codex gpt-5.5 autoraise notice. Set `false` to keep the 85% autoraise but suppress the banner |
 | `codex_app_server_auto` | `native` | `native`, `hermes`, `off` | Thread-compaction mode for Codex app-server sessions (see below) |
@@ -48749,7 +48908,7 @@ prompt_caching:
 
 `"auto"` resolves once per session in `agent/agent_init.py::_init_prompt_cache_config` via `agent/prompt_caching.py::auto_cache_ttl_for_source`: `1h` for human-paced sources, `5m` for `MACHINE_PACED_SOURCES` (subagent, cron, oneshot, webhook, kanban, api, api_server, tool, batch, curator); under `auto` a side agent (`side_agent=True`: `/background`, `/btw`, `/refine`) takes `5m`, and a background-review or `/btw` fork routed to a different model is clamped to `5m` like a delegated child. Auxiliary/stub calls (`configured_cache_ttl()`) treat `auto` as `5m`.
 
-The prompt-cache lifecycle (`agent/prompt_cache_lifecycle/`, no config key: `__init__` facade, `replay.py` replay shape and caps, `economics.py` `evaluate_economics`, `warmer.py` the controller, `edge.py` `EdgeDecision`, `human_paced` and the compaction/offload gates) is one controller per agent (`PromptCacheWarmer`, from `get_prompt_cache_warmer`) driven by the shared clock (`agent/prompt_cache_clock.py`, the only TTL source). The clock follows the API spec (`classify_route`, two rows): a request with `cache_control` markers is `anthropic_spec` on any wire or gateway (5m/1h declared as asked, clamped by `route_ttl_ceiling`); every other cached request is `openai_spec` (declared `30m`, a read refreshes to `max(existing, read + 30m)`), whatever the vendor or model generation. Only the expiry estimate departs from the tier (`_estimated_end`): a request sent with `prompt_cache_retention: 24h` keeps `guaranteed_until` at 30m (the warming deadline) but `estimated_until` at `read + 24h`, and an `is_local_endpoint` host has `estimated_until=None` with a known confidence, so neither is cold-pruned on the clock while `route_changed` and compaction still offload (chatgpt.com Codex strips the retention field: 30m stands). A provider profile with `prompt_cache_markers_from_catalog=True` (Nous) lets its `/models` catalog pick marker models (`prompt_caching.catalog_cache_markers`: a `cache_write` rate means markers); `agent/prompt_cache_routes.py` is the cross-session layer: `prompt_cache_clock._learn` feeds `observe` from every folded response (gap = send time minus the previous event's `sent_at`, against its tier), `PromptCacheWarmer.start`/`_refresh` apply `learned_window`, and `prompt_caching.learned_or_catalog_markers` lets a learned marker preference beat the catalog; rules need `MIN_SAMPLES` agreeing samples from `MIN_SAMPLES` distinct sessions (`observe(session_id=...)`), `_learn` skips a reply whose upstream differs from the cached one, a learned lifetime must exceed `longest_hit` (kept outside the trimmed `hit_gaps`), and facts expire after `EXPIRY_SECONDS`; the file lives under `get_hermes_home()` resolved per call. Pricing takes a catalog's `cache_write_1h` (else its single write rate) for 1h writes instead of the fixed 2x. At `cache_warming_delay_s` (5/6 of the TTL, at least 10 s before expiry) it decides once: **warm** (replay the last request with `replay_output_cap(model)`, 1 or 16 for OpenAI GPT-5/o-series, at most `WARM_BUDGET`=3 idle keep-alives per user message; while `agent._executing_tools` is set a keep-alive is booked on its run instead (`tool_warms`/`tool_spent_usd`), uncounted and bounded only by `evaluate_economics`' one-rewrite cap on that tool wait's spend; a miss counts in `_miss_streak` unless `prompt_cache_clock.response_upstream` (a gateway's upstream field, else the response id family: `chatcmpl` vs `gen` on Nous) differs from the reply that cached the prefix or it still read half the stable system+tools prefix; `REAL_MISSES_TO_STOP`=2 real misses (or `ANY_MISSES_TO_STOP`=3 of any kind) in a row set `_missed_route` (`_disable_warming`), so `start` refuses every later arm on that route for the session (`WARMING_DISABLED`, shown on `/context` as `warming_off`); a retried miss's rewrite is not charged to the money limit; `_MISSED_ROUTES` keeps it per session id across agent rebuilds and carries it to the compaction child; only a route switch or `/new` (`reset_session_state`, also dropping budget and latches) clears it. The idle budget is one `_Budget` object keyed on `_user_turn_count` that every run of the turn shares, each keep-alive reserved against it at admission (`_admit`) and reconciled with its billed cost in `_record`, so a run replaced mid-flight still counts; a miss, the third keep-alive or the money cap ends it (`_end_budget`; steps 2/3 decide either way), and a later tool-round reply carries the ended budget to the prompt the turn ends on (`_carry_ended_budget`). The replay is bounded per client: `replay_cap_honoured` admits the OpenAI/Anthropic SDKs as they are and any other client only through its `effective_output_cap` (native Gemini lifts thinking requests to 65,535, so they are not warmed); `bounded_chat_replay` drops `extra_body` output caps such as Gemini's long-decode `max_output_tokens`), then **compact** (budget over, proven/declared window of `MIN_COMPACT_WINDOW_SECONDS` or more, context at least `COMPACT_CONTEXT_FRACTION` of `threshold_tokens`, growth guard; no warmth check, the summary is a fresh aux request), else **expire + offload** (idle, cache certainly cold, once per stretch; the owner runs `turn_proactive_prune.offload_cold_history`). `PromptCacheWarmer.claim_edge(*, releasing=False, now=None) -> "compact" | "offload" | None` decides and latches steps 2/3 under the warmer lock (`edge_decision(...)` is the read-only `EdgeDecision(action, compact, offload)`); owners pass the action to their job as an argument. Nothing is sent after a compaction until the next user message. A budget ends at whichever comes first, `WARM_BUDGET` keep-alives, a miss, or the owner releasing the agent: `claim_edge(releasing=True)` runs the same gates at the release moment and cancels the live run; past the window the release offloads instead. Step 4 (cold return) is `agent/turn_proactive_prune.turn_start_cold_prune`; `prompt_cache_clock.prompt_cache_is_cold` (the one cold reading every prune and offload uses) also answers True on `route_changed`, so a `/model` or fallback switch offloads before the first request on the new route: `turn_proactive_prune.route_change_offload` runs before every request assembly, so a mid-turn fallback restart offloads too (the running turn is never shortened). Economics (`evaluate_economics`): read cost, plus the replay's real output cap (`replay_output_cap`, 16 on GPT-5/o-series) and any per-request fee, below the rewrite it prevents, a budget's total at most one rewrite, known prices, prefix at least `MIN_CACHEABLE_PREFIX_TOKENS`; no dollar floor. `write-on-hit` is learned only from keep-alive replays. `prompt_cache_lifecycle/tier.py` owns the `auto` tier for a person's chat: `adaptive_start_tier` starts a 1h choice on 5m (`_cache_ttl_adaptive`), `maybe_upgrade_cache_tier` (turn start, after `_user_turn_count += 1`) switches `_cache_ttl` to 1h only when the clock holds no guarantee and the last cache touch is over `UPGRADE_AFTER_SECONDS` old (so markers never change on a warm prefix), the upgrade is kept per session id (`carry_cache_tier` at the compaction boundary) and re-derived from a stored clock whose `requested_ttl` is 1h; `idle_warming_allowed` keeps idle keep-alives off until the upgrade.
+The prompt-cache lifecycle (`agent/prompt_cache_lifecycle/`, no config key: `__init__` facade, `replay.py` replay shape and caps, `economics.py` `evaluate_economics`, `warmer.py` the controller, `edge.py` `EdgeDecision`, `human_paced` and the compaction/offload gates) is one controller per agent (`PromptCacheWarmer`, from `get_prompt_cache_warmer`) driven by the shared clock (`agent/prompt_cache_clock.py`, the only TTL source). The clock follows the API spec (`classify_route`, two rows): a request with `cache_control` markers is `anthropic_spec` on any wire or gateway (5m/1h declared as asked, clamped by `route_ttl_ceiling`); every other cached request is `openai_spec` (declared `30m`, a read refreshes to `max(existing, read + 30m)`), whatever the vendor or model generation. Only the expiry estimate departs from the tier (`_estimated_end`): a request sent with `prompt_cache_retention: 24h` keeps `guaranteed_until` at 30m (the warming deadline) but `estimated_until` at `read + 24h`, and an `is_local_endpoint` host has `estimated_until=None` with a known confidence, so neither is cold-pruned on the clock while `route_changed` and compaction still offload (chatgpt.com Codex strips the retention field: 30m stands). A provider profile with `prompt_cache_markers_from_catalog=True` (Nous) lets its `/models` catalog pick marker models (`prompt_caching.catalog_cache_markers`: a `cache_write` rate means markers); `agent/prompt_cache_routes.py` is the cross-session layer: `prompt_cache_clock._learn` feeds `observe` from every folded response (gap = send time minus the previous event's `sent_at`, against its tier), `PromptCacheWarmer.start`/`_refresh` apply `learned_window`, and `prompt_caching.learned_or_catalog_markers` lets a learned marker preference beat the catalog; rules need `MIN_SAMPLES` agreeing samples from `MIN_SAMPLES` distinct sessions (`observe(session_id=...)`), `_learn` skips a reply whose upstream differs from the cached one, a learned lifetime must exceed `longest_hit` (kept outside the trimmed `hit_gaps`), and facts expire after `EXPIRY_SECONDS`; the file lives under `get_hermes_home()` resolved per call. Pricing takes a catalog's `cache_write_1h` (else its single write rate) for 1h writes instead of the fixed 2x. At `cache_warming_delay_s` (5/6 of the TTL, at least 10 s before expiry) it decides once: **warm** (replay the last request with `replay_output_cap(model)`, 1 or 16 for OpenAI GPT-5/o-series, at most `WARM_BUDGET`=3 idle keep-alives per user message; while `agent._executing_tools` is set a keep-alive is booked on its run instead (`tool_warms`/`tool_spent_usd`), uncounted and bounded only by `evaluate_economics`' one-rewrite cap on that tool wait's spend; the same booking covers a request whose reply is still generating: `build_api_request` arms `start_in_flight` right after `record_attempt_sent`, a run replaying that request (`awaiting_reply`) whose window starts at this send for the tier it asks, clamped by `route_ttl_ceiling` (`_in_flight_window`: a request with `cache_control` markers declares its tier as the clock's Anthropic-spec rule does; an automatic cache needs a proven/declared event on the clock first), sized from the payload (`_request_tokens`), and each of its keep-alives moves the agent's `_prompt_cache_attempt` send time on (`_carry_renewal`) so the reply folds from the latest renewal; the reply's `start` replaces it, a retry rebuilds it, `end_turn` cancels it; a miss counts in `_miss_streak` unless `prompt_cache_clock.response_upstream` (a gateway's upstream field, else the response id family: `chatcmpl` vs `gen` on Nous) differs from the reply that cached the prefix or it still read half the stable system+tools prefix; `REAL_MISSES_TO_STOP`=2 real misses (or `ANY_MISSES_TO_STOP`=3 of any kind) in a row set `_missed_route` (`_disable_warming`), so `start` refuses every later arm on that route for the session (`WARMING_DISABLED`, shown on `/context` as `warming_off`); a retried miss's rewrite is not charged to the money limit; `_MISSED_ROUTES` keeps it per session id across agent rebuilds and carries it to the compaction child; only a route switch or `/new` (`reset_session_state`, also dropping budget and latches) clears it. The idle budget is one `_Budget` object keyed on `_user_turn_count` that every run of the turn shares, each keep-alive reserved against it at admission (`_admit`) and reconciled with its billed cost in `_record`, so a run replaced mid-flight still counts; a miss, the third keep-alive or the money cap ends it (`_end_budget`; steps 2/3 decide either way), and a later tool-round reply carries the ended budget to the prompt the turn ends on (`_carry_ended_budget`). The replay is bounded per client: `replay_cap_honoured` admits the OpenAI/Anthropic SDKs as they are and any other client only through its `effective_output_cap` (native Gemini lifts thinking requests to 65,535, so they are not warmed); `bounded_chat_replay` drops `extra_body` output caps such as Gemini's long-decode `max_output_tokens`), then **compact** (budget over, proven/declared window of any tier, context at least `COMPACT_CONTEXT_FRACTION` of `threshold_tokens`, growth guard; no warmth check, the summary is a fresh aux request), else **expire + offload** (idle, cache certainly cold, once per stretch; the owner runs `turn_proactive_prune.offload_cold_history`). `PromptCacheWarmer.claim_edge(*, releasing=False, now=None) -> "compact" | "offload" | None` decides and latches steps 2/3 under the warmer lock (`edge_decision(...)` is the read-only `EdgeDecision(action, compact, offload)`); owners pass the action to their job as an argument. Nothing is sent after a compaction until the next user message. A budget ends at whichever comes first, `WARM_BUDGET` keep-alives, a miss, or the owner releasing the agent: `claim_edge(releasing=True)` runs the same gates at the release moment and cancels the live run; past the window the release offloads instead. Step 4 (cold return) is `agent/turn_proactive_prune.turn_start_cold_prune`; `prompt_cache_clock.prompt_cache_is_cold` (the one cold reading every prune and offload uses) also answers True on `route_changed`, so a `/model` or fallback switch offloads before the first request on the new route: `turn_proactive_prune.route_change_offload` runs before every request assembly, so a mid-turn fallback restart offloads too (the running turn is never shortened). Economics (`evaluate_economics`): read cost, plus the replay's real output cap (`replay_output_cap`, 16 on GPT-5/o-series) and any per-request fee, below the rewrite it prevents, a budget's total at most one rewrite, known prices, prefix at least `MIN_CACHEABLE_PREFIX_TOKENS`; no dollar floor. `write-on-hit` is learned only from keep-alive replays. `prompt_cache_lifecycle/tier.py` owns the `auto` tier for a person's chat: `adaptive_start_tier` starts a 1h choice on 5m (`_cache_ttl_adaptive`), `maybe_upgrade_cache_tier` (turn start, after `_user_turn_count += 1`) switches `_cache_ttl` to 1h only when a cache-edge compaction claimed this stretch committed (the clock reads `compacted`/`session_rotated`), or when the clock holds no guarantee and the last cache touch (keep-alives included, one still in flight counted from its send; `warmer.cache_touch_snapshot` reads the clock and the in-flight mark under the lock the reply's fold takes, and `prompt_cache_is_cold` answers False while a keep-alive is in flight) is over `UPGRADE_AFTER_SECONDS` old (so markers never change on a warm prefix: on Nous Portal a 1h request over a warm 5m entry re-writes the whole prompt at 2x, and a 1h keep-alive only reads the 5m entry), the upgrade is kept per session id (`carry_cache_tier` at the compaction boundary) and re-derived from a stored clock whose `requested_ttl` is 1h; idle keep-alives run on the 5m window before the upgrade too.
 
 - Arming: `turn_response_check.check_api_response` calls `start_prompt_cache_warming` after each response is folded into the clock; `turn_api_request.build_request_payload` cancels the run (the real request refreshes the entry). `conversation_loop.run_conversation` calls `end_turn_prompt_cache_warming` on every turn exit: `human_paced` agents keep their budget and warm while idle; subagents, side agents (`/bg`, `/btw`), cache-parity forks (`_skip_prompt_cache_warming`) and `MACHINE_PACED_SOURCES` stop.
 - Step 2/3 owners poll `claim_edge()` every `CHECK_INTERVAL_SECONDS` and run `compress_now(..., trigger="cache_expiry")` (normal compression model; a ready `prepare_ahead` summary is reused because the trigger is not `force`) or the cold offload: `tui_gateway/session_reaper.py` (ticker and reapers queue jobs on at most 3 daemon workers, `_cache_expiry_submit`; profile scope per session; the action picks compaction or `_offload_expired_cache`) and `GatewaySessionWatchersMixin._compact_idle_sessions_before_cache_expiry` (housekeeping; also serves `hermes chat --cli`, whose `GatewayAgent` turns run in the gateway; the due-scan runs in `asyncio.to_thread`; `claim_gate` held across load→commit, `_profile_scope_for_source`, detached Desktop chats via `route_entry`, per-session bounded jobs). No owner sends anything after a compaction. Release owners: `GatewayAgentCacheMixin._sweep_idle_cached_agents` and `_enforce_agent_cache_cap` hand each evicted agent to `GatewaySessionWatchersMixin._compact_then_release` (release claim in `asyncio.to_thread`; a due chat runs its compact or offload job, then the agent is released exactly once: task done-callback, plus `run_watchers.drain_pending_cache_releases` at shutdown), and the TUI reapers (`_reap_idle_sessions`, `_enforce_session_cap`) go through `_compact_then_close` (compact or offload, then close if still reapable). A queued TUI job whose chat closed meanwhile is refused at `_manual_compress_turn` (`_closing`).
@@ -51653,6 +51812,7 @@ lists each import of it.
 | Refuse a picker-card (`send_model_picker` / `send_choice_picker`) or `/update` prompt click from someone other than its opener | `from gateway.approval_actor import picker_refusal, update_prompt_refusal, refusal_text`: `picker_refusal(on_selected, clicker_id, extra=self.config.extra)` with the callback the picker was sent with, or `update_prompt_refusal(clicker_id, extra=self.config.extra)`; a non-`None` result is the opener's name: reply privately with `refusal_text(name)` and leave the card open. The opener and the chat scope's admins always pass |
 | Native clarify buttons | `tools.clarify_gateway`: `get_pending(clarify_id)` (the pending entry or `None`; read `session_key`, `choices`, `multi_select`), `resolve_gateway_clarify(clarify_id, text)`, `mark_awaiting_text(clarify_id)`, `SKIPPED` |
 | `setup_fn` wizard steps | `hermes_cli.gateway_setup_wizard`: `print_setup_header(title)`, `confirm_reconfigure(label, *env_vars)`, `offer_home_channel(home_var, user_id, what)`, `save_env_values(**values)`, `prompt_csv(text, default)`; prompts from `hermes_cli.setup` (`prompt`, `prompt_choice`, `prompt_yes_no`); output from `hermes_cli.cli_output` (`print_info`, `print_success`, `print_warning`, `print_error`); `.env` access through `hermes_cli.config` (`save_env_value`, `get_env_value`) |
+| Recognize a silence marker (`[SILENT]`, `NO_REPLY`) in reply text and strip a closing one, by the text rules Hermes uses (a reply that is only a marker; a marker closing a real reply on its own line; a marker inside a sentence is prose). These are text checks: whether a turn may stay silent is the gateway's decision, and where a reply is expected it can send a notice in place of a bare marker, so do not use them to drop text the gateway hands your adapter to send | `from gateway.response_filters import is_intentional_silence_response, strip_trailing_silence_marker, is_autonomous_silence_response`: `is_intentional_silence_response(text)` is `True` only when the whole reply is a marker; `strip_trailing_silence_marker(text)` returns the reply without a closing own-line marker (anything else, a bare marker included, comes back unchanged); for an autonomous run with no user waiting (cron, webhook) use `is_autonomous_silence_response(text)`, which is also `True` when the bracketed sentinel opens the reply (`[SILENT] nothing new`) or a marker sits on its own first or last line |
 
 ```python
 from gateway.platforms.helpers import platform_http_client
@@ -54134,6 +54294,7 @@ The backup uses SQLite's `backup()` API for safe copying, so it works correctly 
 - Browser profiles: `browser-profile/` (the real-profile snapshot — copied Cookies / Login Data), `browser-profiles/` (live CDP profiles) at any depth, and `browser_profiles/` (the Browser Use CLI backend's Chromium user-data dir, with its own Login Data / Cookies) at the root of `~/.hermes` and of each `profiles/<name>/`. Credential stores that must never enter an archive; all are regenerated on the next launch.
 - Regenerable entries of `cache/` at those same roots — model/plugin catalogs, stamps, browser profiles, tool-output spill. Durable artifacts stay in: `cache/images`, `cache/audio`, `cache/videos`, `cache/documents`, `cache/screenshots` (media delivered to or received from you) and `cache/citations` (the grounded-citations ledger). A deeper `cache/` (inside a skill) is kept whole.
 - Unix sockets, devices, and symlinks — a zip cannot hold them; before they were excluded, a stray `gateway.sock` made every full backup report `Backup incomplete`.
+- `portal-recovery/` and `lost+found/` at the root of `~/.hermes` — the host's own state (Hermes Cloud's recovery snapshots, often unreadable by the agent, and the volume's `lost+found/`). `hermes import` skips them in older archives that still carry them. Same-named folders in a skill or a named profile are kept.
 - The `hermes-agent` code itself (this is a user-data backup, not a repo snapshot).
 
 ### Examples
@@ -54838,14 +54999,16 @@ You can also generate a brand-new pet from a text description with the `/hatch` 
 ## `hermes sessions`
 
 ```bash
-hermes sessions <subcommand>
+hermes sessions [<subcommand>]
 ```
+
+With no subcommand on a terminal, `hermes sessions` opens the same picker as `browse`: pick a recent conversation with the arrow keys and Enter resumes it (`hermes --resume <id>`). Off a terminal it prints the `list` output.
 
 Subcommands:
 
 | Subcommand | Description |
 |------------|-------------|
-| `list` | List recent sessions. |
+| `list` | List recent conversations: one row per thread (a compressed thread shows its live continuation's id), ranked by last message. Subagent runs are left out; so are cron/webhook/push/kanban/tool/one-shot runs and empty sessions unless you pass `--all`. |
 | `browse` | Interactive session picker with search and resume. Each row shows a lifecycle status tag (`done` / `intr` / `err` / `empty`, derived from the session's final message) and its message count. Press `d` on a highlighted row (while the search filter is empty) to delete that session after a y/N confirmation; while a filter is active, `d` types into the search instead. |
 | `export <output> [--session-id ID]` | Export sessions to JSONL. |
 | `delete <session-id>` | Delete one session. |
@@ -54973,7 +55136,7 @@ Set or change the username and password the dashboard sign-in asks for, without 
 
 `-p <profile>` sets that profile's own sign-in. Dashboard sign-in belongs to the home a listener was started from, so it is used by `hermes -p <profile> dashboard --isolated` (or `serve --isolated`) and by a gateway that profile runs by itself. `hermes -p <profile> dashboard` without `--isolated` opens the machine dashboard, and a gateway that serves several profiles signs in with its own home's credentials: set those with `hermes -p default dashboard password`. When such a gateway serves the profile, the command names its home instead of a restart hint. Every command the output suggests names its home (`hermes -p default ...` for the default home, `hermes --profile <name> ...` for a profile), because after `hermes profile use <name>` a bare `hermes ...` would act on that sticky profile instead.
 
-The same sign-in works on `hermes dashboard` / `hermes serve` and on the gateway's Webapp. Each reads it when it starts, so restart a running one; the command says which one is running. A listener started with a new password ends every sign-in made with the old one. `HERMES_DASHBOARD_BASIC_AUTH_USERNAME`, `_PASSWORD` and `_PASSWORD_HASH` override `config.yaml`: the command removes them from this home's `.env` (it names them, never their values). It refuses, before changing anything, when your administrator pins one in the managed `.env`, when the managed `config.yaml` pins `dashboard.basic_auth.password_hash` or pins the username to another name, when the checkout's own `.env` (loaded after the home's on every start of a source checkout) would supply one (judged the way the loader applies it: `${...}` expanded, and only filling gaps when the home has its own `.env`, so an empty or unresolved value overrides nothing; the command never edits that shared file), or when `dashboard.basic_auth.username` is a `${...}` reference to a key it would remove (make the username literal first). On Windows, where environment names ignore case, it also refuses when this home's `.env` or the checkout's has one of those keys spelled in another case (such as `hermes_dashboard_basic_auth_password`): it names the file, line and key (never the value); delete or rename that line, then run it again. Lines are read one at a time, so a look-alike line inside a quoted multi-line value counts too. When the environment the command runs in sets one, it warns: a gateway or backend started from that environment still signs in with that value, so unset it there too.
+The same sign-in works on `hermes dashboard` / `hermes serve` and on the gateway's Webapp. Each reads it when it starts, so restart a running one; the command says which one is running. A listener started with a new password ends every sign-in made with the old one. `HERMES_DASHBOARD_BASIC_AUTH_USERNAME`, `_PASSWORD` and `_PASSWORD_HASH` override `config.yaml`: the command removes them from this home's `.env` (it names them, never their values). When that `.env` holds a quoted value over several lines (a PEM key), it removes whole assignments as the loader reads them, so a look-alike line inside another value stays and every other byte, line endings included, is written back as it was; such a file that is not UTF-8 is refused before anything is written when it has one of those keys to remove (with none, it is left alone). It refuses, before changing anything, when your administrator pins one in the managed `.env`, when the managed `config.yaml` pins `dashboard.basic_auth.password_hash` or pins the username to another name, when the checkout's own `.env` (loaded after the home's on every start of a source checkout) would supply one (judged the way the loader applies it: `${...}` expanded, and only filling gaps when the home has its own `.env`, so an empty or unresolved value overrides nothing; the command never edits that shared file), or when `dashboard.basic_auth.username` is a `${...}` reference to a key it would remove (make the username literal first). On Windows, where environment names ignore case, it also refuses when this home's `.env` or the checkout's has one of those keys spelled in another case (such as `hermes_dashboard_basic_auth_password`): it names the file, line and key (never the value); delete or rename that line, then run it again. Lines are read one at a time, so a look-alike line inside a quoted multi-line value counts too. When the environment the command runs in sets one, it warns: a gateway or backend started from that environment still signs in with that value, so unset it there too.
 
 | Option | Description |
 |--------|-------------|
@@ -54987,7 +55150,7 @@ hermes dashboard password --username admin --password-stdin < /run/secrets/dashb
 hermes gateway restart
 ```
 
-Exit codes: `0` stored, `2` refused (no password; an empty, overlong or non-UTF-8 one; `--password-stdin` on a terminal; prompts that don't match; a username with spaces; nothing is changed), `1` the prompt was cancelled, a refusal above (an administrator pin, the checkout's `.env`, a username reference; nothing is changed), `config.yaml` could not be written, an overriding key could not be removed from `.env` after `config.yaml` was updated (the message names the key and the file), or the install is managed (Nix or a package manager owns its configuration).
+Exit codes: `0` stored, `2` refused (no password; an empty, overlong or non-UTF-8 one; `--password-stdin` on a terminal; prompts that don't match; a username with spaces; nothing is changed), `1` the prompt was cancelled, a refusal above (an administrator pin, the checkout's `.env`, a username reference, a multi-line `.env` that is not UTF-8 and has a key to remove; nothing is changed), `config.yaml` could not be written, an overriding key could not be removed from `.env` after `config.yaml` was updated (the message names the key and the file), or the install is managed (Nix or a package manager owns its configuration).
 
 ### `hermes dashboard register`
 
@@ -57013,7 +57176,7 @@ Advanced per-platform knobs for throttling the outbound message batcher. Most us
 | `HERMES_OAUTH_TRACE` | Set to `1` to log OAuth token exchange and refresh attempts. Includes redacted timing info. |
 | `HERMES_AGENT_HELP_GUIDANCE` | Append additional guidance text to the system prompt for custom deployments. |
 | `HERMES_AGENT_LOGO` | Override the ASCII banner logo at CLI startup. |
-| `DELEGATION_MAX_CONCURRENT_CHILDREN` | Max parallel subagents per `delegate_task` batch (default: `3`, floor of 1, no ceiling). Also configurable via `delegation.max_concurrent_children` in `config.yaml` — the config value takes priority. |
+| `DELEGATION_MAX_CONCURRENT_CHILDREN` | Max parallel subagents per `delegate_task` batch (default: `10`, floor of 1, no ceiling). Read only when no `delegation.max_concurrent_children` value is loaded: under `--ignore-user-config` or `--safe-mode`, or with the key set to `null` in `config.yaml`. Any config value, including the shipped default, takes priority. |
 
 ### HERMES_WRITE_SAFE_ROOT {#hermes_write_safe_root}
 
@@ -57201,7 +57364,7 @@ token). Other sessions do not see it.
 
 | Tool | Description | Requires environment |
 |------|-------------|----------------------|
-| `delegate_task` | Spawn subagents in isolated contexts; each gets its own conversation, terminal session, and toolset, and only its final summary returns to you. Provide 'goal' for a single task or 'tasks' for a parallel batch (limits and nesting rules… | — |
+| `delegate_task` | Spawn isolated subagents. Each gets its own conversation, terminal session, and toolset, and only its final summary returns to you. `tasks` takes one entry per subagent; `action` lists, steers, stops or continues children. | — |
 
 ## `feishu_doc` toolset
 
@@ -57283,7 +57446,7 @@ Tools for driving desktop [Projects](../user-guide/cli.md) — named, multi-fold
 
 | Tool | Description | Requires environment |
 |------|-------------|----------------------|
-| `desktop_project` | One action enum for the three Project verbs: `create` makes a desktop Project (a named workspace) and switches this chat into it — pass `path` to anchor it to a repo/folder; `list` shows the desktop Projects and which one is active; `switch` moves this chat into an existing Project (by name, slug, or id), moving the session workspace to the project's primary folder. | — |
+| `desktop_project` | One action enum for the three Project verbs: `create` makes a desktop Project (a named workspace); pass `path` to anchor it to a repo/folder. The chat stays where it is and the active project is unchanged. `list` shows the desktop Projects and which one this chat is in (the active project, for CLI and messaging callers). `switch` moves this chat into an existing Project (by name, slug, or id), moving the session workspace to the project's primary folder; in a Desktop or TUI chat the move lands when the turn ends (`moved: "pending"`), and a chat that cannot move gets `moved: false` with the reason while the active project changes instead. | — |
 
 ## `memory` toolset
 
@@ -63647,9 +63810,12 @@ host.openSession(id, { profile?, intent? }) // open a stored session core-style;
                                            //   profile: soft-swap to that profile's backend first
                                            //   intent: 'in-place' (default) | 'stack' | 'tab' | 'window'
 host.newChat(profile?)                     // fresh chat draft, optionally in another profile
-host.openWorkspace(id, { render, title?, minWidth?, onClose? })
+host.openWorkspace(id, { render, title?, minWidth?, onClose?, approvalScope? })
                                            // dock a plugin-rendered tab into the MAIN
-                                           //   workspace zone and reveal it; returns a disposer
+                                           //   workspace zone and reveal it; returns a disposer.
+                                           //   approvalScope: 'per-profile' (a room of several
+                                           //   profiles) shows a per-profile approvals hint in
+                                           //   the statusbar instead of the active profile's mode
 host.paneVisibility(paneId)                // ReadableAtom<boolean> — is a contributed pane
                                            //   actually on screen (its zone's active tab)?
 host.onEvent(type, fn)                     // gateway event stream ('*' = all); returns disposer.
@@ -65478,8 +65644,9 @@ nothing.
 
 Each turn a connection submits is stamped with its label (`surface_v1.client` on the admission,
 never a `prompt.submit` field; a retry from another or no label is the same request). Plugins read
-the turn's label with `hermes_cli.plugin_session.turn_client()` and the attached connections with
-their idle data with `session_viewers()`.
+the turn's label with `hermes_cli.plugin_session.turn_client()`, the Hermes producer of a turn no
+connection submitted (a process notification or a delegation result) with `turn_origin()`, and the
+attached connections with their idle data with `session_viewers()`.
 
 Attach another authenticated viewer with `session.resume({session_id})`, and submit
 through `prompt.submit({session_id, submission_id, text})`. The accepted receipt is durable
@@ -65782,6 +65949,7 @@ integration and explicitly configured Relay subscribers or exporters.
 | Gateway gauges | `/v1/metrics` | `hermes.gateway.up/state/busy/drainable/active_agents/background_work/background_delegations/restart_requested`, `hermes.platform.up/degraded` with bounded `error_code` attributes |
 | Health/lifecycle events | `/v1/traces` | `gateway.lifecycle` state transitions (`starting -> running -> draining -> stopped`, `startup_failed`, exit), `gateway.health_snapshot`, platform state changes |
 | Diagnostics | `/v1/logs` | Warning/error gateway events with a constant body and bounded subsystem, severity, error class, and error code attributes; rendered log messages are never exported |
+| Gateway memory gauges | `/v1/metrics` | `hermes.gateway.previous_exit` = 1 with `hermes.previous_exit` in `none`, `unclean`, `suspected_oom`, `oom_kill_host`, `watchdog`, `watchdog_memory_starved`, `oom_kill_cgroup`, `unknown` (the strongest evidence recorded on how the previous gateway life ended; one series per boot); `hermes.gateway.memory_pressure` = 1 with `hermes.memory_pressure` in `ok`, `elevated`, `critical`, `unknown` (live host pressure from the 30 s heartbeat) |
 | Cron scheduler gauges | `/v1/metrics` | Ticker heartbeat and last-success age (omitted when unavailable), a monotonic catch-up-occurrence count from the scheduler's stale-window branch, enabled/running job counts, and overdue count derived from persisted `next_run_at` plus the scheduler's existing grace rule |
 | Cron execution lifecycle | `/v1/traces` | Durable `claimed/running/completed/failed/unknown` states, bounded source and error class, opaque hashed job key, elapsed duration when timestamps exist, and delivery outcome when the scheduler knows it; terminal states make a fail-open flush attempt that can delay completion by up to one second |
 
@@ -65802,6 +65970,38 @@ one), matching the async pool's capacity accounting; alert it against
 `delegation.max_concurrent_children` to see slot pressure. Sum `active_agents`
 and `background_work` for total live work per instance; use
 `background_delegations` for pool-saturation.
+
+`hermes.gateway.previous_exit` and `hermes.gateway.memory_pressure` come from
+the same lifecycle-ledger and heartbeat files as the `memory` block of
+`/api/status`. `previous_exit` names the strongest evidence recorded on the
+previous life, in this order:
+
+- `oom_kill_cgroup`: the gateway died uncleanly and, between its last
+  heartbeat and this boot, the kernel OOM-killed a process in the gateway's
+  cgroup (the gateway itself or a tool subprocess there; the counter does not
+  say which);
+- `watchdog_memory_starved`: a watchdog killed it while host memory pressure
+  was `critical`;
+- `watchdog`;
+- `oom_kill_host`: the gateway died uncleanly and, in that window, the kernel
+  OOM-killed a process somewhere on the host (any process, not necessarily the
+  gateway);
+- `suspected_oom`: an unclean death whose last heartbeat already showed
+  critical pressure;
+- `unclean`;
+- `none`: no adverse evidence recorded (this includes a first boot);
+- `unknown`: this life has no ledger claim.
+
+The OOM-kill scopes come from the kernel's `oom_kill` counters (cgroup v2
+`memory.events`, `/proc/vmstat`), compared only when the dead life's last
+heartbeat is from that same life and at most 15 minutes old. A systemd unit or
+container restart recreates the cgroup with its counter at 0, so after a
+supervisor restart the comparison is usually host-scoped (`oom_kill_host`);
+`oom_kill_cgroup` applies only when the gateway restarts inside a surviving
+cgroup. The value only changes on the next boot. Nothing is exported when a watchdog fires: the process
+hard-exits right after and the emitter is asynchronous, so the record would
+never leave; the next boot's `previous_exit` carries it. `memory_pressure`
+reads `unknown` when the heartbeat is older than 150 s.
 
 ## Enabling
 
@@ -65891,7 +66091,15 @@ hermes_cron_jobs_overdue > 0
 # Catch-up counter increased, proving at least one stale occurrence was
 # collapsed and run once after a delay.
 increase(hermes_cron_scheduler_catch_up_occurrences[15m]) > 0
+
+# The previous gateway life died uncleanly while the kernel OOM-killed a process
+# in its cgroup, or a watchdog killed it while the host was out of memory.
+hermes_gateway_previous_exit{hermes_previous_exit=~"oom_kill_cgroup|watchdog_memory_starved"} == 1
 ```
+
+Collectors that front the exporter with a metric-name allowlist must add
+`hermes.gateway.previous_exit` and `hermes.gateway.memory_pressure` (see step 4
+of "Adding a new gauge/metric" below).
 
 Cron execution lifecycle records arrive as `hermes.cron_execution` spans.
 Alert or derive events from bounded attributes such as:
@@ -67403,7 +67611,7 @@ Existing tagged clients retain their native feed URLs. The generic
 register channels. The builder writes the legacy URL into `app-update.yml`;
 `updates.desktop_feed_base_url` can supply an explicit bucket-base URL.
 
-- Stable: `releases/darwin/stable/stable-mac.yml`
+- Stable: `releases/darwin/stable/stable-mac.yml` (and the unversioned Apple Silicon DMG alias at `releases/darwin/stable/HermesBundled-mac-arm64.dmg`, updated during stable desktop promotion with `Cache-Control: no-store`)
 - Canary: `releases/darwin/canary/canary-mac.yml`
 - Light: the same paths with `light/` between `darwin/` and the channel.
 - Artifacts: `releases/tag/TAG/FILENAME`, shared by download links and feeds.
@@ -67449,9 +67657,13 @@ The existing `release-signing` environment supplies:
   `CLOUDFLARE_R2_SECRET_ACCESS_KEY`: bucket access secrets.
 - `CLOUDFLARE_R2_BUCKET`, `CLOUDFLARE_R2_PUBLIC_URL`: repository/environment vars.
 
-Publishing requires the Apple credentials. The existing after-sign hook owns
-notarization, so electron-builder's second notarization path is disabled.
-The publish gate verifies the signature, stapled ticket and Gatekeeper assessment.
+Publishing requires the Apple credentials. The `afterSign` hook owns `.app`
+notarization (so electron-builder's second notarization path is disabled), and
+`artifactBuildCompleted` (`scripts/notarize-dmg.mjs`) signs the outer `.dmg`
+with `--timestamp`, notarizes and staples it, verifies `codesign`, `stapler`,
+and `spctl -t open --context context:primary-signature`, and refreshes
+`.dmg.blockmap` and feed hashes from the stapled bytes. The publish gate and
+macOS smoke verify both the outer `.dmg` and the contained `.app`.
 Recording the build refuses an update ZIP of 1 GiB (1,073,741,824 bytes) or
 more: Squirrel.Mac before Electron 44.7, which v0.22.0 ships, reads the whole ZIP
 into memory and crashes downloading one that size
@@ -67809,8 +68021,10 @@ contract (success without a save) or kills the fork at its first compaction.
 
 What your provider receives depends on its declared API version. Version 1
 providers (the implicit default — every pre-existing provider) keep the
-historical contract: the raw message list, exactly as before. Version 2
-checkpoint providers receive normalized direct evidence instead:
+historical raw-message contract, after Hermes removes host-only display data
+such as a withheld prompt and a plugin card's text/directive. Version 2
+checkpoint providers receive normalized direct evidence instead, with the
+same host-only display data removed:
 user/assistant text rows only — tool results, system messages, the
 `tool_calls` payload of assistant messages (their prose is kept), and prior
 compaction summaries are filtered host-side. Prior summaries are recognized
@@ -69141,6 +69355,18 @@ A provider's own `hermes model` step calls these instead of re-implementing core
 | `hermes_cli.model_setup.note_setup_failure(failure_class)` | Records why the flow ended without a pick (`"auth"`, `"no_models"`, ...) for the opt-in provider-setup metric; a no-op outside a tracked flow. |
 | `agent.secret_scope.secret_source_label(name)` | `" (from Bitwarden)"`-style suffix naming the secret-source plugin that supplied env var `name`; `""` for `.env` / shell values. |
 
+### Public helpers for native Gemini reasoning
+
+A provider on the native Gemini wire (`generateContent`) maps the reasoning config with these, so its efforts follow
+the same per-model rules as the built-in `gemini` provider. The profile still chooses the request field and its own
+output budget.
+
+| Helper | What it does |
+|---|---|
+| `agent.reasoning_effort.gemini_thinking_config(model, reasoning_config)` | Native camelCase `thinkingConfig` for a Hermes reasoning config (`{"enabled": False}` gives the lowest level the model allows, with thoughts hidden; `xhigh` and above reach `xhigh` on the models that take it), or `None` for a non-Gemini model or no reasoning config. |
+| `agent.reasoning_effort.clamp_effort(effort, supported, overrides=None)` | Clamps an effort onto a declared level tuple: unchanged when supported, else the nearest weaker level (the weakest one when nothing is weaker). |
+| `agent.reasoning_effort.bare_gemini_model_id(model)` | The model id the native Gemini client sends (`gemini/` and `google/` prefixes stripped). `gemini_thinking_config` already applies it; it imports no HTTP stack. |
+
 ## Account usage
 
 Model-provider plugins can provide account or plan usage to `/usage` by
@@ -69256,7 +69482,7 @@ Look at these bundled plugins for idioms:
 | Plugin | Why look |
 |---|---|
 | `plugins/model-providers/openrouter/` | Aggregator with provider preferences, public model catalog |
-| `plugins/model-providers/gemini/` | `thinking_config` translation (native + OpenAI-compat nested forms) |
+| `plugins/model-providers/google/` | `thinking_config` translation (native + OpenAI-compat nested forms) |
 | `plugins/model-providers/kimi-coding/` | `OMIT_TEMPERATURE`, `extra_body.thinking`, top-level `reasoning_effort` |
 | `plugins/model-providers/qwen-oauth/` | Message normalization, `cache_control` injection, VL high-res |
 | `plugins/model-providers/nous/` | Attribution tags, "omit reasoning when disabled" |
@@ -71685,6 +71911,8 @@ Session storage sits behind a storage interface: typed contracts in `persistence
 | `divert_session_transcript_jsonl(session_id, messages)` | `session_rescue.divert_session_transcript_jsonl(session_id, messages, sessions_dir=get_hermes_home() / "sessions")` |
 | `session_db`, the `SessionDB` a context engine's `bind_session_state` and `on_session_start` receive | `persistence`, the agent's store handle, passed beside it to a hook that accepts that keyword ([Context engine plugins](../context-engine-plugin.md#session-storage)) |
 
+The old class's `get_compression_lineage(session_id)` is not carried by the stand-in. Read it from the handle instead: `store.lineage.lineage(session_id)` returns the ids of the compression chain the read walks as a tuple, root first, so `[0]` is the first id of the returned chain, not necessarily the original session. It is `(session_id,)` for a session with no compression chain, for a fork child or any `tool`-sourced session (the read treats `tool` sessions as forks, so a `tool` run that continued after compression returns only its own id), or for a session outside the oldest-continuation chain the lookup follows (such as a later sibling continuation). It is `()` for an unknown id, and works on a read-only handle.
+
 `NewSession` and `SessionQuery`/`SessionWindow` come from `persistence.conversation.sessions`; `NewMessage` and `ReplaceMode` from `persistence.conversation.messages`. A dashboard route that listed sessions migrates like this:
 
 ```python
@@ -71969,6 +72197,21 @@ oauth:
     authorize_params: {access_type: offline, prompt: consent}  # Google issues a refresh token only with these
 ```
 
+Two optional fields cover authorization servers that are stricter than Google:
+
+- `redirect_port` (1024–65535) and `redirect_path` (default `/callback`) pin the
+  loopback redirect to `http://127.0.0.1:<port><path>`, for an IdP that only
+  accepts a redirect URI registered verbatim in the app's settings (Linear,
+  QuickBooks). Leave `redirect_port` out and the OS picks a free port per sign-in.
+- `redirect_host: localhost` writes `http://localhost:<port><path>` into the
+  redirect URI instead of `127.0.0.1`, for an IdP that refuses IP addresses in
+  redirect URIs (QuickBooks). The listener still binds `127.0.0.1` only.
+  QuickBooks accepts a `localhost` redirect for development (sandbox) keys only;
+  its production keys need a public HTTPS redirect, which a loopback sign-in can't provide.
+- `scope_separator: ","` joins the scopes with commas instead of spaces, for an
+  IdP whose authorize endpoint wants `scope=read,write` (Linear). Granted scopes
+  are read back whichever separator the IdP answers with.
+
 The user signs in once from a terminal with `hermes auth add gemini-voice:google`
 (the plugin's key, a colon, the entry's `id`). That is the same PKCE login the
 model-provider helper runs: a loopback redirect on `127.0.0.1`, with an SSH
@@ -72057,7 +72300,7 @@ this Hermes understands still loads with a warning.
 | `tags` | list of str | Free-form discovery tags (e.g. `[gateway, telegram]`). |
 | `provides_locales` | list | Language pack declaration: ids (`- pl`) or `{id, endonym, rtl}` mappings whose `locales/<id>[.tui\|.desktop].yaml` the loader registers automatically — see [Ship a language pack](#ship-a-language-pack). |
 | `requires_auth` | list of str | Providers whose sign-in the plugin uses through Hermes (today: `openai-codex`). Required by `credentialed_provider_request`; shown at install and in `hermes plugins show`. See [Use the user's Codex sign-in](#use-the-users-codex-sign-in-core-made-requests). |
-| `oauth` | list of mappings | OAuth clients the plugin uses through Hermes: `id`, `authorize_url`, `token_url`, `scopes`, `client_id_env`, optional `client_secret_env`, `hosts`, optional `authorize_params`. Signed in with `hermes auth add <plugin>:<id>`, used through `credentialed_provider_request`. See [Use your own OAuth client](#use-your-own-oauth-client-google-and-other-apis). |
+| `oauth` | list of mappings | OAuth clients the plugin uses through Hermes: `id`, `authorize_url`, `token_url`, `scopes`, `client_id_env`, optional `client_secret_env`, `hosts`, optional `authorize_params`, `scope_separator`, `redirect_port`, `redirect_path`, `redirect_host`. Signed in with `hermes auth add <plugin>:<id>`, used through `credentialed_provider_request`. See [Use your own OAuth client](#use-your-own-oauth-client-google-and-other-apis). |
 
 ```yaml
 # plugin.yaml — manifest v2 example
@@ -73709,6 +73952,37 @@ def register(ctx):
     ctx.register_hook("pre_tool_call", guard)
 ```
 
+### Schedule a job once and read where cron delivers it
+
+`cron.plugin_api` is for plugin code that works with cron jobs directly, including code with no `ctx` (a dashboard route, a standalone process). Both functions call the code cron itself runs.
+
+`ensure_named_job(name, *, prompt, schedule, repeat=None, deliver=None, enabled_toolsets=None, home=None)` returns the stored job named exactly `name` (a job dict, as `hermes cron list` stores it) and creates it when no job has that name:
+
+- `name` must be a non-empty string with no leading or trailing whitespace; cron could not find any other name again. Anything else raises `ValueError` and nothing is created.
+- Disabled jobs count. Two or more jobs with that name raise `AmbiguousJobReference` (importable from the same module) and nothing is created.
+- An existing enabled job has its trigger registered with the active scheduler provider again. Its prompt and schedule are not updated.
+- A new job is created and registered the way `hermes cron add` does it. When registration fails, for a new job or an existing one, the call raises `CronSchedulerRegistrationError` (importable from the same module): a `RuntimeError` whose `.job` is the saved job and `.cause` the provider's error. The job is already saved: call `ensure_named_job` again and it registers that job instead of creating a second one.
+- The lookup and the create are not atomic across processes. If your plugin can call it from two places at once, serialize those calls yourself (a file lock, for example).
+
+`ctx.cron_delivery_platforms(job_id=None)` and `delivery_platforms(job_id=None, *, home=None)` return the platforms cron would deliver the job's output to right now, as a tuple of lower-cased names in cron's order, each once. `()` means the job delivers nowhere (`local`). They answer for the job's normal delivery (`deliver`); a `failure_deliver` override, which routes failure notices, is not consulted. With `job_id=None`, they answer for the firing cron run using the settings that run started with — edits or deletions saved to the job store mid-run do not change the answer — and return `None` outside a cron run (or in a delegated child). Passing an explicit `job_id` previews the saved job currently in the store (returning `None` when no stored job has that id). Under `plugins.isolation: host`, a hook runs in the plugin host process where no cron run is bound, so hooks call `ctx.cron_delivery_platforms()` — which runs in the gateway in the calling hook's context and works in both isolation modes. Use `delivery_platforms(job_id, home=...)` when code has no `ctx` or targets another profile. They use cron's own resolver, so `all`, the `origin` fallback to a home channel and `bot-chat` follow cron's rules. They return no chat ids, thread ids or tokens. Use them to skip a notification of your own when cron already delivers the output to your platform. They do the work cron does when it delivers: for `all`, that reads the gateway config once for each platform whose home channel is not set in the environment. Call once per run and keep the answer.
+
+Both `cron.plugin_api` functions take `home`: a profile's Hermes home, with `~` and environment variables expanded once. `delivery_platforms` requires an explicit `job_id` whenever `home` is not `None` and raises `ValueError` otherwise. To look up the firing job's delivery, omit both arguments; the lookup stays in the firing profile. With an explicit `home`, the call runs with that profile's home, cron store, secrets (its `.env`, so its home channels too) and settings (its time zone for a schedule), and yours are restored afterwards, also when it raises. The secrets are read from that profile's own files, also when you name the profile that is already active. For a profile other than the process's own that configures an external secret source, the first call runs that source, as Hermes does when it starts work for that profile. For the process's own profile the call runs no source: it reads the profile's `.env` and the external values this process has already loaded, so a standalone process that has not loaded them does not see them. A `home` that is not an existing directory is never created: `ensure_named_job` raises `FileNotFoundError` and `delivery_platforms` returns `None`. A hosted activity cannot act for a profile, so a call that has to bind `home` raises there. `home=None` uses the active profile.
+
+```python
+from cron.plugin_api import AmbiguousJobReference, ensure_named_job
+
+def register(ctx):
+    def on_post_llm_call(**kwargs):
+        if "push" in (ctx.cron_delivery_platforms() or ()):
+            return  # cron delivers this run's output through push already
+        try:
+            ensure_named_job("follow-up", prompt="Check on the deploy.", schedule="in 30m")
+        except AmbiguousJobReference:
+            pass  # the user has two jobs with that name; leave them alone
+
+    ctx.register_hook("post_llm_call", on_post_llm_call)
+```
+
 ### Add Automation Blueprints
 
 `ctx.register_automation_blueprint(key, *, title, description, schedule_template, prompt_template, category="general", slots=(), deliver_default="origin", skills=(), tags=())` adds a fill-in-the-blanks automation to the [Automation Blueprints catalog](../../reference/automation-blueprints-catalog.mdx). It appears next to the built-ins in `/blueprint` (CLI, TUI, messengers), the dashboard's Blueprints tab, and the Desktop Cron page, labelled with your plugin's name. The arguments are the fields of the built-in `AutomationBlueprint` (`cron/blueprint_catalog.py`); each slot is a dict of `BlueprintSlot` fields.
@@ -74968,6 +75242,9 @@ with a name allows that one name only.
 | `hermes_cli.setup` | `prompt_choice` | adding-platform-adapters.md § Public helpers for platform plugins |
 | `hermes_cli.setup` | `prompt_yes_no` | adding-platform-adapters.md § Public helpers for platform plugins |
 | `hermes_cli.cli_output` | whole module | adding-platform-adapters.md § Public helpers for platform plugins |
+| `gateway.response_filters` | `is_autonomous_silence_response` | adding-platform-adapters.md § Public helpers for platform plugins |
+| `gateway.response_filters` | `is_intentional_silence_response` | adding-platform-adapters.md § Public helpers for platform plugins |
+| `gateway.response_filters` | `strip_trailing_silence_marker` | adding-platform-adapters.md § Public helpers for platform plugins |
 | `gateway.platforms.session_model` | `SessionModelPickerProvider` | adding-platform-adapters.md § Conversation model settings and picker providers (BasePlatformAdapter) |
 | `gateway.platforms.session_model` | `SessionModelSettings` | adding-platform-adapters.md § Conversation model settings and picker providers (BasePlatformAdapter) |
 | `tools.skills_tool` | `find_all_skills` | plugins/index.md § Read the skill catalog |
@@ -74981,7 +75258,11 @@ with a name allows that one name only.
 | `agent.redact` | `redact_sensitive_text` | plugin-llm-access.md § From the plugin's frontend: a plugin RPC method (`force=True` where secrets must never leave) |
 | `hermes_cli.plugin_session` | `session_client` | user-guide/features/plugins.md § Plugin code inside the gateway: which client created the session |
 | `hermes_cli.plugin_session` | `turn_client` | user-guide/features/plugins.md § Plugin code inside the gateway: which client sent the turn and who is attached |
+| `hermes_cli.plugin_session` | `turn_origin` | user-guide/features/plugins.md § Plugin code inside the gateway: which client sent the turn and who is attached |
 | `hermes_cli.plugin_session` | `session_viewers` | user-guide/features/plugins.md § Plugin code inside the gateway: which client sent the turn and who is attached |
+| `hermes_cli.plugin_session` | `session_source` | user-guide/features/plugins.md § Plugin code inside the gateway: how the session was created, delegated children and forks |
+| `hermes_cli.plugin_session` | `in_delegated_child` | user-guide/features/plugins.md § Plugin code inside the gateway: how the session was created, delegated children and forks |
+| `hermes_cli.plugin_session` | `fork_origin` | user-guide/features/plugins.md § Plugin code inside the gateway: how the session was created, delegated children and forks |
 | `agent.file_safety` | `get_read_block_error` | plugins/index.md § Check file paths and read YAML with Hermes's own helpers |
 | `agent.file_safety` | `raise_if_read_blocked` | plugins/index.md § Check file paths and read YAML with Hermes's own helpers |
 | `agent.file_safety` | `is_write_denied` | plugins/index.md § Check file paths and read YAML with Hermes's own helpers |
@@ -75000,6 +75281,23 @@ with a name allows that one name only.
 | `hermes_cli.profiles_run_elsewhere` | `mark_profile_run_elsewhere` | user-guide/multi-profile-gateways.md § Profiles a plugin runs elsewhere |
 | `hermes_cli.profiles_run_elsewhere` | `clear_profile_run_elsewhere` | user-guide/multi-profile-gateways.md § Profiles a plugin runs elsewhere |
 | `hermes_cli.profiles_run_elsewhere` | `run_elsewhere` | user-guide/multi-profile-gateways.md § Profiles a plugin runs elsewhere |
+| `cron.plugin_api` | whole module | plugins/index.md § Schedule a job once and read where cron delivers it |
+| `agent.bounded_response` | `read_streaming_error_body` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `agent.gemini_model_family` | whole module | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `agent.gemini_urls` | whole module | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `agent.output_budget_timeout` | whole module | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `agent.process_bootstrap` | `build_keepalive_http_client` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `agent.reasoning_effort` | `bare_gemini_model_id` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `agent.reasoning_effort` | `clamp_effort` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `agent.reasoning_effort` | `gemini_thinking_config` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `agent.reasoning_effort` | `gemini_top_thinking_level` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `agent.ssl_verify` | `resolve_httpx_verify` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `hermes_cli.auth` | `default_httpx_verify` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `hermes_cli.auth` | `get_provider_auth_state` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `hermes_cli.auth` | `nous_portal_base_url` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `hermes_cli.auth` | `resolve_nous_access_token` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `hermes_cli.config_providers` | `get_custom_provider_tls_settings` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
+| `tools.schema_sanitizer` | `normalize_type_array` | model-provider-plugin.md § Public helpers for native Gemini reasoning |
 
 ---
 
@@ -78387,11 +78685,29 @@ run it again and let every mutation verify its current state before continuing.
 The final tag is the custody receipt. Never rebuild or replace accepted bytes to
 repair a pointer.
 
-Promotion replaces the stable downloads page at `releases/stable/index.html` on
-the R2 public origin. Canary tag builds own `releases/canary/index.html`, and
-a commit build owns only its claim archive's page,
-`releases/tag/commit.<stamp>-v<version>/index.html`. Pages list only staged,
-receipt-backed objects; an older run cannot regress a protected channel.
+Promotion replaces the stable downloads page at `releases/stable/index.html` and
+the unversioned stable macOS Apple Silicon installer at
+`releases/darwin/stable/HermesBundled-mac-arm64.dmg` (server-side R2 `CopyObject`
+from the accepted attempt archive, served with `Cache-Control: no-store` and
+`Content-Disposition: attachment; filename="HermesBundled-mac-arm64.dmg"`) on
+the R2 public origin, alongside `releases/darwin/stable/stable-mac.yml` and
+`releases/win32/stable/stable.appinstaller`. Canary tag builds own
+`releases/canary/index.html`, and a commit build owns only its claim archive's
+page, `releases/tag/commit.<stamp>-v<version>/index.html`. Pages list only
+staged, receipt-backed objects; an older run cannot regress a protected channel.
+Only the publication controller promotes stable. The standalone
+`python -m scripts.bundles.release_artifacts promote` refuses a stable candidate
+because it skips the published-release check, and
+`python -m scripts.releases.channel_releases` refuses the `stable` role because
+it skips the check of the candidate digest against the final release receipt.
+Both would also run outside the serialized `stable-release` group. Repair a partial stable publication by
+running Stable Release Publication again. A rerun repeats only an unfinished
+advance (a head, candidate pointer or Docker alias still behind); it never
+re-promotes a release that finished, so it never backfills the unversioned DMG
+or the downloads page. The DMG changes only with a full-desktop promotion. The
+page also changes when `complete` renders a full-desktop release, which can put
+it ahead of an older advance still pending; that promotion then leaves the
+newer page as it is.
 
 ## Run, publish, or abandon a stable release
 
@@ -78498,7 +78814,8 @@ What a release publishes follows what it built:
   manifest with exactly the targets it built, and submits the Store bundle when
   `windows-store` is on. A Store-only release has no package rows, only the Store
   bundle file, and moves no channel. The protected R2 stable head, the App Installer and macOS
-  feeds, the APT channel, downloads page,
+  feeds, the unversioned stable macOS DMG (`releases/darwin/stable/HermesBundled-mac-arm64.dmg`),
+  the APT channel, downloads page (`releases/stable/index.html`),
   `releases/stable/release-candidates.json` and the signed-package baseline stay
   on the previous full release. Source checkouts of the official repository on
   `stable`, their default channel, do not stay: that channel is GitHub's latest
@@ -79247,7 +79564,7 @@ This API is lifecycle-managed asynchronous execution. Child construction and
 completion use the same host-owned path as `delegate_task`, including parent
 tool-resolution restoration, memory notification, serialized `subagent_stop`
 hooks, resource cleanup, and child-cost rollup. It does not change the
-synchronous `delegate_task` tool, batch delegation, or its gateway/TUI display.
+`delegate_task` tool, batch delegation, or its gateway/TUI display.
 The initial implementation retains metadata and terminal results in-process for
 one hour.
 After a process restart, `reconnect` returns `RECONNECT_UNAVAILABLE` and never
@@ -80885,8 +81202,8 @@ We strive to never break installations and updates for these. Issues & regressio
 
 | OS / Architecture                                                             | Installation methods                                                                                                           | Notes                                                                                                                                                     |
 | ----------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **macOS** (Apple Silicon)                                                     | [Hermes Desktop](https://hermes-agent.nousresearch.com/), [`install.sh`](./installation.md) |
-| [**Windows 10 / 11**](../user-guide/windows-native.md) (x86_64, aarch64) | [`install.ps1`](./installation.md), [MSIX desktop](../user-guide/windows-native.md) | The MSIX package requires Windows 11 22H2 or later. Optional dependencies have [architecture limits](../user-guide/windows-native.md). |
+| **macOS** (Apple Silicon)                                                     | [Hermes Desktop](https://hermes-agent.nousresearch.com/), [`install.sh`](./installation.md) | The macOS desktop bundle (`Hermes Agent.app`) requires **macOS 13 Ventura or later** on Apple Silicon (`arm64`). Intel Macs and macOS 12 or earlier use [`install.sh`](./installation.md#linux--macos--wsl2). |
+| [**Windows 10 / 11**](../user-guide/windows-native.md) (x86_64, aarch64) | [Microsoft Store / MSIX desktop](../user-guide/windows-native.md), [`install.ps1`](./installation.md) | Desktop bundles (Microsoft Store and `.appinstaller` MSIX, x64 or ARM64) require **Windows 11 22H2 or later (`10.0.22621.0`)**. Windows 10 and Windows 11 earlier than 22H2 use [`install.ps1`](./installation.md#windows-native) or [WSL2](../user-guide/windows-wsl-quickstart.md). Optional dependencies have [architecture limits](../user-guide/windows-native.md). |
 | **Linux / [WSL2](../user-guide/windows-wsl-quickstart.md)** (x86_64, aarch64) | [`install.sh`](./installation.md)                                                           | We test on the latest Ubuntu and WSL2. If your distro has glibc, systemd, and follows the Filesystem Hierarchy Standard, it's likely to work pretty well. |
 | [**Docker Container**](../user-guide/docker.md) (x86_64, aarch64) | [`docker pull`](../user-guide/docker.md)                                                                           | Docker installs do not support `hermes update`. Updating is done by running a new image.                                                                  |
 
@@ -80906,15 +81223,25 @@ PRs will be accepted to fix issues with them, but they will take precedence belo
 
 ### Build targets and support priority
 
-Releases build the macOS desktop bundle for Apple Silicon (`arm64`) only; no
-release or CI workflow builds or tests an Intel macOS (`x64`) bundle. The macOS
-update feed is arm64-only, so Intel Macs installed from an older desktop bundle
-get no update. The Termux APT package is **not built by default**: a release
-includes it only when it is cut with `release.py release --with termux`. A
-release without Termux leaves the Termux APT channel on its previous release.
-The `Hermes-Setup.dmg` bootstrap installer is built for Apple Silicon only, so
-on an Intel Mac it reports "not supported on this Mac". Intel Macs can install
-the [CLI](./installation.md#linux--macos--wsl2) and run `hermes desktop`.
+Releases build the macOS desktop bundle (`Hermes Agent.app`) for **Apple Silicon
+(`arm64`) on macOS 13 Ventura or later** (`LSMinimumSystemVersion`
+`13.0`, matching Electron 44's OS floor); no release or CI workflow builds or
+tests an Intel macOS (`x64`) bundle. The macOS update feed is arm64-only, so
+Intel Macs installed from an older desktop bundle get no update. Intel Macs and
+macOS 12 Monterey or earlier should use the
+[CLI / source installer (`install.sh`)](./installation.md#linux--macos--wsl2).
+
+Windows desktop bundles (both the Microsoft Store package and the signed
+`.appinstaller` MSIX bundle, x64 and ARM64) require **Windows 11 22H2 or later
+(`10.0.22621.0`)**. Windows 10 and Windows 11 earlier than 22H2 are supported
+through the [Windows source installer (`install.ps1`)](./installation.md#windows-native)
+or [WSL2](../user-guide/windows-wsl-quickstart.md).
+
+The Termux APT package is **not built by default**: a release includes it only
+when it is cut with `release.py release --with termux`. A release without Termux
+leaves the Termux APT channel on its previous release.
+The legacy `Hermes-Setup.dmg` bootstrap installer is built for Apple Silicon
+only, so on an Intel Mac it reports "not supported on this Mac".
 Linux desktop AppImages are built on canary tags as diagnostic artifacts that no
 release offers yet; local AppImage builds and native Linux PM bundle checks exist.
 
@@ -80927,7 +81254,8 @@ PRs to fix them will _not_ be accepted, and any code that keeps compatibility wi
 
 - Android / Termux on non-aarch64 devices (aarch64 is [supported](./termux.md) via our APT package)
 - installs via the AUR (we might upstream patches if it helps out &lt;3)
-- 32-bit x86 macOS, and Intel x86_64 macOS desktop bundles (none are built).
+- 32-bit x86 macOS, Intel x86_64 macOS desktop bundles (none are built), and desktop bundles on macOS 12 Monterey or earlier (use [`install.sh`](./installation.md#linux--macos--wsl2) instead)
+- Windows desktop bundles (Microsoft Store or `.appinstaller` MSIX) on Windows 10 or Windows 11 earlier than 22H2 (use [`install.ps1`](./installation.md#windows-native) or [WSL2](../user-guide/windows-wsl-quickstart.md) instead)
 - installs via `pypi` (e.g. `uv tool install hermes-agent`, `pip install hermes-agent`, etc.)
 - installs via `brew` (`brew install hermes-agent`)
 
@@ -88432,6 +88760,16 @@ is CA trust stores (`certifi`): a release that distrusts a compromised CA is
 locked the day it ships, since waiting keeps the bad root trusted. Set a mirror with `index-url` in `pip.conf`,
 which Hermes passes to uv, or with `UV_INDEX_URL`.
 
+Ambient `UV_*` settings cannot redirect the project, interpreter or cache Hermes
+installs into. Regular builds keep uv's index settings (including
+`UV_EXTRA_INDEX_URL` and named-index credentials) and these transport settings:
+`UV_NATIVE_TLS`, `UV_INSECURE_HOST`, `UV_HTTP_TIMEOUT`, `UV_HTTP_RETRIES` and
+`UV_CONCURRENT_DOWNLOADS`. The pinned runtime build keeps only the transport
+settings. On a slow link where `hermes update` times out downloading several
+large wheels at once, set `UV_CONCURRENT_DOWNLOADS=1` before raising
+`UV_HTTP_TIMEOUT`. An update started from an older Hermes may drop both while
+it hands off; if that update times out, run `hermes update` again.
+
 `hermes pm lock` is the one step that applies the check. Run against a mirror
 without upload times, it stops with `has no publish time`; use
 `https://pypi.org/simple` for that step.
@@ -89085,7 +89423,7 @@ See [Profiles](./profiles.md) for the underlying primitive and [Profile Commands
 
 The Hermes desktop app is a native app built around the **same** agent you get from the CLI and the gateway — same config, same API keys, same sessions, same skills, same memory. It is not a separate product or a lightweight clone; it uses the same Hermes Agent core and settings, and drives it through a modern & thoughtfully designed UI. If you have used `hermes` in a terminal, everything you set up there is already here, and anything you do here shows up there.
 
-It runs on **macOS (Apple Silicon), Windows, and Linux** — see [Platform Support](../getting-started/platform-support.md) for the full matrix.
+It runs on **macOS (Apple Silicon), Windows, and Linux**. Packaged bundles cover macOS and Windows; [Platform Support](../getting-started/platform-support.md) lists the OS versions each bundle requires and the installers to use on other systems.
 
 :::tip Which interface is which?
 Hermes has several front ends that all talk to the same agent:
@@ -89099,9 +89437,9 @@ Pick whichever fits the moment. They share state, so you can start a session in 
 
 ## Install
 
-Download the app from the [Hermes Desktop product page](https://hermes-agent.nousresearch.com/desktop), or follow the [installation instructions for Hermes Desktop](../getting-started/installation.md).
+Download the desktop package from the [Hermes Desktop product page](https://hermes-agent.nousresearch.com/desktop), or follow the [installation instructions for Hermes Desktop](../getting-started/installation.md), which give each package's OS requirements and the installer to use on older systems.
 
-If you already have Hermes installed, simply run
+On Linux, follow the [source install instructions](../getting-started/installation.md#linux--macos--wsl2) first. Once you have a source install of Hermes, run
 
 ```bash
 hermes desktop
@@ -89641,7 +89979,9 @@ chats decide who replies: [Bot Mode: A Roster of Agents](./bot-mode.md).
 
 The app checks for updates in the background and offers a one-click update when one is ready.
 
-The background check asks the GitHub API for the branch tip. Anonymous GitHub requests are limited to 60 per hour **per network address**, so on a shared connection (office NAT, VPN, proxy) the check can report `GitHub API rate limit reached` even though this machine made almost none of them. To spend a 5,000/hour budget instead, the check uses the first credential it finds, in this order:
+For **bundled desktop installs** (signed macOS `Hermes Agent.app`, Windows `.appinstaller` MSIX, and Microsoft Store), updates replace the packaged app and its bundled runtime together. [Bundled desktop updates](../getting-started/updating.md#bundled-desktop-updates) gives the download sizes and how long the local install takes.
+
+For **source-built desktop installs**, the background check asks the GitHub API for the branch tip. Anonymous GitHub requests are limited to 60 per hour **per network address**, so on a shared connection (office NAT, VPN, proxy) the check can report `GitHub API rate limit reached` even though this machine made almost none of them. To spend a 5,000/hour budget instead, the check uses the first credential it finds, in this order:
 
 1. `GITHUB_TOKEN`, then `GH_TOKEN`, from the environment the app was launched from — read on each request, never stored.
 2. The [GitHub CLI](https://cli.github.com/)'s own login (`gh auth token`). This is the rung that helps an app started from the Dock, Finder, or a desktop launcher, which inherits a minimal environment without your shell's variables. `gh` is looked up on `PATH` and in the usual install locations (Homebrew, `/usr/local/bin`, `~/.local/bin`, the Windows GitHub CLI installer); the answer is cached until the app restarts, so `gh` runs at most once per session.
@@ -90114,7 +90454,7 @@ with Hermes' stable signing identities it survives every update:
 
 1. System Settings → **Privacy & Security → Full Disk Access** (or run
    `open "x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles"`)
-2. Enable your terminal app — and **Hermes.app** if you use Desktop.
+2. Enable your terminal app — and, if you use Desktop, the app for your channel: **Hermes Agent.app** (stable), **Hermes Agent Canary.app** (canary), or **Hermes.app** (source-built). Each app needs its own grant.
 3. Fully quit and relaunch them once.
 
 `hermes doctor` reports whether the current terminal context already has the
@@ -95774,6 +96114,16 @@ hermes plugins install snyk
 hermes plugins enable snyk
 ```
 
+### Platform plugins whose credentials are already set
+
+When the gateway starts (or rescans a served profile after its `.env` changes), it looks for
+`category: platform` entries whose `capabilities.requires_env` variables are all set for that profile
+while the plugin is not installed. A `default: true` entry (official or verified) is installed then, so
+its adapter starts in the same gateway start. Any other entry is never installed unattended: the gateway
+logs, and the profile's next chat shows, one line naming `hermes plugins install <name>`. A plugin that
+was installed automatically once and then removed, or that `plugins.disabled` names, is left alone, and
+nothing is fetched where `security.allow_lazy_installs` is off.
+
 ### Updating a catalog install
 
 `hermes plugins update <name>` never runs `git pull` for catalog installs —
@@ -98103,8 +98453,20 @@ stops and says to restart that backend with the updated hermes, then run the dry
 The plan names the old backend (its supervisor, pid and address) and the address the Webapp would
 take: the same bind and port (loopback stays loopback, a wildcard stays a wildcard, one IP address
 stays that address). It says whether sign-in is required, which `HERMES_DASHBOARD_*` settings would be
-copied into `.env` (names only; values are never printed), the public URL it would copy into
-`webapp.public_url` (only one the gateway accepts; a refused one is a blocker and is not printed), the
+copied into `.env` (names only; values are never printed; one `.env` already sets is not copied, and a
+`.env` line that sets a sign-in setting as a `${VAR}` template reading a VAR from outside the `.env` blocks
+the move when the gateway's service would not start with the value VAR has for the old backend (a gateway
+service not installed yet is judged as `hermes gateway install` would write it: the user manager's
+environment plus the unit's `Environment=` lines, or the LaunchAgent's variables), or when
+the old unit's `env` launcher sets VAR: put the literal value in `.env`, or set VAR where the gateway
+runs), the public URL it would copy into
+`webapp.public_url` (only one the gateway accepts; a refused one is a blocker and is not printed — and
+when an external secret source is enabled under `secrets:`, the planner never reads vault values to
+guess whether it sets `HERMES_DASHBOARD_PUBLIC_URL`, so it blocks until `webapp.public_url` is set;
+"public" here just means the browser-facing `http://` or `https://` address used for sign-in
+callbacks and Host/Origin checks, so a LAN hostname/IP or a loopback URL such as
+`http://127.0.0.1:9119` works for local or Desktop-only setups without exposing anything to the
+internet), the
 state of the gateway service and the
 Webapp bundle, how many turns are running on the old backend, and the steps in order. To find this
 out it probes the old backend on its address as above and reads `systemctl show` / `launchctl`
@@ -98136,7 +98498,15 @@ the gateway cannot be a service, the last step is `hermes gateway run`, for the 
 stopped system unit counts for this home only when it runs as you (`User=`) and pins no other
 `HERMES_HOME`, judged by the environment systemd gives it (`Environment=`, then each `EnvironmentFile=`
 in order, the later value winning); when a file it needs cannot be read, the dry run is blocked instead
-of guessing. A backend whose command line cannot be read shows no address, and no step that needs one. On Windows the report names the Task Scheduler task that starts the old backend, or the
+of guessing. An `env` launcher in its ExecStart (`/usr/bin/env HERMES_HOME=/srv/other hermes dashboard`)
+runs after that environment, and `systemctl show` joins its arguments with spaces, so the planner does
+not read values on that line: one that sets or unsets a home variable (`HERMES_HOME`, `HOME`), uses an
+option that changes the environment as a whole (`-i`, `-S`) or one it does not know, or has a `$` anywhere
+but inside another variable's value (`-u ${DROP}`), blocks the dry run for that unit. Put `HERMES_HOME` in the unit's `Environment=` instead, or stop and disable that unit by
+hand. A line that sets or unsets only other variables leaves the home to the unit's environment. A `.env`
+sign-in template that reads a variable from outside the `.env` blocks the move when that line sets that
+variable, or has a `-u`, `-C` or `-S` option at all, because the joined line does not show what those
+leave set: put the literal value in `.env`. A backend whose command line cannot be read shows no address, and no step that needs one. On Windows the report names the Task Scheduler task that starts the old backend, or the
 Startup-folder entry whose target and arguments are exactly the backend's command (when more than one
 matches, or a matching entry may not be what started it, the steps say so and ask you to pick). The
 steps end and disable that task (`schtasks /End`, `schtasks /Change ... /DISABLE`) or set the entry
@@ -98161,7 +98531,7 @@ that exist only in the old unit's environment into `.env` (names are printed, va
 gateway as a user service (`hermes gateway install`, which also tries to enable lingering; a launchd agent
 on macOS), stops and disables the old unit (its file is kept; a drop-in `UNIT.d/hermes-migrated.conf` with
 `RestartPreventExitStatus=78` makes a later manual start exit once and stay down), starts the gateway and
-checks every address it now listens on within 90 seconds: `/api/status` answers from the gateway and the
+checks every address it now listens on within 300 seconds: `/api/status` answers from the gateway and the
 Webapp page itself is served. A backend you started by hand is stopped by its recorded process ID (only
 while that ID is still the same process); there is nothing to disable. Any failure puts back what the run
 had changed, and only that: the files, the gateway service exactly as it was, and the old unit with the
@@ -98363,7 +98733,18 @@ The response also carries two advisory resource blocks (they never affect the
   lifecycle ledger. Fields: `pressure` (`ok` / `elevated` / `critical` /
   `unknown`), `gateway_rss_mb`, `system_total_mb`, `system_available_mb`,
   `swap_used_mb`, `sampled_at`, `boot_id`, `last_boot_unclean`,
-  `last_boot_suspected_oom`. Pressure is `elevated` below 128 MiB (or 15%) of
+  `last_boot_suspected_oom`, `last_boot_oom_kill` (`null`, `cgroup` or
+  `host`: the gateway died uncleanly and, between its last heartbeat and this
+  boot, the kernel OOM-killed a process in the gateway's cgroup (`cgroup`) /
+  somewhere on the host (`host`); the counter does not say which process, and
+  `host` also counts any other process on the machine. A systemd unit or
+  container restart recreates the cgroup, so after one this is usually
+  `host`; `cgroup` applies only when the gateway restarts inside a surviving
+  cgroup. Compared only when the last heartbeat is at most 15 minutes old;
+  Linux only), `last_boot_watchdog_exit` (the previous gateway
+  life was ended by a watchdog: either the event-loop liveness watchdog or the
+  shutdown watchdog), `last_boot_memory_starved` (that watchdog kill happened
+  while host memory pressure was `critical`). Pressure is `elevated` below 128 MiB (or 15%) of
   available system memory and `critical` below 64 MiB (or 5%) — the same
   levels at which a subsequent unclean exit would be flagged as a suspected
   OOM kill. Heartbeats older than 150 seconds (or future-dated) keep their
@@ -98937,6 +99318,8 @@ dashboard:
 ```
 
 When set, the OAuth callback URL becomes `<public_url>/auth/callback` verbatim — `X-Forwarded-Prefix` is ignored on that code path because the operator has explicitly declared the public URL. This is intentional: stacking the prefix on top would double-prefix the common case where the prefix is already baked into `public_url`.
+
+Provider sign-in (`/auth/login` and the desktop start, `/auth/native/authorize`) happens on the `public_url` host. The sign-in cookie belongs to the host that set it, and the provider returns to `<public_url>/auth/callback`. So when one of those starts on another name that still reaches the dashboard (an old hostname, an alias), Hermes first redirects it to the same sign-in URL on the `public_url` host, and the browser lands there signed in. To decide which host the browser used, it reads `X-Forwarded-Host`, falling back to `Host`. Behind a proxy that rewrites `Host` and sends no `X-Forwarded-Host`, this costs one extra redirect and never loops.
 
 The hostname in `public_url` is also accepted as an **exact** HTTP `Host` and
 WebSocket `Origin` value. This supports a reverse proxy that preserves the
@@ -109686,14 +110069,18 @@ To diagnose an unexpected short Windows path, use `-ShowResolvedPaths` first.
 
 ### MSIX / App Installer and Microsoft Store
 
-The bundled desktop is separate from the source script. Its MSIX package
-requires **Windows 11 22H2 or later**. Windows 10 source-script support does
-not mean the MSIX package supports Windows 10.
+The bundled desktop is separate from the source script. Both the Microsoft Store
+package and the sideload `.appinstaller` MSIX bundle (x64 and ARM64) require
+**Windows 11 22H2 or later (`10.0.22621.0`)**. Windows 10 source-script support
+does not extend to MSIX packages: on Windows 10 or Windows 11 earlier than 22H2,
+use the [Windows source installer (`install.ps1`)](#quick-install) above or
+[WSL2](./windows-wsl-quickstart.md).
 
-Open the downloaded `.appinstaller` file with Windows App Installer. It installs
-a signed universal bundle and records the update source. The package includes
-Python, Node, supported dependencies, and prebuilt interfaces. It does not clone
-a checkout or build the base runtime on first launch.
+Install from the Microsoft Store, or open the downloaded `.appinstaller` file
+with Windows App Installer. It installs a signed universal bundle and records
+the update source. The package includes Python, Node, supported dependencies,
+and prebuilt interfaces. It does not clone a checkout or build the base runtime
+on first launch.
 
 The MSIX execution aliases expose `hermes`, `hermes-agent`, and `hermes-acp`.
 If another installation shadows an alias, inspect `Get-Command hermes -All`.
@@ -109703,7 +110090,9 @@ controls the aliases.
 Sideload updates use the app's Update control and Windows App Installer.
 Hermes downloads a local descriptor before teardown and registers automatic
 relaunch. It does not require the `ms-appinstaller:` URL protocol. An unknown
-update-check result is not a claim that the package is current.
+update-check result is not a claim that the package is current. See
+[Bundled desktop updates](../getting-started/updating.md#bundled-desktop-updates)
+for package sizes and update timing.
 
 The Microsoft Store variant uses its Partner Center package identity and Store
 updates. It does not use the sideload feed. `hermes update` inside either
